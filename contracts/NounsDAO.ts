@@ -1,31 +1,17 @@
 import { ethers } from "ethers";
-import { NounsDAOABI } from '@nouns/contracts';
-import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData_ProposalCreatedWithRequirements  } from '../types';
+import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData_ProposalCreatedWithRequirements, NounsContractData, EventData_ProposalQueued  } from '../types';
 
 // Nouns DAO Proxy - 
 // https://github.com/nounsDAO/nouns-monorepo/blob/master/packages/nouns-contracts/contracts/governance/NounsDAOProxy.sol
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.JSON_RPC_API_URL);
-provider.pollingInterval = 10000;
-// @todo move provider to StateOfNouns.ts, pass as arg when initializing
-
-
-const NounsDAOProxyV1 = {
-  address:'0x6f3E6272A167e8AcCb32072d08E0957F9c79223d',
-  abi:NounsDAOABI,
-  provider: provider
-}
-
-const NounsDAO = new ethers.Contract( NounsDAOProxyV1.address , NounsDAOABI, provider )
-
-export const on = async function(eventType: string, listener: Function){
+export const on = async function(eventType: string, listener: Function, contract : ethers.Contract){
 
   switch(eventType) {
 
     case "ProposalCreated":
 
       /// @notice An event emitted when a new proposal is created
-      NounsDAO.on("ProposalCreated", (
+      contract.on("ProposalCreated", (
         id,
         proposer,
         targets,
@@ -43,7 +29,7 @@ export const on = async function(eventType: string, listener: Function){
     case "ProposalCreatedWithRequirements":
 
       /// @notice An event emitted when a new proposal is created
-      NounsDAO.on("ProposalCreatedWithRequirements", (
+      contract.on("ProposalCreatedWithRequirements", (
         id, 
         proposer, 
         targets, //address[]
@@ -84,7 +70,7 @@ export const on = async function(eventType: string, listener: Function){
       // / @param support Support value for the vote. 0=against, 1=for, 2=abstain
       // / @param votes Number of votes which were cast by the voter
       // / @param reason The reason given for the vote by the voter
-      NounsDAO.on("VoteCast", (voter: string, proposalId: string, support: number, votes: number, reason: string | null) => {
+      contract.on("VoteCast", (voter: string, proposalId: string, support: number, votes: number, reason: string | null) => {
 
         const voterAccount: Account = {
             id: voter
@@ -104,59 +90,74 @@ export const on = async function(eventType: string, listener: Function){
 
       });
 
+      break;
+    
+    case "ProposalCanceled":
+        // @notice An event emitted when a proposal has been canceled
+        contract.on("ProposalCanceled", (id) => {
+          listener(id);
+        });
+      break;
 
+    case "ProposalQueued":
+      /// @notice An event emitted when a proposal has been queued in the NounsDAOExecutor
+      /// @param eta The timestamp that the proposal will be available for execution, set once the vote succeeds
+      contract.on("ProposalQueued", (id, eta) => {
+
+        const data : EventData_ProposalQueued = {
+          id: id,
+          eta: eta
+        }
+        listener(data);
+      });
+      break;
+
+    case "ProposalExecuted":
+      /// @notice An event emitted when a proposal has been executed in the NounsDAOExecutor
+      contract.on("ProposalExecuted", (id) => {
+        listener(id);
+      });
+      break;
+    
+    case "ProposalVetoed":
+      /// @notice An event emitted when a proposal has been vetoed by vetoAddress
+      contract.on("ProposalVetoed", (id) => {
+        listener(id);
+      });
       break;
   }
 
 }
 
-
-// / @notice An event emitted when a proposal has been canceled
-// NounsDAO.on("ProposalCanceled", (id) => {
-//     console.log("ProposalCanceled " +id);
-// });
-// /// @notice An event emitted when a proposal has been queued in the NounsDAOExecutor
-// /// @param eta The timestamp that the proposal will be available for execution, set once the vote succeeds
-// NounsDAO.on("ProposalQueued", (id, eta) => {
-//     console.log("ProposalQueued " + id + ", eta " + eta);
-// });
-// /// @notice An event emitted when a proposal has been executed in the NounsDAOExecutor
-// NounsDAO.on("ProposalExecuted", (id) => {
-//     console.log("ProposalExecuted");
-// });
-// /// @notice An event emitted when a proposal has been vetoed by vetoAddress
-// NounsDAO.on("ProposalVetoed", (id) => {
-//     console.log("ProposalVetoed");
-// });
 // /// @notice An event emitted when the voting delay is set
-// NounsDAO.on("VotingDelaySet", (oldVotingDelay, newVotingDelay) => {
+// contract.on("VotingDelaySet", (oldVotingDelay, newVotingDelay) => {
 //     console.log("VotingDelaySet");
 // });
 // /// @notice An event emitted when the voting period is set
-// NounsDAO.on("VotingPeriodSet", (oldVotingPeriod, newVotingPeriod) => {
+// contract.on("VotingPeriodSet", (oldVotingPeriod, newVotingPeriod) => {
 //     console.log("VotingPeriodSet");
 // });
 // /// @notice Emitted when implementation is changed
-// NounsDAO.on("NewImplementation", (oldImplementation, newImplementation) => {
+// contract.on("NewImplementation", (oldImplementation, newImplementation) => {
 //     console.log("NewImplementation");
 // });
 // /// @notice Emitted when proposal threshold basis points is set
-// NounsDAO.on("ProposalThresholdBPSSet", (oldProposalThresholdBPS, newProposalThresholdBPS) => {
+// contract.on("ProposalThresholdBPSSet", (oldProposalThresholdBPS, newProposalThresholdBPS) => {
 //     console.log("ProposalThresholdBPSSet");
 // });
 // /// @notice Emitted when quorum votes basis points is set
-// NounsDAO.on("QuorumVotesBPSSet", (oldQuorumVotesBPS, newQuorumVotesBPS) => {
+// contract.on("QuorumVotesBPSSet", (oldQuorumVotesBPS, newQuorumVotesBPS) => {
 //     console.log("QuorumVotesBPSSet");
 // });
 // /// @notice Emitted when pendingAdmin is changed
-// NounsDAO.on("NewPendingAdmin", (oldPendingAdmin, newPendingAdmin) => {
+// contract.on("NewPendingAdmin", (oldPendingAdmin, newPendingAdmin) => {
 //     console.log("NewPendingAdmin");
 // });
 // /// @notice Emitted when pendingAdmin is accepted, which means admin is updated
-// NounsDAO.on("NewAdmin", (oldAdmin, newAdmin) => {
+// contract.on("NewAdmin", (oldAdmin, newAdmin) => {
 //     console.log("NewAdmin");
 // });
 // /// @notice Emitted when vetoer is changed
-// NounsDAO.on("NewVetoer", (oldVetoer, newVetoer) => {
+// contract.on("NewVetoer", (oldVetoer, newVetoer) => {
 //     console.log("NewVetoer");
 // });

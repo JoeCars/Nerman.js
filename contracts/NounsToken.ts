@@ -2,22 +2,10 @@ import { ethers } from "ethers";
 import { NounsTokenABI } from '@nouns/contracts';
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, EventData_DelegateVotesChanged, EventData_Transfer, EventData_DelegateChanged } from '../types';
 
-const provider = new ethers.providers.StaticJsonRpcProvider(process.env.JSON_RPC_API_URL);
-provider.pollingInterval = 10000;
-// @todo move provider to StateOfNouns.ts, pass as arg when initializing
-
-
-const NounsTokenContract = {
-    address:'0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03',
-    abi: NounsTokenABI,
-    provider: provider
-}
-
-const NounsToken = new ethers.Contract( NounsTokenContract.address , NounsTokenContract.abi, NounsTokenContract.provider );
 
 
 
-export const on = async function(eventType: string, listener: Function){
+export const on = async function(eventType: string, listener: Function, contract : ethers.Contract){
 
     switch(eventType) {
 
@@ -25,7 +13,7 @@ export const on = async function(eventType: string, listener: Function){
 
         case "DelegateChanged":
 
-            NounsToken.on("DelegateChanged", (delegator: string, fromDelegate: string, toDelegate: string) => {
+            contract.on("DelegateChanged", (delegator: string, fromDelegate: string, toDelegate: string) => {
 
                 const delegatorAccount : Account = {
                     id: delegator
@@ -53,7 +41,7 @@ export const on = async function(eventType: string, listener: Function){
 
         case "DelegateVotesChanged" :
 
-            NounsToken.on("DelegateVotesChanged", (delegate: string, previousBalance: number, newBalance: number) => {
+            contract.on("DelegateVotesChanged", (delegate: string, previousBalance: number, newBalance: number) => {
 
                 const delegatorAccount : Account = {
                     id: delegate
@@ -76,7 +64,7 @@ export const on = async function(eventType: string, listener: Function){
         case "Transfer" :
 
  
-            NounsToken.on("Transfer", (from: string, to: string, tokenId: number) => {
+            contract.on("Transfer", (from: string, to: string, tokenId: number) => {
 
                 const fromAccount : Account = {
                     id: from

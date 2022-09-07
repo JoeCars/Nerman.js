@@ -1,28 +1,13 @@
 import { ethers } from "ethers";
-import { NounsAuctionHouseABI } from '@nouns/contracts';
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, EventData_AuctionCreated, EventData_AuctionBid} from '../types';
 
-const provider = new ethers.providers.StaticJsonRpcProvider(process.env.JSON_RPC_API_URL);
-provider.pollingInterval = 10000;
-// @todo move provider to StateOfNouns.ts, pass as arg when initializing
 
-
-const NounsAuctionHouseContract = {
-    address:'0x830BD73E4184ceF73443C15111a1DF14e495C706',
-    abi: NounsAuctionHouseABI,
-    provider: provider
-}
-
-const NounsAuctionHouse = new ethers.Contract( NounsAuctionHouseContract.address , NounsAuctionHouseContract.abi, NounsAuctionHouseContract.provider );
-
-
-
-export const on = async function(eventType: string, listener: Function){
+export const on = async function(eventType: string, listener: Function, contract: ethers.Contract){
 
     switch(eventType) {
         case "AuctionCreated":
 
-            NounsAuctionHouse.on("AuctionCreated", (nounId: number, startTime: number, endTime: number) => {
+            contract.on("AuctionCreated", (nounId: number, startTime: number, endTime: number) => {
 
                 const data: EventData_AuctionCreated = {
                     id: nounId,
@@ -37,7 +22,7 @@ export const on = async function(eventType: string, listener: Function){
           break;
         case "AuctionBid":
 
-            NounsAuctionHouse.on("AuctionBid", (nounId, sender: string, value, extended) => {
+            contract.on("AuctionBid", (nounId, sender: string, value, extended) => {
                
                 const account: Account = {
                     id: sender,
@@ -56,31 +41,31 @@ export const on = async function(eventType: string, listener: Function){
             break;
             
         case "AuctionExtended":
-            NounsAuctionHouse.on("AuctionExtended", (nounId, endTime) => {
+            contract.on("AuctionExtended", (nounId, endTime) => {
     
                 console.log("AuctionExtended " + nounId + " " + endTime);
             
             });
             break;
         case "AuctionSettled":
-            NounsAuctionHouse.on("AuctionSettled", (nounId, winner, amount) => {
+            contract.on("AuctionSettled", (nounId, winner, amount) => {
     
                 console.log("AuctionSettled: " + nounId + " " + winner + " " + amount);
             
             });
             break;
         case "AuctionTimeBufferUpdated":
-            NounsAuctionHouse.on("AuctionTimeBufferUpdated", (timeBuffer) => {
+            contract.on("AuctionTimeBufferUpdated", (timeBuffer) => {
     
             });
             break;
         case "AuctionReservePriceUpdated":
-            NounsAuctionHouse.on("AuctionReservePriceUpdated", (reservePrice) => {
+            contract.on("AuctionReservePriceUpdated", (reservePrice) => {
     
             });
             break;
         case "AuctionMinBidIncrementPercentageUpdated":
-            NounsAuctionHouse.on("AuctionMinBidIncrementPercentageUpdated", (minBidIncrementPercentage) => {
+            contract.on("AuctionMinBidIncrementPercentageUpdated", (minBidIncrementPercentage) => {
     
             });
             break;

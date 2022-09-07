@@ -43,6 +43,12 @@ export interface Vote {
   reason: string | null;
 }
 
+export interface NounsContractData {
+  address: string;
+  abi: ethers.ContractInterface;
+  provider: ethers.providers.JsonRpcProvider
+}
+
 export type ProposalStatus =
   | typeof STATUS_ACTIVE
   | typeof STATUS_CANCELLED
@@ -51,6 +57,7 @@ export type ProposalStatus =
   | typeof STATUS_QUEUED
   | typeof STATUS_VETOED;
 
+import { ethers } from 'ethers';
 import {
     STATUS_ACTIVE,
     STATUS_QUEUED,
@@ -132,9 +139,14 @@ export interface EventData_ProposalCreatedWithRequirements {
 }
 
 export interface EventData_VoteCast {
-  id: string;
+  id: number;
   voter: Account;
   votes: number;
   supportDetailed: VoteDirection;
   reason: string | null;
+}
+
+export interface EventData_ProposalQueued {
+  id: string;
+  eta: string
 }
