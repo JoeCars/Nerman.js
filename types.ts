@@ -147,6 +147,10 @@ export interface EventData_VoteCast {
 }
 
 export interface EventData_ProposalQueued {
-  id: string;
-  eta: string
+  id: number;
+  eta: string;
+}
+
+export interface EventData_ProposalExecuted {
+  id:number;
 }

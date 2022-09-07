@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData_ProposalCreatedWithRequirements, NounsContractData, EventData_ProposalQueued  } from '../types';
+import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData_ProposalCreatedWithRequirements, NounsContractData, EventData_ProposalQueued, EventData_ProposalExecuted  } from '../types';
 
 // Nouns DAO Proxy - 
 // https://github.com/nounsDAO/nouns-monorepo/blob/master/packages/nouns-contracts/contracts/governance/NounsDAOProxy.sol
@@ -115,7 +115,10 @@ export const on = async function(eventType: string, listener: Function, contract
     case "ProposalExecuted":
       /// @notice An event emitted when a proposal has been executed in the NounsDAOExecutor
       contract.on("ProposalExecuted", (id) => {
-        listener(id);
+        const data : EventData_ProposalExecuted = {
+          id: id,
+        }
+        listener(data);
       });
       break;
     

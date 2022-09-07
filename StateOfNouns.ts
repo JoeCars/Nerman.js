@@ -18,14 +18,15 @@ const NounsTokenContract = new ethers.Contract( '0x9C8fF314C9Bc7F6e59A9d9225Fb22
 export const on = async function( eventName: string, listener: Function){
   console.log("StateOfNouns.ts on(" + eventName + ") created");
 
-  // TODO - CHANGE data TO A REAL TYPE OF ALL POSSIBLE THINGS, pull from ABI?
+  let contractHandler = getContractEventHandlers(eventName);
 
-  let contractAndHandlers = getContractEventHandlers(eventName);
-
-  if(contractAndHandlers){
-    await contractAndHandlers.handlers.on(eventName, (data: unknown) => { listener(data); }, contractAndHandlers.contract);
+  if(contractHandler){
+    await contractHandler.handlers.on(eventName, (data: unknown) => { listener(data); }, contractHandler.contract);
   }
 }
+
+
+
 
 function getContractEventHandlers(eventName: string) {
   try {
@@ -62,7 +63,5 @@ function getContractEventHandlers(eventName: string) {
 }
 
 export const off = async function(eventName: string){
-  // add ability to remove individual functions later
-  // otherwise, removes all listeners for event
   console.log("StateOfNouns off " + eventName);
 }
