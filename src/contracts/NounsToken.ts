@@ -1,5 +1,4 @@
 import { ethers } from "ethers";
-import { NounsTokenABI } from '@nouns/contracts';
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, EventData_DelegateVotesChanged, EventData_Transfer, EventData_DelegateChanged } from '../types';
 
 

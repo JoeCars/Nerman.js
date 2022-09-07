@@ -5,6 +5,10 @@
     "declaration": true,
     "outDir": "./lib",
     "strict": true,
+    "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
+    "resolveJsonModule":true,
+    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+    "forceConsistentCasingInFileNames": true,
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]
