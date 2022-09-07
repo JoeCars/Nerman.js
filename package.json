@@ -1,0 +1,24 @@
+{
+  "name": "stateofnouns",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts" : {
+    "test" : "echo \"Error: no test specified\" && exit 1 ",
+    "build" : "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoeCars/StateOfNouns.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoeCars/StateOfNouns/issues"
+  },
+  "homepage": "https://github.com/JoeCars/StateOfNouns#readme",
+  "devDependencies": {
+    "typescript": "^4.8.2"
+  }
+}
