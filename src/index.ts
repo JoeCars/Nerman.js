@@ -4,6 +4,8 @@ import * as NounsAuctionHouse from "./contracts/NounsAuctionHouse";
 import * as NounsToken from "./contracts/NounsToken";
 import { NounsDAOABI, NounsAuctionHouseABI, NounsTokenABI} from '@nouns/contracts';
 
+//import { Seaport } from "@opensea/seaport-js";
+// const seaport = new Seaport(provider);
 
 let provider : ethers.providers.JsonRpcProvider,
   NounsAuctionHouseContract : ethers.Contract, 
@@ -29,8 +31,6 @@ export const on = async function( eventName: string, listener: Function){
     await contractHandler.handlers.on(eventName, (data: unknown) => { listener(data); }, contractHandler.contract);
   }
 }
-
-
 
 
 function getContractEventHandlers(eventName: string) {

@@ -1,6 +1,16 @@
+import { ethers, BigNumber } from 'ethers';
+
 // ETHEREUM
 export interface Account {
   id: string;
+}
+
+export interface NounsTokenSeed {
+  background: number;
+  body:number;
+  accessory:number;
+  head:number;
+  glasses:number;
 }
 
 // NounsAuctionHouse
@@ -46,7 +56,11 @@ export interface Vote {
 export interface NounsContractData {
   address: string;
   abi: ethers.ContractInterface;
-  provider: ethers.providers.JsonRpcProvider
+  provider: ethers.providers.JsonRpcProvider;
+}
+
+export interface EventWrapper {
+  event: Event;
 }
 
 export type ProposalStatus =
@@ -57,7 +71,8 @@ export type ProposalStatus =
   | typeof STATUS_QUEUED
   | typeof STATUS_VETOED;
 
-import { ethers } from 'ethers';
+
+
 import {
     STATUS_ACTIVE,
     STATUS_QUEUED,
@@ -82,75 +97,267 @@ export interface Proposal {
   votes: Vote[];
 }
 
-// // NOUNS BOT TYPES
+export namespace EventData {
+
+// ******************************************
+//
+// Contract - NounsDAO
+//
+// ******************************************
+// EventData types
+
+  export interface ProposalCanceled {
+    id: number;
+    event: Event;
+  }
+
+  export interface ProposalCreated {
+    id: number;
+    proposer: Account;
+    targets: string[];
+    values: BigNumber[];
+    signatures: string[];
+    calldatas : any[]; // type is bytes[]
+    startBlock: number;
+    endBlock: number;
+    description: string;
+    event: Event;
+  }
   
-//   export interface IAuctionLifecycleHandler {
-//     handleNewAuction(auctionId: number): Promise<void>;
-//     handleNewBid(auctionId: number, bid: Bid): Promise<void>;
-//     handleAuctionEndingSoon?(auctionId: number): Promise<void>;
-//     handleNewProposal?(proposal: Proposal): Promise<void>;
-//     handleUpdatedProposalStatus?(proposal: Proposal): Promise<void>;
-//     handleProposalAtRiskOfExpiry?(proposal: Proposal): Promise<void>;
-//     handleGovernanceVote?(proposal: Proposal, vote: Vote): Promise<void>;
-//   }
+  export interface ProposalCreatedWithRequirements {
+    id: number;
+    proposer: Account;
+    targets: string[];
+    values: BigNumber[];
+    signatures: string[];
+    calldatas: any[];
+    startBlock: number;
+    endBlock: number;
+    proposalThreshold: number;
+    quorumVotes: number;
+    description: string;
+    event: Event;
+  }
 
-export interface EventData_DelegateChanged {
-  delegator: Account,
-  fromDelegate: Account,
-  toDelegate: Account
-}
+  export interface ProposalExecuted {
+    id:number;
+    event: Event;
+  }
 
-export interface EventData_DelegateVotesChanged {
-  delegate: Account,
-  previousBalance: number,
-  newBalance: number
-}
+  export interface ProposalQueued {
+    id: number;
+    eta: number;
+    event: Event;
+  }
 
-export interface EventData_Transfer {
-  from: Account,
-  to: Account,
-  tokenId: number
-}
+  export interface ProposalVetoed {
+    id:number;
+    event: Event;
+  }
 
-export interface EventData_AuctionCreated {
-  id: number,
-  startTime: number,
-  endTime: number
-}
+  export interface VoteCast {
+    voter: Account;
+    proposalId: number;
+    supportDetailed: VoteDirection;
+    votes: number;
+    reason: string;
+    event: Event;
+  }
 
-export interface EventData_AuctionBid {
-  id: number,
-  amount: number,
-  bidder: Account,
-  extended: boolean
-}
+  export interface VotingDelaySet {
+    oldVotingDelay: number;
+    newVotingDelay: number;
+    event: Event;
+  }
 
-export interface EventData_ProposalCreatedWithRequirements {
-  id: number;
-  proposer: Account;
-  description: string;
-  status: ProposalStatus;
-  quorumVotes: number;
-  proposalThreshold: number;
-  startBlock: number;
-  endBlock: number;
-  executionETA: number;
-  votes: Vote[];
-}
+  export interface VotingPeriodSet {
+    oldVotingPeriod: number;
+    newVotingPeriod: number;
+    event: Event;
+  }
 
-export interface EventData_VoteCast {
-  id: number;
-  voter: Account;
-  votes: number;
-  supportDetailed: VoteDirection;
-  reason: string | null;
-}
+  export interface NewAdmin {
+    oldAdmin: Account;
+    newAdmin: Account;
+    event: Event;
+  }
 
-export interface EventData_ProposalQueued {
-  id: number;
-  eta: string;
-}
+  export interface NewImplementation {
+    oldImplementation: Account;
+    newImplementation: Account;
+    event: Event;
+  }
 
-export interface EventData_ProposalExecuted {
-  id:number;
+  export interface NewPendingAdmin {
+    oldPendingAdmin: Account;
+    newPendingAdmin: Account;
+    event: Event;
+  }
+
+  export interface NewVetoer {
+    oldVetoer: Account;
+    newVetoer: Account;
+    event: Event;
+  }
+
+  export interface ProposalThresholdBPSSet {
+    oldProposalThresholdBPS: number;
+    newProposalThresholdBPS: number;
+    event: Event;
+  }
+
+  export interface QuorumVotesBPSSet {
+    oldQuorumVotesBPS: number;
+    newQuorumVotesBPS: number;
+    event: Event;
+  }
+
+
+  // ******************************************
+  //
+  // Contract - NounsAuctionHouse
+  //
+  // ******************************************
+  // EventData types
+
+  export interface AuctionCreated {
+    id: number;
+    startTime: number;
+    endTime: number;
+    event: Event;
+  }
+
+  export interface AuctionBid   {
+    id: number;
+    amount: number;
+    bidder: Account;
+    extended: boolean;
+    event: Event;
+  }
+
+  export interface AuctionCreated {
+    id: number; 
+    startTime: number;
+    endTime: number;
+    event: Event;
+  }
+
+  export interface AuctionExtended {
+    id: number;
+    endTime: number;
+    event: Event;
+  }
+    
+  export interface AuctionSettled {
+    id: number;
+    winner: Account;
+    amount: number;
+    event: Event;
+  }
+
+  export interface AuctionTimeBufferUpdated {
+    timeBuffer: number;
+    event: Event;
+  }
+
+  export interface AuctionReservePriceUpdated {
+    reservePrice: number;
+    event: Event;
+  }
+
+  export interface AuctionMinBidIncrementPercentageUpdated {
+    minBidIncrementPercentage: number;
+    event: Event;
+  }
+
+    // ******************************************
+  //
+  // Contract - NounsToken
+  //
+  // ******************************************
+  // EventData types
+
+  export interface DelegateChanged {
+    delegator: Account;
+    fromDelegate: Account;
+    toDelegate: Account;
+    event: Event;
+  }
+
+  export interface DelegateVotesChanged {
+    delegate: Account;
+    previousBalance: number;
+    newBalance: number;
+    event: Event;
+  }
+
+  export interface Transfer {
+    from: Account;
+    to: Account;
+    tokenId: number;
+    event: Event;
+  }
+
+  export interface Approval {
+    owner: Account;
+    approved: Account;
+    tokenId: number;
+    event: Event;
+  }
+
+  export interface ApprovalForAll {
+    owner: Account;
+    operator: Account;
+    approved: boolean;
+    event: Event;
+  }
+
+  export interface DescriptorLocked{
+    event: Event;
+  }
+
+  export interface DescriptorUpdated {
+    descriptor: Account;
+    event: Event;
+  }
+
+  export interface MinterLocked {
+    event: Event;
+  }
+
+  export interface MinterUpdated {
+    minter: Account;
+    event: Event;
+  }
+
+  export interface NounBurned {
+    id: number;
+    event: Event;
+  }
+
+  export interface NounCreated {
+    id: number;
+    seed: NounsTokenSeed;
+    event: Event;
+  }
+
+  export interface NoundersDAOUpdated {
+    noundersDAO: Account;
+    event: Event;
+  }
+
+  export interface OwnershipTransferred {
+    previousOwner: Account;
+    newOwner: Account;
+    event: Event;
+  }
+
+  export interface SeederLocked {
+    event: Event;
+  }
+
+  export interface SeederUpdated {
+    event: Event;
+    seeder: Account;
+  }
 }

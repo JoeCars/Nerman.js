@@ -1,5 +1,6 @@
-import { ethers } from "ethers";
-import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData_ProposalCreatedWithRequirements, NounsContractData, EventData_ProposalQueued, EventData_ProposalExecuted  } from '../types';
+import { ethers, BigNumber } from "ethers";
+import { stringify } from "querystring";
+import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData } from '../types';
 
 // Nouns DAO Proxy - 
 // https://github.com/nounsDAO/nouns-monorepo/blob/master/packages/nouns-contracts/contracts/governance/NounsDAOProxy.sol
@@ -8,52 +9,87 @@ export const on = async function(eventType: string, listener: Function, contract
 
   switch(eventType) {
 
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TODO - just return calldata, object construction (ie Proposal) goes in other file
+    //
+    // **********************************************************
+
     case "ProposalCreated":
 
       /// @notice An event emitted when a new proposal is created
       contract.on("ProposalCreated", (
-        id,
-        proposer,
-        targets,
-        values,
-        signatures,
-        calldatas,
-        startBlock,
-        endBlock,
-        description
+        id: BigNumber,
+        proposer: string,
+        targets: string[],
+        values: BigNumber[],
+        signatures: string[],
+        calldatas : any[], // type is bytes[]
+        startBlock: BigNumber,
+        endBlock: BigNumber,
+        description: string,
+        event: Event
       ) => {
-        console.log("ProposalCreated");
+
+        const data: EventData.ProposalCreated  = {
+          id: id.toNumber(),
+          proposer: { id : proposer } as Account,
+          targets: targets,
+          values: values,
+          signatures: signatures,
+          calldatas: calldatas, // type is bytes[]
+          startBlock: startBlock.toNumber(),
+          endBlock: endBlock.toNumber(),
+          description: description,
+          event: event,
+        }
+
+        listener(data);
+
+
       });
       break;
+
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // TODO - just return calldata, object construction (ie Proposal) goes in other file
+    // **********************************************************
 
     case "ProposalCreatedWithRequirements":
 
       /// @notice An event emitted when a new proposal is created
       contract.on("ProposalCreatedWithRequirements", (
-        id, 
-        proposer, 
-        targets, //address[]
-        values, // unit256[]
-        signatures, // string[]
-        calldatas, // bytes
-        startBlock, 
-        endBlock, 
-        proposalThreshold, 
-        quorumVotes, 
-        description
+        id : BigNumber, 
+        proposer : string, 
+        targets : string[],
+        values : BigNumber[],
+        signatures : string[],
+        calldatas: any[], // bytes
+        startBlock : BigNumber, 
+        endBlock : BigNumber, 
+        proposalThreshold : BigNumber, 
+        quorumVotes : BigNumber, 
+        description : string,
+        event : Event
       ) => {
-
-        const data: EventData_ProposalCreatedWithRequirements  = {
-            id: id,
-            proposer: proposer,
+        
+        const data: EventData.ProposalCreatedWithRequirements  = {
+            id: id.toNumber(),
+            proposer: { id : proposer } as Account,
+            targets: targets,
+            values: values,
+            signatures: signatures,
+            calldatas: calldatas,
+            startBlock: startBlock.toNumber(),
+            endBlock: endBlock.toNumber(),
+            proposalThreshold: proposalThreshold.toNumber(),
+            quorumVotes: quorumVotes.toNumber(),
             description: description,
-            status: "STATUS_CANCELLED" as ProposalStatus, // NOT IMPLEMENTED YET
-            quorumVotes: quorumVotes,
-            proposalThreshold: proposalThreshold,
-            startBlock: startBlock,
-            endBlock: endBlock,
-            executionETA: -1, //NOT IMPLEMENTED YET
-            votes: [] as Vote[] //NOT IMPLEMENTED YET
+            event: event,
+
           }
 
           listener(data);
@@ -61,8 +97,8 @@ export const on = async function(eventType: string, listener: Function, contract
       });
 
       break;
-    
-    case "VoteCast":
+
+    case "VoteCast": // WHY IS ID SHOWING UNDEFINED? IS IT NETWORK SKEW WHEN COMPUTER IS OFF?
 
       // / @notice An event emitted when a vote has been cast on a proposal
       // / @param voter The address which casted a vote
@@ -70,97 +106,250 @@ export const on = async function(eventType: string, listener: Function, contract
       // / @param support Support value for the vote. 0=against, 1=for, 2=abstain
       // / @param votes Number of votes which were cast by the voter
       // / @param reason The reason given for the vote by the voter
-      contract.on("VoteCast", (voter: string, proposalId: string, support: number, votes: number, reason: string | null) => {
 
-        const voterAccount: Account = {
-            id: voter
-        }
+      contract.on("VoteCast", (voter: string, proposalId: number, support: number, votes: number, reason: string, event: Event) => {
 
         const supportDetailed: VoteDirection = support;
 
-        const vote: Vote = {
-            id: proposalId,
-            voter: voterAccount,
-            votes: votes,
+        console.log("proposalId "+ proposalId);
+
+        const data: EventData.VoteCast = {
+            voter: { id : voter } as Account,
+            proposalId: proposalId,
             supportDetailed: supportDetailed,
-            reason: reason
+            votes: votes,
+            reason: reason,
+            event: event
         }
 
-        listener(vote);
+        listener(data);
 
       });
 
       break;
-    
+
+
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // **********************************************************      
+
     case "ProposalCanceled":
+      
         // @notice An event emitted when a proposal has been canceled
-        contract.on("ProposalCanceled", (id) => {
-          listener(id);
+        contract.on("ProposalCanceled", (id: number, event: Event) => {
+
+          const data: EventData.ProposalCanceled = {
+              id: id,
+              event: event
+          }
+
+          listener(data);
         });
       break;
 
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // **********************************************************
+      
     case "ProposalQueued":
       /// @notice An event emitted when a proposal has been queued in the NounsDAOExecutor
       /// @param eta The timestamp that the proposal will be available for execution, set once the vote succeeds
-      contract.on("ProposalQueued", (id, eta) => {
+      contract.on("ProposalQueued", (id: number, eta: number, event: Event) => {
 
-        const data : EventData_ProposalQueued = {
+        const data : EventData.ProposalQueued = {
           id: id,
-          eta: eta
+          eta: eta,
+          event: event
         }
         listener(data);
       });
       break;
 
-    case "ProposalExecuted":
-      /// @notice An event emitted when a proposal has been executed in the NounsDAOExecutor
-      contract.on("ProposalExecuted", (id) => {
-        const data : EventData_ProposalExecuted = {
+    case "ProposalExecuted": // FUNCTIONING CORRECTLY
+      
+      // An event emitted when a proposal has been executed in the NounsDAOExecutor
+      contract.on("ProposalExecuted", (id: number, event: Event) => {
+
+        const data : EventData.ProposalExecuted = {
           id: id,
+          event: event
         }
         listener(data);
       });
       break;
-    
+
+
+
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // **********************************************************   
     case "ProposalVetoed":
       /// @notice An event emitted when a proposal has been vetoed by vetoAddress
-      contract.on("ProposalVetoed", (id) => {
-        listener(id);
+      contract.on("ProposalVetoed", (id: number, event: Event) => {
+
+        const data : EventData.ProposalVetoed = {
+          id: id,
+          event: event
+        }
+        listener(data);
       });
       break;
+
+
+      
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // **********************************************************   
+    case "VotingDelaySet":
+      /// @notice An event emitted when the voting delay is set
+      contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: Event) => {
+        
+        const data: EventData.VotingDelaySet = {
+          oldVotingDelay: oldVotingDelay,
+          newVotingDelay: newVotingDelay,
+          event: event
+        }
+
+        listener(data);
+        
+      });
+      break;
+
+
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // **********************************************************   
+    case "VotingPeriodSet":
+
+      /// @notice An event emitted when the voting period is set
+      contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: Event) => {
+        
+        const data : EventData.VotingPeriodSet = {
+          oldVotingPeriod : oldVotingPeriod,
+          newVotingPeriod : newVotingPeriod,
+          event : event
+        }
+
+        listener(data);
+
+      });
+      break;
+
+
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // **********************************************************   
+    case "NewImplementation":
+      /// @notice Emitted when implementation is changed
+      contract.on("NewImplementation", (oldImplementation: string, newImplementation: string, event: Event) => {
+
+        const data : EventData.NewImplementation = {
+          oldImplementation : { id: oldImplementation } as Account,
+          newImplementation : { id: newImplementation } as Account,
+          event : event
+        }
+
+        listener(data);
+
+      });
+      break;
+
+
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // **********************************************************   
+    case "ProposalThresholdBPSSet":
+      /// @notice Emitted when proposal threshold basis points is set
+      contract.on("ProposalThresholdBPSSet", (oldProposalThresholdBPS:number, newProposalThresholdBPS:number, event:Event) => {
+
+        const data : EventData.ProposalThresholdBPSSet = {
+          oldProposalThresholdBPS : oldProposalThresholdBPS,
+          newProposalThresholdBPS : newProposalThresholdBPS,
+          event : event
+        }
+        
+        listener(data);
+
+      });
+      break;
+
+
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // **********************************************************   
+    case "QuorumVotesBPSSet":
+        /// @notice Emitted when quorum votes basis points is set
+        contract.on("QuorumVotesBPSSet", (oldQuorumVotesBPS : number, newQuorumVotesBPS : number, event:Event) => {
+
+          const data : EventData.QuorumVotesBPSSet = {
+            oldQuorumVotesBPS : oldQuorumVotesBPS,
+            newQuorumVotesBPS : newQuorumVotesBPS,
+            event : event
+          }
+
+          listener(data);
+        });
+      break;
+
+
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // **********************************************************   
+    case "NewPendingAdmin":
+        /// @notice Emitted when pendingAdmin is changed
+        contract.on("NewPendingAdmin", (oldPendingAdmin : string, newPendingAdmin : string, event:Event) => {
+
+          const data : EventData.NewPendingAdmin = {
+            oldPendingAdmin : { id : oldPendingAdmin } as Account, 
+            newPendingAdmin : { id : newPendingAdmin } as Account,
+            event : event
+          }
+
+          listener(data);
+        });
+        
+
+      break;
+
+
+    // **********************************************************
+    //
+    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    //
+    // **********************************************************   
+    case "NewAdmin":
+        /// @notice Emitted when pendingAdmin is accepted, which means admin is updated
+        contract.on("NewAdmin", (oldAdmin : string, newAdmin : string, event:Event) => {
+
+          const data : EventData.NewAdmin = {
+            oldAdmin : { id : oldAdmin } as Account,
+            newAdmin : { id : newAdmin } as Account,
+            event : event
+          }
+
+          listener(data);
+        });
+      break;
+
+
   }
 
 }
-
-// /// @notice An event emitted when the voting delay is set
-// contract.on("VotingDelaySet", (oldVotingDelay, newVotingDelay) => {
-//     console.log("VotingDelaySet");
-// });
-// /// @notice An event emitted when the voting period is set
-// contract.on("VotingPeriodSet", (oldVotingPeriod, newVotingPeriod) => {
-//     console.log("VotingPeriodSet");
-// });
-// /// @notice Emitted when implementation is changed
-// contract.on("NewImplementation", (oldImplementation, newImplementation) => {
-//     console.log("NewImplementation");
-// });
-// /// @notice Emitted when proposal threshold basis points is set
-// contract.on("ProposalThresholdBPSSet", (oldProposalThresholdBPS, newProposalThresholdBPS) => {
-//     console.log("ProposalThresholdBPSSet");
-// });
-// /// @notice Emitted when quorum votes basis points is set
-// contract.on("QuorumVotesBPSSet", (oldQuorumVotesBPS, newQuorumVotesBPS) => {
-//     console.log("QuorumVotesBPSSet");
-// });
-// /// @notice Emitted when pendingAdmin is changed
-// contract.on("NewPendingAdmin", (oldPendingAdmin, newPendingAdmin) => {
-//     console.log("NewPendingAdmin");
-// });
-// /// @notice Emitted when pendingAdmin is accepted, which means admin is updated
-// contract.on("NewAdmin", (oldAdmin, newAdmin) => {
-//     console.log("NewAdmin");
-// });
-// /// @notice Emitted when vetoer is changed
-// contract.on("NewVetoer", (oldVetoer, newVetoer) => {
-//     console.log("NewVetoer");
-// });
