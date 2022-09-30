@@ -98,7 +98,7 @@ export const on = async function(eventType: string, listener: Function, contract
 
       break;
 
-    case "VoteCast": // WHY IS ID SHOWING UNDEFINED? IS IT NETWORK SKEW WHEN COMPUTER IS OFF?
+    case "VoteCast": // WORKING
 
       // / @notice An event emitted when a vote has been cast on a proposal
       // / @param voter The address which casted a vote
@@ -110,8 +110,6 @@ export const on = async function(eventType: string, listener: Function, contract
       contract.on("VoteCast", (voter: string, proposalId: number, support: number, votes: number, reason: string, event: Event) => {
 
         const supportDetailed: VoteDirection = support;
-
-        console.log("proposalId "+ proposalId);
 
         const data: EventData.VoteCast = {
             voter: { id : voter } as Account,

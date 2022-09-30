@@ -75,7 +75,7 @@ export const on = async function(eventType: string, listener: Function, contract
 
     // **********************************************************
     //
-    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TESTING - Double check details, haven't confirmed live event yet
     //
     // **********************************************************
     case "ApprovalForAll" :
@@ -112,7 +112,7 @@ export const on = async function(eventType: string, listener: Function, contract
 
     // **********************************************************
     //
-    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TESTING - Double check details, haven't confirmed live event yet
     //
     // **********************************************************
     case "DescriptorLocked" :
@@ -132,7 +132,7 @@ export const on = async function(eventType: string, listener: Function, contract
 
     // **********************************************************
     //
-    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TESTING - Double check details, haven't confirmed live event yet
     //
     // **********************************************************
     case "DescriptorUpdated" :
@@ -153,7 +153,7 @@ export const on = async function(eventType: string, listener: Function, contract
 
     // **********************************************************
     //
-    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TESTING - Double check details, haven't confirmed live event yet
     //
     // **********************************************************
     case "MinterLocked" :
@@ -172,7 +172,7 @@ export const on = async function(eventType: string, listener: Function, contract
 
     // **********************************************************
     //
-    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TESTING - Double check details, haven't confirmed live event yet
     //
     // **********************************************************
     case "MinterUpdated" :
@@ -193,7 +193,7 @@ export const on = async function(eventType: string, listener: Function, contract
       
     // **********************************************************
     //
-    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TESTING - Double check details, haven't confirmed live event yet
     //
     // **********************************************************
     case "NounBurned" :
@@ -212,7 +212,7 @@ export const on = async function(eventType: string, listener: Function, contract
 
     // **********************************************************
     //
-    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TESTING - Double check details, haven't confirmed live event yet
     //
     // **********************************************************
     case "NoundersDAOUpdated" :
@@ -233,7 +233,7 @@ export const on = async function(eventType: string, listener: Function, contract
 
     // **********************************************************
     //
-    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TESTING - Double check details, haven't confirmed live event yet
     //
     // **********************************************************
     case "OwnershipTransferred" :
@@ -255,7 +255,7 @@ export const on = async function(eventType: string, listener: Function, contract
 
     // **********************************************************
     //
-    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TESTING - Double check details, haven't confirmed live event yet
     //
     // **********************************************************
     case "SeederLocked" :
@@ -275,7 +275,7 @@ export const on = async function(eventType: string, listener: Function, contract
       
     // **********************************************************
     //
-    // STATUS: TESTING AND DOCUMENTATION NEEDED
+    // TESTING - Double check details, haven't confirmed live event yet
     //
     // **********************************************************
     case "SeederUpdated" :
