@@ -60,7 +60,7 @@ export interface NounsContractData {
 }
 
 export interface EventWrapper {
-  event: Event;
+  event: ethers.Event;
 }
 
 export type ProposalStatus =
@@ -108,7 +108,7 @@ export namespace EventData {
 
   export interface ProposalCanceled {
     id: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface ProposalCreated {
@@ -121,7 +121,7 @@ export namespace EventData {
     startBlock: number;
     endBlock: number;
     description: string;
-    event: Event;
+    event: ethers.Event;
   }
   
   export interface ProposalCreatedWithRequirements {
@@ -136,23 +136,23 @@ export namespace EventData {
     proposalThreshold: number;
     quorumVotes: number;
     description: string;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface ProposalExecuted {
     id:number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface ProposalQueued {
     id: number;
     eta: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface ProposalVetoed {
     id:number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface VoteCast {
@@ -161,55 +161,55 @@ export namespace EventData {
     supportDetailed: VoteDirection;
     votes: number;
     reason: string;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface VotingDelaySet {
     oldVotingDelay: number;
     newVotingDelay: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface VotingPeriodSet {
     oldVotingPeriod: number;
     newVotingPeriod: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface NewAdmin {
     oldAdmin: Account;
     newAdmin: Account;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface NewImplementation {
     oldImplementation: Account;
     newImplementation: Account;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface NewPendingAdmin {
     oldPendingAdmin: Account;
     newPendingAdmin: Account;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface NewVetoer {
     oldVetoer: Account;
     newVetoer: Account;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface ProposalThresholdBPSSet {
     oldProposalThresholdBPS: number;
     newProposalThresholdBPS: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface QuorumVotesBPSSet {
     oldQuorumVotesBPS: number;
     newQuorumVotesBPS: number;
-    event: Event;
+    event: ethers.Event;
   }
 
 
@@ -224,7 +224,7 @@ export namespace EventData {
     id: number;
     startTime: number;
     endTime: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface AuctionBid   {
@@ -232,42 +232,42 @@ export namespace EventData {
     amount: number;
     bidder: Account;
     extended: boolean;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface AuctionCreated {
     id: number; 
     startTime: number;
     endTime: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface AuctionExtended {
     id: number;
     endTime: number;
-    event: Event;
+    event: ethers.Event;
   }
     
   export interface AuctionSettled {
     id: number;
     winner: Account;
     amount: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface AuctionTimeBufferUpdated {
     timeBuffer: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface AuctionReservePriceUpdated {
     reservePrice: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface AuctionMinBidIncrementPercentageUpdated {
     minBidIncrementPercentage: number;
-    event: Event;
+    event: ethers.Event;
   }
 
     // ******************************************
@@ -281,83 +281,83 @@ export namespace EventData {
     delegator: Account;
     fromDelegate: Account;
     toDelegate: Account;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface DelegateVotesChanged {
     delegate: Account;
     previousBalance: number;
     newBalance: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface Transfer {
     from: Account;
     to: Account;
     tokenId: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface Approval {
     owner: Account;
     approved: Account;
     tokenId: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface ApprovalForAll {
     owner: Account;
     operator: Account;
     approved: boolean;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface DescriptorLocked{
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface DescriptorUpdated {
     descriptor: Account;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface MinterLocked {
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface MinterUpdated {
     minter: Account;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface NounBurned {
     id: number;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface NounCreated {
     id: number;
     seed: NounsTokenSeed;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface NoundersDAOUpdated {
     noundersDAO: Account;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface OwnershipTransferred {
     previousOwner: Account;
     newOwner: Account;
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface SeederLocked {
-    event: Event;
+    event: ethers.Event;
   }
 
   export interface SeederUpdated {
-    event: Event;
+    event: ethers.Event;
     seeder: Account;
   }
 }
