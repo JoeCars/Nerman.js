@@ -89,6 +89,24 @@ export class Nouns {
     return ens;
   }
 
+  public async getAddress (address: string) {
+
+    // is this a proper address
+    if (ethers.utils.isAddress(address)) {
+      return address;
+    }
+
+    // is this an ENS that resolves?
+    const resultENS = await this.provider.resolveName(address);
+
+    if (resultENS) {
+      return resultENS;
+    }
+
+    return null
+
+  }
+
 
 
 }
