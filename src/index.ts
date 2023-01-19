@@ -4,16 +4,20 @@ import * as NounsDAO from "./contracts/NounsDAO";
 import { _NounsAuctionHouse } from "./contracts/NounsAuctionHouse"; 
 import { _NounsToken } from "./contracts/NounsToken"; 
 import { _NounsDAO } from "./contracts/NounsDAO"; 
+import { EventData } from "nerman";
 
 export { EventData } from "./types";
 
 export class Nouns {
 
-  private provider : ethers.providers.JsonRpcProvider;
+  public provider : ethers.providers.JsonRpcProvider;
 
   public NounsAuctionHouse : _NounsAuctionHouse; // @TODO refactor into NounishContract?
   public NounsToken : _NounsToken;
   public NounsDAO : _NounsDAO;
+
+  // this should eventually be part of on-chain indexed data
+  public cache : { [key: string]: { [key: string]: number | string } };
 
   constructor(apiUrl: string | undefined) {
 
@@ -29,6 +33,55 @@ export class Nouns {
     this.NounsToken = new _NounsToken(this.provider);
     this.NounsDAO = new _NounsDAO(this.provider);
 
+    this.cache = {}
+    this.cacheInit();
+
+    this.pollForAuctionEnd = this.pollForAuctionEnd.bind(this);
+    // this seems pretty hacky - needed to correctly get "this" in function
+  }
+
+// ACTIVE
+// EXTENDED
+// COMPLETE
+// SETTLED
+
+  private async cacheInit() {
+    console.log("calling cacheInit");
+    
+    const latestAuction = (await this.NounsAuctionHouse.getLatestAuctions()).pop();
+    this.cache.auction = {};
+    this.cache.auction.state = "";
+
+    if(latestAuction && latestAuction.args) {
+
+      this.cache.auction.startTime = latestAuction.args.startTime.toNumber();
+      this.cache.auction.endTime = latestAuction.args.endTime.toNumber();
+      this.cache.auction.nounId = latestAuction.args.nounId.toNumber();
+      this.cache.auction.state = "ACTIVE";
+
+    }
+
+    const latestAuctionExtended = (await this.NounsAuctionHouse.getLatestAuctionExtended()).pop();
+
+    if (latestAuctionExtended && latestAuctionExtended.args 
+      && latestAuctionExtended.args.nounId == this.cache.auction.nounId) {
+        console.log("current auction is in extended period");
+
+        this.cache.auction.endTime = latestAuctionExtended.args.endTime;
+        this.cache.auction.state = "EXTENDED";
+
+      }
+
+    this.cache.auction.duration = (await this.NounsAuctionHouse.Contract.duration()).toNumber();
+    this.cache.auction.timeBuffer = (await this.NounsAuctionHouse.Contract.timeBuffer()).toNumber();
+
+    console.log("CACHE");
+    console.log(this.cache);
+    
+  }
+
+  private async updateCache() {
+    
   }
 
   public async on( eventName: string, listener: Function) {
@@ -60,7 +113,83 @@ export class Nouns {
       //console.error(error);
     }
 
+    if(eventName == "AuctionEnd") {
+      console.log("Listening for AuctionEnd");
+
+      this.pollForAuctionEnd(listener);
+
+      await this.NounsAuctionHouse.on("AuctionExtended", (data: EventData.AuctionExtended) => { 
+        this.cache.auction.state = "EXTENDED";
+        console.log("Auction Extended for Noun " + data.id + " - endTime: " + data.endTime);
+        // check if nounId is correct - if not re-populate cache
+        this.cache.auction.endTime = data.endTime
+
+      });
+
+      await this.NounsAuctionHouse.on("AuctionSettled", (data: EventData.AuctionSettled) => { 
+        
+        console.log("Auction Settled for Noun " + data.id);
+
+        if(data.id % 10 == 9) {
+          // Mint Nouner Noun, start action for 11
+        }
+
+        this.cacheInit();
+
+      });
+
+      return;
+    }
+
+
+
     console.log("event name not found: " + eventName);
+
+  }
+
+  
+  public async pollForAuctionEnd(listener : Function) {
+    
+    let pollingTime = 10000;
+
+    if( this.cache.auction && (this.cache.auction.state == "ACTIVE" || this.cache.auction.state == "EXTENDED")) {
+
+      const blockNumber = await this.provider.getBlockNumber()
+      const block = await this.provider.getBlock(blockNumber);
+      const timestamp = block.timestamp;
+
+      if ( timestamp > this.cache.auction.endTime) { 
+
+        this.cache.auction.state = "COMPLETE";
+        console.log("this.cache.endTime has passed - AuctionEnd"); // doesn't account for block reorganization
+        listener(this.cache.auction.nounId, this.cache.auction.endTime, /*block*/);
+
+      }
+
+      if(!this.cache.auction.endTime || !timestamp || !this.cache.auction.timeBuffer){
+
+        pollingTime = 100;
+
+        // @TODO properly type the cache data and remove all this casting
+      } else if(((this.cache.auction.endTime as number) - (timestamp as number)) < (this.cache.auction.timeBuffer as number)) {
+
+        pollingTime = 4000;
+
+      } else {
+
+        pollingTime = ((this.cache.auction.endTime as number) - (timestamp as number) - (this.cache.auction.timeBuffer as number))*1000;
+        if(pollingTime <= 0) {
+          pollingTime = 1000;
+        }
+      }
+
+    }
+
+    console.log("pollingTime " + pollingTime);
+    const that = this;
+    setTimeout(function(){
+      that.pollForAuctionEnd(listener);
+    }, pollingTime);
 
   }
 
@@ -131,5 +260,3 @@ export class Nouns {
   //     "hex": "0x2386f26fc10000"
   //   }, false]
   // }
-
-  

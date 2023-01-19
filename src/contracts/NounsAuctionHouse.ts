@@ -146,6 +146,23 @@ export class _NounsAuctionHouse {
 
     }
 
+
+    public async getLatestAuctions (){
+
+        const filter = this.Contract.filters.AuctionCreated();
+        const auctions = await this.Contract.queryFilter(filter) as Array<ethers.Event>;
+        return auctions;
+
+    }
+
+    public async getLatestAuctionExtended (){
+
+        const filter = this.Contract.filters.AuctionExtended();
+        const auctionExtendeds = await this.Contract.queryFilter(filter) as Array<ethers.Event>;
+        return auctionExtendeds;
+
+    }
+
     public async getAuctionBids( nounId: number ) {
 
         const filter = this.Contract.filters.AuctionBid(nounId);
@@ -166,6 +183,7 @@ export class _NounsAuctionHouse {
         return latestBid;
     }
 
+    
     // Put this in a provider specific file
     public async getBlock (blockNumber : number) {
         const block = await this.provider.getBlock( blockNumber );

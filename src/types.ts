@@ -218,7 +218,16 @@ export namespace EventData {
   // Contract - NounsAuctionHouse
   //
   // ******************************************
-  // EventData types
+
+  // CUSTOM TYPES
+  export interface AuctionComplete {
+    id: number;
+    endTime: number;
+    // should add block
+  }
+
+
+  // EventData types from ABI
 
   export interface AuctionCreated {
     id: number;
