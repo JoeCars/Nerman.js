@@ -2,6 +2,8 @@ import cron from "node-cron";
 import fetch from "node-fetch";
 import { EventData } from "../types";
 
+const POST_LIMIT = 5;
+
 export class NounsNymz {
 	lastTime: Date;
 
@@ -16,26 +18,51 @@ export class NounsNymz {
 
 		// Runs the task every 5 minutes.
 		cron.schedule("*/5 * * * *", async () => {
-			const response = await fetch("https://nouns.nymz.xyz/api/v1/posts?limit=5&sort=timestamp");
-			const body = (await response.json()) as EventData.NounsNymz.Post[];
+			// Processing the first batch.
+			let offset = 0;
+			let response = await fetch(
+				`https://nouns.nymz.xyz/api/v1/posts?offset=${offset}&limit=${POST_LIMIT}&sort=timestamp`
+			);
+			let body = (await response.json()) as EventData.NounsNymz.Post[];
 
-			if (body.length === 0) {
+			if (body.length === 0 || this.isTooOld(body[0])) {
 				return;
 			}
+			const updatedTime = new Date(body[0].timestamp);
 
-			let newTime = new Date(body[0].timestamp);
-			if (newTime <= this.lastTime) {
-				return;
-			}
+			this.processPosts(body, listener);
 
-			for (let i = body.length - 1; i >= 0; --i) {
-				if (new Date(body[i].timestamp) <= this.lastTime) {
-					continue;
+			// Continuing to process more batches until we reach the last task's time.
+			while (!this.isTooOld(body[body.length - 1])) {
+				offset += POST_LIMIT;
+				response = await fetch(
+					`https://nouns.nymz.xyz/api/v1/posts?offset=${offset}&limit=${POST_LIMIT}&sort=timestamp`
+				);
+				body = (await response.json()) as EventData.NounsNymz.Post[];
+
+				if (body.length === 0) {
+					break;
 				}
 
-				listener(body[i]);
+				this.processPosts(body, listener);
 			}
-			this.lastTime = newTime;
+
+			this.lastTime = updatedTime;
 		});
+	}
+
+	processPosts(posts: EventData.NounsNymz.Post[], listener: (data: EventData.NounsNymz.Post) => void) {
+		for (let i = posts.length - 1; i >= 0; --i) {
+			if (this.isTooOld(posts[i])) {
+				continue;
+			}
+
+			listener(posts[i]);
+		}
+	}
+
+	isTooOld(post: EventData.NounsNymz.Post) {
+		const time = new Date(post.timestamp);
+		return time <= this.lastTime;
 	}
 }
