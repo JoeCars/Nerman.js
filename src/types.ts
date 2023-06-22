@@ -377,7 +377,7 @@ export namespace EventData {
 	// ******************************************
 
 	export namespace NounsNymz {
-		export interface Post {
+		export interface NewPost {
 			id: string;
 			title: string;
 			body: string;
@@ -386,8 +386,8 @@ export namespace EventData {
 			parentId?: string;
 			depth: number;
 			upvotes: Upvote[];
-			root?: Post;
-			parent?: Post;
+			root?: NewPost;
+			parent?: NewPost;
 			_count: {
 				descendants: number;
 			};
@@ -408,10 +408,6 @@ export namespace EventData {
 			name: string;
 			lastActive: string;
 			upvotes: number;
-		}
-
-		export interface UserAttachedPost extends Post {
-			user: User;
 		}
 	}
 }

@@ -11,7 +11,7 @@ export class NounsNymz {
 		this.lastTime = new Date();
 	}
 
-	on(eventName: string, listener: (data: EventData.NounsNymz.Post) => void) {
+	on(eventName: string, listener: (data: EventData.NounsNymz.NewPost) => void) {
 		if (eventName !== "NewPost") {
 			return;
 		}
@@ -23,7 +23,7 @@ export class NounsNymz {
 			let response = await fetch(
 				`https://nouns.nymz.xyz/api/v1/posts?offset=${offset}&limit=${POST_LIMIT}&sort=timestamp`
 			);
-			let body = (await response.json()) as EventData.NounsNymz.Post[];
+			let body = (await response.json()) as EventData.NounsNymz.NewPost[];
 
 			if (body.length === 0 || this.isTooOld(body[0])) {
 				return;
@@ -38,7 +38,7 @@ export class NounsNymz {
 				response = await fetch(
 					`https://nouns.nymz.xyz/api/v1/posts?offset=${offset}&limit=${POST_LIMIT}&sort=timestamp`
 				);
-				body = (await response.json()) as EventData.NounsNymz.Post[];
+				body = (await response.json()) as EventData.NounsNymz.NewPost[];
 
 				if (body.length === 0) {
 					break;
@@ -51,7 +51,7 @@ export class NounsNymz {
 		});
 	}
 
-	processPosts(posts: EventData.NounsNymz.Post[], listener: (data: EventData.NounsNymz.Post) => void) {
+	processPosts(posts: EventData.NounsNymz.NewPost[], listener: (data: EventData.NounsNymz.NewPost) => void) {
 		for (let i = posts.length - 1; i >= 0; --i) {
 			if (this.isTooOld(posts[i])) {
 				continue;
@@ -61,7 +61,7 @@ export class NounsNymz {
 		}
 	}
 
-	isTooOld(post: EventData.NounsNymz.Post) {
+	isTooOld(post: EventData.NounsNymz.NewPost) {
 		const time = new Date(post.timestamp);
 		return time <= this.lastTime;
 	}
