@@ -7,7 +7,7 @@ import { _NounsDAO } from "./contracts/NounsDAO";
 import { EventData } from "./types";
 
 export { EventData } from "./types";
-export { NounsNyms } from "./utility/NounsNyms";
+export { NounsNymz } from "./utility/NounsNymz";
 
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;

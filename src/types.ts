@@ -372,11 +372,11 @@ export namespace EventData {
 
 	// ******************************************
 	//
-	// Nouns Nyms
+	// NounsNymz
 	//
 	// ******************************************
 
-	export namespace NounsNyms {
+	export namespace NounsNymz {
 		export interface Post {
 			id: string;
 			title: string;

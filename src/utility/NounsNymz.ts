@@ -2,14 +2,14 @@ import cron from "node-cron";
 import fetch from "node-fetch";
 import { EventData } from "../types";
 
-export class NounsNyms {
+export class NounsNymz {
 	lastTime: Date;
 
 	constructor() {
 		this.lastTime = new Date();
 	}
 
-	on(eventName: string, listener: (data: EventData.NounsNyms.Post) => void) {
+	on(eventName: string, listener: (data: EventData.NounsNymz.Post) => void) {
 		if (eventName !== "NewPost") {
 			return;
 		}
@@ -17,7 +17,7 @@ export class NounsNyms {
 		// Runs the task every 5 minutes.
 		cron.schedule("*/5 * * * *", async () => {
 			const response = await fetch("https://nouns.nymz.xyz/api/v1/posts?limit=5&sort=timestamp");
-			const body = (await response.json()) as EventData.NounsNyms.Post[];
+			const body = (await response.json()) as EventData.NounsNymz.Post[];
 
 			if (body.length === 0) {
 				return;
