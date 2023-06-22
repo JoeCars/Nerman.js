@@ -23,10 +23,14 @@
   },
   "homepage": "https://github.com/JoeCars/StateOfNouns#readme",
   "devDependencies": {
+    "@types/node-cron": "^3.0.7",
+    "@types/node-fetch": "^2.6.4",
     "typescript": "^4.8.2"
   },
   "dependencies": {
     "@nouns/contracts": "^0.3.0",
-    "@opensea/seaport-js": "^1.0.5"
+    "@opensea/seaport-js": "^1.0.5",
+    "node-cron": "^3.0.2",
+    "node-fetch": "^2.6.11"
   }
 }

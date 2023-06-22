@@ -365,8 +365,49 @@ export namespace EventData {
     event: ethers.Event;
   }
 
-  export interface SeederUpdated {
-    event: ethers.Event;
-    seeder: Account;
-  }
+	export interface SeederUpdated {
+		event: ethers.Event;
+		seeder: Account;
+	}
+
+	// ******************************************
+	//
+	// NounsNymz
+	//
+	// ******************************************
+
+	export namespace NounsNymz {
+		export interface NewPost {
+			id: string;
+			title: string;
+			body: string;
+			timestamp: string;
+			userId: string;
+			parentId?: string;
+			depth: number;
+			upvotes: Upvote[];
+			root?: NewPost;
+			parent?: NewPost;
+			_count: {
+				descendants: number;
+			};
+		}
+
+		export interface Upvote {
+			id: string;
+			address: string;
+			timestamp: string;
+		}
+
+		export interface User {
+			userId: string;
+			numPosts: number;
+			numReplies: number;
+			totalPosts: number;
+			doxed: boolean;
+			name: string;
+			lastActive: string;
+			upvotes: number;
+		}
+	}
 }
