@@ -398,5 +398,20 @@ export namespace EventData {
 			address: string;
 			timestamp: string;
 		}
+
+		export interface User {
+			userId: string;
+			numPosts: number;
+			numReplies: number;
+			totalPosts: number;
+			doxed: boolean;
+			name: string;
+			lastActive: string;
+			upvotes: number;
+		}
+
+		export interface UserAttachedPost extends Post {
+			user: User;
+		}
 	}
 }
