@@ -9,7 +9,7 @@ import * as nerman from "nerman";
 
 const Nouns = new nerman.Nouns(process.env.JSON_RPC_API_URL);
 
-Nouns.on("VoteCast", (vote : EventData.VoteCast) => {
+Nouns.on("VoteCast", (vote : nerman.EventData.VoteCast) => {
 
   Nouns.on("AuctionBid", (data) => {
 
@@ -28,7 +28,7 @@ Nouns.on("VoteCast", (vote : EventData.VoteCast) => {
 ```
 require('dotenv').config();
 
-const _nerman = import('stateofnouns');
+const _nerman = import('nerman');
 
 async function runApp() {
 
@@ -181,5 +181,20 @@ async function listenToStandardEvents () {
 
 listenToStandardEvents();
 
+
+
+```
+
+## NounsNymz events: NewPost
+
+```
+import * as nerman from "nerman";
+
+const NounsNymz = new nerman.NounsNymz();
+NounsNymz.on("NewPost", (data : nerman.EventData.NounsNymz.NewPost) => {
+
+  // do stuff here
+
+});
 
 ```
