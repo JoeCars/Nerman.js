@@ -7,6 +7,7 @@ import { _NounsDAO } from "./contracts/NounsDAO";
 import { EventData } from "nerman";
 
 export { EventData } from "./types";
+export { NounsNyms } from "./utility/NounsNyms";
 
 export class Nouns {
 
