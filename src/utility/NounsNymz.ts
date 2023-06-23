@@ -2,8 +2,6 @@ import * as cron from "node-cron";
 import fetch from "node-fetch";
 import { EventData } from "../types";
 
-const POST_TAKE = 99;
-
 export class NounsNymz {
 	lastTime: Date;
 
@@ -19,7 +17,7 @@ export class NounsNymz {
 		// Runs the task every 1 minute.
 		cron.schedule("*/1 * * * *", async () => {
 			let response = await fetch(
-				`https://nouns.nymz.xyz/api/v1/posts?skip=0&take=${POST_TAKE}&startTime=${this.lastTime.getTime()}&sort=timestamp&includeReplies=true`
+				`https://nouns.nymz.xyz/api/v1/posts?startTime=${this.lastTime.getTime()}&sort=timestamp&includeReplies=true`
 			);
 			let posts = (await response.json()) as EventData.NounsNymz.NewPost[];
 
