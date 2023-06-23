@@ -386,11 +386,36 @@ export namespace EventData {
 			parentId?: string;
 			depth: number;
 			upvotes: Upvote[];
-			root?: NewPost;
-			parent?: NewPost;
+			root?: RootPost;
+			parent?: ParentPost;
 			_count: {
 				descendants: number;
 			};
+		}
+
+		export interface RootPost {
+			id: string;
+			title: string;
+			body: string;
+			timestamp: string;
+			userId: string;
+			parentId?: string;
+			depth: number;
+			upvotes: Upvote[];
+			_count: {
+				descendants: number;
+			};
+		}
+
+		export interface ParentPost {
+			id: string;
+			title: string;
+			body: string;
+			timestamp: string;
+			userId: string;
+			parentId?: string;
+			depth: number;
+			upvotes: Upvote[];
 		}
 
 		export interface Upvote {
