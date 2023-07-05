@@ -4,12 +4,16 @@ import { EventData } from "../types";
 
 export class NounsNymz {
 	lastTime: Date;
+	registeredListeners: Map<string, Function>;
 
 	constructor() {
 		this.lastTime = new Date();
+		this.registeredListeners = new Map();
 	}
 
 	on(eventName: string, listener: (post: EventData.NounsNymz.NewPost) => void) {
+		this.registeredListeners.set(eventName, listener);
+
 		if (eventName !== "NewPost") {
 			return;
 		}
@@ -30,6 +34,15 @@ export class NounsNymz {
 
 			this.lastTime = updatedTime;
 		});
+	}
+
+	trigger(eventName: string, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			listener(data);
+		} else {
+			console.log(`No listeners are registered with ${eventName}.`);
+		}
 	}
 
 	processPosts(posts: EventData.NounsNymz.NewPost[], listener: (post: EventData.NounsNymz.NewPost) => void) {
