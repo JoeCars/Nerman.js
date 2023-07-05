@@ -16,6 +16,8 @@ export class Nouns {
 	public NounsToken: _NounsToken;
 	public NounsDAO: _NounsDAO;
 
+	public registeredListeners: Map<string, Function>;
+
 	// this should eventually be part of on-chain indexed data
 	public cache: { [key: string]: { [key: string]: number | string } };
 
@@ -37,6 +39,8 @@ export class Nouns {
 
 		this.pollForAuctionEnd = this.pollForAuctionEnd.bind(this);
 		// this seems pretty hacky - needed to correctly get "this" in function
+
+		this.registeredListeners = new Map();
 	}
 
 	// ACTIVE
@@ -82,6 +86,7 @@ export class Nouns {
 
 	public async on(eventName: string, listener: Function) {
 		console.log("StateOfNouns.ts on(" + eventName + ") created");
+		this.registeredListeners.set(eventName, listener);
 		let errorCount = 0;
 
 		//@todo use ABI to look up function signatures instead, try-catch feel ugly
@@ -183,6 +188,15 @@ export class Nouns {
 		setTimeout(function () {
 			that.pollForAuctionEnd(listener);
 		}, pollingTime);
+	}
+
+	public trigger(eventName: string, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			listener(data);
+		} else {
+			console.log(`No listeners are registered with ${eventName}.`);
+		}
 	}
 
 	public off(eventName: string) {
