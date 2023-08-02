@@ -8,6 +8,7 @@ import { EventData } from "./types";
 
 export { EventData } from "./types";
 export { NounsNymz } from "./utility/NounsNymz";
+export { FederationNounsPool } from "./utility/FederationNounsPool";
 
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;
