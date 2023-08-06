@@ -9,8 +9,8 @@ export class FederationNounsPool {
 	nounsPoolContractV2: ethers.Contract;
 	registeredListeners: Map<string, ethers.providers.Listener>;
 
-	constructor(jsonRpcToken: string) {
-		this.provider = new ethers.providers.WebSocketProvider(jsonRpcToken);
+	constructor(webSocketJsonRpcUrl: string) {
+		this.provider = new ethers.providers.WebSocketProvider(webSocketJsonRpcUrl);
 		this.nounsPoolContractV1 = new ethers.Contract("0xBE5E6De0d0Ac82b087bAaA1d53F145a52EfE1642", NounsPool, this.provider);
 		this.nounsPoolContractV2 = new ethers.Contract(
 			"0x0f722d69B3D8C292E85F2b1E5D9F4439edd58F1e",
