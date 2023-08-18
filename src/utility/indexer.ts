@@ -194,6 +194,34 @@ function parseNewImplementationEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("NewImplementation", parseNewImplementationEvent).catch((error) => {
+function parseNewPendingAdminEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldPendingAdmin: `${event.args!.oldPendingAdmin}`,
+		newPendingAdmin: `${event.args!.newPendingAdmin}`
+	};
+}
+
+function parseNewAdminEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldAdmin: `${event.args!.oldAdmin}`,
+		newAdmin: `${event.args!.newAdmin}`
+	};
+}
+
+getEvents("NewAdmin", parseNewAdminEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
