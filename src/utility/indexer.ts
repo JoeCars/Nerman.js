@@ -16,7 +16,7 @@ async function getEvents(eventName: string, parser: (event: ethers.Event) => obj
 	await appendFile(filePath, "[");
 	let counter = 0;
 	for (let block = startingBlock; block <= currentBlock; block += BLOCK_BATCH_SIZE) {
-		let events = await nouns.NounsDAO.Contract.queryFilter(
+		let events = await nouns.NounsAuctionHouse.Contract.queryFilter(
 			eventName,
 			block,
 			Math.min(block + BLOCK_BATCH_SIZE, currentBlock)
@@ -222,6 +222,66 @@ function parseNewAdminEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("NewAdmin", parseNewAdminEvent).catch((error) => {
+function parseAuctionCreatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		nounId: Number(`${event.args!.nounId}`),
+		startTime: Number(`${event.args!.startTime}`),
+		endTime: Number(`${event.args!.endTime}`)
+	};
+}
+
+function parseAuctionBidEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		nounId: Number(`${event.args!.nounId}`),
+		bidderAddress: event.args!.sender,
+		bidAmount: Number(`${event.args!.value}`),
+		extended: event.args!.extended
+	};
+}
+
+function parseAuctionExtendedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		nounId: Number(`${event.args!.nounId}`),
+		endTime: Number(`${event.args!.endTime}`)
+	};
+}
+
+function parseAuctionSettledEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		nounId: Number(`${event.args!.nounId}`),
+		winnerAddress: `${event.args!.winner}`,
+		bidAmount: Number(`${event.args!.amount}`)
+	};
+}
+
+getEvents("AuctionSettled", parseAuctionSettledEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
