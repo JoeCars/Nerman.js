@@ -43,7 +43,7 @@ async function getEvents(eventName: string, parser: (event: ethers.Event) => obj
 
 function printProgress(currentBlock: number, startingBlock: number, endingBlock: number, eventName: string) {
 	let currentPercent = Math.round((100 * (currentBlock - startingBlock)) / (endingBlock - startingBlock));
-	let output = `\r${eventName} |`;
+	let output = `${eventName} |`;
 	for (let i = 0; i < currentPercent; ++i) {
 		output += "█";
 	}
@@ -308,6 +308,19 @@ function parseAuctionReservePriceUpdatedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("AuctionReservePriceUpdated", parseAuctionReservePriceUpdatedEvent).catch((error) => {
+function parseAuctionMinBidIncrementPercentageUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		minBidIncrementPercentage: Number(`${event.args!.minBidIncrementPercentage}`)
+	};
+}
+
+getEvents("AuctionMinBidIncrementPercentageUpdated", parseAuctionMinBidIncrementPercentageUpdatedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
