@@ -476,11 +476,23 @@ function parseNounBurnedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		minter: event.args!._minter,
 		nounId: Number(event.args!.nounId)
 	};
 }
 
-getEvents("NounBurned", parseNounBurnedEvent).catch((error) => {
+function parseNoundersDAOUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		noundersDAO: event.args!._noundersDAO
+	};
+}
+
+getEvents("NoundersDAOUpdated", parseNoundersDAOUpdatedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
