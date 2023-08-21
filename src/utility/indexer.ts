@@ -417,6 +417,18 @@ function parseNounCreatedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("NounCreated", parseNounCreatedEvent).catch((error) => {
+function parseDescriptorLockedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature
+	};
+}
+
+getEvents("DescriptorLocked", parseDescriptorLockedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
