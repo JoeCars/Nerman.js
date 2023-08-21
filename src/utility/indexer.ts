@@ -429,6 +429,19 @@ function parseDescriptorLockedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("DescriptorLocked", parseDescriptorLockedEvent).catch((error) => {
+function parseDescriptorUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		descriptor: event.args!._descriptor
+	};
+}
+
+getEvents("DescriptorUpdated", parseDescriptorUpdatedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
