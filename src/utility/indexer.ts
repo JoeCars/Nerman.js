@@ -352,6 +352,21 @@ function parseDelegateVotesChangedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("DelegateVotesChanged", parseDelegateVotesChangedEvent).catch((error) => {
+function parseTransferEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		from: event.args!.from,
+		to: event.args!.to,
+		tokenId: Number(`${event.args!.tokenId}`)
+	};
+}
+
+getEvents("Transfer", parseTransferEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
