@@ -337,6 +337,21 @@ function parseDelegateChangedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("DelegateChanged", parseDelegateChangedEvent).catch((error) => {
+function parseDelegateVotesChangedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		delegate: event.args!.delegate,
+		previousBalance: Number(`${event.args!.previousBalance}`),
+		newBalance: Number(`${event.args!.newBalance}`)
+	};
+}
+
+getEvents("DelegateVotesChanged", parseDelegateVotesChangedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
