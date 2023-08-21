@@ -16,7 +16,7 @@ async function getEvents(eventName: string, parser: (event: ethers.Event) => obj
 	await appendFile(filePath, "[");
 	let counter = 0;
 	for (let block = startingBlock; block <= currentBlock; block += BLOCK_BATCH_SIZE) {
-		let events = await nouns.NounsAuctionHouse.Contract.queryFilter(
+		let events = await nouns.NounsToken.Contract.queryFilter(
 			eventName,
 			block,
 			Math.min(block + BLOCK_BATCH_SIZE, currentBlock)
@@ -44,13 +44,14 @@ async function getEvents(eventName: string, parser: (event: ethers.Event) => obj
 function printProgress(currentBlock: number, startingBlock: number, endingBlock: number, eventName: string) {
 	let currentPercent = Math.round((100 * (currentBlock - startingBlock)) / (endingBlock - startingBlock));
 	let output = `${eventName} |`;
+	let bar = "";
 	for (let i = 0; i < currentPercent; ++i) {
-		output += "█";
+		bar += "█";
 	}
-	for (let i = currentPercent; output.length < 101; ++i) {
-		output += " ";
+	for (let i = currentPercent; bar.length < 100; ++i) {
+		bar += " ";
 	}
-	output += `| ${currentPercent}%`;
+	output += `${bar}| ${currentPercent}%`;
 	console.clear();
 	console.log(output);
 }
@@ -321,6 +322,21 @@ function parseAuctionMinBidIncrementPercentageUpdatedEvent(event: ethers.Event) 
 	};
 }
 
-getEvents("AuctionMinBidIncrementPercentageUpdated", parseAuctionMinBidIncrementPercentageUpdatedEvent).catch((error) => {
+function parseDelegateChangedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		delegator: event.args!.delegator,
+		fromDelegate: event.args!.fromDelegate,
+		toDelegate: event.args!.toDelegate
+	};
+}
+
+getEvents("DelegateChanged", parseDelegateChangedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
