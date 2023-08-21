@@ -282,6 +282,19 @@ function parseAuctionSettledEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("AuctionSettled", parseAuctionSettledEvent).catch((error) => {
+function parseAuctionTimeBufferUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		nounId: Number(`${event.args!.timeBuffer}`)
+	};
+}
+
+getEvents("AuctionTimeBufferUpdated", parseAuctionTimeBufferUpdatedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
