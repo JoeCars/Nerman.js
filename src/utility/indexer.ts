@@ -467,6 +467,20 @@ function parseMinterUpdatedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("MinterUpdated", parseMinterUpdatedEvent).catch((error) => {
+function parseNounBurnedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		minter: event.args!._minter,
+		nounId: Number(event.args!.nounId)
+	};
+}
+
+getEvents("NounBurned", parseNounBurnedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
