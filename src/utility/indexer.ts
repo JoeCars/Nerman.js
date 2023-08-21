@@ -454,6 +454,19 @@ function parseMinterLockedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("MinterLocked", parseMinterLockedEvent).catch((error) => {
+function parseMinterUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		minter: event.args!._minter
+	};
+}
+
+getEvents("MinterUpdated", parseMinterUpdatedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
