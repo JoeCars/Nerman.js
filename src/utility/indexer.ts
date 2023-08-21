@@ -442,6 +442,18 @@ function parseDescriptorUpdatedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("DescriptorUpdated", parseDescriptorUpdatedEvent).catch((error) => {
+function parseMinterLockedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature
+	};
+}
+
+getEvents("MinterLocked", parseMinterLockedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
