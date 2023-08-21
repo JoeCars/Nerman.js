@@ -507,6 +507,18 @@ function parseOwnershipTransferredEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("OwnershipTransferred", parseOwnershipTransferredEvent).catch((error) => {
+function parseSeederLockedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature
+	};
+}
+
+getEvents("SeederLocked", parseSeederLockedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
