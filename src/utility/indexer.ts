@@ -519,6 +519,19 @@ function parseSeederLockedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("SeederLocked", parseSeederLockedEvent).catch((error) => {
+function parseSeederUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		seeder: event.args!._seeder
+	};
+}
+
+getEvents("SeederUpdated", parseSeederUpdatedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
