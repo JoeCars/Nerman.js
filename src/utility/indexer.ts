@@ -382,6 +382,21 @@ function parseApprovalEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("Approval", parseApprovalEvent).catch((error) => {
+function parseApprovalForAllEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		owner: event.args!.owner,
+		operator: event.args!.operator,
+		approved: event.args!.approved
+	};
+}
+
+getEvents("ApprovalForAll", parseApprovalForAllEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
