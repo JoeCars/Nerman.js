@@ -291,10 +291,23 @@ function parseAuctionTimeBufferUpdatedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		nounId: Number(`${event.args!.timeBuffer}`)
+		timeBuffer: Number(`${event.args!.timeBuffer}`)
 	};
 }
 
-getEvents("AuctionTimeBufferUpdated", parseAuctionTimeBufferUpdatedEvent).catch((error) => {
+function parseAuctionReservePriceUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		reservePrice: Number(`${event.args!.reservePrice}`)
+	};
+}
+
+getEvents("AuctionReservePriceUpdated", parseAuctionReservePriceUpdatedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
