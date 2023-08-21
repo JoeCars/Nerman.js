@@ -397,6 +397,26 @@ function parseApprovalForAllEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("ApprovalForAll", parseApprovalForAllEvent).catch((error) => {
+function parseNounCreatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		tokenId: Number(`${event.args!.tokenId}`),
+		seed: {
+			background: Number(event.args!.seed.background),
+			body: Number(event.args!.seed.body),
+			accessory: Number(event.args!.seed.accessory),
+			head: Number(event.args!.seed.head),
+			glasses: Number(event.args!.seed.glasses)
+		}
+	};
+}
+
+getEvents("NounCreated", parseNounCreatedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
