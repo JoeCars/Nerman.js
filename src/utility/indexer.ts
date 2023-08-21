@@ -493,6 +493,20 @@ function parseNoundersDAOUpdatedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("NoundersDAOUpdated", parseNoundersDAOUpdatedEvent).catch((error) => {
+function parseOwnershipTransferredEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		previousOwner: event.args!.previousOwner,
+		newOwner: event.args!.newOwner
+	};
+}
+
+getEvents("OwnershipTransferred", parseOwnershipTransferredEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
