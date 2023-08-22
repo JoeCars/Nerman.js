@@ -16,7 +16,7 @@ async function getEvents(eventName: string, parser: (event: ethers.Event) => obj
 	await appendFile(filePath, "[");
 	let counter = 0;
 	for (let block = startingBlock; block <= currentBlock; block += BLOCK_BATCH_SIZE) {
-		let events = await nouns.NounsToken.Contract.queryFilter(
+		let events = await nouns.NounsDAO.Contract.queryFilter(
 			eventName,
 			block,
 			Math.min(block + BLOCK_BATCH_SIZE, currentBlock)
@@ -56,7 +56,7 @@ function printProgress(currentBlock: number, startingBlock: number, endingBlock:
 	console.log(output);
 }
 
-function parseProposalCreatedEvent(event: ethers.Event) {
+function parseProposalCreatedWithRequirementsEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
 		blockHash: event.blockHash,
@@ -532,6 +532,26 @@ function parseSeederUpdatedEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("SeederUpdated", parseSeederUpdatedEvent).catch((error) => {
+function parseProposalCreatedWithEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		id: Number(event.args!.id),
+		proposer: event.args!.proposer,
+		targets: event.args!.targets,
+		signatures: event.args!.signatures,
+		calldatas: event.args!.calldatas,
+		startBlock: Number(event.args!.startBlock),
+		endBlock: Number(event.args!.endBlock),
+		description: event.args!.description
+	};
+}
+
+getEvents("ProposalCreated", parseProposalCreatedWithEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
