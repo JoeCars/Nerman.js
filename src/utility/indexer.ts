@@ -16,7 +16,7 @@ async function getEvents(eventName: string, parser: (event: ethers.Event) => obj
 	await appendFile(filePath, "[");
 	let counter = 0;
 	for (let block = startingBlock; block <= currentBlock; block += BLOCK_BATCH_SIZE) {
-		let events = await nouns.NounsDAO.Contract.queryFilter(
+		let events = await nouns.NounsAuctionHouse.Contract.queryFilter(
 			eventName,
 			block,
 			Math.min(block + BLOCK_BATCH_SIZE, currentBlock)
@@ -566,6 +566,33 @@ function parseNewVetoerEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("NewVetoer", parseNewVetoerEvent).catch((error) => {
+function parsePausedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		pauseAddress: event.args!.address
+	};
+}
+
+function parseUnpausedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		unpauseAddress: event.args!.address
+	};
+}
+
+
+getEvents("Unpaused", parseUnpausedEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
