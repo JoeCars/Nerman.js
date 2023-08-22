@@ -138,6 +138,8 @@ export class _NounsAuctionHouse {
                         minBidIncrementPercentage: minBidIncrementPercentage,
                         event: event
                     }
+
+                    listener(data);
     
                 });
                 break;
