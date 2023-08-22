@@ -356,6 +356,19 @@ export class _NounsDAO {
             listener(data);
           });
         break;
+
+      case "NewVetoer":
+        this.Contract.on("NewVetoer", (oldVetoer : string, newVetoer : string, event:ethers.Event) => {
+
+          const data : EventData.NewVetoer = {
+            oldVetoer : { id : oldVetoer },
+            newVetoer : { id : newVetoer },
+            event : event
+          }
+
+          listener(data);
+        });
+        break;
   
   
     }
