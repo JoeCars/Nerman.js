@@ -201,6 +201,12 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
+	export interface NewVetoer {
+		oldVetoer: Account;
+		newVetoer: Account;
+		event: ethers.Event;
+	}
+
 	// ******************************************
 	//
 	// Contract - NounsAuctionHouse
@@ -267,19 +273,19 @@ export namespace EventData {
 	}
 
 	export interface OwnershipTransferred {
-		previousOwner: Account,
-		newOwner: Account,
-		event: ethers.Event
+		previousOwner: Account;
+		newOwner: Account;
+		event: ethers.Event;
 	}
 
 	export interface Paused {
-		address: Account,
-		event: ethers.Event
+		address: Account;
+		event: ethers.Event;
 	}
 
 	export interface Unpaused {
-		address: Account,
-		event: ethers.Event
+		address: Account;
+		event: ethers.Event;
 	}
 
 	// ******************************************
