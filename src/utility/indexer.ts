@@ -552,6 +552,20 @@ function parseProposalCreatedWithEvent(event: ethers.Event) {
 	};
 }
 
-getEvents("ProposalCreated", parseProposalCreatedWithEvent).catch((error) => {
+function parseNewVetoerEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldVetoer: event.args!.oldVetoer,
+		newVetoer: event.args!.newVetoer
+	};
+}
+
+getEvents("NewVetoer", parseNewVetoerEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
