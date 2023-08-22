@@ -141,7 +141,18 @@ export class _NounsAuctionHouse {
     
                 });
                 break;
-    
+
+            case "OwnershipTransferred":
+                this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+                    const data: EventData.OwnershipTransferred = {
+                        previousOwner: {id: previousOwner},
+                        newOwner: {id: newOwner},
+                        event: event
+                    }
+
+                    listener(data);
+                });
+                break;
           }    
 
     }

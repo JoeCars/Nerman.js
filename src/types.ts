@@ -266,6 +266,12 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
+	export interface OwnershipTransferred {
+		previousOwner: Account,
+		newOwner: Account,
+		event: ethers.Event
+	}
+
 	// ******************************************
 	//
 	// Contract - NounsToken
