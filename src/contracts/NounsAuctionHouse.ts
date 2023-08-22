@@ -155,6 +155,28 @@ export class _NounsAuctionHouse {
                     listener(data);
                 });
                 break;
+
+            case "Paused":
+                this.Contract.on("Paused", (address: string, event: ethers.Event) => {
+                    const data: EventData.Paused = {
+                        address: {id: address},
+                        event: event
+                    }
+
+                    listener(data);
+                });
+                break;
+
+            case "Unpaused":
+                this.Contract.on("Unpaused", (address: string, event: ethers.Event) => {
+                    const data: EventData.Unpaused = {
+                        address: {id: address},
+                        event: event
+                    }
+
+                    listener(data);
+                });
+                break;
           }    
 
     }

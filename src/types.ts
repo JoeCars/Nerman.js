@@ -272,6 +272,16 @@ export namespace EventData {
 		event: ethers.Event
 	}
 
+	export interface Paused {
+		address: Account,
+		event: ethers.Event
+	}
+
+	export interface Unpaused {
+		address: Account,
+		event: ethers.Event
+	}
+
 	// ******************************************
 	//
 	// Contract - NounsToken
