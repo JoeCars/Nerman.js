@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import * as nerman from "../index";
-import { appendFile } from "fs/promises";
+import { appendFile, writeFile } from "fs/promises";
 
 const NOUNS_STARTING_BLOCK = 13072753;
 
@@ -13,31 +13,25 @@ async function getEvents(eventName: string, parser: (event: ethers.Event) => obj
 
 	const BLOCK_BATCH_SIZE = 1000;
 
-	await appendFile(filePath, "[");
-	let counter = 0;
+	let allEvents = [];
 	for (let block = startingBlock; block <= currentBlock; block += BLOCK_BATCH_SIZE) {
-		let events = await nouns.NounsAuctionHouse.Contract.queryFilter(
+		let events = await nouns.NounsDAO.Contract.queryFilter(
 			eventName,
 			block,
 			Math.min(block + BLOCK_BATCH_SIZE, currentBlock)
 		);
 
-		counter += events.length;
-
 		for (let i = 0; i < events.length; ++i) {
 			let event = events[i];
 
 			const info = parser(event);
-
-			await appendFile(filePath, JSON.stringify(info));
-			await appendFile(filePath, ",");
+			allEvents.push(info);
 		}
 
 		printProgress(block, startingBlock, currentBlock, eventName);
 	}
 
-	await appendFile(filePath, "]");
-
+	await writeFile(filePath, JSON.stringify(allEvents));
 	console.log("DONE!");
 }
 
@@ -54,6 +48,30 @@ function printProgress(currentBlock: number, startingBlock: number, endingBlock:
 	output += `${bar}| ${currentPercent}%`;
 	console.clear();
 	console.log(output);
+}
+
+//=======================================
+// NounsDAO
+//=======================================
+
+function parseProposalCreatedWithEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		id: Number(event.args!.id),
+		proposer: event.args!.proposer,
+		targets: event.args!.targets,
+		signatures: event.args!.signatures,
+		calldatas: event.args!.calldatas,
+		startBlock: Number(event.args!.startBlock),
+		endBlock: Number(event.args!.endBlock),
+		description: event.args!.description
+	};
 }
 
 function parseProposalCreatedWithRequirementsEvent(event: ethers.Event) {
@@ -195,6 +213,34 @@ function parseNewImplementationEvent(event: ethers.Event) {
 	};
 }
 
+function parseProposalThresholdBPSSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldProposalThresholdBPS: Number(event.args!.oldProposalThresholdBPS),
+		newProposalThresholdBPS: Number(event.args!.newProposalThresholdBPS)
+	};
+}
+
+function parseQuorumVotesBPSSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldQuorumVotesBPS: Number(event.args!.oldQuorumVotesBPS),
+		newQuorumVotesBPS: Number(event.args!.newQuorumVotesBPS)
+	};
+}
+
 function parseNewPendingAdminEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -222,6 +268,24 @@ function parseNewAdminEvent(event: ethers.Event) {
 		newAdmin: `${event.args!.newAdmin}`
 	};
 }
+
+function parseNewVetoerEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldVetoer: event.args!.oldVetoer,
+		newVetoer: event.args!.newVetoer
+	};
+}
+
+//=======================================
+// NounsAuction
+//=======================================
 
 function parseAuctionCreatedEvent(event: ethers.Event) {
 	return {
@@ -321,6 +385,51 @@ function parseAuctionMinBidIncrementPercentageUpdatedEvent(event: ethers.Event) 
 		minBidIncrementPercentage: Number(`${event.args!.minBidIncrementPercentage}`)
 	};
 }
+
+function parseOwnershipTransferredEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		previousOwner: event.args!.previousOwner,
+		newOwner: event.args!.newOwner
+	};
+}
+
+
+function parsePausedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		pauseAddress: event.args!.address
+	};
+}
+
+function parseUnpausedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		unpauseAddress: event.args!.address
+	};
+}
+
+//=======================================
+// NounsToken
+//=======================================
 
 function parseDelegateChangedEvent(event: ethers.Event) {
 	return {
@@ -493,19 +602,7 @@ function parseNoundersDAOUpdatedEvent(event: ethers.Event) {
 	};
 }
 
-function parseOwnershipTransferredEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		previousOwner: event.args!.previousOwner,
-		newOwner: event.args!.newOwner
-	};
-}
+
 
 function parseSeederLockedEvent(event: ethers.Event) {
 	return {
@@ -532,67 +629,8 @@ function parseSeederUpdatedEvent(event: ethers.Event) {
 	};
 }
 
-function parseProposalCreatedWithEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		id: Number(event.args!.id),
-		proposer: event.args!.proposer,
-		targets: event.args!.targets,
-		signatures: event.args!.signatures,
-		calldatas: event.args!.calldatas,
-		startBlock: Number(event.args!.startBlock),
-		endBlock: Number(event.args!.endBlock),
-		description: event.args!.description
-	};
-}
-
-function parseNewVetoerEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		oldVetoer: event.args!.oldVetoer,
-		newVetoer: event.args!.newVetoer
-	};
-}
-
-function parsePausedEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		pauseAddress: event.args!.address
-	};
-}
-
-function parseUnpausedEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		unpauseAddress: event.args!.address
-	};
-}
 
 
-getEvents("Unpaused", parseUnpausedEvent).catch((error) => {
+getEvents("QuorumVotesBPSSet", parseQuorumVotesBPSSetEvent).catch((error) => {
 	console.error("Received an error.", error);
 });
