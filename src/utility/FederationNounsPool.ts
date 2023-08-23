@@ -4,13 +4,14 @@ import NounsPoolV2 from "../contracts/Federation/NounsPoolV2";
 import { EventData } from "../types";
 
 export class FederationNounsPool {
-	provider: ethers.providers.WebSocketProvider;
+	provider: ethers.providers.JsonRpcProvider;
 	nounsPoolContractV1: ethers.Contract;
 	nounsPoolContractV2: ethers.Contract;
 	registeredListeners: Map<string, ethers.providers.Listener>;
 
-	constructor(webSocketJsonRpcUrl: string) {
-		this.provider = new ethers.providers.WebSocketProvider(webSocketJsonRpcUrl);
+	constructor(jsonRpcUrl: string) {
+		this.provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl);
+		this.provider.pollingInterval = 30000;
 		this.nounsPoolContractV1 = new ethers.Contract("0xBE5E6De0d0Ac82b087bAaA1d53F145a52EfE1642", NounsPool, this.provider);
 		this.nounsPoolContractV2 = new ethers.Contract(
 			"0x0f722d69B3D8C292E85F2b1E5D9F4439edd58F1e",
