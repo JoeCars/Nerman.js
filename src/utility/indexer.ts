@@ -9,39 +9,12 @@ import { NOUNS_AUCTION_PARSERS, NOUNS_TOKEN_PARSERS, NOUNS_DAO_PARSERS } from ".
 
 const NOUNS_STARTING_BLOCK = 13072753;
 
-export async function getEvents(eventName: string, parser: (event: ethers.Event) => object, startingBlock = NOUNS_STARTING_BLOCK) {
-	const filePath = `${__dirname}/../data/index/${eventName}.json`;
+//===================================
+// Indexers.
+//===================================
 
-	const nouns = new nerman.Nouns(process.env.ALCHEMY_URL);
-
-	let currentBlock = await nouns.provider.getBlockNumber();
-
-	const BLOCK_BATCH_SIZE = 1000;
-
-	let allEvents = [];
-	for (let block = startingBlock; block <= currentBlock; block += BLOCK_BATCH_SIZE) {
-		let events = await nouns.NounsDAO.Contract.queryFilter(
-			eventName,
-			block,
-			Math.min(block + BLOCK_BATCH_SIZE, currentBlock)
-		);
-
-		for (let i = 0; i < events.length; ++i) {
-			let event = events[i];
-
-			const info = parser(event);
-			allEvents.push(info);
-		}
-
-		printProgress(block, startingBlock, currentBlock, eventName);
-	}
-
-	await writeFile(filePath, JSON.stringify(allEvents));
-	console.log("DONE!");
-}
-
-function printProgress(currentBlock: number, startingBlock: number, endingBlock: number, eventName: string) {
-	let currentPercent = Math.round((100 * (currentBlock - startingBlock)) / (endingBlock - startingBlock));
+function printProgress(currentBlock: number, startBlock: number, endBlock: number, eventName: string) {
+	let currentPercent = Math.round((100 * (currentBlock - startBlock)) / (endBlock - startBlock));
 	let output = `${eventName} |`;
 	let bar = "";
 	for (let i = 0; i < currentPercent; ++i) {
@@ -51,8 +24,71 @@ function printProgress(currentBlock: number, startingBlock: number, endingBlock:
 		bar += " ";
 	}
 	output += `${bar}| ${currentPercent}%`;
-	console.clear();
-	console.log(output);
+	process.stdout.write('\r' + output);
+}
+
+function printEnd(eventName: string) {
+	process.stdout.clearLine(0); // 0 clears the entire line.
+	process.stdout.write(`\rFinished indexing ${eventName}!\n`);
+}
+
+export async function indexEvent(contract: ethers.Contract, eventName: string, formatter: Function, path: string) {
+	const BLOCK_BATCH_SIZE = 1000;
+	const startBlock = NOUNS_STARTING_BLOCK;
+	const endBlock = await contract.provider.getBlockNumber();
+
+	let allEvents: ethers.Event[] = [];
+	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE) {
+		let events = await contract.queryFilter(
+			eventName,
+			currentBlock,
+			Math.min(currentBlock + BLOCK_BATCH_SIZE, endBlock)
+		);
+
+		events = events.map(event => {return formatter(event)});
+		
+		allEvents.push(...events);
+		printProgress(currentBlock, startBlock, endBlock, eventName);
+	}
+	await writeFile(path, JSON.stringify(allEvents));
+	printEnd(eventName);
+}
+
+
+async function indexNounsAuctionEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
+	const nouns = new _NounsAuctionHouse(provider);
+
+	const events = [...NOUNS_AUCTION_PARSERS.entries()];
+	for (let i = 0; i < events.length; ++i) {
+		const [eventName, formatter] = events[i];
+		await indexEvent(nouns.Contract, eventName, formatter, `${directoryPath}/${eventName}.json`);
+	}
+}
+
+async function indexNounsDaoEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
+	const nouns = new _NounsDAO(provider);
+
+	const events = [...NOUNS_DAO_PARSERS.entries()];
+	for (let i = 0; i < events.length; ++i) {
+		const [eventName, formatter] = events[i];
+		await indexEvent(nouns.Contract, eventName, formatter, `${directoryPath}/${eventName}.json`);
+	}
+}
+
+async function indexNounsTokenEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
+	const nouns = new _NounsToken(provider);
+
+	const events = [...NOUNS_TOKEN_PARSERS.entries()];
+	for (let i = 0; i < events.length; ++i) {
+		const [eventName, formatter] = events[i];
+		await indexEvent(nouns.Contract, eventName, formatter, `${directoryPath}/${eventName}.json`);
+	}
+}
+
+export async function indexNounsEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
+	await indexNounsAuctionEvents(provider, directoryPath);
+	await indexNounsDaoEvents(provider, directoryPath);
+	await indexNounsTokenEvents(provider, directoryPath);
 }
 
 //===================================
