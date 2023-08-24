@@ -233,7 +233,7 @@ export function parseNewVetoerEvent(event: ethers.Event) {
 	};
 }
 
-export const NOUNS_DAO_PARSERS = new Map();
+export const NOUNS_DAO_PARSERS = new Map<string, Function>();
 NOUNS_DAO_PARSERS.set("ProposalCreated", parseProposalCreatedWithEvent);
 NOUNS_DAO_PARSERS.set("ProposalCreatedWithRequirements", parseProposalCreatedWithRequirementsEvent);
 NOUNS_DAO_PARSERS.set("VoteCast", parseVoteCastEvent);
@@ -394,7 +394,7 @@ export function parseUnpausedEvent(event: ethers.Event) {
 	};
 }
 
-export const NOUNS_AUCTION_PARSERS = new Map();
+export const NOUNS_AUCTION_PARSERS = new Map<string, Function>();
 NOUNS_AUCTION_PARSERS.set("AuctionCreated", parseAuctionCreatedEvent);
 NOUNS_AUCTION_PARSERS.set("AuctionBid", parseAuctionBidEvent);
 NOUNS_AUCTION_PARSERS.set("AuctionExtended", parseAuctionExtendedEvent);
@@ -606,7 +606,7 @@ export function parseSeederUpdatedEvent(event: ethers.Event) {
 	};
 }
 
-export const NOUNS_TOKEN_PARSERS = new Map();
+export const NOUNS_TOKEN_PARSERS = new Map<string, Function>();
 NOUNS_TOKEN_PARSERS.set("DelegateChanged", parseDelegateChangedEvent);
 NOUNS_TOKEN_PARSERS.set("DelegateVotesChanged", parseDelegateVotesChangedEvent);
 NOUNS_TOKEN_PARSERS.set("Transfer", parseTransferEvent);
