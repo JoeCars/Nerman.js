@@ -55,6 +55,10 @@ function printProgress(currentBlock: number, startingBlock: number, endingBlock:
 	console.log(output);
 }
 
+//===================================
+// Persistent Listeners
+//===================================
+
 async function parseData(data: { event: ethers.Event }, formatter: Function, path: string) {
 	const formattedData = formatter(data);
 	const file = await readFile(path + data.event.event);
@@ -64,10 +68,7 @@ async function parseData(data: { event: ethers.Event }, formatter: Function, pat
 	// TODO: Handle edge cases.
 }
 
-function listenForNounsAuctionEvents(JsonRPCUrl: string, path: string) {
-	const provider = new ethers.providers.JsonRpcProvider(JsonRPCUrl);
-	provider.pollingInterval = 30000;
-
+function listenForNounsAuctionEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	const nouns = new _NounsAuctionHouse(provider);
 
 	NOUNS_AUCTION_PARSERS.forEach((formatter, event) => {
@@ -75,10 +76,7 @@ function listenForNounsAuctionEvents(JsonRPCUrl: string, path: string) {
 	});
 }
 
-function listenForNounsDAOEvents(JsonRPCUrl: string, path: string) {
-	const provider = new ethers.providers.JsonRpcProvider(JsonRPCUrl);
-	provider.pollingInterval = 30000;
-
+function listenForNounsDAOEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	const nouns = new _NounsDAO(provider);
 
 	NOUNS_DAO_PARSERS.forEach((formatter, event) => {
@@ -86,10 +84,7 @@ function listenForNounsDAOEvents(JsonRPCUrl: string, path: string) {
 	});
 }
 
-function listenForNounsTokenEvents(JsonRPCUrl: string, path: string) {
-	const provider = new ethers.providers.JsonRpcProvider(JsonRPCUrl);
-	provider.pollingInterval = 30000;
-
+function listenForNounsTokenEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	const nouns = new _NounsToken(provider);
 
 	NOUNS_TOKEN_PARSERS.forEach((formatter, event) => {
@@ -99,9 +94,8 @@ function listenForNounsTokenEvents(JsonRPCUrl: string, path: string) {
 	});
 }
 
-export function listenForNounsEvents(JsonRpcUrl: string, path: string) {
-	listenForNounsAuctionEvents(JsonRpcUrl, path);
-	listenForNounsDAOEvents(JsonRpcUrl, path);
-	listenForNounsTokenEvents(JsonRpcUrl, path);
+export function listenForNounsEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
+	listenForNounsAuctionEvents(provider, path);
+	listenForNounsDAOEvents(provider, path);
+	listenForNounsTokenEvents(provider, path);
 }
-
