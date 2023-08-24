@@ -72,7 +72,9 @@ function listenForNounsAuctionEvents(provider: ethers.providers.JsonRpcProvider,
 	const nouns = new _NounsAuctionHouse(provider);
 
 	NOUNS_AUCTION_PARSERS.forEach((formatter, event) => {
-		nouns.on(event, (data: { event: ethers.Event }) => formatter(data.event));
+		nouns.on(event, (data: { event: ethers.Event }) => {
+			parseData(data, formatter, path);
+		});
 	});
 }
 
@@ -80,7 +82,9 @@ function listenForNounsDAOEvents(provider: ethers.providers.JsonRpcProvider, pat
 	const nouns = new _NounsDAO(provider);
 
 	NOUNS_DAO_PARSERS.forEach((formatter, event) => {
-		nouns.on(event, (data: { event: ethers.Event }) => formatter(data.event));
+		nouns.on(event, (data: { event: ethers.Event }) => {
+			parseData(data, formatter, path);
+		});
 	});
 }
 
