@@ -33,12 +33,12 @@ export function parseProposalCreatedWithRequirementsEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		id: `${event.args!.id}`,
+		id: Number(event.args!.id),
 		proposer: event.args!.proposer,
-		startBlock: `${event.args!.startBlock}`,
-		endBlock: `${event.args!.endBlock}`,
-		proposalThreshold: `${event.args!.proposalThreshold}`,
-		quorumVotes: `${event.args!.quorumVotes}`,
+		startBlock: Number(event.args!.startBlock),
+		endBlock: Number(event.args!.endBlock),
+		proposalThreshold: Number(event.args!.proposalThreshold),
+		quorumVotes: Number(event.args!.quorumVotes),
 		description: event.args!.description,
 		targets: event.args!.targets,
 		signatures: event.args!.signatures,
@@ -56,10 +56,10 @@ export function parseVoteCastEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		voterAddress: event.args!.voter,
-		proposalId: `${event.args!.proposalId}`,
-		support: event.args!.support,
+		proposalId: Number(event.args!.proposalId),
+		support: Number(event.args!.support),
 		supportChoice: ["AGAINST", "FOR", "ABSTAIN"][event.args!.support],
-		votes: `${event.args!.votes}`,
+		votes: Number(event.args!.votes),
 		reason: event.args!.reason
 	};
 }
@@ -73,7 +73,7 @@ export function parseProposalCanceledEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		proposalId: `${event.args!.id}`,
+		proposalId: Number(event.args!.id),
 		status: "Cancelled"
 	};
 }
@@ -87,8 +87,8 @@ export function parseProposalQueuedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		proposalId: `${event.args!.id}`,
-		eta: `${event.args!.eta}`,
+		proposalId: Number(event.args!.id),
+		eta: Number(event.args!.eta),
 		status: "Queued"
 	};
 }
@@ -102,7 +102,7 @@ export function parseProposalExecutedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		proposalId: `${event.args!.id}`,
+		proposalId: Number(event.args!.id),
 		status: "Executed"
 	};
 }
@@ -116,7 +116,7 @@ export function parseProposalVetoedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		proposalId: `${event.args!.id}`,
+		proposalId: Number(event.args!.id),
 		status: "Vetoed"
 	};
 }
@@ -130,8 +130,8 @@ export function parseVotingDelaySetEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		oldVotingDelay: `${event.args!.oldVotingDelay}`,
-		newVotingDelay: `${event.args!.newVotingDelay}`
+		oldVotingDelay: Number(event.args!.oldVotingDelay),
+		newVotingDelay: Number(event.args!.newVotingDelay)
 	};
 }
 
@@ -144,8 +144,8 @@ export function parseVotingPeriodSetEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		oldVotingPeriod: `${event.args!.oldVotingPeriod}`,
-		newVotingPeriod: `${event.args!.newVotingPeriod}`
+		oldVotingPeriod: Number(event.args!.oldVotingPeriod),
+		newVotingPeriod: Number(event.args!.newVotingPeriod)
 	};
 }
 
@@ -158,8 +158,8 @@ export function parseNewImplementationEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		oldImplementation: `${event.args!.oldImplementation}`,
-		newImplementation: `${event.args!.newImplementation}`
+		oldImplementation: event.args!.oldImplementation,
+		newImplementation: event.args!.newImplementation
 	};
 }
 
@@ -200,8 +200,8 @@ export function parseNewPendingAdminEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		oldPendingAdmin: `${event.args!.oldPendingAdmin}`,
-		newPendingAdmin: `${event.args!.newPendingAdmin}`
+		oldPendingAdmin: event.args!.oldPendingAdmin,
+		newPendingAdmin: event.args!.newPendingAdmin
 	};
 }
 
@@ -214,8 +214,8 @@ export function parseNewAdminEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		oldAdmin: `${event.args!.oldAdmin}`,
-		newAdmin: `${event.args!.newAdmin}`
+		oldAdmin: event.args!.oldAdmin,
+		newAdmin: event.args!.newAdmin
 	};
 }
 
@@ -250,7 +250,6 @@ NOUNS_DAO_PARSERS.set("NewPendingAdmin", parseNewPendingAdminEvent);
 NOUNS_DAO_PARSERS.set("NewAdmin", parseNewAdminEvent);
 NOUNS_DAO_PARSERS.set("NewVetoer", parseNewVetoerEvent);
 
-
 //=======================================
 // NounsAuction
 //=======================================
@@ -264,9 +263,9 @@ export function parseAuctionCreatedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		nounId: Number(`${event.args!.nounId}`),
-		startTime: Number(`${event.args!.startTime}`),
-		endTime: Number(`${event.args!.endTime}`)
+		nounId: Number(event.args!.nounId),
+		startTime: Number(event.args!.startTime),
+		endTime: Number(event.args!.endTime)
 	};
 }
 
@@ -279,9 +278,9 @@ export function parseAuctionBidEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		nounId: Number(`${event.args!.nounId}`),
+		nounId: Number(event.args!.nounId),
 		bidderAddress: event.args!.sender,
-		bidAmount: Number(`${event.args!.value}`),
+		bidAmount: Number(event.args!.value),
 		extended: event.args!.extended
 	};
 }
@@ -295,8 +294,8 @@ export function parseAuctionExtendedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		nounId: Number(`${event.args!.nounId}`),
-		endTime: Number(`${event.args!.endTime}`)
+		nounId: Number(event.args!.nounId),
+		endTime: Number(event.args!.endTime)
 	};
 }
 
@@ -309,9 +308,9 @@ export function parseAuctionSettledEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		nounId: Number(`${event.args!.nounId}`),
-		winnerAddress: `${event.args!.winner}`,
-		bidAmount: Number(`${event.args!.amount}`)
+		nounId: Number(event.args!.nounId),
+		winnerAddress: event.args!.winner,
+		bidAmount: Number(event.args!.amount)
 	};
 }
 
@@ -324,7 +323,7 @@ export function parseAuctionTimeBufferUpdatedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		timeBuffer: Number(`${event.args!.timeBuffer}`)
+		timeBuffer: Number(event.args!.timeBuffer)
 	};
 }
 
@@ -337,7 +336,7 @@ export function parseAuctionReservePriceUpdatedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		reservePrice: Number(`${event.args!.reservePrice}`)
+		reservePrice: Number(event.args!.reservePrice)
 	};
 }
 
@@ -350,7 +349,7 @@ export function parseAuctionMinBidIncrementPercentageUpdatedEvent(event: ethers.
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		minBidIncrementPercentage: Number(`${event.args!.minBidIncrementPercentage}`)
+		minBidIncrementPercentage: Number(event.args!.minBidIncrementPercentage)
 	};
 }
 
@@ -435,8 +434,8 @@ export function parseDelegateVotesChangedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		delegate: event.args!.delegate,
-		previousBalance: Number(`${event.args!.previousBalance}`),
-		newBalance: Number(`${event.args!.newBalance}`)
+		previousBalance: Number(event.args!.previousBalance),
+		newBalance: Number(event.args!.newBalance)
 	};
 }
 
@@ -451,7 +450,7 @@ export function parseTransferEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		from: event.args!.from,
 		to: event.args!.to,
-		tokenId: Number(`${event.args!.tokenId}`)
+		tokenId: Number(event.args!.tokenId)
 	};
 }
 
@@ -466,7 +465,7 @@ export function parseApprovalEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		owner: event.args!.owner,
 		approved: event.args!.approved,
-		tokenId: Number(`${event.args!.tokenId}`)
+		tokenId: Number(event.args!.tokenId)
 	};
 }
 
@@ -494,7 +493,7 @@ export function parseNounCreatedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		tokenId: Number(`${event.args!.tokenId}`),
+		tokenId: Number(event.args!.tokenId),
 		seed: {
 			background: Number(event.args!.seed.background),
 			body: Number(event.args!.seed.body),
