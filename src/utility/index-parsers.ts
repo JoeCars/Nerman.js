@@ -1,10 +1,12 @@
 import { ethers } from "ethers";
 
+import { EventData, Indexer } from "../types";
+
 //=======================================
 // NounsDAO
 //=======================================
 
-export function parseProposalCreatedWithEvent(event: ethers.Event) {
+export function parseProposalCreatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
 		blockHash: event.blockHash,
@@ -21,7 +23,7 @@ export function parseProposalCreatedWithEvent(event: ethers.Event) {
 		startBlock: Number(event.args!.startBlock),
 		endBlock: Number(event.args!.endBlock),
 		description: event.args!.description
-	};
+	} as Indexer.NounsDAO.ProposalCreated;
 }
 
 export function parseProposalCreatedWithRequirementsEvent(event: ethers.Event) {
@@ -37,13 +39,13 @@ export function parseProposalCreatedWithRequirementsEvent(event: ethers.Event) {
 		proposer: event.args!.proposer,
 		startBlock: Number(event.args!.startBlock),
 		endBlock: Number(event.args!.endBlock),
-		proposalThreshold: Number(event.args!.proposalThreshold),
-		quorumVotes: Number(event.args!.quorumVotes),
 		description: event.args!.description,
 		targets: event.args!.targets,
 		signatures: event.args!.signatures,
-		calldatas: event.args!.calldatas
-	};
+		calldatas: event.args!.calldatas,
+		proposalThreshold: Number(event.args!.proposalThreshold),
+		quorumVotes: Number(event.args!.quorumVotes)
+	} as Indexer.NounsDAO.ProposalCreatedWithRequirements;
 }
 
 export function parseVoteCastEvent(event: ethers.Event) {
@@ -61,7 +63,7 @@ export function parseVoteCastEvent(event: ethers.Event) {
 		supportChoice: ["AGAINST", "FOR", "ABSTAIN"][event.args!.support],
 		votes: Number(event.args!.votes),
 		reason: event.args!.reason
-	};
+	} as Indexer.NounsDAO.VoteCast;
 }
 
 export function parseProposalCanceledEvent(event: ethers.Event) {
@@ -75,7 +77,7 @@ export function parseProposalCanceledEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		proposalId: Number(event.args!.id),
 		status: "Cancelled"
-	};
+	} as Indexer.NounsDAO.ProposalCanceled;
 }
 
 export function parseProposalQueuedEvent(event: ethers.Event) {
@@ -90,7 +92,7 @@ export function parseProposalQueuedEvent(event: ethers.Event) {
 		proposalId: Number(event.args!.id),
 		eta: Number(event.args!.eta),
 		status: "Queued"
-	};
+	} as Indexer.NounsDAO.ProposalQueued;
 }
 
 export function parseProposalExecutedEvent(event: ethers.Event) {
@@ -104,7 +106,7 @@ export function parseProposalExecutedEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		proposalId: Number(event.args!.id),
 		status: "Executed"
-	};
+	} as Indexer.NounsDAO.ProposalExecuted;
 }
 
 export function parseProposalVetoedEvent(event: ethers.Event) {
@@ -118,7 +120,7 @@ export function parseProposalVetoedEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		proposalId: Number(event.args!.id),
 		status: "Vetoed"
-	};
+	} as Indexer.NounsDAO.ProposalVetoed;
 }
 
 export function parseVotingDelaySetEvent(event: ethers.Event) {
@@ -132,7 +134,7 @@ export function parseVotingDelaySetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldVotingDelay: Number(event.args!.oldVotingDelay),
 		newVotingDelay: Number(event.args!.newVotingDelay)
-	};
+	} as Indexer.NounsDAO.VotingDelaySet;
 }
 
 export function parseVotingPeriodSetEvent(event: ethers.Event) {
@@ -146,7 +148,7 @@ export function parseVotingPeriodSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldVotingPeriod: Number(event.args!.oldVotingPeriod),
 		newVotingPeriod: Number(event.args!.newVotingPeriod)
-	};
+	} as Indexer.NounsDAO.VotingPeriodSet;
 }
 
 export function parseNewImplementationEvent(event: ethers.Event) {
@@ -160,7 +162,7 @@ export function parseNewImplementationEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldImplementation: event.args!.oldImplementation,
 		newImplementation: event.args!.newImplementation
-	};
+	} as Indexer.NounsDAO.NewImplementation;
 }
 
 export function parseProposalThresholdBPSSetEvent(event: ethers.Event) {
@@ -174,7 +176,7 @@ export function parseProposalThresholdBPSSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldProposalThresholdBPS: Number(event.args!.oldProposalThresholdBPS),
 		newProposalThresholdBPS: Number(event.args!.newProposalThresholdBPS)
-	};
+	} as Indexer.NounsDAO.ProposalThresholdBPSSet;
 }
 
 export function parseQuorumVotesBPSSetEvent(event: ethers.Event) {
@@ -188,7 +190,7 @@ export function parseQuorumVotesBPSSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldQuorumVotesBPS: Number(event.args!.oldQuorumVotesBPS),
 		newQuorumVotesBPS: Number(event.args!.newQuorumVotesBPS)
-	};
+	} as Indexer.NounsDAO.QuorumVotesBPSSet;
 }
 
 export function parseNewPendingAdminEvent(event: ethers.Event) {
@@ -202,7 +204,7 @@ export function parseNewPendingAdminEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldPendingAdmin: event.args!.oldPendingAdmin,
 		newPendingAdmin: event.args!.newPendingAdmin
-	};
+	} as Indexer.NounsDAO.NewPendingAdmin;
 }
 
 export function parseNewAdminEvent(event: ethers.Event) {
@@ -216,7 +218,7 @@ export function parseNewAdminEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldAdmin: event.args!.oldAdmin,
 		newAdmin: event.args!.newAdmin
-	};
+	} as Indexer.NounsDAO.NewAdmin;
 }
 
 export function parseNewVetoerEvent(event: ethers.Event) {
@@ -230,11 +232,11 @@ export function parseNewVetoerEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldVetoer: event.args!.oldVetoer,
 		newVetoer: event.args!.newVetoer
-	};
+	} as Indexer.NounsDAO.NewVetoer;
 }
 
 export const NOUNS_DAO_PARSERS = new Map<string, Function>();
-NOUNS_DAO_PARSERS.set("ProposalCreated", parseProposalCreatedWithEvent);
+NOUNS_DAO_PARSERS.set("ProposalCreated", parseProposalCreatedEvent);
 NOUNS_DAO_PARSERS.set("ProposalCreatedWithRequirements", parseProposalCreatedWithRequirementsEvent);
 NOUNS_DAO_PARSERS.set("VoteCast", parseVoteCastEvent);
 NOUNS_DAO_PARSERS.set("ProposalCanceled", parseProposalCanceledEvent);
@@ -266,7 +268,7 @@ export function parseAuctionCreatedEvent(event: ethers.Event) {
 		nounId: Number(event.args!.nounId),
 		startTime: Number(event.args!.startTime),
 		endTime: Number(event.args!.endTime)
-	};
+	} as Indexer.NounsAuctionHouse.AuctionCreated;
 }
 
 export function parseAuctionBidEvent(event: ethers.Event) {
@@ -282,7 +284,7 @@ export function parseAuctionBidEvent(event: ethers.Event) {
 		bidderAddress: event.args!.sender,
 		bidAmount: Number(event.args!.value),
 		extended: event.args!.extended
-	};
+	} as Indexer.NounsAuctionHouse.AuctionBid;
 }
 
 export function parseAuctionExtendedEvent(event: ethers.Event) {
@@ -296,7 +298,7 @@ export function parseAuctionExtendedEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		nounId: Number(event.args!.nounId),
 		endTime: Number(event.args!.endTime)
-	};
+	} as Indexer.NounsAuctionHouse.AuctionExtended;
 }
 
 export function parseAuctionSettledEvent(event: ethers.Event) {
@@ -311,7 +313,7 @@ export function parseAuctionSettledEvent(event: ethers.Event) {
 		nounId: Number(event.args!.nounId),
 		winnerAddress: event.args!.winner,
 		bidAmount: Number(event.args!.amount)
-	};
+	} as Indexer.NounsAuctionHouse.AuctionSettled;
 }
 
 export function parseAuctionTimeBufferUpdatedEvent(event: ethers.Event) {
@@ -324,7 +326,7 @@ export function parseAuctionTimeBufferUpdatedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		timeBuffer: Number(event.args!.timeBuffer)
-	};
+	} as Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated;
 }
 
 export function parseAuctionReservePriceUpdatedEvent(event: ethers.Event) {
@@ -337,7 +339,7 @@ export function parseAuctionReservePriceUpdatedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		reservePrice: Number(event.args!.reservePrice)
-	};
+	} as Indexer.NounsAuctionHouse.AuctionReservePriceUpdated;
 }
 
 export function parseAuctionMinBidIncrementPercentageUpdatedEvent(event: ethers.Event) {
@@ -350,7 +352,7 @@ export function parseAuctionMinBidIncrementPercentageUpdatedEvent(event: ethers.
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		minBidIncrementPercentage: Number(event.args!.minBidIncrementPercentage)
-	};
+	} as Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdated;
 }
 
 export function parseOwnershipTransferredEvent(event: ethers.Event) {
@@ -364,7 +366,7 @@ export function parseOwnershipTransferredEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		previousOwner: event.args!.previousOwner,
 		newOwner: event.args!.newOwner
-	};
+	} as Indexer.NounsAuctionHouse.OwnershipTransferred;
 }
 
 export function parsePausedEvent(event: ethers.Event) {
@@ -377,7 +379,7 @@ export function parsePausedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		pauseAddress: event.args!.address
-	};
+	} as Indexer.NounsAuctionHouse.Paused;
 }
 
 export function parseUnpausedEvent(event: ethers.Event) {
@@ -390,7 +392,7 @@ export function parseUnpausedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		unpauseAddress: event.args!.address
-	};
+	} as Indexer.NounsAuctionHouse.Unpaused;
 }
 
 export const NOUNS_AUCTION_PARSERS = new Map<string, Function>();
@@ -421,7 +423,7 @@ export function parseDelegateChangedEvent(event: ethers.Event) {
 		delegator: event.args!.delegator,
 		fromDelegate: event.args!.fromDelegate,
 		toDelegate: event.args!.toDelegate
-	};
+	} as Indexer.NounsToken.DelegateChanged;
 }
 
 export function parseDelegateVotesChangedEvent(event: ethers.Event) {
@@ -436,7 +438,7 @@ export function parseDelegateVotesChangedEvent(event: ethers.Event) {
 		delegate: event.args!.delegate,
 		previousBalance: Number(event.args!.previousBalance),
 		newBalance: Number(event.args!.newBalance)
-	};
+	} as Indexer.NounsToken.DelegateVotesChanged;
 }
 
 export function parseTransferEvent(event: ethers.Event) {
@@ -451,7 +453,7 @@ export function parseTransferEvent(event: ethers.Event) {
 		from: event.args!.from,
 		to: event.args!.to,
 		tokenId: Number(event.args!.tokenId)
-	};
+	} as Indexer.NounsToken.Transfer;
 }
 
 export function parseApprovalEvent(event: ethers.Event) {
@@ -466,7 +468,7 @@ export function parseApprovalEvent(event: ethers.Event) {
 		owner: event.args!.owner,
 		approved: event.args!.approved,
 		tokenId: Number(event.args!.tokenId)
-	};
+	} as Indexer.NounsToken.Approval;
 }
 
 export function parseApprovalForAllEvent(event: ethers.Event) {
@@ -481,7 +483,7 @@ export function parseApprovalForAllEvent(event: ethers.Event) {
 		owner: event.args!.owner,
 		operator: event.args!.operator,
 		approved: event.args!.approved
-	};
+	} as Indexer.NounsToken.ApprovalForAll;
 }
 
 export function parseNounCreatedEvent(event: ethers.Event) {
@@ -501,7 +503,7 @@ export function parseNounCreatedEvent(event: ethers.Event) {
 			head: Number(event.args!.seed.head),
 			glasses: Number(event.args!.seed.glasses)
 		}
-	};
+	} as Indexer.NounsToken.NounCreated;
 }
 
 export function parseDescriptorLockedEvent(event: ethers.Event) {
@@ -513,7 +515,7 @@ export function parseDescriptorLockedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature
-	};
+	} as Indexer.NounsToken.DescriptorLocked;
 }
 
 export function parseDescriptorUpdatedEvent(event: ethers.Event) {
@@ -526,7 +528,7 @@ export function parseDescriptorUpdatedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		descriptor: event.args!._descriptor
-	};
+	} as Indexer.NounsToken.DescriptorUpdated;
 }
 
 export function parseMinterLockedEvent(event: ethers.Event) {
@@ -538,7 +540,7 @@ export function parseMinterLockedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature
-	};
+	} as Indexer.NounsToken.MinterLocked;
 }
 
 export function parseMinterUpdatedEvent(event: ethers.Event) {
@@ -551,7 +553,7 @@ export function parseMinterUpdatedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		minter: event.args!._minter
-	};
+	} as Indexer.NounsToken.MinterUpdated;
 }
 
 export function parseNounBurnedEvent(event: ethers.Event) {
@@ -564,7 +566,7 @@ export function parseNounBurnedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		nounId: Number(event.args!.nounId)
-	};
+	} as Indexer.NounsToken.NounBurned;
 }
 
 export function parseNoundersDAOUpdatedEvent(event: ethers.Event) {
@@ -577,7 +579,7 @@ export function parseNoundersDAOUpdatedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		noundersDAO: event.args!._noundersDAO
-	};
+	} as Indexer.NounsToken.NoundersDAOUpdated;
 }
 
 export function parseSeederLockedEvent(event: ethers.Event) {
@@ -589,7 +591,7 @@ export function parseSeederLockedEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature
-	};
+	} as Indexer.NounsToken.SeederLocked;
 }
 
 export function parseSeederUpdatedEvent(event: ethers.Event) {
@@ -602,7 +604,7 @@ export function parseSeederUpdatedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		seeder: event.args!._seeder
-	};
+	} as Indexer.NounsToken.SeederUpdated;
 }
 
 export const NOUNS_TOKEN_PARSERS = new Map<string, Function>();
