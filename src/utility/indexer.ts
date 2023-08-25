@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import { writeFile, readFile } from "fs/promises";
 
-import * as nerman from "../index";
 import { _NounsAuctionHouse } from "../contracts/NounsAuctionHouse";
 import { _NounsDAO } from "../contracts/NounsDAO";
 import { _NounsToken } from "../contracts/NounsToken";
@@ -101,7 +100,6 @@ async function parseData(data: { event: ethers.Event }, formatter: Function, pat
 	const events = JSON.parse(file.toString());
 	events.push(formattedData);
 	await writeFile(path + data.event.event, events);
-	// TODO: Handle edge cases.
 }
 
 function listenForNounsAuctionEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
