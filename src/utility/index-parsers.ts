@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-import { EventData, Indexer } from "../types";
+import { Indexer } from "../types";
 
 //=======================================
 // NounsDAO
