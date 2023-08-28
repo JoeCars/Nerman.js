@@ -391,7 +391,7 @@ export class _NounsDAO {
 			case "ProposalCreatedWithRequirements":
 				/// @notice An event emitted when a new proposal is created
 				this.Contract.on(
-					"ProposalCreatedWithRequirements",
+					"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
 					(
 						id: BigNumber,
 						proposer: string,
@@ -419,6 +419,40 @@ export class _NounsDAO {
 							startBlock: startBlock.toNumber(),
 							endBlock: endBlock.toNumber(),
 							updatePeriodEndBlock: updatePeriodEndBlock,
+							proposalThreshold: proposalThreshold.toNumber(),
+							quorumVotes: quorumVotes.toNumber(),
+							description: description,
+							event: event
+						};
+
+						listener(data);
+					}
+				);
+				this.Contract.on(
+					"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
+					(
+						id: BigNumber,
+						proposer: string,
+						targets: string[],
+						values: BigNumber[],
+						signatures: string[],
+						calldatas: any[], // bytes
+						startBlock: BigNumber,
+						endBlock: BigNumber,
+						proposalThreshold: BigNumber,
+						quorumVotes: BigNumber,
+						description: string,
+						event: ethers.Event
+					) => {
+						const data: EventData.ProposalCreatedWithRequirements = {
+							id: id.toNumber(),
+							proposer: { id: proposer } as Account,
+							targets: targets,
+							values: values,
+							signatures: signatures,
+							calldatas: calldatas,
+							startBlock: startBlock.toNumber(),
+							endBlock: endBlock.toNumber(),
 							proposalThreshold: proposalThreshold.toNumber(),
 							quorumVotes: quorumVotes.toNumber(),
 							description: description,

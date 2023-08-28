@@ -92,7 +92,6 @@ export class Nouns {
 
 		//@todo use ABI to look up function signatures instead, try-catch feel ugly
 		try {
-			this.NounsDAO.Contract.interface.getEvent(eventName);
 			await this.NounsDAO.on(eventName, (data: unknown) => {
 				listener(data);
 			});
@@ -102,7 +101,6 @@ export class Nouns {
 		}
 
 		try {
-			this.NounsAuctionHouse.Contract.interface.getEvent(eventName);
 			await this.NounsAuctionHouse.on(eventName, (data: unknown) => {
 				listener(data);
 			});
@@ -112,7 +110,6 @@ export class Nouns {
 		}
 
 		try {
-			this.NounsToken.Contract.interface.getEvent(eventName);
 			await this.NounsToken.on(eventName, (data: unknown) => {
 				listener(data);
 			});
