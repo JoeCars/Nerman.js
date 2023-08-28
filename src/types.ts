@@ -95,73 +95,78 @@ export namespace EventData {
 	// ******************************************
 	// EventData types
 
-	export interface ProposalCanceled {
-		id: number;
+	export interface DAOWithdrawNounsFromEscrow {
+		tokenIds: number[];
+		to: Account;
 		event: ethers.Event;
 	}
 
-	export interface ProposalCreated {
-		id: number;
-		proposer: Account;
-		targets: string[];
-		values: BigNumber[];
-		signatures: string[];
-		calldatas: any[]; // type is bytes[]
-		startBlock: number;
-		endBlock: number;
-		description: string;
+	export interface ERC20TokensToIncludeInForkSet {
+		oldErc20Tokens: string[];
+		newErc20tokens: string[];
 		event: ethers.Event;
 	}
 
-	export interface ProposalCreatedWithRequirements {
-		id: number;
-		proposer: Account;
-		targets: string[];
-		values: BigNumber[];
-		signatures: string[];
-		calldatas: any[];
-		startBlock: number;
-		endBlock: number;
-		proposalThreshold: number;
-		quorumVotes: number;
-		description: string;
-		event: ethers.Event;
-	}
-
-	export interface ProposalExecuted {
-		id: number;
-		event: ethers.Event;
-	}
-
-	export interface ProposalQueued {
-		id: number;
-		eta: number;
-		event: ethers.Event;
-	}
-
-	export interface ProposalVetoed {
-		id: number;
-		event: ethers.Event;
-	}
-
-	export interface VoteCast {
-		voter: Account;
-		proposalId: number;
-		supportDetailed: VoteDirection;
-		votes: number;
+	export interface EscrowedToFork {
+		forkId: number;
+		owner: Account;
+		tokenIds: number[];
+		proposalIds: number[];
 		reason: string;
 		event: ethers.Event;
 	}
 
-	export interface VotingDelaySet {
-		oldVotingDelay: number;
-		newVotingDelay: number;
+	export interface ExecuteFork {
+		forkId: number;
+		forkTreasury: Account;
+		forkToken: Account;
+		forkEndTimestamp: number;
+		tokensInEscrow: number;
 		event: ethers.Event;
 	}
 
-	export interface VotingPeriodSet {
-		oldVotingPeriod: number;
-		newVotingPeriod: number;
+	export interface ForkDAODeployerSet {
+		oldForkDAODeployer: Account;
+		newForkDAODeployer: Account;
+		event: ethers.Event;
+	}
+
+	export interface ForkPeriodSet {
+		oldForkPeriod: number;
+		newForkPeriod: number;
+		event: ethers.Event;
+	}
+
+	export interface ForkThresholdSet {
+		oldForkThreshold: number;
+		newForkThreshold: number;
+		event: ethers.Event;
+	}
+
+	export interface JoinFork {
+		forkId: number;
+		owner: Account;
+		tokenIds: number[];
+		proposalIds: number[];
+		reason: string;
+		event: ethers.Event;
+	}
+
+	export interface LastMinuteWindowSet {
+		oldLastMinuteWindowInBlocks: number;
+		newLastMinuteWindowInBlocks: number;
+		event: ethers.Event;
+	}
+
+	export interface MaxQuorumVotesBPSSet {
+		oldMaxQuorumVotesBPS: number;
+		newMaxQuorumVotesBPS: number;
+		event: ethers.Event;
+	}
+
+	export interface MinQuorumVotesBPSSet {
+		oldMinQuorumVotesBPS: number;
+		newMinQuorumVotesBPS: number;
 		event: ethers.Event;
 	}
 
@@ -183,9 +188,85 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
+	export interface NewPendingVetoer {
+		oldPendingVetoer: Account;
+		newPendingVetoer: Account;
+		event: ethers.Event;
+	}
+
 	export interface NewVetoer {
 		oldVetoer: Account;
 		newVetoer: Account;
+		event: ethers.Event;
+	}
+
+	export interface ObjectionPeriodDurationSet {
+		oldObjectionPeriodDurationInBlocks: number;
+		newObjectionPeriodDurationInBlocks: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalCanceled {
+		id: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalCreated {
+		id: number;
+		proposer: Account;
+		targets: string[];
+		values: BigNumber[];
+		signatures: string[];
+		calldatas: any[]; // type is bytes[]
+		startBlock: number;
+		endBlock: number;
+		description: string;
+		event: ethers.Event;
+	}
+
+	export interface ProposalCreatedOnTimelockV1 {
+		id: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalCreatedWithRequirements {
+		id: number;
+		proposer: Account;
+		signers?: string[];
+		targets: string[];
+		values: BigNumber[];
+		signatures: string[];
+		calldatas: any[];
+		startBlock: number;
+		endBlock: number;
+		updatePeriodEndBlock?: number;
+		proposalThreshold: number;
+		quorumVotes: number;
+		description: string;
+		event: ethers.Event;
+	}
+
+	export interface ProposalDescriptionUpdated {
+		id: number;
+		proposer: Account;
+		description: string;
+		updatedMessage: string;
+	}
+
+	export interface ProposalExecuted {
+		id: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalObjectionPeriodSet {
+		id: number;
+		objectionPeriodEndBlock: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalQueued {
+		id: number;
+		eta: number;
 		event: ethers.Event;
 	}
 
@@ -195,9 +276,109 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
+	export interface ProposalTransactionsUpdated {
+		id: number;
+		proposer: Account;
+		targets: string[];
+		values: number[];
+		signatures: string[];
+		calldatas: any[];
+		updateMessage: string;
+		event: ethers.Event;
+	}
+
+	export interface ProposalUpdatablePeriodSet {
+		oldProposalUpdatablePeriodInBlocks: number;
+		newProposalUpdatablePeriodInBlocks: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalUpdated {
+		id: number;
+		proposer: Account;
+		targets: string[];
+		values: number[];
+		signatures: string[];
+		calldatas: any[];
+		description: string;
+		updateMessage: string;
+		event: ethers.Event;
+	}
+
+	export interface ProposalVetoed {
+		id: number;
+		event: ethers.Event;
+	}
+
+	export interface QuorumCoefficientSet {
+		oldQuorumCoefficient: number;
+		newQuorumCoefficient: number;
+		event: ethers.Event;
+	}
+
 	export interface QuorumVotesBPSSet {
 		oldQuorumVotesBPS: number;
 		newQuorumVotesBPS: number;
+		event: ethers.Event;
+	}
+
+	export interface RefundableVote {
+		voter: Account;
+		refundAmount: number;
+		refundSent: boolean;
+		event: ethers.Event;
+	}
+
+	export interface SignatureCancelled {
+		signer: Account;
+		sig: any;
+		event: ethers.Event;
+	}
+
+	export interface TimelocksAndAdminSet {
+		timelock: Account;
+		timelockV1: Account;
+		admin: Account;
+		event: ethers.Event;
+	}
+
+	export interface VoteCast {
+		voter: Account;
+		proposalId: number;
+		supportDetailed: VoteDirection;
+		votes: number;
+		reason: string;
+		event: ethers.Event;
+	}
+
+	export interface VoteSnapshotBlockSwitchProposalIdSet {
+		oldVoteSnapshotBlockSwitchProposalId: number;
+		newVoteSnapshotBlockSwitchProposalId: number;
+		event: ethers.Event;
+	}
+
+	export interface VotingDelaySet {
+		oldVotingDelay: number;
+		newVotingDelay: number;
+		event: ethers.Event;
+	}
+
+	export interface VotingPeriodSet {
+		oldVotingPeriod: number;
+		newVotingPeriod: number;
+		event: ethers.Event;
+	}
+
+	export interface Withdraw {
+		amount: number;
+		sent: boolean;
+		event: ethers.Event;
+	}
+
+	export interface WithdrawFromForkEscrow {
+		forkId: number;
+		owner: Account;
+		tokenIds: number[];
 		event: ethers.Event;
 	}
 
@@ -263,6 +444,22 @@ export namespace EventData {
 
 	export interface AuctionMinBidIncrementPercentageUpdated {
 		minBidIncrementPercentage: number;
+		event: ethers.Event;
+	}
+
+	export interface OwnershipTransferred {
+		previousOwner: Account;
+		newOwner: Account;
+		event: ethers.Event;
+	}
+
+	export interface Paused {
+		address: Account;
+		event: ethers.Event;
+	}
+
+	export interface Unpaused {
+		address: Account;
 		event: ethers.Event;
 	}
 
@@ -446,6 +643,230 @@ export namespace EventData {
 				amount: number;
 				bidder: string;
 			}
+		}
+	}
+}
+
+//=========================================
+// Index Types
+//=========================================
+
+export namespace Indexer {
+	export interface FormattedEvent {
+		blockNumber: number;
+		blockHash: string;
+		transactionIndex: number;
+		address: string;
+		transactionHash: string;
+		eventName: string;
+		eventSignature: string;
+	}
+
+	export namespace NounsDAO {
+		export interface ProposalCreated extends FormattedEvent {
+			id: number;
+			proposer: string;
+			targets: string[];
+			values: BigNumber[];
+			signatures: string[];
+			calldatas: any[];
+			startBlock: number;
+			endBlock: number;
+			description: string;
+		}
+
+		export interface ProposalCreatedWithRequirements extends ProposalCreated {
+			proposalThreshold: number;
+			quorumVotes: number;
+		}
+
+		export interface VoteCast extends FormattedEvent {
+			voterAddress: string;
+			proposalId: number;
+			support: number;
+			supportChoice: string;
+			votes: number;
+			reason: string;
+		}
+
+		export interface ProposalCanceled extends FormattedEvent {
+			proposalId: number;
+			status: string;
+		}
+
+		export interface ProposalQueued extends FormattedEvent {
+			proposalId: number;
+			eta: number;
+			status: string;
+		}
+
+		export interface ProposalExecuted extends FormattedEvent {
+			proposalId: number;
+			status: string;
+		}
+
+		export interface ProposalVetoed extends FormattedEvent {
+			proposalId: number;
+			status: string;
+		}
+
+		export interface VotingDelaySet extends FormattedEvent {
+			oldVotingDelay: number;
+			newVotingDelay: number;
+		}
+
+		export interface VotingPeriodSet extends FormattedEvent {
+			oldVotingPeriod: number;
+			newVotingPeriod: number;
+		}
+
+		export interface NewImplementation extends FormattedEvent {
+			oldImplementation: string;
+			newImplementation: string;
+		}
+
+		export interface ProposalThresholdBPSSet extends FormattedEvent {
+			oldProposalThresholdBPS: number;
+			newProposalThresholdBPS: number;
+		}
+
+		export interface QuorumVotesBPSSet extends FormattedEvent {
+			oldQuorumVotesBPS: number;
+			newQuorumVotesBPS: number;
+		}
+
+		export interface NewPendingAdmin extends FormattedEvent {
+			oldPendingAdmin: string;
+			newPendingAdmin: string;
+		}
+
+		export interface NewAdmin extends FormattedEvent {
+			oldAdmin: string;
+			newAdmin: string;
+		}
+
+		export interface NewVetoer extends FormattedEvent {
+			oldVetoer: string;
+			newVetoer: string;
+		}
+	}
+
+	export namespace NounsAuctionHouse {
+		export interface AuctionCreated extends FormattedEvent {
+			nounId: number;
+			startTime: number;
+			endTime: number;
+		}
+
+		export interface AuctionBid extends FormattedEvent {
+			nounId: number;
+			bidderAddress: string;
+			bidAmount: number;
+			extended: boolean;
+		}
+
+		export interface AuctionExtended extends FormattedEvent {
+			nounId: number;
+			endTime: number;
+		}
+
+		export interface AuctionSettled extends FormattedEvent {
+			nounId: number;
+			winnerAddress: string;
+			bidAmount: number;
+		}
+
+		export interface AuctionTimeBufferUpdated extends FormattedEvent {
+			timeBuffer: number;
+		}
+
+		export interface AuctionReservePriceUpdated extends FormattedEvent {
+			reservePrice: number;
+		}
+
+		export interface AuctionMinBidIncrementPercentageUpdated extends FormattedEvent {
+			minBidIncrementPercentage: number;
+		}
+
+		export interface OwnershipTransferred extends FormattedEvent {
+			previousOwner: string;
+			newOwner: string;
+		}
+
+		export interface Paused extends FormattedEvent {
+			pauseAddress: string;
+		}
+
+		export interface Unpaused extends FormattedEvent {
+			unpauseAddress: string;
+		}
+	}
+
+	export namespace NounsToken {
+		export interface DelegateChanged extends FormattedEvent {
+			delegator: string;
+			fromDelegate: string;
+			toDelegate: string;
+		}
+
+		export interface DelegateVotesChanged extends FormattedEvent {
+			delegate: string;
+			previousBalance: number;
+			newBalance: number;
+		}
+
+		export interface Transfer extends FormattedEvent {
+			from: string;
+			to: string;
+			tokenId: number;
+		}
+
+		export interface Approval extends FormattedEvent {
+			owner: string;
+			approved: string;
+			tokenId: number;
+		}
+
+		export interface ApprovalForAll extends FormattedEvent {
+			owner: string;
+			operator: string;
+			approved: boolean;
+		}
+
+		export interface NounCreated extends FormattedEvent {
+			tokenId: number;
+			seed: NounsTokenSeed;
+		}
+
+		export interface DescriptorLocked extends FormattedEvent {}
+
+		export interface DescriptorUpdated extends FormattedEvent {
+			descriptor: string;
+		}
+
+		export interface MinterLocked extends FormattedEvent {}
+
+		export interface MinterUpdated extends FormattedEvent {
+			minter: string;
+		}
+
+		export interface NounBurned extends FormattedEvent {
+			nounId: number;
+		}
+
+		export interface NoundersDAOUpdated extends FormattedEvent {
+			noundersDAO: string;
+		}
+
+		export interface OwnershipTransferred extends FormattedEvent {
+			previousOwner: string;
+			newOwner: string;
+		}
+
+		export interface SeederLocked extends FormattedEvent {}
+
+		export interface SeederUpdated extends FormattedEvent {
+			seeder: string;
 		}
 	}
 }
