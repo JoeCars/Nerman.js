@@ -95,73 +95,78 @@ export namespace EventData {
 	// ******************************************
 	// EventData types
 
-	export interface ProposalCanceled {
-		id: number;
+	export interface DAOWithdrawNounsFromEscrow {
+		tokenIds: number[];
+		to: Account;
 		event: ethers.Event;
 	}
 
-	export interface ProposalCreated {
-		id: number;
-		proposer: Account;
-		targets: string[];
-		values: BigNumber[];
-		signatures: string[];
-		calldatas: any[]; // type is bytes[]
-		startBlock: number;
-		endBlock: number;
-		description: string;
+	export interface ERC20TokensToIncludeInForkSet {
+		oldErc20Tokens: string[];
+		newErc20tokens: string[];
 		event: ethers.Event;
 	}
 
-	export interface ProposalCreatedWithRequirements {
-		id: number;
-		proposer: Account;
-		targets: string[];
-		values: BigNumber[];
-		signatures: string[];
-		calldatas: any[];
-		startBlock: number;
-		endBlock: number;
-		proposalThreshold: number;
-		quorumVotes: number;
-		description: string;
-		event: ethers.Event;
-	}
-
-	export interface ProposalExecuted {
-		id: number;
-		event: ethers.Event;
-	}
-
-	export interface ProposalQueued {
-		id: number;
-		eta: number;
-		event: ethers.Event;
-	}
-
-	export interface ProposalVetoed {
-		id: number;
-		event: ethers.Event;
-	}
-
-	export interface VoteCast {
-		voter: Account;
-		proposalId: number;
-		supportDetailed: VoteDirection;
-		votes: number;
+	export interface EscrowedToFork {
+		forkId: number;
+		owner: Account;
+		tokenIds: number[];
+		proposalIds: number[];
 		reason: string;
 		event: ethers.Event;
 	}
 
-	export interface VotingDelaySet {
-		oldVotingDelay: number;
-		newVotingDelay: number;
+	export interface ExecuteFork {
+		forkId: number;
+		forkTreasury: Account;
+		forkToken: Account;
+		forkEndTimestamp: number;
+		tokensInEscrow: number;
 		event: ethers.Event;
 	}
 
-	export interface VotingPeriodSet {
-		oldVotingPeriod: number;
-		newVotingPeriod: number;
+	export interface ForkDAODeployerSet {
+		oldForkDAODeployer: Account;
+		newForkDAODeployer: Account;
+		event: ethers.Event;
+	}
+
+	export interface ForkPeriodSet {
+		oldForkPeriod: number;
+		newForkPeriod: number;
+		event: ethers.Event;
+	}
+
+	export interface ForkThresholdSet {
+		oldForkThreshold: number;
+		newForkThreshold: number;
+		event: ethers.Event;
+	}
+
+	export interface JoinFork {
+		forkId: number;
+		owner: Account;
+		tokenIds: number[];
+		proposalIds: number[];
+		reason: string;
+		event: ethers.Event;
+	}
+
+	export interface LastMinuteWindowSet {
+		oldLastMinuteWindowInBlocks: number;
+		newLastMinuteWindowInBlocks: number;
+		event: ethers.Event;
+	}
+
+	export interface MaxQuorumVotesBPSSet {
+		oldMaxQuorumVotesBPS: number;
+		newMaxQuorumVotesBPS: number;
+		event: ethers.Event;
+	}
+
+	export interface MinQuorumVotesBPSSet {
+		oldMinQuorumVotesBPS: number;
+		newMinQuorumVotesBPS: number;
 		event: ethers.Event;
 	}
 
@@ -183,9 +188,85 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
+	export interface NewPendingVetoer {
+		oldPendingVetoer: Account;
+		newPendingVetoer: Account;
+		event: ethers.Event;
+	}
+
 	export interface NewVetoer {
 		oldVetoer: Account;
 		newVetoer: Account;
+		event: ethers.Event;
+	}
+
+	export interface ObjectionPeriodDurationSet {
+		oldObjectionPeriodDurationInBlocks: number;
+		newObjectionPeriodDurationInBlocks: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalCanceled {
+		id: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalCreated {
+		id: number;
+		proposer: Account;
+		targets: string[];
+		values: BigNumber[];
+		signatures: string[];
+		calldatas: any[]; // type is bytes[]
+		startBlock: number;
+		endBlock: number;
+		description: string;
+		event: ethers.Event;
+	}
+
+	export interface ProposalCreatedOnTimelockV1 {
+		id: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalCreatedWithRequirements {
+		id: number;
+		proposer: Account;
+		signers?: string[];
+		targets: string[];
+		values: BigNumber[];
+		signatures: string[];
+		calldatas: any[];
+		startBlock: number;
+		endBlock: number;
+		updatePeriodEndBlock?: number;
+		proposalThreshold: number;
+		quorumVotes: number;
+		description: string;
+		event: ethers.Event;
+	}
+
+	export interface ProposalDescriptionUpdated {
+		id: number;
+		proposer: Account;
+		description: string;
+		updatedMessage: string;
+	}
+
+	export interface ProposalExecuted {
+		id: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalObjectionPeriodSet {
+		id: number;
+		objectionPeriodEndBlock: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalQueued {
+		id: number;
+		eta: number;
 		event: ethers.Event;
 	}
 
@@ -195,15 +276,109 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
+	export interface ProposalTransactionsUpdated {
+		id: number;
+		proposer: Account;
+		targets: string[];
+		values: number[];
+		signatures: string[];
+		calldatas: any[];
+		updateMessage: string;
+		event: ethers.Event;
+	}
+
+	export interface ProposalUpdatablePeriodSet {
+		oldProposalUpdatablePeriodInBlocks: number;
+		newProposalUpdatablePeriodInBlocks: number;
+		event: ethers.Event;
+	}
+
+	export interface ProposalUpdated {
+		id: number;
+		proposer: Account;
+		targets: string[];
+		values: number[];
+		signatures: string[];
+		calldatas: any[];
+		description: string;
+		updateMessage: string;
+		event: ethers.Event;
+	}
+
+	export interface ProposalVetoed {
+		id: number;
+		event: ethers.Event;
+	}
+
+	export interface QuorumCoefficientSet {
+		oldQuorumCoefficient: number;
+		newQuorumCoefficient: number;
+		event: ethers.Event;
+	}
+
 	export interface QuorumVotesBPSSet {
 		oldQuorumVotesBPS: number;
 		newQuorumVotesBPS: number;
 		event: ethers.Event;
 	}
 
-	export interface NewVetoer {
-		oldVetoer: Account;
-		newVetoer: Account;
+	export interface RefundableVote {
+		voter: Account;
+		refundAmount: number;
+		refundSent: boolean;
+		event: ethers.Event;
+	}
+
+	export interface SignatureCancelled {
+		signer: Account;
+		sig: any;
+		event: ethers.Event;
+	}
+
+	export interface TimelocksAndAdminSet {
+		timelock: Account;
+		timelockV1: Account;
+		admin: Account;
+		event: ethers.Event;
+	}
+
+	export interface VoteCast {
+		voter: Account;
+		proposalId: number;
+		supportDetailed: VoteDirection;
+		votes: number;
+		reason: string;
+		event: ethers.Event;
+	}
+
+	export interface VoteSnapshotBlockSwitchProposalIdSet {
+		oldVoteSnapshotBlockSwitchProposalId: number;
+		newVoteSnapshotBlockSwitchProposalId: number;
+		event: ethers.Event;
+	}
+
+	export interface VotingDelaySet {
+		oldVotingDelay: number;
+		newVotingDelay: number;
+		event: ethers.Event;
+	}
+
+	export interface VotingPeriodSet {
+		oldVotingPeriod: number;
+		newVotingPeriod: number;
+		event: ethers.Event;
+	}
+
+	export interface Withdraw {
+		amount: number;
+		sent: boolean;
+		event: ethers.Event;
+	}
+
+	export interface WithdrawFromForkEscrow {
+		forkId: number;
+		owner: Account;
+		tokenIds: number[];
 		event: ethers.Event;
 	}
 
