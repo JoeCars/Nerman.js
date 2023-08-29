@@ -277,4 +277,8 @@ export class _NounsDAOData {
 	public async off(eventType: string, listener: ethers.providers.Listener) {
 		this.Contract.off(eventType, listener);
 	}
+
+	public name() {
+		return "NounsDAOData";
+	}
 }
