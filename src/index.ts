@@ -193,7 +193,6 @@ export class Nouns {
 			}
 		}
 
-		console.log("pollingTime " + pollingTime);
 		const that = this;
 		setTimeout(function () {
 			that.pollForAuctionEnd(listener);
