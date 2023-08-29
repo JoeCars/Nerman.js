@@ -556,6 +556,122 @@ export namespace EventData {
 
 	// ******************************************
 	//
+	// Contract - NounsDAOData
+	//
+	// ******************************************
+
+	export interface AdminChanged {
+		previousAdmin: Account;
+		newAdmin: Account;
+		event: ethers.Event;
+	}
+
+	export interface BeaconUpgraded {
+		beacon: Account;
+		event: ethers.Event;
+	}
+
+	export interface CandidateFeedbackSent {
+		msgSender: Account;
+		proposer: Account;
+		slug: string;
+		support: number;
+		reason: string;
+		event: ethers.Event;
+	}
+
+	export interface CreateCandidateCostSet {
+		oldCreateCandidateCost: number;
+		newCreateCandidateCost: number;
+		event: ethers.Event;
+	}
+
+	export interface ETHWithdrawn {
+		to: Account;
+		amount: number;
+		event: ethers.Event;
+	}
+
+	export interface FeeRecipientSet {
+		oldFeeRecipient: Account;
+		newFeeRecipient: Account;
+		event: ethers.Event;
+	}
+
+	export interface FeedbackSent {
+		msgSender: Account;
+		proposalId: number;
+		support: number;
+		reason: string;
+		event: ethers.Event;
+	}
+
+	export interface OwnershipTransferred {
+		previousOwner: Account;
+		newOwner: Account;
+		event: ethers.Event;
+	}
+	
+	export interface ProposalCandidateCanceled {
+		msgSender: Account;
+		slug: string;
+		event: ethers.Event;
+	}
+
+	export interface ProposalCandidateCreated {
+		msgSender: Account;
+		targets: string[];
+		values: number[];
+		signatures: string[];
+		calldatas: any[];
+		description: string;
+		slug: string;
+		proposalIdToUpdate: number;
+		encodedProposalHash: string;
+		event: ethers.Event;
+	}
+
+	export interface ProposalCandidateUpdated {
+		msgSender: Account;
+		targets: string[];
+		values: number[];
+		signatures: string[];
+		calldatas: any[];
+		description: string;
+		slug: string;
+		proposalIdToUpdate: number;
+		encodedProposalHash: string;
+		reason: string;
+		event: ethers.Event;
+	}
+
+	export interface SignatureAdded {
+		signer: Account;
+		sig: string;
+		expirationTimestamp: number;
+		proposer: Account;
+		slug: string;
+		proposalIdToUpdate: number;
+		encodedPropHash: string;
+		sigDigest: string;
+		reason: string;
+		event: ethers.Event;
+	}
+
+	export interface UpdateCandidateCostSet {
+		oldUpdateCandidateCost: number;
+		newUpdateCandidateCost: number;
+		event: ethers.Event;
+	}
+
+	export interface Upgraded {
+		implementation: Account;
+		event: ethers.Event;
+	}
+
+
+	// ******************************************
+	//
 	// NounsNymz
 	//
 	// ******************************************

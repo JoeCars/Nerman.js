@@ -4,6 +4,7 @@ import * as NounsDAO from "./contracts/NounsDAO";
 import { _NounsAuctionHouse } from "./contracts/NounsAuctionHouse";
 import { _NounsToken } from "./contracts/NounsToken";
 import { _NounsDAO } from "./contracts/NounsDAO";
+import { _NounsDAOData } from "./contracts/NounsDAOData";
 import { EventData } from "./types";
 
 export { EventData } from "./types";
@@ -16,6 +17,7 @@ export class Nouns {
 	public NounsAuctionHouse: _NounsAuctionHouse; // @TODO refactor into NounishContract?
 	public NounsToken: _NounsToken;
 	public NounsDAO: _NounsDAO;
+	public NounsDAOData: _NounsDAOData;
 
 	public registeredListeners: Map<string, Function>;
 
@@ -34,6 +36,7 @@ export class Nouns {
 		this.NounsAuctionHouse = new _NounsAuctionHouse(this.provider);
 		this.NounsToken = new _NounsToken(this.provider);
 		this.NounsDAO = new _NounsDAO(this.provider);
+		this.NounsDAOData = new _NounsDAOData(this.provider);
 
 		this.cache = {};
 		this.cacheInit();
@@ -111,6 +114,15 @@ export class Nouns {
 
 		try {
 			await this.NounsToken.on(eventName, (data: unknown) => {
+				listener(data);
+			});
+			return;
+		} catch (error) {
+			//console.error(error);
+		}
+
+		try {
+			await this.NounsDAOData.on(eventName, (data: unknown) => {
 				listener(data);
 			});
 			return;
