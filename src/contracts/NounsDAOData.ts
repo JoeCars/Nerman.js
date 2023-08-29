@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-import * as NounsDAODataABI from "./NounsDAOData.json";
+import { default as NounsDAODataABI } from "./NounsDAOData.json";
 import { Account, EventData } from "../types";
 import { sign } from "crypto";
 
