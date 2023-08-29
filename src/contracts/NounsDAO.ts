@@ -839,6 +839,9 @@ export class _NounsDAO {
 					}
 				);
 				break;
+
+			default:
+				throw new Error(`${eventType} is not supported. Please use a different event.`);
 		}
 	}
 

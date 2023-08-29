@@ -8,7 +8,6 @@ export class _NounsToken {
   public Contract :  ethers.Contract; 
 
   constructor(provider: ethers.providers.JsonRpcProvider) {
-
     this.provider = provider;
     this.Contract = new ethers.Contract( '0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03' , NounsTokenABI, this.provider );
   }
@@ -303,6 +302,9 @@ export class _NounsToken {
         });
     
         break;  
+
+      default:
+        throw new Error(`${eventType} is not supported. Please use a different event.`);
     }
 
   }
