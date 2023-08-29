@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-import { default as NounsDAOData } from "./NounsDAOData.json";
+import * as NounsDAODataABI from "./NounsDAOData.json";
 import { Account, EventData } from "../types";
 import { sign } from "crypto";
 
@@ -10,7 +10,7 @@ export class _NounsDAOData {
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
-		this.Contract = new ethers.Contract("0xf790A5f59678dd733fb3De93493A91f472ca1365", NounsDAOData, this.provider);
+		this.Contract = new ethers.Contract("0xf790A5f59678dd733fb3De93493A91f472ca1365", NounsDAODataABI, this.provider);
 	}
 
 	public async on(eventType: string, listener: ethers.providers.Listener) {

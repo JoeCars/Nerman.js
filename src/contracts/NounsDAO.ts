@@ -4,7 +4,7 @@ import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, Pr
 
 import { NounsDAOABI } from "@nouns/contracts";
 
-import { default as NounsDAOLogicV3 } from "./NounsDAOLogicV3.json";
+import * as NounsDAOLogicV3ABI from "./NounsDAOLogicV3.json";
 
 export class _NounsDAO {
 	private provider: ethers.providers.JsonRpcProvider;
@@ -12,7 +12,7 @@ export class _NounsDAO {
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
-		this.Contract = new ethers.Contract("0x6f3E6272A167e8AcCb32072d08E0957F9c79223d", NounsDAOLogicV3, this.provider);
+		this.Contract = new ethers.Contract("0x6f3E6272A167e8AcCb32072d08E0957F9c79223d", NounsDAOLogicV3ABI, this.provider);
 	}
 
 	public async on(eventType: string, listener: Function) {
