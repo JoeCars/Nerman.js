@@ -5,10 +5,12 @@ import { NounsTokenABI } from "@nouns/contracts";
 export class _NounsForkToken {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
+	public registeredListeners: Map<string, Function>;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f", NounsTokenABI, this.provider);
+		this.registeredListeners = new Map<string, Function>();
 	}
 
 	public async on(eventType: string, listener: Function) {
@@ -27,7 +29,7 @@ export class _NounsForkToken {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "DelegateVotesChanged": // WORKING
@@ -44,7 +46,7 @@ export class _NounsForkToken {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "Transfer": // WORKING
@@ -58,6 +60,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "Approval": // WORKING
@@ -71,7 +74,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -93,7 +96,7 @@ export class _NounsForkToken {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "NounCreated": // WORKING
@@ -106,7 +109,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -122,7 +125,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -139,7 +142,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -155,7 +158,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -172,7 +175,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -189,7 +192,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -206,7 +209,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -224,7 +227,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -240,7 +243,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -257,12 +260,21 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			default:
 				throw new Error(`${eventType} is not supported. Please use a different event.`);
 		}
+	}
+
+	public emit(eventType: string, data: unknown) {
+		const listener = this.registeredListeners.get(eventType);
+		if (!listener) {
+			throw new Error(`${eventType} does not have a listener.`);
+		}
+
+		listener(data);
 	}
 
 	public name() {
