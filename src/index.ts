@@ -10,6 +10,7 @@ import { EventData } from "./types";
 export { EventData } from "./types";
 export { NounsNymz } from "./utility/NounsNymz";
 export { FederationNounsPool } from "./utility/FederationNounsPool";
+export { _NounsForkToken as NounsForkToken } from "./contracts/NounsForkToken";
 
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;
