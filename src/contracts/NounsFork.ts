@@ -4,7 +4,7 @@ import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, Pr
 
 import { NounsDAOABI } from "@nouns/contracts";
 
-export class _NounsDAO {
+export class _NounsFork {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 

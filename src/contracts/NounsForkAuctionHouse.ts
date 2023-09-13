@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, EventData } from '../types';
 import { NounsAuctionHouseABI} from '@nouns/contracts';
 
-export class _NounsAuctionHouse {
+export class _NounsForkAuctionHouse {
 
     private provider : ethers.providers.JsonRpcProvider;
     public Contract :  ethers.Contract; 
