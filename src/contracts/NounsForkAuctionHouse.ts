@@ -174,6 +174,15 @@ export class _NounsForkAuctionHouse {
 		}
 	}
 
+	public emit(eventType: string, data: unknown) {
+		const listener = this.registeredListeners.get(eventType);
+		if (!listener) {
+			throw new Error(`${eventType} does not have a listener.`);
+		}
+
+		listener(data);
+	}
+
 	public async getLatestAuctions() {
 		const filter = this.Contract.filters.AuctionCreated();
 		const auctions = (await this.Contract.queryFilter(filter)) as Array<ethers.Event>;

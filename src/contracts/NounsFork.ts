@@ -844,6 +844,15 @@ export class _NounsFork {
 		}
 	}
 
+	public emit(eventType: string, data: unknown) {
+		const listener = this.registeredListeners.get(eventType);
+		if (!listener) {
+			throw new Error(`${eventType} does not have a listener.`);
+		}
+
+		listener(data);
+	}
+
 	public name() {
 		return "NounsDAO";
 	}
