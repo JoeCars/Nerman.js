@@ -7,10 +7,12 @@ import { NounsDAOABI } from "@nouns/contracts";
 export class _NounsFork {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
+	public registeredListeners: Map<string, Function>;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6", NounsDAOABI, this.provider);
+		this.registeredListeners = new Map<string, Function>();
 	}
 
 	public async on(eventType: string, listener: Function) {
@@ -25,6 +27,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ERC20TokensToIncludeInForkSet":
@@ -40,6 +43,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "EscrowedToFork":
@@ -65,6 +69,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ExecuteFork":
@@ -90,6 +95,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ForkDAODeployerSet":
@@ -105,6 +111,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ForkPeriodSet":
@@ -117,6 +124,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ForkThresholdSet":
@@ -132,6 +140,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "JoinFork":
@@ -157,6 +166,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "LastMinuteWindowSet":
@@ -172,6 +182,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "MaxQuorumVotesBPSSet":
@@ -187,6 +198,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "MinQuorumVotesBPSSet":
@@ -202,6 +214,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -220,6 +233,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -241,6 +255,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -260,6 +275,7 @@ export class _NounsFork {
 					listener(data);
 				});
 
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "NewPendingVetoer":
@@ -275,6 +291,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "NewVetoer":
@@ -287,6 +304,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ObjectionPeriodDurationSet":
@@ -306,6 +324,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -324,6 +343,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -365,6 +385,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalCreatedOnTimelockV1":
@@ -376,7 +397,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -421,7 +442,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalDescriptionUpdated":
@@ -438,6 +459,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
@@ -449,6 +471,7 @@ export class _NounsFork {
 					};
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalObjectionPeriodSet":
@@ -464,6 +487,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -483,6 +507,7 @@ export class _NounsFork {
 					};
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -504,6 +529,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalTransactionsUpdated":
@@ -533,6 +559,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalUpdatablePeriodSet":
@@ -552,6 +579,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalUpdated":
@@ -583,6 +611,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -599,6 +628,7 @@ export class _NounsFork {
 					};
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "QuorumCoefficientSet":
@@ -614,6 +644,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -635,6 +666,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "RefundableVote":
@@ -651,6 +683,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "SignatureCancelled":
@@ -663,6 +696,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "TimelocksAndAdminSet":
@@ -679,6 +713,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "VoteCast": // WORKING
@@ -713,7 +748,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "VoteSnapshotBlockSwitchProposalIdSet":
@@ -733,6 +768,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -751,6 +787,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -769,6 +806,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "Withdraw":
@@ -781,6 +819,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "WithdrawFromForkEscrow":
@@ -797,6 +836,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			default:
