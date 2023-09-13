@@ -17,206 +17,6 @@ export class _NounsFork {
 
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
-			case "DAOWithdrawNounsFromEscrow":
-				this.Contract.on("DAOWithdrawNounsFromEscrow", (tokenIds: number[], to: string, event: ethers.Event) => {
-					const data = {
-						tokenIds: tokenIds,
-						to: { id: to } as Account,
-						event: event
-					} as EventData.DAOWithdrawNounsFromEscrow;
-
-					listener(data);
-				});
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "ERC20TokensToIncludeInForkSet":
-				this.Contract.on(
-					"ERC20TokensToIncludeInForkSet",
-					(oldErc20Tokens: string[], newErc20tokens: string[], event: ethers.Event) => {
-						const data = {
-							oldErc20Tokens: oldErc20Tokens,
-							newErc20tokens: newErc20tokens,
-							event: event
-						} as EventData.ERC20TokensToIncludeInForkSet;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "EscrowedToFork":
-				this.Contract.on(
-					"EscrowedToFork",
-					(
-						forkId: number,
-						owner: string,
-						tokenIds: number[],
-						proposalIds: number[],
-						reason: string,
-						event: ethers.Event
-					) => {
-						const data = {
-							forkId: forkId,
-							owner: { id: owner } as Account,
-							tokenIds: tokenIds,
-							proposalIds: proposalIds,
-							reason: reason,
-							event: event
-						} as EventData.EscrowedToFork;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "ExecuteFork":
-				this.Contract.on(
-					"ExecuteFork",
-					(
-						forkId: number,
-						forkTreasury: string,
-						forkToken: string,
-						forkEndTimestamp: number,
-						tokensInEscrow: number,
-						event: ethers.Event
-					) => {
-						const data = {
-							forkId: forkId,
-							forkTreasury: { id: forkTreasury } as Account,
-							forkToken: { id: forkToken },
-							forkEndTimestamp: forkEndTimestamp,
-							tokensInEscrow: tokensInEscrow,
-							event: event
-						} as EventData.ExecuteFork;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "ForkDAODeployerSet":
-				this.Contract.on(
-					"ForkDAODeployerSet",
-					(oldForkDAODeployer: string, newForkDAODeployer: string, event: ethers.Event) => {
-						const data = {
-							oldForkDAODeployer: { id: oldForkDAODeployer } as Account,
-							newForkDAODeployer: { id: newForkDAODeployer } as Account,
-							event: event
-						} as EventData.ForkDAODeployerSet;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "ForkPeriodSet":
-				this.Contract.on("ForkPeriodSet", (oldForkPeriod: number, newForkPeriod: number, event: ethers.Event) => {
-					const data = {
-						oldForkPeriod: oldForkPeriod,
-						newForkPeriod: newForkPeriod,
-						event: event
-					} as EventData.ForkPeriodSet;
-
-					listener(data);
-				});
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "ForkThresholdSet":
-				this.Contract.on(
-					"ForkThresholdSet",
-					(oldForkThreshold: number, newForkThreshold: number, event: ethers.Event) => {
-						const data = {
-							oldForkThreshold: oldForkThreshold,
-							newForkThreshold: newForkThreshold,
-							event: event
-						} as EventData.ForkThresholdSet;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "JoinFork":
-				this.Contract.on(
-					"JoinFork",
-					(
-						forkId: number,
-						owner: string,
-						tokenIds: number[],
-						proposalIds: number[],
-						reason: string,
-						event: ethers.Event
-					) => {
-						const data = {
-							forkId: forkId,
-							owner: { id: owner } as Account,
-							tokenIds: tokenIds,
-							proposalIds: proposalIds,
-							reason: reason,
-							event: event
-						} as EventData.JoinFork;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "LastMinuteWindowSet":
-				this.Contract.on(
-					"LastMinuteWindowSet",
-					(oldLastMinuteWindowInBlocks: number, newLastMinuteWindowInBlocks: number, event: ethers.Event) => {
-						const data = {
-							oldLastMinuteWindowInBlocks: oldLastMinuteWindowInBlocks,
-							newLastMinuteWindowInBlocks: newLastMinuteWindowInBlocks,
-							event: event
-						} as EventData.LastMinuteWindowSet;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "MaxQuorumVotesBPSSet":
-				this.Contract.on(
-					"MaxQuorumVotesBPSSet",
-					(oldMaxQuorumVotesBPS: number, newMaxQuorumVotesBPS: number, event: ethers.Event) => {
-						const data = {
-							oldMaxQuorumVotesBPS: oldMaxQuorumVotesBPS,
-							newMaxQuorumVotesBPS: newMaxQuorumVotesBPS,
-							event: event
-						} as EventData.MaxQuorumVotesBPSSet;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "MinQuorumVotesBPSSet":
-				this.Contract.on(
-					"MinQuorumVotesBPSSet",
-					(oldMinQuorumVotesBPS: number, newMinQuorumVotesBPS: number, event: ethers.Event) => {
-						const data = {
-							oldMinQuorumVotesBPS: oldMinQuorumVotesBPS,
-							newMinQuorumVotesBPS: newMinQuorumVotesBPS,
-							event: event
-						} as EventData.MinQuorumVotesBPSSet;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
 			// **********************************************************
 			//
 			// STATUS: TESTING AND DOCUMENTATION NEEDED
@@ -278,22 +78,6 @@ export class _NounsFork {
 				this.registeredListeners.set(eventType, listener);
 				break;
 
-			case "NewPendingVetoer":
-				this.Contract.on(
-					"NewPendingVetoer",
-					(oldPendingVetoer: string, newPendingVetoer: string, event: ethers.Event) => {
-						const data = {
-							oldPendingVetoer: { id: oldPendingVetoer } as Account,
-							newPendingVetoer: { id: newPendingVetoer } as Account,
-							event: event
-						} as EventData.NewPendingVetoer;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
 			case "NewVetoer":
 				this.Contract.on("NewVetoer", (oldVetoer: string, newVetoer: string, event: ethers.Event) => {
 					const data: EventData.NewVetoer = {
@@ -304,26 +88,6 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "ObjectionPeriodDurationSet":
-				this.Contract.on(
-					"ObjectionPeriodDurationSet",
-					(
-						oldObjectionPeriodDurationInBlocks: number,
-						newObjectionPeriodDurationInBlocks: number,
-						event: ethers.Event
-					) => {
-						const data = {
-							oldObjectionPeriodDurationInBlocks: oldObjectionPeriodDurationInBlocks,
-							newObjectionPeriodDurationInBlocks: newObjectionPeriodDurationInBlocks,
-							event: event
-						} as EventData.ObjectionPeriodDurationSet;
-
-						listener(data);
-					}
-				);
 				this.registeredListeners.set(eventType, listener);
 				break;
 
@@ -388,18 +152,6 @@ export class _NounsFork {
 				this.registeredListeners.set(eventType, listener);
 				break;
 
-			case "ProposalCreatedOnTimelockV1":
-				this.Contract.on("ProposalCreatedOnTimelockV1", (id: number, event: ethers.Event) => {
-					const data = {
-						id: id,
-						event: event
-					} as EventData.ProposalCreatedOnTimelockV1;
-
-					listener(data);
-				});
-				this.registeredListeners.set(eventType, listener);
-				break;
-
 			// **********************************************************
 			//
 			// STATUS: TESTING AND DOCUMENTATION NEEDED
@@ -445,23 +197,6 @@ export class _NounsFork {
 				this.registeredListeners.set(eventType, listener);
 				break;
 
-			case "ProposalDescriptionUpdated":
-				this.Contract.on(
-					"ProposalDescriptionUpdated",
-					(id: number, proposer: string, description: string, updatedMessage: string, event: ethers.Event) => {
-						const data = {
-							id: id,
-							proposer: { id: proposer } as Account,
-							description: description,
-							updatedMessage: updatedMessage
-						} as EventData.ProposalDescriptionUpdated;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
 				// An event emitted when a proposal has been executed in the NounsDAOExecutor
 				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Event) => {
@@ -471,22 +206,6 @@ export class _NounsFork {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "ProposalObjectionPeriodSet":
-				this.Contract.on(
-					"ProposalObjectionPeriodSet",
-					(id: number, objectionPeriodEndBlock: number, event: ethers.Event) => {
-						const data = {
-							id: id,
-							objectionPeriodEndBlock: objectionPeriodEndBlock,
-							event: event
-						} as EventData.ProposalObjectionPeriodSet;
-
-						listener(data);
-					}
-				);
 				this.registeredListeners.set(eventType, listener);
 				break;
 
@@ -532,88 +251,6 @@ export class _NounsFork {
 				this.registeredListeners.set(eventType, listener);
 				break;
 
-			case "ProposalTransactionsUpdated":
-				this.Contract.on(
-					"ProposalTransactionsUpdated",
-					(
-						id: number,
-						proposer: string,
-						targets: string[],
-						values: number[],
-						signatures: string[],
-						calldatas: any[],
-						updateMessage: string,
-						event: ethers.Event
-					) => {
-						const data = {
-							id: id,
-							proposer: { id: proposer } as Account,
-							targets: targets,
-							values: values,
-							signatures: signatures,
-							calldatas: calldatas,
-							updateMessage: updateMessage,
-							event: event
-						} as EventData.ProposalTransactionsUpdated;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "ProposalUpdatablePeriodSet":
-				this.Contract.on(
-					"ProposalUpdatablePeriodSet",
-					(
-						oldProposalUpdatablePeriodInBlocks: number,
-						newProposalUpdatablePeriodInBlocks: number,
-						event: ethers.Event
-					) => {
-						const data = {
-							oldProposalUpdatablePeriodInBlocks: oldProposalUpdatablePeriodInBlocks,
-							newProposalUpdatablePeriodInBlocks: newProposalUpdatablePeriodInBlocks,
-							event: event
-						} as EventData.ProposalUpdatablePeriodSet;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "ProposalUpdated":
-				this.Contract.on(
-					"ProposalUpdated",
-					(
-						id: number,
-						proposer: string,
-						targets: string[],
-						values: number[],
-						signatures: string[],
-						calldatas: any[],
-						description: string,
-						updateMessage: string,
-						event: ethers.Event
-					) => {
-						const data = {
-							id: id,
-							proposer: { id: proposer } as Account,
-							targets: targets,
-							values: values,
-							signatures: signatures,
-							calldatas: calldatas,
-							description: description,
-							updateMessage: updateMessage,
-							event: event
-						} as EventData.ProposalUpdated;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
 			// **********************************************************
 			//
 			// STATUS: TESTING AND DOCUMENTATION NEEDED
@@ -628,22 +265,6 @@ export class _NounsFork {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "QuorumCoefficientSet":
-				this.Contract.on(
-					"QuorumCoefficientSet",
-					(oldQuorumCoefficient: number, newQuorumCoefficient: number, event: ethers.Event) => {
-						const data = {
-							oldQuorumCoefficient: oldQuorumCoefficient,
-							newQuorumCoefficient: newQuorumCoefficient,
-							event: event
-						} as EventData.QuorumCoefficientSet;
-
-						listener(data);
-					}
-				);
 				this.registeredListeners.set(eventType, listener);
 				break;
 
@@ -662,53 +283,6 @@ export class _NounsFork {
 							newQuorumVotesBPS: newQuorumVotesBPS,
 							event: event
 						};
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "RefundableVote":
-				this.Contract.on(
-					"RefundableVote",
-					(voter: string, refundAmount: number, refundSent: boolean, event: ethers.Event) => {
-						const data = {
-							voter: { id: voter } as Account,
-							refundAmount: refundAmount,
-							refundSent: refundSent,
-							event: event
-						} as EventData.RefundableVote;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "SignatureCancelled":
-				this.Contract.on("SignatureCancelled", (signer: string, sig: any, event: ethers.Event) => {
-					const data = {
-						signer: { id: signer } as Account,
-						sig: sig,
-						event: event
-					} as EventData.SignatureCancelled;
-
-					listener(data);
-				});
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "TimelocksAndAdminSet":
-				this.Contract.on(
-					"TimelocksAndAdminSet",
-					(timelock: string, timelockV1: string, admin: string, event: ethers.Event) => {
-						const data = {
-							timelock: { id: timelock } as Account,
-							timelockV1: { id: timelockV1 } as Account,
-							admin: { id: admin } as Account,
-							event: event
-						} as EventData.TimelocksAndAdminSet;
 
 						listener(data);
 					}
@@ -751,26 +325,6 @@ export class _NounsFork {
 				this.registeredListeners.set(eventType, listener);
 				break;
 
-			case "VoteSnapshotBlockSwitchProposalIdSet":
-				this.Contract.on(
-					"VoteSnapshotBlockSwitchProposalIdSet",
-					(
-						oldVoteSnapshotBlockSwitchProposalId: number,
-						newVoteSnapshotBlockSwitchProposalId: number,
-						event: ethers.Event
-					) => {
-						const data = {
-							oldVoteSnapshotBlockSwitchProposalId: oldVoteSnapshotBlockSwitchProposalId,
-							newVoteSnapshotBlockSwitchProposalId: newVoteSnapshotBlockSwitchProposalId,
-							event: event
-						} as EventData.VoteSnapshotBlockSwitchProposalIdSet;
-
-						listener(data);
-					}
-				);
-				this.registeredListeners.set(eventType, listener);
-				break;
-
 			// **********************************************************
 			//
 			// STATUS: TESTING AND DOCUMENTATION NEEDED
@@ -806,36 +360,6 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "Withdraw":
-				this.Contract.on("Withdraw", (amount: number, sent: boolean, event: ethers.Event) => {
-					const data = {
-						amount: amount,
-						sent: sent,
-						event: event
-					} as EventData.Withdraw;
-
-					listener(data);
-				});
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "WithdrawFromForkEscrow":
-				this.Contract.on(
-					"WithdrawFromForkEscrow",
-					(forkId: number, owner: string, tokenIds: number[], event: ethers.Event) => {
-						const data = {
-							forkId: forkId,
-							owner: { id: owner } as Account,
-							tokenIds: tokenIds,
-							event: event
-						} as EventData.WithdrawFromForkEscrow;
-
-						listener(data);
-					}
-				);
 				this.registeredListeners.set(eventType, listener);
 				break;
 
