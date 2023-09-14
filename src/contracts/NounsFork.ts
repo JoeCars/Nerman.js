@@ -2,7 +2,7 @@ import { ethers, BigNumber } from "ethers";
 import { stringify } from "querystring";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData } from "../types";
 
-import { NounsDAOABI } from "@nouns/contracts";
+import { default as NounsForkABI } from "./NounsForkGovernance.json";
 
 export class _NounsFork {
 	private provider: ethers.providers.JsonRpcProvider;
@@ -11,7 +11,7 @@ export class _NounsFork {
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
-		this.Contract = new ethers.Contract("0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6", NounsDAOABI, this.provider);
+		this.Contract = new ethers.Contract("0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6", NounsForkABI, this.provider);
 		this.registeredListeners = new Map<string, Function>();
 	}
 
@@ -75,19 +75,6 @@ export class _NounsFork {
 					listener(data);
 				});
 
-				this.registeredListeners.set(eventType, listener);
-				break;
-
-			case "NewVetoer":
-				this.Contract.on("NewVetoer", (oldVetoer: string, newVetoer: string, event: ethers.Event) => {
-					const data: EventData.NewVetoer = {
-						oldVetoer: { id: oldVetoer },
-						newVetoer: { id: newVetoer },
-						event: event
-					};
-
-					listener(data);
-				});
 				this.registeredListeners.set(eventType, listener);
 				break;
 
@@ -251,18 +238,15 @@ export class _NounsFork {
 				this.registeredListeners.set(eventType, listener);
 				break;
 
-			// **********************************************************
-			//
-			// STATUS: TESTING AND DOCUMENTATION NEEDED
-			//
-			// **********************************************************
-			case "ProposalVetoed":
-				/// @notice An event emitted when a proposal has been vetoed by vetoAddress
-				this.Contract.on("ProposalVetoed", (id: number, event: ethers.Event) => {
-					const data: EventData.ProposalVetoed = {
-						id: id,
+			case "Quit":
+				/// @notice Emitted when quorum votes basis points is set
+				this.Contract.on("Quit", (msgSender: string, tokenIds: number[], event: ethers.Event) => {
+					const data: EventData.Quit = {
+						msgSender: { id: msgSender } as Account,
+						tokenIds: tokenIds,
 						event: event
 					};
+
 					listener(data);
 				});
 				this.registeredListeners.set(eventType, listener);

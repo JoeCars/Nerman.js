@@ -310,6 +310,12 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
+	export interface Quit {
+		msgSender: Account;
+		tokenIds: number[];
+		event: ethers.Event;
+	}
+
 	export interface QuorumCoefficientSet {
 		oldQuorumCoefficient: number;
 		newQuorumCoefficient: number;
