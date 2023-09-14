@@ -11,6 +11,8 @@ export { EventData } from "./types";
 export { NounsNymz } from "./utility/NounsNymz";
 export { FederationNounsPool } from "./utility/FederationNounsPool";
 export { _NounsForkToken as NounsForkToken } from "./contracts/NounsForkToken";
+export { _NounsForkAuctionHouse as NounsForkAuctionHouse } from "./contracts/NounsForkAuctionHouse";
+export { _NounsFork as NounsFork } from "./contracts/NounsFork";
 
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;
