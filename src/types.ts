@@ -617,7 +617,7 @@ export namespace EventData {
 		newOwner: Account;
 		event: ethers.Event;
 	}
-	
+
 	export interface ProposalCandidateCanceled {
 		msgSender: Account;
 		slug: string;
@@ -674,7 +674,6 @@ export namespace EventData {
 		implementation: Account;
 		event: ethers.Event;
 	}
-
 
 	// ******************************************
 	//
@@ -765,6 +764,29 @@ export namespace EventData {
 				amount: number;
 				bidder: string;
 			}
+		}
+	}
+
+	export namespace Propdates {
+		export interface PostUpdate {
+			propId: number;
+			isCompleted: boolean;
+			update: string;
+			event: ethers.Event;
+		}
+
+		export interface PropUpdateAdminTransferStarted {
+			propId: number;
+			oldAdmin: Account;
+			newAdmin: Account;
+			event: ethers.Event;
+		}
+
+		export interface PropUpdateAdminTransfered {
+			propId: number;
+			oldAdmin: Account;
+			newAdmin: Account;
+			event: ethers.Event;
 		}
 	}
 }
