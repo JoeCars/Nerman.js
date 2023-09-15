@@ -13,6 +13,7 @@ export { FederationNounsPool } from "./utility/FederationNounsPool";
 export { _NounsForkToken as NounsForkToken } from "./contracts/NounsForkToken";
 export { _NounsForkAuctionHouse as NounsForkAuctionHouse } from "./contracts/NounsForkAuctionHouse";
 export { _NounsFork as NounsFork } from "./contracts/NounsFork";
+export { _Propdates as Propdates } from "./contracts/Propdates/Propdates";
 
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;
