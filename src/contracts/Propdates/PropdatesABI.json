@@ -1,0 +1,96 @@
+[
+	{ "inputs": [], "name": "NoZeroAddress", "type": "error" },
+	{ "inputs": [], "name": "OnlyPendingPropUpdateAdmin", "type": "error" },
+	{ "inputs": [], "name": "OnlyPropUpdateAdmin", "type": "error" },
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "uint256", "name": "propId", "type": "uint256" },
+			{ "indexed": true, "internalType": "bool", "name": "isCompleted", "type": "bool" },
+			{ "indexed": false, "internalType": "string", "name": "update", "type": "string" }
+		],
+		"name": "PostUpdate",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "uint256", "name": "propId", "type": "uint256" },
+			{ "indexed": true, "internalType": "address", "name": "oldAdmin", "type": "address" },
+			{ "indexed": true, "internalType": "address", "name": "newAdmin", "type": "address" }
+		],
+		"name": "PropUpdateAdminTransferStarted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "uint256", "name": "propId", "type": "uint256" },
+			{ "indexed": true, "internalType": "address", "name": "oldAdmin", "type": "address" },
+			{ "indexed": true, "internalType": "address", "name": "newAdmin", "type": "address" }
+		],
+		"name": "PropUpdateAdminTransfered",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "NOUNS_DAO",
+		"outputs": [{ "internalType": "address payable", "name": "", "type": "address" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "uint256", "name": "propId", "type": "uint256" }],
+		"name": "acceptPropUpdateAdmin",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+		"name": "pendingPropUpdateAdmin",
+		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "uint256", "name": "propId", "type": "uint256" },
+			{ "internalType": "bool", "name": "isCompleted", "type": "bool" },
+			{ "internalType": "string", "name": "update", "type": "string" }
+		],
+		"name": "postUpdate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "uint256", "name": "propId", "type": "uint256" }],
+		"name": "propdateInfo",
+		"outputs": [
+			{
+				"components": [
+					{ "internalType": "address", "name": "propUpdateAdmin", "type": "address" },
+					{ "internalType": "uint88", "name": "lastUpdated", "type": "uint88" },
+					{ "internalType": "bool", "name": "isCompleted", "type": "bool" }
+				],
+				"internalType": "struct Propdates.PropdateInfo",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "uint256", "name": "propId", "type": "uint256" },
+			{ "internalType": "address", "name": "newAdmin", "type": "address" }
+		],
+		"name": "transferPropUpdateAdmin",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{ "stateMutability": "payable", "type": "receive" }
+]
