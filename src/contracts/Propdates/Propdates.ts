@@ -5,10 +5,12 @@ import { default as PropdatesABI } from "./PropdatesABI.json";
 export class _Propdates {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
+	public registeredListeners: Map<string, Function>;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x94b4fb16893C0Fb4E470eEf2559C24FD87FEd5F1", PropdatesABI, this.provider);
+		this.registeredListeners = new Map();
 	}
 
 	public async on(eventType: string, listener: Function) {
@@ -23,7 +25,7 @@ export class _Propdates {
 					};
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "PropUpdateAdminTransferStarted":
@@ -40,7 +42,7 @@ export class _Propdates {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "PropUpdateAdminTransfered":
@@ -57,11 +59,20 @@ export class _Propdates {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			default:
 				throw new Error(`${eventType} is not supported. Please use a different event.`);
 		}
+	}
+
+	public trigger(eventType: string, data: unknown) {
+		const listener = this.registeredListeners.get(eventType);
+		if (!listener) {
+			throw new Error(`${eventType} does not have a listener.`);
+		}
+
+		listener(data);
 	}
 }
