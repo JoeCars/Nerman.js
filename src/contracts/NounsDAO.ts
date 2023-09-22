@@ -473,7 +473,8 @@ export class _NounsDAO {
 							id: id,
 							proposer: { id: proposer } as Account,
 							description: description,
-							updatedMessage: updatedMessage
+							updatedMessage: updatedMessage,
+							event: event
 						} as EventData.ProposalDescriptionUpdated;
 
 						listener(data);

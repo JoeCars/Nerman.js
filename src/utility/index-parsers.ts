@@ -17,7 +17,7 @@ export function parseDAOWithdrawNounsFromEscrowEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		tokenIds: event.args!.tokenIds,
 		to: event.args!.to
-	};
+	} as Indexer.NounsDAO.DAOWithdrawNounsFromEscrow;
 }
 
 export function parseERC20TokensToIncludeInForkSetEvent(event: ethers.Event) {
@@ -31,7 +31,7 @@ export function parseERC20TokensToIncludeInForkSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldErc20Tokens: event.args!.oldErc20Tokens,
 		newErc20tokens: event.args!.newErc20tokens
-	};
+	} as Indexer.NounsDAO.ERC20TokensToIncludeInForkSet;
 }
 
 export function parseEscrowedToForkEvent(event: ethers.Event) {
@@ -48,7 +48,7 @@ export function parseEscrowedToForkEvent(event: ethers.Event) {
 		tokenIds: event.args!.tokenIds,
 		proposalIds: event.args!.proposalIds,
 		reason: event.args!.reason
-	};
+	} as Indexer.NounsDAO.EscrowedToFork;
 }
 
 export function parseExecuteForkEvent(event: ethers.Event) {
@@ -65,7 +65,7 @@ export function parseExecuteForkEvent(event: ethers.Event) {
 		forkToken: event.args!.forkToken,
 		forkEndTimestamp: event.args!.forkEndTimestamp,
 		tokensInEscrow: event.args!.tokensInEscrow
-	};
+	} as Indexer.NounsDAO.ExecuteFork;
 }
 
 export function parseForkDAODeployerSetEvent(event: ethers.Event) {
@@ -79,7 +79,7 @@ export function parseForkDAODeployerSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldForkDAODeployer: event.args!.oldForkDAODeployer,
 		newForkDAODeployer: event.args!.newForkDAODeployer
-	};
+	} as Indexer.NounsDAO.ForkDAODeployerSet;
 }
 
 export function parseForkPeriodSetEvent(event: ethers.Event) {
@@ -93,7 +93,7 @@ export function parseForkPeriodSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldForkPeriod: event.args!.oldForkPeriod,
 		newForkPeriod: event.args!.newForkPeriod
-	};
+	} as Indexer.NounsDAO.ForkPeriodSet;
 }
 
 export function parseForkThresholdSetEvent(event: ethers.Event) {
@@ -107,7 +107,7 @@ export function parseForkThresholdSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldForkThreshold: event.args!.oldForkThreshold,
 		newForkThreshold: event.args!.newForkThreshold
-	};
+	} as Indexer.NounsDAO.ForkThresholdSet;
 }
 
 export function parseJoinForkEvent(event: ethers.Event) {
@@ -124,7 +124,7 @@ export function parseJoinForkEvent(event: ethers.Event) {
 		tokenIds: event.args!.tokenIds,
 		proposalIds: event.args!.proposalIds,
 		reason: event.args!.reason
-	};
+	} as Indexer.NounsDAO.JoinFork;
 }
 
 export function parseLastMinuteWindowSetEvent(event: ethers.Event) {
@@ -138,7 +138,7 @@ export function parseLastMinuteWindowSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldLastMinuteWindowInBlocks: Number(event.args!.oldLastMinuteWindowInBlocks),
 		newLastMinuteWindowInBlocks: Number(event.args!.newLastMinuteWindowInBlocks)
-	};
+	} as Indexer.NounsDAO.LastMinuteWindowSet;
 }
 
 export function parseMaxQuorumVotesBPSSetEvent(event: ethers.Event) {
@@ -152,7 +152,7 @@ export function parseMaxQuorumVotesBPSSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldMaxQuorumVotesBPS: Number(event.args!.oldMaxQuorumVotesBPS),
 		newMaxQuorumVotesBPS: Number(event.args!.newMaxQuorumVotesBPS)
-	};
+	} as Indexer.NounsDAO.MaxQuorumVotesBPSSet;
 }
 
 export function parseMinQuorumVotesBPSSetEvent(event: ethers.Event) {
@@ -166,7 +166,7 @@ export function parseMinQuorumVotesBPSSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldMinQuorumVotesBPS: Number(event.args!.oldMinQuorumVotesBPS),
 		newMinQuorumVotesBPS: Number(event.args!.newMinQuorumVotesBPS)
-	};
+	} as Indexer.NounsDAO.MinQuorumVotesBPSSet;
 }
 
 export function parseNewAdminEvent(event: ethers.Event) {
@@ -222,7 +222,7 @@ export function parseNewPendingVetoerEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldPendingVetoer: event.args!.oldPendingVetoer,
 		newPendingVetoer: event.args!.newPendingVetoer
-	};
+	} as Indexer.NounsDAO.NewPendingVetoer;
 }
 
 export function parseNewVetoerEvent(event: ethers.Event) {
@@ -250,7 +250,7 @@ export function parseObjectionPeriodDurationSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldObjectionPeriodDurationInBlocks: Number(event.args!.oldObjectionPeriodDurationInBlocks),
 		newObjectionPeriodDurationInBlocks: Number(event.args!.newObjectionPeriodDurationInBlocks)
-	};
+	} as Indexer.NounsDAO.ObjectionPeriodDurationSet;
 }
 
 export function parseProposalCanceledEvent(event: ethers.Event) {
@@ -297,7 +297,7 @@ export function parseProposalCreatedOnTimelockV1Event(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		id: Number(event.args!.id)
-	};
+	} as Indexer.NounsDAO.ProposalCreatedOnTimelockV1;
 }
 
 export function parseProposalCreatedWithRequirementsEvent(event: ethers.Event) {
@@ -337,7 +337,7 @@ export function parseProposalDescriptionUpdatedEvent(event: ethers.Event) {
 		proposer: event.args!.proposer,
 		description: event.args!.description,
 		updatedMessage: event.args!.updatedMessage
-	};
+	} as Indexer.NounsDAO.ProposalDescriptionUpdated;
 }
 
 export function parseProposalExecutedEvent(event: ethers.Event) {
@@ -365,7 +365,7 @@ export function parseProposalObjectionPeriodSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		proposalId: Number(event.args!.id),
 		objectionPeriodEndBlock: event.args!.objectionPeriodEndBlock
-	};
+	} as Indexer.NounsDAO.ProposalObjectionPeriodSet;
 }
 
 export function parseProposalQueuedEvent(event: ethers.Event) {
@@ -412,7 +412,7 @@ export function parseProposalTransactionsUpdatedEvent(event: ethers.Event) {
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		updateMessage: event.args!.updateMessage
-	};
+	} as Indexer.NounsDAO.ProposalTransactionsUpdated;
 }
 
 export function parseProposalUpdatablePeriodSetEvent(event: ethers.Event) {
@@ -426,7 +426,7 @@ export function parseProposalUpdatablePeriodSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldProposalUpdatablePeriodInBlocks: Number(event.args!.oldProposalUpdatablePeriodInBlocks),
 		newProposalUpdatablePeriodInBlocks: Number(event.args!.newProposalUpdatablePeriodInBlocks)
-	};
+	} as Indexer.NounsDAO.ProposalUpdatablePeriodSet;
 }
 
 export function parseProposalUpdatedEvent(event: ethers.Event) {
@@ -445,7 +445,7 @@ export function parseProposalUpdatedEvent(event: ethers.Event) {
 		calldatas: event.args!.calldatas,
 		description: event.args!.description,
 		updateMessage: event.args!.updateMessage
-	};
+	} as Indexer.NounsDAO.ProposalUpdated;
 }
 
 export function parseProposalVetoedEvent(event: ethers.Event) {
@@ -473,7 +473,7 @@ export function parseQuorumCoefficientSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldQuorumCoefficient: Number(event.args!.oldQuorumCoefficient),
 		newQuorumCoefficient: Number(event.args!.newQuorumCoefficient)
-	};
+	} as Indexer.NounsDAO.QuorumCoefficientSet;
 }
 
 export function parseQuorumVotesBPSSetEvent(event: ethers.Event) {
@@ -502,7 +502,7 @@ export function parseRefundableVoteEvent(event: ethers.Event) {
 		voter: event.args!.voter,
 		refundAmount: Number(event.args!.refundAmount),
 		refundSent: event.args!.refundSent
-	};
+	} as Indexer.NounsDAO.RefundableVote;
 }
 
 export function parseSignatureCancelledEvent(event: ethers.Event) {
@@ -516,7 +516,7 @@ export function parseSignatureCancelledEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		signer: event.args!.signer,
 		sig: event.args!.sig
-	};
+	} as Indexer.NounsDAO.SignatureCancelled;
 }
 
 export function parseTimelocksAndAdminSetEvent(event: ethers.Event) {
@@ -531,7 +531,7 @@ export function parseTimelocksAndAdminSetEvent(event: ethers.Event) {
 		timelock: event.args!.timelock,
 		timelockV1: event.args!.timelockV1,
 		admin: event.args!.admin
-	};
+	} as Indexer.NounsDAO.TimelocksAndAdminSet;
 }
 
 export function parseVoteCastEvent(event: ethers.Event) {
@@ -563,7 +563,7 @@ export function parseVoteSnapshotBlockSwitchProposalIdSetEvent(event: ethers.Eve
 		eventSignature: event.eventSignature,
 		oldVoteSnapshotBlockSwitchProposalId: Number(event.args!.oldVoteSnapshotBlockSwitchProposalId),
 		newVoteSnapshotBlockSwitchProposalId: Number(event.args!.newVoteSnapshotBlockSwitchProposalId)
-	};
+	} as Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSet;
 }
 
 export function parseVotingDelaySetEvent(event: ethers.Event) {
@@ -605,7 +605,7 @@ export function parseWithdrawEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		amount: Number(event.args!.amount),
 		sent: event.args!.sent
-	};
+	} as Indexer.NounsDAO.Withdraw;
 }
 
 export function parseWithdrawFromForkEscrowEvent(event: ethers.Event) {
@@ -620,7 +620,7 @@ export function parseWithdrawFromForkEscrowEvent(event: ethers.Event) {
 		forkId: Number(event.args!.forkId),
 		owner: event.args!.owner,
 		tokenIds: event.args!.tokenIds
-	};
+	} as Indexer.NounsDAO.WithdrawFromForkEscrow;
 }
 
 export const NOUNS_DAO_PARSERS = new Map<string, Function>();

@@ -251,6 +251,7 @@ export namespace EventData {
 		proposer: Account;
 		description: string;
 		updatedMessage: string;
+		event: ethers.Event;
 	}
 
 	export interface ProposalExecuted {
@@ -807,6 +808,105 @@ export namespace Indexer {
 	}
 
 	export namespace NounsDAO {
+		export interface DAOWithdrawNounsFromEscrow extends FormattedEvent {
+			tokenIds: number[];
+			to: string;
+		}
+
+		export interface ERC20TokensToIncludeInForkSet extends FormattedEvent {
+			oldErc20Tokens: string[];
+			newErc20tokens: string[];
+		}
+
+		export interface EscrowedToFork extends FormattedEvent {
+			forkId: number;
+			owner: string;
+			tokenIds: number[];
+			proposalIds: number[];
+			reason: string;
+		}
+
+		export interface ExecuteFork extends FormattedEvent {
+			forkId: number;
+			forkTreasury: string;
+			forkToken: string;
+			forkEndTimestamp: number;
+			tokensInEscrow: number;
+		}
+
+		export interface ForkDAODeployerSet extends FormattedEvent {
+			oldForkDAODeployer: string;
+			newForkDAODeployer: string;
+		}
+
+		export interface ForkPeriodSet extends FormattedEvent {
+			oldForkPeriod: number;
+			newForkPeriod: number;
+		}
+
+		export interface ForkThresholdSet extends FormattedEvent {
+			oldForkThreshold: number;
+			newForkThreshold: number;
+		}
+
+		export interface JoinFork extends FormattedEvent {
+			forkId: number;
+			owner: string;
+			tokenIds: number[];
+			proposalIds: number[];
+			reason: string;
+		}
+
+		export interface LastMinuteWindowSet extends FormattedEvent {
+			oldLastMinuteWindowInBlocks: number;
+			newLastMinuteWindowInBlocks: number;
+		}
+
+		export interface MaxQuorumVotesBPSSet extends FormattedEvent {
+			oldMaxQuorumVotesBPS: number;
+			newMaxQuorumVotesBPS: number;
+		}
+
+		export interface MinQuorumVotesBPSSet extends FormattedEvent {
+			oldMinQuorumVotesBPS: number;
+			newMinQuorumVotesBPS: number;
+		}
+
+		export interface NewAdmin extends FormattedEvent {
+			oldAdmin: string;
+			newAdmin: string;
+		}
+
+		export interface NewImplementation extends FormattedEvent {
+			oldImplementation: string;
+			newImplementation: string;
+		}
+
+		export interface NewPendingAdmin extends FormattedEvent {
+			oldPendingAdmin: string;
+			newPendingAdmin: string;
+		}
+
+		export interface NewPendingVetoer extends FormattedEvent {
+			oldPendingVetoer: string;
+			newPendingVetoer: string;
+		}
+
+		export interface NewVetoer extends FormattedEvent {
+			oldVetoer: string;
+			newVetoer: string;
+		}
+
+		export interface ObjectionPeriodDurationSet extends FormattedEvent {
+			oldObjectionPeriodDurationInBlocks: number;
+			newObjectionPeriodDurationInBlocks: number;
+		}
+
+		export interface ProposalCanceled extends FormattedEvent {
+			proposalId: number;
+			status: string;
+		}
+
 		export interface ProposalCreated extends FormattedEvent {
 			id: number;
 			proposer: string;
@@ -819,11 +919,101 @@ export namespace Indexer {
 			description: string;
 		}
 
+		export interface ProposalCreatedOnTimelockV1 extends FormattedEvent {
+			id: number;
+		}
+
 		export interface ProposalCreatedWithRequirements extends ProposalCreated {
 			signers: string[];
 			updatePeriodEndBlock: number;
 			proposalThreshold: number;
 			quorumVotes: number;
+		}
+
+		export interface ProposalDescriptionUpdated extends FormattedEvent {
+			id: number;
+			proposer: string;
+			description: string;
+			updatedMessage: string;
+		}
+
+		export interface ProposalExecuted extends FormattedEvent {
+			proposalId: number;
+			status: string;
+		}
+
+		export interface ProposalObjectionPeriodSet extends FormattedEvent {
+			proposalId: number;
+			objectionPeriodEndBlock: number;
+		}
+
+		export interface ProposalQueued extends FormattedEvent {
+			proposalId: number;
+			eta: number;
+			status: string;
+		}
+
+		export interface ProposalThresholdBPSSet extends FormattedEvent {
+			oldProposalThresholdBPS: number;
+			newProposalThresholdBPS: number;
+		}
+
+		export interface ProposalTransactionsUpdated extends FormattedEvent {
+			id: number;
+			proposer: string;
+			targets: string[];
+			values: number[];
+			signatures: string[];
+			calldatas: any[];
+			updateMessage: string;
+		}
+
+		export interface ProposalUpdatablePeriodSet extends FormattedEvent {
+			oldProposalUpdatablePeriodInBlocks: number;
+			newProposalUpdatablePeriodInBlocks: number;
+		}
+
+		export interface ProposalUpdated extends FormattedEvent {
+			id: number;
+			proposer: string;
+			targets: string[];
+			values: number[];
+			signatures: string[];
+			calldatas: any[];
+			description: string;
+			updateMessage: string;
+		}
+
+		export interface ProposalVetoed extends FormattedEvent {
+			proposalId: number;
+			status: string;
+		}
+
+		export interface QuorumCoefficientSet extends FormattedEvent {
+			oldQuorumCoefficient: number;
+			newQuorumCoefficient: number;
+		}
+
+		export interface QuorumVotesBPSSet extends FormattedEvent {
+			oldQuorumVotesBPS: number;
+			newQuorumVotesBPS: number;
+		}
+
+		export interface RefundableVote extends FormattedEvent {
+			voter: string;
+			refundAmount: number;
+			refundSent: boolean;
+		}
+
+		export interface SignatureCancelled extends FormattedEvent {
+			signer: string;
+			sig: any;
+		}
+
+		export interface TimelocksAndAdminSet extends FormattedEvent {
+			timelock: string;
+			timelockV1: string;
+			admin: string;
 		}
 
 		export interface VoteCast extends FormattedEvent {
@@ -835,25 +1025,9 @@ export namespace Indexer {
 			reason: string;
 		}
 
-		export interface ProposalCanceled extends FormattedEvent {
-			proposalId: number;
-			status: string;
-		}
-
-		export interface ProposalQueued extends FormattedEvent {
-			proposalId: number;
-			eta: number;
-			status: string;
-		}
-
-		export interface ProposalExecuted extends FormattedEvent {
-			proposalId: number;
-			status: string;
-		}
-
-		export interface ProposalVetoed extends FormattedEvent {
-			proposalId: number;
-			status: string;
+		export interface VoteSnapshotBlockSwitchProposalIdSet extends FormattedEvent {
+			oldVoteSnapshotBlockSwitchProposalId: number;
+			newVoteSnapshotBlockSwitchProposalId: number;
 		}
 
 		export interface VotingDelaySet extends FormattedEvent {
@@ -866,34 +1040,15 @@ export namespace Indexer {
 			newVotingPeriod: number;
 		}
 
-		export interface NewImplementation extends FormattedEvent {
-			oldImplementation: string;
-			newImplementation: string;
+		export interface Withdraw extends FormattedEvent {
+			amount: number;
+			sent: boolean;
 		}
 
-		export interface ProposalThresholdBPSSet extends FormattedEvent {
-			oldProposalThresholdBPS: number;
-			newProposalThresholdBPS: number;
-		}
-
-		export interface QuorumVotesBPSSet extends FormattedEvent {
-			oldQuorumVotesBPS: number;
-			newQuorumVotesBPS: number;
-		}
-
-		export interface NewPendingAdmin extends FormattedEvent {
-			oldPendingAdmin: string;
-			newPendingAdmin: string;
-		}
-
-		export interface NewAdmin extends FormattedEvent {
-			oldAdmin: string;
-			newAdmin: string;
-		}
-
-		export interface NewVetoer extends FormattedEvent {
-			oldVetoer: string;
-			newVetoer: string;
+		export interface WithdrawFromForkEscrow extends FormattedEvent {
+			forkId: number;
+			owner: string;
+			tokenIds: number[];
 		}
 	}
 
