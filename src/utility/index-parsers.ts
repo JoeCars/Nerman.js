@@ -996,6 +996,20 @@ export function parseNoundersDAOUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.NoundersDAOUpdated;
 }
 
+export function parseOwnershipTransferredEvent2(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		previousOwner: event.args!.previousOwner,
+		newOwner: event.args!.newOwner
+	} as Indexer.NounsAuctionHouse.OwnershipTransferred;
+}
+
 export function parseSeederLockedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1034,5 +1048,247 @@ NOUNS_TOKEN_PARSERS.set("MinterLocked", parseMinterLockedEvent);
 NOUNS_TOKEN_PARSERS.set("MinterUpdated", parseMinterUpdatedEvent);
 NOUNS_TOKEN_PARSERS.set("NounBurned", parseNounBurnedEvent);
 NOUNS_TOKEN_PARSERS.set("NoundersDAOUpdated", parseNoundersDAOUpdatedEvent);
+NOUNS_TOKEN_PARSERS.set("OwnershipTransferred", parseOwnershipTransferredEvent2);
 NOUNS_TOKEN_PARSERS.set("SeederLocked", parseSeederLockedEvent);
 NOUNS_TOKEN_PARSERS.set("SeederUpdated", parseSeederUpdatedEvent);
+
+//=======================================
+// NounsDAOData
+//=======================================
+
+export function parseAdminChangedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		previousAdmin: event.args!.previousAdmin,
+		newAdmin: event.args!.newAdmin
+	};
+}
+
+export function parseBeaconUpgradedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		beacon: event.args!.beacon
+	};
+}
+
+export function parseCandidateFeedbackSentEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		msgSender: event.args!.msgSender,
+		proposer: event.args!.proposer,
+		slug: event.args!.slug,
+		support: Number(event.args!.support),
+		supportChoice: ["AGAINST", "FOR", "ABSTAIN"][event.args!.support],
+		reason: event.args!.reason
+	};
+}
+
+export function parseCreateCandidateCostSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldCreateCandidateCost: Number(event.args!.oldCreateCandidateCost),
+		newCreateCandidateCost: Number(event.args!.newCreateCandidateCost)
+	};
+}
+
+export function parseETHWithdrawnEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		to: event.args!.to,
+		amount: Number(event.args!.amount)
+	};
+}
+
+export function parseFeeRecipientSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldFeeRecipient: event.args!.oldFeeRecipient,
+		newFeeRecipient: event.args!.newFeeRecipient
+	};
+}
+
+export function parseFeedbackSentEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		msgSender: event.args!.msgSender,
+		proposalId: Number(event.args!.proposalId),
+		support: Number(event.args!.support),
+		supportChoice: ["AGAINST", "FOR", "ABSTAIN"][event.args!.support],
+		reason: event.args!.reason
+	};
+}
+
+export function parseOwnershipTransferredEvent3(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		previousOwner: event.args!.previousOwner,
+		newOwner: event.args!.newOwner
+	};
+}
+
+export function parseProposalCandidateCanceledEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		msgSender: event.args!.msgSender,
+		slug: event.args!.slug
+	};
+}
+
+export function parseProposalCandidateCreatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		msgSender: event.args!.msgSender,
+		targets: event.args!.targets,
+		signatures: event.args!.signatures,
+		calldatas: event.args!.calldatas,
+		description: event.args!.description,
+		slug: event.args!.slug,
+		proposalIdToUpdate: Number(event.args!.proposalIdToUpdate),
+		encodedProposalHash: event.args!.encodedProposalHash
+	};
+}
+
+export function parseProposalCandidateUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		msgSender: event.args!.msgSender,
+		targets: event.args!.targets,
+		signatures: event.args!.signatures,
+		calldatas: event.args!.calldatas,
+		description: event.args!.description,
+		slug: event.args!.slug,
+		proposalIdToUpdate: Number(event.args!.proposalIdToUpdate),
+		encodedProposalHash: event.args!.encodedProposalHash,
+		reason: event.args!.reason
+	};
+}
+
+export function parseSignatureAddedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		signer: event.args!.signer,
+		sig: event.args!.sig,
+		expirationTimestamp: Number(event.args!.expirationTimestamp),
+		proposer: event.args!.proposer,
+		slug: event.args!.slug,
+		proposalIdToUpdate: Number(event.args!.proposalIdToUpdate),
+		encodedPropHash: event.args!.encodedPropHash,
+		sigDigest: event.args!.sigDigest,
+		reason: event.args!.reason
+	};
+}
+
+export function parseUpdateCandidateCostSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldUpdateCandidateCost: Number(event.args!.oldUpdateCandidateCost),
+		newUpdateCandidateCost: Number(event.args!.newUpdateCandidateCost)
+	};
+}
+
+export function parseUpgradedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		implementation: event.args!.implementation
+	};
+}
+
+export const NOUNS_DATA_PARSERS = new Map<string, Function>();
+NOUNS_DAO_PARSERS.set("AdminChanged", parseAdminChangedEvent);
+NOUNS_DAO_PARSERS.set("BeaconUpgraded", parseBeaconUpgradedEvent);
+NOUNS_DAO_PARSERS.set("CandidateFeedbackSent", parseCandidateFeedbackSentEvent);
+NOUNS_DAO_PARSERS.set("CreateCandidateCostSet", parseCreateCandidateCostSetEvent);
+NOUNS_DAO_PARSERS.set("ETHWithdrawn", parseETHWithdrawnEvent);
+NOUNS_DAO_PARSERS.set("FeeRecipientSet", parseFeeRecipientSetEvent);
+NOUNS_DAO_PARSERS.set("FeedbackSent", parseFeedbackSentEvent);
+NOUNS_DAO_PARSERS.set("OwnershipTransferred", parseOwnershipTransferredEvent3);
+NOUNS_DAO_PARSERS.set("ProposalCandidateCanceled", parseProposalCandidateCanceledEvent);
+NOUNS_DAO_PARSERS.set("ProposalCandidateCreated", parseProposalCandidateCreatedEvent);
+NOUNS_DAO_PARSERS.set("ProposalCandidateUpdated", parseProposalCandidateUpdatedEvent);
+NOUNS_DAO_PARSERS.set("SignatureAdded", parseSignatureAddedEvent);
+NOUNS_DAO_PARSERS.set("UpdateCandidateCostSet", parseUpdateCandidateCostSetEvent);
+NOUNS_DAO_PARSERS.set("Upgraded", parseUpgradedEvent);
