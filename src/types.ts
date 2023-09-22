@@ -1015,4 +1015,101 @@ export namespace Indexer {
 			seeder: string;
 		}
 	}
+
+	export namespace NounsDAOData {
+		export interface AdminChanged extends FormattedEvent {
+			previousAdmin: string;
+			newAdmin: string;
+		}
+
+		export interface BeaconUpgraded extends FormattedEvent {
+			beacon: string;
+		}
+
+		export interface CandidateFeedbackSent extends FormattedEvent {
+			msgSender: string;
+			proposer: string;
+			slug: string;
+			support: number;
+			supportChoice: string;
+			reason: string;
+		}
+
+		export interface CreateCandidateCostSet extends FormattedEvent {
+			oldCreateCandidateCost: number;
+			newCreateCandidateCost: number;
+		}
+
+		export interface ETHWithdrawn extends FormattedEvent {
+			to: string;
+			amount: number;
+		}
+
+		export interface FeeRecipientSet extends FormattedEvent {
+			oldFeeRecipient: string;
+			newFeeRecipient: string;
+		}
+
+		export interface FeedbackSent extends FormattedEvent {
+			msgSender: string;
+			proposalId: number;
+			support: number;
+			supportChoice: string;
+			reason: string;
+		}
+
+		export interface OwnershipTransferred extends FormattedEvent {
+			previousOwner: string;
+			newOwner: string;
+		}
+
+		export interface ProposalCandidateCanceled extends FormattedEvent {
+			msgSender: string;
+			slug: string;
+		}
+
+		export interface ProposalCandidateCreated extends FormattedEvent {
+			msgSender: string;
+			targets: string[];
+			signatures: string[];
+			calldatas: any[];
+			description: string;
+			slug: string;
+			proposalIdToUpdate: number;
+			encodedProposalHash: string;
+		}
+
+		export interface ProposalCandidateUpdated extends FormattedEvent {
+			msgSender: string;
+			targets: string[];
+			signatures: string[];
+			calldatas: any[];
+			description: string;
+			slug: string;
+			proposalIdToUpdate: number;
+			encodedProposalHash: string;
+			reason: string;
+		}
+
+		export interface SignatureAdded extends FormattedEvent {
+			signer: string;
+			sig: string;
+			expirationTimestamp: number;
+			proposer: string;
+			slug: string;
+			proposalIdToUpdate: number;
+			encodedPropHash: string;
+			sigDigest: string;
+			reason: string;
+		}
+
+		export interface UpdateCandidateCostSet extends FormattedEvent {
+			oldUpdateCandidateCost: number;
+			newUpdateCandidateCost: number;
+		}
+
+		export interface Upgraded extends FormattedEvent {
+			implementation: string;
+		}
+	}
 }

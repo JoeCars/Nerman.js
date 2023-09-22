@@ -1067,7 +1067,7 @@ export function parseAdminChangedEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		previousAdmin: event.args!.previousAdmin,
 		newAdmin: event.args!.newAdmin
-	};
+	} as Indexer.NounsDAOData.AdminChanged;
 }
 
 export function parseBeaconUpgradedEvent(event: ethers.Event) {
@@ -1080,7 +1080,7 @@ export function parseBeaconUpgradedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		beacon: event.args!.beacon
-	};
+	} as Indexer.NounsDAOData.BeaconUpgraded;
 }
 
 export function parseCandidateFeedbackSentEvent(event: ethers.Event) {
@@ -1098,7 +1098,7 @@ export function parseCandidateFeedbackSentEvent(event: ethers.Event) {
 		support: Number(event.args!.support),
 		supportChoice: ["AGAINST", "FOR", "ABSTAIN"][event.args!.support],
 		reason: event.args!.reason
-	};
+	} as Indexer.NounsDAOData.CandidateFeedbackSent;
 }
 
 export function parseCreateCandidateCostSetEvent(event: ethers.Event) {
@@ -1112,7 +1112,7 @@ export function parseCreateCandidateCostSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldCreateCandidateCost: Number(event.args!.oldCreateCandidateCost),
 		newCreateCandidateCost: Number(event.args!.newCreateCandidateCost)
-	};
+	} as Indexer.NounsDAOData.CreateCandidateCostSet;
 }
 
 export function parseETHWithdrawnEvent(event: ethers.Event) {
@@ -1126,7 +1126,7 @@ export function parseETHWithdrawnEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		to: event.args!.to,
 		amount: Number(event.args!.amount)
-	};
+	} as Indexer.NounsDAOData.ETHWithdrawn;
 }
 
 export function parseFeeRecipientSetEvent(event: ethers.Event) {
@@ -1140,7 +1140,7 @@ export function parseFeeRecipientSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldFeeRecipient: event.args!.oldFeeRecipient,
 		newFeeRecipient: event.args!.newFeeRecipient
-	};
+	} as Indexer.NounsDAOData.FeeRecipientSet;
 }
 
 export function parseFeedbackSentEvent(event: ethers.Event) {
@@ -1157,7 +1157,7 @@ export function parseFeedbackSentEvent(event: ethers.Event) {
 		support: Number(event.args!.support),
 		supportChoice: ["AGAINST", "FOR", "ABSTAIN"][event.args!.support],
 		reason: event.args!.reason
-	};
+	} as Indexer.NounsDAOData.FeedbackSent;
 }
 
 export function parseOwnershipTransferredEvent3(event: ethers.Event) {
@@ -1171,7 +1171,7 @@ export function parseOwnershipTransferredEvent3(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		previousOwner: event.args!.previousOwner,
 		newOwner: event.args!.newOwner
-	};
+	} as Indexer.NounsDAOData.OwnershipTransferred;
 }
 
 export function parseProposalCandidateCanceledEvent(event: ethers.Event) {
@@ -1185,7 +1185,7 @@ export function parseProposalCandidateCanceledEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		msgSender: event.args!.msgSender,
 		slug: event.args!.slug
-	};
+	} as Indexer.NounsDAOData.ProposalCandidateCanceled;
 }
 
 export function parseProposalCandidateCreatedEvent(event: ethers.Event) {
@@ -1205,7 +1205,7 @@ export function parseProposalCandidateCreatedEvent(event: ethers.Event) {
 		slug: event.args!.slug,
 		proposalIdToUpdate: Number(event.args!.proposalIdToUpdate),
 		encodedProposalHash: event.args!.encodedProposalHash
-	};
+	} as Indexer.NounsDAOData.ProposalCandidateCreated;
 }
 
 export function parseProposalCandidateUpdatedEvent(event: ethers.Event) {
@@ -1226,7 +1226,7 @@ export function parseProposalCandidateUpdatedEvent(event: ethers.Event) {
 		proposalIdToUpdate: Number(event.args!.proposalIdToUpdate),
 		encodedProposalHash: event.args!.encodedProposalHash,
 		reason: event.args!.reason
-	};
+	} as Indexer.NounsDAOData.ProposalCandidateUpdated;
 }
 
 export function parseSignatureAddedEvent(event: ethers.Event) {
@@ -1247,7 +1247,7 @@ export function parseSignatureAddedEvent(event: ethers.Event) {
 		encodedPropHash: event.args!.encodedPropHash,
 		sigDigest: event.args!.sigDigest,
 		reason: event.args!.reason
-	};
+	} as Indexer.NounsDAOData.SignatureAdded;
 }
 
 export function parseUpdateCandidateCostSetEvent(event: ethers.Event) {
@@ -1261,7 +1261,7 @@ export function parseUpdateCandidateCostSetEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		oldUpdateCandidateCost: Number(event.args!.oldUpdateCandidateCost),
 		newUpdateCandidateCost: Number(event.args!.newUpdateCandidateCost)
-	};
+	} as Indexer.NounsDAOData.UpdateCandidateCostSet;
 }
 
 export function parseUpgradedEvent(event: ethers.Event) {
@@ -1274,7 +1274,7 @@ export function parseUpgradedEvent(event: ethers.Event) {
 		eventName: event.event,
 		eventSignature: event.eventSignature,
 		implementation: event.args!.implementation
-	};
+	} as Indexer.NounsDAOData.Upgraded;
 }
 
 export const NOUNS_DATA_PARSERS = new Map<string, Function>();
