@@ -4,7 +4,8 @@ import { writeFile, readFile } from "fs/promises";
 import { _NounsAuctionHouse } from "../contracts/NounsAuctionHouse";
 import { _NounsDAO } from "../contracts/NounsDAO";
 import { _NounsToken } from "../contracts/NounsToken";
-import { NOUNS_AUCTION_PARSERS, NOUNS_TOKEN_PARSERS, NOUNS_DAO_PARSERS } from "./index-parsers";
+import { _NounsDAOData } from "../contracts/NounsDAOData";
+import { NOUNS_AUCTION_PARSERS, NOUNS_TOKEN_PARSERS, NOUNS_DAO_PARSERS, NOUNS_DATA_PARSERS } from "./index-parsers";
 
 const NOUNS_STARTING_BLOCK = 13072753;
 
@@ -23,7 +24,7 @@ function printProgress(currentBlock: number, startBlock: number, endBlock: numbe
 		bar += " ";
 	}
 	output += `${bar}| ${currentPercent}%`;
-	process.stdout.write('\r' + output);
+	process.stdout.write("\r" + output);
 }
 
 function printEnd(eventName: string) {
@@ -38,21 +39,18 @@ export async function indexEvent(contract: ethers.Contract, eventName: string, f
 
 	let allEvents: ethers.Event[] = [];
 	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE) {
-		let events = await contract.queryFilter(
-			eventName,
-			currentBlock,
-			Math.min(currentBlock + BLOCK_BATCH_SIZE, endBlock)
-		);
+		let events = await contract.queryFilter(eventName, currentBlock, Math.min(currentBlock + BLOCK_BATCH_SIZE, endBlock));
 
-		events = events.map(event => {return formatter(event)});
-		
+		events = events.map((event) => {
+			return formatter(event);
+		});
+
 		allEvents.push(...events);
 		printProgress(currentBlock, startBlock, endBlock, eventName);
 	}
 	await writeFile(path, JSON.stringify(allEvents));
 	printEnd(eventName);
 }
-
 
 async function indexNounsAuctionEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
 	const nouns = new _NounsAuctionHouse(provider);
@@ -67,6 +65,7 @@ async function indexNounsAuctionEvents(provider: ethers.providers.JsonRpcProvide
 async function indexNounsDaoEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
 	const nouns = new _NounsDAO(provider);
 
+	// TODO: Deal with duplicate ProposalCreatedWithRequirements.
 	const events = [...NOUNS_DAO_PARSERS.entries()];
 	for (let i = 0; i < events.length; ++i) {
 		const [eventName, formatter] = events[i];
@@ -84,10 +83,21 @@ async function indexNounsTokenEvents(provider: ethers.providers.JsonRpcProvider,
 	}
 }
 
+async function indexNounsDaoDataEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
+	const nouns = new _NounsDAOData(provider);
+
+	const events = [...NOUNS_DATA_PARSERS.entries()];
+	for (let i = 0; i < events.length; ++i) {
+		const [eventName, formatter] = events[i];
+		await indexEvent(nouns.Contract, eventName, formatter, `${directoryPath}/${eventName}.json`);
+	}
+}
+
 export async function indexNounsEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
 	await indexNounsAuctionEvents(provider, directoryPath);
 	await indexNounsDaoEvents(provider, directoryPath);
 	await indexNounsTokenEvents(provider, directoryPath);
+	await indexNounsDaoDataEvents(provider, directoryPath);
 }
 
 //===================================
@@ -115,6 +125,7 @@ function listenForNounsAuctionEvents(provider: ethers.providers.JsonRpcProvider,
 function listenForNounsDAOEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	const nouns = new _NounsDAO(provider);
 
+	// TODO: Deal with duplicate ProposalCreatedWithRequirements.
 	NOUNS_DAO_PARSERS.forEach((formatter, event) => {
 		nouns.on(event, (data: { event: ethers.Event }) => {
 			parseData(data, formatter, path);
@@ -132,8 +143,19 @@ function listenForNounsTokenEvents(provider: ethers.providers.JsonRpcProvider, p
 	});
 }
 
+function listenForNounsDaoDataEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
+	const nouns = new _NounsDAOData(provider);
+
+	NOUNS_DATA_PARSERS.forEach((formatter, event) => {
+		nouns.on(event, (data: { event: ethers.Event }) => {
+			parseData(data, formatter, path);
+		});
+	});
+}
+
 export function listenForNounsEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	listenForNounsAuctionEvents(provider, path);
 	listenForNounsDAOEvents(provider, path);
 	listenForNounsTokenEvents(provider, path);
+	listenForNounsDaoDataEvents(provider, path);
 }
