@@ -811,7 +811,7 @@ export namespace Indexer {
 			id: number;
 			proposer: string;
 			targets: string[];
-			values: BigNumber[];
+			// values: BigNumber[]; Values is a function, not a variable.
 			signatures: string[];
 			calldatas: any[];
 			startBlock: number;
@@ -820,6 +820,8 @@ export namespace Indexer {
 		}
 
 		export interface ProposalCreatedWithRequirements extends ProposalCreated {
+			signers: string[];
+			updatePeriodEndBlock: number;
 			proposalThreshold: number;
 			quorumVotes: number;
 		}

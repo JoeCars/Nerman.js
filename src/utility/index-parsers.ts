@@ -6,6 +6,267 @@ import { Indexer } from "../types";
 // NounsDAO
 //=======================================
 
+export function parseDAOWithdrawNounsFromEscrowEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		tokenIds: event.args!.tokenIds,
+		to: event.args!.to
+	};
+}
+
+export function parseERC20TokensToIncludeInForkSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldErc20Tokens: event.args!.oldErc20Tokens,
+		newErc20tokens: event.args!.newErc20tokens
+	};
+}
+
+export function parseEscrowedToForkEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		forkId: Number(event.args!.forkId),
+		owner: event.args!.owner,
+		tokenIds: event.args!.tokenIds,
+		proposalIds: event.args!.proposalIds,
+		reason: event.args!.reason
+	};
+}
+
+export function parseExecuteForkEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		forkId: Number(event.args!.forkId),
+		forkTreasury: event.args!.forkTreasury,
+		forkToken: event.args!.forkToken,
+		forkEndTimestamp: event.args!.forkEndTimestamp,
+		tokensInEscrow: event.args!.tokensInEscrow
+	};
+}
+
+export function parseForkDAODeployerSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldForkDAODeployer: event.args!.oldForkDAODeployer,
+		newForkDAODeployer: event.args!.newForkDAODeployer
+	};
+}
+
+export function parseForkPeriodSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldForkPeriod: event.args!.oldForkPeriod,
+		newForkPeriod: event.args!.newForkPeriod
+	};
+}
+
+export function parseForkThresholdSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldForkThreshold: event.args!.oldForkThreshold,
+		newForkThreshold: event.args!.newForkThreshold
+	};
+}
+
+export function parseJoinForkEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		forkId: Number(event.args!.forkId),
+		owner: event.args!.owner,
+		tokenIds: event.args!.tokenIds,
+		proposalIds: event.args!.proposalIds,
+		reason: event.args!.reason
+	};
+}
+
+export function parseLastMinuteWindowSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldLastMinuteWindowInBlocks: Number(event.args!.oldLastMinuteWindowInBlocks),
+		newLastMinuteWindowInBlocks: Number(event.args!.newLastMinuteWindowInBlocks)
+	};
+}
+
+export function parseMaxQuorumVotesBPSSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldMaxQuorumVotesBPS: Number(event.args!.oldMaxQuorumVotesBPS),
+		newMaxQuorumVotesBPS: Number(event.args!.newMaxQuorumVotesBPS)
+	};
+}
+
+export function parseMinQuorumVotesBPSSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldMinQuorumVotesBPS: Number(event.args!.oldMinQuorumVotesBPS),
+		newMinQuorumVotesBPS: Number(event.args!.newMinQuorumVotesBPS)
+	};
+}
+
+export function parseNewAdminEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldAdmin: event.args!.oldAdmin,
+		newAdmin: event.args!.newAdmin
+	} as Indexer.NounsDAO.NewAdmin;
+}
+
+export function parseNewImplementationEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldImplementation: event.args!.oldImplementation,
+		newImplementation: event.args!.newImplementation
+	} as Indexer.NounsDAO.NewImplementation;
+}
+
+export function parseNewPendingAdminEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldPendingAdmin: event.args!.oldPendingAdmin,
+		newPendingAdmin: event.args!.newPendingAdmin
+	} as Indexer.NounsDAO.NewPendingAdmin;
+}
+
+export function parseNewPendingVetoerEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldPendingVetoer: event.args!.oldPendingVetoer,
+		newPendingVetoer: event.args!.newPendingVetoer
+	};
+}
+
+export function parseNewVetoerEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldVetoer: event.args!.oldVetoer,
+		newVetoer: event.args!.newVetoer
+	} as Indexer.NounsDAO.NewVetoer;
+}
+
+export function parseObjectionPeriodDurationSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldObjectionPeriodDurationInBlocks: Number(event.args!.oldObjectionPeriodDurationInBlocks),
+		newObjectionPeriodDurationInBlocks: Number(event.args!.newObjectionPeriodDurationInBlocks)
+	};
+}
+
+export function parseProposalCanceledEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		proposalId: Number(event.args!.id),
+		status: "Cancelled"
+	} as Indexer.NounsDAO.ProposalCanceled;
+}
+
 export function parseProposalCreatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -26,6 +287,19 @@ export function parseProposalCreatedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalCreated;
 }
 
+export function parseProposalCreatedOnTimelockV1Event(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		id: Number(event.args!.id)
+	};
+}
+
 export function parseProposalCreatedWithRequirementsEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -37,15 +311,227 @@ export function parseProposalCreatedWithRequirementsEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		id: Number(event.args!.id),
 		proposer: event.args!.proposer,
-		startBlock: Number(event.args!.startBlock),
-		endBlock: Number(event.args!.endBlock),
-		description: event.args!.description,
+		signers: event.args!.signers,
 		targets: event.args!.targets,
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
+		startBlock: Number(event.args!.startBlock),
+		endBlock: Number(event.args!.endBlock),
+		updatePeriodEndBlock: Number(event.args!.updatePeriodEndBlock),
 		proposalThreshold: Number(event.args!.proposalThreshold),
-		quorumVotes: Number(event.args!.quorumVotes)
+		quorumVotes: Number(event.args!.quorumVotes),
+		description: event.args!.description
 	} as Indexer.NounsDAO.ProposalCreatedWithRequirements;
+}
+
+export function parseProposalDescriptionUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		id: Number(event.args!.id),
+		proposer: event.args!.proposer,
+		description: event.args!.description,
+		updatedMessage: event.args!.updatedMessage
+	};
+}
+
+export function parseProposalExecutedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		proposalId: Number(event.args!.id),
+		status: "Executed"
+	} as Indexer.NounsDAO.ProposalExecuted;
+}
+
+export function parseProposalObjectionPeriodSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		proposalId: Number(event.args!.id),
+		objectionPeriodEndBlock: event.args!.objectionPeriodEndBlock
+	};
+}
+
+export function parseProposalQueuedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		proposalId: Number(event.args!.id),
+		eta: Number(event.args!.eta),
+		status: "Queued"
+	} as Indexer.NounsDAO.ProposalQueued;
+}
+
+export function parseProposalThresholdBPSSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldProposalThresholdBPS: Number(event.args!.oldProposalThresholdBPS),
+		newProposalThresholdBPS: Number(event.args!.newProposalThresholdBPS)
+	} as Indexer.NounsDAO.ProposalThresholdBPSSet;
+}
+
+export function parseProposalTransactionsUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		id: Number(event.args!.id),
+		proposer: event.args!.proposer,
+		targets: event.args!.targets,
+		signatures: event.args!.signatures,
+		calldatas: event.args!.calldatas,
+		updateMessage: event.args!.updateMessage
+	};
+}
+
+export function parseProposalUpdatablePeriodSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldProposalUpdatablePeriodInBlocks: Number(event.args!.oldProposalUpdatablePeriodInBlocks),
+		newProposalUpdatablePeriodInBlocks: Number(event.args!.newProposalUpdatablePeriodInBlocks)
+	};
+}
+
+export function parseProposalUpdatedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		id: Number(event.args!.id),
+		proposer: event.args!.proposer,
+		targets: event.args!.targets,
+		signatures: event.args!.signatures,
+		calldatas: event.args!.calldatas,
+		description: event.args!.description,
+		updateMessage: event.args!.updateMessage
+	};
+}
+
+export function parseProposalVetoedEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		proposalId: Number(event.args!.id),
+		status: "Vetoed"
+	} as Indexer.NounsDAO.ProposalVetoed;
+}
+
+export function parseQuorumCoefficientSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldQuorumCoefficient: Number(event.args!.oldQuorumCoefficient),
+		newQuorumCoefficient: Number(event.args!.newQuorumCoefficient)
+	};
+}
+
+export function parseQuorumVotesBPSSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		oldQuorumVotesBPS: Number(event.args!.oldQuorumVotesBPS),
+		newQuorumVotesBPS: Number(event.args!.newQuorumVotesBPS)
+	} as Indexer.NounsDAO.QuorumVotesBPSSet;
+}
+
+export function parseRefundableVoteEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		voter: event.args!.voter,
+		refundAmount: Number(event.args!.refundAmount),
+		refundSent: event.args!.refundSent
+	};
+}
+
+export function parseSignatureCancelledEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		signer: event.args!.signer,
+		sig: event.args!.sig
+	};
+}
+
+export function parseTimelocksAndAdminSetEvent(event: ethers.Event) {
+	return {
+		blockNumber: event.blockNumber,
+		blockHash: event.blockHash,
+		transactionIndex: event.transactionIndex,
+		address: event.address,
+		transactionHash: event.transactionHash,
+		eventName: event.event,
+		eventSignature: event.eventSignature,
+		timelock: event.args!.timelock,
+		timelockV1: event.args!.timelockV1,
+		admin: event.args!.admin
+	};
 }
 
 export function parseVoteCastEvent(event: ethers.Event) {
@@ -66,7 +552,7 @@ export function parseVoteCastEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.VoteCast;
 }
 
-export function parseProposalCanceledEvent(event: ethers.Event) {
+export function parseVoteSnapshotBlockSwitchProposalIdSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
 		blockHash: event.blockHash,
@@ -75,52 +561,9 @@ export function parseProposalCanceledEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		proposalId: Number(event.args!.id),
-		status: "Cancelled"
-	} as Indexer.NounsDAO.ProposalCanceled;
-}
-
-export function parseProposalQueuedEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		proposalId: Number(event.args!.id),
-		eta: Number(event.args!.eta),
-		status: "Queued"
-	} as Indexer.NounsDAO.ProposalQueued;
-}
-
-export function parseProposalExecutedEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		proposalId: Number(event.args!.id),
-		status: "Executed"
-	} as Indexer.NounsDAO.ProposalExecuted;
-}
-
-export function parseProposalVetoedEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		proposalId: Number(event.args!.id),
-		status: "Vetoed"
-	} as Indexer.NounsDAO.ProposalVetoed;
+		oldVoteSnapshotBlockSwitchProposalId: Number(event.args!.oldVoteSnapshotBlockSwitchProposalId),
+		newVoteSnapshotBlockSwitchProposalId: Number(event.args!.newVoteSnapshotBlockSwitchProposalId)
+	};
 }
 
 export function parseVotingDelaySetEvent(event: ethers.Event) {
@@ -151,7 +594,7 @@ export function parseVotingPeriodSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.VotingPeriodSet;
 }
 
-export function parseNewImplementationEvent(event: ethers.Event) {
+export function parseWithdrawEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
 		blockHash: event.blockHash,
@@ -160,12 +603,12 @@ export function parseNewImplementationEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		oldImplementation: event.args!.oldImplementation,
-		newImplementation: event.args!.newImplementation
-	} as Indexer.NounsDAO.NewImplementation;
+		amount: Number(event.args!.amount),
+		sent: event.args!.sent
+	};
 }
 
-export function parseProposalThresholdBPSSetEvent(event: ethers.Event) {
+export function parseWithdrawFromForkEscrowEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
 		blockHash: event.blockHash,
@@ -174,83 +617,54 @@ export function parseProposalThresholdBPSSetEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		oldProposalThresholdBPS: Number(event.args!.oldProposalThresholdBPS),
-		newProposalThresholdBPS: Number(event.args!.newProposalThresholdBPS)
-	} as Indexer.NounsDAO.ProposalThresholdBPSSet;
-}
-
-export function parseQuorumVotesBPSSetEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		oldQuorumVotesBPS: Number(event.args!.oldQuorumVotesBPS),
-		newQuorumVotesBPS: Number(event.args!.newQuorumVotesBPS)
-	} as Indexer.NounsDAO.QuorumVotesBPSSet;
-}
-
-export function parseNewPendingAdminEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		oldPendingAdmin: event.args!.oldPendingAdmin,
-		newPendingAdmin: event.args!.newPendingAdmin
-	} as Indexer.NounsDAO.NewPendingAdmin;
-}
-
-export function parseNewAdminEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		oldAdmin: event.args!.oldAdmin,
-		newAdmin: event.args!.newAdmin
-	} as Indexer.NounsDAO.NewAdmin;
-}
-
-export function parseNewVetoerEvent(event: ethers.Event) {
-	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.event,
-		eventSignature: event.eventSignature,
-		oldVetoer: event.args!.oldVetoer,
-		newVetoer: event.args!.newVetoer
-	} as Indexer.NounsDAO.NewVetoer;
+		forkId: Number(event.args!.forkId),
+		owner: event.args!.owner,
+		tokenIds: event.args!.tokenIds
+	};
 }
 
 export const NOUNS_DAO_PARSERS = new Map<string, Function>();
-NOUNS_DAO_PARSERS.set("ProposalCreated", parseProposalCreatedEvent);
-NOUNS_DAO_PARSERS.set("ProposalCreatedWithRequirements", parseProposalCreatedWithRequirementsEvent);
-NOUNS_DAO_PARSERS.set("VoteCast", parseVoteCastEvent);
+NOUNS_DAO_PARSERS.set("DAOWithdrawNounsFromEscrow", parseDAOWithdrawNounsFromEscrowEvent);
+NOUNS_DAO_PARSERS.set("ERC20TokensToIncludeInForkSet", parseERC20TokensToIncludeInForkSetEvent);
+NOUNS_DAO_PARSERS.set("EscrowedToFork", parseEscrowedToForkEvent);
+NOUNS_DAO_PARSERS.set("ExecuteFork", parseExecuteForkEvent);
+NOUNS_DAO_PARSERS.set("ForkDAODeployerSet", parseForkDAODeployerSetEvent);
+NOUNS_DAO_PARSERS.set("ForkPeriodSet", parseForkPeriodSetEvent);
+NOUNS_DAO_PARSERS.set("ForkThresholdSet", parseForkThresholdSetEvent);
+NOUNS_DAO_PARSERS.set("JoinFork", parseJoinForkEvent);
+NOUNS_DAO_PARSERS.set("LastMinuteWindowSet", parseLastMinuteWindowSetEvent);
+NOUNS_DAO_PARSERS.set("MaxQuorumVotesBPSSet", parseMaxQuorumVotesBPSSetEvent);
+NOUNS_DAO_PARSERS.set("MinQuorumVotesBPSSet", parseMinQuorumVotesBPSSetEvent);
+NOUNS_DAO_PARSERS.set("NewAdmin", parseNewAdminEvent);
+NOUNS_DAO_PARSERS.set("NewImplementation", parseNewImplementationEvent);
+NOUNS_DAO_PARSERS.set("NewPendingAdmin", parseNewPendingAdminEvent);
+NOUNS_DAO_PARSERS.set("NewPendingVetoer", parseNewPendingVetoerEvent);
+NOUNS_DAO_PARSERS.set("NewVetoer", parseNewVetoerEvent);
+NOUNS_DAO_PARSERS.set("ObjectionPeriodDurationSet", parseObjectionPeriodDurationSetEvent);
 NOUNS_DAO_PARSERS.set("ProposalCanceled", parseProposalCanceledEvent);
-NOUNS_DAO_PARSERS.set("ProposalQueued", parseProposalQueuedEvent);
+NOUNS_DAO_PARSERS.set("ProposalCreated", parseProposalCreatedEvent);
+NOUNS_DAO_PARSERS.set("ProposalCreatedOnTimelockV1", parseProposalCreatedOnTimelockV1Event);
+NOUNS_DAO_PARSERS.set("ProposalCreatedWithRequirements", parseProposalCreatedWithRequirementsEvent);
+NOUNS_DAO_PARSERS.set("ProposalDescriptionUpdated", parseProposalDescriptionUpdatedEvent);
 NOUNS_DAO_PARSERS.set("ProposalExecuted", parseProposalExecutedEvent);
+NOUNS_DAO_PARSERS.set("ProposalObjectionPeriodSet", parseProposalObjectionPeriodSetEvent);
+NOUNS_DAO_PARSERS.set("ProposalQueued", parseProposalQueuedEvent);
+NOUNS_DAO_PARSERS.set("ProposalThresholdBPSSet", parseProposalThresholdBPSSetEvent);
+NOUNS_DAO_PARSERS.set("ProposalTransactionsUpdated", parseProposalTransactionsUpdatedEvent);
+NOUNS_DAO_PARSERS.set("ProposalUpdatablePeriodSet", parseProposalUpdatablePeriodSetEvent);
+NOUNS_DAO_PARSERS.set("ProposalUpdated", parseProposalUpdatedEvent);
 NOUNS_DAO_PARSERS.set("ProposalVetoed", parseProposalVetoedEvent);
+NOUNS_DAO_PARSERS.set("QuorumCoefficientSet", parseQuorumCoefficientSetEvent);
+NOUNS_DAO_PARSERS.set("QuorumVotesBPSSet", parseQuorumVotesBPSSetEvent);
+NOUNS_DAO_PARSERS.set("RefundableVote", parseRefundableVoteEvent);
+NOUNS_DAO_PARSERS.set("SignatureCancelled", parseSignatureCancelledEvent);
+NOUNS_DAO_PARSERS.set("TimelocksAndAdminSet", parseTimelocksAndAdminSetEvent);
+NOUNS_DAO_PARSERS.set("VoteCast", parseVoteCastEvent);
+NOUNS_DAO_PARSERS.set("VoteSnapshotBlockSwitchProposalIdSet", parseVoteSnapshotBlockSwitchProposalIdSetEvent);
 NOUNS_DAO_PARSERS.set("VotingDelaySet", parseVotingDelaySetEvent);
 NOUNS_DAO_PARSERS.set("VotingPeriodSet", parseVotingPeriodSetEvent);
-NOUNS_DAO_PARSERS.set("NewImplementation", parseNewImplementationEvent);
-NOUNS_DAO_PARSERS.set("ProposalThresholdBPSSet", parseProposalThresholdBPSSetEvent);
-NOUNS_DAO_PARSERS.set("QuorumVotesBPSSet", parseQuorumVotesBPSSetEvent);
-NOUNS_DAO_PARSERS.set("NewPendingAdmin", parseNewPendingAdminEvent);
-NOUNS_DAO_PARSERS.set("NewAdmin", parseNewAdminEvent);
-NOUNS_DAO_PARSERS.set("NewVetoer", parseNewVetoerEvent);
+NOUNS_DAO_PARSERS.set("Withdraw", parseWithdrawEvent);
+NOUNS_DAO_PARSERS.set("WithdrawFromForkEscrow", parseWithdrawFromForkEscrowEvent);
 
 //=======================================
 // NounsAuction
