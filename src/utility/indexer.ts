@@ -65,7 +65,6 @@ async function indexNounsAuctionEvents(provider: ethers.providers.JsonRpcProvide
 async function indexNounsDaoEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
 	const nouns = new _NounsDAO(provider);
 
-	// TODO: Deal with duplicate ProposalCreatedWithRequirements.
 	const events = [...NOUNS_DAO_PARSERS.entries()];
 	for (let i = 0; i < events.length; ++i) {
 		const [eventName, formatter] = events[i];
@@ -125,7 +124,6 @@ function listenForNounsAuctionEvents(provider: ethers.providers.JsonRpcProvider,
 function listenForNounsDAOEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	const nouns = new _NounsDAO(provider);
 
-	// TODO: Deal with duplicate ProposalCreatedWithRequirements.
 	NOUNS_DAO_PARSERS.forEach((formatter, event) => {
 		nouns.on(event, (data: { event: ethers.Event }) => {
 			parseData(data, formatter, path);

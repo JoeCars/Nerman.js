@@ -644,7 +644,14 @@ NOUNS_DAO_PARSERS.set("ObjectionPeriodDurationSet", parseObjectionPeriodDuration
 NOUNS_DAO_PARSERS.set("ProposalCanceled", parseProposalCanceledEvent);
 NOUNS_DAO_PARSERS.set("ProposalCreated", parseProposalCreatedEvent);
 NOUNS_DAO_PARSERS.set("ProposalCreatedOnTimelockV1", parseProposalCreatedOnTimelockV1Event);
-NOUNS_DAO_PARSERS.set("ProposalCreatedWithRequirements", parseProposalCreatedWithRequirementsEvent);
+NOUNS_DAO_PARSERS.set(
+	"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
+	parseProposalCreatedWithRequirementsEvent
+);
+NOUNS_DAO_PARSERS.set(
+	"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
+	parseProposalCreatedWithRequirementsEvent
+);
 NOUNS_DAO_PARSERS.set("ProposalDescriptionUpdated", parseProposalDescriptionUpdatedEvent);
 NOUNS_DAO_PARSERS.set("ProposalExecuted", parseProposalExecutedEvent);
 NOUNS_DAO_PARSERS.set("ProposalObjectionPeriodSet", parseProposalObjectionPeriodSetEvent);
