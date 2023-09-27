@@ -221,3 +221,60 @@ async function _getExecutedForkById(startId: number, endId?: number) {
 	});
 	return filteredForks;
 }
+
+// ==================================
+// ProposalStatusChange
+// ==================================
+
+interface StatusChangeQuery {
+	startBlock?: number;
+	endBlock?: number;
+	proposalId?: number;
+	status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
+}
+
+export async function getStatusChangeEvents(query: StatusChangeQuery | undefined) {
+	if (!query) {
+		return _getAllStatusChange();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getStatusChangeByBlock(query.startBlock, query.endBlock);
+	} else if (query.proposalId) {
+		return _getStatusChangeByProposalId(query.proposalId);
+	} else if (query.status === "Cancelled") {
+		return _getAllProposalCanceled();
+	} else if (query.status === "Vetoed") {
+		return _getAllProposalVetoed();
+	} else if (query.status === "Queued") {
+		return _getAllProposalQueued();
+	} else if (query.status === "Executed") {
+		return _getAllProposalExecuted();
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+/**
+ * @param startBlock The starting block. Inclusive.
+ * @param endBlock The final block. Inclusive.
+ */
+async function _getStatusChangeByBlock(startBlock: number, endBlock: number) {
+	let statuses = await _getAllStatusChange();
+	let filteredStatuses = statuses.filter((status) => {
+		return status.blockNumber >= startBlock && status.blockNumber <= endBlock;
+	});
+	return filteredStatuses;
+}
+
+async function _getStatusChangeByProposalId(proposalId: number) {
+	let statuses = await _getAllStatusChange();
+	let filteredStatuses = statuses.filter((status) => {
+		return status.proposalId === proposalId;
+	});
+	return filteredStatuses;
+}
