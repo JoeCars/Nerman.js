@@ -278,3 +278,76 @@ async function _getStatusChangeByProposalId(proposalId: number) {
 	});
 	return filteredStatuses;
 }
+
+// ==================================
+// ProposalStatusChange
+// ==================================
+
+interface VoteCastQuery {
+	startBlock?: number;
+	endBlock?: number;
+	voter?: string;
+	proposalId?: number;
+	support?: "AGAINST" | "FOR" | "ABSTAIN";
+}
+
+export async function getVoteCastEvents(query: VoteCastQuery | undefined) {
+	if (!query) {
+		return _getAllVoteCast();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getVoteCastByBlock(query.startBlock, query.endBlock);
+	} else if (query.proposalId) {
+		return _getVoteCastByProposalId(query.proposalId);
+	} else if (query.voter) {
+		return _getVoteCastByVoter(query.voter);
+	} else if (query.support) {
+		return _getVoteCastBySupport(query.support);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllVoteCast() {
+	let path = join(__dirname, "..", "data", "index", "VoteCast.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let votes: Indexer.NounsDAO.VoteCast[] = JSON.parse(file);
+	return votes;
+}
+
+async function _getVoteCastByBlock(startBlock: number, endBlock: number) {
+	let votes = await _getAllVoteCast();
+	let filteredVotes = votes.filter((vote) => {
+		return vote.blockNumber >= startBlock && vote.blockNumber <= endBlock;
+	});
+	return filteredVotes;
+}
+
+async function _getVoteCastByProposalId(proposalId: number) {
+	let votes = await _getAllVoteCast();
+	let filteredVotes = votes.filter((vote) => {
+		return vote.proposalId === proposalId;
+	});
+	return filteredVotes;
+}
+
+async function _getVoteCastByVoter(voter: string) {
+	let votes = await _getAllVoteCast();
+	let filteredVotes = votes.filter((vote) => {
+		return vote.voterAddress === voter;
+	});
+	return filteredVotes;
+}
+
+async function _getVoteCastBySupport(support: string) {
+	let votes = await _getAllVoteCast();
+	let filteredVotes = votes.filter((vote) => {
+		return vote.supportChoice === support;
+	});
+	return filteredVotes;
+}
