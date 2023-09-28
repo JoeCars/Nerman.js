@@ -351,3 +351,54 @@ async function _getVoteCastBySupport(support: string) {
 	});
 	return filteredVotes;
 }
+
+// ==================================
+// AuctionCreated
+// ==================================
+
+interface AuctionCreatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	nounId?: number;
+}
+
+export async function getAuctionCreatedEvents(query: AuctionCreatedQuery | undefined) {
+	if (!query) {
+		return _getAllAuctionCreated();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getAuctionCreatedByBlock(query.startBlock, query.endBlock);
+	} else if (query.nounId) {
+		return _getAuctionCreatedByNounId(query.nounId);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllAuctionCreated() {
+	let path = join(__dirname, "..", "data", "index", "AuctionCreated.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let auctions: Indexer.NounsAuctionHouse.AuctionCreated[] = JSON.parse(file);
+	return auctions;
+}
+
+async function _getAuctionCreatedByBlock(startBlock: number, endBlock: number) {
+	let auctions = await _getAllAuctionCreated();
+	let filteredAuctions = auctions.filter((auction) => {
+		return auction.blockNumber >= startBlock && auction.blockNumber <= endBlock;
+	});
+	return filteredAuctions;
+}
+
+async function _getAuctionCreatedByNounId(nounId: number) {
+	let auctions = await _getAllAuctionCreated();
+	let filteredAuctions = auctions.filter((auction) => {
+		return auction.nounId === nounId;
+	});
+	return filteredAuctions;
+}
