@@ -482,3 +482,83 @@ async function _getAuctionBidByBidAmount(minBidAmount: number, maxBidAmount: num
 	});
 	return filteredBids;
 }
+
+// ==================================
+// AuctionSettled
+// ==================================
+
+interface AuctionSettledQuery {
+	startBlock?: number;
+	endBlock?: number;
+	nounId?: number;
+	winner?: string;
+	minBidAmount?: number;
+	maxBidAmount?: number;
+}
+
+export async function getAuctionSettledEvents(query: AuctionSettledQuery | undefined) {
+	if (!query) {
+		return _getAllAuctionSettled();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getAuctionSettledByBlock(query.startBlock, query.endBlock);
+	} else if (query.nounId) {
+		return _getAuctionSettledByNounId(query.nounId);
+	} else if (query.winner) {
+		return _getAuctionSettledByWinner(query.winner);
+	} else if (query.minBidAmount || query.maxBidAmount) {
+		if (!query.minBidAmount) {
+			query.minBidAmount = 0;
+		}
+		if (!query.maxBidAmount) {
+			query.maxBidAmount = Infinity;
+		}
+		return _getAuctionSettledByBidAmount(query.minBidAmount, query.maxBidAmount);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllAuctionSettled() {
+	let path = join(__dirname, "..", "data", "index", "AuctionSettled.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let auctions: Indexer.NounsAuctionHouse.AuctionSettled[] = JSON.parse(file);
+	return auctions;
+}
+
+async function _getAuctionSettledByBlock(startBlock: number, endBlock: number) {
+	let auctions = await _getAllAuctionSettled();
+	let filteredAuctions = auctions.filter((auction) => {
+		return auction.blockNumber >= startBlock && auction.blockNumber <= endBlock;
+	});
+	return filteredAuctions;
+}
+
+async function _getAuctionSettledByNounId(nounId: number) {
+	let auctions = await _getAllAuctionSettled();
+	let filteredAuctions = auctions.filter((auction) => {
+		return auction.nounId === nounId;
+	});
+	return filteredAuctions;
+}
+
+async function _getAuctionSettledByWinner(winner: string) {
+	let auctions = await _getAllAuctionSettled();
+	let filteredAuctions = auctions.filter((auction) => {
+		return auction.winnerAddress === winner; // Should this be case insensitive?
+	});
+	return filteredAuctions;
+}
+
+async function _getAuctionSettledByBidAmount(minBidAmount: number, maxBidAmount: number) {
+	let auctions = await _getAllAuctionSettled();
+	let filteredAuctions = auctions.filter((auction) => {
+		return auction.bidAmount <= minBidAmount && auction.bidAmount >= maxBidAmount;
+	});
+	return filteredAuctions;
+}
