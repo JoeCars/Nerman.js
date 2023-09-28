@@ -701,3 +701,89 @@ async function _getDelegateVotesChangedByDelegate(delegate: string) {
 	});
 	return filteredEvents;
 }
+
+// ==================================
+// Transfer
+// ==================================
+
+interface TransferQuery {
+	startBlock?: number;
+	endBlock?: number;
+	from?: string;
+	to?: string;
+	involved?: string;
+	tokenId?: number;
+}
+
+export async function getTransferEvents(query: TransferQuery | undefined) {
+	if (!query) {
+		return _getAllTransfer();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getTransferByBlock(query.startBlock, query.endBlock);
+	} else if (query.from) {
+		return _getTransferByFrom(query.from);
+	} else if (query.to) {
+		return _getTransferByTo(query.to);
+	} else if (query.involved) {
+		return _getTransferByInvolved(query.involved);
+	} else if (query.tokenId) {
+		return _getTransferByTokenId(query.tokenId);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllTransfer() {
+	let path = join(__dirname, "..", "data", "index", "Transfer.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let events: Indexer.NounsToken.Transfer[] = JSON.parse(file);
+	return events;
+}
+
+async function _getTransferByBlock(startBlock: number, endBlock: number) {
+	let events = await _getAllTransfer();
+	let filteredEvents = events.filter((event) => {
+		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
+	});
+	return filteredEvents;
+}
+
+async function _getTransferByFrom(from: string) {
+	let events = await _getAllTransfer();
+	let filteredEvents = events.filter((event) => {
+		return event.from === from;
+	});
+	return filteredEvents;
+}
+
+async function _getTransferByTo(to: string) {
+	let events = await _getAllTransfer();
+	let filteredEvents = events.filter((event) => {
+		return event.to === to;
+	});
+	return filteredEvents;
+}
+
+async function _getTransferByInvolved(involved: string) {
+	let events = await _getAllTransfer();
+	let filteredEvents = events.filter((event) => {
+		let isFrom = event.from === involved;
+		let isTo = event.to === involved;
+		return isFrom || isTo;
+	});
+	return filteredEvents;
+}
+
+async function _getTransferByTokenId(tokenId: number) {
+	let events = await _getAllTransfer();
+	let filteredEvents = events.filter((event) => {
+		return event.tokenId === tokenId;
+	});
+	return filteredEvents;
+}
