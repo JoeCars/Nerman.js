@@ -402,3 +402,83 @@ async function _getAuctionCreatedByNounId(nounId: number) {
 	});
 	return filteredAuctions;
 }
+
+// ==================================
+// AuctionBid
+// ==================================
+
+interface AuctionBidQuery {
+	startBlock?: number;
+	endBlock?: number;
+	nounId?: number;
+	bidder?: string;
+	minBidAmount?: number;
+	maxBidAmount?: number;
+}
+
+export async function getAuctionBidEvents(query: AuctionBidQuery | undefined) {
+	if (!query) {
+		return _getAllAuctionBid();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getAuctionBidByBlock(query.startBlock, query.endBlock);
+	} else if (query.nounId) {
+		return _getAuctionBidByNounId(query.nounId);
+	} else if (query.bidder) {
+		return _getAuctionBidByBidder(query.bidder);
+	} else if (query.minBidAmount || query.maxBidAmount) {
+		if (!query.minBidAmount) {
+			query.minBidAmount = 0;
+		}
+		if (!query.maxBidAmount) {
+			query.maxBidAmount = Infinity;
+		}
+		return _getAuctionBidByBidAmount(query.minBidAmount, query.maxBidAmount);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllAuctionBid() {
+	let path = join(__dirname, "..", "data", "index", "AuctionBid.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let bids: Indexer.NounsAuctionHouse.AuctionBid[] = JSON.parse(file);
+	return bids;
+}
+
+async function _getAuctionBidByBlock(startBlock: number, endBlock: number) {
+	let bids = await _getAllAuctionBid();
+	let filteredBids = bids.filter((bid) => {
+		return bid.blockNumber >= startBlock && bid.blockNumber <= endBlock;
+	});
+	return filteredBids;
+}
+
+async function _getAuctionBidByNounId(nounId: number) {
+	let bids = await _getAllAuctionBid();
+	let filteredBids = bids.filter((bid) => {
+		return bid.nounId === nounId;
+	});
+	return filteredBids;
+}
+
+async function _getAuctionBidByBidder(bidder: string) {
+	let bids = await _getAllAuctionBid();
+	let filteredBids = bids.filter((bid) => {
+		return bid.bidderAddress === bidder; // Should this be case insensitive?
+	});
+	return filteredBids;
+}
+
+async function _getAuctionBidByBidAmount(minBidAmount: number, maxBidAmount: number) {
+	let bids = await _getAllAuctionBid();
+	let filteredBids = bids.filter((bid) => {
+		return bid.bidAmount <= minBidAmount && bid.bidAmount >= maxBidAmount;
+	});
+	return filteredBids;
+}
