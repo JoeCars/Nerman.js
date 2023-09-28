@@ -562,3 +562,91 @@ async function _getAuctionSettledByBidAmount(minBidAmount: number, maxBidAmount:
 	});
 	return filteredAuctions;
 }
+
+// ==================================
+// DelegateChanged
+// ==================================
+
+interface DelegateChangedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	delegator?: string;
+	fromDelegate?: string;
+	toDelegate?: string;
+	involving?: string;
+}
+
+export async function getDelegateChangedEvents(query: DelegateChangedQuery | undefined) {
+	if (!query) {
+		return _getAllDelegateChanged();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getDelegateChangedByBlock(query.startBlock, query.endBlock);
+	} else if (query.delegator) {
+		return _getDelegateChangedByDelegator(query.delegator);
+	} else if (query.fromDelegate) {
+		return _getDelegateChangedByFromDelegate(query.fromDelegate);
+	} else if (query.toDelegate) {
+		return _getDelegateChangedByToDelegate(query.toDelegate);
+	} else if (query.involving) {
+		return _getDelegateChangedByInvolved(query.involving);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllDelegateChanged() {
+	let path = join(__dirname, "..", "data", "index", "DelegateChanged.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let events: Indexer.NounsToken.DelegateChanged[] = JSON.parse(file);
+	return events;
+}
+
+async function _getDelegateChangedByBlock(startBlock: number, endBlock: number) {
+	let events = await _getAllDelegateChanged();
+	let filteredEvents = events.filter((event) => {
+		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
+	});
+	return filteredEvents;
+}
+
+async function _getDelegateChangedByDelegator(delegator: string) {
+	let events = await _getAllDelegateChanged();
+	let filteredEvents = events.filter((event) => {
+		return event.delegator === delegator;
+	});
+	return filteredEvents;
+}
+
+async function _getDelegateChangedByFromDelegate(fromDelegate: string) {
+	let events = await _getAllDelegateChanged();
+	let filteredEvents = events.filter((event) => {
+		return event.fromDelegate === fromDelegate;
+	});
+	return filteredEvents;
+}
+
+async function _getDelegateChangedByToDelegate(toDelegate: string) {
+	let events = await _getAllDelegateChanged();
+	let filteredEvents = events.filter((event) => {
+		return event.toDelegate === toDelegate;
+	});
+	return filteredEvents;
+}
+
+async function _getDelegateChangedByInvolved(involved: string) {
+	let events = await _getAllDelegateChanged();
+
+	let filteredEvents = events.filter((event) => {
+		let isDelegator = event.delegator === involved;
+		let isToDelegate = event.toDelegate === involved;
+		let isFromDelegate = event.fromDelegate === involved;
+		return isDelegator || isToDelegate || isFromDelegate;
+	});
+	return filteredEvents;
+}
