@@ -787,3 +787,109 @@ async function _getTransferByTokenId(tokenId: number) {
 	});
 	return filteredEvents;
 }
+
+// ==================================
+// NounCreated
+// ==================================
+
+interface NounCreatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	tokenId?: number;
+	background?: number;
+	body?: number;
+	accessory?: number;
+	head?: number;
+	glasses?: number;
+}
+
+export async function getNounCreatedEvents(query: NounCreatedQuery | undefined) {
+	if (!query) {
+		return _getAllNounCreated();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getNounCreatedByBlock(query.startBlock, query.endBlock);
+	} else if (query.tokenId) {
+		return _getNounCreatedByTokenId(query.tokenId);
+	} else if (query.background) {
+		return _getNounCreatedByBackground(query.background);
+	} else if (query.body) {
+		return _getNounCreatedByBody(query.body);
+	} else if (query.accessory) {
+		return _getNounCreatedByAccessory(query.accessory);
+	} else if (query.head) {
+		return _getNounCreatedByHead(query.head);
+	} else if (query.glasses) {
+		return _getNounCreatedByGlasses(query.glasses);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllNounCreated() {
+	let path = join(__dirname, "..", "data", "index", "NounCreated.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let events: Indexer.NounsToken.NounCreated[] = JSON.parse(file);
+	return events;
+}
+
+async function _getNounCreatedByBlock(startBlock: number, endBlock: number) {
+	let events = await _getAllNounCreated();
+	let filteredEvents = events.filter((event) => {
+		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
+	});
+	return filteredEvents;
+}
+
+async function _getNounCreatedByTokenId(tokenId: number) {
+	let events = await _getAllNounCreated();
+	let filteredEvents = events.filter((event) => {
+		return event.tokenId === tokenId;
+	});
+	return filteredEvents;
+}
+
+async function _getNounCreatedByBackground(background: number) {
+	let events = await _getAllNounCreated();
+	let filteredEvents = events.filter((event) => {
+		return event.seed.background === background;
+	});
+	return filteredEvents;
+}
+
+async function _getNounCreatedByBody(body: number) {
+	let events = await _getAllNounCreated();
+	let filteredEvents = events.filter((event) => {
+		return event.seed.body === body;
+	});
+	return filteredEvents;
+}
+
+async function _getNounCreatedByAccessory(accessory: number) {
+	let events = await _getAllNounCreated();
+	let filteredEvents = events.filter((event) => {
+		return event.seed.accessory === accessory;
+	});
+	return filteredEvents;
+}
+
+async function _getNounCreatedByHead(head: number) {
+	let events = await _getAllNounCreated();
+	let filteredEvents = events.filter((event) => {
+		return event.seed.head === head;
+	});
+	return filteredEvents;
+}
+
+async function _getNounCreatedByGlasses(glasses: number) {
+	let events = await _getAllNounCreated();
+	let filteredEvents = events.filter((event) => {
+		return event.seed.glasses === glasses;
+	});
+	return filteredEvents;
+}
