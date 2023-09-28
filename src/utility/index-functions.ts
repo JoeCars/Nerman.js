@@ -280,7 +280,7 @@ async function _getStatusChangeByProposalId(proposalId: number) {
 }
 
 // ==================================
-// ProposalStatusChange
+// VoteCast
 // ==================================
 
 interface VoteCastQuery {
