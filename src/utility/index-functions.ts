@@ -1125,3 +1125,89 @@ async function _getProposalCandidateCreatedBySlug(slug: string) {
 	});
 	return filteredEvents;
 }
+
+// ==================================
+// SignatureAdded
+// ==================================
+
+interface SignatureAddedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	signer?: string;
+	proposer?: string;
+	involved?: string;
+	slug?: string;
+}
+
+export async function getSignatureAddedEvents(query: SignatureAddedQuery | undefined) {
+	if (!query) {
+		return _getAllSignatureAdded();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getSignatureAddedByBlock(query.startBlock, query.endBlock);
+	} else if (query.signer) {
+		return _getSignatureAddedBySigner(query.signer);
+	} else if (query.proposer) {
+		return _getSignatureAddedByProposer(query.proposer);
+	} else if (query.involved) {
+		return _getSignatureAddedByInvolved(query.involved);
+	} else if (query.slug) {
+		return _getSignatureAddedBySlug(query.slug);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllSignatureAdded() {
+	let path = join(__dirname, "..", "data", "index", "SignatureAdded.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let events: Indexer.NounsDAOData.SignatureAdded[] = JSON.parse(file);
+	return events;
+}
+
+async function _getSignatureAddedByBlock(startBlock: number, endBlock: number) {
+	let events = await _getAllSignatureAdded();
+	let filteredEvents = events.filter((event) => {
+		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
+	});
+	return filteredEvents;
+}
+
+async function _getSignatureAddedBySigner(signer: string) {
+	let events = await _getAllSignatureAdded();
+	let filteredEvents = events.filter((event) => {
+		return event.signer === signer;
+	});
+	return filteredEvents;
+}
+
+async function _getSignatureAddedByProposer(proposer: string) {
+	let events = await _getAllSignatureAdded();
+	let filteredEvents = events.filter((event) => {
+		return event.proposer === proposer;
+	});
+	return filteredEvents;
+}
+
+async function _getSignatureAddedByInvolved(involved: string) {
+	let events = await _getAllSignatureAdded();
+	let filteredEvents = events.filter((event) => {
+		let isSigner = event.signer === involved;
+		let isProposer = event.proposer === involved;
+		return isSigner || isProposer;
+	});
+	return filteredEvents;
+}
+
+async function _getSignatureAddedBySlug(slug: string) {
+	let events = await _getAllSignatureAdded();
+	let filteredEvents = events.filter((event) => {
+		return event.slug === slug;
+	});
+	return filteredEvents;
+}
