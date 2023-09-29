@@ -893,3 +893,100 @@ async function _getNounCreatedByGlasses(glasses: number) {
 	});
 	return filteredEvents;
 }
+
+// ==================================
+// CandidateFeedbackSent
+// ==================================
+
+interface CandidateFeedbackSentQuery {
+	startBlock?: number;
+	endBlock?: number;
+	msgSender?: string;
+	proposer?: string;
+	involved?: string;
+	slug?: string;
+	supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
+}
+
+export async function getCandidateFeedbackSentEvents(query: CandidateFeedbackSentQuery | undefined) {
+	if (!query) {
+		return _getAllCandidateFeedbackSent();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getCandidateFeedbackSentByBlock(query.startBlock, query.endBlock);
+	} else if (query.msgSender) {
+		return _getCandidateFeedbackSentBySender(query.msgSender);
+	} else if (query.proposer) {
+		return _getCandidateFeedbackSentByProposer(query.proposer);
+	} else if (query.involved) {
+		return _getCandidateFeedbackSentByInvolved(query.involved);
+	} else if (query.slug) {
+		return _getCandidateFeedbackSentBySlug(query.slug);
+	} else if (query.supportChoice) {
+		return _getCandidateFeedbackSentBySupportChoice(query.supportChoice);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllCandidateFeedbackSent() {
+	let path = join(__dirname, "..", "data", "index", "CandidateFeedbackSent.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let events: Indexer.NounsDAOData.CandidateFeedbackSent[] = JSON.parse(file);
+	return events;
+}
+
+async function _getCandidateFeedbackSentByBlock(startBlock: number, endBlock: number) {
+	let events = await _getAllCandidateFeedbackSent();
+	let filteredEvents = events.filter((event) => {
+		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
+	});
+	return filteredEvents;
+}
+
+async function _getCandidateFeedbackSentBySender(msgSender: string) {
+	let events = await _getAllCandidateFeedbackSent();
+	let filteredEvents = events.filter((event) => {
+		return event.msgSender === msgSender;
+	});
+	return filteredEvents;
+}
+
+async function _getCandidateFeedbackSentByProposer(proposer: string) {
+	let events = await _getAllCandidateFeedbackSent();
+	let filteredEvents = events.filter((event) => {
+		return event.proposer === proposer;
+	});
+	return filteredEvents;
+}
+
+async function _getCandidateFeedbackSentByInvolved(involved: string) {
+	let events = await _getAllCandidateFeedbackSent();
+	let filteredEvents = events.filter((event) => {
+		let isSender = event.msgSender === involved;
+		let isProposer = event.proposer === involved;
+		return isSender || isProposer;
+	});
+	return filteredEvents;
+}
+
+async function _getCandidateFeedbackSentBySlug(slug: string) {
+	let events = await _getAllCandidateFeedbackSent();
+	let filteredEvents = events.filter((event) => {
+		return event.slug === slug;
+	});
+	return filteredEvents;
+}
+
+async function _getCandidateFeedbackSentBySupportChoice(supportChoice: string) {
+	let events = await _getAllCandidateFeedbackSent();
+	let filteredEvents = events.filter((event) => {
+		return event.supportChoice === supportChoice;
+	});
+	return filteredEvents;
+}
