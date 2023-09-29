@@ -1063,3 +1063,65 @@ async function _getFeedbackSentBySupportChoice(supportChoice: string) {
 	});
 	return filteredEvents;
 }
+
+// ==================================
+// ProposalCandidateCreated
+// ==================================
+
+interface ProposalCandidateCreatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	msgSender?: string;
+	slug?: string;
+}
+
+export async function getProposalCandidateCreatedEvents(query: ProposalCandidateCreatedQuery | undefined) {
+	if (!query) {
+		return _getAllProposalCandidateCreated();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getProposalCandidateCreatedByBlock(query.startBlock, query.endBlock);
+	} else if (query.msgSender) {
+		return _getProposalCandidateCreatedBySender(query.msgSender);
+	} else if (query.slug) {
+		return _getProposalCandidateCreatedBySlug(query.slug);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllProposalCandidateCreated() {
+	let path = join(__dirname, "..", "data", "index", "ProposalCandidateCreated.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let events: Indexer.NounsDAOData.ProposalCandidateCreated[] = JSON.parse(file);
+	return events;
+}
+
+async function _getProposalCandidateCreatedByBlock(startBlock: number, endBlock: number) {
+	let events = await _getAllProposalCandidateCreated();
+	let filteredEvents = events.filter((event) => {
+		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
+	});
+	return filteredEvents;
+}
+
+async function _getProposalCandidateCreatedBySender(msgSender: string) {
+	let events = await _getAllProposalCandidateCreated();
+	let filteredEvents = events.filter((event) => {
+		return event.msgSender === msgSender;
+	});
+	return filteredEvents;
+}
+
+async function _getProposalCandidateCreatedBySlug(slug: string) {
+	let events = await _getAllProposalCandidateCreated();
+	let filteredEvents = events.filter((event) => {
+		return event.slug === slug;
+	});
+	return filteredEvents;
+}
