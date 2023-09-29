@@ -990,3 +990,76 @@ async function _getCandidateFeedbackSentBySupportChoice(supportChoice: string) {
 	});
 	return filteredEvents;
 }
+
+// ==================================
+// FeedbackSent
+// ==================================
+
+interface FeedbackSentQuery {
+	startBlock?: number;
+	endBlock?: number;
+	msgSender?: string;
+	proposalId?: number;
+	supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
+}
+
+export async function getFeedbackSentEvents(query: FeedbackSentQuery | undefined) {
+	if (!query) {
+		return _getAllFeedbackSent();
+	} else if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		return _getFeedbackSentByBlock(query.startBlock, query.endBlock);
+	} else if (query.msgSender) {
+		return _getFeedbackSentBySender(query.msgSender);
+	} else if (query.proposalId) {
+		return _getFeedbackSentByProposalId(query.proposalId);
+	} else if (query.supportChoice) {
+		return _getFeedbackSentBySupportChoice(query.supportChoice);
+	} else {
+		throw new Error("Really Helpful Error Message");
+	}
+}
+
+async function _getAllFeedbackSent() {
+	let path = join(__dirname, "..", "data", "index", "FeedbackSent.json");
+	let file = await readFile(path, { encoding: "utf8" });
+	let events: Indexer.NounsDAOData.FeedbackSent[] = JSON.parse(file);
+	return events;
+}
+
+async function _getFeedbackSentByBlock(startBlock: number, endBlock: number) {
+	let events = await _getAllFeedbackSent();
+	let filteredEvents = events.filter((event) => {
+		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
+	});
+	return filteredEvents;
+}
+
+async function _getFeedbackSentBySender(msgSender: string) {
+	let events = await _getAllFeedbackSent();
+	let filteredEvents = events.filter((event) => {
+		return event.msgSender === msgSender;
+	});
+	return filteredEvents;
+}
+
+async function _getFeedbackSentByProposalId(proposalId: number) {
+	let events = await _getAllFeedbackSent();
+	let filteredEvents = events.filter((event) => {
+		return event.proposalId === proposalId;
+	});
+	return filteredEvents;
+}
+
+async function _getFeedbackSentBySupportChoice(supportChoice: string) {
+	let events = await _getAllFeedbackSent();
+	let filteredEvents = events.filter((event) => {
+		return event.supportChoice === supportChoice;
+	});
+	return filteredEvents;
+}
