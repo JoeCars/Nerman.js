@@ -19,33 +19,43 @@ const NOUNS_STARTING_BLOCK = 13072753;
 // ==================================
 
 export async function getProposals(query: ProposalQuery | undefined) {
+	let events = await _getAllProposals();
+
 	if (!query) {
-		return _getAllProposals();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getProposalsByBlock(query.startBlock, query.endBlock);
-	} else if (query.startId || query.endId) {
+		events = _filterProposalsByBlock(events, query.startBlock, query.endBlock);
+	}
+
+	if (query.startId || query.endId) {
 		if (!query.startId) {
 			query.startId = 0;
 		}
 		if (!query.endId) {
 			query.endId = Infinity;
 		}
-		return _getProposalsById(query.startId, query.endId);
+		events = _filterProposalsById(events, query.startId, query.endId);
 	} else if (query.id) {
-		return _getProposalsById(query.id);
-	} else if (query.status) {
-		return _getProposalsByStatus(query.status);
-	} else if (query.proposer) {
-		return _getProposalByProposer(query.proposer);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterProposalsById(events, query.id);
 	}
+
+	if (query.proposer) {
+		events = _filterProposalByProposer(events, query.proposer);
+	}
+
+	if (query.status) {
+		events = await _filterProposalsByStatus(events, query.status);
+	}
+
+	return events;
 }
 
 async function _getAllProposals() {
@@ -59,8 +69,7 @@ async function _getAllProposals() {
  * @param startBlock The starting block. Inclusive.
  * @param endBlock The final block. Inclusive.
  */
-async function _getProposalsByBlock(startBlock: number, endBlock: number) {
-	let proposals = await _getAllProposals();
+function _filterProposalsByBlock(proposals: Indexer.NounsDAO.ProposalCreated[], startBlock: number, endBlock: number) {
 	let filteredProposals = proposals.filter((proposal) => {
 		return proposal.blockNumber >= startBlock && proposal.blockNumber <= endBlock;
 	});
@@ -71,27 +80,25 @@ async function _getProposalsByBlock(startBlock: number, endBlock: number) {
  * @param startId The starting block. Inclusive.
  * @param endId The final block. Inclusive.
  */
-async function _getProposalsById(startId: number, endId?: number) {
+function _filterProposalsById(proposals: Indexer.NounsDAO.ProposalCreated[], startId: number, endId?: number) {
 	if (endId === undefined) {
 		endId = startId;
 	}
 
-	let proposals = await _getAllProposals();
 	let filteredProposals = proposals.filter((proposal) => {
 		return proposal.id >= startId && proposal.id <= (endId as number);
 	});
 	return filteredProposals;
 }
 
-async function _getProposalByProposer(proposer: string) {
-	let proposals = await _getAllProposals();
+function _filterProposalByProposer(proposals: Indexer.NounsDAO.ProposalCreated[], proposer: string) {
 	let filteredProposals = proposals.filter((proposal) => {
 		return proposal.proposer === proposer;
 	});
 	return filteredProposals;
 }
 
-async function _getProposalsByStatus(status: string) {
+async function _filterProposalsByStatus(proposals: Indexer.NounsDAO.ProposalCreated[], status: string) {
 	let statuses = await _getAllStatusChange();
 	let newestProposalStatuses = new Map<number, { blockNumber: number; status: string }>();
 	for (let status of statuses) {
@@ -101,7 +108,6 @@ async function _getProposalsByStatus(status: string) {
 		}
 	}
 
-	let proposals = await _getAllProposals();
 	let filteredProposals = proposals.filter((proposal) => {
 		let newestStatus = newestProposalStatuses.get(proposal.id);
 		let hasCorrectStatus = newestStatus !== undefined && newestStatus.status === status;
