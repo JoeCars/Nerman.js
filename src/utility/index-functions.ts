@@ -722,21 +722,27 @@ interface DelegateVotesChangedQuery {
 }
 
 export async function getDelegateVotesChangedEvents(query: DelegateVotesChangedQuery | undefined) {
+	let events = await _getAllDelegateVotesChanged();
+
 	if (!query) {
-		return _getAllDelegateVotesChanged();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getDelegateVotesChangedByBlock(query.startBlock, query.endBlock);
-	} else if (query.delegate) {
-		return _getDelegateVotesChangedByDelegate(query.delegate);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterDelegateVotesChangedByBlock(events, query.startBlock, query.endBlock);
 	}
+
+	if (query.delegate) {
+		events = _filterDelegateVotesChangedByDelegate(events, query.delegate);
+	}
+
+	return events;
 }
 
 async function _getAllDelegateVotesChanged() {
@@ -746,16 +752,18 @@ async function _getAllDelegateVotesChanged() {
 	return events;
 }
 
-async function _getDelegateVotesChangedByBlock(startBlock: number, endBlock: number) {
-	let events = await _getAllDelegateVotesChanged();
+function _filterDelegateVotesChangedByBlock(
+	events: Indexer.NounsToken.DelegateVotesChanged[],
+	startBlock: number,
+	endBlock: number
+) {
 	let filteredEvents = events.filter((event) => {
 		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
 	});
 	return filteredEvents;
 }
 
-async function _getDelegateVotesChangedByDelegate(delegate: string) {
-	let events = await _getAllDelegateVotesChanged();
+function _filterDelegateVotesChangedByDelegate(events: Indexer.NounsToken.DelegateVotesChanged[], delegate: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.delegate === delegate;
 	});
