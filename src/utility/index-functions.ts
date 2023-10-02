@@ -631,27 +631,39 @@ interface DelegateChangedQuery {
 }
 
 export async function getDelegateChangedEvents(query: DelegateChangedQuery | undefined) {
+	let events = await _getAllDelegateChanged();
+
 	if (!query) {
-		return _getAllDelegateChanged();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getDelegateChangedByBlock(query.startBlock, query.endBlock);
-	} else if (query.delegator) {
-		return _getDelegateChangedByDelegator(query.delegator);
-	} else if (query.fromDelegate) {
-		return _getDelegateChangedByFromDelegate(query.fromDelegate);
-	} else if (query.toDelegate) {
-		return _getDelegateChangedByToDelegate(query.toDelegate);
-	} else if (query.involving) {
-		return _getDelegateChangedByInvolved(query.involving);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterDelegateChangedByBlock(events, query.startBlock, query.endBlock);
 	}
+
+	if (query.delegator) {
+		events = _filterDelegateChangedByDelegator(events, query.delegator);
+	}
+
+	if (query.fromDelegate) {
+		events = _filterDelegateChangedByFromDelegate(events, query.fromDelegate);
+	}
+
+	if (query.toDelegate) {
+		events = _filterDelegateChangedByToDelegate(events, query.toDelegate);
+	}
+
+	if (query.involving) {
+		events = _filterDelegateChangedByInvolved(events, query.involving);
+	}
+
+	return events;
 }
 
 async function _getAllDelegateChanged() {
@@ -661,41 +673,35 @@ async function _getAllDelegateChanged() {
 	return events;
 }
 
-async function _getDelegateChangedByBlock(startBlock: number, endBlock: number) {
-	let events = await _getAllDelegateChanged();
+function _filterDelegateChangedByBlock(events: Indexer.NounsToken.DelegateChanged[], startBlock: number, endBlock: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
 	});
 	return filteredEvents;
 }
 
-async function _getDelegateChangedByDelegator(delegator: string) {
-	let events = await _getAllDelegateChanged();
+function _filterDelegateChangedByDelegator(events: Indexer.NounsToken.DelegateChanged[], delegator: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.delegator === delegator;
 	});
 	return filteredEvents;
 }
 
-async function _getDelegateChangedByFromDelegate(fromDelegate: string) {
-	let events = await _getAllDelegateChanged();
+function _filterDelegateChangedByFromDelegate(events: Indexer.NounsToken.DelegateChanged[], fromDelegate: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.fromDelegate === fromDelegate;
 	});
 	return filteredEvents;
 }
 
-async function _getDelegateChangedByToDelegate(toDelegate: string) {
-	let events = await _getAllDelegateChanged();
+function _filterDelegateChangedByToDelegate(events: Indexer.NounsToken.DelegateChanged[], toDelegate: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.toDelegate === toDelegate;
 	});
 	return filteredEvents;
 }
 
-async function _getDelegateChangedByInvolved(involved: string) {
-	let events = await _getAllDelegateChanged();
-
+function _filterDelegateChangedByInvolved(events: Indexer.NounsToken.DelegateChanged[], involved: string) {
 	let filteredEvents = events.filter((event) => {
 		let isDelegator = event.delegator === involved;
 		let isToDelegate = event.toDelegate === involved;
