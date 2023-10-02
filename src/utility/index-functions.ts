@@ -1254,27 +1254,39 @@ interface SignatureAddedQuery {
 }
 
 export async function getSignatureAddedEvents(query: SignatureAddedQuery | undefined) {
+	let events = await _getAllSignatureAdded();
+
 	if (!query) {
-		return _getAllSignatureAdded();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getSignatureAddedByBlock(query.startBlock, query.endBlock);
-	} else if (query.signer) {
-		return _getSignatureAddedBySigner(query.signer);
-	} else if (query.proposer) {
-		return _getSignatureAddedByProposer(query.proposer);
-	} else if (query.involved) {
-		return _getSignatureAddedByInvolved(query.involved);
-	} else if (query.slug) {
-		return _getSignatureAddedBySlug(query.slug);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterSignatureAddedByBlock(events, query.startBlock, query.endBlock);
 	}
+
+	if (query.signer) {
+		events = _filterSignatureAddedBySigner(events, query.signer);
+	}
+
+	if (query.proposer) {
+		events = _filterSignatureAddedByProposer(events, query.proposer);
+	}
+
+	if (query.involved) {
+		events = _filterSignatureAddedByInvolved(events, query.involved);
+	}
+
+	if (query.slug) {
+		events = _filterSignatureAddedBySlug(events, query.slug);
+	}
+
+	return events;
 }
 
 async function _getAllSignatureAdded() {
@@ -1284,32 +1296,28 @@ async function _getAllSignatureAdded() {
 	return events;
 }
 
-async function _getSignatureAddedByBlock(startBlock: number, endBlock: number) {
-	let events = await _getAllSignatureAdded();
+function _filterSignatureAddedByBlock(events: Indexer.NounsDAOData.SignatureAdded[], startBlock: number, endBlock: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
 	});
 	return filteredEvents;
 }
 
-async function _getSignatureAddedBySigner(signer: string) {
-	let events = await _getAllSignatureAdded();
+function _filterSignatureAddedBySigner(events: Indexer.NounsDAOData.SignatureAdded[], signer: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.signer === signer;
 	});
 	return filteredEvents;
 }
 
-async function _getSignatureAddedByProposer(proposer: string) {
-	let events = await _getAllSignatureAdded();
+function _filterSignatureAddedByProposer(events: Indexer.NounsDAOData.SignatureAdded[], proposer: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.proposer === proposer;
 	});
 	return filteredEvents;
 }
 
-async function _getSignatureAddedByInvolved(involved: string) {
-	let events = await _getAllSignatureAdded();
+function _filterSignatureAddedByInvolved(events: Indexer.NounsDAOData.SignatureAdded[], involved: string) {
 	let filteredEvents = events.filter((event) => {
 		let isSigner = event.signer === involved;
 		let isProposer = event.proposer === involved;
@@ -1318,8 +1326,7 @@ async function _getSignatureAddedByInvolved(involved: string) {
 	return filteredEvents;
 }
 
-async function _getSignatureAddedBySlug(slug: string) {
-	let events = await _getAllSignatureAdded();
+function _filterSignatureAddedBySlug(events: Indexer.NounsDAOData.SignatureAdded[], slug: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.slug === slug;
 	});
