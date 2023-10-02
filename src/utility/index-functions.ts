@@ -18,7 +18,7 @@ const NOUNS_STARTING_BLOCK = 13072753;
 // ProposalCreated
 // ==================================
 
-export async function getProposals(query: ProposalQuery | undefined) {
+export async function getProposals(query?: ProposalQuery) {
 	let events = await _getAllProposals();
 
 	if (!query) {
@@ -167,7 +167,7 @@ interface ExecuteForkQuery {
 	id?: number;
 }
 
-export async function getExecutedFork(query: ExecuteForkQuery | undefined) {
+export async function getExecutedFork(query?: ExecuteForkQuery) {
 	let events = await _getAllExecutedForkEvents();
 
 	if (!query) {
@@ -243,7 +243,7 @@ interface StatusChangeQuery {
 	status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
 }
 
-export async function getStatusChangeEvents(query: StatusChangeQuery | undefined) {
+export async function getStatusChangeEvents(query?: StatusChangeQuery) {
 	let events: Indexer.NounsDAO.ProposalCanceled[] = [];
 
 	if (!query) {
@@ -309,7 +309,7 @@ interface VoteCastQuery {
 	support?: "AGAINST" | "FOR" | "ABSTAIN";
 }
 
-export async function getVoteCastEvents(query: VoteCastQuery | undefined) {
+export async function getVoteCastEvents(query?: VoteCastQuery) {
 	let events = await _getAllVoteCast();
 
 	if (!query) {
@@ -386,7 +386,7 @@ interface AuctionCreatedQuery {
 	nounId?: number;
 }
 
-export async function getAuctionCreatedEvents(query: AuctionCreatedQuery | undefined) {
+export async function getAuctionCreatedEvents(query?: AuctionCreatedQuery) {
 	let events = await _getAllAuctionCreated();
 
 	if (!query) {
@@ -448,7 +448,7 @@ interface AuctionBidQuery {
 	maxBidAmount?: number;
 }
 
-export async function getAuctionBidEvents(query: AuctionBidQuery | undefined) {
+export async function getAuctionBidEvents(query?: AuctionBidQuery) {
 	let events = await _getAllAuctionBid();
 
 	if (!query) {
@@ -538,7 +538,7 @@ interface AuctionSettledQuery {
 	maxBidAmount?: number;
 }
 
-export async function getAuctionSettledEvents(query: AuctionSettledQuery | undefined) {
+export async function getAuctionSettledEvents(query?: AuctionSettledQuery) {
 	let events = await _getAllAuctionSettled();
 
 	if (!query) {
@@ -630,7 +630,7 @@ interface DelegateChangedQuery {
 	involving?: string;
 }
 
-export async function getDelegateChangedEvents(query: DelegateChangedQuery | undefined) {
+export async function getDelegateChangedEvents(query?: DelegateChangedQuery) {
 	let events = await _getAllDelegateChanged();
 
 	if (!query) {
@@ -721,7 +721,7 @@ interface DelegateVotesChangedQuery {
 	delegate?: string;
 }
 
-export async function getDelegateVotesChangedEvents(query: DelegateVotesChangedQuery | undefined) {
+export async function getDelegateVotesChangedEvents(query?: DelegateVotesChangedQuery) {
 	let events = await _getAllDelegateVotesChanged();
 
 	if (!query) {
@@ -783,7 +783,7 @@ interface TransferQuery {
 	tokenId?: number;
 }
 
-export async function getTransferEvents(query: TransferQuery | undefined) {
+export async function getTransferEvents(query?: TransferQuery) {
 	let events = await _getAllTransfer();
 
 	if (!query) {
@@ -878,7 +878,7 @@ interface NounCreatedQuery {
 	glasses?: number;
 }
 
-export async function getNounCreatedEvents(query: NounCreatedQuery | undefined) {
+export async function getNounCreatedEvents(query?: NounCreatedQuery) {
 	let events = await _getAllNounCreated();
 
 	if (!query) {
@@ -992,7 +992,7 @@ interface CandidateFeedbackSentQuery {
 	supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
 }
 
-export async function getCandidateFeedbackSentEvents(query: CandidateFeedbackSentQuery | undefined) {
+export async function getCandidateFeedbackSentEvents(query?: CandidateFeedbackSentQuery) {
 	let events = await _getAllCandidateFeedbackSent();
 
 	if (!query) {
@@ -1102,7 +1102,7 @@ interface FeedbackSentQuery {
 	supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
 }
 
-export async function getFeedbackSentEvents(query: FeedbackSentQuery | undefined) {
+export async function getFeedbackSentEvents(query?: FeedbackSentQuery) {
 	let events = await _getAllFeedbackSent();
 
 	if (!query) {
@@ -1180,7 +1180,7 @@ interface ProposalCandidateCreatedQuery {
 	slug?: string;
 }
 
-export async function getProposalCandidateCreatedEvents(query: ProposalCandidateCreatedQuery | undefined) {
+export async function getProposalCandidateCreatedEvents(query?: ProposalCandidateCreatedQuery) {
 	let events = await _getAllProposalCandidateCreated();
 
 	if (!query) {
@@ -1253,7 +1253,7 @@ interface SignatureAddedQuery {
 	slug?: string;
 }
 
-export async function getSignatureAddedEvents(query: SignatureAddedQuery | undefined) {
+export async function getSignatureAddedEvents(query?: SignatureAddedQuery) {
 	let events = await _getAllSignatureAdded();
 
 	if (!query) {
