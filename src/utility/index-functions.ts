@@ -387,21 +387,27 @@ interface AuctionCreatedQuery {
 }
 
 export async function getAuctionCreatedEvents(query: AuctionCreatedQuery | undefined) {
+	let events = await _getAllAuctionCreated();
+
 	if (!query) {
-		return _getAllAuctionCreated();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getAuctionCreatedByBlock(query.startBlock, query.endBlock);
-	} else if (query.nounId) {
-		return _getAuctionCreatedByNounId(query.nounId);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterAuctionCreatedByBlock(events, query.startBlock, query.endBlock);
 	}
+
+	if (query.nounId) {
+		events = _filterAuctionCreatedByNounId(events, query.nounId);
+	}
+
+	return events;
 }
 
 async function _getAllAuctionCreated() {
@@ -411,16 +417,18 @@ async function _getAllAuctionCreated() {
 	return auctions;
 }
 
-async function _getAuctionCreatedByBlock(startBlock: number, endBlock: number) {
-	let auctions = await _getAllAuctionCreated();
+function _filterAuctionCreatedByBlock(
+	auctions: Indexer.NounsAuctionHouse.AuctionCreated[],
+	startBlock: number,
+	endBlock: number
+) {
 	let filteredAuctions = auctions.filter((auction) => {
 		return auction.blockNumber >= startBlock && auction.blockNumber <= endBlock;
 	});
 	return filteredAuctions;
 }
 
-async function _getAuctionCreatedByNounId(nounId: number) {
-	let auctions = await _getAllAuctionCreated();
+function _filterAuctionCreatedByNounId(auctions: Indexer.NounsAuctionHouse.AuctionCreated[], nounId: number) {
 	let filteredAuctions = auctions.filter((auction) => {
 		return auction.nounId === nounId;
 	});
