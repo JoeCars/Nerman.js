@@ -1181,23 +1181,31 @@ interface ProposalCandidateCreatedQuery {
 }
 
 export async function getProposalCandidateCreatedEvents(query: ProposalCandidateCreatedQuery | undefined) {
+	let events = await _getAllProposalCandidateCreated();
+
 	if (!query) {
-		return _getAllProposalCandidateCreated();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getProposalCandidateCreatedByBlock(query.startBlock, query.endBlock);
-	} else if (query.msgSender) {
-		return _getProposalCandidateCreatedBySender(query.msgSender);
-	} else if (query.slug) {
-		return _getProposalCandidateCreatedBySlug(query.slug);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterProposalCandidateCreatedByBlock(events, query.startBlock, query.endBlock);
 	}
+
+	if (query.msgSender) {
+		events = _filterProposalCandidateCreatedBySender(events, query.msgSender);
+	}
+
+	if (query.slug) {
+		events = _filterProposalCandidateCreatedBySlug(events, query.slug);
+	}
+
+	return events;
 }
 
 async function _getAllProposalCandidateCreated() {
@@ -1207,24 +1215,25 @@ async function _getAllProposalCandidateCreated() {
 	return events;
 }
 
-async function _getProposalCandidateCreatedByBlock(startBlock: number, endBlock: number) {
-	let events = await _getAllProposalCandidateCreated();
+function _filterProposalCandidateCreatedByBlock(
+	events: Indexer.NounsDAOData.ProposalCandidateCreated[],
+	startBlock: number,
+	endBlock: number
+) {
 	let filteredEvents = events.filter((event) => {
 		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
 	});
 	return filteredEvents;
 }
 
-async function _getProposalCandidateCreatedBySender(msgSender: string) {
-	let events = await _getAllProposalCandidateCreated();
+function _filterProposalCandidateCreatedBySender(events: Indexer.NounsDAOData.ProposalCandidateCreated[], msgSender: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.msgSender === msgSender;
 	});
 	return filteredEvents;
 }
 
-async function _getProposalCandidateCreatedBySlug(slug: string) {
-	let events = await _getAllProposalCandidateCreated();
+function _filterProposalCandidateCreatedBySlug(events: Indexer.NounsDAOData.ProposalCandidateCreated[], slug: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.slug === slug;
 	});
