@@ -168,29 +168,35 @@ interface ExecuteForkQuery {
 }
 
 export async function getExecutedFork(query: ExecuteForkQuery | undefined) {
+	let events = await _getAllExecutedForkEvents();
+
 	if (!query) {
-		return _getAllExecutedForkEvents();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getExecutedForkByBlock(query.startBlock, query.endBlock);
-	} else if (query.startId || query.endId) {
+		events = _filterExecutedForkByBlock(events, query.startBlock, query.endBlock);
+	}
+
+	if (query.startId || query.endId) {
 		if (!query.startId) {
 			query.startId = 0;
 		}
 		if (!query.endId) {
 			query.endId = Infinity;
 		}
-		return _getExecutedForkById(query.startId, query.endId);
+		events = _filterExecutedForkById(events, query.startId, query.endId);
 	} else if (query.id) {
-		return _getExecutedForkById(query.id);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterExecutedForkById(events, query.id);
 	}
+
+	return events;
 }
 
 async function _getAllExecutedForkEvents() {
@@ -204,8 +210,7 @@ async function _getAllExecutedForkEvents() {
  * @param startBlock The starting block. Inclusive.
  * @param endBlock The final block. Inclusive.
  */
-async function _getExecutedForkByBlock(startBlock: number, endBlock: number) {
-	let forks = await _getAllExecutedForkEvents();
+function _filterExecutedForkByBlock(forks: Indexer.NounsDAO.ExecuteFork[], startBlock: number, endBlock: number) {
 	let filteredForks = forks.filter((fork) => {
 		return fork.blockNumber >= startBlock && fork.blockNumber <= endBlock;
 	});
@@ -216,12 +221,11 @@ async function _getExecutedForkByBlock(startBlock: number, endBlock: number) {
  * @param startId The starting block. Inclusive.
  * @param endId The final block. Inclusive.
  */
-async function _getExecutedForkById(startId: number, endId?: number) {
+function _filterExecutedForkById(forks: Indexer.NounsDAO.ExecuteFork[], startId: number, endId?: number) {
 	if (endId === undefined) {
 		endId = startId;
 	}
 
-	let forks = await _getAllExecutedForkEvents();
 	let filteredForks = forks.filter((fork) => {
 		return fork.forkId >= startId && fork.forkId <= (endId as number);
 	});
