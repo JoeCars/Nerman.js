@@ -244,45 +244,53 @@ interface StatusChangeQuery {
 }
 
 export async function getStatusChangeEvents(query: StatusChangeQuery | undefined) {
+	let events: Indexer.NounsDAO.ProposalCanceled[] = [];
+
 	if (!query) {
 		return _getAllStatusChange();
-	} else if (query.startBlock || query.endBlock) {
+	}
+
+	if (query.status === "Cancelled") {
+		events = await _getAllProposalCanceled();
+	} else if (query.status === "Vetoed") {
+		events = await _getAllProposalVetoed();
+	} else if (query.status === "Queued") {
+		events = await _getAllProposalQueued();
+	} else if (query.status === "Executed") {
+		events = await _getAllProposalExecuted();
+	} else {
+		events = await _getAllStatusChange();
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getStatusChangeByBlock(query.startBlock, query.endBlock);
-	} else if (query.proposalId) {
-		return _getStatusChangeByProposalId(query.proposalId);
-	} else if (query.status === "Cancelled") {
-		return _getAllProposalCanceled();
-	} else if (query.status === "Vetoed") {
-		return _getAllProposalVetoed();
-	} else if (query.status === "Queued") {
-		return _getAllProposalQueued();
-	} else if (query.status === "Executed") {
-		return _getAllProposalExecuted();
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterStatusChangeByBlock(events, query.startBlock, query.endBlock);
 	}
+
+	if (query.proposalId) {
+		events = _filterStatusChangeByProposalId(events, query.proposalId);
+	}
+
+	return events;
 }
 
 /**
  * @param startBlock The starting block. Inclusive.
  * @param endBlock The final block. Inclusive.
  */
-async function _getStatusChangeByBlock(startBlock: number, endBlock: number) {
-	let statuses = await _getAllStatusChange();
+function _filterStatusChangeByBlock(statuses: Indexer.NounsDAO.ProposalCanceled[], startBlock: number, endBlock: number) {
 	let filteredStatuses = statuses.filter((status) => {
 		return status.blockNumber >= startBlock && status.blockNumber <= endBlock;
 	});
 	return filteredStatuses;
 }
 
-async function _getStatusChangeByProposalId(proposalId: number) {
-	let statuses = await _getAllStatusChange();
+function _filterStatusChangeByProposalId(statuses: Indexer.NounsDAO.ProposalCanceled[], proposalId: number) {
 	let filteredStatuses = statuses.filter((status) => {
 		return status.proposalId === proposalId;
 	});
