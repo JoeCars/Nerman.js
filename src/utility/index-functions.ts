@@ -310,25 +310,35 @@ interface VoteCastQuery {
 }
 
 export async function getVoteCastEvents(query: VoteCastQuery | undefined) {
+	let events = await _getAllVoteCast();
+
 	if (!query) {
-		return _getAllVoteCast();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getVoteCastByBlock(query.startBlock, query.endBlock);
-	} else if (query.proposalId) {
-		return _getVoteCastByProposalId(query.proposalId);
-	} else if (query.voter) {
-		return _getVoteCastByVoter(query.voter);
-	} else if (query.support) {
-		return _getVoteCastBySupport(query.support);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterVoteCastByBlock(events, query.startBlock, query.endBlock);
 	}
+
+	if (query.proposalId) {
+		events = _filterVoteCastByProposalId(events, query.proposalId);
+	}
+
+	if (query.voter) {
+		events = _filterVoteCastByVoter(events, query.voter);
+	}
+
+	if (query.support) {
+		events = _filterVoteCastBySupport(events, query.support);
+	}
+
+	return events;
 }
 
 async function _getAllVoteCast() {
@@ -338,32 +348,28 @@ async function _getAllVoteCast() {
 	return votes;
 }
 
-async function _getVoteCastByBlock(startBlock: number, endBlock: number) {
-	let votes = await _getAllVoteCast();
+function _filterVoteCastByBlock(votes: Indexer.NounsDAO.VoteCast[], startBlock: number, endBlock: number) {
 	let filteredVotes = votes.filter((vote) => {
 		return vote.blockNumber >= startBlock && vote.blockNumber <= endBlock;
 	});
 	return filteredVotes;
 }
 
-async function _getVoteCastByProposalId(proposalId: number) {
-	let votes = await _getAllVoteCast();
+function _filterVoteCastByProposalId(votes: Indexer.NounsDAO.VoteCast[], proposalId: number) {
 	let filteredVotes = votes.filter((vote) => {
 		return vote.proposalId === proposalId;
 	});
 	return filteredVotes;
 }
 
-async function _getVoteCastByVoter(voter: string) {
-	let votes = await _getAllVoteCast();
+function _filterVoteCastByVoter(votes: Indexer.NounsDAO.VoteCast[], voter: string) {
 	let filteredVotes = votes.filter((vote) => {
 		return vote.voterAddress === voter;
 	});
 	return filteredVotes;
 }
 
-async function _getVoteCastBySupport(support: string) {
-	let votes = await _getAllVoteCast();
+function _filterVoteCastBySupport(votes: Indexer.NounsDAO.VoteCast[], support: string) {
 	let filteredVotes = votes.filter((vote) => {
 		return vote.supportChoice === support;
 	});
