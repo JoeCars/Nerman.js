@@ -879,31 +879,47 @@ interface NounCreatedQuery {
 }
 
 export async function getNounCreatedEvents(query: NounCreatedQuery | undefined) {
+	let events = await _getAllNounCreated();
+
 	if (!query) {
-		return _getAllNounCreated();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getNounCreatedByBlock(query.startBlock, query.endBlock);
-	} else if (query.tokenId) {
-		return _getNounCreatedByTokenId(query.tokenId);
-	} else if (query.background) {
-		return _getNounCreatedByBackground(query.background);
-	} else if (query.body) {
-		return _getNounCreatedByBody(query.body);
-	} else if (query.accessory) {
-		return _getNounCreatedByAccessory(query.accessory);
-	} else if (query.head) {
-		return _getNounCreatedByHead(query.head);
-	} else if (query.glasses) {
-		return _getNounCreatedByGlasses(query.glasses);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterNounCreatedByBlock(events, query.startBlock, query.endBlock);
 	}
+
+	if (query.tokenId) {
+		events = _filterNounCreatedByTokenId(events, query.tokenId);
+	}
+
+	if (query.background) {
+		events = _filterNounCreatedByBackground(events, query.background);
+	}
+
+	if (query.body) {
+		events = _filterNounCreatedByBody(events, query.body);
+	}
+
+	if (query.accessory) {
+		events = _filterNounCreatedByAccessory(events, query.accessory);
+	}
+
+	if (query.head) {
+		events = _filterNounCreatedByHead(events, query.head);
+	}
+
+	if (query.glasses) {
+		events = _filterNounCreatedByGlasses(events, query.glasses);
+	}
+
+	return events;
 }
 
 async function _getAllNounCreated() {
@@ -913,56 +929,49 @@ async function _getAllNounCreated() {
 	return events;
 }
 
-async function _getNounCreatedByBlock(startBlock: number, endBlock: number) {
-	let events = await _getAllNounCreated();
+function _filterNounCreatedByBlock(events: Indexer.NounsToken.NounCreated[], startBlock: number, endBlock: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
 	});
 	return filteredEvents;
 }
 
-async function _getNounCreatedByTokenId(tokenId: number) {
-	let events = await _getAllNounCreated();
+function _filterNounCreatedByTokenId(events: Indexer.NounsToken.NounCreated[], tokenId: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.tokenId === tokenId;
 	});
 	return filteredEvents;
 }
 
-async function _getNounCreatedByBackground(background: number) {
-	let events = await _getAllNounCreated();
+function _filterNounCreatedByBackground(events: Indexer.NounsToken.NounCreated[], background: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.seed.background === background;
 	});
 	return filteredEvents;
 }
 
-async function _getNounCreatedByBody(body: number) {
-	let events = await _getAllNounCreated();
+function _filterNounCreatedByBody(events: Indexer.NounsToken.NounCreated[], body: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.seed.body === body;
 	});
 	return filteredEvents;
 }
 
-async function _getNounCreatedByAccessory(accessory: number) {
-	let events = await _getAllNounCreated();
+function _filterNounCreatedByAccessory(events: Indexer.NounsToken.NounCreated[], accessory: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.seed.accessory === accessory;
 	});
 	return filteredEvents;
 }
 
-async function _getNounCreatedByHead(head: number) {
-	let events = await _getAllNounCreated();
+function _filterNounCreatedByHead(events: Indexer.NounsToken.NounCreated[], head: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.seed.head === head;
 	});
 	return filteredEvents;
 }
 
-async function _getNounCreatedByGlasses(glasses: number) {
-	let events = await _getAllNounCreated();
+function _filterNounCreatedByGlasses(events: Indexer.NounsToken.NounCreated[], glasses: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.seed.glasses === glasses;
 	});
