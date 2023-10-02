@@ -784,27 +784,39 @@ interface TransferQuery {
 }
 
 export async function getTransferEvents(query: TransferQuery | undefined) {
+	let events = await _getAllTransfer();
+
 	if (!query) {
-		return _getAllTransfer();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getTransferByBlock(query.startBlock, query.endBlock);
-	} else if (query.from) {
-		return _getTransferByFrom(query.from);
-	} else if (query.to) {
-		return _getTransferByTo(query.to);
-	} else if (query.involved) {
-		return _getTransferByInvolved(query.involved);
-	} else if (query.tokenId) {
-		return _getTransferByTokenId(query.tokenId);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterTransferByBlock(events, query.startBlock, query.endBlock);
 	}
+
+	if (query.from) {
+		events = _filterTransferByFrom(events, query.from);
+	}
+
+	if (query.to) {
+		events = _filterTransferByTo(events, query.to);
+	}
+
+	if (query.involved) {
+		events = _filterTransferByInvolved(events, query.involved);
+	}
+
+	if (query.tokenId) {
+		events = _filterTransferByTokenId(events, query.tokenId);
+	}
+
+	return events;
 }
 
 async function _getAllTransfer() {
@@ -814,32 +826,28 @@ async function _getAllTransfer() {
 	return events;
 }
 
-async function _getTransferByBlock(startBlock: number, endBlock: number) {
-	let events = await _getAllTransfer();
+function _filterTransferByBlock(events: Indexer.NounsToken.Transfer[], startBlock: number, endBlock: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
 	});
 	return filteredEvents;
 }
 
-async function _getTransferByFrom(from: string) {
-	let events = await _getAllTransfer();
+function _filterTransferByFrom(events: Indexer.NounsToken.Transfer[], from: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.from === from;
 	});
 	return filteredEvents;
 }
 
-async function _getTransferByTo(to: string) {
-	let events = await _getAllTransfer();
+function _filterTransferByTo(events: Indexer.NounsToken.Transfer[], to: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.to === to;
 	});
 	return filteredEvents;
 }
 
-async function _getTransferByInvolved(involved: string) {
-	let events = await _getAllTransfer();
+function _filterTransferByInvolved(events: Indexer.NounsToken.Transfer[], involved: string) {
 	let filteredEvents = events.filter((event) => {
 		let isFrom = event.from === involved;
 		let isTo = event.to === involved;
@@ -848,8 +856,7 @@ async function _getTransferByInvolved(involved: string) {
 	return filteredEvents;
 }
 
-async function _getTransferByTokenId(tokenId: number) {
-	let events = await _getAllTransfer();
+function _filterTransferByTokenId(events: Indexer.NounsToken.Transfer[], tokenId: number) {
 	let filteredEvents = events.filter((event) => {
 		return event.tokenId === tokenId;
 	});
