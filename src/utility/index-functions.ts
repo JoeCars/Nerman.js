@@ -993,29 +993,43 @@ interface CandidateFeedbackSentQuery {
 }
 
 export async function getCandidateFeedbackSentEvents(query: CandidateFeedbackSentQuery | undefined) {
+	let events = await _getAllCandidateFeedbackSent();
+
 	if (!query) {
-		return _getAllCandidateFeedbackSent();
-	} else if (query.startBlock || query.endBlock) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
 		if (!query.startBlock) {
 			query.startBlock = NOUNS_STARTING_BLOCK;
 		}
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		return _getCandidateFeedbackSentByBlock(query.startBlock, query.endBlock);
-	} else if (query.msgSender) {
-		return _getCandidateFeedbackSentBySender(query.msgSender);
-	} else if (query.proposer) {
-		return _getCandidateFeedbackSentByProposer(query.proposer);
-	} else if (query.involved) {
-		return _getCandidateFeedbackSentByInvolved(query.involved);
-	} else if (query.slug) {
-		return _getCandidateFeedbackSentBySlug(query.slug);
-	} else if (query.supportChoice) {
-		return _getCandidateFeedbackSentBySupportChoice(query.supportChoice);
-	} else {
-		throw new Error("Really Helpful Error Message");
+		events = _filterCandidateFeedbackSentByBlock(events, query.startBlock, query.endBlock);
 	}
+
+	if (query.msgSender) {
+		events = _filterCandidateFeedbackSentBySender(events, query.msgSender);
+	}
+
+	if (query.proposer) {
+		events = _filterCandidateFeedbackSentByProposer(events, query.proposer);
+	}
+
+	if (query.involved) {
+		events = _filterCandidateFeedbackSentByInvolved(events, query.involved);
+	}
+
+	if (query.slug) {
+		events = _filterCandidateFeedbackSentBySlug(events, query.slug);
+	}
+
+	if (query.supportChoice) {
+		events = _filterCandidateFeedbackSentBySupportChoice(events, query.supportChoice);
+	}
+
+	return events;
 }
 
 async function _getAllCandidateFeedbackSent() {
@@ -1025,32 +1039,32 @@ async function _getAllCandidateFeedbackSent() {
 	return events;
 }
 
-async function _getCandidateFeedbackSentByBlock(startBlock: number, endBlock: number) {
-	let events = await _getAllCandidateFeedbackSent();
+function _filterCandidateFeedbackSentByBlock(
+	events: Indexer.NounsDAOData.CandidateFeedbackSent[],
+	startBlock: number,
+	endBlock: number
+) {
 	let filteredEvents = events.filter((event) => {
 		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
 	});
 	return filteredEvents;
 }
 
-async function _getCandidateFeedbackSentBySender(msgSender: string) {
-	let events = await _getAllCandidateFeedbackSent();
+function _filterCandidateFeedbackSentBySender(events: Indexer.NounsDAOData.CandidateFeedbackSent[], msgSender: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.msgSender === msgSender;
 	});
 	return filteredEvents;
 }
 
-async function _getCandidateFeedbackSentByProposer(proposer: string) {
-	let events = await _getAllCandidateFeedbackSent();
+function _filterCandidateFeedbackSentByProposer(events: Indexer.NounsDAOData.CandidateFeedbackSent[], proposer: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.proposer === proposer;
 	});
 	return filteredEvents;
 }
 
-async function _getCandidateFeedbackSentByInvolved(involved: string) {
-	let events = await _getAllCandidateFeedbackSent();
+function _filterCandidateFeedbackSentByInvolved(events: Indexer.NounsDAOData.CandidateFeedbackSent[], involved: string) {
 	let filteredEvents = events.filter((event) => {
 		let isSender = event.msgSender === involved;
 		let isProposer = event.proposer === involved;
@@ -1059,16 +1073,17 @@ async function _getCandidateFeedbackSentByInvolved(involved: string) {
 	return filteredEvents;
 }
 
-async function _getCandidateFeedbackSentBySlug(slug: string) {
-	let events = await _getAllCandidateFeedbackSent();
+function _filterCandidateFeedbackSentBySlug(events: Indexer.NounsDAOData.CandidateFeedbackSent[], slug: string) {
 	let filteredEvents = events.filter((event) => {
 		return event.slug === slug;
 	});
 	return filteredEvents;
 }
 
-async function _getCandidateFeedbackSentBySupportChoice(supportChoice: string) {
-	let events = await _getAllCandidateFeedbackSent();
+function _filterCandidateFeedbackSentBySupportChoice(
+	events: Indexer.NounsDAOData.CandidateFeedbackSent[],
+	supportChoice: string
+) {
 	let filteredEvents = events.filter((event) => {
 		return event.supportChoice === supportChoice;
 	});
