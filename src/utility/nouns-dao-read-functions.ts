@@ -903,13 +903,6 @@ async function _filterProposalsByStatus(proposals: Indexer.NounsDAO.ProposalCrea
 	return filteredProposals;
 }
 
-async function _getAllProposalExecuted() {
-	let executedPath = join(__dirname, "..", "data", "index", "ProposalExecuted.json");
-	let executedFile = await readFile(executedPath, { encoding: "utf8" });
-	let executedProposals: Indexer.NounsDAO.ProposalExecuted[] = JSON.parse(executedFile);
-	return executedProposals;
-}
-
 async function _getAllProposalQueued() {
 	let queuedPath = join(__dirname, "..", "data", "index", "ProposalQueued.json");
 	let queuedFile = await readFile(queuedPath, { encoding: "utf8" });
@@ -1076,6 +1069,49 @@ async function _getAllProposalDescriptionUpdated() {
 	let path = join(__dirname, "..", "data", "index", "ProposalDescriptionUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalDescriptionUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
+// ProposalExecuted
+// ==================================
+
+interface ProposalExecutedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	proposalId?: number;
+}
+
+export async function getProposalExecuted(query?: ProposalExecutedQuery) {
+	let events = await _getAllProposalExecuted();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ProposalExecuted[];
+	}
+
+	if (query.proposalId !== undefined) {
+		events = events.filter((event) => {
+			return event.proposalId === query.proposalId;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllProposalExecuted() {
+	let path = join(__dirname, "..", "data", "index", "ProposalExecuted.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ProposalExecuted[] = JSON.parse(proposalFile);
 	return proposals;
 }
 
