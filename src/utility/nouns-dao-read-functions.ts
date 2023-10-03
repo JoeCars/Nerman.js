@@ -677,6 +677,42 @@ async function _getAllNewPendingVetoer() {
 }
 
 // ==================================
+// NewVetoer
+// ==================================
+
+interface NewVetoerQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getNewVetoer(query?: NewVetoerQuery) {
+	let events = await _getAllNewVetoer();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.NewVetoer[];
+	}
+
+	return events;
+}
+
+async function _getAllNewVetoer() {
+	let path = join(__dirname, "..", "data", "index", "NewVetoer.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.NewVetoer[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
