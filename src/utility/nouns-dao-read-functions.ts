@@ -425,6 +425,42 @@ async function _getAllJoinFork() {
 }
 
 // ==================================
+// LastMinuteWindowSet
+// ==================================
+
+interface LastMinuteWindowSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getLastMinuteWindowSet(query?: LastMinuteWindowSetQuery) {
+	let events = await _getAllLastMinuteWindowSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.LastMinuteWindowSet[];
+	}
+
+	return events;
+}
+
+async function _getAllLastMinuteWindowSet() {
+	let path = join(__dirname, "..", "data", "index", "LastMinuteWindowSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.LastMinuteWindowSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
