@@ -641,6 +641,42 @@ async function _getAllNewPendingAdmin() {
 }
 
 // ==================================
+// NewPendingVetoer
+// ==================================
+
+interface NewPendingVetoerQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getNewPendingVetoer(query?: NewPendingVetoerQuery) {
+	let events = await _getAllNewPendingVetoer();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.NewPendingVetoer[];
+	}
+
+	return events;
+}
+
+async function _getAllNewPendingVetoer() {
+	let path = join(__dirname, "..", "data", "index", "NewPendingVetoer.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.NewPendingVetoer[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
