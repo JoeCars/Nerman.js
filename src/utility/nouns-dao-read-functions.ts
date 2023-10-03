@@ -972,6 +972,71 @@ async function _getAllProposalCreatedOnTimelockV1() {
 }
 
 // ==================================
+// ProposalCreatedWithRequirements
+// ==================================
+
+interface ProposalCreatedWithRequirementsQuery {
+	startBlock?: number;
+	endBlock?: number;
+	startId?: number;
+	endId?: number;
+	id?: number;
+	status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
+	proposer?: string;
+}
+
+export async function getProposalCreatedWithRequirements(query?: ProposalCreatedWithRequirementsQuery) {
+	let events = await _getAllProposalCreatedWithRequirements();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterProposalsByBlock(
+			events,
+			query.startBlock,
+			query.endBlock
+		) as Indexer.NounsDAO.ProposalCreatedWithRequirements[];
+	}
+
+	if (query.startId || query.endId) {
+		if (!query.startId) {
+			query.startId = 0;
+		}
+		if (!query.endId) {
+			query.endId = Infinity;
+		}
+		events = _filterProposalsById(events, query.startId, query.endId) as Indexer.NounsDAO.ProposalCreatedWithRequirements[];
+	} else if (query.id) {
+		events = _filterProposalsById(events, query.id) as Indexer.NounsDAO.ProposalCreatedWithRequirements[];
+	}
+
+	if (query.proposer) {
+		events = _filterProposalByProposer(events, query.proposer) as Indexer.NounsDAO.ProposalCreatedWithRequirements[];
+	}
+
+	if (query.status) {
+		events = (await _filterProposalsByStatus(events, query.status)) as Indexer.NounsDAO.ProposalCreatedWithRequirements[];
+	}
+
+	return events;
+}
+
+async function _getAllProposalCreatedWithRequirements() {
+	let path = join(__dirname, "..", "data", "index", "ProposalCreatedWithRequirements.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ProposalCreatedWithRequirements[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
