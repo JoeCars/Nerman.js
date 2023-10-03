@@ -713,6 +713,42 @@ async function _getAllNewVetoer() {
 }
 
 // ==================================
+// ObjectionPeriodDurationSet
+// ==================================
+
+interface ObjectionPeriodDurationSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getObjectionPeriodDurationSet(query?: ObjectionPeriodDurationSetQuery) {
+	let events = await _getAllObjectionPeriodDurationSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ObjectionPeriodDurationSet[];
+	}
+
+	return events;
+}
+
+async function _getAllObjectionPeriodDurationSet() {
+	let path = join(__dirname, "..", "data", "index", "ObjectionPeriodDurationSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ObjectionPeriodDurationSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
