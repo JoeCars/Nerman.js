@@ -749,6 +749,49 @@ async function _getAllObjectionPeriodDurationSet() {
 }
 
 // ==================================
+// ProposalCanceled
+// ==================================
+
+interface ProposalCanceledQuery {
+	startBlock?: number;
+	endBlock?: number;
+	proposalId?: number;
+}
+
+export async function getProposalCanceled(query?: ProposalCanceledQuery) {
+	let events = await _getAllProposalCanceled();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ProposalCanceled[];
+	}
+
+	if (query.proposalId !== undefined) {
+		events = events.filter((event) => {
+			return event.proposalId === query.proposalId;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllProposalCanceled() {
+	let path = join(__dirname, "..", "data", "index", "ProposalCanceled.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ProposalCanceled[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
@@ -858,13 +901,6 @@ async function _filterProposalsByStatus(proposals: Indexer.NounsDAO.ProposalCrea
 		return hasCorrectStatus;
 	});
 	return filteredProposals;
-}
-
-async function _getAllProposalCanceled() {
-	let canceledPath = join(__dirname, "..", "data", "index", "ProposalCanceled.json");
-	let canceledFile = await readFile(canceledPath, { encoding: "utf8" });
-	let canceledProposals: Indexer.NounsDAO.ProposalCanceled[] = JSON.parse(canceledFile);
-	return canceledProposals;
 }
 
 async function _getAllProposalExecuted() {
