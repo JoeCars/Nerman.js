@@ -1195,6 +1195,42 @@ async function _getAllProposalQueued() {
 }
 
 // ==================================
+// ProposalThresholdBPSSet
+// ==================================
+
+interface ProposalThresholdBPSSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getProposalThresholdBPSSet(query?: ProposalThresholdBPSSetQuery) {
+	let events = await _getAllProposalThresholdBPSSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ProposalThresholdBPSSet[];
+	}
+
+	return events;
+}
+
+async function _getAllProposalThresholdBPSSet() {
+	let path = join(__dirname, "..", "data", "index", "ProposalThresholdBPSSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ProposalThresholdBPSSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
