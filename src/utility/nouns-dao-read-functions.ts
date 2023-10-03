@@ -361,6 +361,70 @@ async function _getAllForkThresholdSet() {
 }
 
 // ==================================
+// JoinFork
+// ==================================
+
+interface JoinForkQuery {
+	startBlock?: number;
+	endBlock?: number;
+	forkId?: number;
+	owner?: string;
+	tokenId?: number;
+	proposalId?: number;
+}
+
+export async function getJoinFork(query?: JoinForkQuery) {
+	let events = await _getAllJoinFork();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.JoinFork[];
+	}
+
+	if (query.forkId) {
+		events = events.filter((event) => {
+			return event.forkId === query.forkId;
+		});
+	}
+
+	if (query.owner) {
+		events = events.filter((event) => {
+			return event.owner === query.owner;
+		});
+	}
+
+	if (query.tokenId !== undefined) {
+		events = events.filter((event) => {
+			return event.tokenIds.includes(query.tokenId as number);
+		});
+	}
+
+	if (query.proposalId !== undefined) {
+		events = events.filter((event) => {
+			return event.proposalIds.includes(query.proposalId as number);
+		});
+	}
+
+	return events;
+}
+
+async function _getAllJoinFork() {
+	let path = join(__dirname, "..", "data", "index", "JoinFork.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.JoinFork[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
