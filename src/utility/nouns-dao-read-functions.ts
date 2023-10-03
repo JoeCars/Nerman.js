@@ -497,6 +497,42 @@ async function _getAllMaxQuorumVotesBPSSet() {
 }
 
 // ==================================
+// MinQuorumVotesBPSSet
+// ==================================
+
+interface MinQuorumVotesBPSSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getMinQuorumVotesBPSSet(query?: MinQuorumVotesBPSSetQuery) {
+	let events = await _getAllMinQuorumVotesBPSSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.MinQuorumVotesBPSSet[];
+	}
+
+	return events;
+}
+
+async function _getAllMinQuorumVotesBPSSet() {
+	let path = join(__dirname, "..", "data", "index", "MinQuorumVotesBPSSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.MinQuorumVotesBPSSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
