@@ -2,6 +2,83 @@ import { readFile } from "fs/promises";
 import { join } from "path";
 import { Indexer } from "../types";
 
+const NOUNS_STARTING_BLOCK = 13072753;
+
+// ==================================
+// DAOWithdrawNounsFromEscrow
+// ==================================
+
+interface DAOWithdrawNounsFromEscrowQuery {
+	startBlock?: number;
+	endBlock?: number;
+	tokenId?: number;
+	to?: string;
+}
+
+export async function getDAOWithdrawNounsFromEscrow(query?: DAOWithdrawNounsFromEscrowQuery) {
+	let events = await _getAllDAOWithdrawNounsFromEscrow();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[];
+	}
+
+	if (query.tokenId) {
+		events = _filterDAOWithdrawNounsFromEscrowByTokenId(events, query.tokenId);
+	}
+
+	if (query.to) {
+		events = _filterDAOWithdrawNounsFromEscrowByTo(events, query.to);
+	}
+
+	return events;
+}
+
+async function _getAllDAOWithdrawNounsFromEscrow() {
+	let path = join(__dirname, "..", "data", "index", "DAOWithdrawNounsFromEscrow.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+/**
+ * @param startBlock The starting block. Inclusive.
+ * @param endBlock The final block. Inclusive.
+ */
+function _filterByBlock(events: Indexer.FormattedEvent[], startBlock: number, endBlock: number) {
+	let filteredEvents = events.filter((event) => {
+		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
+	});
+	return filteredEvents;
+}
+
+function _filterDAOWithdrawNounsFromEscrowByTokenId(events: Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[], tokenId: number) {
+	let filteredEvents = events.filter((event) => {
+		return event.tokenIds.includes(tokenId);
+	});
+	return filteredEvents;
+}
+
+function _filterDAOWithdrawNounsFromEscrowByTo(events: Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[], to: string) {
+	let filteredEvents = events.filter((event) => {
+		return event.to === to;
+	});
+	return filteredEvents;
+}
+
+// ==================================
+// ProposalCreated
+// ==================================
+
 interface ProposalQuery {
 	startBlock?: number;
 	endBlock?: number;
@@ -11,12 +88,6 @@ interface ProposalQuery {
 	status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
 	proposer?: string;
 }
-
-const NOUNS_STARTING_BLOCK = 13072753;
-
-// ==================================
-// ProposalCreated
-// ==================================
 
 export async function getProposals(query?: ProposalQuery) {
 	let events = await _getAllProposals();
