@@ -289,6 +289,42 @@ async function _getAllForkDAODeployerSet() {
 }
 
 // ==================================
+// ForkPeriodSet
+// ==================================
+
+interface ForkPeriodSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getForkPeriodSet(query?: ForkPeriodSetQuery) {
+	let events = await _getAllForkPeriodSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ForkPeriodSet[];
+	}
+
+	return events;
+}
+
+async function _getAllForkPeriodSet() {
+	let path = join(__dirname, "..", "data", "index", "ForkPeriodSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ForkPeriodSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
