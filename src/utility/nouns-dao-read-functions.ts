@@ -76,6 +76,42 @@ function _filterDAOWithdrawNounsFromEscrowByTo(events: Indexer.NounsDAO.DAOWithd
 }
 
 // ==================================
+// ERC20TokensToIncludeInForkSet
+// ==================================
+
+interface ERC20TokensToIncludeInForkSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getERC20TokensToIncludeInForkSet(query?: ERC20TokensToIncludeInForkSetQuery) {
+	let events = await _getAllERC20TokensToIncludeInForkSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ERC20TokensToIncludeInForkSet[];
+	}
+
+	return events;
+}
+
+async function _getAllERC20TokensToIncludeInForkSet() {
+	let path = join(__dirname, "..", "data", "index", "ERC20TokensToIncludeInForkSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ERC20TokensToIncludeInForkSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
