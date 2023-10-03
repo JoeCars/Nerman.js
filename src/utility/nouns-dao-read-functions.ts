@@ -903,13 +903,6 @@ async function _filterProposalsByStatus(proposals: Indexer.NounsDAO.ProposalCrea
 	return filteredProposals;
 }
 
-async function _getAllProposalQueued() {
-	let queuedPath = join(__dirname, "..", "data", "index", "ProposalQueued.json");
-	let queuedFile = await readFile(queuedPath, { encoding: "utf8" });
-	let queuedProposals: Indexer.NounsDAO.ProposalQueued[] = JSON.parse(queuedFile);
-	return queuedProposals;
-}
-
 async function _getAllProposalVetoed() {
 	let vetoedPath = join(__dirname, "..", "data", "index", "ProposalVetoed.json");
 	let vetoedFile = await readFile(vetoedPath, { encoding: "utf8" });
@@ -1155,6 +1148,49 @@ async function _getAllProposalObjectionPeriodSet() {
 	let path = join(__dirname, "..", "data", "index", "ProposalObjectionPeriodSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalObjectionPeriodSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
+// ProposalQueued
+// ==================================
+
+interface ProposalQueuedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	proposalId?: number;
+}
+
+export async function getProposalQueued(query?: ProposalQueuedQuery) {
+	let events = await _getAllProposalQueued();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ProposalQueued[];
+	}
+
+	if (query.proposalId !== undefined) {
+		events = events.filter((event) => {
+			return event.proposalId === query.proposalId;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllProposalQueued() {
+	let path = join(__dirname, "..", "data", "index", "ProposalQueued.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ProposalQueued[] = JSON.parse(proposalFile);
 	return proposals;
 }
 
