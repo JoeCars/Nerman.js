@@ -461,6 +461,42 @@ async function _getAllLastMinuteWindowSet() {
 }
 
 // ==================================
+// MaxQuorumVotesBPSSet
+// ==================================
+
+interface MaxQuorumVotesBPSSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getMaxQuorumVotesBPSSet(query?: MaxQuorumVotesBPSSetQuery) {
+	let events = await _getAllMaxQuorumVotesBPSSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.MaxQuorumVotesBPSSet[];
+	}
+
+	return events;
+}
+
+async function _getAllMaxQuorumVotesBPSSet() {
+	let path = join(__dirname, "..", "data", "index", "MaxQuorumVotesBPSSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.MaxQuorumVotesBPSSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
