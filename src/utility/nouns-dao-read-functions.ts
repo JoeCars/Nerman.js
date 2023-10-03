@@ -325,6 +325,42 @@ async function _getAllForkPeriodSet() {
 }
 
 // ==================================
+// ForkThresholdSet
+// ==================================
+
+interface ForkThresholdSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getForkThresholdSet(query?: ForkThresholdSetQuery) {
+	let events = await _getAllForkThresholdSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ForkThresholdSet[];
+	}
+
+	return events;
+}
+
+async function _getAllForkThresholdSet() {
+	let path = join(__dirname, "..", "data", "index", "ForkThresholdSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ForkThresholdSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
