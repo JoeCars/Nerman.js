@@ -936,6 +936,42 @@ async function _getAllStatusChange() {
 }
 
 // ==================================
+// ProposalCreatedOnTimelockV1
+// ==================================
+
+interface ProposalCreatedOnTimelockV1Query {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getProposalCreatedOnTimelockV1(query?: ProposalCreatedOnTimelockV1Query) {
+	let events = await _getAllProposalCreatedOnTimelockV1();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ProposalCreatedOnTimelockV1[];
+	}
+
+	return events;
+}
+
+async function _getAllProposalCreatedOnTimelockV1() {
+	let path = join(__dirname, "..", "data", "index", "ProposalCreatedOnTimelockV1.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ProposalCreatedOnTimelockV1[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
