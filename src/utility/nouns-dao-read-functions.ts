@@ -533,6 +533,42 @@ async function _getAllMinQuorumVotesBPSSet() {
 }
 
 // ==================================
+// NewAdmin
+// ==================================
+
+interface NewAdminQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getNewAdmin(query?: NewAdminQuery) {
+	let events = await _getAllNewAdmin();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.NewAdmin[];
+	}
+
+	return events;
+}
+
+async function _getAllNewAdmin() {
+	let path = join(__dirname, "..", "data", "index", "NewAdmin.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.NewAdmin[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
