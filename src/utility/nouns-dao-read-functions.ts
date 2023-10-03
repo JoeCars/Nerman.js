@@ -253,6 +253,42 @@ function _filterExecutedForkById(forks: Indexer.NounsDAO.ExecuteFork[], startId:
 }
 
 // ==================================
+// ForkDAODeployerSet
+// ==================================
+
+interface ForkDAODeployerSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getForkDAODeployerSet(query?: ForkDAODeployerSetQuery) {
+	let events = await _getAllForkDAODeployerSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ForkDAODeployerSet[];
+	}
+
+	return events;
+}
+
+async function _getAllForkDAODeployerSet() {
+	let path = join(__dirname, "..", "data", "index", "ForkDAODeployerSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ForkDAODeployerSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
