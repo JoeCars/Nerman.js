@@ -112,6 +112,70 @@ async function _getAllERC20TokensToIncludeInForkSet() {
 }
 
 // ==================================
+// EscrowedToFork
+// ==================================
+
+interface EscrowedToForkQuery {
+	startBlock?: number;
+	endBlock?: number;
+	forkId?: number;
+	owner?: string;
+	tokenId?: number;
+	proposalId?: number;
+}
+
+export async function getEscrowedToFork(query?: EscrowedToForkQuery) {
+	let events = await _getAllEscrowedToFork();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.EscrowedToFork[];
+	}
+
+	if (query.forkId) {
+		events = events.filter((event) => {
+			return event.forkId === query.forkId;
+		});
+	}
+
+	if (query.owner) {
+		events = events.filter((event) => {
+			return event.owner === query.owner;
+		});
+	}
+
+	if (query.tokenId !== undefined) {
+		events = events.filter((event) => {
+			return event.tokenIds.includes(query.tokenId as number);
+		});
+	}
+
+	if (query.proposalId !== undefined) {
+		events = events.filter((event) => {
+			return event.proposalIds.includes(query.proposalId as number);
+		});
+	}
+
+	return events;
+}
+
+async function _getAllEscrowedToFork() {
+	let path = join(__dirname, "..", "data", "index", "EscrowedToFork.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.EscrowedToFork[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
