@@ -605,6 +605,42 @@ async function _getAllNewImplementation() {
 }
 
 // ==================================
+// NewPendingAdmin
+// ==================================
+
+interface NewPendingAdminQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getNewPendingAdmin(query?: NewPendingAdminQuery) {
+	let events = await _getAllNewPendingAdmin();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.NewPendingAdmin[];
+	}
+
+	return events;
+}
+
+async function _getAllNewPendingAdmin() {
+	let path = join(__dirname, "..", "data", "index", "NewPendingAdmin.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.NewPendingAdmin[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
