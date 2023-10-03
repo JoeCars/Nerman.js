@@ -1116,6 +1116,49 @@ async function _getAllProposalExecuted() {
 }
 
 // ==================================
+// ProposalObjectionPeriodSet
+// ==================================
+
+interface ProposalObjectionPeriodSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+	proposalId?: number;
+}
+
+export async function getProposalObjectionPeriodSet(query?: ProposalObjectionPeriodSetQuery) {
+	let events = await _getAllProposalObjectionPeriodSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ProposalObjectionPeriodSet[];
+	}
+
+	if (query.proposalId !== undefined) {
+		events = events.filter((event) => {
+			return event.proposalId === query.proposalId;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllProposalObjectionPeriodSet() {
+	let path = join(__dirname, "..", "data", "index", "ProposalObjectionPeriodSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ProposalObjectionPeriodSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
