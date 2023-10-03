@@ -569,6 +569,42 @@ async function _getAllNewAdmin() {
 }
 
 // ==================================
+// NewImplementation
+// ==================================
+
+interface NewImplementationQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getNewImplementation(query?: NewImplementationQuery) {
+	let events = await _getAllNewImplementation();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.NewImplementation[];
+	}
+
+	return events;
+}
+
+async function _getAllNewImplementation() {
+	let path = join(__dirname, "..", "data", "index", "NewImplementation.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.NewImplementation[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCreated
 // ==================================
 
