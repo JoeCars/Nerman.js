@@ -738,3 +738,39 @@ function _filterSignatureAddedBySlug(events: Indexer.NounsDAOData.SignatureAdded
 	});
 	return filteredEvents;
 }
+
+// ==================================
+// UpdateCandidateCostSet
+// ==================================
+
+interface UpdateCandidateCostSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getUpdateCandidateCostSet(query?: UpdateCandidateCostSetQuery) {
+	let events = await _getAllUpdateCandidateCostSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAOData.UpdateCandidateCostSet[];
+	}
+
+	return events;
+}
+
+async function _getAllUpdateCandidateCostSet() {
+	let path = join(__dirname, "..", "data", "index", "UpdateCandidateCostSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAOData.UpdateCandidateCostSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
