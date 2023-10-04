@@ -612,3 +612,46 @@ async function _getAllMinterUpdated() {
 	let proposals: Indexer.NounsToken.MinterUpdated[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// NounBurned
+// ==================================
+
+interface NounBurnedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	nounId?: number;
+}
+
+export async function getNounBurned(query?: NounBurnedQuery) {
+	let events = await _getAllNounBurned();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.NounBurned[];
+	}
+
+	if (query.nounId !== undefined) {
+		events = events.filter((event) => {
+			return event.nounId === query.nounId;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllNounBurned() {
+	let path = join(__dirname, "..", "data", "index", "NounBurned.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsToken.NounBurned[] = JSON.parse(proposalFile);
+	return proposals;
+}
