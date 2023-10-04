@@ -1518,6 +1518,49 @@ async function _getAllRefundableVote() {
 }
 
 // ==================================
+// SignatureCancelled
+// ==================================
+
+interface SignatureCancelledQuery {
+	startBlock?: number;
+	endBlock?: number;
+	signer?: string;
+}
+
+export async function getSignatureCancelled(query?: SignatureCancelledQuery) {
+	let events = await _getAllSignatureCancelled();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.SignatureCancelled[];
+	}
+
+	if (query.signer) {
+		events = events.filter((event) => {
+			return event.signer === query.signer;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllSignatureCancelled() {
+	let path = join(__dirname, "..", "data", "index", "SignatureCancelled.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.SignatureCancelled[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
