@@ -477,3 +477,39 @@ async function _getAllOwnershipTransferred() {
 	let proposals: Indexer.NounsAuctionHouse.OwnershipTransferred[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// Paused
+// ==================================
+
+interface PausedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getPaused(query?: PausedQuery) {
+	let events = await _getAllPaused();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsAuctionHouse.Paused[];
+	}
+
+	return events;
+}
+
+async function _getAllPaused() {
+	let path = join(__dirname, "..", "data", "index", "Paused.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsAuctionHouse.Paused[] = JSON.parse(proposalFile);
+	return proposals;
+}
