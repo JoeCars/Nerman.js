@@ -476,6 +476,56 @@ async function _getAllOwnershipTransferred() {
 }
 
 // ==================================
+// ProposalCandidateCanceled
+// ==================================
+
+interface ProposalCandidateCanceledQuery {
+	startBlock?: number;
+	endBlock?: number;
+	msgSender?: string;
+	slug?: string;
+}
+
+export async function getProposalCandidateCanceled(query?: ProposalCandidateCanceledQuery) {
+	let events = await _getAllProposalCandidateCanceled();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAOData.ProposalCandidateCanceled[];
+	}
+
+	if (query.msgSender) {
+		events = events.filter((event) => {
+			return event.msgSender === query.msgSender;
+		});
+	}
+
+	if (query.slug) {
+		events = events.filter((event) => {
+			return event.slug === query.slug;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllProposalCandidateCanceled() {
+	let path = join(__dirname, "..", "data", "index", "ProposalCandidateCanceled.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAOData.ProposalCandidateCanceled[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalCandidateCreated
 // ==================================
 
