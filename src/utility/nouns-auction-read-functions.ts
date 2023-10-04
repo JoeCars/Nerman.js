@@ -378,3 +378,43 @@ async function _getAllAuctionReservePriceUpdated() {
 	let proposals: Indexer.NounsAuctionHouse.AuctionReservePriceUpdated[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// AuctionMinBidIncrementPercentageUpdated
+// ==================================
+
+interface AuctionMinBidIncrementPercentageUpdatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getAuctionMinBidIncrementPercentageUpdated(query?: AuctionMinBidIncrementPercentageUpdatedQuery) {
+	let events = await _getAllAuctionMinBidIncrementPercentageUpdated();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(
+			events,
+			query.startBlock,
+			query.endBlock
+		) as Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdated[];
+	}
+
+	return events;
+}
+
+async function _getAllAuctionMinBidIncrementPercentageUpdated() {
+	let path = join(__dirname, "..", "data", "index", "AuctionMinBidIncrementPercentageUpdated.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
