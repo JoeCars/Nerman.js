@@ -1858,3 +1858,39 @@ async function _getAllVotingPeriodSet() {
 	let proposals: Indexer.NounsDAO.VotingPeriodSet[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// Withdraw
+// ==================================
+
+interface WithdrawQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getWithdraw(query?: WithdrawQuery) {
+	let events = await _getAllWithdraw();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.Withdraw[];
+	}
+
+	return events;
+}
+
+async function _getAllWithdraw() {
+	let path = join(__dirname, "..", "data", "index", "Withdraw.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.Withdraw[] = JSON.parse(proposalFile);
+	return proposals;
+}
