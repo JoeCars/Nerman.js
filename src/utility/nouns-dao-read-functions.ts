@@ -1317,6 +1317,56 @@ async function _getAllProposalUpdatablePeriodSet() {
 }
 
 // ==================================
+// ProposalUpdated
+// ==================================
+
+interface ProposalUpdatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	id?: number;
+	proposer?: string;
+}
+
+export async function getProposalUpdated(query?: ProposalUpdatedQuery) {
+	let events = await _getAllProposalUpdated();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ProposalUpdated[];
+	}
+
+	if (query.id !== undefined) {
+		events = events.filter((event) => {
+			return event.id === query.id;
+		});
+	}
+
+	if (query.proposer) {
+		events = events.filter((event) => {
+			return event.proposer === query.proposer;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllProposalUpdated() {
+	let path = join(__dirname, "..", "data", "index", "ProposalUpdated.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ProposalUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
