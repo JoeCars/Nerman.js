@@ -4,6 +4,17 @@ import { Indexer } from "../types";
 
 const NOUNS_STARTING_BLOCK = 13072753;
 
+/**
+ * @param startBlock The starting block. Inclusive.
+ * @param endBlock The final block. Inclusive.
+ */
+function _filterByBlock(events: Indexer.FormattedEvent[], startBlock: number, endBlock: number) {
+	let filteredEvents = events.filter((event) => {
+		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
+	});
+	return filteredEvents;
+}
+
 // ==================================
 // CandidateFeedbackSent
 // ==================================
