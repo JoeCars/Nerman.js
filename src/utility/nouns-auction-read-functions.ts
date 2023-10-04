@@ -165,6 +165,49 @@ function _filterAuctionBidByBidAmount(
 }
 
 // ==================================
+// AuctionExtended
+// ==================================
+
+interface AuctionExtendedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	nounId?: number;
+}
+
+export async function getAuctionExtended(query?: AuctionExtendedQuery) {
+	let events = await _getAllAuctionExtended();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsAuctionHouse.AuctionExtended[];
+	}
+
+	if (query.nounId !== undefined) {
+		events = events.filter((event) => {
+			return event.nounId === query.nounId;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllAuctionExtended() {
+	let path = join(__dirname, "..", "data", "index", "AuctionExtended.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsAuctionHouse.AuctionExtended[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // AuctionSettled
 // ==================================
 
