@@ -468,3 +468,39 @@ function _filterNounCreatedByGlasses(events: Indexer.NounsToken.NounCreated[], g
 	});
 	return filteredEvents;
 }
+
+// ==================================
+// DescriptorLocked
+// ==================================
+
+interface DescriptorLockedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getDescriptorLocked(query?: DescriptorLockedQuery) {
+	let events = await _getAllDescriptorLocked();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.DescriptorLocked[];
+	}
+
+	return events;
+}
+
+async function _getAllDescriptorLocked() {
+	let path = join(__dirname, "..", "data", "index", "DescriptorLocked.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsToken.DescriptorLocked[] = JSON.parse(proposalFile);
+	return proposals;
+}
