@@ -302,6 +302,42 @@ async function _getAllETHWithdrawn() {
 }
 
 // ==================================
+// FeeRecipientSet
+// ==================================
+
+interface FeeRecipientSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getFeeRecipientSet(query?: FeeRecipientSetQuery) {
+	let events = await _getAllFeeRecipientSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAOData.FeeRecipientSet[];
+	}
+
+	return events;
+}
+
+async function _getAllFeeRecipientSet() {
+	let path = join(__dirname, "..", "data", "index", "FeeRecipientSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAOData.FeeRecipientSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // FeedbackSent
 // ==================================
 
