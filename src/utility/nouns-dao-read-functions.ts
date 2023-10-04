@@ -1746,3 +1746,43 @@ function _filterVoteCastBySupport(votes: Indexer.NounsDAO.VoteCast[], support: s
 	});
 	return filteredVotes;
 }
+
+// ==================================
+// VoteSnapshotBlockSwitchProposalIdSet
+// ==================================
+
+interface VoteSnapshotBlockSwitchProposalIdSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getVoteSnapshotBlockSwitchProposalIdSet(query?: VoteSnapshotBlockSwitchProposalIdSetQuery) {
+	let events = await _getAllVoteSnapshotBlockSwitchProposalIdSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(
+			events,
+			query.startBlock,
+			query.endBlock
+		) as Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSet[];
+	}
+
+	return events;
+}
+
+async function _getAllVoteSnapshotBlockSwitchProposalIdSet() {
+	let path = join(__dirname, "..", "data", "index", "VoteSnapshotBlockSwitchProposalIdSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
