@@ -262,6 +262,56 @@ function _filterTransferByTokenId(events: Indexer.NounsToken.Transfer[], tokenId
 }
 
 // ==================================
+// Approval
+// ==================================
+
+interface ApprovalQuery {
+	startBlock?: number;
+	endBlock?: number;
+	owner?: string;
+	tokenId?: number;
+}
+
+export async function getApproval(query?: ApprovalQuery) {
+	let events = await _getAllApproval();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.Approval[];
+	}
+
+	if (query.owner) {
+		events = events.filter((event) => {
+			return event.owner === query.owner;
+		});
+	}
+
+	if (query.tokenId !== undefined) {
+		events = events.filter((event) => {
+			return event.tokenId === query.tokenId;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllApproval() {
+	let path = join(__dirname, "..", "data", "index", "Approval.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsToken.Approval[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // NounCreated
 // ==================================
 
