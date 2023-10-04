@@ -1475,6 +1475,49 @@ async function _getAllQuorumVotesBPSSet() {
 }
 
 // ==================================
+// RefundableVote
+// ==================================
+
+interface RefundableVoteQuery {
+	startBlock?: number;
+	endBlock?: number;
+	voter?: string;
+}
+
+export async function getRefundableVote(query?: RefundableVoteQuery) {
+	let events = await _getAllRefundableVote();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.RefundableVote[];
+	}
+
+	if (query.voter) {
+		events = events.filter((event) => {
+			return event.voter === query.voter;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllRefundableVote() {
+	let path = join(__dirname, "..", "data", "index", "RefundableVote.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.RefundableVote[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
