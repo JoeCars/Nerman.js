@@ -903,13 +903,6 @@ async function _filterProposalsByStatus(proposals: Indexer.NounsDAO.ProposalCrea
 	return filteredProposals;
 }
 
-async function _getAllProposalVetoed() {
-	let vetoedPath = join(__dirname, "..", "data", "index", "ProposalVetoed.json");
-	let vetoedFile = await readFile(vetoedPath, { encoding: "utf8" });
-	let vetoedProposals: Indexer.NounsDAO.ProposalVetoed[] = JSON.parse(vetoedFile);
-	return vetoedProposals;
-}
-
 async function _getAllStatusChange() {
 	let proposals = await _getAllProposalCanceled();
 	proposals = proposals.concat(await _getAllProposalExecuted());
@@ -1363,6 +1356,49 @@ async function _getAllProposalUpdated() {
 	let path = join(__dirname, "..", "data", "index", "ProposalUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
+// ProposalVetoed
+// ==================================
+
+interface ProposalVetoedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	proposalId?: number;
+}
+
+export async function getProposalVetoed(query?: ProposalVetoedQuery) {
+	let events = await _getAllProposalVetoed();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ProposalVetoed[];
+	}
+
+	if (query.proposalId !== undefined) {
+		events = events.filter((event) => {
+			return event.proposalId === query.proposalId;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllProposalVetoed() {
+	let path = join(__dirname, "..", "data", "index", "ProposalVetoed.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ProposalVetoed[] = JSON.parse(proposalFile);
 	return proposals;
 }
 
