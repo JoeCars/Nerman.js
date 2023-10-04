@@ -312,6 +312,49 @@ async function _getAllApproval() {
 }
 
 // ==================================
+// ApprovalForAll
+// ==================================
+
+interface ApprovalForAllQuery {
+	startBlock?: number;
+	endBlock?: number;
+	owner?: string;
+}
+
+export async function getApprovalForAll(query?: ApprovalForAllQuery) {
+	let events = await _getAllApprovalForAll();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.ApprovalForAll[];
+	}
+
+	if (query.owner) {
+		events = events.filter((event) => {
+			return event.owner === query.owner;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllApprovalForAll() {
+	let path = join(__dirname, "..", "data", "index", "ApprovalForAll.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsToken.ApprovalForAll[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // NounCreated
 // ==================================
 
