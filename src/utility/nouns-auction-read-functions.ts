@@ -513,3 +513,39 @@ async function _getAllPaused() {
 	let proposals: Indexer.NounsAuctionHouse.Paused[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// Unpaused
+// ==================================
+
+interface UnpausedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getUnpaused(query?: UnpausedQuery) {
+	let events = await _getAllUnpaused();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsAuctionHouse.Unpaused[];
+	}
+
+	return events;
+}
+
+async function _getAllUnpaused() {
+	let path = join(__dirname, "..", "data", "index", "Unpaused.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsAuctionHouse.Unpaused[] = JSON.parse(proposalFile);
+	return proposals;
+}
