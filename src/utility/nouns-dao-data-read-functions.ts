@@ -259,6 +259,49 @@ async function _getAllCreateCandidateCostSet() {
 }
 
 // ==================================
+// ETHWithdrawn
+// ==================================
+
+interface ETHWithdrawnQuery {
+	startBlock?: number;
+	endBlock?: number;
+	to?: string;
+}
+
+export async function getETHWithdrawn(query?: ETHWithdrawnQuery) {
+	let events = await _getAllETHWithdrawn();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAOData.ETHWithdrawn[];
+	}
+
+	if (query.to) {
+		events = events.filter((event) => {
+			return event.to === query.to;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllETHWithdrawn() {
+	let path = join(__dirname, "..", "data", "index", "ETHWithdrawn.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAOData.ETHWithdrawn[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // FeedbackSent
 // ==================================
 
