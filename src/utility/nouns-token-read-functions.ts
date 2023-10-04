@@ -504,3 +504,39 @@ async function _getAllDescriptorLocked() {
 	let proposals: Indexer.NounsToken.DescriptorLocked[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// DescriptorUpdated
+// ==================================
+
+interface DescriptorUpdatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getDescriptorUpdated(query?: DescriptorUpdatedQuery) {
+	let events = await _getAllDescriptorUpdated();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.DescriptorUpdated[];
+	}
+
+	return events;
+}
+
+async function _getAllDescriptorUpdated() {
+	let path = join(__dirname, "..", "data", "index", "DescriptorUpdated.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsToken.DescriptorUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
