@@ -655,3 +655,39 @@ async function _getAllNounBurned() {
 	let proposals: Indexer.NounsToken.NounBurned[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// NoundersDAOUpdated
+// ==================================
+
+interface NoundersDAOUpdatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getNoundersDAOUpdated(query?: NoundersDAOUpdatedQuery) {
+	let events = await _getAllNoundersDAOUpdated();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.NoundersDAOUpdated[];
+	}
+
+	return events;
+}
+
+async function _getAllNoundersDAOUpdated() {
+	let path = join(__dirname, "..", "data", "index", "NoundersDAOUpdated.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsToken.NoundersDAOUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
