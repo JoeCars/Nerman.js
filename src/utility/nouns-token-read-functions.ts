@@ -576,3 +576,39 @@ async function _getAllMinterLocked() {
 	let proposals: Indexer.NounsToken.MinterLocked[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// MinterUpdated
+// ==================================
+
+interface MinterUpdatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getMinterUpdated(query?: MinterUpdatedQuery) {
+	let events = await _getAllMinterUpdated();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.MinterUpdated[];
+	}
+
+	return events;
+}
+
+async function _getAllMinterUpdated() {
+	let path = join(__dirname, "..", "data", "index", "MinterUpdated.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsToken.MinterUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
