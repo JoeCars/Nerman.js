@@ -1403,6 +1403,42 @@ async function _getAllProposalVetoed() {
 }
 
 // ==================================
+// QuorumCoefficientSet
+// ==================================
+
+interface QuorumCoefficientSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getQuorumCoefficientSet(query?: QuorumCoefficientSetQuery) {
+	let events = await _getAllQuorumCoefficientSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.QuorumCoefficientSet[];
+	}
+
+	return events;
+}
+
+async function _getAllQuorumCoefficientSet() {
+	let path = join(__dirname, "..", "data", "index", "QuorumCoefficientSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.QuorumCoefficientSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
