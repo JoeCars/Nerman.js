@@ -691,3 +691,62 @@ async function _getAllNoundersDAOUpdated() {
 	let proposals: Indexer.NounsToken.NoundersDAOUpdated[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// OwnershipTransferred
+// ==================================
+
+interface OwnershipTransferredQuery {
+	startBlock?: number;
+	endBlock?: number;
+	previousOwner?: string;
+	newOwner?: string;
+	including?: string;
+}
+
+export async function getOwnershipTransferred(query?: OwnershipTransferredQuery) {
+	let events = await _getAllOwnershipTransferred();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.OwnershipTransferred[];
+	}
+
+	if (query.previousOwner) {
+		events = events.filter((event) => {
+			return event.previousOwner === query.previousOwner;
+		});
+	}
+
+	if (query.newOwner) {
+		events = events.filter((event) => {
+			return event.newOwner === query.newOwner;
+		});
+	}
+
+	if (query.including) {
+		events = events.filter((event) => {
+			let isPreviousOwner = event.previousOwner === query.including;
+			let isNewOwner = event.newOwner === query.including;
+			return isPreviousOwner || isNewOwner;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllOwnershipTransferred() {
+	let path = join(__dirname, "..", "data", "index", "OwnershipTransferred.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsToken.OwnershipTransferred[] = JSON.parse(proposalFile);
+	return proposals;
+}
