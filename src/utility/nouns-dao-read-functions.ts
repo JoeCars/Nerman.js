@@ -1231,6 +1231,56 @@ async function _getAllProposalThresholdBPSSet() {
 }
 
 // ==================================
+// ProposalTransactionsUpdated
+// ==================================
+
+interface ProposalTransactionsUpdatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	id?: number;
+	proposer?: string;
+}
+
+export async function getProposalTransactionsUpdated(query?: ProposalTransactionsUpdatedQuery) {
+	let events = await _getAllProposalTransactionsUpdated();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ProposalTransactionsUpdated[];
+	}
+
+	if (query.id !== undefined) {
+		events = events.filter((event) => {
+			return event.id === query.id;
+		});
+	}
+
+	if (query.proposer) {
+		events = events.filter((event) => {
+			return event.proposer === query.proposer;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllProposalTransactionsUpdated() {
+	let path = join(__dirname, "..", "data", "index", "ProposalTransactionsUpdated.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.ProposalTransactionsUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
