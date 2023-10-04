@@ -298,3 +298,43 @@ function _filterAuctionSettledByBidAmount(
 	});
 	return filteredAuctions;
 }
+
+// ==================================
+// AuctionTimeBufferUpdated
+// ==================================
+
+interface AuctionTimeBufferUpdatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getAuctionTimeBufferUpdated(query?: AuctionTimeBufferUpdatedQuery) {
+	let events = await _getAllAuctionTimeBufferUpdated();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(
+			events,
+			query.startBlock,
+			query.endBlock
+		) as Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated[];
+	}
+
+	return events;
+}
+
+async function _getAllAuctionTimeBufferUpdated() {
+	let path = join(__dirname, "..", "data", "index", "AuctionTimeBufferUpdated.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
