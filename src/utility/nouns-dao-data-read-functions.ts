@@ -16,6 +16,65 @@ function _filterByBlock(events: Indexer.FormattedEvent[], startBlock: number, en
 }
 
 // ==================================
+// AdminChanged
+// ==================================
+
+interface AdminChangedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	previousAdmin?: string;
+	newAdmin?: string;
+	including?: string;
+}
+
+export async function getAdminChanged(query?: AdminChangedQuery) {
+	let events = await _getAllAdminChanged();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAOData.AdminChanged[];
+	}
+
+	if (query.previousAdmin) {
+		events = events.filter((event) => {
+			return event.previousAdmin === query.previousAdmin;
+		});
+	}
+
+	if (query.newAdmin) {
+		events = events.filter((event) => {
+			return event.newAdmin === query.newAdmin;
+		});
+	}
+
+	if (query.including) {
+		events = events.filter((event) => {
+			let isPreviousAdmin = event.previousAdmin === query.including;
+			let isNewAdmin = event.newAdmin === query.including;
+			return isPreviousAdmin || isNewAdmin;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllAdminChanged() {
+	let path = join(__dirname, "..", "data", "index", "AdminChanged.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAOData.AdminChanged[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // CandidateFeedbackSent
 // ==================================
 
