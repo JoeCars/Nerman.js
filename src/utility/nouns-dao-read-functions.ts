@@ -1786,3 +1786,39 @@ async function _getAllVoteSnapshotBlockSwitchProposalIdSet() {
 	let proposals: Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSet[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// VotingDelaySet
+// ==================================
+
+interface VotingDelaySetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getVotingDelaySet(query?: VotingDelaySetQuery) {
+	let events = await _getAllVotingDelaySet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.VotingDelaySet[];
+	}
+
+	return events;
+}
+
+async function _getAllVotingDelaySet() {
+	let path = join(__dirname, "..", "data", "index", "VotingDelaySet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.VotingDelaySet[] = JSON.parse(proposalFile);
+	return proposals;
+}
