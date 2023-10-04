@@ -786,3 +786,39 @@ async function _getAllSeederLocked() {
 	let proposals: Indexer.NounsToken.SeederLocked[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// SeederUpdated
+// ==================================
+
+interface SeederUpdatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getSeederUpdated(query?: SeederUpdatedQuery) {
+	let events = await _getAllSeederUpdated();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.SeederUpdated[];
+	}
+
+	return events;
+}
+
+async function _getAllSeederUpdated() {
+	let path = join(__dirname, "..", "data", "index", "SeederUpdated.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsToken.SeederUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
