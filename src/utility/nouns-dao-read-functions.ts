@@ -1561,6 +1561,49 @@ async function _getAllSignatureCancelled() {
 }
 
 // ==================================
+// TimelocksAndAdminSet
+// ==================================
+
+interface TimelocksAndAdminSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+	admin?: string;
+}
+
+export async function getTimelocksAndAdminSet(query?: TimelocksAndAdminSetQuery) {
+	let events = await _getAllTimelocksAndAdminSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.TimelocksAndAdminSet[];
+	}
+
+	if (query.admin) {
+		events = events.filter((event) => {
+			return event.admin === query.admin;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllTimelocksAndAdminSet() {
+	let path = join(__dirname, "..", "data", "index", "TimelocksAndAdminSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.TimelocksAndAdminSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
