@@ -774,3 +774,39 @@ async function _getAllUpdateCandidateCostSet() {
 	let proposals: Indexer.NounsDAOData.UpdateCandidateCostSet[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// Upgraded
+// ==================================
+
+interface UpgradedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getUpgraded(query?: UpgradedQuery) {
+	let events = await _getAllUpgraded();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAOData.Upgraded[];
+	}
+
+	return events;
+}
+
+async function _getAllUpgraded() {
+	let path = join(__dirname, "..", "data", "index", "Upgraded.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAOData.Upgraded[] = JSON.parse(proposalFile);
+	return proposals;
+}
