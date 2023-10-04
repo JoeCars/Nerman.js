@@ -750,3 +750,39 @@ async function _getAllOwnershipTransferred() {
 	let proposals: Indexer.NounsToken.OwnershipTransferred[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// SeederLocked
+// ==================================
+
+interface SeederLockedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getSeederLocked(query?: SeederLockedQuery) {
+	let events = await _getAllSeederLocked();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.SeederLocked[];
+	}
+
+	return events;
+}
+
+async function _getAllSeederLocked() {
+	let path = join(__dirname, "..", "data", "index", "SeederLocked.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsToken.SeederLocked[] = JSON.parse(proposalFile);
+	return proposals;
+}
