@@ -75,6 +75,42 @@ async function _getAllAdminChanged() {
 }
 
 // ==================================
+// BeaconUpgraded
+// ==================================
+
+interface BeaconUpgradedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getBeaconUpgraded(query?: BeaconUpgradedQuery) {
+	let events = await _getAllBeaconUpgraded();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAOData.BeaconUpgraded[];
+	}
+
+	return events;
+}
+
+async function _getAllBeaconUpgraded() {
+	let path = join(__dirname, "..", "data", "index", "BeaconUpgraded.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAOData.BeaconUpgraded[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // CandidateFeedbackSent
 // ==================================
 
