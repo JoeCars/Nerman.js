@@ -1822,3 +1822,39 @@ async function _getAllVotingDelaySet() {
 	let proposals: Indexer.NounsDAO.VotingDelaySet[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// VotingPeriodSet
+// ==================================
+
+interface VotingPeriodSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getVotingPeriodSet(query?: VotingPeriodSetQuery) {
+	let events = await _getAllVotingPeriodSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.VotingPeriodSet[];
+	}
+
+	return events;
+}
+
+async function _getAllVotingPeriodSet() {
+	let path = join(__dirname, "..", "data", "index", "VotingPeriodSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.VotingPeriodSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
