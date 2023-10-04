@@ -1894,3 +1894,60 @@ async function _getAllWithdraw() {
 	let proposals: Indexer.NounsDAO.Withdraw[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// WithdrawFromForkEscrow
+// ==================================
+
+interface WithdrawFromForkEscrowQuery {
+	startBlock?: number;
+	endBlock?: number;
+	forkId?: number;
+	owner?: string;
+	tokenId?: number;
+}
+
+export async function getWithdrawFromForkEscrow(query?: WithdrawFromForkEscrowQuery) {
+	let events = await _getAllWithdrawFromForkEscrow();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.WithdrawFromForkEscrow[];
+	}
+
+	if (query.forkId !== undefined) {
+		events = events.filter((event) => {
+			return event.forkId === query.forkId;
+		});
+	}
+
+	if (query.owner) {
+		events = events.filter((event) => {
+			return event.owner === query.owner;
+		});
+	}
+
+	if (query.tokenId !== undefined) {
+		events = events.filter((event) => {
+			return event.tokenIds.includes(query.tokenId as number);
+		});
+	}
+
+	return events;
+}
+
+async function _getAllWithdrawFromForkEscrow() {
+	let path = join(__dirname, "..", "data", "index", "WithdrawFromForkEscrow.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.WithdrawFromForkEscrow[] = JSON.parse(proposalFile);
+	return proposals;
+}
