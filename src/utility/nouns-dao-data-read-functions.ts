@@ -597,6 +597,56 @@ function _filterProposalCandidateCreatedBySlug(events: Indexer.NounsDAOData.Prop
 }
 
 // ==================================
+// ProposalCandidateUpdated
+// ==================================
+
+interface ProposalCandidateUpdatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+	msgSender?: string;
+	slug?: string;
+}
+
+export async function getProposalCandidateUpdated(query?: ProposalCandidateUpdatedQuery) {
+	let events = await _getAllProposalCandidateUpdated();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAOData.ProposalCandidateUpdated[];
+	}
+
+	if (query.msgSender) {
+		events = events.filter((event) => {
+			return event.msgSender === query.msgSender;
+		});
+	}
+
+	if (query.slug) {
+		events = events.filter((event) => {
+			return event.slug === query.slug;
+		});
+	}
+
+	return events;
+}
+
+async function _getAllProposalCandidateUpdated() {
+	let path = join(__dirname, "..", "data", "index", "ProposalCandidateUpdated.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAOData.ProposalCandidateUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // SignatureAdded
 // ==================================
 
