@@ -1439,6 +1439,42 @@ async function _getAllQuorumCoefficientSet() {
 }
 
 // ==================================
+// QuorumVotesBPSSet
+// ==================================
+
+interface QuorumVotesBPSSetQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getQuorumVotesBPSSet(query?: QuorumVotesBPSSetQuery) {
+	let events = await _getAllQuorumVotesBPSSet();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.QuorumVotesBPSSet[];
+	}
+
+	return events;
+}
+
+async function _getAllQuorumVotesBPSSet() {
+	let path = join(__dirname, "..", "data", "index", "QuorumVotesBPSSet.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsDAO.QuorumVotesBPSSet[] = JSON.parse(proposalFile);
+	return proposals;
+}
+
+// ==================================
 // ProposalStatusChange
 // ==================================
 
