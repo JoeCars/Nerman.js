@@ -338,3 +338,43 @@ async function _getAllAuctionTimeBufferUpdated() {
 	let proposals: Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated[] = JSON.parse(proposalFile);
 	return proposals;
 }
+
+// ==================================
+// AuctionReservePriceUpdated
+// ==================================
+
+interface AuctionReservePriceUpdatedQuery {
+	startBlock?: number;
+	endBlock?: number;
+}
+
+export async function getAuctionReservePriceUpdated(query?: AuctionReservePriceUpdatedQuery) {
+	let events = await _getAllAuctionReservePriceUpdated();
+
+	if (!query) {
+		return events;
+	}
+
+	if (query.startBlock || query.endBlock) {
+		if (!query.startBlock) {
+			query.startBlock = NOUNS_STARTING_BLOCK;
+		}
+		if (!query.endBlock) {
+			query.endBlock = Infinity;
+		}
+		events = _filterByBlock(
+			events,
+			query.startBlock,
+			query.endBlock
+		) as Indexer.NounsAuctionHouse.AuctionReservePriceUpdated[];
+	}
+
+	return events;
+}
+
+async function _getAllAuctionReservePriceUpdated() {
+	let path = join(__dirname, "..", "data", "index", "AuctionReservePriceUpdated.json");
+	let proposalFile = await readFile(path, { encoding: "utf8" });
+	let proposals: Indexer.NounsAuctionHouse.AuctionReservePriceUpdated[] = JSON.parse(proposalFile);
+	return proposals;
+}
