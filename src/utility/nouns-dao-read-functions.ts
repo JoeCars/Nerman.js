@@ -4,6 +4,17 @@ import { Indexer } from "../types";
 
 const NOUNS_STARTING_BLOCK = 13072753;
 
+/**
+ * @param startBlock The starting block. Inclusive.
+ * @param endBlock The final block. Inclusive.
+ */
+function _filterByBlock(events: Indexer.FormattedEvent[], startBlock: number, endBlock: number) {
+	let filteredEvents = events.filter((event) => {
+		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
+	});
+	return filteredEvents;
+}
+
 // ==================================
 // DAOWithdrawNounsFromEscrow
 // ==================================
@@ -32,12 +43,16 @@ export async function getDAOWithdrawNounsFromEscrow(query?: DAOWithdrawNounsFrom
 		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[];
 	}
 
-	if (query.tokenId) {
-		events = _filterDAOWithdrawNounsFromEscrowByTokenId(events, query.tokenId);
+	if (query.tokenId !== undefined) {
+		events = events.filter((event) => {
+			return event.tokenIds.includes(query.tokenId as number);
+		});
 	}
 
 	if (query.to) {
-		events = _filterDAOWithdrawNounsFromEscrowByTo(events, query.to);
+		events = events.filter((event) => {
+			return event.to === query.to;
+		});
 	}
 
 	return events;
@@ -48,31 +63,6 @@ async function _getAllDAOWithdrawNounsFromEscrow() {
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[] = JSON.parse(proposalFile);
 	return proposals;
-}
-
-/**
- * @param startBlock The starting block. Inclusive.
- * @param endBlock The final block. Inclusive.
- */
-function _filterByBlock(events: Indexer.FormattedEvent[], startBlock: number, endBlock: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
-	});
-	return filteredEvents;
-}
-
-function _filterDAOWithdrawNounsFromEscrowByTokenId(events: Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[], tokenId: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.tokenIds.includes(tokenId);
-	});
-	return filteredEvents;
-}
-
-function _filterDAOWithdrawNounsFromEscrowByTo(events: Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[], to: string) {
-	let filteredEvents = events.filter((event) => {
-		return event.to === to;
-	});
-	return filteredEvents;
 }
 
 // ==================================
@@ -201,7 +191,7 @@ export async function getExecutedFork(query?: ExecuteForkQuery) {
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		events = _filterExecutedForkByBlock(events, query.startBlock, query.endBlock);
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ExecuteFork[];
 	}
 
 	if (query.startId || query.endId) {
@@ -224,17 +214,6 @@ async function _getAllExecutedForkEvents() {
 	let forkFile = await readFile(path, { encoding: "utf8" });
 	let forks: Indexer.NounsDAO.ExecuteFork[] = JSON.parse(forkFile);
 	return forks;
-}
-
-/**
- * @param startBlock The starting block. Inclusive.
- * @param endBlock The final block. Inclusive.
- */
-function _filterExecutedForkByBlock(forks: Indexer.NounsDAO.ExecuteFork[], startBlock: number, endBlock: number) {
-	let filteredForks = forks.filter((fork) => {
-		return fork.blockNumber >= startBlock && fork.blockNumber <= endBlock;
-	});
-	return filteredForks;
 }
 
 /**
@@ -819,7 +798,7 @@ export async function getProposals(query?: ProposalQuery) {
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		events = _filterProposalsByBlock(events, query.startBlock, query.endBlock);
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.ProposalCreated[];
 	}
 
 	if (query.startId || query.endId) {
@@ -835,7 +814,9 @@ export async function getProposals(query?: ProposalQuery) {
 	}
 
 	if (query.proposer) {
-		events = _filterProposalByProposer(events, query.proposer);
+		events = events.filter((event) => {
+			return event.proposer === query.proposer;
+		});
 	}
 
 	if (query.status) {
@@ -1694,19 +1675,25 @@ export async function getVoteCastEvents(query?: VoteCastQuery) {
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		events = _filterVoteCastByBlock(events, query.startBlock, query.endBlock);
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsDAO.VoteCast[];
 	}
 
-	if (query.proposalId) {
-		events = _filterVoteCastByProposalId(events, query.proposalId);
+	if (query.proposalId !== undefined) {
+		events = events.filter((event) => {
+			return event.proposalId === query.proposalId;
+		});
 	}
 
 	if (query.voter) {
-		events = _filterVoteCastByVoter(events, query.voter);
+		events = events.filter((event) => {
+			return event.voterAddress === query.voter;
+		});
 	}
 
 	if (query.support) {
-		events = _filterVoteCastBySupport(events, query.support);
+		events = events.filter((event) => {
+			return event.supportChoice === query.support;
+		});
 	}
 
 	return events;
@@ -1717,34 +1704,6 @@ async function _getAllVoteCast() {
 	let file = await readFile(path, { encoding: "utf8" });
 	let votes: Indexer.NounsDAO.VoteCast[] = JSON.parse(file);
 	return votes;
-}
-
-function _filterVoteCastByBlock(votes: Indexer.NounsDAO.VoteCast[], startBlock: number, endBlock: number) {
-	let filteredVotes = votes.filter((vote) => {
-		return vote.blockNumber >= startBlock && vote.blockNumber <= endBlock;
-	});
-	return filteredVotes;
-}
-
-function _filterVoteCastByProposalId(votes: Indexer.NounsDAO.VoteCast[], proposalId: number) {
-	let filteredVotes = votes.filter((vote) => {
-		return vote.proposalId === proposalId;
-	});
-	return filteredVotes;
-}
-
-function _filterVoteCastByVoter(votes: Indexer.NounsDAO.VoteCast[], voter: string) {
-	let filteredVotes = votes.filter((vote) => {
-		return vote.voterAddress === voter;
-	});
-	return filteredVotes;
-}
-
-function _filterVoteCastBySupport(votes: Indexer.NounsDAO.VoteCast[], support: string) {
-	let filteredVotes = votes.filter((vote) => {
-		return vote.supportChoice === support;
-	});
-	return filteredVotes;
 }
 
 // ==================================
