@@ -39,11 +39,13 @@ export async function getAuctionCreatedEvents(query?: AuctionCreatedQuery) {
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		events = _filterAuctionCreatedByBlock(events, query.startBlock, query.endBlock);
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsAuctionHouse.AuctionCreated[];
 	}
 
-	if (query.nounId) {
-		events = _filterAuctionCreatedByNounId(events, query.nounId);
+	if (query.nounId !== undefined) {
+		events = events.filter((event) => {
+			return event.nounId === query.nounId;
+		});
 	}
 
 	return events;
@@ -54,24 +56,6 @@ async function _getAllAuctionCreated() {
 	let file = await readFile(path, { encoding: "utf8" });
 	let auctions: Indexer.NounsAuctionHouse.AuctionCreated[] = JSON.parse(file);
 	return auctions;
-}
-
-function _filterAuctionCreatedByBlock(
-	auctions: Indexer.NounsAuctionHouse.AuctionCreated[],
-	startBlock: number,
-	endBlock: number
-) {
-	let filteredAuctions = auctions.filter((auction) => {
-		return auction.blockNumber >= startBlock && auction.blockNumber <= endBlock;
-	});
-	return filteredAuctions;
-}
-
-function _filterAuctionCreatedByNounId(auctions: Indexer.NounsAuctionHouse.AuctionCreated[], nounId: number) {
-	let filteredAuctions = auctions.filter((auction) => {
-		return auction.nounId === nounId;
-	});
-	return filteredAuctions;
 }
 
 // ==================================
@@ -101,15 +85,19 @@ export async function getAuctionBidEvents(query?: AuctionBidQuery) {
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		events = _filterAuctionBidByBlock(events, query.startBlock, query.endBlock);
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsAuctionHouse.AuctionBid[];
 	}
 
-	if (query.nounId) {
-		events = _filterAuctionBidByNounId(events, query.nounId);
+	if (query.nounId !== undefined) {
+		events = events.filter((event) => {
+			return event.nounId === query.nounId;
+		});
 	}
 
 	if (query.bidder) {
-		events = _filterAuctionBidByBidder(events, query.bidder);
+		events = events.filter((event) => {
+			return event.bidderAddress === query.bidder;
+		});
 	}
 
 	if (query.minBidAmount || query.maxBidAmount) {
@@ -119,7 +107,9 @@ export async function getAuctionBidEvents(query?: AuctionBidQuery) {
 		if (!query.maxBidAmount) {
 			query.maxBidAmount = Infinity;
 		}
-		events = _filterAuctionBidByBidAmount(events, query.minBidAmount, query.maxBidAmount);
+		events = events.filter((event) => {
+			return event.bidAmount <= (query.minBidAmount as number) && event.bidAmount >= (query.maxBidAmount as number);
+		});
 	}
 
 	return events;
@@ -130,38 +120,6 @@ async function _getAllAuctionBid() {
 	let file = await readFile(path, { encoding: "utf8" });
 	let bids: Indexer.NounsAuctionHouse.AuctionBid[] = JSON.parse(file);
 	return bids;
-}
-
-function _filterAuctionBidByBlock(bids: Indexer.NounsAuctionHouse.AuctionBid[], startBlock: number, endBlock: number) {
-	let filteredBids = bids.filter((bid) => {
-		return bid.blockNumber >= startBlock && bid.blockNumber <= endBlock;
-	});
-	return filteredBids;
-}
-
-function _filterAuctionBidByNounId(bids: Indexer.NounsAuctionHouse.AuctionBid[], nounId: number) {
-	let filteredBids = bids.filter((bid) => {
-		return bid.nounId === nounId;
-	});
-	return filteredBids;
-}
-
-function _filterAuctionBidByBidder(bids: Indexer.NounsAuctionHouse.AuctionBid[], bidder: string) {
-	let filteredBids = bids.filter((bid) => {
-		return bid.bidderAddress === bidder;
-	});
-	return filteredBids;
-}
-
-function _filterAuctionBidByBidAmount(
-	bids: Indexer.NounsAuctionHouse.AuctionBid[],
-	minBidAmount: number,
-	maxBidAmount: number
-) {
-	let filteredBids = bids.filter((bid) => {
-		return bid.bidAmount <= minBidAmount && bid.bidAmount >= maxBidAmount;
-	});
-	return filteredBids;
 }
 
 // ==================================
@@ -234,15 +192,19 @@ export async function getAuctionSettledEvents(query?: AuctionSettledQuery) {
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		events = _filterAuctionSettledByBlock(events, query.startBlock, query.endBlock);
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsAuctionHouse.AuctionSettled[];
 	}
 
-	if (query.nounId) {
-		events = _filterAuctionSettledByNounId(events, query.nounId);
+	if (query.nounId !== undefined) {
+		events = events.filter((event) => {
+			return event.nounId === query.nounId;
+		});
 	}
 
 	if (query.winner) {
-		events = _filterAuctionSettledByWinner(events, query.winner);
+		events = events.filter((event) => {
+			return event.winnerAddress === query.winner;
+		});
 	}
 
 	if (query.minBidAmount || query.maxBidAmount) {
@@ -252,8 +214,12 @@ export async function getAuctionSettledEvents(query?: AuctionSettledQuery) {
 		if (!query.maxBidAmount) {
 			query.maxBidAmount = Infinity;
 		}
-		events = _filterAuctionSettledByBidAmount(events, query.minBidAmount, query.maxBidAmount);
+		events = events.filter((event) => {
+			return event.bidAmount <= (query.minBidAmount as number) && event.bidAmount >= (query.maxBidAmount as number);
+		});
 	}
+
+	return events;
 }
 
 async function _getAllAuctionSettled() {
@@ -261,42 +227,6 @@ async function _getAllAuctionSettled() {
 	let file = await readFile(path, { encoding: "utf8" });
 	let auctions: Indexer.NounsAuctionHouse.AuctionSettled[] = JSON.parse(file);
 	return auctions;
-}
-
-function _filterAuctionSettledByBlock(
-	auctions: Indexer.NounsAuctionHouse.AuctionSettled[],
-	startBlock: number,
-	endBlock: number
-) {
-	let filteredAuctions = auctions.filter((auction) => {
-		return auction.blockNumber >= startBlock && auction.blockNumber <= endBlock;
-	});
-	return filteredAuctions;
-}
-
-function _filterAuctionSettledByNounId(auctions: Indexer.NounsAuctionHouse.AuctionSettled[], nounId: number) {
-	let filteredAuctions = auctions.filter((auction) => {
-		return auction.nounId === nounId;
-	});
-	return filteredAuctions;
-}
-
-function _filterAuctionSettledByWinner(auctions: Indexer.NounsAuctionHouse.AuctionSettled[], winner: string) {
-	let filteredAuctions = auctions.filter((auction) => {
-		return auction.winnerAddress === winner; // Should this be case insensitive?
-	});
-	return filteredAuctions;
-}
-
-function _filterAuctionSettledByBidAmount(
-	auctions: Indexer.NounsAuctionHouse.AuctionSettled[],
-	minBidAmount: number,
-	maxBidAmount: number
-) {
-	let filteredAuctions = auctions.filter((auction) => {
-		return auction.bidAmount <= minBidAmount && auction.bidAmount >= maxBidAmount;
-	});
-	return filteredAuctions;
 }
 
 // ==================================
