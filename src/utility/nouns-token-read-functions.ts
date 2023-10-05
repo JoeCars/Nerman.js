@@ -42,23 +42,34 @@ export async function getDelegateChangedEvents(query?: DelegateChangedQuery) {
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		events = _filterDelegateChangedByBlock(events, query.startBlock, query.endBlock);
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.DelegateChanged[];
 	}
 
 	if (query.delegator) {
-		events = _filterDelegateChangedByDelegator(events, query.delegator);
+		events = events.filter((event) => {
+			return event.delegator === query.delegator;
+		});
 	}
 
 	if (query.fromDelegate) {
-		events = _filterDelegateChangedByFromDelegate(events, query.fromDelegate);
+		events = events.filter((event) => {
+			return event.fromDelegate === query.fromDelegate;
+		});
 	}
 
 	if (query.toDelegate) {
-		events = _filterDelegateChangedByToDelegate(events, query.toDelegate);
+		events = events.filter((event) => {
+			return event.toDelegate === query.toDelegate;
+		});
 	}
 
 	if (query.involving) {
-		events = _filterDelegateChangedByInvolved(events, query.involving);
+		events = events.filter((event) => {
+			let isDelegator = event.delegator === query.involving;
+			let isFromDelegate = event.fromDelegate === query.involving;
+			let isToDelegate = event.toDelegate === query.involving;
+			return isDelegator || isFromDelegate || isToDelegate;
+		});
 	}
 
 	return events;
@@ -69,44 +80,6 @@ async function _getAllDelegateChanged() {
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.DelegateChanged[] = JSON.parse(file);
 	return events;
-}
-
-function _filterDelegateChangedByBlock(events: Indexer.NounsToken.DelegateChanged[], startBlock: number, endBlock: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
-	});
-	return filteredEvents;
-}
-
-function _filterDelegateChangedByDelegator(events: Indexer.NounsToken.DelegateChanged[], delegator: string) {
-	let filteredEvents = events.filter((event) => {
-		return event.delegator === delegator;
-	});
-	return filteredEvents;
-}
-
-function _filterDelegateChangedByFromDelegate(events: Indexer.NounsToken.DelegateChanged[], fromDelegate: string) {
-	let filteredEvents = events.filter((event) => {
-		return event.fromDelegate === fromDelegate;
-	});
-	return filteredEvents;
-}
-
-function _filterDelegateChangedByToDelegate(events: Indexer.NounsToken.DelegateChanged[], toDelegate: string) {
-	let filteredEvents = events.filter((event) => {
-		return event.toDelegate === toDelegate;
-	});
-	return filteredEvents;
-}
-
-function _filterDelegateChangedByInvolved(events: Indexer.NounsToken.DelegateChanged[], involved: string) {
-	let filteredEvents = events.filter((event) => {
-		let isDelegator = event.delegator === involved;
-		let isToDelegate = event.toDelegate === involved;
-		let isFromDelegate = event.fromDelegate === involved;
-		return isDelegator || isToDelegate || isFromDelegate;
-	});
-	return filteredEvents;
 }
 
 // ==================================
@@ -133,11 +106,13 @@ export async function getDelegateVotesChangedEvents(query?: DelegateVotesChanged
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		events = _filterDelegateVotesChangedByBlock(events, query.startBlock, query.endBlock);
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.DelegateVotesChanged[];
 	}
 
 	if (query.delegate) {
-		events = _filterDelegateVotesChangedByDelegate(events, query.delegate);
+		events = events.filter((event) => {
+			return event.delegate === query.delegate;
+		});
 	}
 
 	return events;
@@ -148,24 +123,6 @@ async function _getAllDelegateVotesChanged() {
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.DelegateVotesChanged[] = JSON.parse(file);
 	return events;
-}
-
-function _filterDelegateVotesChangedByBlock(
-	events: Indexer.NounsToken.DelegateVotesChanged[],
-	startBlock: number,
-	endBlock: number
-) {
-	let filteredEvents = events.filter((event) => {
-		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
-	});
-	return filteredEvents;
-}
-
-function _filterDelegateVotesChangedByDelegate(events: Indexer.NounsToken.DelegateVotesChanged[], delegate: string) {
-	let filteredEvents = events.filter((event) => {
-		return event.delegate === delegate;
-	});
-	return filteredEvents;
 }
 
 // ==================================
@@ -195,23 +152,33 @@ export async function getTransferEvents(query?: TransferQuery) {
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		events = _filterTransferByBlock(events, query.startBlock, query.endBlock);
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.Transfer[];
 	}
 
 	if (query.from) {
-		events = _filterTransferByFrom(events, query.from);
+		events = events.filter((event) => {
+			return event.from === query.from;
+		});
 	}
 
 	if (query.to) {
-		events = _filterTransferByTo(events, query.to);
+		events = events.filter((event) => {
+			return event.to === query.to;
+		});
 	}
 
 	if (query.involved) {
-		events = _filterTransferByInvolved(events, query.involved);
+		events = events.filter((event) => {
+			let isFrom = event.from === query.involved;
+			let isTo = event.to === query.involved;
+			return isFrom || isTo;
+		});
 	}
 
-	if (query.tokenId) {
-		events = _filterTransferByTokenId(events, query.tokenId);
+	if (query.tokenId !== undefined) {
+		events = events.filter((event) => {
+			return event.tokenId === query.tokenId;
+		});
 	}
 
 	return events;
@@ -222,43 +189,6 @@ async function _getAllTransfer() {
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.Transfer[] = JSON.parse(file);
 	return events;
-}
-
-function _filterTransferByBlock(events: Indexer.NounsToken.Transfer[], startBlock: number, endBlock: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
-	});
-	return filteredEvents;
-}
-
-function _filterTransferByFrom(events: Indexer.NounsToken.Transfer[], from: string) {
-	let filteredEvents = events.filter((event) => {
-		return event.from === from;
-	});
-	return filteredEvents;
-}
-
-function _filterTransferByTo(events: Indexer.NounsToken.Transfer[], to: string) {
-	let filteredEvents = events.filter((event) => {
-		return event.to === to;
-	});
-	return filteredEvents;
-}
-
-function _filterTransferByInvolved(events: Indexer.NounsToken.Transfer[], involved: string) {
-	let filteredEvents = events.filter((event) => {
-		let isFrom = event.from === involved;
-		let isTo = event.to === involved;
-		return isFrom || isTo;
-	});
-	return filteredEvents;
-}
-
-function _filterTransferByTokenId(events: Indexer.NounsToken.Transfer[], tokenId: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.tokenId === tokenId;
-	});
-	return filteredEvents;
 }
 
 // ==================================
@@ -383,31 +313,43 @@ export async function getNounCreatedEvents(query?: NounCreatedQuery) {
 		if (!query.endBlock) {
 			query.endBlock = Infinity;
 		}
-		events = _filterNounCreatedByBlock(events, query.startBlock, query.endBlock);
+		events = _filterByBlock(events, query.startBlock, query.endBlock) as Indexer.NounsToken.NounCreated[];
 	}
 
-	if (query.tokenId) {
-		events = _filterNounCreatedByTokenId(events, query.tokenId);
+	if (query.tokenId !== undefined) {
+		events = events.filter((event) => {
+			return event.tokenId === query.tokenId;
+		});
 	}
 
-	if (query.background) {
-		events = _filterNounCreatedByBackground(events, query.background);
+	if (query.background !== undefined) {
+		events = events.filter((event) => {
+			return event.seed.background === query.background;
+		});
 	}
 
-	if (query.body) {
-		events = _filterNounCreatedByBody(events, query.body);
+	if (query.body !== undefined) {
+		events = events.filter((event) => {
+			return event.seed.body === query.body;
+		});
 	}
 
-	if (query.accessory) {
-		events = _filterNounCreatedByAccessory(events, query.accessory);
+	if (query.accessory !== undefined) {
+		events = events.filter((event) => {
+			return event.seed.accessory === query.accessory;
+		});
 	}
 
-	if (query.head) {
-		events = _filterNounCreatedByHead(events, query.head);
+	if (query.head !== undefined) {
+		events = events.filter((event) => {
+			return event.seed.head === query.head;
+		});
 	}
 
-	if (query.glasses) {
-		events = _filterNounCreatedByGlasses(events, query.glasses);
+	if (query.glasses !== undefined) {
+		events = events.filter((event) => {
+			return event.seed.glasses === query.glasses;
+		});
 	}
 
 	return events;
@@ -418,55 +360,6 @@ async function _getAllNounCreated() {
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.NounCreated[] = JSON.parse(file);
 	return events;
-}
-
-function _filterNounCreatedByBlock(events: Indexer.NounsToken.NounCreated[], startBlock: number, endBlock: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
-	});
-	return filteredEvents;
-}
-
-function _filterNounCreatedByTokenId(events: Indexer.NounsToken.NounCreated[], tokenId: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.tokenId === tokenId;
-	});
-	return filteredEvents;
-}
-
-function _filterNounCreatedByBackground(events: Indexer.NounsToken.NounCreated[], background: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.seed.background === background;
-	});
-	return filteredEvents;
-}
-
-function _filterNounCreatedByBody(events: Indexer.NounsToken.NounCreated[], body: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.seed.body === body;
-	});
-	return filteredEvents;
-}
-
-function _filterNounCreatedByAccessory(events: Indexer.NounsToken.NounCreated[], accessory: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.seed.accessory === accessory;
-	});
-	return filteredEvents;
-}
-
-function _filterNounCreatedByHead(events: Indexer.NounsToken.NounCreated[], head: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.seed.head === head;
-	});
-	return filteredEvents;
-}
-
-function _filterNounCreatedByGlasses(events: Indexer.NounsToken.NounCreated[], glasses: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.seed.glasses === glasses;
-	});
-	return filteredEvents;
 }
 
 // ==================================
