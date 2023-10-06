@@ -174,7 +174,7 @@ export class _NounsForkAuctionHouse {
 		}
 	}
 
-	public emit(eventType: string, data: unknown) {
+	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);
