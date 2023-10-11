@@ -4,7 +4,7 @@ import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, Pr
 
 import { NounsDAOABI } from "@nouns/contracts";
 
-import { default as NounsDAOLogicV3ABI } from "./NounsDAOLogicV3.json";
+import { default as NounsDAOLogicV3ABI } from "./abis/NounsDAOLogicV3.json";
 
 export class _NounsDAO {
 	private provider: ethers.providers.JsonRpcProvider;

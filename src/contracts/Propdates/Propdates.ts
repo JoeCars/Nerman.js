@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { Account, EventData } from "../../types";
-import { default as PropdatesABI } from "./PropdatesABI.json";
+import { default as PropdatesABI } from "../abis/propdates/PropdatesABI.json";
 
 export class _Propdates {
 	private provider: ethers.providers.JsonRpcProvider;

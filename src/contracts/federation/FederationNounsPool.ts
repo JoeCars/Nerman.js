@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
-import NounsPool from "../contracts/Federation/NounsPool";
-import NounsPoolV2 from "../contracts/Federation/NounsPoolV2";
-import { EventData } from "../types";
+import NounsPool from "../abis/federation/NounsPool";
+import NounsPoolV2 from "../abis/federation/NounsPoolV2";
+import { EventData } from "../../types";
 
 export class FederationNounsPool {
 	provider: ethers.providers.JsonRpcProvider;

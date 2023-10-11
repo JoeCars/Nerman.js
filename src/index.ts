@@ -8,12 +8,12 @@ import { _NounsDAOData } from "./contracts/NounsDAOData";
 import { EventData } from "./types";
 
 export { EventData } from "./types";
-export { NounsNymz } from "./utility/NounsNymz";
-export { FederationNounsPool } from "./utility/FederationNounsPool";
+export { NounsNymz } from "./contracts/nouns-nymz/NounsNymz";
+export { FederationNounsPool } from "./contracts/federation/FederationNounsPool";
 export { _NounsForkToken as NounsForkToken } from "./contracts/NounsForkToken";
 export { _NounsForkAuctionHouse as NounsForkAuctionHouse } from "./contracts/NounsForkAuctionHouse";
 export { _NounsFork as NounsFork } from "./contracts/NounsFork";
-export { _Propdates as Propdates } from "./contracts/Propdates/Propdates";
+export { _Propdates as Propdates } from "./contracts/propdates/Propdates";
 
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;

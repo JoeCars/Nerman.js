@@ -76,7 +76,7 @@ export async function getDelegateChangedEvents(query?: DelegateChangedQuery) {
 }
 
 async function _getAllDelegateChanged() {
-	let path = join(__dirname, "..", "data", "index", "DelegateChanged.json");
+	let path = join(__dirname, "..", "data", "indexer", "DelegateChanged.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.DelegateChanged[] = JSON.parse(file);
 	return events;
@@ -119,7 +119,7 @@ export async function getDelegateVotesChangedEvents(query?: DelegateVotesChanged
 }
 
 async function _getAllDelegateVotesChanged() {
-	let path = join(__dirname, "..", "data", "index", "DelegateVotesChanged.json");
+	let path = join(__dirname, "..", "data", "indexer", "DelegateVotesChanged.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.DelegateVotesChanged[] = JSON.parse(file);
 	return events;
@@ -185,7 +185,7 @@ export async function getTransferEvents(query?: TransferQuery) {
 }
 
 async function _getAllTransfer() {
-	let path = join(__dirname, "..", "data", "index", "Transfer.json");
+	let path = join(__dirname, "..", "data", "indexer", "Transfer.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.Transfer[] = JSON.parse(file);
 	return events;
@@ -235,7 +235,7 @@ export async function getApproval(query?: ApprovalQuery) {
 }
 
 async function _getAllApproval() {
-	let path = join(__dirname, "..", "data", "index", "Approval.json");
+	let path = join(__dirname, "..", "data", "indexer", "Approval.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.Approval[] = JSON.parse(proposalFile);
 	return proposals;
@@ -278,7 +278,7 @@ export async function getApprovalForAll(query?: ApprovalForAllQuery) {
 }
 
 async function _getAllApprovalForAll() {
-	let path = join(__dirname, "..", "data", "index", "ApprovalForAll.json");
+	let path = join(__dirname, "..", "data", "indexer", "ApprovalForAll.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.ApprovalForAll[] = JSON.parse(proposalFile);
 	return proposals;
@@ -356,7 +356,7 @@ export async function getNounCreatedEvents(query?: NounCreatedQuery) {
 }
 
 async function _getAllNounCreated() {
-	let path = join(__dirname, "..", "data", "index", "NounCreated.json");
+	let path = join(__dirname, "..", "data", "indexer", "NounCreated.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.NounCreated[] = JSON.parse(file);
 	return events;
@@ -392,7 +392,7 @@ export async function getDescriptorLocked(query?: DescriptorLockedQuery) {
 }
 
 async function _getAllDescriptorLocked() {
-	let path = join(__dirname, "..", "data", "index", "DescriptorLocked.json");
+	let path = join(__dirname, "..", "data", "indexer", "DescriptorLocked.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.DescriptorLocked[] = JSON.parse(proposalFile);
 	return proposals;
@@ -428,7 +428,7 @@ export async function getDescriptorUpdated(query?: DescriptorUpdatedQuery) {
 }
 
 async function _getAllDescriptorUpdated() {
-	let path = join(__dirname, "..", "data", "index", "DescriptorUpdated.json");
+	let path = join(__dirname, "..", "data", "indexer", "DescriptorUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.DescriptorUpdated[] = JSON.parse(proposalFile);
 	return proposals;
@@ -464,7 +464,7 @@ export async function getMinterLocked(query?: MinterLockedQuery) {
 }
 
 async function _getAllMinterLocked() {
-	let path = join(__dirname, "..", "data", "index", "MinterLocked.json");
+	let path = join(__dirname, "..", "data", "indexer", "MinterLocked.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.MinterLocked[] = JSON.parse(proposalFile);
 	return proposals;
@@ -500,7 +500,7 @@ export async function getMinterUpdated(query?: MinterUpdatedQuery) {
 }
 
 async function _getAllMinterUpdated() {
-	let path = join(__dirname, "..", "data", "index", "MinterUpdated.json");
+	let path = join(__dirname, "..", "data", "indexer", "MinterUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.MinterUpdated[] = JSON.parse(proposalFile);
 	return proposals;
@@ -543,7 +543,7 @@ export async function getNounBurned(query?: NounBurnedQuery) {
 }
 
 async function _getAllNounBurned() {
-	let path = join(__dirname, "..", "data", "index", "NounBurned.json");
+	let path = join(__dirname, "..", "data", "indexer", "NounBurned.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.NounBurned[] = JSON.parse(proposalFile);
 	return proposals;
@@ -579,7 +579,7 @@ export async function getNoundersDAOUpdated(query?: NoundersDAOUpdatedQuery) {
 }
 
 async function _getAllNoundersDAOUpdated() {
-	let path = join(__dirname, "..", "data", "index", "NoundersDAOUpdated.json");
+	let path = join(__dirname, "..", "data", "indexer", "NoundersDAOUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.NoundersDAOUpdated[] = JSON.parse(proposalFile);
 	return proposals;
@@ -638,7 +638,7 @@ export async function getOwnershipTransferred(query?: OwnershipTransferredQuery)
 }
 
 async function _getAllOwnershipTransferred() {
-	let path = join(__dirname, "..", "data", "index", "OwnershipTransferred.json");
+	let path = join(__dirname, "..", "data", "indexer", "OwnershipTransferred.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.OwnershipTransferred[] = JSON.parse(proposalFile);
 	return proposals;
@@ -674,7 +674,7 @@ export async function getSeederLocked(query?: SeederLockedQuery) {
 }
 
 async function _getAllSeederLocked() {
-	let path = join(__dirname, "..", "data", "index", "SeederLocked.json");
+	let path = join(__dirname, "..", "data", "indexer", "SeederLocked.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.SeederLocked[] = JSON.parse(proposalFile);
 	return proposals;
@@ -710,7 +710,7 @@ export async function getSeederUpdated(query?: SeederUpdatedQuery) {
 }
 
 async function _getAllSeederUpdated() {
-	let path = join(__dirname, "..", "data", "index", "SeederUpdated.json");
+	let path = join(__dirname, "..", "data", "indexer", "SeederUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.SeederUpdated[] = JSON.parse(proposalFile);
 	return proposals;

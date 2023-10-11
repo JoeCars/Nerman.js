@@ -1,6 +1,6 @@
 import * as cron from "node-cron";
 import fetch from "node-fetch";
-import { EventData } from "../types";
+import { EventData } from "../../types";
 
 export class NounsNymz {
 	lastTime: Date;

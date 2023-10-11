@@ -59,7 +59,7 @@ export async function getDAOWithdrawNounsFromEscrow(query?: DAOWithdrawNounsFrom
 }
 
 async function _getAllDAOWithdrawNounsFromEscrow() {
-	let path = join(__dirname, "..", "data", "index", "DAOWithdrawNounsFromEscrow.json");
+	let path = join(__dirname, "..", "data", "indexer", "DAOWithdrawNounsFromEscrow.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[] = JSON.parse(proposalFile);
 	return proposals;
@@ -95,7 +95,7 @@ export async function getERC20TokensToIncludeInForkSet(query?: ERC20TokensToIncl
 }
 
 async function _getAllERC20TokensToIncludeInForkSet() {
-	let path = join(__dirname, "..", "data", "index", "ERC20TokensToIncludeInForkSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "ERC20TokensToIncludeInForkSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ERC20TokensToIncludeInForkSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -159,7 +159,7 @@ export async function getEscrowedToFork(query?: EscrowedToForkQuery) {
 }
 
 async function _getAllEscrowedToFork() {
-	let path = join(__dirname, "..", "data", "index", "EscrowedToFork.json");
+	let path = join(__dirname, "..", "data", "indexer", "EscrowedToFork.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.EscrowedToFork[] = JSON.parse(proposalFile);
 	return proposals;
@@ -210,7 +210,7 @@ export async function getExecutedFork(query?: ExecuteForkQuery) {
 }
 
 async function _getAllExecutedForkEvents() {
-	let path = join(__dirname, "..", "data", "index", "ExecuteFork.json");
+	let path = join(__dirname, "..", "data", "indexer", "ExecuteFork.json");
 	let forkFile = await readFile(path, { encoding: "utf8" });
 	let forks: Indexer.NounsDAO.ExecuteFork[] = JSON.parse(forkFile);
 	return forks;
@@ -261,7 +261,7 @@ export async function getForkDAODeployerSet(query?: ForkDAODeployerSetQuery) {
 }
 
 async function _getAllForkDAODeployerSet() {
-	let path = join(__dirname, "..", "data", "index", "ForkDAODeployerSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "ForkDAODeployerSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ForkDAODeployerSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -297,7 +297,7 @@ export async function getForkPeriodSet(query?: ForkPeriodSetQuery) {
 }
 
 async function _getAllForkPeriodSet() {
-	let path = join(__dirname, "..", "data", "index", "ForkPeriodSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "ForkPeriodSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ForkPeriodSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -333,7 +333,7 @@ export async function getForkThresholdSet(query?: ForkThresholdSetQuery) {
 }
 
 async function _getAllForkThresholdSet() {
-	let path = join(__dirname, "..", "data", "index", "ForkThresholdSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "ForkThresholdSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ForkThresholdSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -397,7 +397,7 @@ export async function getJoinFork(query?: JoinForkQuery) {
 }
 
 async function _getAllJoinFork() {
-	let path = join(__dirname, "..", "data", "index", "JoinFork.json");
+	let path = join(__dirname, "..", "data", "indexer", "JoinFork.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.JoinFork[] = JSON.parse(proposalFile);
 	return proposals;
@@ -433,7 +433,7 @@ export async function getLastMinuteWindowSet(query?: LastMinuteWindowSetQuery) {
 }
 
 async function _getAllLastMinuteWindowSet() {
-	let path = join(__dirname, "..", "data", "index", "LastMinuteWindowSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "LastMinuteWindowSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.LastMinuteWindowSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -469,7 +469,7 @@ export async function getMaxQuorumVotesBPSSet(query?: MaxQuorumVotesBPSSetQuery)
 }
 
 async function _getAllMaxQuorumVotesBPSSet() {
-	let path = join(__dirname, "..", "data", "index", "MaxQuorumVotesBPSSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "MaxQuorumVotesBPSSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.MaxQuorumVotesBPSSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -505,7 +505,7 @@ export async function getMinQuorumVotesBPSSet(query?: MinQuorumVotesBPSSetQuery)
 }
 
 async function _getAllMinQuorumVotesBPSSet() {
-	let path = join(__dirname, "..", "data", "index", "MinQuorumVotesBPSSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "MinQuorumVotesBPSSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.MinQuorumVotesBPSSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -541,7 +541,7 @@ export async function getNewAdmin(query?: NewAdminQuery) {
 }
 
 async function _getAllNewAdmin() {
-	let path = join(__dirname, "..", "data", "index", "NewAdmin.json");
+	let path = join(__dirname, "..", "data", "indexer", "NewAdmin.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.NewAdmin[] = JSON.parse(proposalFile);
 	return proposals;
@@ -577,7 +577,7 @@ export async function getNewImplementation(query?: NewImplementationQuery) {
 }
 
 async function _getAllNewImplementation() {
-	let path = join(__dirname, "..", "data", "index", "NewImplementation.json");
+	let path = join(__dirname, "..", "data", "indexer", "NewImplementation.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.NewImplementation[] = JSON.parse(proposalFile);
 	return proposals;
@@ -613,7 +613,7 @@ export async function getNewPendingAdmin(query?: NewPendingAdminQuery) {
 }
 
 async function _getAllNewPendingAdmin() {
-	let path = join(__dirname, "..", "data", "index", "NewPendingAdmin.json");
+	let path = join(__dirname, "..", "data", "indexer", "NewPendingAdmin.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.NewPendingAdmin[] = JSON.parse(proposalFile);
 	return proposals;
@@ -649,7 +649,7 @@ export async function getNewPendingVetoer(query?: NewPendingVetoerQuery) {
 }
 
 async function _getAllNewPendingVetoer() {
-	let path = join(__dirname, "..", "data", "index", "NewPendingVetoer.json");
+	let path = join(__dirname, "..", "data", "indexer", "NewPendingVetoer.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.NewPendingVetoer[] = JSON.parse(proposalFile);
 	return proposals;
@@ -685,7 +685,7 @@ export async function getNewVetoer(query?: NewVetoerQuery) {
 }
 
 async function _getAllNewVetoer() {
-	let path = join(__dirname, "..", "data", "index", "NewVetoer.json");
+	let path = join(__dirname, "..", "data", "indexer", "NewVetoer.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.NewVetoer[] = JSON.parse(proposalFile);
 	return proposals;
@@ -721,7 +721,7 @@ export async function getObjectionPeriodDurationSet(query?: ObjectionPeriodDurat
 }
 
 async function _getAllObjectionPeriodDurationSet() {
-	let path = join(__dirname, "..", "data", "index", "ObjectionPeriodDurationSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "ObjectionPeriodDurationSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ObjectionPeriodDurationSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -764,7 +764,7 @@ export async function getProposalCanceled(query?: ProposalCanceledQuery) {
 }
 
 async function _getAllProposalCanceled() {
-	let path = join(__dirname, "..", "data", "index", "ProposalCanceled.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalCanceled.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalCanceled[] = JSON.parse(proposalFile);
 	return proposals;
@@ -827,7 +827,7 @@ export async function getProposals(query?: ProposalQuery) {
 }
 
 async function _getAllProposals() {
-	let path = join(__dirname, "..", "data", "index", "ProposalCreated.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalCreated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalCreated[] = JSON.parse(proposalFile);
 	return proposals;
@@ -925,7 +925,7 @@ export async function getProposalCreatedOnTimelockV1(query?: ProposalCreatedOnTi
 }
 
 async function _getAllProposalCreatedOnTimelockV1() {
-	let path = join(__dirname, "..", "data", "index", "ProposalCreatedOnTimelockV1.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalCreatedOnTimelockV1.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalCreatedOnTimelockV1[] = JSON.parse(proposalFile);
 	return proposals;
@@ -990,7 +990,7 @@ export async function getProposalCreatedWithRequirements(query?: ProposalCreated
 }
 
 async function _getAllProposalCreatedWithRequirements() {
-	let path = join(__dirname, "..", "data", "index", "ProposalCreatedWithRequirements.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalCreatedWithRequirements.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalCreatedWithRequirements[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1033,7 +1033,7 @@ export async function getProposalDescriptionUpdated(query?: ProposalDescriptionU
 }
 
 async function _getAllProposalDescriptionUpdated() {
-	let path = join(__dirname, "..", "data", "index", "ProposalDescriptionUpdated.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalDescriptionUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalDescriptionUpdated[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1076,7 +1076,7 @@ export async function getProposalExecuted(query?: ProposalExecutedQuery) {
 }
 
 async function _getAllProposalExecuted() {
-	let path = join(__dirname, "..", "data", "index", "ProposalExecuted.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalExecuted.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalExecuted[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1119,7 +1119,7 @@ export async function getProposalObjectionPeriodSet(query?: ProposalObjectionPer
 }
 
 async function _getAllProposalObjectionPeriodSet() {
-	let path = join(__dirname, "..", "data", "index", "ProposalObjectionPeriodSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalObjectionPeriodSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalObjectionPeriodSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1162,7 +1162,7 @@ export async function getProposalQueued(query?: ProposalQueuedQuery) {
 }
 
 async function _getAllProposalQueued() {
-	let path = join(__dirname, "..", "data", "index", "ProposalQueued.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalQueued.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalQueued[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1198,7 +1198,7 @@ export async function getProposalThresholdBPSSet(query?: ProposalThresholdBPSSet
 }
 
 async function _getAllProposalThresholdBPSSet() {
-	let path = join(__dirname, "..", "data", "index", "ProposalThresholdBPSSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalThresholdBPSSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalThresholdBPSSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1248,7 +1248,7 @@ export async function getProposalTransactionsUpdated(query?: ProposalTransaction
 }
 
 async function _getAllProposalTransactionsUpdated() {
-	let path = join(__dirname, "..", "data", "index", "ProposalTransactionsUpdated.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalTransactionsUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalTransactionsUpdated[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1284,7 +1284,7 @@ export async function getProposalUpdatablePeriodSet(query?: ProposalUpdatablePer
 }
 
 async function _getAllProposalUpdatablePeriodSet() {
-	let path = join(__dirname, "..", "data", "index", "ProposalUpdatablePeriodSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalUpdatablePeriodSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalUpdatablePeriodSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1334,7 +1334,7 @@ export async function getProposalUpdated(query?: ProposalUpdatedQuery) {
 }
 
 async function _getAllProposalUpdated() {
-	let path = join(__dirname, "..", "data", "index", "ProposalUpdated.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalUpdated[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1377,7 +1377,7 @@ export async function getProposalVetoed(query?: ProposalVetoedQuery) {
 }
 
 async function _getAllProposalVetoed() {
-	let path = join(__dirname, "..", "data", "index", "ProposalVetoed.json");
+	let path = join(__dirname, "..", "data", "indexer", "ProposalVetoed.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.ProposalVetoed[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1413,7 +1413,7 @@ export async function getQuorumCoefficientSet(query?: QuorumCoefficientSetQuery)
 }
 
 async function _getAllQuorumCoefficientSet() {
-	let path = join(__dirname, "..", "data", "index", "QuorumCoefficientSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "QuorumCoefficientSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.QuorumCoefficientSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1449,7 +1449,7 @@ export async function getQuorumVotesBPSSet(query?: QuorumVotesBPSSetQuery) {
 }
 
 async function _getAllQuorumVotesBPSSet() {
-	let path = join(__dirname, "..", "data", "index", "QuorumVotesBPSSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "QuorumVotesBPSSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.QuorumVotesBPSSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1492,7 +1492,7 @@ export async function getRefundableVote(query?: RefundableVoteQuery) {
 }
 
 async function _getAllRefundableVote() {
-	let path = join(__dirname, "..", "data", "index", "RefundableVote.json");
+	let path = join(__dirname, "..", "data", "indexer", "RefundableVote.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.RefundableVote[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1535,7 +1535,7 @@ export async function getSignatureCancelled(query?: SignatureCancelledQuery) {
 }
 
 async function _getAllSignatureCancelled() {
-	let path = join(__dirname, "..", "data", "index", "SignatureCancelled.json");
+	let path = join(__dirname, "..", "data", "indexer", "SignatureCancelled.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.SignatureCancelled[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1578,7 +1578,7 @@ export async function getTimelocksAndAdminSet(query?: TimelocksAndAdminSetQuery)
 }
 
 async function _getAllTimelocksAndAdminSet() {
-	let path = join(__dirname, "..", "data", "index", "TimelocksAndAdminSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "TimelocksAndAdminSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.TimelocksAndAdminSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1700,7 +1700,7 @@ export async function getVoteCastEvents(query?: VoteCastQuery) {
 }
 
 async function _getAllVoteCast() {
-	let path = join(__dirname, "..", "data", "index", "VoteCast.json");
+	let path = join(__dirname, "..", "data", "indexer", "VoteCast.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let votes: Indexer.NounsDAO.VoteCast[] = JSON.parse(file);
 	return votes;
@@ -1740,7 +1740,7 @@ export async function getVoteSnapshotBlockSwitchProposalIdSet(query?: VoteSnapsh
 }
 
 async function _getAllVoteSnapshotBlockSwitchProposalIdSet() {
-	let path = join(__dirname, "..", "data", "index", "VoteSnapshotBlockSwitchProposalIdSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "VoteSnapshotBlockSwitchProposalIdSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1776,7 +1776,7 @@ export async function getVotingDelaySet(query?: VotingDelaySetQuery) {
 }
 
 async function _getAllVotingDelaySet() {
-	let path = join(__dirname, "..", "data", "index", "VotingDelaySet.json");
+	let path = join(__dirname, "..", "data", "indexer", "VotingDelaySet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.VotingDelaySet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1812,7 +1812,7 @@ export async function getVotingPeriodSet(query?: VotingPeriodSetQuery) {
 }
 
 async function _getAllVotingPeriodSet() {
-	let path = join(__dirname, "..", "data", "index", "VotingPeriodSet.json");
+	let path = join(__dirname, "..", "data", "indexer", "VotingPeriodSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.VotingPeriodSet[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1848,7 +1848,7 @@ export async function getWithdraw(query?: WithdrawQuery) {
 }
 
 async function _getAllWithdraw() {
-	let path = join(__dirname, "..", "data", "index", "Withdraw.json");
+	let path = join(__dirname, "..", "data", "indexer", "Withdraw.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.Withdraw[] = JSON.parse(proposalFile);
 	return proposals;
@@ -1905,7 +1905,7 @@ export async function getWithdrawFromForkEscrow(query?: WithdrawFromForkEscrowQu
 }
 
 async function _getAllWithdrawFromForkEscrow() {
-	let path = join(__dirname, "..", "data", "index", "WithdrawFromForkEscrow.json");
+	let path = join(__dirname, "..", "data", "indexer", "WithdrawFromForkEscrow.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAO.WithdrawFromForkEscrow[] = JSON.parse(proposalFile);
 	return proposals;

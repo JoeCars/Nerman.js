@@ -2,7 +2,7 @@ import { ethers, BigNumber } from "ethers";
 import { stringify } from "querystring";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData } from "../types";
 
-import { default as NounsForkABI } from "./NounsForkGovernance.json";
+import { default as NounsForkABI } from "./abis/NounsForkGovernance.json";
 
 export class _NounsFork {
 	private provider: ethers.providers.JsonRpcProvider;
