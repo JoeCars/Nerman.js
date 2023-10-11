@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1 ",
     "build": "tsc",
-    "build-docs": "npx documentation build src/** --parse-extension ts -f md -o docs.md"
+    "build-docs": "npx documentation build src/contracts/** --parse-extension ts -f md -o docs/contracts.md"
   },
   "repository": {
     "type": "git",

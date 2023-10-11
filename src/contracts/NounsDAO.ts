@@ -6,6 +6,9 @@ import { NounsDAOABI } from "@nouns/contracts";
 
 import { default as NounsDAOLogicV3ABI } from "./abis/NounsDAOLogicV3.json";
 
+/**
+ * A wrapper class around the NounsDAO contract.
+ */
 export class _NounsDAO {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
@@ -15,6 +18,11 @@ export class _NounsDAO {
 		this.Contract = new ethers.Contract("0x6f3E6272A167e8AcCb32072d08E0957F9c79223d", NounsDAOLogicV3ABI, this.provider);
 	}
 
+	/**
+	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+	 * @param eventType The name of the event.
+	 * @param listener The listener function.
+	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
 			case "DAOWithdrawNounsFromEscrow":
@@ -846,6 +854,9 @@ export class _NounsDAO {
 		}
 	}
 
+	/**
+	 * @returns The name of the contract. `NounsDAO`.
+	 */
 	public name() {
 		return "NounsDAO";
 	}

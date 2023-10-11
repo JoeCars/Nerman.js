@@ -1,8 +1,10 @@
 import { ethers } from "ethers";
 import NounsPool from "../abis/federation/NounsPool";
 import NounsPoolV2 from "../abis/federation/NounsPoolV2";
-import { EventData } from "../../types";
 
+/**
+ * A wrapper class that supports Federation NounsPool events.
+ */
 export class FederationNounsPool {
 	provider: ethers.providers.JsonRpcProvider;
 	nounsPoolContractV1: ethers.Contract;
@@ -21,6 +23,11 @@ export class FederationNounsPool {
 		this.registeredListeners = new Map();
 	}
 
+	/**
+	 * Assigns a listener to the federation event.
+	 * @param event The event listened to. Either `BidPlaced` or `VoteCast`.
+	 * @param listener A listener function that takes in the appropriate data type for the event.
+	 */
 	on(event: string, listener: ethers.providers.Listener) {
 		if (event === "BidPlaced") {
 			this.nounsPoolContractV1.on(event, (dao, propId, support, amount, bidder) => {
@@ -41,6 +48,10 @@ export class FederationNounsPool {
 		this.registeredListeners.set(event, listener);
 	}
 
+	/**
+	 * Removes the listener of the given event. Does nothing if the event was not listened to in the first place.
+	 * @param event The event being removed. Either `BidPlaced` or `VoteCast`.
+	 */
 	off(event: string) {
 		const listener = this.registeredListeners.get(event);
 		if (listener) {
@@ -51,6 +62,11 @@ export class FederationNounsPool {
 		this.registeredListeners.delete(event);
 	}
 
+	/**
+	 * Triggers an event with the given data, which calls the assigned listener.
+	 * @param event The event being triggered. Either `BidPlaced` or `VoteCast`.
+	 * @param data The data used to trigger the given event.
+	 */
 	trigger(event: string, data: unknown) {
 		const listener = this.registeredListeners.get(event);
 		if (listener) {

@@ -2,6 +2,9 @@ import { ethers } from "ethers";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, NounsTokenSeed, Account, EventData } from "../types";
 import { NounsTokenABI } from "@nouns/contracts";
 
+/**
+ * A wrapper around the NounsForkToken governance contract.
+ */
 export class _NounsForkToken {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
@@ -13,6 +16,11 @@ export class _NounsForkToken {
 		this.registeredListeners = new Map<string, Function>();
 	}
 
+	/**
+	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+	 * @param eventType The name of the event.
+	 * @param listener The listener function.
+	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
 			case "DelegateChanged": // WORKING
@@ -268,6 +276,11 @@ export class _NounsForkToken {
 		}
 	}
 
+	/**
+	 * Triggers the listener of the given event with the given data.
+	 * @param eventType The event to be triggered.
+	 * @param data The data being passed to the listener.
+	 */
 	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
@@ -277,6 +290,9 @@ export class _NounsForkToken {
 		listener(data);
 	}
 
+	/**
+	 * @returns The name of the contract. `NounsFork`.
+	 */
 	public name() {
 		return "NounsForkToken";
 	}

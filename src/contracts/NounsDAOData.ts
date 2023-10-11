@@ -4,6 +4,9 @@ import { default as NounsDAODataABI } from "./abis/NounsDAOData.json";
 import { Account, EventData } from "../types";
 import { sign } from "crypto";
 
+/**
+ * A wrapper class around the NounsDAOData contract.
+ */
 export class _NounsDAOData {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
@@ -13,6 +16,11 @@ export class _NounsDAOData {
 		this.Contract = new ethers.Contract("0xf790A5f59678dd733fb3De93493A91f472ca1365", NounsDAODataABI, this.provider);
 	}
 
+	/**
+	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+	 * @param eventType The name of the event.
+	 * @param listener The listener function.
+	 */
 	public async on(eventType: string, listener: ethers.providers.Listener) {
 		switch (eventType) {
 			case "AdminChanged":
@@ -274,10 +282,18 @@ export class _NounsDAOData {
 		}
 	}
 
+	/**
+	 * Removes the listener.
+	 * @param eventType The name of the event being listened to.
+	 * @param listener The listener function.
+	 */
 	public async off(eventType: string, listener: ethers.providers.Listener) {
 		this.Contract.off(eventType, listener);
 	}
 
+	/**
+	 * @returns The name of the contract. `NounsDAOData`.
+	 */
 	public name() {
 		return "NounsDAOData";
 	}

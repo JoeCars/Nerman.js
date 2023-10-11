@@ -2,6 +2,9 @@ import * as cron from "node-cron";
 import fetch from "node-fetch";
 import { EventData } from "../../types";
 
+/**
+ * A wrapper class for NounsNymz events.
+ */
 export class NounsNymz {
 	lastTime: Date;
 	registeredListeners: Map<string, Function>;
@@ -11,6 +14,11 @@ export class NounsNymz {
 		this.registeredListeners = new Map();
 	}
 
+	/**
+	 * Assigns a listener function for the given event.
+	 * @param eventName The event being listened to. At the moment, only the `NewPost` event is supported.
+	 * @param listener The listener function.
+	 */
 	on(eventName: string, listener: (post: EventData.NounsNymz.NewPost) => void) {
 		this.registeredListeners.set(eventName, listener);
 
@@ -36,6 +44,11 @@ export class NounsNymz {
 		});
 	}
 
+	/**
+	 * Triggers the listener of the given event with the given data.
+	 * @param eventName The event to be triggered. Currently only supports `NewPost`.
+	 * @param data The data being passed to the listener.
+	 */
 	trigger(eventName: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventName);
 		if (listener) {
@@ -45,7 +58,7 @@ export class NounsNymz {
 		}
 	}
 
-	processPosts(posts: EventData.NounsNymz.NewPost[], listener: (post: EventData.NounsNymz.NewPost) => void) {
+	private processPosts(posts: EventData.NounsNymz.NewPost[], listener: (post: EventData.NounsNymz.NewPost) => void) {
 		for (let i = posts.length - 1; i >= 0; --i) {
 			if (this.isTooOld(posts[i])) {
 				continue;
@@ -55,7 +68,7 @@ export class NounsNymz {
 		}
 	}
 
-	isTooOld(post: EventData.NounsNymz.NewPost) {
+	private isTooOld(post: EventData.NounsNymz.NewPost) {
 		const time = new Date(post.timestamp);
 		return time <= this.lastTime;
 	}
