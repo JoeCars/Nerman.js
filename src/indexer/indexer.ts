@@ -6,8 +6,7 @@ import { _NounsDAO } from "../contracts/NounsDAO";
 import { _NounsToken } from "../contracts/NounsToken";
 import { _NounsDAOData } from "../contracts/NounsDAOData";
 import { NOUNS_AUCTION_PARSERS, NOUNS_TOKEN_PARSERS, NOUNS_DAO_PARSERS, NOUNS_DATA_PARSERS } from "./index-parsers";
-
-const NOUNS_STARTING_BLOCK = 13072753;
+import { NOUNS_STARTING_BLOCK } from "../constants";
 
 //===================================
 // Indexers.

@@ -1,8 +1,7 @@
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { Indexer } from "../types";
-
-const NOUNS_STARTING_BLOCK = 13072753;
+import { NOUNS_STARTING_BLOCK } from "../constants";
 
 /**
  * @param startBlock The starting block. Inclusive.
