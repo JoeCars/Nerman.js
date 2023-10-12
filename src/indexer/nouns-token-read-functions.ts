@@ -27,8 +27,8 @@ interface DelegateChangedQuery {
 	involving?: string;
 }
 
-export async function getDelegateChangedEvents(query?: DelegateChangedQuery) {
-	let events = await _getAllDelegateChanged();
+export async function fetchDelegateChangedEvents(query?: DelegateChangedQuery) {
+	let events = await _fetchAllDelegateChanged();
 
 	if (!query) {
 		return events;
@@ -74,7 +74,7 @@ export async function getDelegateChangedEvents(query?: DelegateChangedQuery) {
 	return events;
 }
 
-async function _getAllDelegateChanged() {
+async function _fetchAllDelegateChanged() {
 	let path = join(__dirname, "..", "data", "indexer", "DelegateChanged.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.DelegateChanged[] = JSON.parse(file);
@@ -91,8 +91,8 @@ interface DelegateVotesChangedQuery {
 	delegate?: string;
 }
 
-export async function getDelegateVotesChangedEvents(query?: DelegateVotesChangedQuery) {
-	let events = await _getAllDelegateVotesChanged();
+export async function fetchDelegateVotesChangedEvents(query?: DelegateVotesChangedQuery) {
+	let events = await _fetchAllDelegateVotesChanged();
 
 	if (!query) {
 		return events;
@@ -117,7 +117,7 @@ export async function getDelegateVotesChangedEvents(query?: DelegateVotesChanged
 	return events;
 }
 
-async function _getAllDelegateVotesChanged() {
+async function _fetchAllDelegateVotesChanged() {
 	let path = join(__dirname, "..", "data", "indexer", "DelegateVotesChanged.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.DelegateVotesChanged[] = JSON.parse(file);
@@ -137,8 +137,8 @@ interface TransferQuery {
 	tokenId?: number;
 }
 
-export async function getTransferEvents(query?: TransferQuery) {
-	let events = await _getAllTransfer();
+export async function fetchTransferEvents(query?: TransferQuery) {
+	let events = await _fetchAllTransfer();
 
 	if (!query) {
 		return events;
@@ -183,7 +183,7 @@ export async function getTransferEvents(query?: TransferQuery) {
 	return events;
 }
 
-async function _getAllTransfer() {
+async function _fetchAllTransfer() {
 	let path = join(__dirname, "..", "data", "indexer", "Transfer.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.Transfer[] = JSON.parse(file);
@@ -201,8 +201,8 @@ interface ApprovalQuery {
 	tokenId?: number;
 }
 
-export async function getApproval(query?: ApprovalQuery) {
-	let events = await _getAllApproval();
+export async function fetchApproval(query?: ApprovalQuery) {
+	let events = await _fetchAllApproval();
 
 	if (!query) {
 		return events;
@@ -233,7 +233,7 @@ export async function getApproval(query?: ApprovalQuery) {
 	return events;
 }
 
-async function _getAllApproval() {
+async function _fetchAllApproval() {
 	let path = join(__dirname, "..", "data", "indexer", "Approval.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.Approval[] = JSON.parse(proposalFile);
@@ -250,8 +250,8 @@ interface ApprovalForAllQuery {
 	owner?: string;
 }
 
-export async function getApprovalForAll(query?: ApprovalForAllQuery) {
-	let events = await _getAllApprovalForAll();
+export async function fetchApprovalForAll(query?: ApprovalForAllQuery) {
+	let events = await _fetchAllApprovalForAll();
 
 	if (!query) {
 		return events;
@@ -276,7 +276,7 @@ export async function getApprovalForAll(query?: ApprovalForAllQuery) {
 	return events;
 }
 
-async function _getAllApprovalForAll() {
+async function _fetchAllApprovalForAll() {
 	let path = join(__dirname, "..", "data", "indexer", "ApprovalForAll.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.ApprovalForAll[] = JSON.parse(proposalFile);
@@ -298,8 +298,8 @@ interface NounCreatedQuery {
 	glasses?: number;
 }
 
-export async function getNounCreatedEvents(query?: NounCreatedQuery) {
-	let events = await _getAllNounCreated();
+export async function fetchNounCreatedEvents(query?: NounCreatedQuery) {
+	let events = await _fetchAllNounCreated();
 
 	if (!query) {
 		return events;
@@ -354,7 +354,7 @@ export async function getNounCreatedEvents(query?: NounCreatedQuery) {
 	return events;
 }
 
-async function _getAllNounCreated() {
+async function _fetchAllNounCreated() {
 	let path = join(__dirname, "..", "data", "indexer", "NounCreated.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsToken.NounCreated[] = JSON.parse(file);
@@ -370,8 +370,8 @@ interface DescriptorLockedQuery {
 	endBlock?: number;
 }
 
-export async function getDescriptorLocked(query?: DescriptorLockedQuery) {
-	let events = await _getAllDescriptorLocked();
+export async function fetchDescriptorLocked(query?: DescriptorLockedQuery) {
+	let events = await _fetchAllDescriptorLocked();
 
 	if (!query) {
 		return events;
@@ -390,7 +390,7 @@ export async function getDescriptorLocked(query?: DescriptorLockedQuery) {
 	return events;
 }
 
-async function _getAllDescriptorLocked() {
+async function _fetchAllDescriptorLocked() {
 	let path = join(__dirname, "..", "data", "indexer", "DescriptorLocked.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.DescriptorLocked[] = JSON.parse(proposalFile);
@@ -406,8 +406,8 @@ interface DescriptorUpdatedQuery {
 	endBlock?: number;
 }
 
-export async function getDescriptorUpdated(query?: DescriptorUpdatedQuery) {
-	let events = await _getAllDescriptorUpdated();
+export async function fetchDescriptorUpdated(query?: DescriptorUpdatedQuery) {
+	let events = await _fetchAllDescriptorUpdated();
 
 	if (!query) {
 		return events;
@@ -426,7 +426,7 @@ export async function getDescriptorUpdated(query?: DescriptorUpdatedQuery) {
 	return events;
 }
 
-async function _getAllDescriptorUpdated() {
+async function _fetchAllDescriptorUpdated() {
 	let path = join(__dirname, "..", "data", "indexer", "DescriptorUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.DescriptorUpdated[] = JSON.parse(proposalFile);
@@ -442,8 +442,8 @@ interface MinterLockedQuery {
 	endBlock?: number;
 }
 
-export async function getMinterLocked(query?: MinterLockedQuery) {
-	let events = await _getAllMinterLocked();
+export async function fetchMinterLocked(query?: MinterLockedQuery) {
+	let events = await _fetchAllMinterLocked();
 
 	if (!query) {
 		return events;
@@ -462,7 +462,7 @@ export async function getMinterLocked(query?: MinterLockedQuery) {
 	return events;
 }
 
-async function _getAllMinterLocked() {
+async function _fetchAllMinterLocked() {
 	let path = join(__dirname, "..", "data", "indexer", "MinterLocked.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.MinterLocked[] = JSON.parse(proposalFile);
@@ -478,8 +478,8 @@ interface MinterUpdatedQuery {
 	endBlock?: number;
 }
 
-export async function getMinterUpdated(query?: MinterUpdatedQuery) {
-	let events = await _getAllMinterUpdated();
+export async function fetchMinterUpdated(query?: MinterUpdatedQuery) {
+	let events = await _fetchAllMinterUpdated();
 
 	if (!query) {
 		return events;
@@ -498,7 +498,7 @@ export async function getMinterUpdated(query?: MinterUpdatedQuery) {
 	return events;
 }
 
-async function _getAllMinterUpdated() {
+async function _fetchAllMinterUpdated() {
 	let path = join(__dirname, "..", "data", "indexer", "MinterUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.MinterUpdated[] = JSON.parse(proposalFile);
@@ -515,8 +515,8 @@ interface NounBurnedQuery {
 	nounId?: number;
 }
 
-export async function getNounBurned(query?: NounBurnedQuery) {
-	let events = await _getAllNounBurned();
+export async function fetchNounBurned(query?: NounBurnedQuery) {
+	let events = await _fetchAllNounBurned();
 
 	if (!query) {
 		return events;
@@ -541,7 +541,7 @@ export async function getNounBurned(query?: NounBurnedQuery) {
 	return events;
 }
 
-async function _getAllNounBurned() {
+async function _fetchAllNounBurned() {
 	let path = join(__dirname, "..", "data", "indexer", "NounBurned.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.NounBurned[] = JSON.parse(proposalFile);
@@ -557,8 +557,8 @@ interface NoundersDAOUpdatedQuery {
 	endBlock?: number;
 }
 
-export async function getNoundersDAOUpdated(query?: NoundersDAOUpdatedQuery) {
-	let events = await _getAllNoundersDAOUpdated();
+export async function fetchNoundersDAOUpdated(query?: NoundersDAOUpdatedQuery) {
+	let events = await _fetchAllNoundersDAOUpdated();
 
 	if (!query) {
 		return events;
@@ -577,7 +577,7 @@ export async function getNoundersDAOUpdated(query?: NoundersDAOUpdatedQuery) {
 	return events;
 }
 
-async function _getAllNoundersDAOUpdated() {
+async function _fetchAllNoundersDAOUpdated() {
 	let path = join(__dirname, "..", "data", "indexer", "NoundersDAOUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.NoundersDAOUpdated[] = JSON.parse(proposalFile);
@@ -596,8 +596,8 @@ interface OwnershipTransferredQuery {
 	including?: string;
 }
 
-export async function getOwnershipTransferred(query?: OwnershipTransferredQuery) {
-	let events = await _getAllOwnershipTransferred();
+export async function fetchOwnershipTransferred(query?: OwnershipTransferredQuery) {
+	let events = await _fetchAllOwnershipTransferred();
 
 	if (!query) {
 		return events;
@@ -636,7 +636,7 @@ export async function getOwnershipTransferred(query?: OwnershipTransferredQuery)
 	return events;
 }
 
-async function _getAllOwnershipTransferred() {
+async function _fetchAllOwnershipTransferred() {
 	let path = join(__dirname, "..", "data", "indexer", "OwnershipTransferred.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.OwnershipTransferred[] = JSON.parse(proposalFile);
@@ -652,8 +652,8 @@ interface SeederLockedQuery {
 	endBlock?: number;
 }
 
-export async function getSeederLocked(query?: SeederLockedQuery) {
-	let events = await _getAllSeederLocked();
+export async function fetchSeederLocked(query?: SeederLockedQuery) {
+	let events = await _fetchAllSeederLocked();
 
 	if (!query) {
 		return events;
@@ -672,7 +672,7 @@ export async function getSeederLocked(query?: SeederLockedQuery) {
 	return events;
 }
 
-async function _getAllSeederLocked() {
+async function _fetchAllSeederLocked() {
 	let path = join(__dirname, "..", "data", "indexer", "SeederLocked.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.SeederLocked[] = JSON.parse(proposalFile);
@@ -688,8 +688,8 @@ interface SeederUpdatedQuery {
 	endBlock?: number;
 }
 
-export async function getSeederUpdated(query?: SeederUpdatedQuery) {
-	let events = await _getAllSeederUpdated();
+export async function fetchSeederUpdated(query?: SeederUpdatedQuery) {
+	let events = await _fetchAllSeederUpdated();
 
 	if (!query) {
 		return events;
@@ -708,7 +708,7 @@ export async function getSeederUpdated(query?: SeederUpdatedQuery) {
 	return events;
 }
 
-async function _getAllSeederUpdated() {
+async function _fetchAllSeederUpdated() {
 	let path = join(__dirname, "..", "data", "indexer", "SeederUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsToken.SeederUpdated[] = JSON.parse(proposalFile);

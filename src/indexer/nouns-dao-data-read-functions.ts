@@ -26,8 +26,8 @@ interface AdminChangedQuery {
 	including?: string;
 }
 
-export async function getAdminChanged(query?: AdminChangedQuery) {
-	let events = await _getAllAdminChanged();
+export async function fetchAdminChanged(query?: AdminChangedQuery) {
+	let events = await _fetchAllAdminChanged();
 
 	if (!query) {
 		return events;
@@ -66,7 +66,7 @@ export async function getAdminChanged(query?: AdminChangedQuery) {
 	return events;
 }
 
-async function _getAllAdminChanged() {
+async function _fetchAllAdminChanged() {
 	let path = join(__dirname, "..", "data", "indexer", "AdminChanged.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAOData.AdminChanged[] = JSON.parse(proposalFile);
@@ -82,8 +82,8 @@ interface BeaconUpgradedQuery {
 	endBlock?: number;
 }
 
-export async function getBeaconUpgraded(query?: BeaconUpgradedQuery) {
-	let events = await _getAllBeaconUpgraded();
+export async function fetchBeaconUpgraded(query?: BeaconUpgradedQuery) {
+	let events = await _fetchAllBeaconUpgraded();
 
 	if (!query) {
 		return events;
@@ -102,7 +102,7 @@ export async function getBeaconUpgraded(query?: BeaconUpgradedQuery) {
 	return events;
 }
 
-async function _getAllBeaconUpgraded() {
+async function _fetchAllBeaconUpgraded() {
 	let path = join(__dirname, "..", "data", "indexer", "BeaconUpgraded.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAOData.BeaconUpgraded[] = JSON.parse(proposalFile);
@@ -123,8 +123,8 @@ interface CandidateFeedbackSentQuery {
 	supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
 }
 
-export async function getCandidateFeedbackSentEvents(query?: CandidateFeedbackSentQuery) {
-	let events = await _getAllCandidateFeedbackSent();
+export async function fetchCandidateFeedbackSentEvents(query?: CandidateFeedbackSentQuery) {
+	let events = await _fetchAllCandidateFeedbackSent();
 
 	if (!query) {
 		return events;
@@ -175,7 +175,7 @@ export async function getCandidateFeedbackSentEvents(query?: CandidateFeedbackSe
 	return events;
 }
 
-async function _getAllCandidateFeedbackSent() {
+async function _fetchAllCandidateFeedbackSent() {
 	let path = join(__dirname, "..", "data", "indexer", "CandidateFeedbackSent.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsDAOData.CandidateFeedbackSent[] = JSON.parse(file);
@@ -191,8 +191,8 @@ interface CreateCandidateCostSetQuery {
 	endBlock?: number;
 }
 
-export async function getCreateCandidateCostSet(query?: CreateCandidateCostSetQuery) {
-	let events = await _getAllCreateCandidateCostSet();
+export async function fetchCreateCandidateCostSet(query?: CreateCandidateCostSetQuery) {
+	let events = await _fetchAllCreateCandidateCostSet();
 
 	if (!query) {
 		return events;
@@ -211,7 +211,7 @@ export async function getCreateCandidateCostSet(query?: CreateCandidateCostSetQu
 	return events;
 }
 
-async function _getAllCreateCandidateCostSet() {
+async function _fetchAllCreateCandidateCostSet() {
 	let path = join(__dirname, "..", "data", "indexer", "CreateCandidateCostSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAOData.CreateCandidateCostSet[] = JSON.parse(proposalFile);
@@ -228,8 +228,8 @@ interface ETHWithdrawnQuery {
 	to?: string;
 }
 
-export async function getETHWithdrawn(query?: ETHWithdrawnQuery) {
-	let events = await _getAllETHWithdrawn();
+export async function fetchETHWithdrawn(query?: ETHWithdrawnQuery) {
+	let events = await _fetchAllETHWithdrawn();
 
 	if (!query) {
 		return events;
@@ -254,7 +254,7 @@ export async function getETHWithdrawn(query?: ETHWithdrawnQuery) {
 	return events;
 }
 
-async function _getAllETHWithdrawn() {
+async function _fetchAllETHWithdrawn() {
 	let path = join(__dirname, "..", "data", "indexer", "ETHWithdrawn.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAOData.ETHWithdrawn[] = JSON.parse(proposalFile);
@@ -270,8 +270,8 @@ interface FeeRecipientSetQuery {
 	endBlock?: number;
 }
 
-export async function getFeeRecipientSet(query?: FeeRecipientSetQuery) {
-	let events = await _getAllFeeRecipientSet();
+export async function fetchFeeRecipientSet(query?: FeeRecipientSetQuery) {
+	let events = await _fetchAllFeeRecipientSet();
 
 	if (!query) {
 		return events;
@@ -290,7 +290,7 @@ export async function getFeeRecipientSet(query?: FeeRecipientSetQuery) {
 	return events;
 }
 
-async function _getAllFeeRecipientSet() {
+async function _fetchAllFeeRecipientSet() {
 	let path = join(__dirname, "..", "data", "indexer", "FeeRecipientSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAOData.FeeRecipientSet[] = JSON.parse(proposalFile);
@@ -309,8 +309,8 @@ interface FeedbackSentQuery {
 	supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
 }
 
-export async function getFeedbackSentEvents(query?: FeedbackSentQuery) {
-	let events = await _getAllFeedbackSent();
+export async function fetchFeedbackSentEvents(query?: FeedbackSentQuery) {
+	let events = await _fetchAllFeedbackSent();
 
 	if (!query) {
 		return events;
@@ -347,7 +347,7 @@ export async function getFeedbackSentEvents(query?: FeedbackSentQuery) {
 	return events;
 }
 
-async function _getAllFeedbackSent() {
+async function _fetchAllFeedbackSent() {
 	let path = join(__dirname, "..", "data", "indexer", "FeedbackSent.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsDAOData.FeedbackSent[] = JSON.parse(file);
@@ -366,8 +366,8 @@ interface OwnershipTransferredQuery {
 	including?: string;
 }
 
-export async function getOwnershipTransferred(query?: OwnershipTransferredQuery) {
-	let events = await _getAllOwnershipTransferred();
+export async function fetchOwnershipTransferred(query?: OwnershipTransferredQuery) {
+	let events = await _fetchAllOwnershipTransferred();
 
 	if (!query) {
 		return events;
@@ -406,7 +406,7 @@ export async function getOwnershipTransferred(query?: OwnershipTransferredQuery)
 	return events;
 }
 
-async function _getAllOwnershipTransferred() {
+async function _fetchAllOwnershipTransferred() {
 	let path = join(__dirname, "..", "data", "indexer", "OwnershipTransferred.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAOData.OwnershipTransferred[] = JSON.parse(proposalFile);
@@ -424,8 +424,8 @@ interface ProposalCandidateCanceledQuery {
 	slug?: string;
 }
 
-export async function getProposalCandidateCanceled(query?: ProposalCandidateCanceledQuery) {
-	let events = await _getAllProposalCandidateCanceled();
+export async function fetchProposalCandidateCanceled(query?: ProposalCandidateCanceledQuery) {
+	let events = await _fetchAllProposalCandidateCanceled();
 
 	if (!query) {
 		return events;
@@ -456,7 +456,7 @@ export async function getProposalCandidateCanceled(query?: ProposalCandidateCanc
 	return events;
 }
 
-async function _getAllProposalCandidateCanceled() {
+async function _fetchAllProposalCandidateCanceled() {
 	let path = join(__dirname, "..", "data", "indexer", "ProposalCandidateCanceled.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAOData.ProposalCandidateCanceled[] = JSON.parse(proposalFile);
@@ -474,8 +474,8 @@ interface ProposalCandidateCreatedQuery {
 	slug?: string;
 }
 
-export async function getProposalCandidateCreatedEvents(query?: ProposalCandidateCreatedQuery) {
-	let events = await _getAllProposalCandidateCreated();
+export async function fetchProposalCandidateCreatedEvents(query?: ProposalCandidateCreatedQuery) {
+	let events = await _fetchAllProposalCandidateCreated();
 
 	if (!query) {
 		return events;
@@ -506,7 +506,7 @@ export async function getProposalCandidateCreatedEvents(query?: ProposalCandidat
 	return events;
 }
 
-async function _getAllProposalCandidateCreated() {
+async function _fetchAllProposalCandidateCreated() {
 	let path = join(__dirname, "..", "data", "indexer", "ProposalCandidateCreated.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsDAOData.ProposalCandidateCreated[] = JSON.parse(file);
@@ -524,8 +524,8 @@ interface ProposalCandidateUpdatedQuery {
 	slug?: string;
 }
 
-export async function getProposalCandidateUpdated(query?: ProposalCandidateUpdatedQuery) {
-	let events = await _getAllProposalCandidateUpdated();
+export async function fetchProposalCandidateUpdated(query?: ProposalCandidateUpdatedQuery) {
+	let events = await _fetchAllProposalCandidateUpdated();
 
 	if (!query) {
 		return events;
@@ -556,7 +556,7 @@ export async function getProposalCandidateUpdated(query?: ProposalCandidateUpdat
 	return events;
 }
 
-async function _getAllProposalCandidateUpdated() {
+async function _fetchAllProposalCandidateUpdated() {
 	let path = join(__dirname, "..", "data", "indexer", "ProposalCandidateUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAOData.ProposalCandidateUpdated[] = JSON.parse(proposalFile);
@@ -576,8 +576,8 @@ interface SignatureAddedQuery {
 	slug?: string;
 }
 
-export async function getSignatureAddedEvents(query?: SignatureAddedQuery) {
-	let events = await _getAllSignatureAdded();
+export async function fetchSignatureAddedEvents(query?: SignatureAddedQuery) {
+	let events = await _fetchAllSignatureAdded();
 
 	if (!query) {
 		return events;
@@ -622,7 +622,7 @@ export async function getSignatureAddedEvents(query?: SignatureAddedQuery) {
 	return events;
 }
 
-async function _getAllSignatureAdded() {
+async function _fetchAllSignatureAdded() {
 	let path = join(__dirname, "..", "data", "indexer", "SignatureAdded.json");
 	let file = await readFile(path, { encoding: "utf8" });
 	let events: Indexer.NounsDAOData.SignatureAdded[] = JSON.parse(file);
@@ -638,8 +638,8 @@ interface UpdateCandidateCostSetQuery {
 	endBlock?: number;
 }
 
-export async function getUpdateCandidateCostSet(query?: UpdateCandidateCostSetQuery) {
-	let events = await _getAllUpdateCandidateCostSet();
+export async function fetchUpdateCandidateCostSet(query?: UpdateCandidateCostSetQuery) {
+	let events = await _fetchAllUpdateCandidateCostSet();
 
 	if (!query) {
 		return events;
@@ -658,7 +658,7 @@ export async function getUpdateCandidateCostSet(query?: UpdateCandidateCostSetQu
 	return events;
 }
 
-async function _getAllUpdateCandidateCostSet() {
+async function _fetchAllUpdateCandidateCostSet() {
 	let path = join(__dirname, "..", "data", "indexer", "UpdateCandidateCostSet.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAOData.UpdateCandidateCostSet[] = JSON.parse(proposalFile);
@@ -674,8 +674,8 @@ interface UpgradedQuery {
 	endBlock?: number;
 }
 
-export async function getUpgraded(query?: UpgradedQuery) {
-	let events = await _getAllUpgraded();
+export async function fetchUpgraded(query?: UpgradedQuery) {
+	let events = await _fetchAllUpgraded();
 
 	if (!query) {
 		return events;
@@ -694,7 +694,7 @@ export async function getUpgraded(query?: UpgradedQuery) {
 	return events;
 }
 
-async function _getAllUpgraded() {
+async function _fetchAllUpgraded() {
 	let path = join(__dirname, "..", "data", "indexer", "Upgraded.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
 	let proposals: Indexer.NounsDAOData.Upgraded[] = JSON.parse(proposalFile);
