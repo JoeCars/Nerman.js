@@ -2,17 +2,7 @@ import { readFile } from "fs/promises";
 import { join } from "path";
 import { Indexer } from "../types";
 import { NOUNS_STARTING_BLOCK } from "../constants";
-
-/**
- * @param startBlock The starting block. Inclusive.
- * @param endBlock The final block. Inclusive.
- */
-function _filterByBlock(events: Indexer.FormattedEvent[], startBlock: number, endBlock: number) {
-	let filteredEvents = events.filter((event) => {
-		return event.blockNumber >= startBlock && event.blockNumber <= endBlock;
-	});
-	return filteredEvents;
-}
+import { _filterByBlock } from "../utilities/indexer";
 
 // ==================================
 // DAOWithdrawNounsFromEscrow
