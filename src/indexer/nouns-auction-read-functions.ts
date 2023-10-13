@@ -8,13 +8,7 @@ import { _filterByBlock } from "../utilities/indexer";
 // AuctionCreated
 // ==================================
 
-interface AuctionCreatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	nounId?: number;
-}
-
-export async function fetchAuctionCreatedEvents(query?: AuctionCreatedQuery) {
+export async function fetchAuctionCreatedEvents(query?: Indexer.NounsAuctionHouse.AuctionCreatedQuery) {
 	let events = await _fetchAllAuctionCreated();
 
 	if (!query) {
@@ -51,16 +45,7 @@ async function _fetchAllAuctionCreated() {
 // AuctionBid
 // ==================================
 
-interface AuctionBidQuery {
-	startBlock?: number;
-	endBlock?: number;
-	nounId?: number;
-	bidder?: string;
-	minBidAmount?: number;
-	maxBidAmount?: number;
-}
-
-export async function fetchAuctionBidEvents(query?: AuctionBidQuery) {
+export async function fetchAuctionBidEvents(query?: Indexer.NounsAuctionHouse.AuctionBidQuery) {
 	let events = await _fetchAllAuctionBid();
 
 	if (!query) {
@@ -115,13 +100,7 @@ async function _fetchAllAuctionBid() {
 // AuctionExtended
 // ==================================
 
-interface AuctionExtendedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	nounId?: number;
-}
-
-export async function fetchAuctionExtended(query?: AuctionExtendedQuery) {
+export async function fetchAuctionExtended(query?: Indexer.NounsAuctionHouse.AuctionExtendedQuery) {
 	let events = await _fetchAllAuctionExtended();
 
 	if (!query) {
@@ -158,16 +137,7 @@ async function _fetchAllAuctionExtended() {
 // AuctionSettled
 // ==================================
 
-interface AuctionSettledQuery {
-	startBlock?: number;
-	endBlock?: number;
-	nounId?: number;
-	winner?: string;
-	minBidAmount?: number;
-	maxBidAmount?: number;
-}
-
-export async function fetchAuctionSettledEvents(query?: AuctionSettledQuery) {
+export async function fetchAuctionSettledEvents(query?: Indexer.NounsAuctionHouse.AuctionSettledQuery) {
 	let events = await _fetchAllAuctionSettled();
 
 	if (!query) {
@@ -222,12 +192,7 @@ async function _fetchAllAuctionSettled() {
 // AuctionTimeBufferUpdated
 // ==================================
 
-interface AuctionTimeBufferUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchAuctionTimeBufferUpdated(query?: AuctionTimeBufferUpdatedQuery) {
+export async function fetchAuctionTimeBufferUpdated(query?: Indexer.NounsAuctionHouse.AuctionTimeBufferUpdatedQuery) {
 	let events = await _fetchAllAuctionTimeBufferUpdated();
 
 	if (!query) {
@@ -262,12 +227,7 @@ async function _fetchAllAuctionTimeBufferUpdated() {
 // AuctionReservePriceUpdated
 // ==================================
 
-interface AuctionReservePriceUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchAuctionReservePriceUpdated(query?: AuctionReservePriceUpdatedQuery) {
+export async function fetchAuctionReservePriceUpdated(query?: Indexer.NounsAuctionHouse.AuctionReservePriceUpdatedQuery) {
 	let events = await _fetchAllAuctionReservePriceUpdated();
 
 	if (!query) {
@@ -302,12 +262,9 @@ async function _fetchAllAuctionReservePriceUpdated() {
 // AuctionMinBidIncrementPercentageUpdated
 // ==================================
 
-interface AuctionMinBidIncrementPercentageUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchAuctionMinBidIncrementPercentageUpdated(query?: AuctionMinBidIncrementPercentageUpdatedQuery) {
+export async function fetchAuctionMinBidIncrementPercentageUpdated(
+	query?: Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdatedQuery
+) {
 	let events = await _fetchAllAuctionMinBidIncrementPercentageUpdated();
 
 	if (!query) {
@@ -342,15 +299,7 @@ async function _fetchAllAuctionMinBidIncrementPercentageUpdated() {
 // OwnershipTransferred
 // ==================================
 
-interface OwnershipTransferredQuery {
-	startBlock?: number;
-	endBlock?: number;
-	previousOwner?: string;
-	newOwner?: string;
-	including?: string;
-}
-
-export async function fetchOwnershipTransferred(query?: OwnershipTransferredQuery) {
+export async function fetchOwnershipTransferred(query?: Indexer.NounsAuctionHouse.OwnershipTransferredQuery) {
 	let events = await _fetchAllOwnershipTransferred();
 
 	if (!query) {
@@ -401,12 +350,7 @@ async function _fetchAllOwnershipTransferred() {
 // Paused
 // ==================================
 
-interface PausedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchPaused(query?: PausedQuery) {
+export async function fetchPaused(query?: Indexer.NounsAuctionHouse.PausedQuery) {
 	let events = await _fetchAllPaused();
 
 	if (!query) {
@@ -437,12 +381,7 @@ async function _fetchAllPaused() {
 // Unpaused
 // ==================================
 
-interface UnpausedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchUnpaused(query?: UnpausedQuery) {
+export async function fetchUnpaused(query?: Indexer.NounsAuctionHouse.UnpausedQuery) {
 	let events = await _fetchAllUnpaused();
 
 	if (!query) {

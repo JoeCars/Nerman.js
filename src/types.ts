@@ -1050,6 +1050,262 @@ export namespace Indexer {
 			owner: string;
 			tokenIds: number[];
 		}
+
+		// Queries.
+
+		export interface DAOWithdrawNounsFromEscrowQuery {
+			startBlock?: number;
+			endBlock?: number;
+			tokenId?: number;
+			to?: string;
+		}
+
+		export interface ERC20TokensToIncludeInForkSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface EscrowedToForkQuery {
+			startBlock?: number;
+			endBlock?: number;
+			forkId?: number;
+			owner?: string;
+			tokenId?: number;
+			proposalId?: number;
+		}
+
+		export interface ExecuteForkQuery {
+			startBlock?: number;
+			endBlock?: number;
+			startId?: number;
+			endId?: number;
+			id?: number;
+		}
+
+		export interface ForkDAODeployerSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ForkPeriodSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ForkThresholdSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface JoinForkQuery {
+			startBlock?: number;
+			endBlock?: number;
+			forkId?: number;
+			owner?: string;
+			tokenId?: number;
+			proposalId?: number;
+		}
+
+		export interface LastMinuteWindowSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface MaxQuorumVotesBPSSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface MinQuorumVotesBPSSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NewAdminQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NewImplementationQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NewPendingAdminQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NewPendingVetoerQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NewVetoerQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ObjectionPeriodDurationSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ProposalCanceledQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+		}
+
+		export interface ProposalQuery {
+			startBlock?: number;
+			endBlock?: number;
+			startId?: number;
+			endId?: number;
+			id?: number;
+			status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
+			proposer?: string;
+		}
+
+		export interface ProposalCreatedOnTimelockV1Query {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ProposalCreatedWithRequirementsQuery {
+			startBlock?: number;
+			endBlock?: number;
+			startId?: number;
+			endId?: number;
+			id?: number;
+			status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
+			proposer?: string;
+		}
+
+		export interface ProposalDescriptionUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposer?: string;
+		}
+
+		export interface ProposalExecutedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+		}
+
+		export interface ProposalObjectionPeriodSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+		}
+
+		export interface ProposalQueuedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+		}
+
+		export interface ProposalThresholdBPSSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ProposalTransactionsUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			id?: number;
+			proposer?: string;
+		}
+
+		export interface ProposalUpdatablePeriodSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ProposalUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			id?: number;
+			proposer?: string;
+		}
+
+		export interface ProposalVetoedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+		}
+
+		export interface QuorumCoefficientSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface QuorumVotesBPSSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface RefundableVoteQuery {
+			startBlock?: number;
+			endBlock?: number;
+			voter?: string;
+		}
+
+		export interface SignatureCancelledQuery {
+			startBlock?: number;
+			endBlock?: number;
+			signer?: string;
+		}
+
+		export interface TimelocksAndAdminSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+			admin?: string;
+		}
+
+		export interface StatusChangeQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+			status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
+		}
+
+		export interface VoteCastQuery {
+			startBlock?: number;
+			endBlock?: number;
+			voter?: string;
+			proposalId?: number;
+			support?: "AGAINST" | "FOR" | "ABSTAIN";
+		}
+
+		export interface VoteSnapshotBlockSwitchProposalIdSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface VotingDelaySetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface VotingPeriodSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface WithdrawQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface WithdrawFromForkEscrowQuery {
+			startBlock?: number;
+			endBlock?: number;
+			forkId?: number;
+			owner?: string;
+			tokenId?: number;
+		}
 	}
 
 	export namespace NounsAuctionHouse {
@@ -1100,6 +1356,71 @@ export namespace Indexer {
 
 		export interface Unpaused extends FormattedEvent {
 			unpauseAddress: string;
+		}
+
+		// Queries.
+
+		export interface AuctionCreatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			nounId?: number;
+		}
+
+		export interface AuctionBidQuery {
+			startBlock?: number;
+			endBlock?: number;
+			nounId?: number;
+			bidder?: string;
+			minBidAmount?: number;
+			maxBidAmount?: number;
+		}
+
+		export interface AuctionExtendedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			nounId?: number;
+		}
+
+		export interface AuctionSettledQuery {
+			startBlock?: number;
+			endBlock?: number;
+			nounId?: number;
+			winner?: string;
+			minBidAmount?: number;
+			maxBidAmount?: number;
+		}
+
+		export interface AuctionTimeBufferUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface AuctionReservePriceUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface AuctionMinBidIncrementPercentageUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface OwnershipTransferredQuery {
+			startBlock?: number;
+			endBlock?: number;
+			previousOwner?: string;
+			newOwner?: string;
+			including?: string;
+		}
+
+		export interface PausedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface UnpausedQuery {
+			startBlock?: number;
+			endBlock?: number;
 		}
 	}
 
@@ -1168,6 +1489,105 @@ export namespace Indexer {
 
 		export interface SeederUpdated extends FormattedEvent {
 			seeder: string;
+		}
+
+		// Queries.
+
+		export interface DelegateChangedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			delegator?: string;
+			fromDelegate?: string;
+			toDelegate?: string;
+			involving?: string;
+		}
+
+		export interface DelegateVotesChangedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			delegate?: string;
+		}
+
+		export interface TransferQuery {
+			startBlock?: number;
+			endBlock?: number;
+			from?: string;
+			to?: string;
+			involved?: string;
+			tokenId?: number;
+		}
+
+		export interface ApprovalQuery {
+			startBlock?: number;
+			endBlock?: number;
+			owner?: string;
+			tokenId?: number;
+		}
+
+		export interface ApprovalForAllQuery {
+			startBlock?: number;
+			endBlock?: number;
+			owner?: string;
+		}
+
+		export interface NounCreatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			tokenId?: number;
+			background?: number;
+			body?: number;
+			accessory?: number;
+			head?: number;
+			glasses?: number;
+		}
+
+		export interface DescriptorLockedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface DescriptorUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface MinterLockedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface MinterUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NounBurnedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			nounId?: number;
+		}
+
+		export interface NoundersDAOUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface OwnershipTransferredQuery {
+			startBlock?: number;
+			endBlock?: number;
+			previousOwner?: string;
+			newOwner?: string;
+			including?: string;
+		}
+
+		export interface SeederLockedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface SeederUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
 		}
 	}
 
@@ -1265,6 +1685,103 @@ export namespace Indexer {
 
 		export interface Upgraded extends FormattedEvent {
 			implementation: string;
+		}
+
+		// Queries.
+
+		export interface AdminChangedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			previousAdmin?: string;
+			newAdmin?: string;
+			including?: string;
+		}
+
+		export interface BeaconUpgradedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface CandidateFeedbackSentQuery {
+			startBlock?: number;
+			endBlock?: number;
+			msgSender?: string;
+			proposer?: string;
+			involved?: string;
+			slug?: string;
+			supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
+		}
+
+		export interface CreateCandidateCostSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ETHWithdrawnQuery {
+			startBlock?: number;
+			endBlock?: number;
+			to?: string;
+		}
+
+		export interface FeeRecipientSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface FeedbackSentQuery {
+			startBlock?: number;
+			endBlock?: number;
+			msgSender?: string;
+			proposalId?: number;
+			supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
+		}
+
+		export interface OwnershipTransferredQuery {
+			startBlock?: number;
+			endBlock?: number;
+			previousOwner?: string;
+			newOwner?: string;
+			including?: string;
+		}
+
+		export interface ProposalCandidateCanceledQuery {
+			startBlock?: number;
+			endBlock?: number;
+			msgSender?: string;
+			slug?: string;
+		}
+
+		export interface ProposalCandidateCreatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			msgSender?: string;
+			slug?: string;
+		}
+
+		export interface ProposalCandidateUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			msgSender?: string;
+			slug?: string;
+		}
+
+		export interface SignatureAddedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			signer?: string;
+			proposer?: string;
+			involved?: string;
+			slug?: string;
+		}
+
+		export interface UpdateCandidateCostSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface UpgradedQuery {
+			startBlock?: number;
+			endBlock?: number;
 		}
 	}
 }

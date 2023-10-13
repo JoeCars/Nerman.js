@@ -8,14 +8,7 @@ import { _filterByBlock } from "../utilities/indexer";
 // DAOWithdrawNounsFromEscrow
 // ==================================
 
-interface DAOWithdrawNounsFromEscrowQuery {
-	startBlock?: number;
-	endBlock?: number;
-	tokenId?: number;
-	to?: string;
-}
-
-export async function fetchDAOWithdrawNounsFromEscrow(query?: DAOWithdrawNounsFromEscrowQuery) {
+export async function fetchDAOWithdrawNounsFromEscrow(query?: Indexer.NounsDAO.DAOWithdrawNounsFromEscrowQuery) {
 	let events = await _fetchAllDAOWithdrawNounsFromEscrow();
 
 	if (!query) {
@@ -58,12 +51,7 @@ async function _fetchAllDAOWithdrawNounsFromEscrow() {
 // ERC20TokensToIncludeInForkSet
 // ==================================
 
-interface ERC20TokensToIncludeInForkSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchERC20TokensToIncludeInForkSet(query?: ERC20TokensToIncludeInForkSetQuery) {
+export async function fetchERC20TokensToIncludeInForkSet(query?: Indexer.NounsDAO.ERC20TokensToIncludeInForkSetQuery) {
 	let events = await _fetchAllERC20TokensToIncludeInForkSet();
 
 	if (!query) {
@@ -94,16 +82,7 @@ async function _fetchAllERC20TokensToIncludeInForkSet() {
 // EscrowedToFork
 // ==================================
 
-interface EscrowedToForkQuery {
-	startBlock?: number;
-	endBlock?: number;
-	forkId?: number;
-	owner?: string;
-	tokenId?: number;
-	proposalId?: number;
-}
-
-export async function fetchEscrowedToFork(query?: EscrowedToForkQuery) {
+export async function fetchEscrowedToFork(query?: Indexer.NounsDAO.EscrowedToForkQuery) {
 	let events = await _fetchAllEscrowedToFork();
 
 	if (!query) {
@@ -158,15 +137,7 @@ async function _fetchAllEscrowedToFork() {
 // ExecuteFork
 // ==================================
 
-interface ExecuteForkQuery {
-	startBlock?: number;
-	endBlock?: number;
-	startId?: number;
-	endId?: number;
-	id?: number;
-}
-
-export async function fetchExecutedFork(query?: ExecuteForkQuery) {
+export async function fetchExecutedFork(query?: Indexer.NounsDAO.ExecuteForkQuery) {
 	let events = await _fetchAllExecutedForkEvents();
 
 	if (!query) {
@@ -224,12 +195,7 @@ function _filterExecutedForkById(forks: Indexer.NounsDAO.ExecuteFork[], startId:
 // ForkDAODeployerSet
 // ==================================
 
-interface ForkDAODeployerSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchForkDAODeployerSet(query?: ForkDAODeployerSetQuery) {
+export async function fetchForkDAODeployerSet(query?: Indexer.NounsDAO.ForkDAODeployerSetQuery) {
 	let events = await _fetchAllForkDAODeployerSet();
 
 	if (!query) {
@@ -260,12 +226,7 @@ async function _fetchAllForkDAODeployerSet() {
 // ForkPeriodSet
 // ==================================
 
-interface ForkPeriodSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchForkPeriodSet(query?: ForkPeriodSetQuery) {
+export async function fetchForkPeriodSet(query?: Indexer.NounsDAO.ForkPeriodSetQuery) {
 	let events = await _fetchAllForkPeriodSet();
 
 	if (!query) {
@@ -296,12 +257,7 @@ async function _fetchAllForkPeriodSet() {
 // ForkThresholdSet
 // ==================================
 
-interface ForkThresholdSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchForkThresholdSet(query?: ForkThresholdSetQuery) {
+export async function fetchForkThresholdSet(query?: Indexer.NounsDAO.ForkThresholdSetQuery) {
 	let events = await _fetchAllForkThresholdSet();
 
 	if (!query) {
@@ -332,16 +288,7 @@ async function _fetchAllForkThresholdSet() {
 // JoinFork
 // ==================================
 
-interface JoinForkQuery {
-	startBlock?: number;
-	endBlock?: number;
-	forkId?: number;
-	owner?: string;
-	tokenId?: number;
-	proposalId?: number;
-}
-
-export async function fetchJoinFork(query?: JoinForkQuery) {
+export async function fetchJoinFork(query?: Indexer.NounsDAO.JoinForkQuery) {
 	let events = await _fetchAllJoinFork();
 
 	if (!query) {
@@ -396,12 +343,7 @@ async function _fetchAllJoinFork() {
 // LastMinuteWindowSet
 // ==================================
 
-interface LastMinuteWindowSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchLastMinuteWindowSet(query?: LastMinuteWindowSetQuery) {
+export async function fetchLastMinuteWindowSet(query?: Indexer.NounsDAO.LastMinuteWindowSetQuery) {
 	let events = await _fetchAllLastMinuteWindowSet();
 
 	if (!query) {
@@ -432,12 +374,7 @@ async function _fetchAllLastMinuteWindowSet() {
 // MaxQuorumVotesBPSSet
 // ==================================
 
-interface MaxQuorumVotesBPSSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchMaxQuorumVotesBPSSet(query?: MaxQuorumVotesBPSSetQuery) {
+export async function fetchMaxQuorumVotesBPSSet(query?: Indexer.NounsDAO.MaxQuorumVotesBPSSetQuery) {
 	let events = await _fetchAllMaxQuorumVotesBPSSet();
 
 	if (!query) {
@@ -468,12 +405,7 @@ async function _fetchAllMaxQuorumVotesBPSSet() {
 // MinQuorumVotesBPSSet
 // ==================================
 
-interface MinQuorumVotesBPSSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchMinQuorumVotesBPSSet(query?: MinQuorumVotesBPSSetQuery) {
+export async function fetchMinQuorumVotesBPSSet(query?: Indexer.NounsDAO.MinQuorumVotesBPSSetQuery) {
 	let events = await _fetchAllMinQuorumVotesBPSSet();
 
 	if (!query) {
@@ -504,12 +436,7 @@ async function _fetchAllMinQuorumVotesBPSSet() {
 // NewAdmin
 // ==================================
 
-interface NewAdminQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchNewAdmin(query?: NewAdminQuery) {
+export async function fetchNewAdmin(query?: Indexer.NounsDAO.NewAdminQuery) {
 	let events = await _fetchAllNewAdmin();
 
 	if (!query) {
@@ -540,12 +467,7 @@ async function _fetchAllNewAdmin() {
 // NewImplementation
 // ==================================
 
-interface NewImplementationQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchNewImplementation(query?: NewImplementationQuery) {
+export async function fetchNewImplementation(query?: Indexer.NounsDAO.NewImplementationQuery) {
 	let events = await _fetchAllNewImplementation();
 
 	if (!query) {
@@ -576,12 +498,7 @@ async function _fetchAllNewImplementation() {
 // NewPendingAdmin
 // ==================================
 
-interface NewPendingAdminQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchNewPendingAdmin(query?: NewPendingAdminQuery) {
+export async function fetchNewPendingAdmin(query?: Indexer.NounsDAO.NewPendingAdminQuery) {
 	let events = await _fetchAllNewPendingAdmin();
 
 	if (!query) {
@@ -612,12 +529,7 @@ async function _fetchAllNewPendingAdmin() {
 // NewPendingVetoer
 // ==================================
 
-interface NewPendingVetoerQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchNewPendingVetoer(query?: NewPendingVetoerQuery) {
+export async function fetchNewPendingVetoer(query?: Indexer.NounsDAO.NewPendingVetoerQuery) {
 	let events = await _fetchAllNewPendingVetoer();
 
 	if (!query) {
@@ -648,12 +560,7 @@ async function _fetchAllNewPendingVetoer() {
 // NewVetoer
 // ==================================
 
-interface NewVetoerQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchNewVetoer(query?: NewVetoerQuery) {
+export async function fetchNewVetoer(query?: Indexer.NounsDAO.NewVetoerQuery) {
 	let events = await _fetchAllNewVetoer();
 
 	if (!query) {
@@ -684,12 +591,7 @@ async function _fetchAllNewVetoer() {
 // ObjectionPeriodDurationSet
 // ==================================
 
-interface ObjectionPeriodDurationSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchObjectionPeriodDurationSet(query?: ObjectionPeriodDurationSetQuery) {
+export async function fetchObjectionPeriodDurationSet(query?: Indexer.NounsDAO.ObjectionPeriodDurationSetQuery) {
 	let events = await _fetchAllObjectionPeriodDurationSet();
 
 	if (!query) {
@@ -720,13 +622,7 @@ async function _fetchAllObjectionPeriodDurationSet() {
 // ProposalCanceled
 // ==================================
 
-interface ProposalCanceledQuery {
-	startBlock?: number;
-	endBlock?: number;
-	proposalId?: number;
-}
-
-export async function fetchProposalCanceled(query?: ProposalCanceledQuery) {
+export async function fetchProposalCanceled(query?: Indexer.NounsDAO.ProposalCanceledQuery) {
 	let events = await _fetchAllProposalCanceled();
 
 	if (!query) {
@@ -763,17 +659,7 @@ async function _fetchAllProposalCanceled() {
 // ProposalCreated
 // ==================================
 
-interface ProposalQuery {
-	startBlock?: number;
-	endBlock?: number;
-	startId?: number;
-	endId?: number;
-	id?: number;
-	status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
-	proposer?: string;
-}
-
-export async function fetchProposals(query?: ProposalQuery) {
+export async function fetchProposals(query?: Indexer.NounsDAO.ProposalQuery) {
 	let events = await _fetchAllProposals();
 
 	if (!query) {
@@ -888,12 +774,7 @@ async function _fetchAllStatusChange() {
 // ProposalCreatedOnTimelockV1
 // ==================================
 
-interface ProposalCreatedOnTimelockV1Query {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchProposalCreatedOnTimelockV1(query?: ProposalCreatedOnTimelockV1Query) {
+export async function fetchProposalCreatedOnTimelockV1(query?: Indexer.NounsDAO.ProposalCreatedOnTimelockV1Query) {
 	let events = await _fetchAllProposalCreatedOnTimelockV1();
 
 	if (!query) {
@@ -924,17 +805,7 @@ async function _fetchAllProposalCreatedOnTimelockV1() {
 // ProposalCreatedWithRequirements
 // ==================================
 
-interface ProposalCreatedWithRequirementsQuery {
-	startBlock?: number;
-	endBlock?: number;
-	startId?: number;
-	endId?: number;
-	id?: number;
-	status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
-	proposer?: string;
-}
-
-export async function fetchProposalCreatedWithRequirements(query?: ProposalCreatedWithRequirementsQuery) {
+export async function fetchProposalCreatedWithRequirements(query?: Indexer.NounsDAO.ProposalCreatedWithRequirementsQuery) {
 	let events = await _fetchAllProposalCreatedWithRequirements();
 
 	if (!query) {
@@ -989,13 +860,7 @@ async function _fetchAllProposalCreatedWithRequirements() {
 // ProposalDescriptionUpdated
 // ==================================
 
-interface ProposalDescriptionUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	proposer?: string;
-}
-
-export async function fetchProposalDescriptionUpdated(query?: ProposalDescriptionUpdatedQuery) {
+export async function fetchProposalDescriptionUpdated(query?: Indexer.NounsDAO.ProposalDescriptionUpdatedQuery) {
 	let events = await _fetchAllProposalDescriptionUpdated();
 
 	if (!query) {
@@ -1032,13 +897,7 @@ async function _fetchAllProposalDescriptionUpdated() {
 // ProposalExecuted
 // ==================================
 
-interface ProposalExecutedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	proposalId?: number;
-}
-
-export async function fetchProposalExecuted(query?: ProposalExecutedQuery) {
+export async function fetchProposalExecuted(query?: Indexer.NounsDAO.ProposalExecutedQuery) {
 	let events = await _fetchAllProposalExecuted();
 
 	if (!query) {
@@ -1075,13 +934,7 @@ async function _fetchAllProposalExecuted() {
 // ProposalObjectionPeriodSet
 // ==================================
 
-interface ProposalObjectionPeriodSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-	proposalId?: number;
-}
-
-export async function fetchProposalObjectionPeriodSet(query?: ProposalObjectionPeriodSetQuery) {
+export async function fetchProposalObjectionPeriodSet(query?: Indexer.NounsDAO.ProposalObjectionPeriodSetQuery) {
 	let events = await _fetchAllProposalObjectionPeriodSet();
 
 	if (!query) {
@@ -1118,13 +971,7 @@ async function _fetchAllProposalObjectionPeriodSet() {
 // ProposalQueued
 // ==================================
 
-interface ProposalQueuedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	proposalId?: number;
-}
-
-export async function fetchProposalQueued(query?: ProposalQueuedQuery) {
+export async function fetchProposalQueued(query?: Indexer.NounsDAO.ProposalQueuedQuery) {
 	let events = await _fetchAllProposalQueued();
 
 	if (!query) {
@@ -1161,12 +1008,7 @@ async function _fetchAllProposalQueued() {
 // ProposalThresholdBPSSet
 // ==================================
 
-interface ProposalThresholdBPSSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchProposalThresholdBPSSet(query?: ProposalThresholdBPSSetQuery) {
+export async function fetchProposalThresholdBPSSet(query?: Indexer.NounsDAO.ProposalThresholdBPSSetQuery) {
 	let events = await _fetchAllProposalThresholdBPSSet();
 
 	if (!query) {
@@ -1197,14 +1039,7 @@ async function _fetchAllProposalThresholdBPSSet() {
 // ProposalTransactionsUpdated
 // ==================================
 
-interface ProposalTransactionsUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	id?: number;
-	proposer?: string;
-}
-
-export async function fetchProposalTransactionsUpdated(query?: ProposalTransactionsUpdatedQuery) {
+export async function fetchProposalTransactionsUpdated(query?: Indexer.NounsDAO.ProposalTransactionsUpdatedQuery) {
 	let events = await _fetchAllProposalTransactionsUpdated();
 
 	if (!query) {
@@ -1247,12 +1082,7 @@ async function _fetchAllProposalTransactionsUpdated() {
 // ProposalUpdatablePeriodSet
 // ==================================
 
-interface ProposalUpdatablePeriodSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchProposalUpdatablePeriodSet(query?: ProposalUpdatablePeriodSetQuery) {
+export async function fetchProposalUpdatablePeriodSet(query?: Indexer.NounsDAO.ProposalUpdatablePeriodSetQuery) {
 	let events = await _fetchAllProposalUpdatablePeriodSet();
 
 	if (!query) {
@@ -1283,14 +1113,7 @@ async function _fetchAllProposalUpdatablePeriodSet() {
 // ProposalUpdated
 // ==================================
 
-interface ProposalUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	id?: number;
-	proposer?: string;
-}
-
-export async function fetchProposalUpdated(query?: ProposalUpdatedQuery) {
+export async function fetchProposalUpdated(query?: Indexer.NounsDAO.ProposalUpdatedQuery) {
 	let events = await _fetchAllProposalUpdated();
 
 	if (!query) {
@@ -1333,13 +1156,7 @@ async function _fetchAllProposalUpdated() {
 // ProposalVetoed
 // ==================================
 
-interface ProposalVetoedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	proposalId?: number;
-}
-
-export async function fetchProposalVetoed(query?: ProposalVetoedQuery) {
+export async function fetchProposalVetoed(query?: Indexer.NounsDAO.ProposalVetoedQuery) {
 	let events = await _fetchAllProposalVetoed();
 
 	if (!query) {
@@ -1376,12 +1193,7 @@ async function _fetchAllProposalVetoed() {
 // QuorumCoefficientSet
 // ==================================
 
-interface QuorumCoefficientSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchQuorumCoefficientSet(query?: QuorumCoefficientSetQuery) {
+export async function fetchQuorumCoefficientSet(query?: Indexer.NounsDAO.QuorumCoefficientSetQuery) {
 	let events = await _fetchAllQuorumCoefficientSet();
 
 	if (!query) {
@@ -1412,12 +1224,7 @@ async function _fetchAllQuorumCoefficientSet() {
 // QuorumVotesBPSSet
 // ==================================
 
-interface QuorumVotesBPSSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchQuorumVotesBPSSet(query?: QuorumVotesBPSSetQuery) {
+export async function fetchQuorumVotesBPSSet(query?: Indexer.NounsDAO.QuorumVotesBPSSetQuery) {
 	let events = await _fetchAllQuorumVotesBPSSet();
 
 	if (!query) {
@@ -1448,13 +1255,7 @@ async function _fetchAllQuorumVotesBPSSet() {
 // RefundableVote
 // ==================================
 
-interface RefundableVoteQuery {
-	startBlock?: number;
-	endBlock?: number;
-	voter?: string;
-}
-
-export async function fetchRefundableVote(query?: RefundableVoteQuery) {
+export async function fetchRefundableVote(query?: Indexer.NounsDAO.RefundableVoteQuery) {
 	let events = await _fetchAllRefundableVote();
 
 	if (!query) {
@@ -1491,13 +1292,7 @@ async function _fetchAllRefundableVote() {
 // SignatureCancelled
 // ==================================
 
-interface SignatureCancelledQuery {
-	startBlock?: number;
-	endBlock?: number;
-	signer?: string;
-}
-
-export async function fetchSignatureCancelled(query?: SignatureCancelledQuery) {
+export async function fetchSignatureCancelled(query?: Indexer.NounsDAO.SignatureCancelledQuery) {
 	let events = await _fetchAllSignatureCancelled();
 
 	if (!query) {
@@ -1534,13 +1329,7 @@ async function _fetchAllSignatureCancelled() {
 // TimelocksAndAdminSet
 // ==================================
 
-interface TimelocksAndAdminSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-	admin?: string;
-}
-
-export async function fetchTimelocksAndAdminSet(query?: TimelocksAndAdminSetQuery) {
+export async function fetchTimelocksAndAdminSet(query?: Indexer.NounsDAO.TimelocksAndAdminSetQuery) {
 	let events = await _fetchAllTimelocksAndAdminSet();
 
 	if (!query) {
@@ -1577,14 +1366,7 @@ async function _fetchAllTimelocksAndAdminSet() {
 // ProposalStatusChange
 // ==================================
 
-interface StatusChangeQuery {
-	startBlock?: number;
-	endBlock?: number;
-	proposalId?: number;
-	status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
-}
-
-export async function fetchStatusChangeEvents(query?: StatusChangeQuery) {
+export async function fetchStatusChangeEvents(query?: Indexer.NounsDAO.StatusChangeQuery) {
 	let events: Indexer.NounsDAO.ProposalCanceled[] = [];
 
 	if (!query) {
@@ -1642,15 +1424,7 @@ function _filterStatusChangeByProposalId(statuses: Indexer.NounsDAO.ProposalCanc
 // VoteCast
 // ==================================
 
-interface VoteCastQuery {
-	startBlock?: number;
-	endBlock?: number;
-	voter?: string;
-	proposalId?: number;
-	support?: "AGAINST" | "FOR" | "ABSTAIN";
-}
-
-export async function fetchVoteCastEvents(query?: VoteCastQuery) {
+export async function fetchVoteCastEvents(query?: Indexer.NounsDAO.VoteCastQuery) {
 	let events = await _fetchAllVoteCast();
 
 	if (!query) {
@@ -1699,12 +1473,9 @@ async function _fetchAllVoteCast() {
 // VoteSnapshotBlockSwitchProposalIdSet
 // ==================================
 
-interface VoteSnapshotBlockSwitchProposalIdSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchVoteSnapshotBlockSwitchProposalIdSet(query?: VoteSnapshotBlockSwitchProposalIdSetQuery) {
+export async function fetchVoteSnapshotBlockSwitchProposalIdSet(
+	query?: Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSetQuery
+) {
 	let events = await _fetchAllVoteSnapshotBlockSwitchProposalIdSet();
 
 	if (!query) {
@@ -1739,12 +1510,7 @@ async function _fetchAllVoteSnapshotBlockSwitchProposalIdSet() {
 // VotingDelaySet
 // ==================================
 
-interface VotingDelaySetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchVotingDelaySet(query?: VotingDelaySetQuery) {
+export async function fetchVotingDelaySet(query?: Indexer.NounsDAO.VotingDelaySetQuery) {
 	let events = await _fetchAllVotingDelaySet();
 
 	if (!query) {
@@ -1775,12 +1541,7 @@ async function _fetchAllVotingDelaySet() {
 // VotingPeriodSet
 // ==================================
 
-interface VotingPeriodSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchVotingPeriodSet(query?: VotingPeriodSetQuery) {
+export async function fetchVotingPeriodSet(query?: Indexer.NounsDAO.VotingPeriodSetQuery) {
 	let events = await _fetchAllVotingPeriodSet();
 
 	if (!query) {
@@ -1811,12 +1572,7 @@ async function _fetchAllVotingPeriodSet() {
 // Withdraw
 // ==================================
 
-interface WithdrawQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchWithdraw(query?: WithdrawQuery) {
+export async function fetchWithdraw(query?: Indexer.NounsDAO.WithdrawQuery) {
 	let events = await _fetchAllWithdraw();
 
 	if (!query) {
@@ -1847,15 +1603,7 @@ async function _fetchAllWithdraw() {
 // WithdrawFromForkEscrow
 // ==================================
 
-interface WithdrawFromForkEscrowQuery {
-	startBlock?: number;
-	endBlock?: number;
-	forkId?: number;
-	owner?: string;
-	tokenId?: number;
-}
-
-export async function fetchWithdrawFromForkEscrow(query?: WithdrawFromForkEscrowQuery) {
+export async function fetchWithdrawFromForkEscrow(query?: Indexer.NounsDAO.WithdrawFromForkEscrowQuery) {
 	let events = await _fetchAllWithdrawFromForkEscrow();
 
 	if (!query) {

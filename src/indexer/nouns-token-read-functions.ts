@@ -8,16 +8,7 @@ import { _filterByBlock } from "../utilities/indexer";
 // DelegateChanged
 // ==================================
 
-interface DelegateChangedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	delegator?: string;
-	fromDelegate?: string;
-	toDelegate?: string;
-	involving?: string;
-}
-
-export async function fetchDelegateChangedEvents(query?: DelegateChangedQuery) {
+export async function fetchDelegateChangedEvents(query?: Indexer.NounsToken.DelegateChangedQuery) {
 	let events = await _fetchAllDelegateChanged();
 
 	if (!query) {
@@ -75,13 +66,7 @@ async function _fetchAllDelegateChanged() {
 // DelegateVotesChanged
 // ==================================
 
-interface DelegateVotesChangedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	delegate?: string;
-}
-
-export async function fetchDelegateVotesChangedEvents(query?: DelegateVotesChangedQuery) {
+export async function fetchDelegateVotesChangedEvents(query?: Indexer.NounsToken.DelegateVotesChangedQuery) {
 	let events = await _fetchAllDelegateVotesChanged();
 
 	if (!query) {
@@ -118,16 +103,7 @@ async function _fetchAllDelegateVotesChanged() {
 // Transfer
 // ==================================
 
-interface TransferQuery {
-	startBlock?: number;
-	endBlock?: number;
-	from?: string;
-	to?: string;
-	involved?: string;
-	tokenId?: number;
-}
-
-export async function fetchTransferEvents(query?: TransferQuery) {
+export async function fetchTransferEvents(query?: Indexer.NounsToken.TransferQuery) {
 	let events = await _fetchAllTransfer();
 
 	if (!query) {
@@ -184,14 +160,7 @@ async function _fetchAllTransfer() {
 // Approval
 // ==================================
 
-interface ApprovalQuery {
-	startBlock?: number;
-	endBlock?: number;
-	owner?: string;
-	tokenId?: number;
-}
-
-export async function fetchApproval(query?: ApprovalQuery) {
+export async function fetchApproval(query?: Indexer.NounsToken.ApprovalQuery) {
 	let events = await _fetchAllApproval();
 
 	if (!query) {
@@ -234,13 +203,7 @@ async function _fetchAllApproval() {
 // ApprovalForAll
 // ==================================
 
-interface ApprovalForAllQuery {
-	startBlock?: number;
-	endBlock?: number;
-	owner?: string;
-}
-
-export async function fetchApprovalForAll(query?: ApprovalForAllQuery) {
+export async function fetchApprovalForAll(query?: Indexer.NounsToken.ApprovalForAllQuery) {
 	let events = await _fetchAllApprovalForAll();
 
 	if (!query) {
@@ -277,18 +240,7 @@ async function _fetchAllApprovalForAll() {
 // NounCreated
 // ==================================
 
-interface NounCreatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	tokenId?: number;
-	background?: number;
-	body?: number;
-	accessory?: number;
-	head?: number;
-	glasses?: number;
-}
-
-export async function fetchNounCreatedEvents(query?: NounCreatedQuery) {
+export async function fetchNounCreatedEvents(query?: Indexer.NounsToken.NounCreatedQuery) {
 	let events = await _fetchAllNounCreated();
 
 	if (!query) {
@@ -355,12 +307,7 @@ async function _fetchAllNounCreated() {
 // DescriptorLocked
 // ==================================
 
-interface DescriptorLockedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchDescriptorLocked(query?: DescriptorLockedQuery) {
+export async function fetchDescriptorLocked(query?: Indexer.NounsToken.DescriptorLockedQuery) {
 	let events = await _fetchAllDescriptorLocked();
 
 	if (!query) {
@@ -391,12 +338,7 @@ async function _fetchAllDescriptorLocked() {
 // DescriptorUpdated
 // ==================================
 
-interface DescriptorUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchDescriptorUpdated(query?: DescriptorUpdatedQuery) {
+export async function fetchDescriptorUpdated(query?: Indexer.NounsToken.DescriptorUpdatedQuery) {
 	let events = await _fetchAllDescriptorUpdated();
 
 	if (!query) {
@@ -427,12 +369,7 @@ async function _fetchAllDescriptorUpdated() {
 // MinterLocked
 // ==================================
 
-interface MinterLockedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchMinterLocked(query?: MinterLockedQuery) {
+export async function fetchMinterLocked(query?: Indexer.NounsToken.MinterLockedQuery) {
 	let events = await _fetchAllMinterLocked();
 
 	if (!query) {
@@ -463,12 +400,7 @@ async function _fetchAllMinterLocked() {
 // MinterUpdated
 // ==================================
 
-interface MinterUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchMinterUpdated(query?: MinterUpdatedQuery) {
+export async function fetchMinterUpdated(query?: Indexer.NounsToken.MinterUpdatedQuery) {
 	let events = await _fetchAllMinterUpdated();
 
 	if (!query) {
@@ -499,13 +431,7 @@ async function _fetchAllMinterUpdated() {
 // NounBurned
 // ==================================
 
-interface NounBurnedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	nounId?: number;
-}
-
-export async function fetchNounBurned(query?: NounBurnedQuery) {
+export async function fetchNounBurned(query?: Indexer.NounsToken.NounBurnedQuery) {
 	let events = await _fetchAllNounBurned();
 
 	if (!query) {
@@ -542,12 +468,7 @@ async function _fetchAllNounBurned() {
 // NoundersDAOUpdated
 // ==================================
 
-interface NoundersDAOUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchNoundersDAOUpdated(query?: NoundersDAOUpdatedQuery) {
+export async function fetchNoundersDAOUpdated(query?: Indexer.NounsToken.NoundersDAOUpdatedQuery) {
 	let events = await _fetchAllNoundersDAOUpdated();
 
 	if (!query) {
@@ -578,15 +499,7 @@ async function _fetchAllNoundersDAOUpdated() {
 // OwnershipTransferred
 // ==================================
 
-interface OwnershipTransferredQuery {
-	startBlock?: number;
-	endBlock?: number;
-	previousOwner?: string;
-	newOwner?: string;
-	including?: string;
-}
-
-export async function fetchOwnershipTransferred(query?: OwnershipTransferredQuery) {
+export async function fetchOwnershipTransferred(query?: Indexer.NounsToken.OwnershipTransferredQuery) {
 	let events = await _fetchAllOwnershipTransferred();
 
 	if (!query) {
@@ -637,12 +550,7 @@ async function _fetchAllOwnershipTransferred() {
 // SeederLocked
 // ==================================
 
-interface SeederLockedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchSeederLocked(query?: SeederLockedQuery) {
+export async function fetchSeederLocked(query?: Indexer.NounsToken.SeederLockedQuery) {
 	let events = await _fetchAllSeederLocked();
 
 	if (!query) {
@@ -673,12 +581,7 @@ async function _fetchAllSeederLocked() {
 // SeederUpdated
 // ==================================
 
-interface SeederUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchSeederUpdated(query?: SeederUpdatedQuery) {
+export async function fetchSeederUpdated(query?: Indexer.NounsToken.SeederUpdatedQuery) {
 	let events = await _fetchAllSeederUpdated();
 
 	if (!query) {

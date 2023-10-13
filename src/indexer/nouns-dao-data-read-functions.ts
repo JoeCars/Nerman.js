@@ -8,15 +8,7 @@ import { _filterByBlock } from "../utilities/indexer";
 // AdminChanged
 // ==================================
 
-interface AdminChangedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	previousAdmin?: string;
-	newAdmin?: string;
-	including?: string;
-}
-
-export async function fetchAdminChanged(query?: AdminChangedQuery) {
+export async function fetchAdminChanged(query?: Indexer.NounsDAOData.AdminChangedQuery) {
 	let events = await _fetchAllAdminChanged();
 
 	if (!query) {
@@ -67,12 +59,7 @@ async function _fetchAllAdminChanged() {
 // BeaconUpgraded
 // ==================================
 
-interface BeaconUpgradedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchBeaconUpgraded(query?: BeaconUpgradedQuery) {
+export async function fetchBeaconUpgraded(query?: Indexer.NounsDAOData.BeaconUpgradedQuery) {
 	let events = await _fetchAllBeaconUpgraded();
 
 	if (!query) {
@@ -103,17 +90,7 @@ async function _fetchAllBeaconUpgraded() {
 // CandidateFeedbackSent
 // ==================================
 
-interface CandidateFeedbackSentQuery {
-	startBlock?: number;
-	endBlock?: number;
-	msgSender?: string;
-	proposer?: string;
-	involved?: string;
-	slug?: string;
-	supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
-}
-
-export async function fetchCandidateFeedbackSentEvents(query?: CandidateFeedbackSentQuery) {
+export async function fetchCandidateFeedbackSentEvents(query?: Indexer.NounsDAOData.CandidateFeedbackSentQuery) {
 	let events = await _fetchAllCandidateFeedbackSent();
 
 	if (!query) {
@@ -176,12 +153,7 @@ async function _fetchAllCandidateFeedbackSent() {
 // CreateCandidateCostSet
 // ==================================
 
-interface CreateCandidateCostSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchCreateCandidateCostSet(query?: CreateCandidateCostSetQuery) {
+export async function fetchCreateCandidateCostSet(query?: Indexer.NounsDAOData.CreateCandidateCostSetQuery) {
 	let events = await _fetchAllCreateCandidateCostSet();
 
 	if (!query) {
@@ -212,13 +184,7 @@ async function _fetchAllCreateCandidateCostSet() {
 // ETHWithdrawn
 // ==================================
 
-interface ETHWithdrawnQuery {
-	startBlock?: number;
-	endBlock?: number;
-	to?: string;
-}
-
-export async function fetchETHWithdrawn(query?: ETHWithdrawnQuery) {
+export async function fetchETHWithdrawn(query?: Indexer.NounsDAOData.ETHWithdrawnQuery) {
 	let events = await _fetchAllETHWithdrawn();
 
 	if (!query) {
@@ -255,12 +221,7 @@ async function _fetchAllETHWithdrawn() {
 // FeeRecipientSet
 // ==================================
 
-interface FeeRecipientSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchFeeRecipientSet(query?: FeeRecipientSetQuery) {
+export async function fetchFeeRecipientSet(query?: Indexer.NounsDAOData.FeeRecipientSetQuery) {
 	let events = await _fetchAllFeeRecipientSet();
 
 	if (!query) {
@@ -291,15 +252,7 @@ async function _fetchAllFeeRecipientSet() {
 // FeedbackSent
 // ==================================
 
-interface FeedbackSentQuery {
-	startBlock?: number;
-	endBlock?: number;
-	msgSender?: string;
-	proposalId?: number;
-	supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
-}
-
-export async function fetchFeedbackSentEvents(query?: FeedbackSentQuery) {
+export async function fetchFeedbackSentEvents(query?: Indexer.NounsDAOData.FeedbackSentQuery) {
 	let events = await _fetchAllFeedbackSent();
 
 	if (!query) {
@@ -348,15 +301,7 @@ async function _fetchAllFeedbackSent() {
 // OwnershipTransferred
 // ==================================
 
-interface OwnershipTransferredQuery {
-	startBlock?: number;
-	endBlock?: number;
-	previousOwner?: string;
-	newOwner?: string;
-	including?: string;
-}
-
-export async function fetchOwnershipTransferred(query?: OwnershipTransferredQuery) {
+export async function fetchOwnershipTransferred(query?: Indexer.NounsDAOData.OwnershipTransferredQuery) {
 	let events = await _fetchAllOwnershipTransferred();
 
 	if (!query) {
@@ -407,14 +352,7 @@ async function _fetchAllOwnershipTransferred() {
 // ProposalCandidateCanceled
 // ==================================
 
-interface ProposalCandidateCanceledQuery {
-	startBlock?: number;
-	endBlock?: number;
-	msgSender?: string;
-	slug?: string;
-}
-
-export async function fetchProposalCandidateCanceled(query?: ProposalCandidateCanceledQuery) {
+export async function fetchProposalCandidateCanceled(query?: Indexer.NounsDAOData.ProposalCandidateCanceledQuery) {
 	let events = await _fetchAllProposalCandidateCanceled();
 
 	if (!query) {
@@ -457,14 +395,7 @@ async function _fetchAllProposalCandidateCanceled() {
 // ProposalCandidateCreated
 // ==================================
 
-interface ProposalCandidateCreatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	msgSender?: string;
-	slug?: string;
-}
-
-export async function fetchProposalCandidateCreatedEvents(query?: ProposalCandidateCreatedQuery) {
+export async function fetchProposalCandidateCreatedEvents(query?: Indexer.NounsDAOData.ProposalCandidateCreatedQuery) {
 	let events = await _fetchAllProposalCandidateCreated();
 
 	if (!query) {
@@ -507,14 +438,7 @@ async function _fetchAllProposalCandidateCreated() {
 // ProposalCandidateUpdated
 // ==================================
 
-interface ProposalCandidateUpdatedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	msgSender?: string;
-	slug?: string;
-}
-
-export async function fetchProposalCandidateUpdated(query?: ProposalCandidateUpdatedQuery) {
+export async function fetchProposalCandidateUpdated(query?: Indexer.NounsDAOData.ProposalCandidateUpdatedQuery) {
 	let events = await _fetchAllProposalCandidateUpdated();
 
 	if (!query) {
@@ -557,16 +481,7 @@ async function _fetchAllProposalCandidateUpdated() {
 // SignatureAdded
 // ==================================
 
-interface SignatureAddedQuery {
-	startBlock?: number;
-	endBlock?: number;
-	signer?: string;
-	proposer?: string;
-	involved?: string;
-	slug?: string;
-}
-
-export async function fetchSignatureAddedEvents(query?: SignatureAddedQuery) {
+export async function fetchSignatureAddedEvents(query?: Indexer.NounsDAOData.SignatureAddedQuery) {
 	let events = await _fetchAllSignatureAdded();
 
 	if (!query) {
@@ -623,12 +538,7 @@ async function _fetchAllSignatureAdded() {
 // UpdateCandidateCostSet
 // ==================================
 
-interface UpdateCandidateCostSetQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchUpdateCandidateCostSet(query?: UpdateCandidateCostSetQuery) {
+export async function fetchUpdateCandidateCostSet(query?: Indexer.NounsDAOData.UpdateCandidateCostSetQuery) {
 	let events = await _fetchAllUpdateCandidateCostSet();
 
 	if (!query) {
@@ -659,12 +569,7 @@ async function _fetchAllUpdateCandidateCostSet() {
 // Upgraded
 // ==================================
 
-interface UpgradedQuery {
-	startBlock?: number;
-	endBlock?: number;
-}
-
-export async function fetchUpgraded(query?: UpgradedQuery) {
+export async function fetchUpgraded(query?: Indexer.NounsDAOData.UpgradedQuery) {
 	let events = await _fetchAllUpgraded();
 
 	if (!query) {
