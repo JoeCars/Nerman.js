@@ -12,6 +12,9 @@ import { NOUNS_STARTING_BLOCK } from "../constants";
 // Indexers.
 //===================================
 
+/**
+ * Prints a progress bar to `stdout` to show the state of indexing.
+ */
 function printProgress(currentBlock: number, startBlock: number, endBlock: number, eventName: string) {
 	let currentPercent = Math.round((100 * (currentBlock - startBlock)) / (endBlock - startBlock));
 	let output = `${eventName} |`;
@@ -26,11 +29,21 @@ function printProgress(currentBlock: number, startBlock: number, endBlock: numbe
 	process.stdout.write("\r" + output);
 }
 
+/**
+ * Prints a message to `stdout`, indicating that it has finished indexing an event.
+ */
 function printEnd(eventName: string) {
 	process.stdout.clearLine(0); // 0 clears the entire line.
 	process.stdout.write(`\rFinished indexing ${eventName}!\n`);
 }
 
+/**
+ * Indexes the given event from the start block of Nouns until the current block. Then saves the results as a JSON file.
+ * @param contract The contract the event is in.
+ * @param eventName The name of the event being indexed.
+ * @param formatter A formatting function that takes the raw blockchain event object and formats it into the desired JavaScript object.
+ * @param path The file to write the JSON content to.
+ */
 export async function indexEvent(contract: ethers.Contract, eventName: string, formatter: Function, path: string) {
 	const BLOCK_BATCH_SIZE = 1000;
 	const startBlock = NOUNS_STARTING_BLOCK;
@@ -51,6 +64,11 @@ export async function indexEvent(contract: ethers.Contract, eventName: string, f
 	printEnd(eventName);
 }
 
+/**
+ * Indexes all NounsAuction events.
+ * @param provider The provider used for indexing.
+ * @param directoryPath The directory path where all this information is saved.
+ */
 async function indexNounsAuctionEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
 	const nouns = new _NounsAuctionHouse(provider);
 
@@ -61,6 +79,11 @@ async function indexNounsAuctionEvents(provider: ethers.providers.JsonRpcProvide
 	}
 }
 
+/**
+ * Indexes all NounsDAO events.
+ * @param provider The provider used for indexing.
+ * @param directoryPath The directory path where all this information is saved.
+ */
 async function indexNounsDaoEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
 	const nouns = new _NounsDAO(provider);
 
@@ -71,6 +94,11 @@ async function indexNounsDaoEvents(provider: ethers.providers.JsonRpcProvider, d
 	}
 }
 
+/**
+ * Indexes all NounsToken events.
+ * @param provider The provider used for indexing.
+ * @param directoryPath The directory path where all this information is saved.
+ */
 async function indexNounsTokenEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
 	const nouns = new _NounsToken(provider);
 
@@ -81,6 +109,11 @@ async function indexNounsTokenEvents(provider: ethers.providers.JsonRpcProvider,
 	}
 }
 
+/**
+ * Indexes all NounsDAOData events.
+ * @param provider The provider used for indexing.
+ * @param directoryPath The directory path where all this information is saved.
+ */
 async function indexNounsDaoDataEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
 	const nouns = new _NounsDAOData(provider);
 
@@ -91,6 +124,11 @@ async function indexNounsDaoDataEvents(provider: ethers.providers.JsonRpcProvide
 	}
 }
 
+/**
+ * Indexes all nouns events from the NounsAuction, NounsDAO, NounsToken, and NounsDAOData contracts.
+ * @param provider The provider used for indexing.
+ * @param directoryPath The directory path where all this information is saved.
+ */
 export async function indexNounsEvents(provider: ethers.providers.JsonRpcProvider, directoryPath: string) {
 	await indexNounsAuctionEvents(provider, directoryPath);
 	await indexNounsDaoEvents(provider, directoryPath);
@@ -102,6 +140,12 @@ export async function indexNounsEvents(provider: ethers.providers.JsonRpcProvide
 // Persistent Listeners
 //===================================
 
+/**
+ * Parses data, applying formatters, and saves it in the given file.
+ * @param data A blockchain data object.
+ * @param formatter A formatter function.
+ * @param path The path to the file.
+ */
 async function parseData(data: { event: ethers.Event }, formatter: Function, path: string) {
 	const formattedData = formatter(data);
 	const file = await readFile(path + data.event.event);
@@ -110,6 +154,11 @@ async function parseData(data: { event: ethers.Event }, formatter: Function, pat
 	await writeFile(path + data.event.event, events);
 }
 
+/**
+ * Assigns listeners to all NounsAuction events, updating the index data accordingly.
+ * @param provider The provider.
+ * @param path The path to the data.
+ */
 function listenForNounsAuctionEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	const nouns = new _NounsAuctionHouse(provider);
 
@@ -120,6 +169,11 @@ function listenForNounsAuctionEvents(provider: ethers.providers.JsonRpcProvider,
 	});
 }
 
+/**
+ * Assigns listeners to all NounsDAO events, updating the index data accordingly.
+ * @param provider The provider.
+ * @param path The path to the data.
+ */
 function listenForNounsDAOEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	const nouns = new _NounsDAO(provider);
 
@@ -130,6 +184,11 @@ function listenForNounsDAOEvents(provider: ethers.providers.JsonRpcProvider, pat
 	});
 }
 
+/**
+ * Assigns listeners to all NounsToken events, updating the index data accordingly.
+ * @param provider The provider.
+ * @param path The path to the data.
+ */
 function listenForNounsTokenEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	const nouns = new _NounsToken(provider);
 
@@ -140,6 +199,11 @@ function listenForNounsTokenEvents(provider: ethers.providers.JsonRpcProvider, p
 	});
 }
 
+/**
+ * Assigns listeners to all NounsDAOData events, updating the index data accordingly.
+ * @param provider The provider.
+ * @param path The path to the data.
+ */
 function listenForNounsDaoDataEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	const nouns = new _NounsDAOData(provider);
 
@@ -150,6 +214,11 @@ function listenForNounsDaoDataEvents(provider: ethers.providers.JsonRpcProvider,
 	});
 }
 
+/**
+ * Assigns listeners to all nouns events in the NounsAuction, NounsDAO, NounsToken, and NounsDAOData contracts.
+ * @param provider The provider.
+ * @param path The path to the data.
+ */
 export function listenForNounsEvents(provider: ethers.providers.JsonRpcProvider, path: string) {
 	listenForNounsAuctionEvents(provider, path);
 	listenForNounsDAOEvents(provider, path);

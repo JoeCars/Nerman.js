@@ -8,6 +8,11 @@ import { _filterByBlock } from "../utilities/indexer";
 // DAOWithdrawNounsFromEscrow
 // ==================================
 
+/**
+ * Fetches all DAOWithdrawNounsFromEscrow events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchDAOWithdrawNounsFromEscrow(query?: Indexer.NounsDAO.DAOWithdrawNounsFromEscrowQuery) {
 	let events = await _fetchAllDAOWithdrawNounsFromEscrow();
 
@@ -51,6 +56,11 @@ async function _fetchAllDAOWithdrawNounsFromEscrow() {
 // ERC20TokensToIncludeInForkSet
 // ==================================
 
+/**
+ * Fetches all ERC20TokensToIncludeInForkSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchERC20TokensToIncludeInForkSet(query?: Indexer.NounsDAO.ERC20TokensToIncludeInForkSetQuery) {
 	let events = await _fetchAllERC20TokensToIncludeInForkSet();
 
@@ -82,6 +92,11 @@ async function _fetchAllERC20TokensToIncludeInForkSet() {
 // EscrowedToFork
 // ==================================
 
+/**
+ * Fetches all EscrowedToFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchEscrowedToFork(query?: Indexer.NounsDAO.EscrowedToForkQuery) {
 	let events = await _fetchAllEscrowedToFork();
 
@@ -137,6 +152,11 @@ async function _fetchAllEscrowedToFork() {
 // ExecuteFork
 // ==================================
 
+/**
+ * Fetches all ExecuteFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchExecutedFork(query?: Indexer.NounsDAO.ExecuteForkQuery) {
 	let events = await _fetchAllExecutedForkEvents();
 
@@ -195,6 +215,11 @@ function _filterExecutedForkById(forks: Indexer.NounsDAO.ExecuteFork[], startId:
 // ForkDAODeployerSet
 // ==================================
 
+/**
+ * Fetches all ForkDAODeployerSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchForkDAODeployerSet(query?: Indexer.NounsDAO.ForkDAODeployerSetQuery) {
 	let events = await _fetchAllForkDAODeployerSet();
 
@@ -226,6 +251,11 @@ async function _fetchAllForkDAODeployerSet() {
 // ForkPeriodSet
 // ==================================
 
+/**
+ * Fetches all ForkPeriodSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchForkPeriodSet(query?: Indexer.NounsDAO.ForkPeriodSetQuery) {
 	let events = await _fetchAllForkPeriodSet();
 
@@ -257,6 +287,11 @@ async function _fetchAllForkPeriodSet() {
 // ForkThresholdSet
 // ==================================
 
+/**
+ * Fetches all ForkThresholdSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchForkThresholdSet(query?: Indexer.NounsDAO.ForkThresholdSetQuery) {
 	let events = await _fetchAllForkThresholdSet();
 
@@ -288,6 +323,11 @@ async function _fetchAllForkThresholdSet() {
 // JoinFork
 // ==================================
 
+/**
+ * Fetches all JoinFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchJoinFork(query?: Indexer.NounsDAO.JoinForkQuery) {
 	let events = await _fetchAllJoinFork();
 
@@ -343,6 +383,11 @@ async function _fetchAllJoinFork() {
 // LastMinuteWindowSet
 // ==================================
 
+/**
+ * Fetches all LastMinuteWindowSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchLastMinuteWindowSet(query?: Indexer.NounsDAO.LastMinuteWindowSetQuery) {
 	let events = await _fetchAllLastMinuteWindowSet();
 
@@ -374,6 +419,11 @@ async function _fetchAllLastMinuteWindowSet() {
 // MaxQuorumVotesBPSSet
 // ==================================
 
+/**
+ * Fetches all MaxQuorumVotesBPSSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchMaxQuorumVotesBPSSet(query?: Indexer.NounsDAO.MaxQuorumVotesBPSSetQuery) {
 	let events = await _fetchAllMaxQuorumVotesBPSSet();
 
@@ -405,6 +455,11 @@ async function _fetchAllMaxQuorumVotesBPSSet() {
 // MinQuorumVotesBPSSet
 // ==================================
 
+/**
+ * Fetches all MinQuorumVotesBPSSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchMinQuorumVotesBPSSet(query?: Indexer.NounsDAO.MinQuorumVotesBPSSetQuery) {
 	let events = await _fetchAllMinQuorumVotesBPSSet();
 
@@ -436,6 +491,11 @@ async function _fetchAllMinQuorumVotesBPSSet() {
 // NewAdmin
 // ==================================
 
+/**
+ * Fetches all NewAdmin events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchNewAdmin(query?: Indexer.NounsDAO.NewAdminQuery) {
 	let events = await _fetchAllNewAdmin();
 
@@ -467,6 +527,11 @@ async function _fetchAllNewAdmin() {
 // NewImplementation
 // ==================================
 
+/**
+ * Fetches all NewImplementation events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchNewImplementation(query?: Indexer.NounsDAO.NewImplementationQuery) {
 	let events = await _fetchAllNewImplementation();
 
@@ -498,6 +563,11 @@ async function _fetchAllNewImplementation() {
 // NewPendingAdmin
 // ==================================
 
+/**
+ * Fetches all NewPendingAdmin events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchNewPendingAdmin(query?: Indexer.NounsDAO.NewPendingAdminQuery) {
 	let events = await _fetchAllNewPendingAdmin();
 
@@ -529,6 +599,11 @@ async function _fetchAllNewPendingAdmin() {
 // NewPendingVetoer
 // ==================================
 
+/**
+ * Fetches all NewPendingVetoer events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchNewPendingVetoer(query?: Indexer.NounsDAO.NewPendingVetoerQuery) {
 	let events = await _fetchAllNewPendingVetoer();
 
@@ -560,6 +635,11 @@ async function _fetchAllNewPendingVetoer() {
 // NewVetoer
 // ==================================
 
+/**
+ * Fetches all NewVetoer events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchNewVetoer(query?: Indexer.NounsDAO.NewVetoerQuery) {
 	let events = await _fetchAllNewVetoer();
 
@@ -591,6 +671,11 @@ async function _fetchAllNewVetoer() {
 // ObjectionPeriodDurationSet
 // ==================================
 
+/**
+ * Fetches all ObjectionPeriodDurationSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchObjectionPeriodDurationSet(query?: Indexer.NounsDAO.ObjectionPeriodDurationSetQuery) {
 	let events = await _fetchAllObjectionPeriodDurationSet();
 
@@ -622,6 +707,11 @@ async function _fetchAllObjectionPeriodDurationSet() {
 // ProposalCanceled
 // ==================================
 
+/**
+ * Fetches all ProposalCanceled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalCanceled(query?: Indexer.NounsDAO.ProposalCanceledQuery) {
 	let events = await _fetchAllProposalCanceled();
 
@@ -659,6 +749,11 @@ async function _fetchAllProposalCanceled() {
 // ProposalCreated
 // ==================================
 
+/**
+ * Fetches all ProposalCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposals(query?: Indexer.NounsDAO.ProposalQuery) {
 	let events = await _fetchAllProposals();
 
@@ -774,6 +869,11 @@ async function _fetchAllStatusChange() {
 // ProposalCreatedOnTimelockV1
 // ==================================
 
+/**
+ * Fetches all ProposalCreatedOnTimelockV1 events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalCreatedOnTimelockV1(query?: Indexer.NounsDAO.ProposalCreatedOnTimelockV1Query) {
 	let events = await _fetchAllProposalCreatedOnTimelockV1();
 
@@ -805,6 +905,11 @@ async function _fetchAllProposalCreatedOnTimelockV1() {
 // ProposalCreatedWithRequirements
 // ==================================
 
+/**
+ * Fetches all ProposalCreatedWithRequirements events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalCreatedWithRequirements(query?: Indexer.NounsDAO.ProposalCreatedWithRequirementsQuery) {
 	let events = await _fetchAllProposalCreatedWithRequirements();
 
@@ -860,6 +965,11 @@ async function _fetchAllProposalCreatedWithRequirements() {
 // ProposalDescriptionUpdated
 // ==================================
 
+/**
+ * Fetches all ProposalDescriptionUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalDescriptionUpdated(query?: Indexer.NounsDAO.ProposalDescriptionUpdatedQuery) {
 	let events = await _fetchAllProposalDescriptionUpdated();
 
@@ -897,6 +1007,11 @@ async function _fetchAllProposalDescriptionUpdated() {
 // ProposalExecuted
 // ==================================
 
+/**
+ * Fetches all ProposalExecuted events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalExecuted(query?: Indexer.NounsDAO.ProposalExecutedQuery) {
 	let events = await _fetchAllProposalExecuted();
 
@@ -934,6 +1049,11 @@ async function _fetchAllProposalExecuted() {
 // ProposalObjectionPeriodSet
 // ==================================
 
+/**
+ * Fetches all ProposalObjectionPeriodSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalObjectionPeriodSet(query?: Indexer.NounsDAO.ProposalObjectionPeriodSetQuery) {
 	let events = await _fetchAllProposalObjectionPeriodSet();
 
@@ -971,6 +1091,11 @@ async function _fetchAllProposalObjectionPeriodSet() {
 // ProposalQueued
 // ==================================
 
+/**
+ * Fetches all ProposalQueued events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalQueued(query?: Indexer.NounsDAO.ProposalQueuedQuery) {
 	let events = await _fetchAllProposalQueued();
 
@@ -1008,6 +1133,11 @@ async function _fetchAllProposalQueued() {
 // ProposalThresholdBPSSet
 // ==================================
 
+/**
+ * Fetches all ProposalThresholdBPSSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalThresholdBPSSet(query?: Indexer.NounsDAO.ProposalThresholdBPSSetQuery) {
 	let events = await _fetchAllProposalThresholdBPSSet();
 
@@ -1039,6 +1169,11 @@ async function _fetchAllProposalThresholdBPSSet() {
 // ProposalTransactionsUpdated
 // ==================================
 
+/**
+ * Fetches all ProposalTransactionsUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalTransactionsUpdated(query?: Indexer.NounsDAO.ProposalTransactionsUpdatedQuery) {
 	let events = await _fetchAllProposalTransactionsUpdated();
 
@@ -1082,6 +1217,11 @@ async function _fetchAllProposalTransactionsUpdated() {
 // ProposalUpdatablePeriodSet
 // ==================================
 
+/**
+ * Fetches all ProposalUpdatablePeriodSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalUpdatablePeriodSet(query?: Indexer.NounsDAO.ProposalUpdatablePeriodSetQuery) {
 	let events = await _fetchAllProposalUpdatablePeriodSet();
 
@@ -1113,6 +1253,11 @@ async function _fetchAllProposalUpdatablePeriodSet() {
 // ProposalUpdated
 // ==================================
 
+/**
+ * Fetches all ProposalUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalUpdated(query?: Indexer.NounsDAO.ProposalUpdatedQuery) {
 	let events = await _fetchAllProposalUpdated();
 
@@ -1156,6 +1301,11 @@ async function _fetchAllProposalUpdated() {
 // ProposalVetoed
 // ==================================
 
+/**
+ * Fetches all ProposalVetoed events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalVetoed(query?: Indexer.NounsDAO.ProposalVetoedQuery) {
 	let events = await _fetchAllProposalVetoed();
 
@@ -1193,6 +1343,11 @@ async function _fetchAllProposalVetoed() {
 // QuorumCoefficientSet
 // ==================================
 
+/**
+ * Fetches all QuorumCoefficientSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchQuorumCoefficientSet(query?: Indexer.NounsDAO.QuorumCoefficientSetQuery) {
 	let events = await _fetchAllQuorumCoefficientSet();
 
@@ -1224,6 +1379,11 @@ async function _fetchAllQuorumCoefficientSet() {
 // QuorumVotesBPSSet
 // ==================================
 
+/**
+ * Fetches all QuorumVotesBPSSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchQuorumVotesBPSSet(query?: Indexer.NounsDAO.QuorumVotesBPSSetQuery) {
 	let events = await _fetchAllQuorumVotesBPSSet();
 
@@ -1255,6 +1415,11 @@ async function _fetchAllQuorumVotesBPSSet() {
 // RefundableVote
 // ==================================
 
+/**
+ * Fetches all RefundableVote events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchRefundableVote(query?: Indexer.NounsDAO.RefundableVoteQuery) {
 	let events = await _fetchAllRefundableVote();
 
@@ -1292,6 +1457,11 @@ async function _fetchAllRefundableVote() {
 // SignatureCancelled
 // ==================================
 
+/**
+ * Fetches all SignatureCancelled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchSignatureCancelled(query?: Indexer.NounsDAO.SignatureCancelledQuery) {
 	let events = await _fetchAllSignatureCancelled();
 
@@ -1329,6 +1499,11 @@ async function _fetchAllSignatureCancelled() {
 // TimelocksAndAdminSet
 // ==================================
 
+/**
+ * Fetches all TimelocksAndAdminSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchTimelocksAndAdminSet(query?: Indexer.NounsDAO.TimelocksAndAdminSetQuery) {
 	let events = await _fetchAllTimelocksAndAdminSet();
 
@@ -1366,6 +1541,11 @@ async function _fetchAllTimelocksAndAdminSet() {
 // ProposalStatusChange
 // ==================================
 
+/**
+ * Fetches all ProposalStatusChange events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchStatusChangeEvents(query?: Indexer.NounsDAO.StatusChangeQuery) {
 	let events: Indexer.NounsDAO.ProposalCanceled[] = [];
 
@@ -1424,6 +1604,11 @@ function _filterStatusChangeByProposalId(statuses: Indexer.NounsDAO.ProposalCanc
 // VoteCast
 // ==================================
 
+/**
+ * Fetches all VoteCast events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchVoteCastEvents(query?: Indexer.NounsDAO.VoteCastQuery) {
 	let events = await _fetchAllVoteCast();
 
@@ -1473,6 +1658,11 @@ async function _fetchAllVoteCast() {
 // VoteSnapshotBlockSwitchProposalIdSet
 // ==================================
 
+/**
+ * Fetches all VoteSnapshotBlockSwitchProposalIdSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchVoteSnapshotBlockSwitchProposalIdSet(
 	query?: Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSetQuery
 ) {
@@ -1510,6 +1700,11 @@ async function _fetchAllVoteSnapshotBlockSwitchProposalIdSet() {
 // VotingDelaySet
 // ==================================
 
+/**
+ * Fetches all VotingDelaySet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchVotingDelaySet(query?: Indexer.NounsDAO.VotingDelaySetQuery) {
 	let events = await _fetchAllVotingDelaySet();
 
@@ -1541,6 +1736,11 @@ async function _fetchAllVotingDelaySet() {
 // VotingPeriodSet
 // ==================================
 
+/**
+ * Fetches all VotingPeriodSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchVotingPeriodSet(query?: Indexer.NounsDAO.VotingPeriodSetQuery) {
 	let events = await _fetchAllVotingPeriodSet();
 
@@ -1572,6 +1772,11 @@ async function _fetchAllVotingPeriodSet() {
 // Withdraw
 // ==================================
 
+/**
+ * Fetches all Withdraw events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchWithdraw(query?: Indexer.NounsDAO.WithdrawQuery) {
 	let events = await _fetchAllWithdraw();
 
@@ -1603,6 +1808,11 @@ async function _fetchAllWithdraw() {
 // WithdrawFromForkEscrow
 // ==================================
 
+/**
+ * Fetches all WithdrawFromForkEscrow events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchWithdrawFromForkEscrow(query?: Indexer.NounsDAO.WithdrawFromForkEscrowQuery) {
 	let events = await _fetchAllWithdrawFromForkEscrow();
 

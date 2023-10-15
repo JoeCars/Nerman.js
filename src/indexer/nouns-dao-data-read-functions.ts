@@ -8,6 +8,11 @@ import { _filterByBlock } from "../utilities/indexer";
 // AdminChanged
 // ==================================
 
+/**
+ * Fetches all AdminChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchAdminChanged(query?: Indexer.NounsDAOData.AdminChangedQuery) {
 	let events = await _fetchAllAdminChanged();
 
@@ -59,6 +64,11 @@ async function _fetchAllAdminChanged() {
 // BeaconUpgraded
 // ==================================
 
+/**
+ * Fetches all BeaconUpgraded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchBeaconUpgraded(query?: Indexer.NounsDAOData.BeaconUpgradedQuery) {
 	let events = await _fetchAllBeaconUpgraded();
 
@@ -90,6 +100,11 @@ async function _fetchAllBeaconUpgraded() {
 // CandidateFeedbackSent
 // ==================================
 
+/**
+ * Fetches all CandidateFeedbackSent events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchCandidateFeedbackSentEvents(query?: Indexer.NounsDAOData.CandidateFeedbackSentQuery) {
 	let events = await _fetchAllCandidateFeedbackSent();
 
@@ -153,6 +168,11 @@ async function _fetchAllCandidateFeedbackSent() {
 // CreateCandidateCostSet
 // ==================================
 
+/**
+ * Fetches all CreateCandidateCostSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchCreateCandidateCostSet(query?: Indexer.NounsDAOData.CreateCandidateCostSetQuery) {
 	let events = await _fetchAllCreateCandidateCostSet();
 
@@ -184,6 +204,11 @@ async function _fetchAllCreateCandidateCostSet() {
 // ETHWithdrawn
 // ==================================
 
+/**
+ * Fetches all ETHWithdrawn events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchETHWithdrawn(query?: Indexer.NounsDAOData.ETHWithdrawnQuery) {
 	let events = await _fetchAllETHWithdrawn();
 
@@ -221,6 +246,11 @@ async function _fetchAllETHWithdrawn() {
 // FeeRecipientSet
 // ==================================
 
+/**
+ * Fetches all FeeRecipientSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchFeeRecipientSet(query?: Indexer.NounsDAOData.FeeRecipientSetQuery) {
 	let events = await _fetchAllFeeRecipientSet();
 
@@ -252,6 +282,11 @@ async function _fetchAllFeeRecipientSet() {
 // FeedbackSent
 // ==================================
 
+/**
+ * Fetches all FeedbackSent events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchFeedbackSentEvents(query?: Indexer.NounsDAOData.FeedbackSentQuery) {
 	let events = await _fetchAllFeedbackSent();
 
@@ -301,6 +336,11 @@ async function _fetchAllFeedbackSent() {
 // OwnershipTransferred
 // ==================================
 
+/**
+ * Fetches all OwnershipTransferred events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchOwnershipTransferred(query?: Indexer.NounsDAOData.OwnershipTransferredQuery) {
 	let events = await _fetchAllOwnershipTransferred();
 
@@ -352,6 +392,11 @@ async function _fetchAllOwnershipTransferred() {
 // ProposalCandidateCanceled
 // ==================================
 
+/**
+ * Fetches all ProposalCandidateCanceled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalCandidateCanceled(query?: Indexer.NounsDAOData.ProposalCandidateCanceledQuery) {
 	let events = await _fetchAllProposalCandidateCanceled();
 
@@ -395,6 +440,11 @@ async function _fetchAllProposalCandidateCanceled() {
 // ProposalCandidateCreated
 // ==================================
 
+/**
+ * Fetches all ProposalCandidateCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalCandidateCreatedEvents(query?: Indexer.NounsDAOData.ProposalCandidateCreatedQuery) {
 	let events = await _fetchAllProposalCandidateCreated();
 
@@ -438,6 +488,11 @@ async function _fetchAllProposalCandidateCreated() {
 // ProposalCandidateUpdated
 // ==================================
 
+/**
+ * Fetches all ProposalCandidateUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchProposalCandidateUpdated(query?: Indexer.NounsDAOData.ProposalCandidateUpdatedQuery) {
 	let events = await _fetchAllProposalCandidateUpdated();
 
@@ -481,6 +536,11 @@ async function _fetchAllProposalCandidateUpdated() {
 // SignatureAdded
 // ==================================
 
+/**
+ * Fetches all SignatureAdded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchSignatureAddedEvents(query?: Indexer.NounsDAOData.SignatureAddedQuery) {
 	let events = await _fetchAllSignatureAdded();
 
@@ -538,6 +598,11 @@ async function _fetchAllSignatureAdded() {
 // UpdateCandidateCostSet
 // ==================================
 
+/**
+ * Fetches all UpdateCandidateCostSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchUpdateCandidateCostSet(query?: Indexer.NounsDAOData.UpdateCandidateCostSetQuery) {
 	let events = await _fetchAllUpdateCandidateCostSet();
 
@@ -569,6 +634,11 @@ async function _fetchAllUpdateCandidateCostSet() {
 // Upgraded
 // ==================================
 
+/**
+ * Fetches all Upgraded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchUpgraded(query?: Indexer.NounsDAOData.UpgradedQuery) {
 	let events = await _fetchAllUpgraded();
 

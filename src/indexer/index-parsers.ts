@@ -6,6 +6,11 @@ import { Indexer } from "../types";
 // NounsDAO
 //=======================================
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain DAOWithdrawNounsFromEscrow event.
+ * @returns Formatted DAOWithdrawNounsFromEscrow event.
+ */
 export function parseDAOWithdrawNounsFromEscrowEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -20,6 +25,11 @@ export function parseDAOWithdrawNounsFromEscrowEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.DAOWithdrawNounsFromEscrow;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ERC20TokensToIncludeInForkSet event.
+ * @returns Formatted ERC20TokensToIncludeInForkSet event.
+ */
 export function parseERC20TokensToIncludeInForkSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -34,6 +44,11 @@ export function parseERC20TokensToIncludeInForkSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ERC20TokensToIncludeInForkSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain EscrowedToFork event.
+ * @returns Formatted EscrowedToFork event.
+ */
 export function parseEscrowedToForkEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -51,6 +66,11 @@ export function parseEscrowedToForkEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.EscrowedToFork;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ExecuteFork event.
+ * @returns Formatted ExecuteFork event.
+ */
 export function parseExecuteForkEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -68,6 +88,11 @@ export function parseExecuteForkEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ExecuteFork;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ForkDAODeployerSet event.
+ * @returns Formatted ForkDAODeployerSet event.
+ */
 export function parseForkDAODeployerSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -82,6 +107,11 @@ export function parseForkDAODeployerSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ForkDAODeployerSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ForkPeriodSet event.
+ * @returns Formatted ForkPeriodSet event.
+ */
 export function parseForkPeriodSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -96,6 +126,11 @@ export function parseForkPeriodSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ForkPeriodSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ForkThresholdSet event.
+ * @returns Formatted ForkThresholdSet event.
+ */
 export function parseForkThresholdSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -110,6 +145,11 @@ export function parseForkThresholdSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ForkThresholdSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain JoinFork event.
+ * @returns Formatted JoinFork event.
+ */
 export function parseJoinForkEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -127,6 +167,11 @@ export function parseJoinForkEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.JoinFork;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain LastMinuteWindowSet event.
+ * @returns Formatted LastMinuteWindowSet event.
+ */
 export function parseLastMinuteWindowSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -141,6 +186,11 @@ export function parseLastMinuteWindowSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.LastMinuteWindowSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain MaxQuorumVotesBPSSet event.
+ * @returns Formatted MaxQuorumVotesBPSSet event.
+ */
 export function parseMaxQuorumVotesBPSSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -155,6 +205,11 @@ export function parseMaxQuorumVotesBPSSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.MaxQuorumVotesBPSSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain MinQuorumVotesBPSSet event.
+ * @returns Formatted MinQuorumVotesBPSSet event.
+ */
 export function parseMinQuorumVotesBPSSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -169,6 +224,11 @@ export function parseMinQuorumVotesBPSSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.MinQuorumVotesBPSSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain NewAdmin event.
+ * @returns Formatted NewAdmin event.
+ */
 export function parseNewAdminEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -183,6 +243,11 @@ export function parseNewAdminEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.NewAdmin;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain NewImplementation event.
+ * @returns Formatted NewImplementation event.
+ */
 export function parseNewImplementationEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -197,6 +262,11 @@ export function parseNewImplementationEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.NewImplementation;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain NewPendingAdmin event.
+ * @returns Formatted NewPendingAdmin event.
+ */
 export function parseNewPendingAdminEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -211,6 +281,11 @@ export function parseNewPendingAdminEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.NewPendingAdmin;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain NewPendingVetoer event.
+ * @returns Formatted NewPendingVetoer event.
+ */
 export function parseNewPendingVetoerEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -225,6 +300,11 @@ export function parseNewPendingVetoerEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.NewPendingVetoer;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain NewVetoer event.
+ * @returns Formatted NewVetoer event.
+ */
 export function parseNewVetoerEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -239,6 +319,11 @@ export function parseNewVetoerEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.NewVetoer;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ObjectionPeriodDurationSet event.
+ * @returns Formatted ObjectionPeriodDurationSet event.
+ */
 export function parseObjectionPeriodDurationSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -253,6 +338,11 @@ export function parseObjectionPeriodDurationSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ObjectionPeriodDurationSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalCanceled event.
+ * @returns Formatted ProposalCanceled event.
+ */
 export function parseProposalCanceledEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -267,6 +357,11 @@ export function parseProposalCanceledEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalCanceled;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalCreated event.
+ * @returns Formatted ProposalCreated event.
+ */
 export function parseProposalCreatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -287,6 +382,11 @@ export function parseProposalCreatedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalCreated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalCreatedOnTimelockV1 event.
+ * @returns Formatted ProposalCreatedOnTimelockV1 event.
+ */
 export function parseProposalCreatedOnTimelockV1Event(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -300,6 +400,11 @@ export function parseProposalCreatedOnTimelockV1Event(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalCreatedOnTimelockV1;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalCreatedWithRequirements event.
+ * @returns Formatted ProposalCreatedWithRequirements event.
+ */
 export function parseProposalCreatedWithRequirementsEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -324,6 +429,11 @@ export function parseProposalCreatedWithRequirementsEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalCreatedWithRequirements;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalDescriptionUpdated event.
+ * @returns Formatted ProposalDescriptionUpdated event.
+ */
 export function parseProposalDescriptionUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -340,6 +450,11 @@ export function parseProposalDescriptionUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalDescriptionUpdated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalExecuted event.
+ * @returns Formatted ProposalExecuted event.
+ */
 export function parseProposalExecutedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -354,6 +469,11 @@ export function parseProposalExecutedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalExecuted;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalObjectionPeriodSet event.
+ * @returns Formatted ProposalObjectionPeriodSet event.
+ */
 export function parseProposalObjectionPeriodSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -368,6 +488,11 @@ export function parseProposalObjectionPeriodSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalObjectionPeriodSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalQueued event.
+ * @returns Formatted ProposalQueued event.
+ */
 export function parseProposalQueuedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -383,6 +508,11 @@ export function parseProposalQueuedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalQueued;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalThresholdBPSSet event.
+ * @returns Formatted ProposalThresholdBPSSet event.
+ */
 export function parseProposalThresholdBPSSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -397,6 +527,11 @@ export function parseProposalThresholdBPSSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalThresholdBPSSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalTransactionsUpdated event.
+ * @returns Formatted ProposalTransactionsUpdated event.
+ */
 export function parseProposalTransactionsUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -415,6 +550,11 @@ export function parseProposalTransactionsUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalTransactionsUpdated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalUpdatablePeriodSet event.
+ * @returns Formatted ProposalUpdatablePeriodSet event.
+ */
 export function parseProposalUpdatablePeriodSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -429,6 +569,11 @@ export function parseProposalUpdatablePeriodSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalUpdatablePeriodSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalUpdated event.
+ * @returns Formatted ProposalUpdated event.
+ */
 export function parseProposalUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -448,6 +593,11 @@ export function parseProposalUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalUpdated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalVetoed event.
+ * @returns Formatted ProposalVetoed event.
+ */
 export function parseProposalVetoedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -462,6 +612,11 @@ export function parseProposalVetoedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.ProposalVetoed;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain QuorumCoefficientSet event.
+ * @returns Formatted QuorumCoefficientSet event.
+ */
 export function parseQuorumCoefficientSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -476,6 +631,11 @@ export function parseQuorumCoefficientSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.QuorumCoefficientSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain QuorumVotesBPSSet event.
+ * @returns Formatted QuorumVotesBPSSet event.
+ */
 export function parseQuorumVotesBPSSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -490,6 +650,11 @@ export function parseQuorumVotesBPSSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.QuorumVotesBPSSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain RefundableVote event.
+ * @returns Formatted RefundableVote event.
+ */
 export function parseRefundableVoteEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -505,6 +670,11 @@ export function parseRefundableVoteEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.RefundableVote;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain SignatureCancelled event.
+ * @returns Formatted SignatureCancelled event.
+ */
 export function parseSignatureCancelledEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -519,6 +689,11 @@ export function parseSignatureCancelledEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.SignatureCancelled;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain TimelocksAndAdminSet event.
+ * @returns Formatted TimelocksAndAdminSet event.
+ */
 export function parseTimelocksAndAdminSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -534,6 +709,11 @@ export function parseTimelocksAndAdminSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.TimelocksAndAdminSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain VoteCast event.
+ * @returns Formatted VoteCast event.
+ */
 export function parseVoteCastEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -552,6 +732,11 @@ export function parseVoteCastEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.VoteCast;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain VoteSnapshotBlockSwitchProposalIdSet event.
+ * @returns Formatted VoteSnapshotBlockSwitchProposalIdSet event.
+ */
 export function parseVoteSnapshotBlockSwitchProposalIdSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -566,6 +751,11 @@ export function parseVoteSnapshotBlockSwitchProposalIdSetEvent(event: ethers.Eve
 	} as Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain VotingDelaySet event.
+ * @returns Formatted VotingDelaySet event.
+ */
 export function parseVotingDelaySetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -580,6 +770,11 @@ export function parseVotingDelaySetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.VotingDelaySet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain VotingPeriodSet event.
+ * @returns Formatted VotingPeriodSet event.
+ */
 export function parseVotingPeriodSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -594,6 +789,11 @@ export function parseVotingPeriodSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.VotingPeriodSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain Withdraw event.
+ * @returns Formatted Withdraw event.
+ */
 export function parseWithdrawEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -608,6 +808,11 @@ export function parseWithdrawEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.Withdraw;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain WithdrawFromForkEscrow event.
+ * @returns Formatted WithdrawFromForkEscrow event.
+ */
 export function parseWithdrawFromForkEscrowEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -623,6 +828,9 @@ export function parseWithdrawFromForkEscrowEvent(event: ethers.Event) {
 	} as Indexer.NounsDAO.WithdrawFromForkEscrow;
 }
 
+/**
+ * A map of supported events and their associated parsers.
+ */
 export const NOUNS_DAO_PARSERS = new Map<string, Function>();
 NOUNS_DAO_PARSERS.set("DAOWithdrawNounsFromEscrow", parseDAOWithdrawNounsFromEscrowEvent);
 NOUNS_DAO_PARSERS.set("ERC20TokensToIncludeInForkSet", parseERC20TokensToIncludeInForkSetEvent);
@@ -677,6 +885,11 @@ NOUNS_DAO_PARSERS.set("WithdrawFromForkEscrow", parseWithdrawFromForkEscrowEvent
 // NounsAuction
 //=======================================
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain AuctionCreated event.
+ * @returns Formatted AuctionCreated event.
+ */
 export function parseAuctionCreatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -692,6 +905,11 @@ export function parseAuctionCreatedEvent(event: ethers.Event) {
 	} as Indexer.NounsAuctionHouse.AuctionCreated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain AuctionBid event.
+ * @returns Formatted AuctionBid event.
+ */
 export function parseAuctionBidEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -708,6 +926,11 @@ export function parseAuctionBidEvent(event: ethers.Event) {
 	} as Indexer.NounsAuctionHouse.AuctionBid;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain AuctionExtended event.
+ * @returns Formatted AuctionExtended event.
+ */
 export function parseAuctionExtendedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -722,6 +945,11 @@ export function parseAuctionExtendedEvent(event: ethers.Event) {
 	} as Indexer.NounsAuctionHouse.AuctionExtended;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain AuctionSettled event.
+ * @returns Formatted AuctionSettled event.
+ */
 export function parseAuctionSettledEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -737,6 +965,11 @@ export function parseAuctionSettledEvent(event: ethers.Event) {
 	} as Indexer.NounsAuctionHouse.AuctionSettled;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain AuctionTimeBufferUpdated event.
+ * @returns Formatted AuctionTimeBufferUpdated event.
+ */
 export function parseAuctionTimeBufferUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -750,6 +983,11 @@ export function parseAuctionTimeBufferUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain AuctionReservePriceUpdated event.
+ * @returns Formatted AuctionReservePriceUpdated event.
+ */
 export function parseAuctionReservePriceUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -763,6 +1001,11 @@ export function parseAuctionReservePriceUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsAuctionHouse.AuctionReservePriceUpdated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain AuctionMinBidIncrementPercentageUpdated event.
+ * @returns Formatted AuctionMinBidIncrementPercentageUpdated event.
+ */
 export function parseAuctionMinBidIncrementPercentageUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -776,6 +1019,11 @@ export function parseAuctionMinBidIncrementPercentageUpdatedEvent(event: ethers.
 	} as Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain OwnershipTransferred event.
+ * @returns Formatted OwnershipTransferred event.
+ */
 export function parseOwnershipTransferredEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -790,6 +1038,11 @@ export function parseOwnershipTransferredEvent(event: ethers.Event) {
 	} as Indexer.NounsAuctionHouse.OwnershipTransferred;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain Paused event.
+ * @returns Formatted Paused event.
+ */
 export function parsePausedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -803,6 +1056,11 @@ export function parsePausedEvent(event: ethers.Event) {
 	} as Indexer.NounsAuctionHouse.Paused;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain Unpaused event.
+ * @returns Formatted Unpaused event.
+ */
 export function parseUnpausedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -816,6 +1074,9 @@ export function parseUnpausedEvent(event: ethers.Event) {
 	} as Indexer.NounsAuctionHouse.Unpaused;
 }
 
+/**
+ * A map of supported events and their associated parsers.
+ */
 export const NOUNS_AUCTION_PARSERS = new Map<string, Function>();
 NOUNS_AUCTION_PARSERS.set("AuctionCreated", parseAuctionCreatedEvent);
 NOUNS_AUCTION_PARSERS.set("AuctionBid", parseAuctionBidEvent);
@@ -832,6 +1093,11 @@ NOUNS_AUCTION_PARSERS.set("Unpaused", parseUnpausedEvent);
 // NounsToken
 //=======================================
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain DelegateChanged event.
+ * @returns Formatted DelegateChanged event.
+ */
 export function parseDelegateChangedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -847,6 +1113,11 @@ export function parseDelegateChangedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.DelegateChanged;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain DelegateVotesChanged event.
+ * @returns Formatted DelegateVotesChanged event.
+ */
 export function parseDelegateVotesChangedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -862,6 +1133,11 @@ export function parseDelegateVotesChangedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.DelegateVotesChanged;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain Transfer event.
+ * @returns Formatted Transfer event.
+ */
 export function parseTransferEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -877,6 +1153,11 @@ export function parseTransferEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.Transfer;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain Approval event.
+ * @returns Formatted Approval event.
+ */
 export function parseApprovalEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -892,6 +1173,11 @@ export function parseApprovalEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.Approval;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ApprovalForAll event.
+ * @returns Formatted ApprovalForAll event.
+ */
 export function parseApprovalForAllEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -907,6 +1193,11 @@ export function parseApprovalForAllEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.ApprovalForAll;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain NounCreated event.
+ * @returns Formatted NounCreated event.
+ */
 export function parseNounCreatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -927,6 +1218,11 @@ export function parseNounCreatedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.NounCreated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain DescriptorLocked event.
+ * @returns Formatted DescriptorLocked event.
+ */
 export function parseDescriptorLockedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -939,6 +1235,11 @@ export function parseDescriptorLockedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.DescriptorLocked;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain DescriptorUpdated event.
+ * @returns Formatted DescriptorUpdated event.
+ */
 export function parseDescriptorUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -952,6 +1253,11 @@ export function parseDescriptorUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.DescriptorUpdated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain MinterLocked event.
+ * @returns Formatted MinterLocked event.
+ */
 export function parseMinterLockedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -964,6 +1270,11 @@ export function parseMinterLockedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.MinterLocked;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain MinterUpdated event.
+ * @returns Formatted MinterUpdated event.
+ */
 export function parseMinterUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -977,6 +1288,11 @@ export function parseMinterUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.MinterUpdated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain NounBurned event.
+ * @returns Formatted NounBurned event.
+ */
 export function parseNounBurnedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -990,6 +1306,11 @@ export function parseNounBurnedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.NounBurned;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain NoundersDAOUpdated event.
+ * @returns Formatted NoundersDAOUpdated event.
+ */
 export function parseNoundersDAOUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1003,6 +1324,11 @@ export function parseNoundersDAOUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.NoundersDAOUpdated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain OwnershipTransferred event.
+ * @returns Formatted OwnershipTransferred event.
+ */
 export function parseOwnershipTransferredEvent2(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1017,6 +1343,11 @@ export function parseOwnershipTransferredEvent2(event: ethers.Event) {
 	} as Indexer.NounsAuctionHouse.OwnershipTransferred;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain SeederLocked event.
+ * @returns Formatted SeederLocked event.
+ */
 export function parseSeederLockedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1029,6 +1360,11 @@ export function parseSeederLockedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.SeederLocked;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain SeederUpdated event.
+ * @returns Formatted SeederUpdated event.
+ */
 export function parseSeederUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1042,6 +1378,9 @@ export function parseSeederUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsToken.SeederUpdated;
 }
 
+/**
+ * A map of supported events and their associated parsers.
+ */
 export const NOUNS_TOKEN_PARSERS = new Map<string, Function>();
 NOUNS_TOKEN_PARSERS.set("DelegateChanged", parseDelegateChangedEvent);
 NOUNS_TOKEN_PARSERS.set("DelegateVotesChanged", parseDelegateVotesChangedEvent);
@@ -1063,6 +1402,11 @@ NOUNS_TOKEN_PARSERS.set("SeederUpdated", parseSeederUpdatedEvent);
 // NounsDAOData
 //=======================================
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain AdminChanged event.
+ * @returns Formatted AdminChanged event.
+ */
 export function parseAdminChangedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1077,6 +1421,11 @@ export function parseAdminChangedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.AdminChanged;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain BeaconUpgraded event.
+ * @returns Formatted BeaconUpgraded event.
+ */
 export function parseBeaconUpgradedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1090,6 +1439,11 @@ export function parseBeaconUpgradedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.BeaconUpgraded;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain CandidateFeedbackSent event.
+ * @returns Formatted CandidateFeedbackSent event.
+ */
 export function parseCandidateFeedbackSentEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1108,6 +1462,11 @@ export function parseCandidateFeedbackSentEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.CandidateFeedbackSent;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain CreateCandidateCostSet event.
+ * @returns Formatted CreateCandidateCostSet event.
+ */
 export function parseCreateCandidateCostSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1122,6 +1481,11 @@ export function parseCreateCandidateCostSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.CreateCandidateCostSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ETHWithdrawn event.
+ * @returns Formatted ETHWithdrawn event.
+ */
 export function parseETHWithdrawnEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1136,6 +1500,11 @@ export function parseETHWithdrawnEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.ETHWithdrawn;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain FeeRecipientSet event.
+ * @returns Formatted FeeRecipientSet event.
+ */
 export function parseFeeRecipientSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1150,6 +1519,11 @@ export function parseFeeRecipientSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.FeeRecipientSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain FeedbackSent event.
+ * @returns Formatted FeedbackSent event.
+ */
 export function parseFeedbackSentEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1167,6 +1541,11 @@ export function parseFeedbackSentEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.FeedbackSent;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain OwnershipTransferred event.
+ * @returns Formatted OwnershipTransferred event.
+ */
 export function parseOwnershipTransferredEvent3(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1181,6 +1560,11 @@ export function parseOwnershipTransferredEvent3(event: ethers.Event) {
 	} as Indexer.NounsDAOData.OwnershipTransferred;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalCandidateCanceled event.
+ * @returns Formatted ProposalCandidateCanceled event.
+ */
 export function parseProposalCandidateCanceledEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1195,6 +1579,11 @@ export function parseProposalCandidateCanceledEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.ProposalCandidateCanceled;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalCandidateCreated event.
+ * @returns Formatted ProposalCandidateCreated event.
+ */
 export function parseProposalCandidateCreatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1215,6 +1604,11 @@ export function parseProposalCandidateCreatedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.ProposalCandidateCreated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain ProposalCandidateUpdated event.
+ * @returns Formatted ProposalCandidateUpdated event.
+ */
 export function parseProposalCandidateUpdatedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1236,6 +1630,11 @@ export function parseProposalCandidateUpdatedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.ProposalCandidateUpdated;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain SignatureAdded event.
+ * @returns Formatted SignatureAdded event.
+ */
 export function parseSignatureAddedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1257,6 +1656,11 @@ export function parseSignatureAddedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.SignatureAdded;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain UpdateCandidateCostSet event.
+ * @returns Formatted UpdateCandidateCostSet event.
+ */
 export function parseUpdateCandidateCostSetEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1271,6 +1675,11 @@ export function parseUpdateCandidateCostSetEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.UpdateCandidateCostSet;
 }
 
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain Upgraded event.
+ * @returns Formatted Upgraded event.
+ */
 export function parseUpgradedEvent(event: ethers.Event) {
 	return {
 		blockNumber: event.blockNumber,
@@ -1284,6 +1693,9 @@ export function parseUpgradedEvent(event: ethers.Event) {
 	} as Indexer.NounsDAOData.Upgraded;
 }
 
+/**
+ * A map of supported events and their associated parsers.
+ */
 export const NOUNS_DATA_PARSERS = new Map<string, Function>();
 NOUNS_DAO_PARSERS.set("AdminChanged", parseAdminChangedEvent);
 NOUNS_DAO_PARSERS.set("BeaconUpgraded", parseBeaconUpgradedEvent);

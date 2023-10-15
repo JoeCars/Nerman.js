@@ -8,6 +8,11 @@ import { _filterByBlock } from "../utilities/indexer";
 // AuctionCreated
 // ==================================
 
+/**
+ * Fetches all AuctionCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchAuctionCreatedEvents(query?: Indexer.NounsAuctionHouse.AuctionCreatedQuery) {
 	let events = await _fetchAllAuctionCreated();
 
@@ -45,6 +50,11 @@ async function _fetchAllAuctionCreated() {
 // AuctionBid
 // ==================================
 
+/**
+ * Fetches all AuctionBid events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchAuctionBidEvents(query?: Indexer.NounsAuctionHouse.AuctionBidQuery) {
 	let events = await _fetchAllAuctionBid();
 
@@ -100,6 +110,11 @@ async function _fetchAllAuctionBid() {
 // AuctionExtended
 // ==================================
 
+/**
+ * Fetches all AuctionExtended events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchAuctionExtended(query?: Indexer.NounsAuctionHouse.AuctionExtendedQuery) {
 	let events = await _fetchAllAuctionExtended();
 
@@ -137,6 +152,11 @@ async function _fetchAllAuctionExtended() {
 // AuctionSettled
 // ==================================
 
+/**
+ * Fetches all AuctionSettled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchAuctionSettledEvents(query?: Indexer.NounsAuctionHouse.AuctionSettledQuery) {
 	let events = await _fetchAllAuctionSettled();
 
@@ -192,6 +212,11 @@ async function _fetchAllAuctionSettled() {
 // AuctionTimeBufferUpdated
 // ==================================
 
+/**
+ * Fetches all AuctionTimeBufferUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchAuctionTimeBufferUpdated(query?: Indexer.NounsAuctionHouse.AuctionTimeBufferUpdatedQuery) {
 	let events = await _fetchAllAuctionTimeBufferUpdated();
 
@@ -227,6 +252,11 @@ async function _fetchAllAuctionTimeBufferUpdated() {
 // AuctionReservePriceUpdated
 // ==================================
 
+/**
+ * Fetches all AuctionReservePriceUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchAuctionReservePriceUpdated(query?: Indexer.NounsAuctionHouse.AuctionReservePriceUpdatedQuery) {
 	let events = await _fetchAllAuctionReservePriceUpdated();
 
@@ -262,6 +292,11 @@ async function _fetchAllAuctionReservePriceUpdated() {
 // AuctionMinBidIncrementPercentageUpdated
 // ==================================
 
+/**
+ * Fetches all AuctionMinBidIncrementPercentageUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchAuctionMinBidIncrementPercentageUpdated(
 	query?: Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdatedQuery
 ) {
@@ -299,6 +334,11 @@ async function _fetchAllAuctionMinBidIncrementPercentageUpdated() {
 // OwnershipTransferred
 // ==================================
 
+/**
+ * Fetches all OwnershipTransferred events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchOwnershipTransferred(query?: Indexer.NounsAuctionHouse.OwnershipTransferredQuery) {
 	let events = await _fetchAllOwnershipTransferred();
 
@@ -350,6 +390,11 @@ async function _fetchAllOwnershipTransferred() {
 // Paused
 // ==================================
 
+/**
+ * Fetches all Paused events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchPaused(query?: Indexer.NounsAuctionHouse.PausedQuery) {
 	let events = await _fetchAllPaused();
 
@@ -381,6 +426,11 @@ async function _fetchAllPaused() {
 // Unpaused
 // ==================================
 
+/**
+ * Fetches all Unpaused events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchUnpaused(query?: Indexer.NounsAuctionHouse.UnpausedQuery) {
 	let events = await _fetchAllUnpaused();
 

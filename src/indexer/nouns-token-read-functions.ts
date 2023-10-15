@@ -8,6 +8,11 @@ import { _filterByBlock } from "../utilities/indexer";
 // DelegateChanged
 // ==================================
 
+/**
+ * Fetches all DelegateChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchDelegateChangedEvents(query?: Indexer.NounsToken.DelegateChangedQuery) {
 	let events = await _fetchAllDelegateChanged();
 
@@ -66,6 +71,11 @@ async function _fetchAllDelegateChanged() {
 // DelegateVotesChanged
 // ==================================
 
+/**
+ * Fetches all DelegateVotesChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchDelegateVotesChangedEvents(query?: Indexer.NounsToken.DelegateVotesChangedQuery) {
 	let events = await _fetchAllDelegateVotesChanged();
 
@@ -103,6 +113,11 @@ async function _fetchAllDelegateVotesChanged() {
 // Transfer
 // ==================================
 
+/**
+ * Fetches all Transfer events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchTransferEvents(query?: Indexer.NounsToken.TransferQuery) {
 	let events = await _fetchAllTransfer();
 
@@ -160,6 +175,11 @@ async function _fetchAllTransfer() {
 // Approval
 // ==================================
 
+/**
+ * Fetches all Approval events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchApproval(query?: Indexer.NounsToken.ApprovalQuery) {
 	let events = await _fetchAllApproval();
 
@@ -203,6 +223,11 @@ async function _fetchAllApproval() {
 // ApprovalForAll
 // ==================================
 
+/**
+ * Fetches all ApprovalForAll events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchApprovalForAll(query?: Indexer.NounsToken.ApprovalForAllQuery) {
 	let events = await _fetchAllApprovalForAll();
 
@@ -240,6 +265,11 @@ async function _fetchAllApprovalForAll() {
 // NounCreated
 // ==================================
 
+/**
+ * Fetches all NounCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchNounCreatedEvents(query?: Indexer.NounsToken.NounCreatedQuery) {
 	let events = await _fetchAllNounCreated();
 
@@ -307,6 +337,11 @@ async function _fetchAllNounCreated() {
 // DescriptorLocked
 // ==================================
 
+/**
+ * Fetches all DescriptorLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchDescriptorLocked(query?: Indexer.NounsToken.DescriptorLockedQuery) {
 	let events = await _fetchAllDescriptorLocked();
 
@@ -338,6 +373,11 @@ async function _fetchAllDescriptorLocked() {
 // DescriptorUpdated
 // ==================================
 
+/**
+ * Fetches all DescriptorUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchDescriptorUpdated(query?: Indexer.NounsToken.DescriptorUpdatedQuery) {
 	let events = await _fetchAllDescriptorUpdated();
 
@@ -369,6 +409,11 @@ async function _fetchAllDescriptorUpdated() {
 // MinterLocked
 // ==================================
 
+/**
+ * Fetches all MinterLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchMinterLocked(query?: Indexer.NounsToken.MinterLockedQuery) {
 	let events = await _fetchAllMinterLocked();
 
@@ -400,6 +445,11 @@ async function _fetchAllMinterLocked() {
 // MinterUpdated
 // ==================================
 
+/**
+ * Fetches all MinterUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchMinterUpdated(query?: Indexer.NounsToken.MinterUpdatedQuery) {
 	let events = await _fetchAllMinterUpdated();
 
@@ -431,6 +481,11 @@ async function _fetchAllMinterUpdated() {
 // NounBurned
 // ==================================
 
+/**
+ * Fetches all NounBurned events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchNounBurned(query?: Indexer.NounsToken.NounBurnedQuery) {
 	let events = await _fetchAllNounBurned();
 
@@ -468,6 +523,11 @@ async function _fetchAllNounBurned() {
 // NoundersDAOUpdated
 // ==================================
 
+/**
+ * Fetches all NoundersDAOUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchNoundersDAOUpdated(query?: Indexer.NounsToken.NoundersDAOUpdatedQuery) {
 	let events = await _fetchAllNoundersDAOUpdated();
 
@@ -499,6 +559,11 @@ async function _fetchAllNoundersDAOUpdated() {
 // OwnershipTransferred
 // ==================================
 
+/**
+ * Fetches all OwnershipTransferred events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchOwnershipTransferred(query?: Indexer.NounsToken.OwnershipTransferredQuery) {
 	let events = await _fetchAllOwnershipTransferred();
 
@@ -550,6 +615,11 @@ async function _fetchAllOwnershipTransferred() {
 // SeederLocked
 // ==================================
 
+/**
+ * Fetches all SeederLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchSeederLocked(query?: Indexer.NounsToken.SeederLockedQuery) {
 	let events = await _fetchAllSeederLocked();
 
@@ -581,6 +651,11 @@ async function _fetchAllSeederLocked() {
 // SeederUpdated
 // ==================================
 
+/**
+ * Fetches all SeederUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param query A query object.
+ * @returns An array of events.
+ */
 export async function fetchSeederUpdated(query?: Indexer.NounsToken.SeederUpdatedQuery) {
 	let events = await _fetchAllSeederUpdated();
 

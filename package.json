@@ -10,7 +10,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1 ",
     "build": "tsc",
-    "build-docs": "npx documentation build src/contracts/** --parse-extension ts -f md -o docs/contracts.md"
+    "build-docs": "npm run build-contract-docs && npm run build-indexer-docs",
+    "build-contract-docs": "npx documentation build src/contracts/** --parse-extension ts -f md -o docs/contracts.md",
+    "build-indexer-docs": "npx documentation build src/indexer/** --parse-extension ts -f md -o docs/indexer.md"
   },
   "repository": {
     "type": "git",
