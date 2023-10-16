@@ -20,6 +20,10 @@ export class _NounsForkToken {
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
 	 * @param eventType The name of the event.
 	 * @param listener The listener function.
+	 * @example
+	 * nounsForkToken.on('NounCreated', (data) => {
+	 * 	console.log(data.id);
+	 * });
 	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
@@ -280,6 +284,17 @@ export class _NounsForkToken {
 	 * Triggers the listener of the given event with the given data.
 	 * @param eventType The event to be triggered.
 	 * @param data The data being passed to the listener.
+	 * @example
+	 * nounsForkToken.trigger('NounCreated', {
+	 * 	id: 420,
+	 * 	seed: {
+	 * 		background: 0,
+	 * 		body: 0,
+	 * 		accessory: 0,
+	 * 		head: 0,
+	 * 		glasses: 0
+	 * 	}
+	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);

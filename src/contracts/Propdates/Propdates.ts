@@ -2,6 +2,10 @@ import { ethers } from "ethers";
 import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesABI.json";
 
+/**
+ * A wrapper class around the Propdates contract.
+ * Currently supports the `PostUpdate`, `PropUpdateAdminTransferStarted`, and `PropUpdateAdminTransfered` events.
+ */
 export class _Propdates {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
@@ -13,6 +17,15 @@ export class _Propdates {
 		this.registeredListeners = new Map();
 	}
 
+	/**
+	 * Assigns a listener function for the given event.
+	 * @param eventName The event being listened to.
+	 * @param listener The listener function.
+	 * @example
+	 * propdates.on('PostUpdate', (data) => {
+	 * 	console.log(data.propId);
+	 * });
+	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
 			case "PostUpdate":
@@ -67,6 +80,17 @@ export class _Propdates {
 		}
 	}
 
+	/**
+	 * Triggers the listener of the given event with the given data. Throws an error if the event did not have a listener.
+	 * @param eventName The event to be triggered.
+	 * @param data The data being passed to the listener.
+	 * @example
+	 * propdates.trigger('PostUpdate', {
+	 * 	propId: 117,
+	 * 	isCompleted: true,
+	 * 	update: "It's done!",
+	 * });
+	 */
 	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {

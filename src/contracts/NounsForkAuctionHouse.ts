@@ -20,6 +20,10 @@ export class _NounsForkAuctionHouse {
 	 * Registers a listener to the given event, triggering the function with the appropriate event data whenever it triggers in the blockchain.
 	 * @param eventType The event name.
 	 * @param listener The listener function.
+	 * @example
+	 * nounsForkAuctionHouse.on('AuctionCreated', (data) => {
+	 * 	console.log(data.id);
+	 * });
 	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
@@ -186,6 +190,12 @@ export class _NounsForkAuctionHouse {
 	 * Triggers the listener of the given event with the given data.
 	 * @param eventType The event to be triggered.
 	 * @param data The data being passed to the listener.
+	 * @example
+	 * nounsForkAuctionHouse.trigger('AuctionCreated', {
+	 * 	id: 420,
+	 * 	startTime: 1689677183,
+	 * 	endTime: 1689763583,	
+	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);

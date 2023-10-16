@@ -4,6 +4,7 @@ import { EventData } from "../../types";
 
 /**
  * A wrapper class for NounsNymz events.
+ * Supports the `NewPost` event.
  */
 export class NounsNymz {
 	lastTime: Date;
@@ -16,8 +17,12 @@ export class NounsNymz {
 
 	/**
 	 * Assigns a listener function for the given event.
-	 * @param eventName The event being listened to. At the moment, only the `NewPost` event is supported.
+	 * @param eventName The event being listened to.
 	 * @param listener The listener function.
+	 * @example
+	 * nounsNymz.on('NewPost', (data) => {
+	 * 	console.log(data.body);
+	 * });
 	 */
 	on(eventName: string, listener: (post: EventData.NounsNymz.NewPost) => void) {
 		this.registeredListeners.set(eventName, listener);
@@ -46,8 +51,17 @@ export class NounsNymz {
 
 	/**
 	 * Triggers the listener of the given event with the given data.
-	 * @param eventName The event to be triggered. Currently only supports `NewPost`.
+	 * @param eventName The event to be triggered.
 	 * @param data The data being passed to the listener.
+	 * @example
+	 * nounsNymz.trigger('NewPost', {
+	 * 	id: "0xcbd6b65b7fd297dad4ea88eb789fed57ead1c1e49fa7f6e3dedaa2d10c42edab",
+	 * 	title: "Do you re-use your nyms here? If not, why not?",
+	 * 	body: "It's been fun seeing some life here in the past couple weeks! \n\nWe've noticed that most new nyms are randomly generated/single-use. For those posting from single-use nyms: do you see any value in re-using a name you've used in the past? ",
+	 * 	timestamp: "2023-07-31T17:54:17.000Z",
+	 * 	userId: "0x141b63d93daf55bfb7f396eee6114f3a5d4a90b2",
+	 * 	parentId: null,
+	 * });
 	 */
 	trigger(eventName: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventName);

@@ -22,6 +22,10 @@ export class _NounsFork {
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
 	 * @param eventType The name of the event.
 	 * @param listener The listener function.
+	 * @example
+	 * nounsFork.on('VoteCast', (data) => {
+	 * 	console.log(data.proposalId);
+	 * })
 	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
@@ -364,6 +368,15 @@ export class _NounsFork {
 	 * Triggers the listener of the given event with the given data.
 	 * @param eventType The event to be triggered.
 	 * @param data The data being passed to the listener.
+	 * @example
+	 * nounsFork.trigger('VoteCast', {
+	 * 	voter: { id: "0x281eC184E704CE57570614C33B3477Ec7Ff07243" },
+	 * 	proposalId: 117,
+	 * 	supportDetailed: 0,
+	 * 	votes: 24,
+	 * 	reason: "Really good reason.",
+	 * 	event: {}
+	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);

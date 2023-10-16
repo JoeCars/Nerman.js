@@ -20,6 +20,10 @@ export class _NounsDAOData {
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
 	 * @param eventType The name of the event.
 	 * @param listener The listener function.
+	 * @example
+	 * nounsDAOData.on('CandidateFeedbackSent', (data) => {
+	 * 	console.log(data.slug);
+	 * });
 	 */
 	public async on(eventType: string, listener: ethers.providers.Listener) {
 		switch (eventType) {

@@ -22,6 +22,10 @@ export class _NounsDAO {
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
 	 * @param eventType The name of the event.
 	 * @param listener The listener function.
+	 * @example
+	 * nounsDAO.on('VoteCast', (data) => {
+	 * 	console.log(data.proposalId);
+	 * });
 	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {

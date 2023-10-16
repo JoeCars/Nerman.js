@@ -4,6 +4,7 @@ import NounsPoolV2 from "../abis/federation/NounsPoolV2";
 
 /**
  * A wrapper class that supports Federation NounsPool events.
+ * Supports two events. `BidPlaced` and `VoteCast`.
  */
 export class FederationNounsPool {
 	provider: ethers.providers.JsonRpcProvider;
@@ -24,9 +25,13 @@ export class FederationNounsPool {
 	}
 
 	/**
-	 * Assigns a listener to the federation event.
-	 * @param event The event listened to. Either `BidPlaced` or `VoteCast`.
+	 * Assigns a listener to the federation event. Adds the listener to both V1 and V2 contracts.
+	 * @param event The event listened to.
 	 * @param listener A listener function that takes in the appropriate data type for the event.
+	 * @example
+	 * federationNounsPool.on('BidPlaced', (data) => {
+	 * 	console.log(data.propId);
+	 * });
 	 */
 	on(event: string, listener: ethers.providers.Listener) {
 		if (event === "BidPlaced") {
@@ -50,7 +55,9 @@ export class FederationNounsPool {
 
 	/**
 	 * Removes the listener of the given event. Does nothing if the event was not listened to in the first place.
-	 * @param event The event being removed. Either `BidPlaced` or `VoteCast`.
+	 * @param event The event being removed.
+	 * @example
+	 * federationNounsPool.off('BidPlaced');
 	 */
 	off(event: string) {
 		const listener = this.registeredListeners.get(event);
@@ -64,8 +71,17 @@ export class FederationNounsPool {
 
 	/**
 	 * Triggers an event with the given data, which calls the assigned listener.
-	 * @param event The event being triggered. Either `BidPlaced` or `VoteCast`.
+	 * @param event The event being triggered.
 	 * @param data The data used to trigger the given event.
+	 * @example
+	 * federationNounsPool.trigger('BidPlaced', {
+	 *		dao: "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d",
+	 *		propId: 346,
+	 *		support: 1,
+	 *		amount: 42000000000000001,
+	 *		bidder: "0x2B0E9aA394209fa8D783C9e8cbFb08A15C019cdF",
+	 *		reason: ""
+	 * });
 	 */
 	trigger(event: string, data: unknown) {
 		const listener = this.registeredListeners.get(event);
