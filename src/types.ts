@@ -4,6 +4,7 @@ import { ethers, BigNumber } from "ethers";
 // Configuration Options
 //=========================================
 
+/** Configuration options for the Nouns class. */
 export interface NounsOptions {
 	/** The polling time in milliseconds. */
 	pollingTime?: number;
