@@ -1,6 +1,7 @@
 import { ethers, BigNumber } from "ethers";
 import { stringify } from "querystring";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData } from "../types";
+import { SUPPORTED_NOUNS_DAO_EVENTS } from "../constants";
 
 import { NounsDAOABI } from "@nouns/contracts";
 
@@ -12,10 +13,12 @@ import { default as NounsDAOLogicV3ABI } from "./abis/NounsDAOLogicV3.json";
 export class _NounsDAO {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
+	public supportedEvents: string[];
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x6f3E6272A167e8AcCb32072d08E0957F9c79223d", NounsDAOLogicV3ABI, this.provider);
+		this.supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
 	}
 
 	/**

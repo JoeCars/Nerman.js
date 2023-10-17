@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { default as NounsDAODataABI } from "./abis/NounsDAOData.json";
 import { Account, EventData } from "../types";
 import { sign } from "crypto";
+import { SUPPORTED_NOUNS_DAO_DATA_EVENTS } from "../constants";
 
 /**
  * A wrapper class around the NounsDAOData contract.
@@ -10,10 +11,12 @@ import { sign } from "crypto";
 export class _NounsDAOData {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
+	public supportedEvents: string[];
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xf790A5f59678dd733fb3De93493A91f472ca1365", NounsDAODataABI, this.provider);
+		this.supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 	}
 
 	/**

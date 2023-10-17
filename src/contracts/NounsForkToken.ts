@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, NounsTokenSeed, Account, EventData } from "../types";
 import { NounsTokenABI } from "@nouns/contracts";
+import { SUPPORTED_NOUNS_FORK_TOKEN_EVENTS } from "../constants";
 
 /**
  * A wrapper around the NounsForkToken governance contract.
@@ -9,11 +10,13 @@ export class _NounsForkToken {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<string, Function>;
+	public supportedEvents: string[];
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f", NounsTokenABI, this.provider);
 		this.registeredListeners = new Map<string, Function>();
+		this.supportedEvents = SUPPORTED_NOUNS_FORK_TOKEN_EVENTS;
 	}
 
 	/**

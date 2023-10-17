@@ -1,6 +1,7 @@
 import { ethers, BigNumber } from "ethers";
 import { stringify } from "querystring";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData } from "../types";
+import { SUPPORTED_NOUNS_FORK_EVENTS } from "../constants";
 
 import { default as NounsForkABI } from "./abis/NounsForkGovernance.json";
 
@@ -11,11 +12,13 @@ export class _NounsFork {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<string, Function>;
+	public supportedEvents: string[];
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6", NounsForkABI, this.provider);
 		this.registeredListeners = new Map<string, Function>();
+		this.supportedEvents = SUPPORTED_NOUNS_FORK_EVENTS;
 	}
 
 	/**

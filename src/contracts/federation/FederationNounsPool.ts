@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import NounsPool from "../abis/federation/NounsPool";
 import NounsPoolV2 from "../abis/federation/NounsPoolV2";
+import { SUPPORTED_FEDERATION_EVENTS } from "../../constants";
 
 /**
  * A wrapper class that supports Federation NounsPool events.
@@ -11,6 +12,7 @@ export class FederationNounsPool {
 	nounsPoolContractV1: ethers.Contract;
 	nounsPoolContractV2: ethers.Contract;
 	registeredListeners: Map<string, ethers.providers.Listener>;
+	supportedEvents: string[];
 
 	constructor(jsonRpcUrl: string) {
 		this.provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl);
@@ -22,6 +24,7 @@ export class FederationNounsPool {
 			this.provider
 		);
 		this.registeredListeners = new Map();
+		this.supportedEvents = SUPPORTED_FEDERATION_EVENTS;
 	}
 
 	/**

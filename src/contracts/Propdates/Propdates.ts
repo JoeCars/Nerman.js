@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesABI.json";
+import { SUPPORTED_PROPDATES_EVENTS } from "../../constants";
 
 /**
  * A wrapper class around the Propdates contract.
@@ -10,11 +11,13 @@ export class _Propdates {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<string, Function>;
+	public supportedEvents: string[];
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x94b4fb16893C0Fb4E470eEf2559C24FD87FEd5F1", PropdatesABI, this.provider);
 		this.registeredListeners = new Map();
+		this.supportedEvents = SUPPORTED_PROPDATES_EVENTS;
 	}
 
 	/**

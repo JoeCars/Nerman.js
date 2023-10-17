@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, EventData } from "../types";
 import { NounsAuctionHouseABI } from "@nouns/contracts";
+import { SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS } from "../constants";
 
 /**
  * A wrapper class around the NounsAuctionHouse contract.
@@ -8,10 +9,12 @@ import { NounsAuctionHouseABI } from "@nouns/contracts";
 export class _NounsAuctionHouse {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
+	public supportedEvents: string[];
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x830BD73E4184ceF73443C15111a1DF14e495C706", NounsAuctionHouseABI, this.provider);
+		this.supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
 	}
 
 	/**

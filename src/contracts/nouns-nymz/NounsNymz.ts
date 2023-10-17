@@ -1,6 +1,7 @@
 import * as cron from "node-cron";
 import fetch from "node-fetch";
 import { EventData } from "../../types";
+import { SUPPORTED_NOUNS_NYMZ_EVENTS } from "../../constants";
 
 /**
  * A wrapper class for NounsNymz events.
@@ -9,10 +10,12 @@ import { EventData } from "../../types";
 export class NounsNymz {
 	lastTime: Date;
 	registeredListeners: Map<string, Function>;
+	supportedEvents: string[];
 
 	constructor() {
 		this.lastTime = new Date();
 		this.registeredListeners = new Map();
+		this.supportedEvents = SUPPORTED_NOUNS_NYMZ_EVENTS;
 	}
 
 	/**
