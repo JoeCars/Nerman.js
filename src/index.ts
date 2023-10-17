@@ -5,9 +5,9 @@ import { _NounsAuctionHouse } from "./contracts/NounsAuctionHouse";
 import { _NounsToken } from "./contracts/NounsToken";
 import { _NounsDAO } from "./contracts/NounsDAO";
 import { _NounsDAOData } from "./contracts/NounsDAOData";
-import { EventData } from "./types";
+import { EventData, NounsOptions } from "./types";
 
-export { EventData } from "./types";
+export { EventData, NounsOptions } from "./types";
 export { NounsNymz } from "./contracts/nouns-nymz/NounsNymz";
 export { FederationNounsPool } from "./contracts/federation/FederationNounsPool";
 export { _NounsForkToken as NounsForkToken } from "./contracts/NounsForkToken";
@@ -28,14 +28,18 @@ export class Nouns {
 	// this should eventually be part of on-chain indexed data
 	public cache: { [key: string]: { [key: string]: number | string } };
 
-	constructor(apiUrl: string | undefined) {
+	constructor(apiUrl: string | undefined, options?: NounsOptions) {
 		if (apiUrl === undefined) {
 			console.log("need to define process.env.JSON_RPC_API_URL");
 			process.exit();
 			return;
 		}
 		this.provider = new ethers.providers.JsonRpcProvider(apiUrl);
+
 		this.provider.pollingInterval = 10000;
+		if (options && options.pollingTime) {
+			this.provider.pollingInterval = options.pollingTime;
+		}
 
 		this.NounsAuctionHouse = new _NounsAuctionHouse(this.provider);
 		this.NounsToken = new _NounsToken(this.provider);

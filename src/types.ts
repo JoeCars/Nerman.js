@@ -1,5 +1,14 @@
 import { ethers, BigNumber } from "ethers";
 
+//=========================================
+// Configuration Options
+//=========================================
+
+export interface NounsOptions {
+	/** The polling time in milliseconds. */
+	pollingTime?: number;
+}
+
 // ETHEREUM
 export interface Account {
 	id: string;
