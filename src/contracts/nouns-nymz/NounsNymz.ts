@@ -8,9 +8,9 @@ import { SUPPORTED_NOUNS_NYMZ_EVENTS } from "../../constants";
  * Supports the `NewPost` event.
  */
 export class NounsNymz {
-	lastTime: Date;
-	registeredListeners: Map<string, Function>;
-	supportedEvents: string[];
+	private lastTime: Date;
+	public registeredListeners: Map<string, Function>;
+	public supportedEvents: string[];
 
 	constructor() {
 		this.lastTime = new Date();
@@ -19,7 +19,7 @@ export class NounsNymz {
 	}
 
 	/**
-	 * Assigns a listener function for the given event.
+	 * Assigns a listener function for the given event. Throws an error if the event is not supported.
 	 * @param eventName The event being listened to.
 	 * @param listener The listener function.
 	 * @example
@@ -27,11 +27,11 @@ export class NounsNymz {
 	 * 	console.log(data.body);
 	 * });
 	 */
-	on(eventName: string, listener: (post: EventData.NounsNymz.NewPost) => void) {
+	public on(eventName: string, listener: (post: EventData.NounsNymz.NewPost) => void) {
 		this.registeredListeners.set(eventName, listener);
 
 		if (eventName !== "NewPost") {
-			return;
+			throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 
 		// Runs the task every 1 minute.
@@ -53,7 +53,15 @@ export class NounsNymz {
 	}
 
 	/**
-	 * Triggers the listener of the given event with the given data.
+	 * Removes an event listener.
+	 * @param eventName the event listened to.
+	 */
+	public off(eventName: string) {
+		this.registeredListeners.delete(eventName);
+	}
+
+	/**
+	 * Triggers the listener of the given event with the given data. Throws an error if the listener cannot be found.
 	 * @param eventName The event to be triggered.
 	 * @param data The data being passed to the listener.
 	 * @example
@@ -66,13 +74,20 @@ export class NounsNymz {
 	 * 	parentId: null,
 	 * });
 	 */
-	trigger(eventName: string, data: unknown) {
+	public trigger(eventName: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventName);
-		if (listener) {
-			listener(data);
-		} else {
-			console.log(`No listeners are registered with ${eventName}.`);
+		if (!listener) {
+			throw new Error(`${eventName} does not have a listener.`);
 		}
+
+		listener(data);
+	}
+
+	/**
+	 * @returns the name of the contract. 'NounsNymz'.
+	 */
+	public name() {
+		return "NounsNymz";
 	}
 
 	private processPosts(posts: EventData.NounsNymz.NewPost[], listener: (post: EventData.NounsNymz.NewPost) => void) {

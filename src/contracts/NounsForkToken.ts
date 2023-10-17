@@ -21,6 +21,7 @@ export class _NounsForkToken {
 
 	/**
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+	 * Throws an error if the event is not supported.
 	 * @param eventType The name of the event.
 	 * @param listener The listener function.
 	 * @example
@@ -284,7 +285,20 @@ export class _NounsForkToken {
 	}
 
 	/**
+	 * Removes an event listener.
+	 * @param eventName the event name.
+	 */
+	public off(eventName: string) {
+		let listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			this.Contract.off(eventName, listener as ethers.providers.Listener);
+		}
+		this.registeredListeners.delete(eventName);
+	}
+
+	/**
 	 * Triggers the listener of the given event with the given data.
+	 * Throws an error if there is no listener assigned.
 	 * @param eventType The event to be triggered.
 	 * @param data The data being passed to the listener.
 	 * @example

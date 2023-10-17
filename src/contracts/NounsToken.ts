@@ -10,15 +10,18 @@ export class _NounsToken {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public supportedEvents: string[];
+	public registeredListeners: Map<string, Function>;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03", NounsTokenABI, this.provider);
 		this.supportedEvents = SUPPORTED_NOUNS_TOKEN_EVENTS;
+		this.registeredListeners = new Map();
 	}
 
 	/**
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+	 * Throws an error if the event is not supported.
 	 * @param eventType The name of the event.
 	 * @param listener The listener function.
 	 * @example
@@ -42,7 +45,7 @@ export class _NounsToken {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "DelegateVotesChanged": // WORKING
@@ -59,7 +62,7 @@ export class _NounsToken {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "Transfer": // WORKING
@@ -73,6 +76,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "Approval": // WORKING
@@ -86,7 +90,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -108,7 +112,7 @@ export class _NounsToken {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "NounCreated": // WORKING
@@ -121,7 +125,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -137,7 +141,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -154,7 +158,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -170,7 +174,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -187,7 +191,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -204,7 +208,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -221,7 +225,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -239,7 +243,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -255,7 +259,7 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -272,12 +276,38 @@ export class _NounsToken {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			default:
 				throw new Error(`${eventType} is not supported. Please use a different event.`);
 		}
+	}
+
+	/**
+	 * Removes an event listener.
+	 * @param eventName the event name.
+	 */
+	public off(eventName: string) {
+		let listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			this.Contract.off(eventName, listener as ethers.providers.Listener);
+		}
+		this.registeredListeners.delete(eventName);
+	}
+
+	/**
+	 * Triggers an event. Throws an error if there is no assigned listener.
+	 * @param eventType the event name.
+	 * @param data the event data.
+	 */
+	public trigger(eventType: string, data: unknown) {
+		const listener = this.registeredListeners.get(eventType);
+		if (!listener) {
+			throw new Error(`${eventType} does not have a listener.`);
+		}
+
+		listener(data);
 	}
 
 	/**

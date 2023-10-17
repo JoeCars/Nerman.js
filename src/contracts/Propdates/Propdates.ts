@@ -21,7 +21,7 @@ export class _Propdates {
 	}
 
 	/**
-	 * Assigns a listener function for the given event.
+	 * Assigns a listener function for the given event. Throws an error if the event is not supported.
 	 * @param eventName The event being listened to.
 	 * @param listener The listener function.
 	 * @example
@@ -84,6 +84,18 @@ export class _Propdates {
 	}
 
 	/**
+	 * Removes a listener.
+	 * @param eventName the event listened to.
+	 */
+	public off(eventName: string) {
+		let listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			this.Contract.off(eventName, listener as ethers.providers.Listener);
+		}
+		this.registeredListeners.delete(eventName);
+	}
+
+	/**
 	 * Triggers the listener of the given event with the given data. Throws an error if the event did not have a listener.
 	 * @param eventName The event to be triggered.
 	 * @param data The data being passed to the listener.
@@ -101,5 +113,12 @@ export class _Propdates {
 		}
 
 		listener(data);
+	}
+
+	/**
+	 * @returns the name of the contract. 'Propdates'.
+	 */
+	public name() {
+		return "Propdates";
 	}
 }

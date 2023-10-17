@@ -23,6 +23,7 @@ export class _NounsFork {
 
 	/**
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+	 * Throws an error if the event is not supported.
 	 * @param eventType The name of the event.
 	 * @param listener The listener function.
 	 * @example
@@ -368,7 +369,20 @@ export class _NounsFork {
 	}
 
 	/**
+	 * Removes an event listener.
+	 * @param eventName the name of the event.
+	 */
+	public off(eventName: string) {
+		let listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			this.Contract.off(eventName, listener as ethers.providers.Listener);
+		}
+		this.registeredListeners.delete(eventName);
+	}
+
+	/**
 	 * Triggers the listener of the given event with the given data.
+	 * Throws an error if there is no assigned listener.
 	 * @param eventType The event to be triggered.
 	 * @param data The data being passed to the listener.
 	 * @example

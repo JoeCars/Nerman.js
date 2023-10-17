@@ -10,15 +10,18 @@ export class _NounsAuctionHouse {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public supportedEvents: string[];
+	public registeredListeners: Map<string, Function>;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x830BD73E4184ceF73443C15111a1DF14e495C706", NounsAuctionHouseABI, this.provider);
 		this.supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
+		this.registeredListeners = new Map();
 	}
 
 	/**
 	 * Registers a listener to the given event, triggering the function with the appropriate event data whenever it triggers in the blockchain.
+	 * Throws an error if the event is not supported.
 	 * @param eventType The event name.
 	 * @param listener The listener function.
 	 * @example
@@ -42,7 +45,7 @@ export class _NounsAuctionHouse {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "AuctionBid": // FUNCTIONING CORRECTLY
@@ -57,7 +60,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -75,6 +78,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "AuctionSettled": // FUNCTIONING CORRECTLY
@@ -88,6 +92,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -104,6 +109,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -120,6 +126,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -139,6 +146,7 @@ export class _NounsAuctionHouse {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "OwnershipTransferred":
@@ -151,6 +159,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "Paused":
@@ -162,6 +171,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "Unpaused":
@@ -173,11 +183,38 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			default:
 				throw new Error(`${eventType} is not supported. Please use a different event.`);
 		}
+	}
+
+	/**
+	 * Removes an event listener.
+	 * @param eventName the event listened to.
+	 */
+	public off(eventName: string) {
+		let listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			this.Contract.off(eventName, listener as ethers.providers.Listener);
+		}
+		this.registeredListeners.delete(eventName);
+	}
+
+	/**
+	 * Triggers an event. Throws an error if the listener cannot be found.
+	 * @param eventType the name of the event.
+	 * @param data the event data.
+	 */
+	public trigger(eventType: string, data: unknown) {
+		const listener = this.registeredListeners.get(eventType);
+		if (!listener) {
+			throw new Error(`${eventType} does not have a listener.`);
+		}
+
+		listener(data);
 	}
 
 	/**
