@@ -199,215 +199,231 @@
     *   [on][195]
         *   [Parameters][196]
         *   [Examples][197]
-    *   [getLatestAuctions][198]
-    *   [getLatestAuctionExtended][199]
-    *   [getAuctionBids][200]
+    *   [off][198]
+        *   [Parameters][199]
+    *   [trigger][200]
         *   [Parameters][201]
-    *   [name][202]
-    *   [getAuctionLatestBid][203]
-        *   [Parameters][204]
-    *   [getBlock][205]
-        *   [Parameters][206]
-    *   [tempFormatAuctionBid][207]
+    *   [getLatestAuctions][202]
+    *   [getLatestAuctionExtended][203]
+    *   [getAuctionBids][204]
+        *   [Parameters][205]
+    *   [name][206]
+    *   [getAuctionLatestBid][207]
         *   [Parameters][208]
-    *   [tempPrintAuctionBid][209]
+    *   [getBlock][209]
         *   [Parameters][210]
-    *   [getLatestBidData][211]
+    *   [tempFormatAuctionBid][211]
         *   [Parameters][212]
-*   [\_NounsDAO][213]
-    *   [Parameters][214]
-    *   [on][215]
+    *   [tempPrintAuctionBid][213]
+        *   [Parameters][214]
+    *   [getLatestBidData][215]
         *   [Parameters][216]
-        *   [Examples][217]
-    *   [name][218]
-*   [\_NounsToken][219]
-    *   [Parameters][220]
-    *   [on][221]
-        *   [Parameters][222]
-        *   [Examples][223]
-    *   [callView][224]
-        *   [Parameters][225]
-    *   [name][226]
-*   [\_NounsDAOData][227]
+*   [\_NounsDAO][217]
+    *   [Parameters][218]
+    *   [on][219]
+        *   [Parameters][220]
+        *   [Examples][221]
+    *   [name][222]
+    *   [off][223]
+        *   [Parameters][224]
+    *   [trigger][225]
+        *   [Parameters][226]
+*   [\_NounsToken][227]
     *   [Parameters][228]
     *   [on][229]
         *   [Parameters][230]
         *   [Examples][231]
     *   [off][232]
         *   [Parameters][233]
-    *   [name][234]
-*   [fetchAuctionCreatedEvents][235]
-    *   [Parameters][236]
-*   [fetchAuctionBidEvents][237]
-    *   [Parameters][238]
-*   [fetchAuctionExtended][239]
+    *   [trigger][234]
+        *   [Parameters][235]
+    *   [callView][236]
+        *   [Parameters][237]
+    *   [name][238]
+*   [\_NounsDAOData][239]
     *   [Parameters][240]
-*   [fetchAuctionSettledEvents][241]
-    *   [Parameters][242]
-*   [fetchAuctionTimeBufferUpdated][243]
-    *   [Parameters][244]
-*   [fetchAuctionReservePriceUpdated][245]
-    *   [Parameters][246]
-*   [fetchAuctionMinBidIncrementPercentageUpdated][247]
-    *   [Parameters][248]
-*   [fetchOwnershipTransferred][249]
+    *   [on][241]
+        *   [Parameters][242]
+        *   [Examples][243]
+    *   [off][244]
+        *   [Parameters][245]
+    *   [trigger][246]
+        *   [Parameters][247]
+    *   [name][248]
+*   [fetchAuctionCreatedEvents][249]
     *   [Parameters][250]
-*   [fetchOwnershipTransferred][251]
+*   [fetchAuctionBidEvents][251]
     *   [Parameters][252]
-*   [fetchOwnershipTransferred][253]
+*   [fetchAuctionExtended][253]
     *   [Parameters][254]
-*   [fetchPaused][255]
+*   [fetchAuctionSettledEvents][255]
     *   [Parameters][256]
-*   [fetchUnpaused][257]
+*   [fetchAuctionTimeBufferUpdated][257]
     *   [Parameters][258]
-*   [\_filterByBlock][259]
+*   [fetchAuctionReservePriceUpdated][259]
     *   [Parameters][260]
-*   [fetchAdminChanged][261]
+*   [fetchAuctionMinBidIncrementPercentageUpdated][261]
     *   [Parameters][262]
-*   [fetchBeaconUpgraded][263]
+*   [fetchOwnershipTransferred][263]
     *   [Parameters][264]
-*   [fetchCandidateFeedbackSentEvents][265]
+*   [fetchOwnershipTransferred][265]
     *   [Parameters][266]
-*   [fetchCreateCandidateCostSet][267]
+*   [fetchOwnershipTransferred][267]
     *   [Parameters][268]
-*   [fetchETHWithdrawn][269]
+*   [fetchPaused][269]
     *   [Parameters][270]
-*   [fetchFeeRecipientSet][271]
+*   [fetchUnpaused][271]
     *   [Parameters][272]
-*   [fetchFeedbackSentEvents][273]
+*   [fetchAdminChanged][273]
     *   [Parameters][274]
-*   [fetchProposalCandidateCanceled][275]
+*   [fetchBeaconUpgraded][275]
     *   [Parameters][276]
-*   [fetchProposalCandidateCreatedEvents][277]
+*   [fetchCandidateFeedbackSentEvents][277]
     *   [Parameters][278]
-*   [fetchProposalCandidateUpdated][279]
+*   [fetchCreateCandidateCostSet][279]
     *   [Parameters][280]
-*   [fetchSignatureAddedEvents][281]
+*   [fetchETHWithdrawn][281]
     *   [Parameters][282]
-*   [fetchUpdateCandidateCostSet][283]
+*   [fetchFeeRecipientSet][283]
     *   [Parameters][284]
-*   [fetchUpgraded][285]
+*   [fetchFeedbackSentEvents][285]
     *   [Parameters][286]
-*   [fetchDAOWithdrawNounsFromEscrow][287]
+*   [fetchProposalCandidateCanceled][287]
     *   [Parameters][288]
-*   [fetchERC20TokensToIncludeInForkSet][289]
+*   [fetchProposalCandidateCreatedEvents][289]
     *   [Parameters][290]
-*   [fetchEscrowedToFork][291]
+*   [fetchProposalCandidateUpdated][291]
     *   [Parameters][292]
-*   [fetchExecutedFork][293]
+*   [fetchSignatureAddedEvents][293]
     *   [Parameters][294]
-*   [\_filterExecutedForkById][295]
+*   [fetchUpdateCandidateCostSet][295]
     *   [Parameters][296]
-*   [fetchForkDAODeployerSet][297]
+*   [fetchUpgraded][297]
     *   [Parameters][298]
-*   [fetchForkPeriodSet][299]
+*   [fetchDAOWithdrawNounsFromEscrow][299]
     *   [Parameters][300]
-*   [fetchForkThresholdSet][301]
+*   [fetchERC20TokensToIncludeInForkSet][301]
     *   [Parameters][302]
-*   [fetchJoinFork][303]
+*   [fetchEscrowedToFork][303]
     *   [Parameters][304]
-*   [fetchLastMinuteWindowSet][305]
+*   [fetchExecutedFork][305]
     *   [Parameters][306]
-*   [fetchMaxQuorumVotesBPSSet][307]
+*   [\_filterExecutedForkById][307]
     *   [Parameters][308]
-*   [fetchMinQuorumVotesBPSSet][309]
+*   [fetchForkDAODeployerSet][309]
     *   [Parameters][310]
-*   [fetchNewAdmin][311]
+*   [fetchForkPeriodSet][311]
     *   [Parameters][312]
-*   [fetchNewImplementation][313]
+*   [fetchForkThresholdSet][313]
     *   [Parameters][314]
-*   [fetchNewPendingAdmin][315]
+*   [fetchJoinFork][315]
     *   [Parameters][316]
-*   [fetchNewPendingVetoer][317]
+*   [fetchLastMinuteWindowSet][317]
     *   [Parameters][318]
-*   [fetchNewVetoer][319]
+*   [fetchMaxQuorumVotesBPSSet][319]
     *   [Parameters][320]
-*   [fetchObjectionPeriodDurationSet][321]
+*   [fetchMinQuorumVotesBPSSet][321]
     *   [Parameters][322]
-*   [fetchProposalCanceled][323]
+*   [fetchNewAdmin][323]
     *   [Parameters][324]
-*   [fetchProposals][325]
+*   [fetchNewImplementation][325]
     *   [Parameters][326]
-*   [\_filterProposalsByBlock][327]
+*   [fetchNewPendingAdmin][327]
     *   [Parameters][328]
-*   [\_filterProposalsById][329]
+*   [fetchNewPendingVetoer][329]
     *   [Parameters][330]
-*   [fetchProposalCreatedOnTimelockV1][331]
+*   [fetchNewVetoer][331]
     *   [Parameters][332]
-*   [fetchProposalCreatedWithRequirements][333]
+*   [fetchObjectionPeriodDurationSet][333]
     *   [Parameters][334]
-*   [fetchProposalDescriptionUpdated][335]
+*   [fetchProposalCanceled][335]
     *   [Parameters][336]
-*   [fetchProposalExecuted][337]
+*   [fetchProposals][337]
     *   [Parameters][338]
-*   [fetchProposalObjectionPeriodSet][339]
+*   [\_filterProposalsByBlock][339]
     *   [Parameters][340]
-*   [fetchProposalQueued][341]
+*   [\_filterProposalsById][341]
     *   [Parameters][342]
-*   [fetchProposalThresholdBPSSet][343]
+*   [fetchProposalCreatedOnTimelockV1][343]
     *   [Parameters][344]
-*   [fetchProposalTransactionsUpdated][345]
+*   [fetchProposalCreatedWithRequirements][345]
     *   [Parameters][346]
-*   [fetchProposalUpdatablePeriodSet][347]
+*   [fetchProposalDescriptionUpdated][347]
     *   [Parameters][348]
-*   [fetchProposalUpdated][349]
+*   [fetchProposalExecuted][349]
     *   [Parameters][350]
-*   [fetchProposalVetoed][351]
+*   [fetchProposalObjectionPeriodSet][351]
     *   [Parameters][352]
-*   [fetchQuorumCoefficientSet][353]
+*   [fetchProposalQueued][353]
     *   [Parameters][354]
-*   [fetchQuorumVotesBPSSet][355]
+*   [fetchProposalThresholdBPSSet][355]
     *   [Parameters][356]
-*   [fetchRefundableVote][357]
+*   [fetchProposalTransactionsUpdated][357]
     *   [Parameters][358]
-*   [fetchSignatureCancelled][359]
+*   [fetchProposalUpdatablePeriodSet][359]
     *   [Parameters][360]
-*   [fetchTimelocksAndAdminSet][361]
+*   [fetchProposalUpdated][361]
     *   [Parameters][362]
-*   [fetchStatusChangeEvents][363]
+*   [fetchProposalVetoed][363]
     *   [Parameters][364]
-*   [\_filterStatusChangeByBlock][365]
+*   [fetchQuorumCoefficientSet][365]
     *   [Parameters][366]
-*   [fetchVoteCastEvents][367]
+*   [fetchQuorumVotesBPSSet][367]
     *   [Parameters][368]
-*   [fetchVoteSnapshotBlockSwitchProposalIdSet][369]
+*   [fetchRefundableVote][369]
     *   [Parameters][370]
-*   [fetchVotingDelaySet][371]
+*   [fetchSignatureCancelled][371]
     *   [Parameters][372]
-*   [fetchVotingPeriodSet][373]
+*   [fetchTimelocksAndAdminSet][373]
     *   [Parameters][374]
-*   [fetchWithdraw][375]
+*   [fetchStatusChangeEvents][375]
     *   [Parameters][376]
-*   [fetchWithdrawFromForkEscrow][377]
+*   [\_filterStatusChangeByBlock][377]
     *   [Parameters][378]
-*   [fetchDelegateChangedEvents][379]
+*   [fetchVoteCastEvents][379]
     *   [Parameters][380]
-*   [fetchDelegateVotesChangedEvents][381]
+*   [fetchVoteSnapshotBlockSwitchProposalIdSet][381]
     *   [Parameters][382]
-*   [fetchTransferEvents][383]
+*   [fetchVotingDelaySet][383]
     *   [Parameters][384]
-*   [fetchApproval][385]
+*   [fetchVotingPeriodSet][385]
     *   [Parameters][386]
-*   [fetchApprovalForAll][387]
+*   [fetchWithdraw][387]
     *   [Parameters][388]
-*   [fetchNounCreatedEvents][389]
+*   [fetchWithdrawFromForkEscrow][389]
     *   [Parameters][390]
-*   [fetchDescriptorLocked][391]
-    *   [Parameters][392]
-*   [fetchDescriptorUpdated][393]
+*   [NounsOptions][391]
+    *   [pollingTime][392]
+*   [\_filterByBlock][393]
     *   [Parameters][394]
-*   [fetchMinterLocked][395]
+*   [fetchDelegateChangedEvents][395]
     *   [Parameters][396]
-*   [fetchMinterUpdated][397]
+*   [fetchDelegateVotesChangedEvents][397]
     *   [Parameters][398]
-*   [fetchNounBurned][399]
+*   [fetchTransferEvents][399]
     *   [Parameters][400]
-*   [fetchNoundersDAOUpdated][401]
+*   [fetchApproval][401]
     *   [Parameters][402]
-*   [fetchSeederLocked][403]
+*   [fetchApprovalForAll][403]
     *   [Parameters][404]
-*   [fetchSeederUpdated][405]
+*   [fetchNounCreatedEvents][405]
     *   [Parameters][406]
+*   [fetchDescriptorLocked][407]
+    *   [Parameters][408]
+*   [fetchDescriptorUpdated][409]
+    *   [Parameters][410]
+*   [fetchMinterLocked][411]
+    *   [Parameters][412]
+*   [fetchMinterUpdated][413]
+    *   [Parameters][414]
+*   [fetchNounBurned][415]
+    *   [Parameters][416]
+*   [fetchNoundersDAOUpdated][417]
+    *   [Parameters][418]
+*   [fetchSeederLocked][419]
+    *   [Parameters][420]
+*   [fetchSeederUpdated][421]
+    *   [Parameters][422]
 
 ## parseDAOWithdrawNounsFromEscrowEvent
 
@@ -1231,10 +1247,10 @@ Prints a progress bar to `stdout` to show the state of indexing.
 
 ### Parameters
 
-*   `currentBlock` **[number][407]**&#x20;
-*   `startBlock` **[number][407]**&#x20;
-*   `endBlock` **[number][407]**&#x20;
-*   `eventName` **[string][408]**&#x20;
+*   `currentBlock` **[number][423]**&#x20;
+*   `startBlock` **[number][423]**&#x20;
+*   `endBlock` **[number][423]**&#x20;
+*   `eventName` **[string][424]**&#x20;
 
 ## printEnd
 
@@ -1242,7 +1258,7 @@ Prints a message to `stdout`, indicating that it has finished indexing an event.
 
 ### Parameters
 
-*   `eventName` **[string][408]**&#x20;
+*   `eventName` **[string][424]**&#x20;
 
 ## indexEvent
 
@@ -1251,9 +1267,9 @@ Indexes the given event from the start block of Nouns until the current block. T
 ### Parameters
 
 *   `contract` **ethers.Contract** The contract the event is in.
-*   `eventName` **[string][408]** The name of the event being indexed.
-*   `formatter` **[Function][409]** A formatting function that takes the raw blockchain event object and formats it into the desired JavaScript object.
-*   `path` **[string][408]** The file to write the JSON content to.
+*   `eventName` **[string][424]** The name of the event being indexed.
+*   `formatter` **[Function][425]** A formatting function that takes the raw blockchain event object and formats it into the desired JavaScript object.
+*   `path` **[string][424]** The file to write the JSON content to.
 
 ## indexNounsAuctionEvents
 
@@ -1262,7 +1278,7 @@ Indexes all NounsAuction events.
 ### Parameters
 
 *   `provider` **ethers.providers.JsonRpcProvider** The provider used for indexing.
-*   `directoryPath` **[string][408]** The directory path where all this information is saved.
+*   `directoryPath` **[string][424]** The directory path where all this information is saved.
 
 ## indexNounsDaoEvents
 
@@ -1271,7 +1287,7 @@ Indexes all NounsDAO events.
 ### Parameters
 
 *   `provider` **ethers.providers.JsonRpcProvider** The provider used for indexing.
-*   `directoryPath` **[string][408]** The directory path where all this information is saved.
+*   `directoryPath` **[string][424]** The directory path where all this information is saved.
 
 ## indexNounsTokenEvents
 
@@ -1280,7 +1296,7 @@ Indexes all NounsToken events.
 ### Parameters
 
 *   `provider` **ethers.providers.JsonRpcProvider** The provider used for indexing.
-*   `directoryPath` **[string][408]** The directory path where all this information is saved.
+*   `directoryPath` **[string][424]** The directory path where all this information is saved.
 
 ## indexNounsDaoDataEvents
 
@@ -1289,7 +1305,7 @@ Indexes all NounsDAOData events.
 ### Parameters
 
 *   `provider` **ethers.providers.JsonRpcProvider** The provider used for indexing.
-*   `directoryPath` **[string][408]** The directory path where all this information is saved.
+*   `directoryPath` **[string][424]** The directory path where all this information is saved.
 
 ## indexNounsEvents
 
@@ -1298,7 +1314,7 @@ Indexes all nouns events from the NounsAuction, NounsDAO, NounsToken, and NounsD
 ### Parameters
 
 *   `provider` **ethers.providers.JsonRpcProvider** The provider used for indexing.
-*   `directoryPath` **[string][408]** The directory path where all this information is saved.
+*   `directoryPath` **[string][424]** The directory path where all this information is saved.
 
 ## parseData
 
@@ -1307,8 +1323,8 @@ Parses data, applying formatters, and saves it in the given file.
 ### Parameters
 
 *   `data` **{event: ethers.Event}** A blockchain data object.
-*   `formatter` **[Function][409]** A formatter function.
-*   `path` **[string][408]** The path to the file.
+*   `formatter` **[Function][425]** A formatter function.
+*   `path` **[string][424]** The path to the file.
 
 ## listenForNounsAuctionEvents
 
@@ -1317,7 +1333,7 @@ Assigns listeners to all NounsAuction events, updating the index data accordingl
 ### Parameters
 
 *   `provider` **ethers.providers.JsonRpcProvider** The provider.
-*   `path` **[string][408]** The path to the data.
+*   `path` **[string][424]** The path to the data.
 
 ## listenForNounsDAOEvents
 
@@ -1326,7 +1342,7 @@ Assigns listeners to all NounsDAO events, updating the index data accordingly.
 ### Parameters
 
 *   `provider` **ethers.providers.JsonRpcProvider** The provider.
-*   `path` **[string][408]** The path to the data.
+*   `path` **[string][424]** The path to the data.
 
 ## listenForNounsTokenEvents
 
@@ -1335,7 +1351,7 @@ Assigns listeners to all NounsToken events, updating the index data accordingly.
 ### Parameters
 
 *   `provider` **ethers.providers.JsonRpcProvider** The provider.
-*   `path` **[string][408]** The path to the data.
+*   `path` **[string][424]** The path to the data.
 
 ## listenForNounsDaoDataEvents
 
@@ -1344,7 +1360,7 @@ Assigns listeners to all NounsDAOData events, updating the index data accordingl
 ### Parameters
 
 *   `provider` **ethers.providers.JsonRpcProvider** The provider.
-*   `path` **[string][408]** The path to the data.
+*   `path` **[string][424]** The path to the data.
 
 ## listenForNounsEvents
 
@@ -1353,7 +1369,7 @@ Assigns listeners to all nouns events in the NounsAuction, NounsDAO, NounsToken,
 ### Parameters
 
 *   `provider` **ethers.providers.JsonRpcProvider** The provider.
-*   `path` **[string][408]** The path to the data.
+*   `path` **[string][424]** The path to the data.
 
 ## \_NounsAuctionHouse
 
@@ -1366,11 +1382,12 @@ A wrapper class around the NounsAuctionHouse contract.
 ### on
 
 Registers a listener to the given event, triggering the function with the appropriate event data whenever it triggers in the blockchain.
+Throws an error if the event is not supported.
 
 #### Parameters
 
-*   `eventType` **[string][408]** The event name.
-*   `listener` **[Function][409]** The listener function.
+*   `eventType` **[string][424]** The event name.
+*   `listener` **[Function][425]** The listener function.
 
 #### Examples
 
@@ -1379,6 +1396,23 @@ nounsAuctionHouse.on('AuctionCreated', (data) => {
 	console.log(data.id);
 });
 ```
+
+### off
+
+Removes an event listener.
+
+#### Parameters
+
+*   `eventName` **[string][424]** the event listened to.
+
+### trigger
+
+Triggers an event. Throws an error if the listener cannot be found.
+
+#### Parameters
+
+*   `eventType` **[string][424]** the name of the event.
+*   `data` **any** the event data.
 
 ### getLatestAuctions
 
@@ -1398,7 +1432,7 @@ Retrieves a list of AuctionBids events from the blockchain.
 
 #### Parameters
 
-*   `nounId` **[number][407]**&#x20;
+*   `nounId` **[number][423]**&#x20;
 
 Returns **any** A list of recent AuctionBids events.
 
@@ -1412,7 +1446,7 @@ Retrieves the most recent AuctionBid event for the given noun id.
 
 #### Parameters
 
-*   `nounId` **[number][407]** The number of the noun whose bid you are looking for.
+*   `nounId` **[number][423]** The number of the noun whose bid you are looking for.
 
 Returns **any** The AuctionBid event data.
 
@@ -1420,7 +1454,7 @@ Returns **any** The AuctionBid event data.
 
 #### Parameters
 
-*   `blockNumber` **[number][407]** The block number on the Ethereum blockchain.
+*   `blockNumber` **[number][423]** The block number on the Ethereum blockchain.
 
 Returns **any** The information in the block.
 
@@ -1438,7 +1472,7 @@ Formats and prints the most recent bid for the given noun.
 
 #### Parameters
 
-*   `nounId` **[number][407]** The noun being bid on.
+*   `nounId` **[number][423]** The noun being bid on.
 
 ### getLatestBidData
 
@@ -1446,7 +1480,7 @@ Retrieves the most recent bid event for the given noun.
 
 #### Parameters
 
-*   `nounId` **[number][407]** The noun being bid on.
+*   `nounId` **[number][423]** The noun being bid on.
 
 Returns **any** The most recent bid.
 
@@ -1461,11 +1495,13 @@ A wrapper class around the NounsDAO contract.
 ### on
 
 Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+Throws an error if the event is not supported.
+Listening to `ProposalCreatedWithRequirements` assigns the listener to both versions of the event.
 
 #### Parameters
 
-*   `eventType` **[string][408]** The name of the event.
-*   `listener` **[Function][409]** The listener function.
+*   `eventType` **[string][424]** The name of the event.
+*   `listener` **[Function][425]** The listener function.
 
 #### Examples
 
@@ -1479,6 +1515,23 @@ nounsDAO.on('VoteCast', (data) => {
 
 Returns **any** The name of the contract. `NounsDAO`.
 
+### off
+
+Removes an event listener.
+
+#### Parameters
+
+*   `eventName` **[string][424]** the event listened to.
+
+### trigger
+
+Triggers an event. Throws an error if no listener is found.
+
+#### Parameters
+
+*   `eventType` **[string][424]** the name of the event.
+*   `data` **any** the event data.
+
 ## \_NounsToken
 
 A wrapper around the NounsToken governance contract.
@@ -1490,11 +1543,12 @@ A wrapper around the NounsToken governance contract.
 ### on
 
 Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+Throws an error if the event is not supported.
 
 #### Parameters
 
-*   `eventType` **[string][408]** The name of the event.
-*   `listener` **[Function][409]** The listener function.
+*   `eventType` **[string][424]** The name of the event.
+*   `listener` **[Function][425]** The listener function.
 
 #### Examples
 
@@ -1504,14 +1558,31 @@ nounsToken.on('NounCreated', (data) => {
 });
 ```
 
+### off
+
+Removes an event listener.
+
+#### Parameters
+
+*   `eventName` **[string][424]** the event name.
+
+### trigger
+
+Triggers an event. Throws an error if there is no assigned listener.
+
+#### Parameters
+
+*   `eventType` **[string][424]** the event name.
+*   `data` **any** the event data.
+
 ### callView
 
 A wrapper around contract read functions.
 
 #### Parameters
 
-*   `fName` **[string][408]** The function name.
-*   `fArgs` **[Array][410]\<any>** The arguments required by the function.
+*   `fName` **[string][424]** The function name.
+*   `fArgs` **[Array][426]\<any>** The arguments required by the function.
 
 Returns **any** The output of the read function, if it has any.
 
@@ -1530,10 +1601,11 @@ A wrapper class around the NounsDAOData contract.
 ### on
 
 Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+Throws an error if the event is not supported.
 
 #### Parameters
 
-*   `eventType` **[string][408]** The name of the event.
+*   `eventType` **[string][424]** The name of the event.
 *   `listener` **ethers.providers.Listener** The listener function.
 
 #### Examples
@@ -1546,12 +1618,20 @@ nounsDAOData.on('CandidateFeedbackSent', (data) => {
 
 ### off
 
-Removes the listener.
+Removes an event listener.
 
 #### Parameters
 
-*   `eventType` **[string][408]** The name of the event being listened to.
-*   `listener` **ethers.providers.Listener** The listener function.
+*   `eventName` **[string][424]** the event listened to.
+
+### trigger
+
+Triggers an event. Throws an error if there is no assigned listener.
+
+#### Parameters
+
+*   `eventType` **[string][424]** the event name.
+*   `data` **any** the event data.
 
 ### name
 
@@ -1676,14 +1756,6 @@ Fetches all Unpaused events from the file system. Filtering the results based on
 *   `query` **Indexer.NounsAuctionHouse.UnpausedQuery?** A query object.
 
 Returns **any** An array of events.
-
-## \_filterByBlock
-
-### Parameters
-
-*   `events` **[Array][410]\<Indexer.FormattedEvent>**&#x20;
-*   `startBlock` **[number][407]** The starting block. Inclusive.
-*   `endBlock` **[number][407]** The final block. Inclusive.
 
 ## fetchAdminChanged
 
@@ -1859,9 +1931,9 @@ Returns **any** An array of events.
 
 ### Parameters
 
-*   `forks` **[Array][410]\<Indexer.NounsDAO.ExecuteFork>**&#x20;
-*   `startId` **[number][407]** The starting block. Inclusive.
-*   `endId` **[number][407]?** The final block. Inclusive.
+*   `forks` **[Array][426]\<Indexer.NounsDAO.ExecuteFork>**&#x20;
+*   `startId` **[number][423]** The starting block. Inclusive.
+*   `endId` **[number][423]?** The final block. Inclusive.
 
 ## fetchForkDAODeployerSet
 
@@ -2017,17 +2089,17 @@ Returns **any** An array of events.
 
 ### Parameters
 
-*   `proposals` **[Array][410]\<Indexer.NounsDAO.ProposalCreated>**&#x20;
-*   `startBlock` **[number][407]** The starting block. Inclusive.
-*   `endBlock` **[number][407]** The final block. Inclusive.
+*   `proposals` **[Array][426]\<Indexer.NounsDAO.ProposalCreated>**&#x20;
+*   `startBlock` **[number][423]** The starting block. Inclusive.
+*   `endBlock` **[number][423]** The final block. Inclusive.
 
 ## \_filterProposalsById
 
 ### Parameters
 
-*   `proposals` **[Array][410]\<Indexer.NounsDAO.ProposalCreated>**&#x20;
-*   `startId` **[number][407]** The starting block. Inclusive.
-*   `endId` **[number][407]?** The final block. Inclusive.
+*   `proposals` **[Array][426]\<Indexer.NounsDAO.ProposalCreated>**&#x20;
+*   `startId` **[number][423]** The starting block. Inclusive.
+*   `endId` **[number][423]?** The final block. Inclusive.
 
 ## fetchProposalCreatedOnTimelockV1
 
@@ -2203,9 +2275,9 @@ Returns **any** An array of events.
 
 ### Parameters
 
-*   `statuses` **[Array][410]\<Indexer.NounsDAO.ProposalCanceled>**&#x20;
-*   `startBlock` **[number][407]** The starting block. Inclusive.
-*   `endBlock` **[number][407]** The final block. Inclusive.
+*   `statuses` **[Array][426]\<Indexer.NounsDAO.ProposalCanceled>**&#x20;
+*   `startBlock` **[number][423]** The starting block. Inclusive.
+*   `endBlock` **[number][423]** The final block. Inclusive.
 
 ## fetchVoteCastEvents
 
@@ -2266,6 +2338,24 @@ Fetches all WithdrawFromForkEscrow events from the file system. Filtering the re
 *   `query` **Indexer.NounsDAO.WithdrawFromForkEscrowQuery?** A query object.
 
 Returns **any** An array of events.
+
+## NounsOptions
+
+Configuration options for the Nouns class.
+
+### pollingTime
+
+The polling time in milliseconds.
+
+Type: [number][423]
+
+## \_filterByBlock
+
+### Parameters
+
+*   `events` **[Array][426]\<Indexer.FormattedEvent>**&#x20;
+*   `startBlock` **[number][423]** The starting block. Inclusive.
+*   `endBlock` **[number][423]** The final block. Inclusive.
 
 ## fetchDelegateChangedEvents
 
@@ -2801,428 +2891,460 @@ Returns **any** An array of events.
 
 [197]: #examples
 
-[198]: #getlatestauctions
+[198]: #off
 
-[199]: #getlatestauctionextended
+[199]: #parameters-96
 
-[200]: #getauctionbids
+[200]: #trigger
 
-[201]: #parameters-96
+[201]: #parameters-97
 
-[202]: #name
+[202]: #getlatestauctions
 
-[203]: #getauctionlatestbid
+[203]: #getlatestauctionextended
 
-[204]: #parameters-97
+[204]: #getauctionbids
 
-[205]: #getblock
+[205]: #parameters-98
 
-[206]: #parameters-98
+[206]: #name
 
-[207]: #tempformatauctionbid
+[207]: #getauctionlatestbid
 
 [208]: #parameters-99
 
-[209]: #tempprintauctionbid
+[209]: #getblock
 
 [210]: #parameters-100
 
-[211]: #getlatestbiddata
+[211]: #tempformatauctionbid
 
 [212]: #parameters-101
 
-[213]: #_nounsdao
+[213]: #tempprintauctionbid
 
 [214]: #parameters-102
 
-[215]: #on-1
+[215]: #getlatestbiddata
 
 [216]: #parameters-103
 
-[217]: #examples-1
+[217]: #_nounsdao
 
-[218]: #name-1
+[218]: #parameters-104
 
-[219]: #_nounstoken
+[219]: #on-1
 
-[220]: #parameters-104
+[220]: #parameters-105
 
-[221]: #on-2
+[221]: #examples-1
 
-[222]: #parameters-105
+[222]: #name-1
 
-[223]: #examples-2
+[223]: #off-1
 
-[224]: #callview
+[224]: #parameters-106
 
-[225]: #parameters-106
+[225]: #trigger-1
 
-[226]: #name-2
+[226]: #parameters-107
 
-[227]: #_nounsdaodata
+[227]: #_nounstoken
 
-[228]: #parameters-107
+[228]: #parameters-108
 
-[229]: #on-3
+[229]: #on-2
 
-[230]: #parameters-108
+[230]: #parameters-109
 
-[231]: #examples-3
+[231]: #examples-2
 
-[232]: #off
+[232]: #off-2
 
-[233]: #parameters-109
+[233]: #parameters-110
 
-[234]: #name-3
+[234]: #trigger-2
 
-[235]: #fetchauctioncreatedevents
+[235]: #parameters-111
 
-[236]: #parameters-110
+[236]: #callview
 
-[237]: #fetchauctionbidevents
+[237]: #parameters-112
 
-[238]: #parameters-111
+[238]: #name-2
 
-[239]: #fetchauctionextended
+[239]: #_nounsdaodata
 
-[240]: #parameters-112
+[240]: #parameters-113
 
-[241]: #fetchauctionsettledevents
+[241]: #on-3
 
-[242]: #parameters-113
+[242]: #parameters-114
 
-[243]: #fetchauctiontimebufferupdated
+[243]: #examples-3
 
-[244]: #parameters-114
+[244]: #off-3
 
-[245]: #fetchauctionreservepriceupdated
+[245]: #parameters-115
 
-[246]: #parameters-115
+[246]: #trigger-3
 
-[247]: #fetchauctionminbidincrementpercentageupdated
+[247]: #parameters-116
 
-[248]: #parameters-116
+[248]: #name-3
 
-[249]: #fetchownershiptransferred
+[249]: #fetchauctioncreatedevents
 
 [250]: #parameters-117
 
-[251]: #fetchownershiptransferred-1
+[251]: #fetchauctionbidevents
 
 [252]: #parameters-118
 
-[253]: #fetchownershiptransferred-2
+[253]: #fetchauctionextended
 
 [254]: #parameters-119
 
-[255]: #fetchpaused
+[255]: #fetchauctionsettledevents
 
 [256]: #parameters-120
 
-[257]: #fetchunpaused
+[257]: #fetchauctiontimebufferupdated
 
 [258]: #parameters-121
 
-[259]: #_filterbyblock
+[259]: #fetchauctionreservepriceupdated
 
 [260]: #parameters-122
 
-[261]: #fetchadminchanged
+[261]: #fetchauctionminbidincrementpercentageupdated
 
 [262]: #parameters-123
 
-[263]: #fetchbeaconupgraded
+[263]: #fetchownershiptransferred
 
 [264]: #parameters-124
 
-[265]: #fetchcandidatefeedbacksentevents
+[265]: #fetchownershiptransferred-1
 
 [266]: #parameters-125
 
-[267]: #fetchcreatecandidatecostset
+[267]: #fetchownershiptransferred-2
 
 [268]: #parameters-126
 
-[269]: #fetchethwithdrawn
+[269]: #fetchpaused
 
 [270]: #parameters-127
 
-[271]: #fetchfeerecipientset
+[271]: #fetchunpaused
 
 [272]: #parameters-128
 
-[273]: #fetchfeedbacksentevents
+[273]: #fetchadminchanged
 
 [274]: #parameters-129
 
-[275]: #fetchproposalcandidatecanceled
+[275]: #fetchbeaconupgraded
 
 [276]: #parameters-130
 
-[277]: #fetchproposalcandidatecreatedevents
+[277]: #fetchcandidatefeedbacksentevents
 
 [278]: #parameters-131
 
-[279]: #fetchproposalcandidateupdated
+[279]: #fetchcreatecandidatecostset
 
 [280]: #parameters-132
 
-[281]: #fetchsignatureaddedevents
+[281]: #fetchethwithdrawn
 
 [282]: #parameters-133
 
-[283]: #fetchupdatecandidatecostset
+[283]: #fetchfeerecipientset
 
 [284]: #parameters-134
 
-[285]: #fetchupgraded
+[285]: #fetchfeedbacksentevents
 
 [286]: #parameters-135
 
-[287]: #fetchdaowithdrawnounsfromescrow
+[287]: #fetchproposalcandidatecanceled
 
 [288]: #parameters-136
 
-[289]: #fetcherc20tokenstoincludeinforkset
+[289]: #fetchproposalcandidatecreatedevents
 
 [290]: #parameters-137
 
-[291]: #fetchescrowedtofork
+[291]: #fetchproposalcandidateupdated
 
 [292]: #parameters-138
 
-[293]: #fetchexecutedfork
+[293]: #fetchsignatureaddedevents
 
 [294]: #parameters-139
 
-[295]: #_filterexecutedforkbyid
+[295]: #fetchupdatecandidatecostset
 
 [296]: #parameters-140
 
-[297]: #fetchforkdaodeployerset
+[297]: #fetchupgraded
 
 [298]: #parameters-141
 
-[299]: #fetchforkperiodset
+[299]: #fetchdaowithdrawnounsfromescrow
 
 [300]: #parameters-142
 
-[301]: #fetchforkthresholdset
+[301]: #fetcherc20tokenstoincludeinforkset
 
 [302]: #parameters-143
 
-[303]: #fetchjoinfork
+[303]: #fetchescrowedtofork
 
 [304]: #parameters-144
 
-[305]: #fetchlastminutewindowset
+[305]: #fetchexecutedfork
 
 [306]: #parameters-145
 
-[307]: #fetchmaxquorumvotesbpsset
+[307]: #_filterexecutedforkbyid
 
 [308]: #parameters-146
 
-[309]: #fetchminquorumvotesbpsset
+[309]: #fetchforkdaodeployerset
 
 [310]: #parameters-147
 
-[311]: #fetchnewadmin
+[311]: #fetchforkperiodset
 
 [312]: #parameters-148
 
-[313]: #fetchnewimplementation
+[313]: #fetchforkthresholdset
 
 [314]: #parameters-149
 
-[315]: #fetchnewpendingadmin
+[315]: #fetchjoinfork
 
 [316]: #parameters-150
 
-[317]: #fetchnewpendingvetoer
+[317]: #fetchlastminutewindowset
 
 [318]: #parameters-151
 
-[319]: #fetchnewvetoer
+[319]: #fetchmaxquorumvotesbpsset
 
 [320]: #parameters-152
 
-[321]: #fetchobjectionperioddurationset
+[321]: #fetchminquorumvotesbpsset
 
 [322]: #parameters-153
 
-[323]: #fetchproposalcanceled
+[323]: #fetchnewadmin
 
 [324]: #parameters-154
 
-[325]: #fetchproposals
+[325]: #fetchnewimplementation
 
 [326]: #parameters-155
 
-[327]: #_filterproposalsbyblock
+[327]: #fetchnewpendingadmin
 
 [328]: #parameters-156
 
-[329]: #_filterproposalsbyid
+[329]: #fetchnewpendingvetoer
 
 [330]: #parameters-157
 
-[331]: #fetchproposalcreatedontimelockv1
+[331]: #fetchnewvetoer
 
 [332]: #parameters-158
 
-[333]: #fetchproposalcreatedwithrequirements
+[333]: #fetchobjectionperioddurationset
 
 [334]: #parameters-159
 
-[335]: #fetchproposaldescriptionupdated
+[335]: #fetchproposalcanceled
 
 [336]: #parameters-160
 
-[337]: #fetchproposalexecuted
+[337]: #fetchproposals
 
 [338]: #parameters-161
 
-[339]: #fetchproposalobjectionperiodset
+[339]: #_filterproposalsbyblock
 
 [340]: #parameters-162
 
-[341]: #fetchproposalqueued
+[341]: #_filterproposalsbyid
 
 [342]: #parameters-163
 
-[343]: #fetchproposalthresholdbpsset
+[343]: #fetchproposalcreatedontimelockv1
 
 [344]: #parameters-164
 
-[345]: #fetchproposaltransactionsupdated
+[345]: #fetchproposalcreatedwithrequirements
 
 [346]: #parameters-165
 
-[347]: #fetchproposalupdatableperiodset
+[347]: #fetchproposaldescriptionupdated
 
 [348]: #parameters-166
 
-[349]: #fetchproposalupdated
+[349]: #fetchproposalexecuted
 
 [350]: #parameters-167
 
-[351]: #fetchproposalvetoed
+[351]: #fetchproposalobjectionperiodset
 
 [352]: #parameters-168
 
-[353]: #fetchquorumcoefficientset
+[353]: #fetchproposalqueued
 
 [354]: #parameters-169
 
-[355]: #fetchquorumvotesbpsset
+[355]: #fetchproposalthresholdbpsset
 
 [356]: #parameters-170
 
-[357]: #fetchrefundablevote
+[357]: #fetchproposaltransactionsupdated
 
 [358]: #parameters-171
 
-[359]: #fetchsignaturecancelled
+[359]: #fetchproposalupdatableperiodset
 
 [360]: #parameters-172
 
-[361]: #fetchtimelocksandadminset
+[361]: #fetchproposalupdated
 
 [362]: #parameters-173
 
-[363]: #fetchstatuschangeevents
+[363]: #fetchproposalvetoed
 
 [364]: #parameters-174
 
-[365]: #_filterstatuschangebyblock
+[365]: #fetchquorumcoefficientset
 
 [366]: #parameters-175
 
-[367]: #fetchvotecastevents
+[367]: #fetchquorumvotesbpsset
 
 [368]: #parameters-176
 
-[369]: #fetchvotesnapshotblockswitchproposalidset
+[369]: #fetchrefundablevote
 
 [370]: #parameters-177
 
-[371]: #fetchvotingdelayset
+[371]: #fetchsignaturecancelled
 
 [372]: #parameters-178
 
-[373]: #fetchvotingperiodset
+[373]: #fetchtimelocksandadminset
 
 [374]: #parameters-179
 
-[375]: #fetchwithdraw
+[375]: #fetchstatuschangeevents
 
 [376]: #parameters-180
 
-[377]: #fetchwithdrawfromforkescrow
+[377]: #_filterstatuschangebyblock
 
 [378]: #parameters-181
 
-[379]: #fetchdelegatechangedevents
+[379]: #fetchvotecastevents
 
 [380]: #parameters-182
 
-[381]: #fetchdelegatevoteschangedevents
+[381]: #fetchvotesnapshotblockswitchproposalidset
 
 [382]: #parameters-183
 
-[383]: #fetchtransferevents
+[383]: #fetchvotingdelayset
 
 [384]: #parameters-184
 
-[385]: #fetchapproval
+[385]: #fetchvotingperiodset
 
 [386]: #parameters-185
 
-[387]: #fetchapprovalforall
+[387]: #fetchwithdraw
 
 [388]: #parameters-186
 
-[389]: #fetchnouncreatedevents
+[389]: #fetchwithdrawfromforkescrow
 
 [390]: #parameters-187
 
-[391]: #fetchdescriptorlocked
+[391]: #nounsoptions
 
-[392]: #parameters-188
+[392]: #pollingtime
 
-[393]: #fetchdescriptorupdated
+[393]: #_filterbyblock
 
-[394]: #parameters-189
+[394]: #parameters-188
 
-[395]: #fetchminterlocked
+[395]: #fetchdelegatechangedevents
 
-[396]: #parameters-190
+[396]: #parameters-189
 
-[397]: #fetchminterupdated
+[397]: #fetchdelegatevoteschangedevents
 
-[398]: #parameters-191
+[398]: #parameters-190
 
-[399]: #fetchnounburned
+[399]: #fetchtransferevents
 
-[400]: #parameters-192
+[400]: #parameters-191
 
-[401]: #fetchnoundersdaoupdated
+[401]: #fetchapproval
 
-[402]: #parameters-193
+[402]: #parameters-192
 
-[403]: #fetchseederlocked
+[403]: #fetchapprovalforall
 
-[404]: #parameters-194
+[404]: #parameters-193
 
-[405]: #fetchseederupdated
+[405]: #fetchnouncreatedevents
 
-[406]: #parameters-195
+[406]: #parameters-194
 
-[407]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[407]: #fetchdescriptorlocked
 
-[408]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[408]: #parameters-195
 
-[409]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[409]: #fetchdescriptorupdated
 
-[410]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[410]: #parameters-196
+
+[411]: #fetchminterlocked
+
+[412]: #parameters-197
+
+[413]: #fetchminterupdated
+
+[414]: #parameters-198
+
+[415]: #fetchnounburned
+
+[416]: #parameters-199
+
+[417]: #fetchnoundersdaoupdated
+
+[418]: #parameters-200
+
+[419]: #fetchseederlocked
+
+[420]: #parameters-201
+
+[421]: #fetchseederupdated
+
+[422]: #parameters-202
+
+[423]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[424]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[425]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[426]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array

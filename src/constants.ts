@@ -156,3 +156,40 @@ export const SUPPORTED_NOUNS_TOKEN_EVENTS = [
 	"SeederLocked",
 	"SeederUpdated"
 ];
+
+export const SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS = [
+	"NewAdmin",
+	"NewImplementation",
+	"NewPendingAdmin",
+	"NewVetoer",
+	"ProposalCanceled",
+	"ProposalCreated",
+	"ProposalCreatedWithRequirements",
+	"ProposalExecuted",
+	"ProposalQueued",
+	"ProposalThresholdBPSSet",
+	"ProposalVetoed",
+	"QuorumVotesBPSSet",
+	"VoteCast",
+	"VotingDelaySet",
+	"VotingPeriodSet"
+];
+
+export const SUPPORTED_LIL_NOUNS_TOKEN_EVENTS = [
+	"Approval",
+	"ApprovalForAll",
+	"DelegateChanged",
+	"DelegateVotesChanged",
+	"DescriptorLocked",
+	"DescriptorUpdated",
+	"LilNoundersDAOUpdated",
+	"MinterLocked",
+	"MinterUpdated",
+	"NounBurned",
+	"NounCreated",
+	"NounsDAOUpdated",
+	"OwnershipTransferred",
+	"SeederLocked",
+	"SeederUpdated",
+	"Transfer"
+];

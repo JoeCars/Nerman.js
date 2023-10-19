@@ -778,6 +778,11 @@ export namespace EventData {
 		}
 	}
 
+	// ******************************************
+	//
+	// Propdates
+	//
+	// ******************************************
 	export namespace Propdates {
 		export interface PostUpdate {
 			propId: number;
@@ -797,6 +802,23 @@ export namespace EventData {
 			propId: number;
 			oldAdmin: Account;
 			newAdmin: Account;
+			event: ethers.Event;
+		}
+	}
+
+	// ******************************************
+	//
+	// LilNouns
+	//
+	// ******************************************
+	export namespace LilNouns {
+		export interface LilNoundersDAOUpdated {
+			lilnoundersDAO: Account;
+			event: ethers.Event;
+		}
+
+		export interface NounsDAOUpdated {
+			nounsDAO: Account;
 			event: ethers.Event;
 		}
 	}

@@ -14,6 +14,7 @@ export { _NounsForkToken as NounsForkToken } from "./contracts/NounsForkToken";
 export { _NounsForkAuctionHouse as NounsForkAuctionHouse } from "./contracts/NounsForkAuctionHouse";
 export { _NounsFork as NounsFork } from "./contracts/NounsFork";
 export { _Propdates as Propdates } from "./contracts/propdates/Propdates";
+export { LilNouns } from "./contracts/lil-nouns/LilNouns";
 
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;
