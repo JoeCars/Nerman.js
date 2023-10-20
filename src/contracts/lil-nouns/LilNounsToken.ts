@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as LilNounsTokenABI } from "../abis/lil-nouns/NounsToken.json";
-import { SUPPORTED_NOUNS_TOKEN_EVENTS } from "../../constants"; // Contract is identical, so using the same constant.
+import { SUPPORTED_LIL_NOUNS_TOKEN_EVENTS } from "../../constants";
 
 /**
  * A wrapper around the LilNounsToken governance contract.
@@ -15,7 +15,7 @@ export class LilNounsToken {
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x4b10701Bfd7BFEdc47d50562b76b436fbB5BdB3B", LilNounsTokenABI, this.provider);
-		this.supportedEvents = SUPPORTED_NOUNS_TOKEN_EVENTS;
+		this.supportedEvents = SUPPORTED_LIL_NOUNS_TOKEN_EVENTS;
 		this.registeredListeners = new Map();
 	}
 
