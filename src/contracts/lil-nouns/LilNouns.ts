@@ -34,11 +34,11 @@ export class LilNouns {
 	 * });
 	 */
 	public on(eventName: string, listener: Function) {
-		if (eventName in this.lilNounsAuctionHouse.supportedEvents) {
+		if (this.lilNounsAuctionHouse.supportedEvents.includes(eventName)) {
 			this.lilNounsAuctionHouse.on(eventName, listener);
-		} else if (eventName in this.lilNounsDAOLogic.supportedEvents) {
+		} else if (this.lilNounsDAOLogic.supportedEvents.includes(eventName)) {
 			this.lilNounsDAOLogic.on(eventName, listener);
-		} else if (eventName in this.lilNounsToken.supportedEvents) {
+		} else if (this.lilNounsToken.supportedEvents.includes(eventName)) {
 			this.lilNounsToken.on(eventName, listener);
 		} else {
 			throw new Error(`${eventName} is not supported. Please use a different event.`);
@@ -54,11 +54,11 @@ export class LilNouns {
 	 * lilNouns.trigger('ProposalExecuted', {id: 420, event: {}});
 	 */
 	public trigger(eventName: string, data: unknown) {
-		if (eventName in this.lilNounsAuctionHouse.supportedEvents) {
+		if (this.lilNounsAuctionHouse.supportedEvents.includes(eventName)) {
 			this.lilNounsAuctionHouse.trigger(eventName, data);
-		} else if (eventName in this.lilNounsDAOLogic.supportedEvents) {
+		} else if (this.lilNounsDAOLogic.supportedEvents.includes(eventName)) {
 			this.lilNounsDAOLogic.trigger(eventName, data);
-		} else if (eventName in this.lilNounsToken.supportedEvents) {
+		} else if (this.lilNounsToken.supportedEvents.includes(eventName)) {
 			this.lilNounsToken.trigger(eventName, data);
 		} else {
 			throw new Error(`${eventName} does not have a listener.`);
@@ -71,11 +71,11 @@ export class LilNouns {
 	 * @param eventName the event whose listener you are removing.
 	 */
 	public off(eventName: string) {
-		if (eventName in this.lilNounsAuctionHouse.supportedEvents) {
+		if (this.lilNounsAuctionHouse.supportedEvents.includes(eventName)) {
 			this.lilNounsAuctionHouse.off(eventName);
-		} else if (eventName in this.lilNounsDAOLogic.supportedEvents) {
+		} else if (this.lilNounsDAOLogic.supportedEvents.includes(eventName)) {
 			this.lilNounsDAOLogic.off(eventName);
-		} else if (eventName in this.lilNounsToken.supportedEvents) {
+		} else if (this.lilNounsToken.supportedEvents.includes(eventName)) {
 			this.lilNounsToken.off(eventName);
 		}
 	}
