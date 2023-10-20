@@ -1,5 +1,15 @@
 import { ethers, BigNumber } from "ethers";
 
+//=========================================
+// Configuration Options
+//=========================================
+
+/** Configuration options for the Nouns class. */
+export interface NounsOptions {
+	/** The polling time in milliseconds. */
+	pollingTime?: number;
+}
+
 // ETHEREUM
 export interface Account {
 	id: string;
@@ -251,6 +261,7 @@ export namespace EventData {
 		proposer: Account;
 		description: string;
 		updatedMessage: string;
+		event: ethers.Event;
 	}
 
 	export interface ProposalExecuted {
@@ -767,6 +778,11 @@ export namespace EventData {
 		}
 	}
 
+	// ******************************************
+	//
+	// Propdates
+	//
+	// ******************************************
 	export namespace Propdates {
 		export interface PostUpdate {
 			propId: number;
@@ -789,6 +805,23 @@ export namespace EventData {
 			event: ethers.Event;
 		}
 	}
+
+	// ******************************************
+	//
+	// LilNouns
+	//
+	// ******************************************
+	export namespace LilNouns {
+		export interface LilNoundersDAOUpdated {
+			lilnoundersDAO: Account;
+			event: ethers.Event;
+		}
+
+		export interface NounsDAOUpdated {
+			nounsDAO: Account;
+			event: ethers.Event;
+		}
+	}
 }
 
 //=========================================
@@ -807,11 +840,110 @@ export namespace Indexer {
 	}
 
 	export namespace NounsDAO {
+		export interface DAOWithdrawNounsFromEscrow extends FormattedEvent {
+			tokenIds: number[];
+			to: string;
+		}
+
+		export interface ERC20TokensToIncludeInForkSet extends FormattedEvent {
+			oldErc20Tokens: string[];
+			newErc20tokens: string[];
+		}
+
+		export interface EscrowedToFork extends FormattedEvent {
+			forkId: number;
+			owner: string;
+			tokenIds: number[];
+			proposalIds: number[];
+			reason: string;
+		}
+
+		export interface ExecuteFork extends FormattedEvent {
+			forkId: number;
+			forkTreasury: string;
+			forkToken: string;
+			forkEndTimestamp: number;
+			tokensInEscrow: number;
+		}
+
+		export interface ForkDAODeployerSet extends FormattedEvent {
+			oldForkDAODeployer: string;
+			newForkDAODeployer: string;
+		}
+
+		export interface ForkPeriodSet extends FormattedEvent {
+			oldForkPeriod: number;
+			newForkPeriod: number;
+		}
+
+		export interface ForkThresholdSet extends FormattedEvent {
+			oldForkThreshold: number;
+			newForkThreshold: number;
+		}
+
+		export interface JoinFork extends FormattedEvent {
+			forkId: number;
+			owner: string;
+			tokenIds: number[];
+			proposalIds: number[];
+			reason: string;
+		}
+
+		export interface LastMinuteWindowSet extends FormattedEvent {
+			oldLastMinuteWindowInBlocks: number;
+			newLastMinuteWindowInBlocks: number;
+		}
+
+		export interface MaxQuorumVotesBPSSet extends FormattedEvent {
+			oldMaxQuorumVotesBPS: number;
+			newMaxQuorumVotesBPS: number;
+		}
+
+		export interface MinQuorumVotesBPSSet extends FormattedEvent {
+			oldMinQuorumVotesBPS: number;
+			newMinQuorumVotesBPS: number;
+		}
+
+		export interface NewAdmin extends FormattedEvent {
+			oldAdmin: string;
+			newAdmin: string;
+		}
+
+		export interface NewImplementation extends FormattedEvent {
+			oldImplementation: string;
+			newImplementation: string;
+		}
+
+		export interface NewPendingAdmin extends FormattedEvent {
+			oldPendingAdmin: string;
+			newPendingAdmin: string;
+		}
+
+		export interface NewPendingVetoer extends FormattedEvent {
+			oldPendingVetoer: string;
+			newPendingVetoer: string;
+		}
+
+		export interface NewVetoer extends FormattedEvent {
+			oldVetoer: string;
+			newVetoer: string;
+		}
+
+		export interface ObjectionPeriodDurationSet extends FormattedEvent {
+			oldObjectionPeriodDurationInBlocks: number;
+			newObjectionPeriodDurationInBlocks: number;
+		}
+
+		export interface ProposalCanceled extends FormattedEvent {
+			proposalId: number;
+			status: string;
+		}
+
 		export interface ProposalCreated extends FormattedEvent {
 			id: number;
 			proposer: string;
 			targets: string[];
-			values: BigNumber[];
+			// values: BigNumber[]; Values is a function, not a variable.
 			signatures: string[];
 			calldatas: any[];
 			startBlock: number;
@@ -819,9 +951,101 @@ export namespace Indexer {
 			description: string;
 		}
 
+		export interface ProposalCreatedOnTimelockV1 extends FormattedEvent {
+			id: number;
+		}
+
 		export interface ProposalCreatedWithRequirements extends ProposalCreated {
+			signers: string[];
+			updatePeriodEndBlock: number;
 			proposalThreshold: number;
 			quorumVotes: number;
+		}
+
+		export interface ProposalDescriptionUpdated extends FormattedEvent {
+			id: number;
+			proposer: string;
+			description: string;
+			updatedMessage: string;
+		}
+
+		export interface ProposalExecuted extends FormattedEvent {
+			proposalId: number;
+			status: string;
+		}
+
+		export interface ProposalObjectionPeriodSet extends FormattedEvent {
+			proposalId: number;
+			objectionPeriodEndBlock: number;
+		}
+
+		export interface ProposalQueued extends FormattedEvent {
+			proposalId: number;
+			eta: number;
+			status: string;
+		}
+
+		export interface ProposalThresholdBPSSet extends FormattedEvent {
+			oldProposalThresholdBPS: number;
+			newProposalThresholdBPS: number;
+		}
+
+		export interface ProposalTransactionsUpdated extends FormattedEvent {
+			id: number;
+			proposer: string;
+			targets: string[];
+			values: number[];
+			signatures: string[];
+			calldatas: any[];
+			updateMessage: string;
+		}
+
+		export interface ProposalUpdatablePeriodSet extends FormattedEvent {
+			oldProposalUpdatablePeriodInBlocks: number;
+			newProposalUpdatablePeriodInBlocks: number;
+		}
+
+		export interface ProposalUpdated extends FormattedEvent {
+			id: number;
+			proposer: string;
+			targets: string[];
+			values: number[];
+			signatures: string[];
+			calldatas: any[];
+			description: string;
+			updateMessage: string;
+		}
+
+		export interface ProposalVetoed extends FormattedEvent {
+			proposalId: number;
+			status: string;
+		}
+
+		export interface QuorumCoefficientSet extends FormattedEvent {
+			oldQuorumCoefficient: number;
+			newQuorumCoefficient: number;
+		}
+
+		export interface QuorumVotesBPSSet extends FormattedEvent {
+			oldQuorumVotesBPS: number;
+			newQuorumVotesBPS: number;
+		}
+
+		export interface RefundableVote extends FormattedEvent {
+			voter: string;
+			refundAmount: number;
+			refundSent: boolean;
+		}
+
+		export interface SignatureCancelled extends FormattedEvent {
+			signer: string;
+			sig: any;
+		}
+
+		export interface TimelocksAndAdminSet extends FormattedEvent {
+			timelock: string;
+			timelockV1: string;
+			admin: string;
 		}
 
 		export interface VoteCast extends FormattedEvent {
@@ -833,25 +1057,9 @@ export namespace Indexer {
 			reason: string;
 		}
 
-		export interface ProposalCanceled extends FormattedEvent {
-			proposalId: number;
-			status: string;
-		}
-
-		export interface ProposalQueued extends FormattedEvent {
-			proposalId: number;
-			eta: number;
-			status: string;
-		}
-
-		export interface ProposalExecuted extends FormattedEvent {
-			proposalId: number;
-			status: string;
-		}
-
-		export interface ProposalVetoed extends FormattedEvent {
-			proposalId: number;
-			status: string;
+		export interface VoteSnapshotBlockSwitchProposalIdSet extends FormattedEvent {
+			oldVoteSnapshotBlockSwitchProposalId: number;
+			newVoteSnapshotBlockSwitchProposalId: number;
 		}
 
 		export interface VotingDelaySet extends FormattedEvent {
@@ -864,34 +1072,271 @@ export namespace Indexer {
 			newVotingPeriod: number;
 		}
 
-		export interface NewImplementation extends FormattedEvent {
-			oldImplementation: string;
-			newImplementation: string;
+		export interface Withdraw extends FormattedEvent {
+			amount: number;
+			sent: boolean;
 		}
 
-		export interface ProposalThresholdBPSSet extends FormattedEvent {
-			oldProposalThresholdBPS: number;
-			newProposalThresholdBPS: number;
+		export interface WithdrawFromForkEscrow extends FormattedEvent {
+			forkId: number;
+			owner: string;
+			tokenIds: number[];
 		}
 
-		export interface QuorumVotesBPSSet extends FormattedEvent {
-			oldQuorumVotesBPS: number;
-			newQuorumVotesBPS: number;
+		// Queries.
+
+		export interface DAOWithdrawNounsFromEscrowQuery {
+			startBlock?: number;
+			endBlock?: number;
+			tokenId?: number;
+			to?: string;
 		}
 
-		export interface NewPendingAdmin extends FormattedEvent {
-			oldPendingAdmin: string;
-			newPendingAdmin: string;
+		export interface ERC20TokensToIncludeInForkSetQuery {
+			startBlock?: number;
+			endBlock?: number;
 		}
 
-		export interface NewAdmin extends FormattedEvent {
-			oldAdmin: string;
-			newAdmin: string;
+		export interface EscrowedToForkQuery {
+			startBlock?: number;
+			endBlock?: number;
+			forkId?: number;
+			owner?: string;
+			tokenId?: number;
+			proposalId?: number;
 		}
 
-		export interface NewVetoer extends FormattedEvent {
-			oldVetoer: string;
-			newVetoer: string;
+		export interface ExecuteForkQuery {
+			startBlock?: number;
+			endBlock?: number;
+			startId?: number;
+			endId?: number;
+			id?: number;
+		}
+
+		export interface ForkDAODeployerSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ForkPeriodSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ForkThresholdSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface JoinForkQuery {
+			startBlock?: number;
+			endBlock?: number;
+			forkId?: number;
+			owner?: string;
+			tokenId?: number;
+			proposalId?: number;
+		}
+
+		export interface LastMinuteWindowSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface MaxQuorumVotesBPSSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface MinQuorumVotesBPSSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NewAdminQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NewImplementationQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NewPendingAdminQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NewPendingVetoerQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NewVetoerQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ObjectionPeriodDurationSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ProposalCanceledQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+		}
+
+		export interface ProposalQuery {
+			startBlock?: number;
+			endBlock?: number;
+			startId?: number;
+			endId?: number;
+			id?: number;
+			status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
+			proposer?: string;
+		}
+
+		export interface ProposalCreatedOnTimelockV1Query {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ProposalCreatedWithRequirementsQuery {
+			startBlock?: number;
+			endBlock?: number;
+			startId?: number;
+			endId?: number;
+			id?: number;
+			status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
+			proposer?: string;
+		}
+
+		export interface ProposalDescriptionUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposer?: string;
+		}
+
+		export interface ProposalExecutedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+		}
+
+		export interface ProposalObjectionPeriodSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+		}
+
+		export interface ProposalQueuedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+		}
+
+		export interface ProposalThresholdBPSSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ProposalTransactionsUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			id?: number;
+			proposer?: string;
+		}
+
+		export interface ProposalUpdatablePeriodSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ProposalUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			id?: number;
+			proposer?: string;
+		}
+
+		export interface ProposalVetoedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+		}
+
+		export interface QuorumCoefficientSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface QuorumVotesBPSSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface RefundableVoteQuery {
+			startBlock?: number;
+			endBlock?: number;
+			voter?: string;
+		}
+
+		export interface SignatureCancelledQuery {
+			startBlock?: number;
+			endBlock?: number;
+			signer?: string;
+		}
+
+		export interface TimelocksAndAdminSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+			admin?: string;
+		}
+
+		export interface StatusChangeQuery {
+			startBlock?: number;
+			endBlock?: number;
+			proposalId?: number;
+			status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
+		}
+
+		export interface VoteCastQuery {
+			startBlock?: number;
+			endBlock?: number;
+			voter?: string;
+			proposalId?: number;
+			support?: "AGAINST" | "FOR" | "ABSTAIN";
+		}
+
+		export interface VoteSnapshotBlockSwitchProposalIdSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface VotingDelaySetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface VotingPeriodSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface WithdrawQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface WithdrawFromForkEscrowQuery {
+			startBlock?: number;
+			endBlock?: number;
+			forkId?: number;
+			owner?: string;
+			tokenId?: number;
 		}
 	}
 
@@ -943,6 +1388,71 @@ export namespace Indexer {
 
 		export interface Unpaused extends FormattedEvent {
 			unpauseAddress: string;
+		}
+
+		// Queries.
+
+		export interface AuctionCreatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			nounId?: number;
+		}
+
+		export interface AuctionBidQuery {
+			startBlock?: number;
+			endBlock?: number;
+			nounId?: number;
+			bidder?: string;
+			minBidAmount?: number;
+			maxBidAmount?: number;
+		}
+
+		export interface AuctionExtendedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			nounId?: number;
+		}
+
+		export interface AuctionSettledQuery {
+			startBlock?: number;
+			endBlock?: number;
+			nounId?: number;
+			winner?: string;
+			minBidAmount?: number;
+			maxBidAmount?: number;
+		}
+
+		export interface AuctionTimeBufferUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface AuctionReservePriceUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface AuctionMinBidIncrementPercentageUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface OwnershipTransferredQuery {
+			startBlock?: number;
+			endBlock?: number;
+			previousOwner?: string;
+			newOwner?: string;
+			including?: string;
+		}
+
+		export interface PausedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface UnpausedQuery {
+			startBlock?: number;
+			endBlock?: number;
 		}
 	}
 
@@ -1011,6 +1521,299 @@ export namespace Indexer {
 
 		export interface SeederUpdated extends FormattedEvent {
 			seeder: string;
+		}
+
+		// Queries.
+
+		export interface DelegateChangedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			delegator?: string;
+			fromDelegate?: string;
+			toDelegate?: string;
+			involving?: string;
+		}
+
+		export interface DelegateVotesChangedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			delegate?: string;
+		}
+
+		export interface TransferQuery {
+			startBlock?: number;
+			endBlock?: number;
+			from?: string;
+			to?: string;
+			involved?: string;
+			tokenId?: number;
+		}
+
+		export interface ApprovalQuery {
+			startBlock?: number;
+			endBlock?: number;
+			owner?: string;
+			tokenId?: number;
+		}
+
+		export interface ApprovalForAllQuery {
+			startBlock?: number;
+			endBlock?: number;
+			owner?: string;
+		}
+
+		export interface NounCreatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			tokenId?: number;
+			background?: number;
+			body?: number;
+			accessory?: number;
+			head?: number;
+			glasses?: number;
+		}
+
+		export interface DescriptorLockedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface DescriptorUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface MinterLockedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface MinterUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface NounBurnedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			nounId?: number;
+		}
+
+		export interface NoundersDAOUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface OwnershipTransferredQuery {
+			startBlock?: number;
+			endBlock?: number;
+			previousOwner?: string;
+			newOwner?: string;
+			including?: string;
+		}
+
+		export interface SeederLockedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface SeederUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+	}
+
+	export namespace NounsDAOData {
+		export interface AdminChanged extends FormattedEvent {
+			previousAdmin: string;
+			newAdmin: string;
+		}
+
+		export interface BeaconUpgraded extends FormattedEvent {
+			beacon: string;
+		}
+
+		export interface CandidateFeedbackSent extends FormattedEvent {
+			msgSender: string;
+			proposer: string;
+			slug: string;
+			support: number;
+			supportChoice: string;
+			reason: string;
+		}
+
+		export interface CreateCandidateCostSet extends FormattedEvent {
+			oldCreateCandidateCost: number;
+			newCreateCandidateCost: number;
+		}
+
+		export interface ETHWithdrawn extends FormattedEvent {
+			to: string;
+			amount: number;
+		}
+
+		export interface FeeRecipientSet extends FormattedEvent {
+			oldFeeRecipient: string;
+			newFeeRecipient: string;
+		}
+
+		export interface FeedbackSent extends FormattedEvent {
+			msgSender: string;
+			proposalId: number;
+			support: number;
+			supportChoice: string;
+			reason: string;
+		}
+
+		export interface OwnershipTransferred extends FormattedEvent {
+			previousOwner: string;
+			newOwner: string;
+		}
+
+		export interface ProposalCandidateCanceled extends FormattedEvent {
+			msgSender: string;
+			slug: string;
+		}
+
+		export interface ProposalCandidateCreated extends FormattedEvent {
+			msgSender: string;
+			targets: string[];
+			signatures: string[];
+			calldatas: any[];
+			description: string;
+			slug: string;
+			proposalIdToUpdate: number;
+			encodedProposalHash: string;
+		}
+
+		export interface ProposalCandidateUpdated extends FormattedEvent {
+			msgSender: string;
+			targets: string[];
+			signatures: string[];
+			calldatas: any[];
+			description: string;
+			slug: string;
+			proposalIdToUpdate: number;
+			encodedProposalHash: string;
+			reason: string;
+		}
+
+		export interface SignatureAdded extends FormattedEvent {
+			signer: string;
+			sig: string;
+			expirationTimestamp: number;
+			proposer: string;
+			slug: string;
+			proposalIdToUpdate: number;
+			encodedPropHash: string;
+			sigDigest: string;
+			reason: string;
+		}
+
+		export interface UpdateCandidateCostSet extends FormattedEvent {
+			oldUpdateCandidateCost: number;
+			newUpdateCandidateCost: number;
+		}
+
+		export interface Upgraded extends FormattedEvent {
+			implementation: string;
+		}
+
+		// Queries.
+
+		export interface AdminChangedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			previousAdmin?: string;
+			newAdmin?: string;
+			including?: string;
+		}
+
+		export interface BeaconUpgradedQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface CandidateFeedbackSentQuery {
+			startBlock?: number;
+			endBlock?: number;
+			msgSender?: string;
+			proposer?: string;
+			involved?: string;
+			slug?: string;
+			supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
+		}
+
+		export interface CreateCandidateCostSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface ETHWithdrawnQuery {
+			startBlock?: number;
+			endBlock?: number;
+			to?: string;
+		}
+
+		export interface FeeRecipientSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface FeedbackSentQuery {
+			startBlock?: number;
+			endBlock?: number;
+			msgSender?: string;
+			proposalId?: number;
+			supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
+		}
+
+		export interface OwnershipTransferredQuery {
+			startBlock?: number;
+			endBlock?: number;
+			previousOwner?: string;
+			newOwner?: string;
+			including?: string;
+		}
+
+		export interface ProposalCandidateCanceledQuery {
+			startBlock?: number;
+			endBlock?: number;
+			msgSender?: string;
+			slug?: string;
+		}
+
+		export interface ProposalCandidateCreatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			msgSender?: string;
+			slug?: string;
+		}
+
+		export interface ProposalCandidateUpdatedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			msgSender?: string;
+			slug?: string;
+		}
+
+		export interface SignatureAddedQuery {
+			startBlock?: number;
+			endBlock?: number;
+			signer?: string;
+			proposer?: string;
+			involved?: string;
+			slug?: string;
+		}
+
+		export interface UpdateCandidateCostSetQuery {
+			startBlock?: number;
+			endBlock?: number;
+		}
+
+		export interface UpgradedQuery {
+			startBlock?: number;
+			endBlock?: number;
 		}
 	}
 }

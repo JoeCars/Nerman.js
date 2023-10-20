@@ -1,18 +1,36 @@
 import { ethers } from "ethers";
 
-import { default as NounsDAODataABI } from "./NounsDAOData.json";
+import { default as NounsDAODataABI } from "./abis/NounsDAOData.json";
 import { Account, EventData } from "../types";
 import { sign } from "crypto";
+import { SUPPORTED_NOUNS_DAO_DATA_EVENTS } from "../constants";
 
+/**
+ * A wrapper class around the NounsDAOData contract.
+ */
 export class _NounsDAOData {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
+	public supportedEvents: string[];
+	public registeredListeners: Map<string, Function>;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xf790A5f59678dd733fb3De93493A91f472ca1365", NounsDAODataABI, this.provider);
+		this.supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
+		this.registeredListeners = new Map();
 	}
 
+	/**
+	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+	 * Throws an error if the event is not supported.
+	 * @param eventType The name of the event.
+	 * @param listener The listener function.
+	 * @example
+	 * nounsDAOData.on('CandidateFeedbackSent', (data) => {
+	 * 	console.log(data.slug);
+	 * });
+	 */
 	public async on(eventType: string, listener: ethers.providers.Listener) {
 		switch (eventType) {
 			case "AdminChanged":
@@ -25,6 +43,7 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "BeaconUpgraded":
@@ -36,6 +55,7 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "CandidateFeedbackSent":
@@ -61,6 +81,7 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "CreateCandidateCostSet":
@@ -88,7 +109,9 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
+
 			case "FeeRecipientSet":
 				this.Contract.on(eventType, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Event) => {
 					const data = {
@@ -99,6 +122,7 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "FeedbackSent":
@@ -116,6 +140,7 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "OwnershipTransferred":
@@ -128,6 +153,7 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalCandidateCanceled":
@@ -140,6 +166,7 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalCandidateCreated":
@@ -173,6 +200,7 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalCandidateUpdated":
@@ -208,6 +236,7 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "SignatureAdded":
@@ -241,6 +270,7 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "UpdateCandidateCostSet":
@@ -256,6 +286,7 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "Upgraded":
@@ -267,6 +298,7 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			default:
@@ -274,10 +306,35 @@ export class _NounsDAOData {
 		}
 	}
 
-	public async off(eventType: string, listener: ethers.providers.Listener) {
-		this.Contract.off(eventType, listener);
+	/**
+	 * Removes an event listener.
+	 * @param eventName the event listened to.
+	 */
+	public off(eventName: string) {
+		let listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			this.Contract.off(eventName, listener as ethers.providers.Listener);
+		}
+		this.registeredListeners.delete(eventName);
 	}
 
+	/**
+	 * Triggers an event. Throws an error if there is no assigned listener.
+	 * @param eventType the event name.
+	 * @param data the event data.
+	 */
+	public trigger(eventType: string, data: unknown) {
+		const listener = this.registeredListeners.get(eventType);
+		if (!listener) {
+			throw new Error(`${eventType} does not have a listener.`);
+		}
+
+		listener(data);
+	}
+
+	/**
+	 * @returns The name of the contract. `NounsDAOData`.
+	 */
 	public name() {
 		return "NounsDAOData";
 	}

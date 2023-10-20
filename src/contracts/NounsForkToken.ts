@@ -1,18 +1,34 @@
 import { ethers } from "ethers";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, NounsTokenSeed, Account, EventData } from "../types";
 import { NounsTokenABI } from "@nouns/contracts";
+import { SUPPORTED_NOUNS_FORK_TOKEN_EVENTS } from "../constants";
 
+/**
+ * A wrapper around the NounsForkToken governance contract.
+ */
 export class _NounsForkToken {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<string, Function>;
+	public supportedEvents: string[];
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f", NounsTokenABI, this.provider);
 		this.registeredListeners = new Map<string, Function>();
+		this.supportedEvents = SUPPORTED_NOUNS_FORK_TOKEN_EVENTS;
 	}
 
+	/**
+	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+	 * Throws an error if the event is not supported.
+	 * @param eventType The name of the event.
+	 * @param listener The listener function.
+	 * @example
+	 * nounsForkToken.on('NounCreated', (data) => {
+	 * 	console.log(data.id);
+	 * });
+	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
 			case "DelegateChanged": // WORKING
@@ -268,7 +284,36 @@ export class _NounsForkToken {
 		}
 	}
 
-	public emit(eventType: string, data: unknown) {
+	/**
+	 * Removes an event listener.
+	 * @param eventName the event name.
+	 */
+	public off(eventName: string) {
+		let listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			this.Contract.off(eventName, listener as ethers.providers.Listener);
+		}
+		this.registeredListeners.delete(eventName);
+	}
+
+	/**
+	 * Triggers the listener of the given event with the given data.
+	 * Throws an error if there is no listener assigned.
+	 * @param eventType The event to be triggered.
+	 * @param data The data being passed to the listener.
+	 * @example
+	 * nounsForkToken.trigger('NounCreated', {
+	 * 	id: 420,
+	 * 	seed: {
+	 * 		background: 0,
+	 * 		body: 0,
+	 * 		accessory: 0,
+	 * 		head: 0,
+	 * 		glasses: 0
+	 * 	}
+	 * });
+	 */
+	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);
@@ -277,6 +322,9 @@ export class _NounsForkToken {
 		listener(data);
 	}
 
+	/**
+	 * @returns The name of the contract. `NounsFork`.
+	 */
 	public name() {
 		return "NounsForkToken";
 	}

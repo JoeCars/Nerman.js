@@ -9,7 +9,10 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1 ",
-    "build": "tsc"
+    "build": "tsc",
+    "build-docs": "npm run build-contract-docs && npm run build-indexer-docs",
+    "build-contract-docs": "npx documentation build src/contracts/** --parse-extension ts -f md -o docs/contracts.md",
+    "build-indexer-docs": "npx documentation build src/indexer/** --parse-extension ts -f md -o docs/indexer.md"
   },
   "repository": {
     "type": "git",
@@ -25,6 +28,7 @@
   "devDependencies": {
     "@types/node-cron": "^3.0.7",
     "@types/node-fetch": "^2.6.4",
+    "documentation": "^14.0.2",
     "typescript": "^4.8.2"
   },
   "dependencies": {

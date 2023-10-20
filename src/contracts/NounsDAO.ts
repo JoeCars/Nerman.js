@@ -1,20 +1,39 @@
 import { ethers, BigNumber } from "ethers";
 import { stringify } from "querystring";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData } from "../types";
+import { SUPPORTED_NOUNS_DAO_EVENTS } from "../constants";
 
 import { NounsDAOABI } from "@nouns/contracts";
 
-import { default as NounsDAOLogicV3ABI } from "./NounsDAOLogicV3.json";
+import { default as NounsDAOLogicV3ABI } from "./abis/NounsDAOLogicV3.json";
 
+/**
+ * A wrapper class around the NounsDAO contract.
+ */
 export class _NounsDAO {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
+	public supportedEvents: string[];
+	public registeredListeners: Map<string, Function>;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x6f3E6272A167e8AcCb32072d08E0957F9c79223d", NounsDAOLogicV3ABI, this.provider);
+		this.supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
+		this.registeredListeners = new Map();
 	}
 
+	/**
+	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+	 * Throws an error if the event is not supported.
+	 * Listening to `ProposalCreatedWithRequirements` assigns the listener to both versions of the event.
+	 * @param eventType The name of the event.
+	 * @param listener The listener function.
+	 * @example
+	 * nounsDAO.on('VoteCast', (data) => {
+	 * 	console.log(data.proposalId);
+	 * });
+	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
 			case "DAOWithdrawNounsFromEscrow":
@@ -27,6 +46,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ERC20TokensToIncludeInForkSet":
@@ -42,6 +62,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "EscrowedToFork":
@@ -67,6 +88,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ExecuteFork":
@@ -92,6 +114,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ForkDAODeployerSet":
@@ -107,6 +130,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ForkPeriodSet":
@@ -119,6 +143,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ForkThresholdSet":
@@ -134,6 +159,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "JoinFork":
@@ -159,6 +185,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "LastMinuteWindowSet":
@@ -174,6 +201,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "MaxQuorumVotesBPSSet":
@@ -189,6 +217,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "MinQuorumVotesBPSSet":
@@ -204,6 +233,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -222,6 +252,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -243,6 +274,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -261,7 +293,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "NewPendingVetoer":
@@ -277,6 +309,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "NewVetoer":
@@ -289,6 +322,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ObjectionPeriodDurationSet":
@@ -308,6 +342,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -326,6 +361,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -367,6 +403,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalCreatedOnTimelockV1":
@@ -378,7 +415,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -462,7 +499,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalDescriptionUpdated":
@@ -473,12 +510,14 @@ export class _NounsDAO {
 							id: id,
 							proposer: { id: proposer } as Account,
 							description: description,
-							updatedMessage: updatedMessage
+							updatedMessage: updatedMessage,
+							event: event
 						} as EventData.ProposalDescriptionUpdated;
 
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
@@ -490,6 +529,7 @@ export class _NounsDAO {
 					};
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalObjectionPeriodSet":
@@ -505,6 +545,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -524,6 +565,7 @@ export class _NounsDAO {
 					};
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -545,6 +587,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalTransactionsUpdated":
@@ -574,6 +617,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalUpdatablePeriodSet":
@@ -593,6 +637,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "ProposalUpdated":
@@ -624,6 +669,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -640,6 +686,7 @@ export class _NounsDAO {
 					};
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "QuorumCoefficientSet":
@@ -655,6 +702,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -676,6 +724,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "RefundableVote":
@@ -692,6 +741,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "SignatureCancelled":
@@ -704,6 +754,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "TimelocksAndAdminSet":
@@ -720,6 +771,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "VoteCast": // WORKING
@@ -754,7 +806,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
-
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "VoteSnapshotBlockSwitchProposalIdSet":
@@ -774,6 +826,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -792,6 +845,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			// **********************************************************
@@ -810,6 +864,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "Withdraw":
@@ -822,6 +877,7 @@ export class _NounsDAO {
 
 					listener(data);
 				});
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			case "WithdrawFromForkEscrow":
@@ -838,6 +894,7 @@ export class _NounsDAO {
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
 				break;
 
 			default:
@@ -845,8 +902,48 @@ export class _NounsDAO {
 		}
 	}
 
+	/**
+	 * @returns The name of the contract. `NounsDAO`.
+	 */
 	public name() {
 		return "NounsDAO";
+	}
+
+	/**
+	 * Removes an event listener.
+	 * @param eventName the event listened to.
+	 */
+	public off(eventName: string) {
+		let listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			if (eventName === "ProposalCreatedWithRequirements") {
+				this.Contract.off(
+					"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
+					listener as ethers.providers.Listener
+				);
+				this.Contract.off(
+					"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
+					listener as ethers.providers.Listener
+				);
+			} else {
+				this.Contract.off(eventName, listener as ethers.providers.Listener);
+			}
+		}
+		this.registeredListeners.delete(eventName);
+	}
+
+	/**
+	 * Triggers an event. Throws an error if no listener is found.
+	 * @param eventType the name of the event.
+	 * @param data the event data.
+	 */
+	public trigger(eventType: string, data: unknown) {
+		const listener = this.registeredListeners.get(eventType);
+		if (!listener) {
+			throw new Error(`${eventType} does not have a listener.`);
+		}
+
+		listener(data);
 	}
 }
 

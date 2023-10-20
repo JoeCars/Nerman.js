@@ -5,15 +5,16 @@ import { _NounsAuctionHouse } from "./contracts/NounsAuctionHouse";
 import { _NounsToken } from "./contracts/NounsToken";
 import { _NounsDAO } from "./contracts/NounsDAO";
 import { _NounsDAOData } from "./contracts/NounsDAOData";
-import { EventData } from "./types";
+import { EventData, NounsOptions } from "./types";
 
-export { EventData } from "./types";
-export { NounsNymz } from "./utility/NounsNymz";
-export { FederationNounsPool } from "./utility/FederationNounsPool";
+export { EventData, NounsOptions } from "./types";
+export { NounsNymz } from "./contracts/nouns-nymz/NounsNymz";
+export { FederationNounsPool } from "./contracts/federation/FederationNounsPool";
 export { _NounsForkToken as NounsForkToken } from "./contracts/NounsForkToken";
 export { _NounsForkAuctionHouse as NounsForkAuctionHouse } from "./contracts/NounsForkAuctionHouse";
 export { _NounsFork as NounsFork } from "./contracts/NounsFork";
-export { _Propdates as Propdates } from "./contracts/Propdates/Propdates";
+export { _Propdates as Propdates } from "./contracts/propdates/Propdates";
+export { LilNouns } from "./contracts/lil-nouns/LilNouns";
 
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;
@@ -28,14 +29,18 @@ export class Nouns {
 	// this should eventually be part of on-chain indexed data
 	public cache: { [key: string]: { [key: string]: number | string } };
 
-	constructor(apiUrl: string | undefined) {
+	constructor(apiUrl: string | undefined, options?: NounsOptions) {
 		if (apiUrl === undefined) {
 			console.log("need to define process.env.JSON_RPC_API_URL");
 			process.exit();
 			return;
 		}
 		this.provider = new ethers.providers.JsonRpcProvider(apiUrl);
+
 		this.provider.pollingInterval = 10000;
+		if (options && options.pollingTime) {
+			this.provider.pollingInterval = options.pollingTime;
+		}
 
 		this.NounsAuctionHouse = new _NounsAuctionHouse(this.provider);
 		this.NounsToken = new _NounsToken(this.provider);

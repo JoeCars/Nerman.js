@@ -1,18 +1,34 @@
 import { ethers } from "ethers";
 import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, EventData } from "../types";
 import { NounsAuctionHouseABI } from "@nouns/contracts";
+import { SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS } from "../constants";
 
+/**
+ * A wrapper class around the NounsForkAuctionHouse contract.
+ */
 export class _NounsForkAuctionHouse {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<string, Function>;
+	public supportedEvents: string[];
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xd5c122b40823e467bc6e3c859cb530b105cae22e", NounsAuctionHouseABI, this.provider);
 		this.registeredListeners = new Map<string, Function>();
+		this.supportedEvents = SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS;
 	}
 
+	/**
+	 * Registers a listener to the given event, triggering the function with the appropriate event data whenever it triggers in the blockchain.
+	 * Throws an error if the event is not supported.
+	 * @param eventType The event name.
+	 * @param listener The listener function.
+	 * @example
+	 * nounsForkAuctionHouse.on('AuctionCreated', (data) => {
+	 * 	console.log(data.id);
+	 * });
+	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
@@ -174,7 +190,31 @@ export class _NounsForkAuctionHouse {
 		}
 	}
 
-	public emit(eventType: string, data: unknown) {
+	/**
+	 * Removes an event listener.
+	 * @param eventName the event name.
+	 */
+	public off(eventName: string) {
+		let listener = this.registeredListeners.get(eventName);
+		if (listener) {
+			this.Contract.off(eventName, listener as ethers.providers.Listener);
+		}
+		this.registeredListeners.delete(eventName);
+	}
+
+	/**
+	 * Triggers the listener of the given event with the given data.
+	 * Throws an error if the event is not supported.
+	 * @param eventType The event to be triggered.
+	 * @param data The data being passed to the listener.
+	 * @example
+	 * nounsForkAuctionHouse.trigger('AuctionCreated', {
+	 * 	id: 420,
+	 * 	startTime: 1689677183,
+	 * 	endTime: 1689763583,	
+	 * });
+	 */
+	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);
@@ -183,29 +223,49 @@ export class _NounsForkAuctionHouse {
 		listener(data);
 	}
 
+	/**
+	 * Retrieves a list of auctions from the blockchain.
+	 * @returns A list of recent AuctionCreated events.
+	 */
 	public async getLatestAuctions() {
 		const filter = this.Contract.filters.AuctionCreated();
 		const auctions = (await this.Contract.queryFilter(filter)) as Array<ethers.Event>;
 		return auctions;
 	}
 
+	/**
+	 * Retrieves a list of AuctionExtended events from the blockchain.
+	 * @returns A list of recent AuctionExtended events.
+	 */
 	public async getLatestAuctionExtended() {
 		const filter = this.Contract.filters.AuctionExtended();
 		const auctionExtendeds = (await this.Contract.queryFilter(filter)) as Array<ethers.Event>;
 		return auctionExtendeds;
 	}
 
+	/**
+	 * Retrieves a list of AuctionBids events from the blockchain.
+	 * @returns A list of recent AuctionBids events.
+	 */
 	public async getAuctionBids(nounId: number) {
 		const filter = this.Contract.filters.AuctionBid(nounId);
 		const bids = (await this.Contract.queryFilter(filter)) as Array<ethers.Event>;
 		return bids;
 	}
 
+	/**
+	 * @returns The name of the contract. `NounsAuctionHouse`.
+	 */
 	public name() {
-		return "NounsAuctionHouse";
+		return "NounsForkAuctionHouse";
 	}
 
 	//todo - cache this data
+	/**
+	 * Retrieves the most recent AuctionBid event for the given noun id.
+	 * @param nounId The number of the noun whose bid you are looking for.
+	 * @returns The AuctionBid event data.
+	 */
 	public async getAuctionLatestBid(nounId: number) {
 		const bids = await this.getAuctionBids(nounId);
 		const latestBid = bids.pop();
@@ -214,11 +274,19 @@ export class _NounsForkAuctionHouse {
 	}
 
 	// Put this in a provider specific file
+	/**
+	 * @param blockNumber The block number on the Ethereum blockchain.
+	 * @returns The information in the block.
+	 */
 	public async getBlock(blockNumber: number) {
 		const block = await this.provider.getBlock(blockNumber);
 		return block;
 	}
 
+	/**
+	 * Formats and prints bid information.
+	 * @param bid The bid event.
+	 */
 	public async tempFormatAuctionBid(bid: ethers.Event) {
 		if (bid != undefined && bid.args != undefined) {
 			const block = await this.getBlock(bid.blockNumber);
@@ -228,6 +296,10 @@ export class _NounsForkAuctionHouse {
 		}
 	}
 
+	/**
+	 * Formats and prints the most recent bid for the given noun.
+	 * @param nounId The noun being bid on.
+	 */
 	public async tempPrintAuctionBid(nounId: number) {
 		const bid = await this.getAuctionLatestBid(nounId);
 
@@ -236,6 +308,11 @@ export class _NounsForkAuctionHouse {
 		}
 	}
 
+	/**
+	 * Retrieves the most recent bid event for the given noun.
+	 * @param nounId The noun being bid on.
+	 * @returns The most recent bid.
+	 */
 	public async getLatestBidData(nounId: number) {
 		const bid = await this.getAuctionLatestBid(nounId);
 		if (bid != undefined && bid.args != undefined) {
