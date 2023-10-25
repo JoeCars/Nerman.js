@@ -12,7 +12,8 @@
     "build": "tsc",
     "build-docs": "npm run build-contract-docs && npm run build-indexer-docs",
     "build-contract-docs": "npx documentation build src/contracts/** --parse-extension ts -f md -o docs/contracts.md",
-    "build-indexer-docs": "npx documentation build src/indexer/** --parse-extension ts -f md -o docs/indexer.md"
+    "build-indexer-docs": "npx documentation build src/indexer/** --parse-extension ts -f md -o docs/indexer.md",
+    "build-types-docs": "npx documentation build src/types.ts --parse-extension ts -f md -o docs/types.md"
   },
   "repository": {
     "type": "git",
