@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, EventData } from "../types";
+import { Account, EventData } from "../types";
 import { NounsAuctionHouseABI } from "@nouns/contracts";
 import { SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS } from "../constants";
 
@@ -211,7 +211,7 @@ export class _NounsForkAuctionHouse {
 	 * nounsForkAuctionHouse.trigger('AuctionCreated', {
 	 * 	id: 420,
 	 * 	startTime: 1689677183,
-	 * 	endTime: 1689763583,	
+	 * 	endTime: 1689763583,
 	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {

@@ -10,7 +10,10 @@ export interface NounsOptions {
 	pollingTime?: number;
 }
 
-// ETHEREUM
+//=========================================
+// General Types
+//=========================================
+
 export interface Account {
 	id: string;
 }
@@ -23,54 +26,10 @@ export interface NounsTokenSeed {
 	glasses: number;
 }
 
-// NounsAuctionHouse
-export interface Auction {
-	id: number; //Noun ID
-	startTime: number;
-	endTime: number;
-}
-
-export interface Bid {
-	id: string;
-	amount: string;
-	bidder: Account;
-	extended: boolean;
-}
-
-export interface AuctionBids {
-	id: number;
-	endTime: number;
-	bids: Bid[];
-}
-
-export interface TokenMetadata {
-	name: string;
-	description: string;
-	image: string;
-}
-
 export enum VoteDirection {
 	AGAINST = 0,
 	FOR = 1,
 	ABSTAIN = 2
-}
-
-export interface Vote {
-	id: string;
-	voter: Account;
-	votes: number;
-	supportDetailed: VoteDirection;
-	reason: string | null;
-}
-
-export interface NounsContractData {
-	address: string;
-	abi: ethers.ContractInterface;
-	provider: ethers.providers.JsonRpcProvider;
-}
-
-export interface EventWrapper {
-	event: ethers.Event;
 }
 
 export type ProposalStatus =
@@ -82,20 +41,6 @@ export type ProposalStatus =
 	| typeof STATUS_VETOED;
 
 import { STATUS_ACTIVE, STATUS_QUEUED, STATUS_PENDING, STATUS_EXECUTED, STATUS_CANCELLED, STATUS_VETOED } from "./constants";
-
-// THIS IS OLD, moved to EVENT DATA
-export interface Proposal {
-	id: number;
-	proposer: Account;
-	description: string;
-	status: ProposalStatus;
-	quorumVotes: number;
-	proposalThreshold: number;
-	startBlock: number;
-	endBlock: number;
-	executionETA: number;
-	votes: Vote[];
-}
 
 export namespace EventData {
 	// ******************************************

@@ -1,5 +1,4 @@
 import { ethers } from "ethers";
-import * as NounsDAO from "./contracts/NounsDAO";
 
 import { _NounsAuctionHouse } from "./contracts/NounsAuctionHouse";
 import { _NounsToken } from "./contracts/NounsToken";

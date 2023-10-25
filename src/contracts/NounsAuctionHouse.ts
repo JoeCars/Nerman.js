@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, EventData } from "../types";
+import { Account, EventData } from "../types";
 import { NounsAuctionHouseABI } from "@nouns/contracts";
 import { SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS } from "../constants";
 
