@@ -14,24 +14,44 @@ export interface NounsOptions {
 // General Types
 //=========================================
 
+/** An Ethereum account. */
 export interface Account {
+	/** The address id. */
 	id: string;
 }
 
+/** Seed object for Nouns tokens. */
 export interface NounsTokenSeed {
+	/** 0 to 1. Cool or warm. */
 	background: number;
+	/** 0 to 29 */
 	body: number;
+	/** 0 to 136 */
 	accessory: number;
+	/** 0 to 233 */
 	head: number;
+	/** 0 to 20 */
 	glasses: number;
 }
 
+/**
+ * Vote options and their associated numbers.
+ * @example
+ * AGAINST = 0;
+ * FOR = 1;
+ * ABSTAIN = 2;
+ */
 export enum VoteDirection {
 	AGAINST = 0,
 	FOR = 1,
 	ABSTAIN = 2
 }
 
+/** Possible proposal states.
+ * @type {string}
+ * @example
+ * "ACTIVE" | "CANCELLED" | "EXECUTED" | "PENDING" | "QUEUED" | "VETOED"
+ */
 export type ProposalStatus =
 	| typeof STATUS_ACTIVE
 	| typeof STATUS_CANCELLED
@@ -42,305 +62,533 @@ export type ProposalStatus =
 
 import { STATUS_ACTIVE, STATUS_QUEUED, STATUS_PENDING, STATUS_EXECUTED, STATUS_CANCELLED, STATUS_VETOED } from "./constants";
 
+/** Event data types for contract listeners. */
 export namespace EventData {
 	// ******************************************
 	//
 	// Contract - NounsDAO
 	//
 	// ******************************************
-	// EventData types
 
+	/** DAOWithdrawNounsFromEscrow event data. */
 	export interface DAOWithdrawNounsFromEscrow {
+		/** List of tokens being withdrawn. */
 		tokenIds: number[];
+		/** Address withdrawing the tokens. */
 		to: Account;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ERC20TokensToIncludeInForkSet event data. */
 	export interface ERC20TokensToIncludeInForkSet {
+		/** ??? */
 		oldErc20Tokens: string[];
+		/** ??? */
 		newErc20tokens: string[];
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** EscrowedToFork event data. */
 	export interface EscrowedToFork {
+		/** Fork number. */
 		forkId: number;
+		/** Token owner who is escrowing to fork. */
 		owner: Account;
+		/** List of tokens being escrowed. */
 		tokenIds: number[];
+		/** Owner's currently active proposals being transferred to the fork. */
 		proposalIds: number[];
+		/** Optional reason. */
 		reason: string;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ExecuteFork event data. */
 	export interface ExecuteFork {
+		/** Fork number. */
 		forkId: number;
+		/** Fork treasury account. */
 		forkTreasury: Account;
+		/** Fork token account. */
 		forkToken: Account;
+		/** ??? */
 		forkEndTimestamp: number;
+		/** Tokens in escrow at the moment of the escrow. These are lost from the main treasury. */
 		tokensInEscrow: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ForkDAODeployerSet event data. */
 	export interface ForkDAODeployerSet {
+		/** ??? */
 		oldForkDAODeployer: Account;
+		/** ??? */
 		newForkDAODeployer: Account;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ForkDAODeployerSet event data. */
 	export interface ForkPeriodSet {
+		/** ??? */
 		oldForkPeriod: number;
+		/** ??? */
 		newForkPeriod: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ForkThresholdSet event data. */
 	export interface ForkThresholdSet {
+		/** The old token amount needed to successfully fork the DAO. A percentage of the token supply. */
 		oldForkThreshold: number;
+		/** The new token amount needed to successfully fork the DAO. A percentage of the token supply. */
 		newForkThreshold: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** JoinFork event data.
+	 * Triggers after the fork is executed, but still has a chance to rejoin the main fork.
+	 */
 	export interface JoinFork {
+		/** Fork number. */
 		forkId: number;
+		/** Token owner who is escrowing to fork. */
 		owner: Account;
+		/** List of tokens being escrowed. */
 		tokenIds: number[];
+		/** Owner's currently active proposals being transferred to the fork. */
 		proposalIds: number[];
+		/** Optional reason. */
 		reason: string;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** LastMinuteWindowSet event data. */
 	export interface LastMinuteWindowSet {
+		/** ??? */
 		oldLastMinuteWindowInBlocks: number;
+		/** ??? */
 		newLastMinuteWindowInBlocks: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** MaxQuorumVotesBPSSet event data. */
 	export interface MaxQuorumVotesBPSSet {
+		/** ??? */
 		oldMaxQuorumVotesBPS: number;
+		/** ??? */
 		newMaxQuorumVotesBPS: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** MinQuorumVotesBPSSet event data. */
 	export interface MinQuorumVotesBPSSet {
+		/** ??? */
 		oldMinQuorumVotesBPS: number;
+		/** ??? */
 		newMinQuorumVotesBPS: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** NewAdmin event data. */
 	export interface NewAdmin {
+		/** ??? */
 		oldAdmin: Account;
+		/** ??? */
 		newAdmin: Account;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** NewImplementation event data. */
 	export interface NewImplementation {
+		/** ??? */
 		oldImplementation: Account;
+		/** ??? */
 		newImplementation: Account;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** NewPendingAdmin event data. */
 	export interface NewPendingAdmin {
+		/** ??? */
 		oldPendingAdmin: Account;
+		/** ??? */
 		newPendingAdmin: Account;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** NewPendingVetoer event data. */
 	export interface NewPendingVetoer {
+		/** ??? */
 		oldPendingVetoer: Account;
+		/** ??? */
 		newPendingVetoer: Account;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** NewVetoer event data. */
 	export interface NewVetoer {
+		/** ??? */
 		oldVetoer: Account;
+		/** ??? */
 		newVetoer: Account;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ObjectionPeriodDurationSet event data. */
 	export interface ObjectionPeriodDurationSet {
+		/** ??? */
 		oldObjectionPeriodDurationInBlocks: number;
+		/** ??? */
 		newObjectionPeriodDurationInBlocks: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalCanceled event data. */
 	export interface ProposalCanceled {
+		/** id of the proposal being cancelled. */
 		id: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalCreated event data. */
 	export interface ProposalCreated {
+		/** id of the proposal being created. */
 		id: number;
+		/** Account of the proposer. */
 		proposer: Account;
+		/** ??? */
 		targets: string[];
+		/** ??? */
 		values: BigNumber[];
+		/** ??? */
 		signatures: string[];
+		/** ??? */
 		calldatas: any[]; // type is bytes[]
+		/** The block voting starts. */
 		startBlock: number;
+		/** The block voting ends. */
 		endBlock: number;
+		/**
+		 * Proposal description.
+		 * @example
+		 * `
+		 * # Proposal Title \n
+		 * Proposal details go here.
+		 * `
+		 */
 		description: string;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalCreatedOnTimelockV1 event data. */
 	export interface ProposalCreatedOnTimelockV1 {
+		/** id of the proposal created. */
 		id: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalCreatedWithRequirements event data. */
 	export interface ProposalCreatedWithRequirements {
+		/** id of the proposal created. */
 		id: number;
+		/** Account of the proposer. */
 		proposer: Account;
+		/** ??? - Only in V3 contract. */
 		signers?: string[];
+		/** ??? */
 		targets: string[];
+		/** ??? */
 		values: BigNumber[];
+		/** ??? */
 		signatures: string[];
+		/** ??? */
 		calldatas: any[];
+		/** The block voting starts. */
 		startBlock: number;
+		/** The block voting ends. */
 		endBlock: number;
+		/** ??? - Only in V3 contract. */
 		updatePeriodEndBlock?: number;
+		/** ??? */
 		proposalThreshold: number;
+		/** ??? */
 		quorumVotes: number;
+		/**
+		 * Proposal description.
+		 * @example
+		 * `
+		 * # Proposal Title \n
+		 * Proposal details go here.
+		 * `
+		 */
 		description: string;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalDescriptionUpdated event data. */
 	export interface ProposalDescriptionUpdated {
+		/** id of the proposal updated. */
 		id: number;
+		/** Account of the proposer. */
 		proposer: Account;
+		/** Proposal description. */
 		description: string;
+		/** Updated proposal description. */
 		updatedMessage: string;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalExecuted event data. */
 	export interface ProposalExecuted {
+		/** id of the proposal executed. */
 		id: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalObjectionPeriodSet event data. */
 	export interface ProposalObjectionPeriodSet {
+		/** id of the proposal. */
 		id: number;
+		/** ??? */
 		objectionPeriodEndBlock: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalQueued event data.
+	 * The proposal has enough For votes to pass, and has entered a queued stage to be executed.
+	 */
 	export interface ProposalQueued {
+		/** id of the proposal. */
 		id: number;
+		/** Block number signifying end of the queued period. */
 		eta: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalThresholdBPSSet event data. */
 	export interface ProposalThresholdBPSSet {
+		/** ??? */
 		oldProposalThresholdBPS: number;
+		/** ??? */
 		newProposalThresholdBPS: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalTransactionsUpdated event data. */
 	export interface ProposalTransactionsUpdated {
+		/** id of the proposal. */
 		id: number;
+		/** Account of the proposer. */
 		proposer: Account;
+		/** ??? */
 		targets: string[];
+		/** ??? */
 		values: number[];
+		/** ??? */
 		signatures: string[];
+		/** ??? */
 		calldatas: any[];
+		/** ??? */
 		updateMessage: string;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalUpdatablePeriodSet event data. */
 	export interface ProposalUpdatablePeriodSet {
+		/** The old contract constant. */
 		oldProposalUpdatablePeriodInBlocks: number;
+		/** The new contract constant. */
 		newProposalUpdatablePeriodInBlocks: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalUpdated event data. */
 	export interface ProposalUpdated {
+		/** id of the proposal. */
 		id: number;
+		/** Account of the proposer. */
 		proposer: Account;
+		/** ??? */
 		targets: string[];
+		/** ??? */
 		values: number[];
+		/** ??? */
 		signatures: string[];
+		/** ??? */
 		calldatas: any[];
+		/** Proposal description. */
 		description: string;
+		/** New proposal description. */
 		updateMessage: string;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** ProposalVetoed event data. */
 	export interface ProposalVetoed {
+		/** id of the proposal. */
 		id: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** Quit event data. */
 	export interface Quit {
+		/** The account quitting the Nouns DAO. */
 		msgSender: Account;
+		/** The tokens returned in exchange for eth. */
 		tokenIds: number[];
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** QuorumCoefficientSet event data. */
 	export interface QuorumCoefficientSet {
+		/** The old contract constant. */
 		oldQuorumCoefficient: number;
+		/** The new contract constant. */
 		newQuorumCoefficient: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** QuorumVotesBPSSet event data. */
 	export interface QuorumVotesBPSSet {
+		/** The old contract constant. */
 		oldQuorumVotesBPS: number;
+		/** The new contract constant. */
 		newQuorumVotesBPS: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** RefundableVote event data. */
 	export interface RefundableVote {
+		/** The voter account. */
 		voter: Account;
+		/** The refund amount. */
 		refundAmount: number;
+		/** Whether the refund was sent or not. */
 		refundSent: boolean;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** SignatureCancelled event data. */
 	export interface SignatureCancelled {
+		/** The account cancelling the signature. */
 		signer: Account;
+		/** ??? */
 		sig: any;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** TimelocksAndAdminSet event data. */
 	export interface TimelocksAndAdminSet {
+		/** ??? */
 		timelock: Account;
+		/** ??? */
 		timelockV1: Account;
+		/** ??? */
 		admin: Account;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** VoteCast event data. */
 	export interface VoteCast {
+		/** The voter account. */
 		voter: Account;
+		/** The proposal voted on. */
 		proposalId: number;
+		/** The side they are voting for. */
 		supportDetailed: VoteDirection;
+		/** The number of votes they are using. */
 		votes: number;
+		/** An optional reason explaining their decision. */
 		reason: string;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** VoteSnapshotBlockSwitchProposalIdSet event data. */
 	export interface VoteSnapshotBlockSwitchProposalIdSet {
+		/** ??? */
 		oldVoteSnapshotBlockSwitchProposalId: number;
+		/** ??? */
 		newVoteSnapshotBlockSwitchProposalId: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** VotingDelaySet event data. */
 	export interface VotingDelaySet {
+		/** The old contract constant. */
 		oldVotingDelay: number;
+		/** The new contract constant. */
 		newVotingDelay: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** VotingPeriodSet event data. */
 	export interface VotingPeriodSet {
+		/** The old contract constant. */
 		oldVotingPeriod: number;
+		/** The new contract constant. */
 		newVotingPeriod: number;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** Withdraw event data. */
 	export interface Withdraw {
+		/** ??? */
 		amount: number;
+		/** ??? */
 		sent: boolean;
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
+	/** WithdrawFromForkEscrow event data. */
 	export interface WithdrawFromForkEscrow {
+		/** The fork escrow withdrawing from. */
 		forkId: number;
+		/** The account withdrawing. */
 		owner: Account;
+		/** The tokens withdrawing. */
 		tokenIds: number[];
+		/** Event meta data. */
 		event: ethers.Event;
 	}
 
@@ -773,7 +1021,9 @@ export namespace EventData {
 // Index Types
 //=========================================
 
+/** Types related to the indexer. Including events and queries. */
 export namespace Indexer {
+	/** Basic event details. */
 	export interface FormattedEvent {
 		blockNumber: number;
 		blockHash: string;
@@ -784,6 +1034,7 @@ export namespace Indexer {
 		eventSignature: string;
 	}
 
+	/** NounsDAO Indexer types. */
 	export namespace NounsDAO {
 		export interface DAOWithdrawNounsFromEscrow extends FormattedEvent {
 			tokenIds: number[];
