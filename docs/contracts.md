@@ -2,354 +2,183 @@
 
 ### Table of Contents
 
-*   [FederationNounsPool][1]
+*   [LilNounsDAOLogic][1]
     *   [Parameters][2]
     *   [on][3]
         *   [Parameters][4]
         *   [Examples][5]
     *   [off][6]
         *   [Parameters][7]
-        *   [Examples][8]
-    *   [trigger][9]
-        *   [Parameters][10]
-        *   [Examples][11]
-    *   [name][12]
-*   [LilNouns][13]
-    *   [Parameters][14]
-    *   [on][15]
-        *   [Parameters][16]
-        *   [Examples][17]
+    *   [trigger][8]
+        *   [Parameters][9]
+    *   [name][10]
+*   [LilNounsToken][11]
+    *   [Parameters][12]
+    *   [on][13]
+        *   [Parameters][14]
+        *   [Examples][15]
+    *   [off][16]
+        *   [Parameters][17]
     *   [trigger][18]
         *   [Parameters][19]
-        *   [Examples][20]
-    *   [off][21]
-        *   [Parameters][22]
-    *   [name][23]
-*   [LilNounsAuctionHouse][24]
-    *   [Parameters][25]
-    *   [on][26]
+    *   [name][20]
+*   [\_NounsAuctionHouse][21]
+    *   [Parameters][22]
+    *   [on][23]
+        *   [Parameters][24]
+        *   [Examples][25]
+    *   [off][26]
         *   [Parameters][27]
-        *   [Examples][28]
-    *   [off][29]
-        *   [Parameters][30]
-    *   [trigger][31]
-        *   [Parameters][32]
-    *   [name][33]
-*   [LilNounsDAOLogic][34]
-    *   [Parameters][35]
-    *   [on][36]
-        *   [Parameters][37]
-        *   [Examples][38]
-    *   [off][39]
+    *   [trigger][28]
+        *   [Parameters][29]
+    *   [getLatestAuctions][30]
+    *   [getLatestAuctionExtended][31]
+    *   [getAuctionBids][32]
+        *   [Parameters][33]
+    *   [name][34]
+    *   [getAuctionLatestBid][35]
+        *   [Parameters][36]
+    *   [getBlock][37]
+        *   [Parameters][38]
+    *   [tempFormatAuctionBid][39]
         *   [Parameters][40]
-    *   [trigger][41]
+    *   [tempPrintAuctionBid][41]
         *   [Parameters][42]
-    *   [name][43]
-*   [LilNounsToken][44]
-    *   [Parameters][45]
-    *   [on][46]
-        *   [Parameters][47]
-        *   [Examples][48]
-    *   [off][49]
-        *   [Parameters][50]
-    *   [trigger][51]
-        *   [Parameters][52]
-    *   [name][53]
-*   [NounsNymz][54]
-    *   [on][55]
-        *   [Parameters][56]
-        *   [Examples][57]
-    *   [off][58]
-        *   [Parameters][59]
-    *   [trigger][60]
+    *   [getLatestBidData][43]
+        *   [Parameters][44]
+*   [\_NounsForkAuctionHouse][45]
+    *   [Parameters][46]
+    *   [on][47]
+        *   [Parameters][48]
+        *   [Examples][49]
+    *   [off][50]
+        *   [Parameters][51]
+    *   [trigger][52]
+        *   [Parameters][53]
+        *   [Examples][54]
+    *   [getLatestAuctions][55]
+    *   [getLatestAuctionExtended][56]
+    *   [getAuctionBids][57]
+        *   [Parameters][58]
+    *   [name][59]
+    *   [getAuctionLatestBid][60]
         *   [Parameters][61]
-        *   [Examples][62]
-    *   [name][63]
-*   [\_NounsAuctionHouse][64]
-    *   [Parameters][65]
-    *   [on][66]
+    *   [getBlock][62]
+        *   [Parameters][63]
+    *   [tempFormatAuctionBid][64]
+        *   [Parameters][65]
+    *   [tempPrintAuctionBid][66]
         *   [Parameters][67]
-        *   [Examples][68]
-    *   [off][69]
-        *   [Parameters][70]
-    *   [trigger][71]
-        *   [Parameters][72]
-    *   [getLatestAuctions][73]
-    *   [getLatestAuctionExtended][74]
-    *   [getAuctionBids][75]
+    *   [getLatestBidData][68]
+        *   [Parameters][69]
+*   [\_NounsForkToken][70]
+    *   [Parameters][71]
+    *   [on][72]
+        *   [Parameters][73]
+        *   [Examples][74]
+    *   [off][75]
         *   [Parameters][76]
-    *   [name][77]
-    *   [getAuctionLatestBid][78]
-        *   [Parameters][79]
-    *   [getBlock][80]
-        *   [Parameters][81]
-    *   [tempFormatAuctionBid][82]
-        *   [Parameters][83]
-    *   [tempPrintAuctionBid][84]
-        *   [Parameters][85]
-    *   [getLatestBidData][86]
+    *   [trigger][77]
+        *   [Parameters][78]
+        *   [Examples][79]
+    *   [name][80]
+*   [\_NounsToken][81]
+    *   [Parameters][82]
+    *   [on][83]
+        *   [Parameters][84]
+        *   [Examples][85]
+    *   [off][86]
         *   [Parameters][87]
-*   [NounsOptions][88]
-    *   [pollingTime][89]
-*   [\_NounsDAO][90]
-    *   [Parameters][91]
-    *   [on][92]
-        *   [Parameters][93]
-        *   [Examples][94]
-    *   [name][95]
-    *   [off][96]
-        *   [Parameters][97]
-    *   [trigger][98]
+    *   [trigger][88]
+        *   [Parameters][89]
+    *   [callView][90]
+        *   [Parameters][91]
+    *   [name][92]
+*   [FederationNounsPool][93]
+    *   [Parameters][94]
+    *   [on][95]
+        *   [Parameters][96]
+        *   [Examples][97]
+    *   [off][98]
         *   [Parameters][99]
-*   [\_NounsDAOData][100]
-    *   [Parameters][101]
-    *   [on][102]
-        *   [Parameters][103]
-        *   [Examples][104]
-    *   [off][105]
-        *   [Parameters][106]
-    *   [trigger][107]
+        *   [Examples][100]
+    *   [trigger][101]
+        *   [Parameters][102]
+        *   [Examples][103]
+    *   [name][104]
+*   [LilNounsAuctionHouse][105]
+    *   [Parameters][106]
+    *   [on][107]
         *   [Parameters][108]
-    *   [name][109]
-*   [\_NounsFork][110]
-    *   [Parameters][111]
-    *   [on][112]
+        *   [Examples][109]
+    *   [off][110]
+        *   [Parameters][111]
+    *   [trigger][112]
         *   [Parameters][113]
-        *   [Examples][114]
-    *   [off][115]
-        *   [Parameters][116]
-    *   [trigger][117]
-        *   [Parameters][118]
-        *   [Examples][119]
-    *   [name][120]
-*   [\_NounsForkAuctionHouse][121]
-    *   [Parameters][122]
-    *   [on][123]
-        *   [Parameters][124]
-        *   [Examples][125]
-    *   [off][126]
-        *   [Parameters][127]
-    *   [trigger][128]
-        *   [Parameters][129]
-        *   [Examples][130]
-    *   [getLatestAuctions][131]
-    *   [getLatestAuctionExtended][132]
-    *   [getAuctionBids][133]
+    *   [name][114]
+*   [NounsNymz][115]
+    *   [on][116]
+        *   [Parameters][117]
+        *   [Examples][118]
+    *   [off][119]
+        *   [Parameters][120]
+    *   [trigger][121]
+        *   [Parameters][122]
+        *   [Examples][123]
+    *   [name][124]
+*   [\_NounsDAO][125]
+    *   [Parameters][126]
+    *   [on][127]
+        *   [Parameters][128]
+        *   [Examples][129]
+    *   [name][130]
+    *   [off][131]
+        *   [Parameters][132]
+    *   [trigger][133]
         *   [Parameters][134]
-    *   [name][135]
-    *   [getAuctionLatestBid][136]
-        *   [Parameters][137]
-    *   [getBlock][138]
-        *   [Parameters][139]
-    *   [tempFormatAuctionBid][140]
+*   [\_NounsDAOData][135]
+    *   [Parameters][136]
+    *   [on][137]
+        *   [Parameters][138]
+        *   [Examples][139]
+    *   [off][140]
         *   [Parameters][141]
-    *   [tempPrintAuctionBid][142]
+    *   [trigger][142]
         *   [Parameters][143]
-    *   [getLatestBidData][144]
-        *   [Parameters][145]
-*   [\_NounsForkToken][146]
-    *   [Parameters][147]
-    *   [on][148]
-        *   [Parameters][149]
-        *   [Examples][150]
-    *   [off][151]
-        *   [Parameters][152]
-    *   [trigger][153]
-        *   [Parameters][154]
-        *   [Examples][155]
-    *   [name][156]
-*   [\_NounsToken][157]
-    *   [Parameters][158]
-    *   [on][159]
-        *   [Parameters][160]
-        *   [Examples][161]
-    *   [off][162]
-        *   [Parameters][163]
-    *   [trigger][164]
-        *   [Parameters][165]
-    *   [callView][166]
-        *   [Parameters][167]
-    *   [name][168]
-*   [\_Propdates][169]
-    *   [Parameters][170]
-    *   [on][171]
-        *   [Parameters][172]
-        *   [Examples][173]
-    *   [off][174]
-        *   [Parameters][175]
-    *   [trigger][176]
-        *   [Parameters][177]
-        *   [Examples][178]
-    *   [name][179]
-
-## FederationNounsPool
-
-A wrapper class that supports Federation NounsPool events.
-Supports two events. `BidPlaced` and `VoteCast`.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
-
-### on
-
-Assigns a listener to the federation event. Adds the listener to both V1 and V2 contracts. Throws an error if the event is not supported.
-
-#### Parameters
-
-*   `event` **[string][180]** The event listened to.
-*   `listener` **[Function][181]** A listener function that takes in the appropriate data type for the event.
-
-#### Examples
-
-```javascript
-federationNounsPool.on('BidPlaced', (data) => {
-	console.log(data.propId);
-});
-```
-
-### off
-
-Removes the listener of the given event. Does nothing if the event was not listened to in the first place.
-
-#### Parameters
-
-*   `event` **[string][180]** The event being removed.
-
-#### Examples
-
-```javascript
-federationNounsPool.off('BidPlaced');
-```
-
-### trigger
-
-Triggers an event with the given data, which calls the assigned listener. Throws an error if the listener could not be found.
-
-#### Parameters
-
-*   `event` **[string][180]** The event being triggered.
-*   `data` **any** The data used to trigger the given event.
-
-#### Examples
-
-```javascript
-federationNounsPool.trigger('BidPlaced', {
-	dao: "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d",
-	propId: 346,
-	support: 1,
-	amount: 42000000000000001,
-	bidder: "0x2B0E9aA394209fa8D783C9e8cbFb08A15C019cdF",
-	reason: ""
-});
-```
-
-### name
-
-Returns **any** the contract name. 'FederationNounsPool'.
-
-## LilNouns
-
-A wrapper class for all LilNouns contracts.
-Allows you to listen to events without worrying about which contract it's in.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
-
-### on
-
-Adds a listener to the event. The listener is triggered whenever the event occurs onchain, and event data is passed to the function.
-Throws an error if the event is not supported.
-
-#### Parameters
-
-*   `eventName` **[string][180]** the event
-*   `listener` **[Function][181]** the listener function
-
-#### Examples
-
-```javascript
-lilNouns.on('VoteCast', (data) => {
-	console.log(data.proposalId);
-});
-```
-
-### trigger
-
-Triggers the event's listener with the data.
-Throws an error if there is no listener already assigned.
-
-#### Parameters
-
-*   `eventName` **[string][180]** the name of the event you are triggering.
-*   `data` **any** the data passed to the listener.
-
-#### Examples
-
-```javascript
-lilNouns.trigger('ProposalExecuted', {id: 420, event: {}});
-```
-
-### off
-
-Removes any assigned listeners from the event.
-Does nothing if there was no listener.
-
-#### Parameters
-
-*   `eventName` **[string][180]** the event whose listener you are removing.
-
-### name
-
-Returns **any** the name of the contract. `LilNouns`.
-
-## LilNounsAuctionHouse
-
-A wrapper class around the LilNounsAuctionHouse contract.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
-
-### on
-
-Assigns a listener to the event, which triggers whenever the event happens onchain.
-Throws an error if the event is not supported.
-
-#### Parameters
-
-*   `eventType` **[string][180]** The event name.
-*   `listener` **[Function][181]** The listener function.
-
-#### Examples
-
-```javascript
-lilNounsAuctionHouse.on('AuctionCreated', (data) => {
-	console.log(data.id);
-});
-```
-
-### off
-
-Removes an event listener.
-
-#### Parameters
-
-*   `eventName` **[string][180]** the event listened to.
-
-### trigger
-
-Triggers an event. Throws an error if the listener cannot be found.
-
-#### Parameters
-
-*   `eventType` **[string][180]** the name of the event.
-*   `data` **any** the event data.
-
-### name
-
-Returns **any** The name of the contract. `LilNounsAuctionHouse`.
+    *   [name][144]
+*   [\_NounsFork][145]
+    *   [Parameters][146]
+    *   [on][147]
+        *   [Parameters][148]
+        *   [Examples][149]
+    *   [off][150]
+        *   [Parameters][151]
+    *   [trigger][152]
+        *   [Parameters][153]
+        *   [Examples][154]
+    *   [name][155]
+*   [\_Propdates][156]
+    *   [Parameters][157]
+    *   [on][158]
+        *   [Parameters][159]
+        *   [Examples][160]
+    *   [off][161]
+        *   [Parameters][162]
+    *   [trigger][163]
+        *   [Parameters][164]
+        *   [Examples][165]
+    *   [name][166]
+*   [LilNouns][167]
+    *   [Parameters][168]
+    *   [on][169]
+        *   [Parameters][170]
+        *   [Examples][171]
+    *   [trigger][172]
+        *   [Parameters][173]
+        *   [Examples][174]
+    *   [off][175]
+        *   [Parameters][176]
+    *   [name][177]
 
 ## LilNounsDAOLogic
 
@@ -366,8 +195,8 @@ Throws an error if the event is not supported.
 
 #### Parameters
 
-*   `eventType` **[string][180]** The event name.
-*   `listener` **[Function][181]** The listener function.
+*   `eventType` **[string][178]** The event name.
+*   `listener` **[Function][179]** The listener function.
 
 #### Examples
 
@@ -383,7 +212,7 @@ Removes an event listener.
 
 #### Parameters
 
-*   `eventName` **[string][180]** the event listened to.
+*   `eventName` **[string][178]** the event listened to.
 
 ### trigger
 
@@ -391,7 +220,7 @@ Triggers an event. Throws an error if the listener cannot be found.
 
 #### Parameters
 
-*   `eventType` **[string][180]** the name of the event.
+*   `eventType` **[string][178]** the name of the event.
 *   `data` **any** the event data.
 
 ### name
@@ -413,8 +242,8 @@ Throws an error if the event is not supported.
 
 #### Parameters
 
-*   `eventType` **[string][180]** The name of the event.
-*   `listener` **[Function][181]** The listener function.
+*   `eventType` **[string][178]** The name of the event.
+*   `listener` **[Function][179]** The listener function.
 
 #### Examples
 
@@ -430,7 +259,7 @@ Removes an event listener.
 
 #### Parameters
 
-*   `eventName` **[string][180]** the event name.
+*   `eventName` **[string][178]** the event name.
 
 ### trigger
 
@@ -438,68 +267,12 @@ Triggers an event. Throws an error if there is no assigned listener.
 
 #### Parameters
 
-*   `eventType` **[string][180]** the event name.
+*   `eventType` **[string][178]** the event name.
 *   `data` **any** the event data.
 
 ### name
 
 Returns **any** The name of the contract. `LilNounsToken`.
-
-## NounsNymz
-
-A wrapper class for NounsNymz events.
-Supports the `NewPost` event.
-
-### on
-
-Assigns a listener function for the given event. Throws an error if the event is not supported.
-
-#### Parameters
-
-*   `eventName` **[string][180]** The event being listened to.
-*   `listener` **function (post: EventData.NounsNymz.NewPost): void** The listener function.
-
-#### Examples
-
-```javascript
-nounsNymz.on('NewPost', (data) => {
-	console.log(data.body);
-});
-```
-
-### off
-
-Removes an event listener.
-
-#### Parameters
-
-*   `eventName` **[string][180]** the event listened to.
-
-### trigger
-
-Triggers the listener of the given event with the given data. Throws an error if the listener cannot be found.
-
-#### Parameters
-
-*   `eventName` **[string][180]** The event to be triggered.
-*   `data` **any** The data being passed to the listener.
-
-#### Examples
-
-```javascript
-nounsNymz.trigger('NewPost', {
-	id: "0xcbd6b65b7fd297dad4ea88eb789fed57ead1c1e49fa7f6e3dedaa2d10c42edab",
-	title: "Do you re-use your nyms here? If not, why not?",
-	body: "It's been fun seeing some life here in the past couple weeks! \n\nWe've noticed that most new nyms are randomly generated/single-use. For those posting from single-use nyms: do you see any value in re-using a name you've used in the past? ",
-	timestamp: "2023-07-31T17:54:17.000Z",
-	userId: "0x141b63d93daf55bfb7f396eee6114f3a5d4a90b2",
-	parentId: null,
-});
-```
-
-### name
-
-Returns **any** the name of the contract. 'NounsNymz'.
 
 ## \_NounsAuctionHouse
 
@@ -516,8 +289,8 @@ Throws an error if the event is not supported.
 
 #### Parameters
 
-*   `eventType` **[string][180]** The event name.
-*   `listener` **[Function][181]** The listener function.
+*   `eventType` **[string][178]** The event name.
+*   `listener` **[Function][179]** The listener function.
 
 #### Examples
 
@@ -533,7 +306,7 @@ Removes an event listener.
 
 #### Parameters
 
-*   `eventName` **[string][180]** the event listened to.
+*   `eventName` **[string][178]** the event listened to.
 
 ### trigger
 
@@ -541,7 +314,7 @@ Triggers an event. Throws an error if the listener cannot be found.
 
 #### Parameters
 
-*   `eventType` **[string][180]** the name of the event.
+*   `eventType` **[string][178]** the name of the event.
 *   `data` **any** the event data.
 
 ### getLatestAuctions
@@ -562,7 +335,7 @@ Retrieves a list of AuctionBids events from the blockchain.
 
 #### Parameters
 
-*   `nounId` **[number][182]**&#x20;
+*   `nounId` **[number][180]**&#x20;
 
 Returns **any** A list of recent AuctionBids events.
 
@@ -576,7 +349,7 @@ Retrieves the most recent AuctionBid event for the given noun id.
 
 #### Parameters
 
-*   `nounId` **[number][182]** The number of the noun whose bid you are looking for.
+*   `nounId` **[number][180]** The number of the noun whose bid you are looking for.
 
 Returns **any** The AuctionBid event data.
 
@@ -584,7 +357,7 @@ Returns **any** The AuctionBid event data.
 
 #### Parameters
 
-*   `blockNumber` **[number][182]** The block number on the Ethereum blockchain.
+*   `blockNumber` **[number][180]** The block number on the Ethereum blockchain.
 
 Returns **any** The information in the block.
 
@@ -602,7 +375,7 @@ Formats and prints the most recent bid for the given noun.
 
 #### Parameters
 
-*   `nounId` **[number][182]** The noun being bid on.
+*   `nounId` **[number][180]** The noun being bid on.
 
 ### getLatestBidData
 
@@ -610,175 +383,9 @@ Retrieves the most recent bid event for the given noun.
 
 #### Parameters
 
-*   `nounId` **[number][182]** The noun being bid on.
+*   `nounId` **[number][180]** The noun being bid on.
 
 Returns **any** The most recent bid.
-
-## NounsOptions
-
-Configuration options for the Nouns class.
-
-### pollingTime
-
-The polling time in milliseconds.
-
-Type: [number][182]
-
-## \_NounsDAO
-
-A wrapper class around the NounsDAO contract.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
-
-### on
-
-Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
-Throws an error if the event is not supported.
-Listening to `ProposalCreatedWithRequirements` assigns the listener to both versions of the event.
-
-#### Parameters
-
-*   `eventType` **[string][180]** The name of the event.
-*   `listener` **[Function][181]** The listener function.
-
-#### Examples
-
-```javascript
-nounsDAO.on('VoteCast', (data) => {
-	console.log(data.proposalId);
-});
-```
-
-### name
-
-Returns **any** The name of the contract. `NounsDAO`.
-
-### off
-
-Removes an event listener.
-
-#### Parameters
-
-*   `eventName` **[string][180]** the event listened to.
-
-### trigger
-
-Triggers an event. Throws an error if no listener is found.
-
-#### Parameters
-
-*   `eventType` **[string][180]** the name of the event.
-*   `data` **any** the event data.
-
-## \_NounsDAOData
-
-A wrapper class around the NounsDAOData contract.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
-
-### on
-
-Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
-Throws an error if the event is not supported.
-
-#### Parameters
-
-*   `eventType` **[string][180]** The name of the event.
-*   `listener` **ethers.providers.Listener** The listener function.
-
-#### Examples
-
-```javascript
-nounsDAOData.on('CandidateFeedbackSent', (data) => {
-	console.log(data.slug);
-});
-```
-
-### off
-
-Removes an event listener.
-
-#### Parameters
-
-*   `eventName` **[string][180]** the event listened to.
-
-### trigger
-
-Triggers an event. Throws an error if there is no assigned listener.
-
-#### Parameters
-
-*   `eventType` **[string][180]** the event name.
-*   `data` **any** the event data.
-
-### name
-
-Returns **any** The name of the contract. `NounsDAOData`.
-
-## \_NounsFork
-
-A wrapper around the NounsFork governance contract.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
-
-### on
-
-Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
-Throws an error if the event is not supported.
-
-#### Parameters
-
-*   `eventType` **[string][180]** The name of the event.
-*   `listener` **[Function][181]** The listener function.
-
-#### Examples
-
-```javascript
-nounsFork.on('VoteCast', (data) => {
-	console.log(data.proposalId);
-})
-```
-
-### off
-
-Removes an event listener.
-
-#### Parameters
-
-*   `eventName` **[string][180]** the name of the event.
-
-### trigger
-
-Triggers the listener of the given event with the given data.
-Throws an error if there is no assigned listener.
-
-#### Parameters
-
-*   `eventType` **[string][180]** The event to be triggered.
-*   `data` **any** The data being passed to the listener.
-
-#### Examples
-
-```javascript
-nounsFork.trigger('VoteCast', {
-	voter: { id: "0x281eC184E704CE57570614C33B3477Ec7Ff07243" },
-	proposalId: 117,
-	supportDetailed: 0,
-	votes: 24,
-	reason: "Really good reason.",
-	event: {}
-});
-```
-
-### name
-
-Returns **any** The name of the contract. `NounsFork`.
 
 ## \_NounsForkAuctionHouse
 
@@ -795,8 +402,8 @@ Throws an error if the event is not supported.
 
 #### Parameters
 
-*   `eventType` **[string][180]** The event name.
-*   `listener` **[Function][181]** The listener function.
+*   `eventType` **[string][178]** The event name.
+*   `listener` **[Function][179]** The listener function.
 
 #### Examples
 
@@ -812,7 +419,7 @@ Removes an event listener.
 
 #### Parameters
 
-*   `eventName` **[string][180]** the event name.
+*   `eventName` **[string][178]** the event name.
 
 ### trigger
 
@@ -821,7 +428,7 @@ Throws an error if the event is not supported.
 
 #### Parameters
 
-*   `eventType` **[string][180]** The event to be triggered.
+*   `eventType` **[string][178]** The event to be triggered.
 *   `data` **any** The data being passed to the listener.
 
 #### Examples
@@ -830,7 +437,7 @@ Throws an error if the event is not supported.
 nounsForkAuctionHouse.trigger('AuctionCreated', {
 	id: 420,
 	startTime: 1689677183,
-	endTime: 1689763583,	
+	endTime: 1689763583,
 });
 ```
 
@@ -852,7 +459,7 @@ Retrieves a list of AuctionBids events from the blockchain.
 
 #### Parameters
 
-*   `nounId` **[number][182]**&#x20;
+*   `nounId` **[number][180]**&#x20;
 
 Returns **any** A list of recent AuctionBids events.
 
@@ -866,7 +473,7 @@ Retrieves the most recent AuctionBid event for the given noun id.
 
 #### Parameters
 
-*   `nounId` **[number][182]** The number of the noun whose bid you are looking for.
+*   `nounId` **[number][180]** The number of the noun whose bid you are looking for.
 
 Returns **any** The AuctionBid event data.
 
@@ -874,7 +481,7 @@ Returns **any** The AuctionBid event data.
 
 #### Parameters
 
-*   `blockNumber` **[number][182]** The block number on the Ethereum blockchain.
+*   `blockNumber` **[number][180]** The block number on the Ethereum blockchain.
 
 Returns **any** The information in the block.
 
@@ -892,7 +499,7 @@ Formats and prints the most recent bid for the given noun.
 
 #### Parameters
 
-*   `nounId` **[number][182]** The noun being bid on.
+*   `nounId` **[number][180]** The noun being bid on.
 
 ### getLatestBidData
 
@@ -900,7 +507,7 @@ Retrieves the most recent bid event for the given noun.
 
 #### Parameters
 
-*   `nounId` **[number][182]** The noun being bid on.
+*   `nounId` **[number][180]** The noun being bid on.
 
 Returns **any** The most recent bid.
 
@@ -919,8 +526,8 @@ Throws an error if the event is not supported.
 
 #### Parameters
 
-*   `eventType` **[string][180]** The name of the event.
-*   `listener` **[Function][181]** The listener function.
+*   `eventType` **[string][178]** The name of the event.
+*   `listener` **[Function][179]** The listener function.
 
 #### Examples
 
@@ -936,7 +543,7 @@ Removes an event listener.
 
 #### Parameters
 
-*   `eventName` **[string][180]** the event name.
+*   `eventName` **[string][178]** the event name.
 
 ### trigger
 
@@ -945,7 +552,7 @@ Throws an error if there is no listener assigned.
 
 #### Parameters
 
-*   `eventType` **[string][180]** The event to be triggered.
+*   `eventType` **[string][178]** The event to be triggered.
 *   `data` **any** The data being passed to the listener.
 
 #### Examples
@@ -982,8 +589,8 @@ Throws an error if the event is not supported.
 
 #### Parameters
 
-*   `eventType` **[string][180]** The name of the event.
-*   `listener` **[Function][181]** The listener function.
+*   `eventType` **[string][178]** The name of the event.
+*   `listener` **[Function][179]** The listener function.
 
 #### Examples
 
@@ -999,7 +606,7 @@ Removes an event listener.
 
 #### Parameters
 
-*   `eventName` **[string][180]** the event name.
+*   `eventName` **[string][178]** the event name.
 
 ### trigger
 
@@ -1007,7 +614,7 @@ Triggers an event. Throws an error if there is no assigned listener.
 
 #### Parameters
 
-*   `eventType` **[string][180]** the event name.
+*   `eventType` **[string][178]** the event name.
 *   `data` **any** the event data.
 
 ### callView
@@ -1016,14 +623,339 @@ A wrapper around contract read functions.
 
 #### Parameters
 
-*   `fName` **[string][180]** The function name.
-*   `fArgs` **[Array][183]\<any>** The arguments required by the function.
+*   `fName` **[string][178]** The function name.
+*   `fArgs` **[Array][181]\<any>** The arguments required by the function.
 
 Returns **any** The output of the read function, if it has any.
 
 ### name
 
 Returns **any** The name of the contract. `NounsToken`.
+
+## FederationNounsPool
+
+A wrapper class that supports Federation NounsPool events.
+Supports two events. `BidPlaced` and `VoteCast`.
+
+### Parameters
+
+*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
+
+### on
+
+Assigns a listener to the federation event. Adds the listener to both V1 and V2 contracts. Throws an error if the event is not supported.
+
+#### Parameters
+
+*   `event` **[string][178]** The event listened to.
+*   `listener` **[Function][179]** A listener function that takes in the appropriate data type for the event.
+
+#### Examples
+
+```javascript
+federationNounsPool.on('BidPlaced', (data) => {
+	console.log(data.propId);
+});
+```
+
+### off
+
+Removes the listener of the given event. Does nothing if the event was not listened to in the first place.
+
+#### Parameters
+
+*   `event` **[string][178]** The event being removed.
+
+#### Examples
+
+```javascript
+federationNounsPool.off('BidPlaced');
+```
+
+### trigger
+
+Triggers an event with the given data, which calls the assigned listener. Throws an error if the listener could not be found.
+
+#### Parameters
+
+*   `event` **[string][178]** The event being triggered.
+*   `data` **any** The data used to trigger the given event.
+
+#### Examples
+
+```javascript
+federationNounsPool.trigger('BidPlaced', {
+	dao: "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d",
+	propId: 346,
+	support: 1,
+	amount: 42000000000000001,
+	bidder: "0x2B0E9aA394209fa8D783C9e8cbFb08A15C019cdF",
+	reason: ""
+});
+```
+
+### name
+
+Returns **any** the contract name. 'FederationNounsPool'.
+
+## LilNounsAuctionHouse
+
+A wrapper class around the LilNounsAuctionHouse contract.
+
+### Parameters
+
+*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
+
+### on
+
+Assigns a listener to the event, which triggers whenever the event happens onchain.
+Throws an error if the event is not supported.
+
+#### Parameters
+
+*   `eventType` **[string][178]** The event name.
+*   `listener` **[Function][179]** The listener function.
+
+#### Examples
+
+```javascript
+lilNounsAuctionHouse.on('AuctionCreated', (data) => {
+	console.log(data.id);
+});
+```
+
+### off
+
+Removes an event listener.
+
+#### Parameters
+
+*   `eventName` **[string][178]** the event listened to.
+
+### trigger
+
+Triggers an event. Throws an error if the listener cannot be found.
+
+#### Parameters
+
+*   `eventType` **[string][178]** the name of the event.
+*   `data` **any** the event data.
+
+### name
+
+Returns **any** The name of the contract. `LilNounsAuctionHouse`.
+
+## NounsNymz
+
+A wrapper class for NounsNymz events.
+Supports the `NewPost` event.
+
+### on
+
+Assigns a listener function for the given event. Throws an error if the event is not supported.
+
+#### Parameters
+
+*   `eventName` **[string][178]** The event being listened to.
+*   `listener` **function (post: EventData.NounsNymz.NewPost): void** The listener function.
+
+#### Examples
+
+```javascript
+nounsNymz.on('NewPost', (data) => {
+	console.log(data.body);
+});
+```
+
+### off
+
+Removes an event listener.
+
+#### Parameters
+
+*   `eventName` **[string][178]** the event listened to.
+
+### trigger
+
+Triggers the listener of the given event with the given data. Throws an error if the listener cannot be found.
+
+#### Parameters
+
+*   `eventName` **[string][178]** The event to be triggered.
+*   `data` **any** The data being passed to the listener.
+
+#### Examples
+
+```javascript
+nounsNymz.trigger('NewPost', {
+	id: "0xcbd6b65b7fd297dad4ea88eb789fed57ead1c1e49fa7f6e3dedaa2d10c42edab",
+	title: "Do you re-use your nyms here? If not, why not?",
+	body: "It's been fun seeing some life here in the past couple weeks! \n\nWe've noticed that most new nyms are randomly generated/single-use. For those posting from single-use nyms: do you see any value in re-using a name you've used in the past? ",
+	timestamp: "2023-07-31T17:54:17.000Z",
+	userId: "0x141b63d93daf55bfb7f396eee6114f3a5d4a90b2",
+	parentId: null,
+});
+```
+
+### name
+
+Returns **any** the name of the contract. 'NounsNymz'.
+
+## \_NounsDAO
+
+A wrapper class around the NounsDAO contract.
+
+### Parameters
+
+*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
+
+### on
+
+Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+Throws an error if the event is not supported.
+Listening to `ProposalCreatedWithRequirements` assigns the listener to both versions of the event.
+
+#### Parameters
+
+*   `eventType` **[string][178]** The name of the event.
+*   `listener` **[Function][179]** The listener function.
+
+#### Examples
+
+```javascript
+nounsDAO.on('VoteCast', (data) => {
+	console.log(data.proposalId);
+});
+```
+
+### name
+
+Returns **any** The name of the contract. `NounsDAO`.
+
+### off
+
+Removes an event listener.
+
+#### Parameters
+
+*   `eventName` **[string][178]** the event listened to.
+
+### trigger
+
+Triggers an event. Throws an error if no listener is found.
+
+#### Parameters
+
+*   `eventType` **[string][178]** the name of the event.
+*   `data` **any** the event data.
+
+## \_NounsDAOData
+
+A wrapper class around the NounsDAOData contract.
+
+### Parameters
+
+*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
+
+### on
+
+Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+Throws an error if the event is not supported.
+
+#### Parameters
+
+*   `eventType` **[string][178]** The name of the event.
+*   `listener` **ethers.providers.Listener** The listener function.
+
+#### Examples
+
+```javascript
+nounsDAOData.on('CandidateFeedbackSent', (data) => {
+	console.log(data.slug);
+});
+```
+
+### off
+
+Removes an event listener.
+
+#### Parameters
+
+*   `eventName` **[string][178]** the event listened to.
+
+### trigger
+
+Triggers an event. Throws an error if there is no assigned listener.
+
+#### Parameters
+
+*   `eventType` **[string][178]** the event name.
+*   `data` **any** the event data.
+
+### name
+
+Returns **any** The name of the contract. `NounsDAOData`.
+
+## \_NounsFork
+
+A wrapper around the NounsFork governance contract.
+
+### Parameters
+
+*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
+
+### on
+
+Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+Throws an error if the event is not supported.
+
+#### Parameters
+
+*   `eventType` **[string][178]** The name of the event.
+*   `listener` **[Function][179]** The listener function.
+
+#### Examples
+
+```javascript
+nounsFork.on('VoteCast', (data) => {
+	console.log(data.proposalId);
+})
+```
+
+### off
+
+Removes an event listener.
+
+#### Parameters
+
+*   `eventName` **[string][178]** the name of the event.
+
+### trigger
+
+Triggers the listener of the given event with the given data.
+Throws an error if there is no assigned listener.
+
+#### Parameters
+
+*   `eventType` **[string][178]** The event to be triggered.
+*   `data` **any** The data being passed to the listener.
+
+#### Examples
+
+```javascript
+nounsFork.trigger('VoteCast', {
+	voter: { id: "0x281eC184E704CE57570614C33B3477Ec7Ff07243" },
+	proposalId: 117,
+	supportDetailed: 0,
+	votes: 24,
+	reason: "Really good reason.",
+	event: {}
+});
+```
+
+### name
+
+Returns **any** The name of the contract. `NounsFork`.
 
 ## \_Propdates
 
@@ -1040,8 +972,8 @@ Assigns a listener function for the given event. Throws an error if the event is
 
 #### Parameters
 
-*   `eventType` **[string][180]**&#x20;
-*   `listener` **[Function][181]** The listener function.
+*   `eventType` **[string][178]**&#x20;
+*   `listener` **[Function][179]** The listener function.
 *   `eventName`  The event being listened to.
 
 #### Examples
@@ -1058,7 +990,7 @@ Removes a listener.
 
 #### Parameters
 
-*   `eventName` **[string][180]** the event listened to.
+*   `eventName` **[string][178]** the event listened to.
 
 ### trigger
 
@@ -1066,7 +998,7 @@ Triggers the listener of the given event with the given data. Throws an error if
 
 #### Parameters
 
-*   `eventType` **[string][180]**&#x20;
+*   `eventType` **[string][178]**&#x20;
 *   `data` **any** The data being passed to the listener.
 *   `eventName`  The event to be triggered.
 
@@ -1084,7 +1016,63 @@ propdates.trigger('PostUpdate', {
 
 Returns **any** the name of the contract. 'Propdates'.
 
-[1]: #federationnounspool
+## LilNouns
+
+A wrapper class for all LilNouns contracts.
+Allows you to listen to events without worrying about which contract it's in.
+
+### Parameters
+
+*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
+
+### on
+
+Adds a listener to the event. The listener is triggered whenever the event occurs onchain, and event data is passed to the function.
+Throws an error if the event is not supported.
+
+#### Parameters
+
+*   `eventName` **[string][178]** the event
+*   `listener` **[Function][179]** the listener function
+
+#### Examples
+
+```javascript
+lilNouns.on('VoteCast', (data) => {
+	console.log(data.proposalId);
+});
+```
+
+### trigger
+
+Triggers the event's listener with the data.
+Throws an error if there is no listener already assigned.
+
+#### Parameters
+
+*   `eventName` **[string][178]** the name of the event you are triggering.
+*   `data` **any** the data passed to the listener.
+
+#### Examples
+
+```javascript
+lilNouns.trigger('ProposalExecuted', {id: 420, event: {}});
+```
+
+### off
+
+Removes any assigned listeners from the event.
+Does nothing if there was no listener.
+
+#### Parameters
+
+*   `eventName` **[string][178]** the event whose listener you are removing.
+
+### name
+
+Returns **any** the name of the contract. `LilNouns`.
+
+[1]: #lilnounsdaologic
 
 [2]: #parameters
 
@@ -1098,354 +1086,350 @@ Returns **any** the name of the contract. 'Propdates'.
 
 [7]: #parameters-2
 
-[8]: #examples-1
+[8]: #trigger
 
-[9]: #trigger
+[9]: #parameters-3
 
-[10]: #parameters-3
+[10]: #name
 
-[11]: #examples-2
+[11]: #lilnounstoken
 
-[12]: #name
+[12]: #parameters-4
 
-[13]: #lilnouns
+[13]: #on-1
 
-[14]: #parameters-4
+[14]: #parameters-5
 
-[15]: #on-1
+[15]: #examples-1
 
-[16]: #parameters-5
+[16]: #off-1
 
-[17]: #examples-3
+[17]: #parameters-6
 
 [18]: #trigger-1
 
-[19]: #parameters-6
+[19]: #parameters-7
 
-[20]: #examples-4
+[20]: #name-1
 
-[21]: #off-1
+[21]: #_nounsauctionhouse
 
-[22]: #parameters-7
+[22]: #parameters-8
 
-[23]: #name-1
+[23]: #on-2
 
-[24]: #lilnounsauctionhouse
+[24]: #parameters-9
 
-[25]: #parameters-8
+[25]: #examples-2
 
-[26]: #on-2
+[26]: #off-2
 
-[27]: #parameters-9
+[27]: #parameters-10
 
-[28]: #examples-5
+[28]: #trigger-2
 
-[29]: #off-2
+[29]: #parameters-11
 
-[30]: #parameters-10
+[30]: #getlatestauctions
 
-[31]: #trigger-2
+[31]: #getlatestauctionextended
 
-[32]: #parameters-11
+[32]: #getauctionbids
 
-[33]: #name-2
+[33]: #parameters-12
 
-[34]: #lilnounsdaologic
+[34]: #name-2
 
-[35]: #parameters-12
+[35]: #getauctionlatestbid
 
-[36]: #on-3
+[36]: #parameters-13
 
-[37]: #parameters-13
+[37]: #getblock
 
-[38]: #examples-6
+[38]: #parameters-14
 
-[39]: #off-3
+[39]: #tempformatauctionbid
 
-[40]: #parameters-14
+[40]: #parameters-15
 
-[41]: #trigger-3
+[41]: #tempprintauctionbid
 
-[42]: #parameters-15
+[42]: #parameters-16
 
-[43]: #name-3
+[43]: #getlatestbiddata
 
-[44]: #lilnounstoken
+[44]: #parameters-17
 
-[45]: #parameters-16
+[45]: #_nounsforkauctionhouse
 
-[46]: #on-4
+[46]: #parameters-18
 
-[47]: #parameters-17
+[47]: #on-3
 
-[48]: #examples-7
+[48]: #parameters-19
 
-[49]: #off-4
+[49]: #examples-3
 
-[50]: #parameters-18
+[50]: #off-3
 
-[51]: #trigger-4
+[51]: #parameters-20
 
-[52]: #parameters-19
+[52]: #trigger-3
 
-[53]: #name-4
+[53]: #parameters-21
 
-[54]: #nounsnymz
+[54]: #examples-4
 
-[55]: #on-5
+[55]: #getlatestauctions-1
 
-[56]: #parameters-20
+[56]: #getlatestauctionextended-1
 
-[57]: #examples-8
+[57]: #getauctionbids-1
 
-[58]: #off-5
+[58]: #parameters-22
 
-[59]: #parameters-21
+[59]: #name-3
 
-[60]: #trigger-5
+[60]: #getauctionlatestbid-1
 
-[61]: #parameters-22
+[61]: #parameters-23
 
-[62]: #examples-9
+[62]: #getblock-1
 
-[63]: #name-5
+[63]: #parameters-24
 
-[64]: #_nounsauctionhouse
+[64]: #tempformatauctionbid-1
 
-[65]: #parameters-23
+[65]: #parameters-25
 
-[66]: #on-6
+[66]: #tempprintauctionbid-1
 
-[67]: #parameters-24
+[67]: #parameters-26
 
-[68]: #examples-10
+[68]: #getlatestbiddata-1
 
-[69]: #off-6
+[69]: #parameters-27
 
-[70]: #parameters-25
+[70]: #_nounsforktoken
 
-[71]: #trigger-6
+[71]: #parameters-28
 
-[72]: #parameters-26
+[72]: #on-4
 
-[73]: #getlatestauctions
+[73]: #parameters-29
 
-[74]: #getlatestauctionextended
+[74]: #examples-5
 
-[75]: #getauctionbids
+[75]: #off-4
 
-[76]: #parameters-27
+[76]: #parameters-30
 
-[77]: #name-6
+[77]: #trigger-4
 
-[78]: #getauctionlatestbid
+[78]: #parameters-31
 
-[79]: #parameters-28
+[79]: #examples-6
 
-[80]: #getblock
+[80]: #name-4
 
-[81]: #parameters-29
+[81]: #_nounstoken
 
-[82]: #tempformatauctionbid
+[82]: #parameters-32
 
-[83]: #parameters-30
+[83]: #on-5
 
-[84]: #tempprintauctionbid
+[84]: #parameters-33
 
-[85]: #parameters-31
+[85]: #examples-7
 
-[86]: #getlatestbiddata
+[86]: #off-5
 
-[87]: #parameters-32
+[87]: #parameters-34
 
-[88]: #nounsoptions
+[88]: #trigger-5
 
-[89]: #pollingtime
+[89]: #parameters-35
 
-[90]: #_nounsdao
+[90]: #callview
 
-[91]: #parameters-33
+[91]: #parameters-36
 
-[92]: #on-7
+[92]: #name-5
 
-[93]: #parameters-34
+[93]: #federationnounspool
 
-[94]: #examples-11
+[94]: #parameters-37
 
-[95]: #name-7
+[95]: #on-6
 
-[96]: #off-7
+[96]: #parameters-38
 
-[97]: #parameters-35
+[97]: #examples-8
 
-[98]: #trigger-7
+[98]: #off-6
 
-[99]: #parameters-36
+[99]: #parameters-39
 
-[100]: #_nounsdaodata
+[100]: #examples-9
 
-[101]: #parameters-37
+[101]: #trigger-6
 
-[102]: #on-8
+[102]: #parameters-40
 
-[103]: #parameters-38
+[103]: #examples-10
 
-[104]: #examples-12
+[104]: #name-6
 
-[105]: #off-8
+[105]: #lilnounsauctionhouse
 
-[106]: #parameters-39
+[106]: #parameters-41
 
-[107]: #trigger-8
+[107]: #on-7
 
-[108]: #parameters-40
+[108]: #parameters-42
 
-[109]: #name-8
+[109]: #examples-11
 
-[110]: #_nounsfork
+[110]: #off-7
 
-[111]: #parameters-41
+[111]: #parameters-43
 
-[112]: #on-9
+[112]: #trigger-7
 
-[113]: #parameters-42
+[113]: #parameters-44
 
-[114]: #examples-13
+[114]: #name-7
 
-[115]: #off-9
+[115]: #nounsnymz
 
-[116]: #parameters-43
+[116]: #on-8
 
-[117]: #trigger-9
+[117]: #parameters-45
 
-[118]: #parameters-44
+[118]: #examples-12
 
-[119]: #examples-14
+[119]: #off-8
 
-[120]: #name-9
+[120]: #parameters-46
 
-[121]: #_nounsforkauctionhouse
+[121]: #trigger-8
 
-[122]: #parameters-45
+[122]: #parameters-47
 
-[123]: #on-10
+[123]: #examples-13
 
-[124]: #parameters-46
+[124]: #name-8
 
-[125]: #examples-15
+[125]: #_nounsdao
 
-[126]: #off-10
+[126]: #parameters-48
 
-[127]: #parameters-47
+[127]: #on-9
 
-[128]: #trigger-10
+[128]: #parameters-49
 
-[129]: #parameters-48
+[129]: #examples-14
 
-[130]: #examples-16
+[130]: #name-9
 
-[131]: #getlatestauctions-1
+[131]: #off-9
 
-[132]: #getlatestauctionextended-1
+[132]: #parameters-50
 
-[133]: #getauctionbids-1
+[133]: #trigger-9
 
-[134]: #parameters-49
+[134]: #parameters-51
 
-[135]: #name-10
+[135]: #_nounsdaodata
 
-[136]: #getauctionlatestbid-1
+[136]: #parameters-52
 
-[137]: #parameters-50
+[137]: #on-10
 
-[138]: #getblock-1
+[138]: #parameters-53
 
-[139]: #parameters-51
+[139]: #examples-15
 
-[140]: #tempformatauctionbid-1
+[140]: #off-10
 
-[141]: #parameters-52
+[141]: #parameters-54
 
-[142]: #tempprintauctionbid-1
+[142]: #trigger-10
 
-[143]: #parameters-53
+[143]: #parameters-55
 
-[144]: #getlatestbiddata-1
+[144]: #name-10
 
-[145]: #parameters-54
+[145]: #_nounsfork
 
-[146]: #_nounsforktoken
+[146]: #parameters-56
 
-[147]: #parameters-55
+[147]: #on-11
 
-[148]: #on-11
+[148]: #parameters-57
 
-[149]: #parameters-56
+[149]: #examples-16
 
-[150]: #examples-17
+[150]: #off-11
 
-[151]: #off-11
+[151]: #parameters-58
 
-[152]: #parameters-57
+[152]: #trigger-11
 
-[153]: #trigger-11
+[153]: #parameters-59
 
-[154]: #parameters-58
+[154]: #examples-17
 
-[155]: #examples-18
+[155]: #name-11
 
-[156]: #name-11
+[156]: #_propdates
 
-[157]: #_nounstoken
+[157]: #parameters-60
 
-[158]: #parameters-59
+[158]: #on-12
 
-[159]: #on-12
+[159]: #parameters-61
 
-[160]: #parameters-60
+[160]: #examples-18
 
-[161]: #examples-19
+[161]: #off-12
 
-[162]: #off-12
+[162]: #parameters-62
 
-[163]: #parameters-61
+[163]: #trigger-12
 
-[164]: #trigger-12
+[164]: #parameters-63
 
-[165]: #parameters-62
+[165]: #examples-19
 
-[166]: #callview
+[166]: #name-12
 
-[167]: #parameters-63
+[167]: #lilnouns
 
-[168]: #name-12
+[168]: #parameters-64
 
-[169]: #_propdates
+[169]: #on-13
 
-[170]: #parameters-64
+[170]: #parameters-65
 
-[171]: #on-13
+[171]: #examples-20
 
-[172]: #parameters-65
+[172]: #trigger-13
 
-[173]: #examples-20
+[173]: #parameters-66
 
-[174]: #off-13
+[174]: #examples-21
 
-[175]: #parameters-66
+[175]: #off-13
 
-[176]: #trigger-13
+[176]: #parameters-67
 
-[177]: #parameters-67
+[177]: #name-13
 
-[178]: #examples-21
+[178]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[179]: #name-13
+[179]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 
-[180]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[180]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[181]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
-
-[182]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
-
-[183]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[181]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
