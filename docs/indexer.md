@@ -2,428 +2,407 @@
 
 ### Table of Contents
 
-*   [parseDAOWithdrawNounsFromEscrowEvent][1]
+*   [IndexerWriter][1]
     *   [Parameters][2]
-*   [parseERC20TokensToIncludeInForkSetEvent][3]
-    *   [Parameters][4]
-*   [parseEscrowedToForkEvent][5]
-    *   [Parameters][6]
-*   [parseExecuteForkEvent][7]
-    *   [Parameters][8]
-*   [parseForkDAODeployerSetEvent][9]
-    *   [Parameters][10]
-*   [parseForkPeriodSetEvent][11]
-    *   [Parameters][12]
-*   [parseForkThresholdSetEvent][13]
-    *   [Parameters][14]
-*   [parseJoinForkEvent][15]
-    *   [Parameters][16]
-*   [parseLastMinuteWindowSetEvent][17]
-    *   [Parameters][18]
-*   [parseMaxQuorumVotesBPSSetEvent][19]
-    *   [Parameters][20]
-*   [parseMinQuorumVotesBPSSetEvent][21]
-    *   [Parameters][22]
-*   [parseNewAdminEvent][23]
-    *   [Parameters][24]
-*   [parseNewImplementationEvent][25]
-    *   [Parameters][26]
-*   [parseNewPendingAdminEvent][27]
-    *   [Parameters][28]
-*   [parseNewPendingVetoerEvent][29]
-    *   [Parameters][30]
-*   [parseNewVetoerEvent][31]
-    *   [Parameters][32]
-*   [parseObjectionPeriodDurationSetEvent][33]
-    *   [Parameters][34]
-*   [parseProposalCanceledEvent][35]
-    *   [Parameters][36]
-*   [parseProposalCreatedEvent][37]
-    *   [Parameters][38]
-*   [parseProposalCreatedOnTimelockV1Event][39]
-    *   [Parameters][40]
-*   [parseProposalCreatedWithRequirementsEvent][41]
-    *   [Parameters][42]
-*   [parseProposalDescriptionUpdatedEvent][43]
-    *   [Parameters][44]
-*   [parseProposalExecutedEvent][45]
-    *   [Parameters][46]
-*   [parseProposalObjectionPeriodSetEvent][47]
-    *   [Parameters][48]
-*   [parseProposalQueuedEvent][49]
-    *   [Parameters][50]
-*   [parseProposalThresholdBPSSetEvent][51]
-    *   [Parameters][52]
-*   [parseProposalTransactionsUpdatedEvent][53]
-    *   [Parameters][54]
-*   [parseProposalUpdatablePeriodSetEvent][55]
-    *   [Parameters][56]
-*   [parseProposalUpdatedEvent][57]
-    *   [Parameters][58]
-*   [parseProposalVetoedEvent][59]
-    *   [Parameters][60]
-*   [parseQuorumCoefficientSetEvent][61]
-    *   [Parameters][62]
-*   [parseQuorumVotesBPSSetEvent][63]
-    *   [Parameters][64]
-*   [parseRefundableVoteEvent][65]
-    *   [Parameters][66]
-*   [parseSignatureCancelledEvent][67]
-    *   [Parameters][68]
-*   [parseTimelocksAndAdminSetEvent][69]
-    *   [Parameters][70]
-*   [parseVoteCastEvent][71]
-    *   [Parameters][72]
-*   [parseVoteSnapshotBlockSwitchProposalIdSetEvent][73]
-    *   [Parameters][74]
-*   [parseVotingDelaySetEvent][75]
-    *   [Parameters][76]
-*   [parseVotingPeriodSetEvent][77]
-    *   [Parameters][78]
-*   [parseWithdrawEvent][79]
-    *   [Parameters][80]
-*   [parseWithdrawFromForkEscrowEvent][81]
-    *   [Parameters][82]
-*   [NOUNS\_DAO\_PARSERS][83]
-*   [parseAuctionCreatedEvent][84]
+    *   [index][3]
+        *   [Parameters][4]
+    *   [listen][5]
+        *   [Parameters][6]
+    *   [update][7]
+        *   [Parameters][8]
+    *   [indexAll][9]
+    *   [listenAll][10]
+    *   [updateAll][11]
+*   [parseDAOWithdrawNounsFromEscrowEvent][12]
+    *   [Parameters][13]
+*   [fetchAuctionCreatedEvents][14]
+    *   [Parameters][15]
+*   [fetchAdminChanged][16]
+    *   [Parameters][17]
+*   [fetchDAOWithdrawNounsFromEscrow][18]
+    *   [Parameters][19]
+*   [fetchDelegateChangedEvents][20]
+    *   [Parameters][21]
+*   [indexEvent][22]
+    *   [Parameters][23]
+*   [parseERC20TokensToIncludeInForkSetEvent][24]
+    *   [Parameters][25]
+*   [parseEscrowedToForkEvent][26]
+    *   [Parameters][27]
+*   [parseData][28]
+    *   [Parameters][29]
+*   [fetchAuctionBidEvents][30]
+    *   [Parameters][31]
+*   [fetchERC20TokensToIncludeInForkSet][32]
+    *   [Parameters][33]
+*   [fetchBeaconUpgraded][34]
+    *   [Parameters][35]
+*   [listenForEvent][36]
+    *   [Parameters][37]
+*   [parseExecuteForkEvent][38]
+    *   [Parameters][39]
+*   [fetchDelegateVotesChangedEvents][40]
+    *   [Parameters][41]
+*   [retrieveLatestBlock][42]
+    *   [Parameters][43]
+*   [parseForkDAODeployerSetEvent][44]
+    *   [Parameters][45]
+*   [fetchEscrowedToFork][46]
+    *   [Parameters][47]
+*   [fetchCandidateFeedbackSentEvents][48]
+    *   [Parameters][49]
+*   [updateIndexedEvent][50]
+    *   [Parameters][51]
+*   [parseForkPeriodSetEvent][52]
+    *   [Parameters][53]
+*   [fetchAuctionExtended][54]
+    *   [Parameters][55]
+*   [fetchTransferEvents][56]
+    *   [Parameters][57]
+*   [parseForkThresholdSetEvent][58]
+    *   [Parameters][59]
+*   [parseJoinForkEvent][60]
+    *   [Parameters][61]
+*   [fetchAuctionSettledEvents][62]
+    *   [Parameters][63]
+*   [fetchExecutedFork][64]
+    *   [Parameters][65]
+*   [parseLastMinuteWindowSetEvent][66]
+    *   [Parameters][67]
+*   [fetchCreateCandidateCostSet][68]
+    *   [Parameters][69]
+*   [fetchApproval][70]
+    *   [Parameters][71]
+*   [parseMaxQuorumVotesBPSSetEvent][72]
+    *   [Parameters][73]
+*   [\_filterExecutedForkById][74]
+    *   [Parameters][75]
+*   [fetchETHWithdrawn][76]
+    *   [Parameters][77]
+*   [parseMinQuorumVotesBPSSetEvent][78]
+    *   [Parameters][79]
+*   [fetchAuctionTimeBufferUpdated][80]
+    *   [Parameters][81]
+*   [fetchForkDAODeployerSet][82]
+    *   [Parameters][83]
+*   [fetchApprovalForAll][84]
     *   [Parameters][85]
-*   [parseAuctionBidEvent][86]
+*   [parseNewAdminEvent][86]
     *   [Parameters][87]
-*   [parseAuctionExtendedEvent][88]
+*   [parseNewImplementationEvent][88]
     *   [Parameters][89]
-*   [parseAuctionSettledEvent][90]
+*   [fetchFeeRecipientSet][90]
     *   [Parameters][91]
-*   [parseAuctionTimeBufferUpdatedEvent][92]
+*   [fetchForkPeriodSet][92]
     *   [Parameters][93]
-*   [parseAuctionReservePriceUpdatedEvent][94]
+*   [fetchAuctionReservePriceUpdated][94]
     *   [Parameters][95]
-*   [parseAuctionMinBidIncrementPercentageUpdatedEvent][96]
+*   [parseNewPendingAdminEvent][96]
     *   [Parameters][97]
-*   [parseOwnershipTransferredEvent][98]
+*   [fetchNounCreatedEvents][98]
     *   [Parameters][99]
-*   [parsePausedEvent][100]
+*   [parseNewPendingVetoerEvent][100]
     *   [Parameters][101]
-*   [parseUnpausedEvent][102]
+*   [fetchFeedbackSentEvents][102]
     *   [Parameters][103]
-*   [NOUNS\_AUCTION\_PARSERS][104]
-*   [parseDelegateChangedEvent][105]
-    *   [Parameters][106]
-*   [parseDelegateVotesChangedEvent][107]
-    *   [Parameters][108]
-*   [parseTransferEvent][109]
-    *   [Parameters][110]
-*   [parseApprovalEvent][111]
-    *   [Parameters][112]
-*   [parseApprovalForAllEvent][113]
-    *   [Parameters][114]
-*   [parseNounCreatedEvent][115]
-    *   [Parameters][116]
-*   [parseDescriptorLockedEvent][117]
-    *   [Parameters][118]
-*   [parseDescriptorUpdatedEvent][119]
-    *   [Parameters][120]
-*   [parseMinterLockedEvent][121]
-    *   [Parameters][122]
-*   [parseMinterUpdatedEvent][123]
-    *   [Parameters][124]
-*   [parseNounBurnedEvent][125]
-    *   [Parameters][126]
-*   [parseNoundersDAOUpdatedEvent][127]
-    *   [Parameters][128]
-*   [parseOwnershipTransferredEvent2][129]
-    *   [Parameters][130]
-*   [parseSeederLockedEvent][131]
-    *   [Parameters][132]
-*   [parseSeederUpdatedEvent][133]
-    *   [Parameters][134]
-*   [NOUNS\_TOKEN\_PARSERS][135]
-*   [parseAdminChangedEvent][136]
+*   [fetchForkThresholdSet][104]
+    *   [Parameters][105]
+*   [fetchAuctionMinBidIncrementPercentageUpdated][106]
+    *   [Parameters][107]
+*   [parseNewVetoerEvent][108]
+    *   [Parameters][109]
+*   [parseObjectionPeriodDurationSetEvent][110]
+    *   [Parameters][111]
+*   [fetchJoinFork][112]
+    *   [Parameters][113]
+*   [fetchOwnershipTransferred][114]
+    *   [Parameters][115]
+*   [fetchOwnershipTransferred][116]
+    *   [Parameters][117]
+*   [fetchOwnershipTransferred][118]
+    *   [Parameters][119]
+*   [fetchDescriptorLocked][120]
+    *   [Parameters][121]
+*   [parseProposalCanceledEvent][122]
+    *   [Parameters][123]
+*   [parseProposalCreatedEvent][124]
+    *   [Parameters][125]
+*   [fetchDescriptorUpdated][126]
+    *   [Parameters][127]
+*   [parseProposalCreatedOnTimelockV1Event][128]
+    *   [Parameters][129]
+*   [fetchLastMinuteWindowSet][130]
+    *   [Parameters][131]
+*   [fetchPaused][132]
+    *   [Parameters][133]
+*   [fetchProposalCandidateCanceled][134]
+    *   [Parameters][135]
+*   [parseProposalCreatedWithRequirementsEvent][136]
     *   [Parameters][137]
-*   [parseBeaconUpgradedEvent][138]
+*   [fetchMinterLocked][138]
     *   [Parameters][139]
-*   [parseCandidateFeedbackSentEvent][140]
+*   [fetchMaxQuorumVotesBPSSet][140]
     *   [Parameters][141]
-*   [parseCreateCandidateCostSetEvent][142]
+*   [fetchUnpaused][142]
     *   [Parameters][143]
-*   [parseETHWithdrawnEvent][144]
+*   [parseProposalDescriptionUpdatedEvent][144]
     *   [Parameters][145]
-*   [parseFeeRecipientSetEvent][146]
+*   [fetchProposalCandidateCreatedEvents][146]
     *   [Parameters][147]
-*   [parseFeedbackSentEvent][148]
+*   [fetchMinterUpdated][148]
     *   [Parameters][149]
-*   [parseOwnershipTransferredEvent3][150]
+*   [parseProposalExecutedEvent][150]
     *   [Parameters][151]
-*   [parseProposalCandidateCanceledEvent][152]
+*   [fetchMinQuorumVotesBPSSet][152]
     *   [Parameters][153]
-*   [parseProposalCandidateCreatedEvent][154]
+*   [parseProposalObjectionPeriodSetEvent][154]
     *   [Parameters][155]
-*   [parseProposalCandidateUpdatedEvent][156]
+*   [fetchNounBurned][156]
     *   [Parameters][157]
-*   [parseSignatureAddedEvent][158]
+*   [parseProposalQueuedEvent][158]
     *   [Parameters][159]
-*   [parseUpdateCandidateCostSetEvent][160]
+*   [fetchProposalCandidateUpdated][160]
     *   [Parameters][161]
-*   [parseUpgradedEvent][162]
+*   [fetchNewAdmin][162]
     *   [Parameters][163]
-*   [NOUNS\_DATA\_PARSERS][164]
-*   [printProgress][165]
-    *   [Parameters][166]
-*   [printEnd][167]
-    *   [Parameters][168]
-*   [indexEvent][169]
-    *   [Parameters][170]
-*   [indexNounsAuctionEvents][171]
-    *   [Parameters][172]
-*   [indexNounsDaoEvents][173]
-    *   [Parameters][174]
-*   [indexNounsTokenEvents][175]
-    *   [Parameters][176]
-*   [indexNounsDaoDataEvents][177]
-    *   [Parameters][178]
-*   [indexNounsEvents][179]
-    *   [Parameters][180]
-*   [parseData][181]
-    *   [Parameters][182]
-*   [listenForNounsAuctionEvents][183]
-    *   [Parameters][184]
-*   [listenForNounsDAOEvents][185]
-    *   [Parameters][186]
-*   [listenForNounsTokenEvents][187]
-    *   [Parameters][188]
-*   [listenForNounsDaoDataEvents][189]
-    *   [Parameters][190]
-*   [listenForNounsEvents][191]
-    *   [Parameters][192]
-*   [\_NounsAuctionHouse][193]
-    *   [Parameters][194]
-    *   [on][195]
-        *   [Parameters][196]
-        *   [Examples][197]
-    *   [off][198]
-        *   [Parameters][199]
-    *   [trigger][200]
-        *   [Parameters][201]
-    *   [getLatestAuctions][202]
-    *   [getLatestAuctionExtended][203]
-    *   [getAuctionBids][204]
-        *   [Parameters][205]
-    *   [name][206]
-    *   [getAuctionLatestBid][207]
-        *   [Parameters][208]
-    *   [getBlock][209]
-        *   [Parameters][210]
-    *   [tempFormatAuctionBid][211]
-        *   [Parameters][212]
-    *   [tempPrintAuctionBid][213]
-        *   [Parameters][214]
-    *   [getLatestBidData][215]
-        *   [Parameters][216]
-*   [\_NounsDAO][217]
-    *   [Parameters][218]
-    *   [on][219]
-        *   [Parameters][220]
-        *   [Examples][221]
-    *   [name][222]
-    *   [off][223]
-        *   [Parameters][224]
-    *   [trigger][225]
-        *   [Parameters][226]
-*   [\_NounsToken][227]
+*   [parseProposalThresholdBPSSetEvent][164]
+    *   [Parameters][165]
+*   [fetchNoundersDAOUpdated][166]
+    *   [Parameters][167]
+*   [parseProposalTransactionsUpdatedEvent][168]
+    *   [Parameters][169]
+*   [fetchNewImplementation][170]
+    *   [Parameters][171]
+*   [fetchSignatureAddedEvents][172]
+    *   [Parameters][173]
+*   [parseProposalUpdatablePeriodSetEvent][174]
+    *   [Parameters][175]
+*   [fetchNewPendingAdmin][176]
+    *   [Parameters][177]
+*   [parseProposalUpdatedEvent][178]
+    *   [Parameters][179]
+*   [parseProposalVetoedEvent][180]
+    *   [Parameters][181]
+*   [fetchUpdateCandidateCostSet][182]
+    *   [Parameters][183]
+*   [fetchNewPendingVetoer][184]
+    *   [Parameters][185]
+*   [parseQuorumCoefficientSetEvent][186]
+    *   [Parameters][187]
+*   [fetchSeederLocked][188]
+    *   [Parameters][189]
+*   [parseQuorumVotesBPSSetEvent][190]
+    *   [Parameters][191]
+*   [fetchUpgraded][192]
+    *   [Parameters][193]
+*   [fetchNewVetoer][194]
+    *   [Parameters][195]
+*   [parseRefundableVoteEvent][196]
+    *   [Parameters][197]
+*   [fetchSeederUpdated][198]
+    *   [Parameters][199]
+*   [parseSignatureCancelledEvent][200]
+    *   [Parameters][201]
+*   [fetchObjectionPeriodDurationSet][202]
+    *   [Parameters][203]
+*   [parseTimelocksAndAdminSetEvent][204]
+    *   [Parameters][205]
+*   [fetchProposalCanceled][206]
+    *   [Parameters][207]
+*   [parseVoteCastEvent][208]
+    *   [Parameters][209]
+*   [parseVoteSnapshotBlockSwitchProposalIdSetEvent][210]
+    *   [Parameters][211]
+*   [fetchProposals][212]
+    *   [Parameters][213]
+*   [parseVotingDelaySetEvent][214]
+    *   [Parameters][215]
+*   [parseVotingPeriodSetEvent][216]
+    *   [Parameters][217]
+*   [parseWithdrawEvent][218]
+    *   [Parameters][219]
+*   [\_filterProposalsByBlock][220]
+    *   [Parameters][221]
+*   [parseWithdrawFromForkEscrowEvent][222]
+    *   [Parameters][223]
+*   [\_filterProposalsById][224]
+    *   [Parameters][225]
+*   [NOUNS\_DAO\_PARSERS][226]
+*   [fetchProposalCreatedOnTimelockV1][227]
     *   [Parameters][228]
-    *   [on][229]
-        *   [Parameters][230]
-        *   [Examples][231]
-    *   [off][232]
-        *   [Parameters][233]
-    *   [trigger][234]
-        *   [Parameters][235]
-    *   [callView][236]
-        *   [Parameters][237]
-    *   [name][238]
-*   [\_NounsDAOData][239]
+*   [parseAuctionCreatedEvent][229]
+    *   [Parameters][230]
+*   [parseAuctionBidEvent][231]
+    *   [Parameters][232]
+*   [fetchProposalCreatedWithRequirements][233]
+    *   [Parameters][234]
+*   [parseAuctionExtendedEvent][235]
+    *   [Parameters][236]
+*   [parseAuctionSettledEvent][237]
+    *   [Parameters][238]
+*   [parseAuctionTimeBufferUpdatedEvent][239]
     *   [Parameters][240]
-    *   [on][241]
-        *   [Parameters][242]
-        *   [Examples][243]
-    *   [off][244]
-        *   [Parameters][245]
-    *   [trigger][246]
-        *   [Parameters][247]
-    *   [name][248]
-*   [fetchAuctionCreatedEvents][249]
+*   [fetchProposalDescriptionUpdated][241]
+    *   [Parameters][242]
+*   [parseAuctionReservePriceUpdatedEvent][243]
+    *   [Parameters][244]
+*   [parseAuctionMinBidIncrementPercentageUpdatedEvent][245]
+    *   [Parameters][246]
+*   [fetchProposalExecuted][247]
+    *   [Parameters][248]
+*   [parseOwnershipTransferredEvent][249]
     *   [Parameters][250]
-*   [fetchAuctionBidEvents][251]
+*   [parsePausedEvent][251]
     *   [Parameters][252]
-*   [fetchAuctionExtended][253]
+*   [fetchProposalObjectionPeriodSet][253]
     *   [Parameters][254]
-*   [fetchAuctionSettledEvents][255]
+*   [parseUnpausedEvent][255]
     *   [Parameters][256]
-*   [fetchAuctionTimeBufferUpdated][257]
-    *   [Parameters][258]
-*   [fetchAuctionReservePriceUpdated][259]
-    *   [Parameters][260]
-*   [fetchAuctionMinBidIncrementPercentageUpdated][261]
-    *   [Parameters][262]
-*   [fetchOwnershipTransferred][263]
-    *   [Parameters][264]
-*   [fetchOwnershipTransferred][265]
-    *   [Parameters][266]
-*   [fetchOwnershipTransferred][267]
-    *   [Parameters][268]
-*   [fetchPaused][269]
-    *   [Parameters][270]
-*   [fetchUnpaused][271]
-    *   [Parameters][272]
-*   [fetchAdminChanged][273]
-    *   [Parameters][274]
-*   [fetchBeaconUpgraded][275]
-    *   [Parameters][276]
-*   [fetchCandidateFeedbackSentEvents][277]
-    *   [Parameters][278]
-*   [fetchCreateCandidateCostSet][279]
-    *   [Parameters][280]
-*   [fetchETHWithdrawn][281]
-    *   [Parameters][282]
-*   [fetchFeeRecipientSet][283]
-    *   [Parameters][284]
-*   [fetchFeedbackSentEvents][285]
-    *   [Parameters][286]
-*   [fetchProposalCandidateCanceled][287]
-    *   [Parameters][288]
-*   [fetchProposalCandidateCreatedEvents][289]
-    *   [Parameters][290]
-*   [fetchProposalCandidateUpdated][291]
-    *   [Parameters][292]
-*   [fetchSignatureAddedEvents][293]
-    *   [Parameters][294]
-*   [fetchUpdateCandidateCostSet][295]
-    *   [Parameters][296]
-*   [fetchUpgraded][297]
-    *   [Parameters][298]
-*   [fetchDAOWithdrawNounsFromEscrow][299]
-    *   [Parameters][300]
-*   [fetchERC20TokensToIncludeInForkSet][301]
-    *   [Parameters][302]
-*   [fetchEscrowedToFork][303]
+*   [NOUNS\_AUCTION\_PARSERS][257]
+*   [fetchProposalQueued][258]
+    *   [Parameters][259]
+*   [parseDelegateChangedEvent][260]
+    *   [Parameters][261]
+*   [parseDelegateVotesChangedEvent][262]
+    *   [Parameters][263]
+*   [parseTransferEvent][264]
+    *   [Parameters][265]
+*   [fetchProposalThresholdBPSSet][266]
+    *   [Parameters][267]
+*   [parseApprovalEvent][268]
+    *   [Parameters][269]
+*   [fetchProposalTransactionsUpdated][270]
+    *   [Parameters][271]
+*   [parseApprovalForAllEvent][272]
+    *   [Parameters][273]
+*   [parseNounCreatedEvent][274]
+    *   [Parameters][275]
+*   [fetchProposalUpdatablePeriodSet][276]
+    *   [Parameters][277]
+*   [parseDescriptorLockedEvent][278]
+    *   [Parameters][279]
+*   [parseDescriptorUpdatedEvent][280]
+    *   [Parameters][281]
+*   [parseMinterLockedEvent][282]
+    *   [Parameters][283]
+*   [fetchProposalUpdated][284]
+    *   [Parameters][285]
+*   [parseMinterUpdatedEvent][286]
+    *   [Parameters][287]
+*   [parseNounBurnedEvent][288]
+    *   [Parameters][289]
+*   [fetchProposalVetoed][290]
+    *   [Parameters][291]
+*   [parseNoundersDAOUpdatedEvent][292]
+    *   [Parameters][293]
+*   [parseOwnershipTransferredEvent2][294]
+    *   [Parameters][295]
+*   [parseSeederLockedEvent][296]
+    *   [Parameters][297]
+*   [fetchQuorumCoefficientSet][298]
+    *   [Parameters][299]
+*   [parseSeederUpdatedEvent][300]
+    *   [Parameters][301]
+*   [NOUNS\_TOKEN\_PARSERS][302]
+*   [fetchQuorumVotesBPSSet][303]
     *   [Parameters][304]
-*   [fetchExecutedFork][305]
+*   [parseAdminChangedEvent][305]
     *   [Parameters][306]
-*   [\_filterExecutedForkById][307]
+*   [fetchRefundableVote][307]
     *   [Parameters][308]
-*   [fetchForkDAODeployerSet][309]
+*   [parseBeaconUpgradedEvent][309]
     *   [Parameters][310]
-*   [fetchForkPeriodSet][311]
+*   [parseCandidateFeedbackSentEvent][311]
     *   [Parameters][312]
-*   [fetchForkThresholdSet][313]
+*   [fetchSignatureCancelled][313]
     *   [Parameters][314]
-*   [fetchJoinFork][315]
+*   [parseCreateCandidateCostSetEvent][315]
     *   [Parameters][316]
-*   [fetchLastMinuteWindowSet][317]
+*   [parseETHWithdrawnEvent][317]
     *   [Parameters][318]
-*   [fetchMaxQuorumVotesBPSSet][319]
+*   [fetchTimelocksAndAdminSet][319]
     *   [Parameters][320]
-*   [fetchMinQuorumVotesBPSSet][321]
+*   [parseFeeRecipientSetEvent][321]
     *   [Parameters][322]
-*   [fetchNewAdmin][323]
+*   [parseFeedbackSentEvent][323]
     *   [Parameters][324]
-*   [fetchNewImplementation][325]
+*   [parseOwnershipTransferredEvent3][325]
     *   [Parameters][326]
-*   [fetchNewPendingAdmin][327]
+*   [fetchStatusChangeEvents][327]
     *   [Parameters][328]
-*   [fetchNewPendingVetoer][329]
+*   [parseProposalCandidateCanceledEvent][329]
     *   [Parameters][330]
-*   [fetchNewVetoer][331]
+*   [parseProposalCandidateCreatedEvent][331]
     *   [Parameters][332]
-*   [fetchObjectionPeriodDurationSet][333]
+*   [\_filterStatusChangeByBlock][333]
     *   [Parameters][334]
-*   [fetchProposalCanceled][335]
+*   [parseProposalCandidateUpdatedEvent][335]
     *   [Parameters][336]
-*   [fetchProposals][337]
+*   [fetchVoteCastEvents][337]
     *   [Parameters][338]
-*   [\_filterProposalsByBlock][339]
+*   [parseSignatureAddedEvent][339]
     *   [Parameters][340]
-*   [\_filterProposalsById][341]
+*   [parseUpdateCandidateCostSetEvent][341]
     *   [Parameters][342]
-*   [fetchProposalCreatedOnTimelockV1][343]
+*   [fetchVoteSnapshotBlockSwitchProposalIdSet][343]
     *   [Parameters][344]
-*   [fetchProposalCreatedWithRequirements][345]
+*   [parseUpgradedEvent][345]
     *   [Parameters][346]
-*   [fetchProposalDescriptionUpdated][347]
-    *   [Parameters][348]
-*   [fetchProposalExecuted][349]
-    *   [Parameters][350]
-*   [fetchProposalObjectionPeriodSet][351]
-    *   [Parameters][352]
-*   [fetchProposalQueued][353]
-    *   [Parameters][354]
-*   [fetchProposalThresholdBPSSet][355]
-    *   [Parameters][356]
-*   [fetchProposalTransactionsUpdated][357]
-    *   [Parameters][358]
-*   [fetchProposalUpdatablePeriodSet][359]
-    *   [Parameters][360]
-*   [fetchProposalUpdated][361]
-    *   [Parameters][362]
-*   [fetchProposalVetoed][363]
-    *   [Parameters][364]
-*   [fetchQuorumCoefficientSet][365]
-    *   [Parameters][366]
-*   [fetchQuorumVotesBPSSet][367]
-    *   [Parameters][368]
-*   [fetchRefundableVote][369]
-    *   [Parameters][370]
-*   [fetchSignatureCancelled][371]
-    *   [Parameters][372]
-*   [fetchTimelocksAndAdminSet][373]
-    *   [Parameters][374]
-*   [fetchStatusChangeEvents][375]
-    *   [Parameters][376]
-*   [\_filterStatusChangeByBlock][377]
-    *   [Parameters][378]
-*   [fetchVoteCastEvents][379]
-    *   [Parameters][380]
-*   [fetchVoteSnapshotBlockSwitchProposalIdSet][381]
-    *   [Parameters][382]
-*   [fetchVotingDelaySet][383]
-    *   [Parameters][384]
-*   [fetchVotingPeriodSet][385]
-    *   [Parameters][386]
-*   [fetchWithdraw][387]
-    *   [Parameters][388]
-*   [fetchWithdrawFromForkEscrow][389]
-    *   [Parameters][390]
-*   [NounsOptions][391]
-    *   [pollingTime][392]
-*   [\_filterByBlock][393]
-    *   [Parameters][394]
-*   [fetchDelegateChangedEvents][395]
-    *   [Parameters][396]
-*   [fetchDelegateVotesChangedEvents][397]
-    *   [Parameters][398]
-*   [fetchTransferEvents][399]
-    *   [Parameters][400]
-*   [fetchApproval][401]
-    *   [Parameters][402]
-*   [fetchApprovalForAll][403]
-    *   [Parameters][404]
-*   [fetchNounCreatedEvents][405]
-    *   [Parameters][406]
-*   [fetchDescriptorLocked][407]
-    *   [Parameters][408]
-*   [fetchDescriptorUpdated][409]
-    *   [Parameters][410]
-*   [fetchMinterLocked][411]
-    *   [Parameters][412]
-*   [fetchMinterUpdated][413]
-    *   [Parameters][414]
-*   [fetchNounBurned][415]
-    *   [Parameters][416]
-*   [fetchNoundersDAOUpdated][417]
-    *   [Parameters][418]
-*   [fetchSeederLocked][419]
-    *   [Parameters][420]
-*   [fetchSeederUpdated][421]
-    *   [Parameters][422]
+*   [NOUNS\_DATA\_PARSERS][347]
+*   [fetchVotingDelaySet][348]
+    *   [Parameters][349]
+*   [fetchVotingPeriodSet][350]
+    *   [Parameters][351]
+*   [fetchWithdraw][352]
+    *   [Parameters][353]
+*   [fetchWithdrawFromForkEscrow][354]
+    *   [Parameters][355]
+
+## IndexerWriter
+
+A class that takes event data from on-chain and writes them to files.
+
+### Parameters
+
+*   `provider` **ethers.providers.JsonRpcProvider** provider uses to create wrappers.
+*   `path` **[string][356]** directory path to indexer directory, where all files will be stored.
+
+### index
+
+Stores all event data from the starting block for nouns to the present.
+
+#### Parameters
+
+*   `event` **[string][356]** the event name.
+
+### listen
+
+Assigns a listener to the contract event, updating the index whenever the event is triggered on-chain.
+
+#### Parameters
+
+*   `event` **[string][356]** the event name.
+
+### update
+
+Updates already existing event index. Uses the most recently indexed block number of the event to append more recent events.
+
+#### Parameters
+
+*   `event` **[string][356]** the event name.
+
+### indexAll
+
+Stores all event data from the starting block for nouns to the present. Does this for all events.
+
+### listenAll
+
+Assigns a listener to all contract events, updating the index whenever the event is triggered on-chain.
+
+### updateAll
+
+Updates already existing event index. Uses the most recently indexed block number of the event to append more recent events.
+Does this for all events.
 
 ## parseDAOWithdrawNounsFromEscrowEvent
 
@@ -434,6 +413,59 @@ Formats blockchain event data into an object.
 *   `event` **ethers.Event** The blockchain DAOWithdrawNounsFromEscrow event.
 
 Returns **any** Formatted DAOWithdrawNounsFromEscrow event.
+
+## fetchAuctionCreatedEvents
+
+Fetches all AuctionCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsAuctionHouse.AuctionCreatedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchAdminChanged
+
+Fetches all AdminChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.AdminChangedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchDAOWithdrawNounsFromEscrow
+
+Fetches all DAOWithdrawNounsFromEscrow events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAO.DAOWithdrawNounsFromEscrowQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchDelegateChangedEvents
+
+Fetches all DelegateChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.DelegateChangedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## indexEvent
+
+Finds every instance of the event triggering on the blockchain until the present block, and saves the result to a file.
+
+### Parameters
+
+*   `contract` **ethers.Contract** the contract the event is in.
+*   `eventName` **[string][356]** the name of the event being indexed.
+*   `parser` **[Function][357]** a parsing function that takes the raw blockchain event object and formats it into the desired JavaScript object.
+*   `directoryPath` **[string][356]** The indexer directory.
+*   `startBlock`  the starting block of the indexer. (optional, default `NOUNS_STARTING_BLOCK`)
+*   `isUpdating`  if true, appends results to the existing file. (optional, default `false`)
 
 ## parseERC20TokensToIncludeInForkSetEvent
 
@@ -455,6 +487,57 @@ Formats blockchain event data into an object.
 
 Returns **any** Formatted EscrowedToFork event.
 
+## parseData
+
+Parses data, applying formatters, and saves it in the given file.
+
+### Parameters
+
+*   `data` **{event: ethers.Event}** a blockchain data object.
+*   `parser` **[Function][357]** a formatter function.
+*   `directoryPath` **[string][356]** the path to the indexer directory.
+
+## fetchAuctionBidEvents
+
+Fetches all AuctionBid events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsAuctionHouse.AuctionBidQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchERC20TokensToIncludeInForkSet
+
+Fetches all ERC20TokensToIncludeInForkSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAO.ERC20TokensToIncludeInForkSetQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchBeaconUpgraded
+
+Fetches all BeaconUpgraded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.BeaconUpgradedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## listenForEvent
+
+Creates a persistent listener which updates the index as events occur on chain.
+
+### Parameters
+
+*   `contract` **ethers.Contract** the contract the event is in.
+*   `event` **[string][356]** the event name.
+*   `parser` **[Function][357]** the parser that formats event data.
+*   `directoryPath` **[string][356]** the path to the indexer directory.
+
 ## parseExecuteForkEvent
 
 Formats blockchain event data into an object.
@@ -464,6 +547,27 @@ Formats blockchain event data into an object.
 *   `event` **ethers.Event** The blockchain ExecuteFork event.
 
 Returns **any** Formatted ExecuteFork event.
+
+## fetchDelegateVotesChangedEvents
+
+Fetches all DelegateVotesChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.DelegateVotesChangedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## retrieveLatestBlock
+
+Finds the newest block that has been indexed for the event.
+
+### Parameters
+
+*   `event` **[string][356]** the event name
+*   `directoryPath` **[string][356]** indexer directory path
+
+Returns **any** the newest block number
 
 ## parseForkDAODeployerSetEvent
 
@@ -475,6 +579,37 @@ Formats blockchain event data into an object.
 
 Returns **any** Formatted ForkDAODeployerSet event.
 
+## fetchEscrowedToFork
+
+Fetches all EscrowedToFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAO.EscrowedToForkQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchCandidateFeedbackSentEvents
+
+Fetches all CandidateFeedbackSent events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.CandidateFeedbackSentQuery?** A query object.
+
+Returns **any** An array of events.
+
+## updateIndexedEvent
+
+Updates the indexed events.
+
+### Parameters
+
+*   `contract` **ethers.Contract** the event contract
+*   `event` **[string][356]** the event name
+*   `formatter` **[Function][357]** the event formatter
+*   `directoryPath` **[string][356]** the directory path to the indexed data
+
 ## parseForkPeriodSetEvent
 
 Formats blockchain event data into an object.
@@ -484,6 +619,26 @@ Formats blockchain event data into an object.
 *   `event` **ethers.Event** The blockchain ForkPeriodSet event.
 
 Returns **any** Formatted ForkPeriodSet event.
+
+## fetchAuctionExtended
+
+Fetches all AuctionExtended events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsAuctionHouse.AuctionExtendedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchTransferEvents
+
+Fetches all Transfer events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.TransferQuery?** A query object.
+
+Returns **any** An array of events.
 
 ## parseForkThresholdSetEvent
 
@@ -505,6 +660,26 @@ Formats blockchain event data into an object.
 
 Returns **any** Formatted JoinFork event.
 
+## fetchAuctionSettledEvents
+
+Fetches all AuctionSettled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsAuctionHouse.AuctionSettledQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchExecutedFork
+
+Fetches all ExecuteFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAO.ExecuteForkQuery?** A query object.
+
+Returns **any** An array of events.
+
 ## parseLastMinuteWindowSetEvent
 
 Formats blockchain event data into an object.
@@ -514,6 +689,26 @@ Formats blockchain event data into an object.
 *   `event` **ethers.Event** The blockchain LastMinuteWindowSet event.
 
 Returns **any** Formatted LastMinuteWindowSet event.
+
+## fetchCreateCandidateCostSet
+
+Fetches all CreateCandidateCostSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.CreateCandidateCostSetQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchApproval
+
+Fetches all Approval events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.ApprovalQuery?** A query object.
+
+Returns **any** An array of events.
 
 ## parseMaxQuorumVotesBPSSetEvent
 
@@ -525,6 +720,24 @@ Formats blockchain event data into an object.
 
 Returns **any** Formatted MaxQuorumVotesBPSSet event.
 
+## \_filterExecutedForkById
+
+### Parameters
+
+*   `forks` **[Array][358]\<Indexer.NounsDAO.ExecuteFork>**&#x20;
+*   `startId` **[number][359]** The starting block. Inclusive.
+*   `endId` **[number][359]?** The final block. Inclusive.
+
+## fetchETHWithdrawn
+
+Fetches all ETHWithdrawn events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.ETHWithdrawnQuery?** A query object.
+
+Returns **any** An array of events.
+
 ## parseMinQuorumVotesBPSSetEvent
 
 Formats blockchain event data into an object.
@@ -534,6 +747,36 @@ Formats blockchain event data into an object.
 *   `event` **ethers.Event** The blockchain MinQuorumVotesBPSSet event.
 
 Returns **any** Formatted MinQuorumVotesBPSSet event.
+
+## fetchAuctionTimeBufferUpdated
+
+Fetches all AuctionTimeBufferUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsAuctionHouse.AuctionTimeBufferUpdatedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchForkDAODeployerSet
+
+Fetches all ForkDAODeployerSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAO.ForkDAODeployerSetQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchApprovalForAll
+
+Fetches all ApprovalForAll events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.ApprovalForAllQuery?** A query object.
+
+Returns **any** An array of events.
 
 ## parseNewAdminEvent
 
@@ -555,6 +798,36 @@ Formats blockchain event data into an object.
 
 Returns **any** Formatted NewImplementation event.
 
+## fetchFeeRecipientSet
+
+Fetches all FeeRecipientSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.FeeRecipientSetQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchForkPeriodSet
+
+Fetches all ForkPeriodSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAO.ForkPeriodSetQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchAuctionReservePriceUpdated
+
+Fetches all AuctionReservePriceUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsAuctionHouse.AuctionReservePriceUpdatedQuery?** A query object.
+
+Returns **any** An array of events.
+
 ## parseNewPendingAdminEvent
 
 Formats blockchain event data into an object.
@@ -565,6 +838,16 @@ Formats blockchain event data into an object.
 
 Returns **any** Formatted NewPendingAdmin event.
 
+## fetchNounCreatedEvents
+
+Fetches all NounCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.NounCreatedQuery?** A query object.
+
+Returns **any** An array of events.
+
 ## parseNewPendingVetoerEvent
 
 Formats blockchain event data into an object.
@@ -574,6 +857,36 @@ Formats blockchain event data into an object.
 *   `event` **ethers.Event** The blockchain NewPendingVetoer event.
 
 Returns **any** Formatted NewPendingVetoer event.
+
+## fetchFeedbackSentEvents
+
+Fetches all FeedbackSent events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.FeedbackSentQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchForkThresholdSet
+
+Fetches all ForkThresholdSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAO.ForkThresholdSetQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchAuctionMinBidIncrementPercentageUpdated
+
+Fetches all AuctionMinBidIncrementPercentageUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdatedQuery?** A query object.
+
+Returns **any** An array of events.
 
 ## parseNewVetoerEvent
 
@@ -595,1115 +908,13 @@ Formats blockchain event data into an object.
 
 Returns **any** Formatted ObjectionPeriodDurationSet event.
 
-## parseProposalCanceledEvent
+## fetchJoinFork
 
-Formats blockchain event data into an object.
+Fetches all JoinFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
 
 ### Parameters
 
-*   `event` **ethers.Event** The blockchain ProposalCanceled event.
-
-Returns **any** Formatted ProposalCanceled event.
-
-## parseProposalCreatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalCreated event.
-
-Returns **any** Formatted ProposalCreated event.
-
-## parseProposalCreatedOnTimelockV1Event
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalCreatedOnTimelockV1 event.
-
-Returns **any** Formatted ProposalCreatedOnTimelockV1 event.
-
-## parseProposalCreatedWithRequirementsEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalCreatedWithRequirements event.
-
-Returns **any** Formatted ProposalCreatedWithRequirements event.
-
-## parseProposalDescriptionUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalDescriptionUpdated event.
-
-Returns **any** Formatted ProposalDescriptionUpdated event.
-
-## parseProposalExecutedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalExecuted event.
-
-Returns **any** Formatted ProposalExecuted event.
-
-## parseProposalObjectionPeriodSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalObjectionPeriodSet event.
-
-Returns **any** Formatted ProposalObjectionPeriodSet event.
-
-## parseProposalQueuedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalQueued event.
-
-Returns **any** Formatted ProposalQueued event.
-
-## parseProposalThresholdBPSSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalThresholdBPSSet event.
-
-Returns **any** Formatted ProposalThresholdBPSSet event.
-
-## parseProposalTransactionsUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalTransactionsUpdated event.
-
-Returns **any** Formatted ProposalTransactionsUpdated event.
-
-## parseProposalUpdatablePeriodSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalUpdatablePeriodSet event.
-
-Returns **any** Formatted ProposalUpdatablePeriodSet event.
-
-## parseProposalUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalUpdated event.
-
-Returns **any** Formatted ProposalUpdated event.
-
-## parseProposalVetoedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalVetoed event.
-
-Returns **any** Formatted ProposalVetoed event.
-
-## parseQuorumCoefficientSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain QuorumCoefficientSet event.
-
-Returns **any** Formatted QuorumCoefficientSet event.
-
-## parseQuorumVotesBPSSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain QuorumVotesBPSSet event.
-
-Returns **any** Formatted QuorumVotesBPSSet event.
-
-## parseRefundableVoteEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain RefundableVote event.
-
-Returns **any** Formatted RefundableVote event.
-
-## parseSignatureCancelledEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain SignatureCancelled event.
-
-Returns **any** Formatted SignatureCancelled event.
-
-## parseTimelocksAndAdminSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain TimelocksAndAdminSet event.
-
-Returns **any** Formatted TimelocksAndAdminSet event.
-
-## parseVoteCastEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain VoteCast event.
-
-Returns **any** Formatted VoteCast event.
-
-## parseVoteSnapshotBlockSwitchProposalIdSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain VoteSnapshotBlockSwitchProposalIdSet event.
-
-Returns **any** Formatted VoteSnapshotBlockSwitchProposalIdSet event.
-
-## parseVotingDelaySetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain VotingDelaySet event.
-
-Returns **any** Formatted VotingDelaySet event.
-
-## parseVotingPeriodSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain VotingPeriodSet event.
-
-Returns **any** Formatted VotingPeriodSet event.
-
-## parseWithdrawEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain Withdraw event.
-
-Returns **any** Formatted Withdraw event.
-
-## parseWithdrawFromForkEscrowEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain WithdrawFromForkEscrow event.
-
-Returns **any** Formatted WithdrawFromForkEscrow event.
-
-## NOUNS\_DAO\_PARSERS
-
-A map of supported events and their associated parsers.
-
-## parseAuctionCreatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain AuctionCreated event.
-
-Returns **any** Formatted AuctionCreated event.
-
-## parseAuctionBidEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain AuctionBid event.
-
-Returns **any** Formatted AuctionBid event.
-
-## parseAuctionExtendedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain AuctionExtended event.
-
-Returns **any** Formatted AuctionExtended event.
-
-## parseAuctionSettledEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain AuctionSettled event.
-
-Returns **any** Formatted AuctionSettled event.
-
-## parseAuctionTimeBufferUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain AuctionTimeBufferUpdated event.
-
-Returns **any** Formatted AuctionTimeBufferUpdated event.
-
-## parseAuctionReservePriceUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain AuctionReservePriceUpdated event.
-
-Returns **any** Formatted AuctionReservePriceUpdated event.
-
-## parseAuctionMinBidIncrementPercentageUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain AuctionMinBidIncrementPercentageUpdated event.
-
-Returns **any** Formatted AuctionMinBidIncrementPercentageUpdated event.
-
-## parseOwnershipTransferredEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain OwnershipTransferred event.
-
-Returns **any** Formatted OwnershipTransferred event.
-
-## parsePausedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain Paused event.
-
-Returns **any** Formatted Paused event.
-
-## parseUnpausedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain Unpaused event.
-
-Returns **any** Formatted Unpaused event.
-
-## NOUNS\_AUCTION\_PARSERS
-
-A map of supported events and their associated parsers.
-
-## parseDelegateChangedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain DelegateChanged event.
-
-Returns **any** Formatted DelegateChanged event.
-
-## parseDelegateVotesChangedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain DelegateVotesChanged event.
-
-Returns **any** Formatted DelegateVotesChanged event.
-
-## parseTransferEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain Transfer event.
-
-Returns **any** Formatted Transfer event.
-
-## parseApprovalEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain Approval event.
-
-Returns **any** Formatted Approval event.
-
-## parseApprovalForAllEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ApprovalForAll event.
-
-Returns **any** Formatted ApprovalForAll event.
-
-## parseNounCreatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain NounCreated event.
-
-Returns **any** Formatted NounCreated event.
-
-## parseDescriptorLockedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain DescriptorLocked event.
-
-Returns **any** Formatted DescriptorLocked event.
-
-## parseDescriptorUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain DescriptorUpdated event.
-
-Returns **any** Formatted DescriptorUpdated event.
-
-## parseMinterLockedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain MinterLocked event.
-
-Returns **any** Formatted MinterLocked event.
-
-## parseMinterUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain MinterUpdated event.
-
-Returns **any** Formatted MinterUpdated event.
-
-## parseNounBurnedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain NounBurned event.
-
-Returns **any** Formatted NounBurned event.
-
-## parseNoundersDAOUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain NoundersDAOUpdated event.
-
-Returns **any** Formatted NoundersDAOUpdated event.
-
-## parseOwnershipTransferredEvent2
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain OwnershipTransferred event.
-
-Returns **any** Formatted OwnershipTransferred event.
-
-## parseSeederLockedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain SeederLocked event.
-
-Returns **any** Formatted SeederLocked event.
-
-## parseSeederUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain SeederUpdated event.
-
-Returns **any** Formatted SeederUpdated event.
-
-## NOUNS\_TOKEN\_PARSERS
-
-A map of supported events and their associated parsers.
-
-## parseAdminChangedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain AdminChanged event.
-
-Returns **any** Formatted AdminChanged event.
-
-## parseBeaconUpgradedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain BeaconUpgraded event.
-
-Returns **any** Formatted BeaconUpgraded event.
-
-## parseCandidateFeedbackSentEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain CandidateFeedbackSent event.
-
-Returns **any** Formatted CandidateFeedbackSent event.
-
-## parseCreateCandidateCostSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain CreateCandidateCostSet event.
-
-Returns **any** Formatted CreateCandidateCostSet event.
-
-## parseETHWithdrawnEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ETHWithdrawn event.
-
-Returns **any** Formatted ETHWithdrawn event.
-
-## parseFeeRecipientSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain FeeRecipientSet event.
-
-Returns **any** Formatted FeeRecipientSet event.
-
-## parseFeedbackSentEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain FeedbackSent event.
-
-Returns **any** Formatted FeedbackSent event.
-
-## parseOwnershipTransferredEvent3
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain OwnershipTransferred event.
-
-Returns **any** Formatted OwnershipTransferred event.
-
-## parseProposalCandidateCanceledEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalCandidateCanceled event.
-
-Returns **any** Formatted ProposalCandidateCanceled event.
-
-## parseProposalCandidateCreatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalCandidateCreated event.
-
-Returns **any** Formatted ProposalCandidateCreated event.
-
-## parseProposalCandidateUpdatedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain ProposalCandidateUpdated event.
-
-Returns **any** Formatted ProposalCandidateUpdated event.
-
-## parseSignatureAddedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain SignatureAdded event.
-
-Returns **any** Formatted SignatureAdded event.
-
-## parseUpdateCandidateCostSetEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain UpdateCandidateCostSet event.
-
-Returns **any** Formatted UpdateCandidateCostSet event.
-
-## parseUpgradedEvent
-
-Formats blockchain event data into an object.
-
-### Parameters
-
-*   `event` **ethers.Event** The blockchain Upgraded event.
-
-Returns **any** Formatted Upgraded event.
-
-## NOUNS\_DATA\_PARSERS
-
-A map of supported events and their associated parsers.
-
-## printProgress
-
-Prints a progress bar to `stdout` to show the state of indexing.
-
-### Parameters
-
-*   `currentBlock` **[number][423]**&#x20;
-*   `startBlock` **[number][423]**&#x20;
-*   `endBlock` **[number][423]**&#x20;
-*   `eventName` **[string][424]**&#x20;
-
-## printEnd
-
-Prints a message to `stdout`, indicating that it has finished indexing an event.
-
-### Parameters
-
-*   `eventName` **[string][424]**&#x20;
-
-## indexEvent
-
-Indexes the given event from the start block of Nouns until the current block. Then saves the results as a JSON file.
-
-### Parameters
-
-*   `contract` **ethers.Contract** The contract the event is in.
-*   `eventName` **[string][424]** The name of the event being indexed.
-*   `formatter` **[Function][425]** A formatting function that takes the raw blockchain event object and formats it into the desired JavaScript object.
-*   `path` **[string][424]** The file to write the JSON content to.
-
-## indexNounsAuctionEvents
-
-Indexes all NounsAuction events.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider** The provider used for indexing.
-*   `directoryPath` **[string][424]** The directory path where all this information is saved.
-
-## indexNounsDaoEvents
-
-Indexes all NounsDAO events.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider** The provider used for indexing.
-*   `directoryPath` **[string][424]** The directory path where all this information is saved.
-
-## indexNounsTokenEvents
-
-Indexes all NounsToken events.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider** The provider used for indexing.
-*   `directoryPath` **[string][424]** The directory path where all this information is saved.
-
-## indexNounsDaoDataEvents
-
-Indexes all NounsDAOData events.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider** The provider used for indexing.
-*   `directoryPath` **[string][424]** The directory path where all this information is saved.
-
-## indexNounsEvents
-
-Indexes all nouns events from the NounsAuction, NounsDAO, NounsToken, and NounsDAOData contracts.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider** The provider used for indexing.
-*   `directoryPath` **[string][424]** The directory path where all this information is saved.
-
-## parseData
-
-Parses data, applying formatters, and saves it in the given file.
-
-### Parameters
-
-*   `data` **{event: ethers.Event}** A blockchain data object.
-*   `formatter` **[Function][425]** A formatter function.
-*   `path` **[string][424]** The path to the file.
-
-## listenForNounsAuctionEvents
-
-Assigns listeners to all NounsAuction events, updating the index data accordingly.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider** The provider.
-*   `path` **[string][424]** The path to the data.
-
-## listenForNounsDAOEvents
-
-Assigns listeners to all NounsDAO events, updating the index data accordingly.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider** The provider.
-*   `path` **[string][424]** The path to the data.
-
-## listenForNounsTokenEvents
-
-Assigns listeners to all NounsToken events, updating the index data accordingly.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider** The provider.
-*   `path` **[string][424]** The path to the data.
-
-## listenForNounsDaoDataEvents
-
-Assigns listeners to all NounsDAOData events, updating the index data accordingly.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider** The provider.
-*   `path` **[string][424]** The path to the data.
-
-## listenForNounsEvents
-
-Assigns listeners to all nouns events in the NounsAuction, NounsDAO, NounsToken, and NounsDAOData contracts.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider** The provider.
-*   `path` **[string][424]** The path to the data.
-
-## \_NounsAuctionHouse
-
-A wrapper class around the NounsAuctionHouse contract.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
-
-### on
-
-Registers a listener to the given event, triggering the function with the appropriate event data whenever it triggers in the blockchain.
-Throws an error if the event is not supported.
-
-#### Parameters
-
-*   `eventType` **[string][424]** The event name.
-*   `listener` **[Function][425]** The listener function.
-
-#### Examples
-
-```javascript
-nounsAuctionHouse.on('AuctionCreated', (data) => {
-	console.log(data.id);
-});
-```
-
-### off
-
-Removes an event listener.
-
-#### Parameters
-
-*   `eventName` **[string][424]** the event listened to.
-
-### trigger
-
-Triggers an event. Throws an error if the listener cannot be found.
-
-#### Parameters
-
-*   `eventType` **[string][424]** the name of the event.
-*   `data` **any** the event data.
-
-### getLatestAuctions
-
-Retrieves a list of auctions from the blockchain.
-
-Returns **any** A list of recent AuctionCreated events.
-
-### getLatestAuctionExtended
-
-Retrieves a list of AuctionExtended events from the blockchain.
-
-Returns **any** A list of recent AuctionExtended events.
-
-### getAuctionBids
-
-Retrieves a list of AuctionBids events from the blockchain.
-
-#### Parameters
-
-*   `nounId` **[number][423]**&#x20;
-
-Returns **any** A list of recent AuctionBids events.
-
-### name
-
-Returns **any** The name of the contract. `NounsAuctionHouse`.
-
-### getAuctionLatestBid
-
-Retrieves the most recent AuctionBid event for the given noun id.
-
-#### Parameters
-
-*   `nounId` **[number][423]** The number of the noun whose bid you are looking for.
-
-Returns **any** The AuctionBid event data.
-
-### getBlock
-
-#### Parameters
-
-*   `blockNumber` **[number][423]** The block number on the Ethereum blockchain.
-
-Returns **any** The information in the block.
-
-### tempFormatAuctionBid
-
-Formats and prints bid information.
-
-#### Parameters
-
-*   `bid` **ethers.Event** The bid event.
-
-### tempPrintAuctionBid
-
-Formats and prints the most recent bid for the given noun.
-
-#### Parameters
-
-*   `nounId` **[number][423]** The noun being bid on.
-
-### getLatestBidData
-
-Retrieves the most recent bid event for the given noun.
-
-#### Parameters
-
-*   `nounId` **[number][423]** The noun being bid on.
-
-Returns **any** The most recent bid.
-
-## \_NounsDAO
-
-A wrapper class around the NounsDAO contract.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
-
-### on
-
-Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
-Throws an error if the event is not supported.
-Listening to `ProposalCreatedWithRequirements` assigns the listener to both versions of the event.
-
-#### Parameters
-
-*   `eventType` **[string][424]** The name of the event.
-*   `listener` **[Function][425]** The listener function.
-
-#### Examples
-
-```javascript
-nounsDAO.on('VoteCast', (data) => {
-	console.log(data.proposalId);
-});
-```
-
-### name
-
-Returns **any** The name of the contract. `NounsDAO`.
-
-### off
-
-Removes an event listener.
-
-#### Parameters
-
-*   `eventName` **[string][424]** the event listened to.
-
-### trigger
-
-Triggers an event. Throws an error if no listener is found.
-
-#### Parameters
-
-*   `eventType` **[string][424]** the name of the event.
-*   `data` **any** the event data.
-
-## \_NounsToken
-
-A wrapper around the NounsToken governance contract.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
-
-### on
-
-Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
-Throws an error if the event is not supported.
-
-#### Parameters
-
-*   `eventType` **[string][424]** The name of the event.
-*   `listener` **[Function][425]** The listener function.
-
-#### Examples
-
-```javascript
-nounsToken.on('NounCreated', (data) => {
-	console.log(data.id);
-});
-```
-
-### off
-
-Removes an event listener.
-
-#### Parameters
-
-*   `eventName` **[string][424]** the event name.
-
-### trigger
-
-Triggers an event. Throws an error if there is no assigned listener.
-
-#### Parameters
-
-*   `eventType` **[string][424]** the event name.
-*   `data` **any** the event data.
-
-### callView
-
-A wrapper around contract read functions.
-
-#### Parameters
-
-*   `fName` **[string][424]** The function name.
-*   `fArgs` **[Array][426]\<any>** The arguments required by the function.
-
-Returns **any** The output of the read function, if it has any.
-
-### name
-
-Returns **any** The name of the contract. `NounsToken`.
-
-## \_NounsDAOData
-
-A wrapper class around the NounsDAOData contract.
-
-### Parameters
-
-*   `provider` **ethers.providers.JsonRpcProvider**&#x20;
-
-### on
-
-Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
-Throws an error if the event is not supported.
-
-#### Parameters
-
-*   `eventType` **[string][424]** The name of the event.
-*   `listener` **ethers.providers.Listener** The listener function.
-
-#### Examples
-
-```javascript
-nounsDAOData.on('CandidateFeedbackSent', (data) => {
-	console.log(data.slug);
-});
-```
-
-### off
-
-Removes an event listener.
-
-#### Parameters
-
-*   `eventName` **[string][424]** the event listened to.
-
-### trigger
-
-Triggers an event. Throws an error if there is no assigned listener.
-
-#### Parameters
-
-*   `eventType` **[string][424]** the event name.
-*   `data` **any** the event data.
-
-### name
-
-Returns **any** The name of the contract. `NounsDAOData`.
-
-## fetchAuctionCreatedEvents
-
-Fetches all AuctionCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsAuctionHouse.AuctionCreatedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchAuctionBidEvents
-
-Fetches all AuctionBid events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsAuctionHouse.AuctionBidQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchAuctionExtended
-
-Fetches all AuctionExtended events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsAuctionHouse.AuctionExtendedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchAuctionSettledEvents
-
-Fetches all AuctionSettled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsAuctionHouse.AuctionSettledQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchAuctionTimeBufferUpdated
-
-Fetches all AuctionTimeBufferUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsAuctionHouse.AuctionTimeBufferUpdatedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchAuctionReservePriceUpdated
-
-Fetches all AuctionReservePriceUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsAuctionHouse.AuctionReservePriceUpdatedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchAuctionMinBidIncrementPercentageUpdated
-
-Fetches all AuctionMinBidIncrementPercentageUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdatedQuery?** A query object.
+*   `query` **Indexer.NounsDAO.JoinForkQuery?** A query object.
 
 Returns **any** An array of events.
 
@@ -1737,6 +948,66 @@ Fetches all OwnershipTransferred events from the file system. Filtering the resu
 
 Returns **any** An array of events.
 
+## fetchDescriptorLocked
+
+Fetches all DescriptorLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.DescriptorLockedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseProposalCanceledEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalCanceled event.
+
+Returns **any** Formatted ProposalCanceled event.
+
+## parseProposalCreatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalCreated event.
+
+Returns **any** Formatted ProposalCreated event.
+
+## fetchDescriptorUpdated
+
+Fetches all DescriptorUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.DescriptorUpdatedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseProposalCreatedOnTimelockV1Event
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalCreatedOnTimelockV1 event.
+
+Returns **any** Formatted ProposalCreatedOnTimelockV1 event.
+
+## fetchLastMinuteWindowSet
+
+Fetches all LastMinuteWindowSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAO.LastMinuteWindowSetQuery?** A query object.
+
+Returns **any** An array of events.
+
 ## fetchPaused
 
 Fetches all Paused events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -1744,86 +1015,6 @@ Fetches all Paused events from the file system. Filtering the results based on t
 ### Parameters
 
 *   `query` **Indexer.NounsAuctionHouse.PausedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchUnpaused
-
-Fetches all Unpaused events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsAuctionHouse.UnpausedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchAdminChanged
-
-Fetches all AdminChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAOData.AdminChangedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchBeaconUpgraded
-
-Fetches all BeaconUpgraded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAOData.BeaconUpgradedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchCandidateFeedbackSentEvents
-
-Fetches all CandidateFeedbackSent events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAOData.CandidateFeedbackSentQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchCreateCandidateCostSet
-
-Fetches all CreateCandidateCostSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAOData.CreateCandidateCostSetQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchETHWithdrawn
-
-Fetches all ETHWithdrawn events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAOData.ETHWithdrawnQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchFeeRecipientSet
-
-Fetches all FeeRecipientSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAOData.FeeRecipientSetQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchFeedbackSentEvents
-
-Fetches all FeedbackSent events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAOData.FeedbackSentQuery?** A query object.
 
 Returns **any** An array of events.
 
@@ -1837,151 +1028,23 @@ Fetches all ProposalCandidateCanceled events from the file system. Filtering the
 
 Returns **any** An array of events.
 
-## fetchProposalCandidateCreatedEvents
+## parseProposalCreatedWithRequirementsEvent
 
-Fetches all ProposalCandidateCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAOData.ProposalCandidateCreatedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchProposalCandidateUpdated
-
-Fetches all ProposalCandidateUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+Formats blockchain event data into an object.
 
 ### Parameters
 
-*   `query` **Indexer.NounsDAOData.ProposalCandidateUpdatedQuery?** A query object.
+*   `event` **ethers.Event** The blockchain ProposalCreatedWithRequirements event.
 
-Returns **any** An array of events.
+Returns **any** Formatted ProposalCreatedWithRequirements event.
 
-## fetchSignatureAddedEvents
+## fetchMinterLocked
 
-Fetches all SignatureAdded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAOData.SignatureAddedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchUpdateCandidateCostSet
-
-Fetches all UpdateCandidateCostSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+Fetches all MinterLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
 
 ### Parameters
 
-*   `query` **Indexer.NounsDAOData.UpdateCandidateCostSetQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchUpgraded
-
-Fetches all Upgraded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAOData.UpgradedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchDAOWithdrawNounsFromEscrow
-
-Fetches all DAOWithdrawNounsFromEscrow events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAO.DAOWithdrawNounsFromEscrowQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchERC20TokensToIncludeInForkSet
-
-Fetches all ERC20TokensToIncludeInForkSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAO.ERC20TokensToIncludeInForkSetQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchEscrowedToFork
-
-Fetches all EscrowedToFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAO.EscrowedToForkQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchExecutedFork
-
-Fetches all ExecuteFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAO.ExecuteForkQuery?** A query object.
-
-Returns **any** An array of events.
-
-## \_filterExecutedForkById
-
-### Parameters
-
-*   `forks` **[Array][426]\<Indexer.NounsDAO.ExecuteFork>**&#x20;
-*   `startId` **[number][423]** The starting block. Inclusive.
-*   `endId` **[number][423]?** The final block. Inclusive.
-
-## fetchForkDAODeployerSet
-
-Fetches all ForkDAODeployerSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAO.ForkDAODeployerSetQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchForkPeriodSet
-
-Fetches all ForkPeriodSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAO.ForkPeriodSetQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchForkThresholdSet
-
-Fetches all ForkThresholdSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAO.ForkThresholdSetQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchJoinFork
-
-Fetches all JoinFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAO.JoinForkQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchLastMinuteWindowSet
-
-Fetches all LastMinuteWindowSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsDAO.LastMinuteWindowSetQuery?** A query object.
+*   `query` **Indexer.NounsToken.MinterLockedQuery?** A query object.
 
 Returns **any** An array of events.
 
@@ -1995,6 +1058,56 @@ Fetches all MaxQuorumVotesBPSSet events from the file system. Filtering the resu
 
 Returns **any** An array of events.
 
+## fetchUnpaused
+
+Fetches all Unpaused events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsAuctionHouse.UnpausedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseProposalDescriptionUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalDescriptionUpdated event.
+
+Returns **any** Formatted ProposalDescriptionUpdated event.
+
+## fetchProposalCandidateCreatedEvents
+
+Fetches all ProposalCandidateCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.ProposalCandidateCreatedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## fetchMinterUpdated
+
+Fetches all MinterUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.MinterUpdatedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseProposalExecutedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalExecuted event.
+
+Returns **any** Formatted ProposalExecuted event.
+
 ## fetchMinQuorumVotesBPSSet
 
 Fetches all MinQuorumVotesBPSSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2002,6 +1115,46 @@ Fetches all MinQuorumVotesBPSSet events from the file system. Filtering the resu
 ### Parameters
 
 *   `query` **Indexer.NounsDAO.MinQuorumVotesBPSSetQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseProposalObjectionPeriodSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalObjectionPeriodSet event.
+
+Returns **any** Formatted ProposalObjectionPeriodSet event.
+
+## fetchNounBurned
+
+Fetches all NounBurned events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.NounBurnedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseProposalQueuedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalQueued event.
+
+Returns **any** Formatted ProposalQueued event.
+
+## fetchProposalCandidateUpdated
+
+Fetches all ProposalCandidateUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.ProposalCandidateUpdatedQuery?** A query object.
 
 Returns **any** An array of events.
 
@@ -2015,6 +1168,36 @@ Fetches all NewAdmin events from the file system. Filtering the results based on
 
 Returns **any** An array of events.
 
+## parseProposalThresholdBPSSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalThresholdBPSSet event.
+
+Returns **any** Formatted ProposalThresholdBPSSet event.
+
+## fetchNoundersDAOUpdated
+
+Fetches all NoundersDAOUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.NoundersDAOUpdatedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseProposalTransactionsUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalTransactionsUpdated event.
+
+Returns **any** Formatted ProposalTransactionsUpdated event.
+
 ## fetchNewImplementation
 
 Fetches all NewImplementation events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2025,6 +1208,26 @@ Fetches all NewImplementation events from the file system. Filtering the results
 
 Returns **any** An array of events.
 
+## fetchSignatureAddedEvents
+
+Fetches all SignatureAdded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.SignatureAddedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseProposalUpdatablePeriodSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalUpdatablePeriodSet event.
+
+Returns **any** Formatted ProposalUpdatablePeriodSet event.
+
 ## fetchNewPendingAdmin
 
 Fetches all NewPendingAdmin events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2032,6 +1235,36 @@ Fetches all NewPendingAdmin events from the file system. Filtering the results b
 ### Parameters
 
 *   `query` **Indexer.NounsDAO.NewPendingAdminQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseProposalUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalUpdated event.
+
+Returns **any** Formatted ProposalUpdated event.
+
+## parseProposalVetoedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalVetoed event.
+
+Returns **any** Formatted ProposalVetoed event.
+
+## fetchUpdateCandidateCostSet
+
+Fetches all UpdateCandidateCostSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.UpdateCandidateCostSetQuery?** A query object.
 
 Returns **any** An array of events.
 
@@ -2045,6 +1278,46 @@ Fetches all NewPendingVetoer events from the file system. Filtering the results 
 
 Returns **any** An array of events.
 
+## parseQuorumCoefficientSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain QuorumCoefficientSet event.
+
+Returns **any** Formatted QuorumCoefficientSet event.
+
+## fetchSeederLocked
+
+Fetches all SeederLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.SeederLockedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseQuorumVotesBPSSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain QuorumVotesBPSSet event.
+
+Returns **any** Formatted QuorumVotesBPSSet event.
+
+## fetchUpgraded
+
+Fetches all Upgraded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsDAOData.UpgradedQuery?** A query object.
+
+Returns **any** An array of events.
+
 ## fetchNewVetoer
 
 Fetches all NewVetoer events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2054,6 +1327,36 @@ Fetches all NewVetoer events from the file system. Filtering the results based o
 *   `query` **Indexer.NounsDAO.NewVetoerQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseRefundableVoteEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain RefundableVote event.
+
+Returns **any** Formatted RefundableVote event.
+
+## fetchSeederUpdated
+
+Fetches all SeederUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+
+### Parameters
+
+*   `query` **Indexer.NounsToken.SeederUpdatedQuery?** A query object.
+
+Returns **any** An array of events.
+
+## parseSignatureCancelledEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain SignatureCancelled event.
+
+Returns **any** Formatted SignatureCancelled event.
 
 ## fetchObjectionPeriodDurationSet
 
@@ -2065,6 +1368,16 @@ Fetches all ObjectionPeriodDurationSet events from the file system. Filtering th
 
 Returns **any** An array of events.
 
+## parseTimelocksAndAdminSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain TimelocksAndAdminSet event.
+
+Returns **any** Formatted TimelocksAndAdminSet event.
+
 ## fetchProposalCanceled
 
 Fetches all ProposalCanceled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2074,6 +1387,26 @@ Fetches all ProposalCanceled events from the file system. Filtering the results 
 *   `query` **Indexer.NounsDAO.ProposalCanceledQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseVoteCastEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain VoteCast event.
+
+Returns **any** Formatted VoteCast event.
+
+## parseVoteSnapshotBlockSwitchProposalIdSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain VoteSnapshotBlockSwitchProposalIdSet event.
+
+Returns **any** Formatted VoteSnapshotBlockSwitchProposalIdSet event.
 
 ## fetchProposals
 
@@ -2085,21 +1418,65 @@ Fetches all ProposalCreated events from the file system. Filtering the results b
 
 Returns **any** An array of events.
 
+## parseVotingDelaySetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain VotingDelaySet event.
+
+Returns **any** Formatted VotingDelaySet event.
+
+## parseVotingPeriodSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain VotingPeriodSet event.
+
+Returns **any** Formatted VotingPeriodSet event.
+
+## parseWithdrawEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain Withdraw event.
+
+Returns **any** Formatted Withdraw event.
+
 ## \_filterProposalsByBlock
 
 ### Parameters
 
-*   `proposals` **[Array][426]\<Indexer.NounsDAO.ProposalCreated>**&#x20;
-*   `startBlock` **[number][423]** The starting block. Inclusive.
-*   `endBlock` **[number][423]** The final block. Inclusive.
+*   `proposals` **[Array][358]\<Indexer.NounsDAO.ProposalCreated>**&#x20;
+*   `startBlock` **[number][359]** The starting block. Inclusive.
+*   `endBlock` **[number][359]** The final block. Inclusive.
+
+## parseWithdrawFromForkEscrowEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain WithdrawFromForkEscrow event.
+
+Returns **any** Formatted WithdrawFromForkEscrow event.
 
 ## \_filterProposalsById
 
 ### Parameters
 
-*   `proposals` **[Array][426]\<Indexer.NounsDAO.ProposalCreated>**&#x20;
-*   `startId` **[number][423]** The starting block. Inclusive.
-*   `endId` **[number][423]?** The final block. Inclusive.
+*   `proposals` **[Array][358]\<Indexer.NounsDAO.ProposalCreated>**&#x20;
+*   `startId` **[number][359]** The starting block. Inclusive.
+*   `endId` **[number][359]?** The final block. Inclusive.
+
+## NOUNS\_DAO\_PARSERS
+
+A map of supported events and their associated parsers.
 
 ## fetchProposalCreatedOnTimelockV1
 
@@ -2111,6 +1488,26 @@ Fetches all ProposalCreatedOnTimelockV1 events from the file system. Filtering t
 
 Returns **any** An array of events.
 
+## parseAuctionCreatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain AuctionCreated event.
+
+Returns **any** Formatted AuctionCreated event.
+
+## parseAuctionBidEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain AuctionBid event.
+
+Returns **any** Formatted AuctionBid event.
+
 ## fetchProposalCreatedWithRequirements
 
 Fetches all ProposalCreatedWithRequirements events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2120,6 +1517,36 @@ Fetches all ProposalCreatedWithRequirements events from the file system. Filteri
 *   `query` **Indexer.NounsDAO.ProposalCreatedWithRequirementsQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseAuctionExtendedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain AuctionExtended event.
+
+Returns **any** Formatted AuctionExtended event.
+
+## parseAuctionSettledEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain AuctionSettled event.
+
+Returns **any** Formatted AuctionSettled event.
+
+## parseAuctionTimeBufferUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain AuctionTimeBufferUpdated event.
+
+Returns **any** Formatted AuctionTimeBufferUpdated event.
 
 ## fetchProposalDescriptionUpdated
 
@@ -2131,6 +1558,26 @@ Fetches all ProposalDescriptionUpdated events from the file system. Filtering th
 
 Returns **any** An array of events.
 
+## parseAuctionReservePriceUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain AuctionReservePriceUpdated event.
+
+Returns **any** Formatted AuctionReservePriceUpdated event.
+
+## parseAuctionMinBidIncrementPercentageUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain AuctionMinBidIncrementPercentageUpdated event.
+
+Returns **any** Formatted AuctionMinBidIncrementPercentageUpdated event.
+
 ## fetchProposalExecuted
 
 Fetches all ProposalExecuted events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2140,6 +1587,26 @@ Fetches all ProposalExecuted events from the file system. Filtering the results 
 *   `query` **Indexer.NounsDAO.ProposalExecutedQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseOwnershipTransferredEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain OwnershipTransferred event.
+
+Returns **any** Formatted OwnershipTransferred event.
+
+## parsePausedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain Paused event.
+
+Returns **any** Formatted Paused event.
 
 ## fetchProposalObjectionPeriodSet
 
@@ -2151,6 +1618,20 @@ Fetches all ProposalObjectionPeriodSet events from the file system. Filtering th
 
 Returns **any** An array of events.
 
+## parseUnpausedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain Unpaused event.
+
+Returns **any** Formatted Unpaused event.
+
+## NOUNS\_AUCTION\_PARSERS
+
+A map of supported events and their associated parsers.
+
 ## fetchProposalQueued
 
 Fetches all ProposalQueued events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2160,6 +1641,36 @@ Fetches all ProposalQueued events from the file system. Filtering the results ba
 *   `query` **Indexer.NounsDAO.ProposalQueuedQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseDelegateChangedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain DelegateChanged event.
+
+Returns **any** Formatted DelegateChanged event.
+
+## parseDelegateVotesChangedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain DelegateVotesChanged event.
+
+Returns **any** Formatted DelegateVotesChanged event.
+
+## parseTransferEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain Transfer event.
+
+Returns **any** Formatted Transfer event.
 
 ## fetchProposalThresholdBPSSet
 
@@ -2171,6 +1682,16 @@ Fetches all ProposalThresholdBPSSet events from the file system. Filtering the r
 
 Returns **any** An array of events.
 
+## parseApprovalEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain Approval event.
+
+Returns **any** Formatted Approval event.
+
 ## fetchProposalTransactionsUpdated
 
 Fetches all ProposalTransactionsUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2180,6 +1701,26 @@ Fetches all ProposalTransactionsUpdated events from the file system. Filtering t
 *   `query` **Indexer.NounsDAO.ProposalTransactionsUpdatedQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseApprovalForAllEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ApprovalForAll event.
+
+Returns **any** Formatted ApprovalForAll event.
+
+## parseNounCreatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain NounCreated event.
+
+Returns **any** Formatted NounCreated event.
 
 ## fetchProposalUpdatablePeriodSet
 
@@ -2191,6 +1732,36 @@ Fetches all ProposalUpdatablePeriodSet events from the file system. Filtering th
 
 Returns **any** An array of events.
 
+## parseDescriptorLockedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain DescriptorLocked event.
+
+Returns **any** Formatted DescriptorLocked event.
+
+## parseDescriptorUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain DescriptorUpdated event.
+
+Returns **any** Formatted DescriptorUpdated event.
+
+## parseMinterLockedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain MinterLocked event.
+
+Returns **any** Formatted MinterLocked event.
+
 ## fetchProposalUpdated
 
 Fetches all ProposalUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2200,6 +1771,26 @@ Fetches all ProposalUpdated events from the file system. Filtering the results b
 *   `query` **Indexer.NounsDAO.ProposalUpdatedQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseMinterUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain MinterUpdated event.
+
+Returns **any** Formatted MinterUpdated event.
+
+## parseNounBurnedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain NounBurned event.
+
+Returns **any** Formatted NounBurned event.
 
 ## fetchProposalVetoed
 
@@ -2211,6 +1802,36 @@ Fetches all ProposalVetoed events from the file system. Filtering the results ba
 
 Returns **any** An array of events.
 
+## parseNoundersDAOUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain NoundersDAOUpdated event.
+
+Returns **any** Formatted NoundersDAOUpdated event.
+
+## parseOwnershipTransferredEvent2
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain OwnershipTransferred event.
+
+Returns **any** Formatted OwnershipTransferred event.
+
+## parseSeederLockedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain SeederLocked event.
+
+Returns **any** Formatted SeederLocked event.
+
 ## fetchQuorumCoefficientSet
 
 Fetches all QuorumCoefficientSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2220,6 +1841,20 @@ Fetches all QuorumCoefficientSet events from the file system. Filtering the resu
 *   `query` **Indexer.NounsDAO.QuorumCoefficientSetQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseSeederUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain SeederUpdated event.
+
+Returns **any** Formatted SeederUpdated event.
+
+## NOUNS\_TOKEN\_PARSERS
+
+A map of supported events and their associated parsers.
 
 ## fetchQuorumVotesBPSSet
 
@@ -2231,6 +1866,16 @@ Fetches all QuorumVotesBPSSet events from the file system. Filtering the results
 
 Returns **any** An array of events.
 
+## parseAdminChangedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain AdminChanged event.
+
+Returns **any** Formatted AdminChanged event.
+
 ## fetchRefundableVote
 
 Fetches all RefundableVote events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2240,6 +1885,26 @@ Fetches all RefundableVote events from the file system. Filtering the results ba
 *   `query` **Indexer.NounsDAO.RefundableVoteQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseBeaconUpgradedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain BeaconUpgraded event.
+
+Returns **any** Formatted BeaconUpgraded event.
+
+## parseCandidateFeedbackSentEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain CandidateFeedbackSent event.
+
+Returns **any** Formatted CandidateFeedbackSent event.
 
 ## fetchSignatureCancelled
 
@@ -2251,6 +1916,26 @@ Fetches all SignatureCancelled events from the file system. Filtering the result
 
 Returns **any** An array of events.
 
+## parseCreateCandidateCostSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain CreateCandidateCostSet event.
+
+Returns **any** Formatted CreateCandidateCostSet event.
+
+## parseETHWithdrawnEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ETHWithdrawn event.
+
+Returns **any** Formatted ETHWithdrawn event.
+
 ## fetchTimelocksAndAdminSet
 
 Fetches all TimelocksAndAdminSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2260,6 +1945,36 @@ Fetches all TimelocksAndAdminSet events from the file system. Filtering the resu
 *   `query` **Indexer.NounsDAO.TimelocksAndAdminSetQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseFeeRecipientSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain FeeRecipientSet event.
+
+Returns **any** Formatted FeeRecipientSet event.
+
+## parseFeedbackSentEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain FeedbackSent event.
+
+Returns **any** Formatted FeedbackSent event.
+
+## parseOwnershipTransferredEvent3
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain OwnershipTransferred event.
+
+Returns **any** Formatted OwnershipTransferred event.
 
 ## fetchStatusChangeEvents
 
@@ -2271,13 +1986,43 @@ Fetches all ProposalStatusChange events from the file system. Filtering the resu
 
 Returns **any** An array of events.
 
+## parseProposalCandidateCanceledEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalCandidateCanceled event.
+
+Returns **any** Formatted ProposalCandidateCanceled event.
+
+## parseProposalCandidateCreatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalCandidateCreated event.
+
+Returns **any** Formatted ProposalCandidateCreated event.
+
 ## \_filterStatusChangeByBlock
 
 ### Parameters
 
-*   `statuses` **[Array][426]\<Indexer.NounsDAO.ProposalCanceled>**&#x20;
-*   `startBlock` **[number][423]** The starting block. Inclusive.
-*   `endBlock` **[number][423]** The final block. Inclusive.
+*   `statuses` **[Array][358]\<Indexer.NounsDAO.ProposalCanceled>**&#x20;
+*   `startBlock` **[number][359]** The starting block. Inclusive.
+*   `endBlock` **[number][359]** The final block. Inclusive.
+
+## parseProposalCandidateUpdatedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain ProposalCandidateUpdated event.
+
+Returns **any** Formatted ProposalCandidateUpdated event.
 
 ## fetchVoteCastEvents
 
@@ -2289,6 +2034,26 @@ Fetches all VoteCast events from the file system. Filtering the results based on
 
 Returns **any** An array of events.
 
+## parseSignatureAddedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain SignatureAdded event.
+
+Returns **any** Formatted SignatureAdded event.
+
+## parseUpdateCandidateCostSetEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain UpdateCandidateCostSet event.
+
+Returns **any** Formatted UpdateCandidateCostSet event.
+
 ## fetchVoteSnapshotBlockSwitchProposalIdSet
 
 Fetches all VoteSnapshotBlockSwitchProposalIdSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
@@ -2298,6 +2063,20 @@ Fetches all VoteSnapshotBlockSwitchProposalIdSet events from the file system. Fi
 *   `query` **Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSetQuery?** A query object.
 
 Returns **any** An array of events.
+
+## parseUpgradedEvent
+
+Formats blockchain event data into an object.
+
+### Parameters
+
+*   `event` **ethers.Event** The blockchain Upgraded event.
+
+Returns **any** Formatted Upgraded event.
+
+## NOUNS\_DATA\_PARSERS
+
+A map of supported events and their associated parsers.
 
 ## fetchVotingDelaySet
 
@@ -2339,1012 +2118,720 @@ Fetches all WithdrawFromForkEscrow events from the file system. Filtering the re
 
 Returns **any** An array of events.
 
-## NounsOptions
-
-Configuration options for the Nouns class.
-
-### pollingTime
-
-The polling time in milliseconds.
-
-Type: [number][423]
-
-## \_filterByBlock
-
-### Parameters
-
-*   `events` **[Array][426]\<Indexer.FormattedEvent>**&#x20;
-*   `startBlock` **[number][423]** The starting block. Inclusive.
-*   `endBlock` **[number][423]** The final block. Inclusive.
-
-## fetchDelegateChangedEvents
-
-Fetches all DelegateChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.DelegateChangedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchDelegateVotesChangedEvents
-
-Fetches all DelegateVotesChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.DelegateVotesChangedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchTransferEvents
-
-Fetches all Transfer events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.TransferQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchApproval
-
-Fetches all Approval events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.ApprovalQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchApprovalForAll
-
-Fetches all ApprovalForAll events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.ApprovalForAllQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchNounCreatedEvents
-
-Fetches all NounCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.NounCreatedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchDescriptorLocked
-
-Fetches all DescriptorLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.DescriptorLockedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchDescriptorUpdated
-
-Fetches all DescriptorUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.DescriptorUpdatedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchMinterLocked
-
-Fetches all MinterLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.MinterLockedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchMinterUpdated
-
-Fetches all MinterUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.MinterUpdatedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchNounBurned
-
-Fetches all NounBurned events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.NounBurnedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchNoundersDAOUpdated
-
-Fetches all NoundersDAOUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.NoundersDAOUpdatedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchSeederLocked
-
-Fetches all SeederLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.SeederLockedQuery?** A query object.
-
-Returns **any** An array of events.
-
-## fetchSeederUpdated
-
-Fetches all SeederUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
-
-### Parameters
-
-*   `query` **Indexer.NounsToken.SeederUpdatedQuery?** A query object.
-
-Returns **any** An array of events.
-
-[1]: #parsedaowithdrawnounsfromescrowevent
+[1]: #indexerwriter
 
 [2]: #parameters
 
-[3]: #parseerc20tokenstoincludeinforksetevent
+[3]: #index
 
 [4]: #parameters-1
 
-[5]: #parseescrowedtoforkevent
+[5]: #listen
 
 [6]: #parameters-2
 
-[7]: #parseexecuteforkevent
+[7]: #update
 
 [8]: #parameters-3
 
-[9]: #parseforkdaodeployersetevent
+[9]: #indexall
 
-[10]: #parameters-4
+[10]: #listenall
 
-[11]: #parseforkperiodsetevent
+[11]: #updateall
 
-[12]: #parameters-5
+[12]: #parsedaowithdrawnounsfromescrowevent
 
-[13]: #parseforkthresholdsetevent
+[13]: #parameters-4
 
-[14]: #parameters-6
+[14]: #fetchauctioncreatedevents
 
-[15]: #parsejoinforkevent
+[15]: #parameters-5
 
-[16]: #parameters-7
+[16]: #fetchadminchanged
 
-[17]: #parselastminutewindowsetevent
+[17]: #parameters-6
 
-[18]: #parameters-8
+[18]: #fetchdaowithdrawnounsfromescrow
 
-[19]: #parsemaxquorumvotesbpssetevent
+[19]: #parameters-7
 
-[20]: #parameters-9
+[20]: #fetchdelegatechangedevents
 
-[21]: #parseminquorumvotesbpssetevent
+[21]: #parameters-8
 
-[22]: #parameters-10
+[22]: #indexevent
 
-[23]: #parsenewadminevent
+[23]: #parameters-9
 
-[24]: #parameters-11
+[24]: #parseerc20tokenstoincludeinforksetevent
 
-[25]: #parsenewimplementationevent
+[25]: #parameters-10
 
-[26]: #parameters-12
+[26]: #parseescrowedtoforkevent
 
-[27]: #parsenewpendingadminevent
+[27]: #parameters-11
 
-[28]: #parameters-13
+[28]: #parsedata
 
-[29]: #parsenewpendingvetoerevent
+[29]: #parameters-12
 
-[30]: #parameters-14
+[30]: #fetchauctionbidevents
 
-[31]: #parsenewvetoerevent
+[31]: #parameters-13
 
-[32]: #parameters-15
+[32]: #fetcherc20tokenstoincludeinforkset
 
-[33]: #parseobjectionperioddurationsetevent
+[33]: #parameters-14
 
-[34]: #parameters-16
+[34]: #fetchbeaconupgraded
 
-[35]: #parseproposalcanceledevent
+[35]: #parameters-15
 
-[36]: #parameters-17
+[36]: #listenforevent
 
-[37]: #parseproposalcreatedevent
+[37]: #parameters-16
 
-[38]: #parameters-18
+[38]: #parseexecuteforkevent
 
-[39]: #parseproposalcreatedontimelockv1event
+[39]: #parameters-17
 
-[40]: #parameters-19
+[40]: #fetchdelegatevoteschangedevents
 
-[41]: #parseproposalcreatedwithrequirementsevent
+[41]: #parameters-18
 
-[42]: #parameters-20
+[42]: #retrievelatestblock
 
-[43]: #parseproposaldescriptionupdatedevent
+[43]: #parameters-19
 
-[44]: #parameters-21
+[44]: #parseforkdaodeployersetevent
 
-[45]: #parseproposalexecutedevent
+[45]: #parameters-20
 
-[46]: #parameters-22
+[46]: #fetchescrowedtofork
 
-[47]: #parseproposalobjectionperiodsetevent
+[47]: #parameters-21
 
-[48]: #parameters-23
+[48]: #fetchcandidatefeedbacksentevents
 
-[49]: #parseproposalqueuedevent
+[49]: #parameters-22
 
-[50]: #parameters-24
+[50]: #updateindexedevent
 
-[51]: #parseproposalthresholdbpssetevent
+[51]: #parameters-23
 
-[52]: #parameters-25
+[52]: #parseforkperiodsetevent
 
-[53]: #parseproposaltransactionsupdatedevent
+[53]: #parameters-24
 
-[54]: #parameters-26
+[54]: #fetchauctionextended
 
-[55]: #parseproposalupdatableperiodsetevent
+[55]: #parameters-25
 
-[56]: #parameters-27
+[56]: #fetchtransferevents
 
-[57]: #parseproposalupdatedevent
+[57]: #parameters-26
 
-[58]: #parameters-28
+[58]: #parseforkthresholdsetevent
 
-[59]: #parseproposalvetoedevent
+[59]: #parameters-27
 
-[60]: #parameters-29
+[60]: #parsejoinforkevent
 
-[61]: #parsequorumcoefficientsetevent
+[61]: #parameters-28
 
-[62]: #parameters-30
+[62]: #fetchauctionsettledevents
 
-[63]: #parsequorumvotesbpssetevent
+[63]: #parameters-29
 
-[64]: #parameters-31
+[64]: #fetchexecutedfork
 
-[65]: #parserefundablevoteevent
+[65]: #parameters-30
 
-[66]: #parameters-32
+[66]: #parselastminutewindowsetevent
 
-[67]: #parsesignaturecancelledevent
+[67]: #parameters-31
 
-[68]: #parameters-33
+[68]: #fetchcreatecandidatecostset
 
-[69]: #parsetimelocksandadminsetevent
+[69]: #parameters-32
 
-[70]: #parameters-34
+[70]: #fetchapproval
 
-[71]: #parsevotecastevent
+[71]: #parameters-33
 
-[72]: #parameters-35
+[72]: #parsemaxquorumvotesbpssetevent
 
-[73]: #parsevotesnapshotblockswitchproposalidsetevent
+[73]: #parameters-34
 
-[74]: #parameters-36
+[74]: #_filterexecutedforkbyid
 
-[75]: #parsevotingdelaysetevent
+[75]: #parameters-35
 
-[76]: #parameters-37
+[76]: #fetchethwithdrawn
 
-[77]: #parsevotingperiodsetevent
+[77]: #parameters-36
 
-[78]: #parameters-38
+[78]: #parseminquorumvotesbpssetevent
 
-[79]: #parsewithdrawevent
+[79]: #parameters-37
 
-[80]: #parameters-39
+[80]: #fetchauctiontimebufferupdated
 
-[81]: #parsewithdrawfromforkescrowevent
+[81]: #parameters-38
 
-[82]: #parameters-40
+[82]: #fetchforkdaodeployerset
 
-[83]: #nouns_dao_parsers
+[83]: #parameters-39
 
-[84]: #parseauctioncreatedevent
+[84]: #fetchapprovalforall
 
-[85]: #parameters-41
+[85]: #parameters-40
 
-[86]: #parseauctionbidevent
+[86]: #parsenewadminevent
 
-[87]: #parameters-42
+[87]: #parameters-41
 
-[88]: #parseauctionextendedevent
+[88]: #parsenewimplementationevent
 
-[89]: #parameters-43
+[89]: #parameters-42
 
-[90]: #parseauctionsettledevent
+[90]: #fetchfeerecipientset
 
-[91]: #parameters-44
+[91]: #parameters-43
 
-[92]: #parseauctiontimebufferupdatedevent
+[92]: #fetchforkperiodset
 
-[93]: #parameters-45
+[93]: #parameters-44
 
-[94]: #parseauctionreservepriceupdatedevent
+[94]: #fetchauctionreservepriceupdated
 
-[95]: #parameters-46
+[95]: #parameters-45
 
-[96]: #parseauctionminbidincrementpercentageupdatedevent
+[96]: #parsenewpendingadminevent
 
-[97]: #parameters-47
+[97]: #parameters-46
 
-[98]: #parseownershiptransferredevent
+[98]: #fetchnouncreatedevents
 
-[99]: #parameters-48
+[99]: #parameters-47
 
-[100]: #parsepausedevent
+[100]: #parsenewpendingvetoerevent
 
-[101]: #parameters-49
+[101]: #parameters-48
 
-[102]: #parseunpausedevent
+[102]: #fetchfeedbacksentevents
 
-[103]: #parameters-50
+[103]: #parameters-49
 
-[104]: #nouns_auction_parsers
+[104]: #fetchforkthresholdset
 
-[105]: #parsedelegatechangedevent
+[105]: #parameters-50
 
-[106]: #parameters-51
+[106]: #fetchauctionminbidincrementpercentageupdated
 
-[107]: #parsedelegatevoteschangedevent
+[107]: #parameters-51
 
-[108]: #parameters-52
+[108]: #parsenewvetoerevent
 
-[109]: #parsetransferevent
+[109]: #parameters-52
 
-[110]: #parameters-53
+[110]: #parseobjectionperioddurationsetevent
 
-[111]: #parseapprovalevent
+[111]: #parameters-53
 
-[112]: #parameters-54
+[112]: #fetchjoinfork
 
-[113]: #parseapprovalforallevent
+[113]: #parameters-54
 
-[114]: #parameters-55
+[114]: #fetchownershiptransferred
 
-[115]: #parsenouncreatedevent
+[115]: #parameters-55
 
-[116]: #parameters-56
+[116]: #fetchownershiptransferred-1
 
-[117]: #parsedescriptorlockedevent
+[117]: #parameters-56
 
-[118]: #parameters-57
+[118]: #fetchownershiptransferred-2
 
-[119]: #parsedescriptorupdatedevent
+[119]: #parameters-57
 
-[120]: #parameters-58
+[120]: #fetchdescriptorlocked
 
-[121]: #parseminterlockedevent
+[121]: #parameters-58
 
-[122]: #parameters-59
+[122]: #parseproposalcanceledevent
 
-[123]: #parseminterupdatedevent
+[123]: #parameters-59
 
-[124]: #parameters-60
+[124]: #parseproposalcreatedevent
 
-[125]: #parsenounburnedevent
+[125]: #parameters-60
 
-[126]: #parameters-61
+[126]: #fetchdescriptorupdated
 
-[127]: #parsenoundersdaoupdatedevent
+[127]: #parameters-61
 
-[128]: #parameters-62
+[128]: #parseproposalcreatedontimelockv1event
 
-[129]: #parseownershiptransferredevent2
+[129]: #parameters-62
 
-[130]: #parameters-63
+[130]: #fetchlastminutewindowset
 
-[131]: #parseseederlockedevent
+[131]: #parameters-63
 
-[132]: #parameters-64
+[132]: #fetchpaused
 
-[133]: #parseseederupdatedevent
+[133]: #parameters-64
 
-[134]: #parameters-65
+[134]: #fetchproposalcandidatecanceled
 
-[135]: #nouns_token_parsers
+[135]: #parameters-65
 
-[136]: #parseadminchangedevent
+[136]: #parseproposalcreatedwithrequirementsevent
 
 [137]: #parameters-66
 
-[138]: #parsebeaconupgradedevent
+[138]: #fetchminterlocked
 
 [139]: #parameters-67
 
-[140]: #parsecandidatefeedbacksentevent
+[140]: #fetchmaxquorumvotesbpsset
 
 [141]: #parameters-68
 
-[142]: #parsecreatecandidatecostsetevent
+[142]: #fetchunpaused
 
 [143]: #parameters-69
 
-[144]: #parseethwithdrawnevent
+[144]: #parseproposaldescriptionupdatedevent
 
 [145]: #parameters-70
 
-[146]: #parsefeerecipientsetevent
+[146]: #fetchproposalcandidatecreatedevents
 
 [147]: #parameters-71
 
-[148]: #parsefeedbacksentevent
+[148]: #fetchminterupdated
 
 [149]: #parameters-72
 
-[150]: #parseownershiptransferredevent3
+[150]: #parseproposalexecutedevent
 
 [151]: #parameters-73
 
-[152]: #parseproposalcandidatecanceledevent
+[152]: #fetchminquorumvotesbpsset
 
 [153]: #parameters-74
 
-[154]: #parseproposalcandidatecreatedevent
+[154]: #parseproposalobjectionperiodsetevent
 
 [155]: #parameters-75
 
-[156]: #parseproposalcandidateupdatedevent
+[156]: #fetchnounburned
 
 [157]: #parameters-76
 
-[158]: #parsesignatureaddedevent
+[158]: #parseproposalqueuedevent
 
 [159]: #parameters-77
 
-[160]: #parseupdatecandidatecostsetevent
+[160]: #fetchproposalcandidateupdated
 
 [161]: #parameters-78
 
-[162]: #parseupgradedevent
+[162]: #fetchnewadmin
 
 [163]: #parameters-79
 
-[164]: #nouns_data_parsers
+[164]: #parseproposalthresholdbpssetevent
 
-[165]: #printprogress
+[165]: #parameters-80
 
-[166]: #parameters-80
+[166]: #fetchnoundersdaoupdated
 
-[167]: #printend
+[167]: #parameters-81
 
-[168]: #parameters-81
+[168]: #parseproposaltransactionsupdatedevent
 
-[169]: #indexevent
+[169]: #parameters-82
 
-[170]: #parameters-82
+[170]: #fetchnewimplementation
 
-[171]: #indexnounsauctionevents
+[171]: #parameters-83
 
-[172]: #parameters-83
+[172]: #fetchsignatureaddedevents
 
-[173]: #indexnounsdaoevents
+[173]: #parameters-84
 
-[174]: #parameters-84
+[174]: #parseproposalupdatableperiodsetevent
 
-[175]: #indexnounstokenevents
+[175]: #parameters-85
 
-[176]: #parameters-85
+[176]: #fetchnewpendingadmin
 
-[177]: #indexnounsdaodataevents
+[177]: #parameters-86
 
-[178]: #parameters-86
+[178]: #parseproposalupdatedevent
 
-[179]: #indexnounsevents
+[179]: #parameters-87
 
-[180]: #parameters-87
+[180]: #parseproposalvetoedevent
 
-[181]: #parsedata
+[181]: #parameters-88
 
-[182]: #parameters-88
+[182]: #fetchupdatecandidatecostset
 
-[183]: #listenfornounsauctionevents
+[183]: #parameters-89
 
-[184]: #parameters-89
+[184]: #fetchnewpendingvetoer
 
-[185]: #listenfornounsdaoevents
+[185]: #parameters-90
 
-[186]: #parameters-90
+[186]: #parsequorumcoefficientsetevent
 
-[187]: #listenfornounstokenevents
+[187]: #parameters-91
 
-[188]: #parameters-91
+[188]: #fetchseederlocked
 
-[189]: #listenfornounsdaodataevents
+[189]: #parameters-92
 
-[190]: #parameters-92
+[190]: #parsequorumvotesbpssetevent
 
-[191]: #listenfornounsevents
+[191]: #parameters-93
 
-[192]: #parameters-93
+[192]: #fetchupgraded
 
-[193]: #_nounsauctionhouse
+[193]: #parameters-94
 
-[194]: #parameters-94
+[194]: #fetchnewvetoer
 
-[195]: #on
+[195]: #parameters-95
 
-[196]: #parameters-95
+[196]: #parserefundablevoteevent
 
-[197]: #examples
+[197]: #parameters-96
 
-[198]: #off
+[198]: #fetchseederupdated
 
-[199]: #parameters-96
+[199]: #parameters-97
 
-[200]: #trigger
+[200]: #parsesignaturecancelledevent
 
-[201]: #parameters-97
+[201]: #parameters-98
 
-[202]: #getlatestauctions
+[202]: #fetchobjectionperioddurationset
 
-[203]: #getlatestauctionextended
+[203]: #parameters-99
 
-[204]: #getauctionbids
+[204]: #parsetimelocksandadminsetevent
 
-[205]: #parameters-98
+[205]: #parameters-100
 
-[206]: #name
+[206]: #fetchproposalcanceled
 
-[207]: #getauctionlatestbid
+[207]: #parameters-101
 
-[208]: #parameters-99
+[208]: #parsevotecastevent
 
-[209]: #getblock
+[209]: #parameters-102
 
-[210]: #parameters-100
+[210]: #parsevotesnapshotblockswitchproposalidsetevent
 
-[211]: #tempformatauctionbid
+[211]: #parameters-103
 
-[212]: #parameters-101
+[212]: #fetchproposals
 
-[213]: #tempprintauctionbid
+[213]: #parameters-104
 
-[214]: #parameters-102
+[214]: #parsevotingdelaysetevent
 
-[215]: #getlatestbiddata
+[215]: #parameters-105
 
-[216]: #parameters-103
+[216]: #parsevotingperiodsetevent
 
-[217]: #_nounsdao
+[217]: #parameters-106
 
-[218]: #parameters-104
+[218]: #parsewithdrawevent
 
-[219]: #on-1
+[219]: #parameters-107
 
-[220]: #parameters-105
+[220]: #_filterproposalsbyblock
 
-[221]: #examples-1
+[221]: #parameters-108
 
-[222]: #name-1
+[222]: #parsewithdrawfromforkescrowevent
 
-[223]: #off-1
+[223]: #parameters-109
 
-[224]: #parameters-106
+[224]: #_filterproposalsbyid
 
-[225]: #trigger-1
+[225]: #parameters-110
 
-[226]: #parameters-107
+[226]: #nouns_dao_parsers
 
-[227]: #_nounstoken
+[227]: #fetchproposalcreatedontimelockv1
 
-[228]: #parameters-108
+[228]: #parameters-111
 
-[229]: #on-2
+[229]: #parseauctioncreatedevent
 
-[230]: #parameters-109
+[230]: #parameters-112
 
-[231]: #examples-2
+[231]: #parseauctionbidevent
 
-[232]: #off-2
+[232]: #parameters-113
 
-[233]: #parameters-110
+[233]: #fetchproposalcreatedwithrequirements
 
-[234]: #trigger-2
+[234]: #parameters-114
 
-[235]: #parameters-111
+[235]: #parseauctionextendedevent
 
-[236]: #callview
+[236]: #parameters-115
 
-[237]: #parameters-112
+[237]: #parseauctionsettledevent
 
-[238]: #name-2
+[238]: #parameters-116
 
-[239]: #_nounsdaodata
+[239]: #parseauctiontimebufferupdatedevent
 
-[240]: #parameters-113
+[240]: #parameters-117
 
-[241]: #on-3
+[241]: #fetchproposaldescriptionupdated
 
-[242]: #parameters-114
+[242]: #parameters-118
 
-[243]: #examples-3
+[243]: #parseauctionreservepriceupdatedevent
 
-[244]: #off-3
+[244]: #parameters-119
 
-[245]: #parameters-115
+[245]: #parseauctionminbidincrementpercentageupdatedevent
 
-[246]: #trigger-3
+[246]: #parameters-120
 
-[247]: #parameters-116
+[247]: #fetchproposalexecuted
 
-[248]: #name-3
+[248]: #parameters-121
 
-[249]: #fetchauctioncreatedevents
+[249]: #parseownershiptransferredevent
 
-[250]: #parameters-117
+[250]: #parameters-122
 
-[251]: #fetchauctionbidevents
+[251]: #parsepausedevent
 
-[252]: #parameters-118
+[252]: #parameters-123
 
-[253]: #fetchauctionextended
+[253]: #fetchproposalobjectionperiodset
 
-[254]: #parameters-119
+[254]: #parameters-124
 
-[255]: #fetchauctionsettledevents
+[255]: #parseunpausedevent
 
-[256]: #parameters-120
+[256]: #parameters-125
 
-[257]: #fetchauctiontimebufferupdated
+[257]: #nouns_auction_parsers
 
-[258]: #parameters-121
+[258]: #fetchproposalqueued
 
-[259]: #fetchauctionreservepriceupdated
+[259]: #parameters-126
 
-[260]: #parameters-122
+[260]: #parsedelegatechangedevent
 
-[261]: #fetchauctionminbidincrementpercentageupdated
+[261]: #parameters-127
 
-[262]: #parameters-123
+[262]: #parsedelegatevoteschangedevent
 
-[263]: #fetchownershiptransferred
+[263]: #parameters-128
 
-[264]: #parameters-124
+[264]: #parsetransferevent
 
-[265]: #fetchownershiptransferred-1
+[265]: #parameters-129
 
-[266]: #parameters-125
+[266]: #fetchproposalthresholdbpsset
 
-[267]: #fetchownershiptransferred-2
+[267]: #parameters-130
 
-[268]: #parameters-126
+[268]: #parseapprovalevent
 
-[269]: #fetchpaused
+[269]: #parameters-131
 
-[270]: #parameters-127
+[270]: #fetchproposaltransactionsupdated
 
-[271]: #fetchunpaused
+[271]: #parameters-132
 
-[272]: #parameters-128
+[272]: #parseapprovalforallevent
 
-[273]: #fetchadminchanged
+[273]: #parameters-133
 
-[274]: #parameters-129
+[274]: #parsenouncreatedevent
 
-[275]: #fetchbeaconupgraded
+[275]: #parameters-134
 
-[276]: #parameters-130
+[276]: #fetchproposalupdatableperiodset
 
-[277]: #fetchcandidatefeedbacksentevents
+[277]: #parameters-135
 
-[278]: #parameters-131
+[278]: #parsedescriptorlockedevent
 
-[279]: #fetchcreatecandidatecostset
+[279]: #parameters-136
 
-[280]: #parameters-132
+[280]: #parsedescriptorupdatedevent
 
-[281]: #fetchethwithdrawn
+[281]: #parameters-137
 
-[282]: #parameters-133
+[282]: #parseminterlockedevent
 
-[283]: #fetchfeerecipientset
+[283]: #parameters-138
 
-[284]: #parameters-134
+[284]: #fetchproposalupdated
 
-[285]: #fetchfeedbacksentevents
+[285]: #parameters-139
 
-[286]: #parameters-135
+[286]: #parseminterupdatedevent
 
-[287]: #fetchproposalcandidatecanceled
+[287]: #parameters-140
 
-[288]: #parameters-136
+[288]: #parsenounburnedevent
 
-[289]: #fetchproposalcandidatecreatedevents
+[289]: #parameters-141
 
-[290]: #parameters-137
+[290]: #fetchproposalvetoed
 
-[291]: #fetchproposalcandidateupdated
+[291]: #parameters-142
 
-[292]: #parameters-138
+[292]: #parsenoundersdaoupdatedevent
 
-[293]: #fetchsignatureaddedevents
+[293]: #parameters-143
 
-[294]: #parameters-139
+[294]: #parseownershiptransferredevent2
 
-[295]: #fetchupdatecandidatecostset
+[295]: #parameters-144
 
-[296]: #parameters-140
+[296]: #parseseederlockedevent
 
-[297]: #fetchupgraded
+[297]: #parameters-145
 
-[298]: #parameters-141
+[298]: #fetchquorumcoefficientset
 
-[299]: #fetchdaowithdrawnounsfromescrow
+[299]: #parameters-146
 
-[300]: #parameters-142
+[300]: #parseseederupdatedevent
 
-[301]: #fetcherc20tokenstoincludeinforkset
+[301]: #parameters-147
 
-[302]: #parameters-143
+[302]: #nouns_token_parsers
 
-[303]: #fetchescrowedtofork
+[303]: #fetchquorumvotesbpsset
 
-[304]: #parameters-144
+[304]: #parameters-148
 
-[305]: #fetchexecutedfork
+[305]: #parseadminchangedevent
 
-[306]: #parameters-145
+[306]: #parameters-149
 
-[307]: #_filterexecutedforkbyid
+[307]: #fetchrefundablevote
 
-[308]: #parameters-146
+[308]: #parameters-150
 
-[309]: #fetchforkdaodeployerset
+[309]: #parsebeaconupgradedevent
 
-[310]: #parameters-147
+[310]: #parameters-151
 
-[311]: #fetchforkperiodset
+[311]: #parsecandidatefeedbacksentevent
 
-[312]: #parameters-148
+[312]: #parameters-152
 
-[313]: #fetchforkthresholdset
+[313]: #fetchsignaturecancelled
 
-[314]: #parameters-149
+[314]: #parameters-153
 
-[315]: #fetchjoinfork
+[315]: #parsecreatecandidatecostsetevent
 
-[316]: #parameters-150
+[316]: #parameters-154
 
-[317]: #fetchlastminutewindowset
+[317]: #parseethwithdrawnevent
 
-[318]: #parameters-151
+[318]: #parameters-155
 
-[319]: #fetchmaxquorumvotesbpsset
+[319]: #fetchtimelocksandadminset
 
-[320]: #parameters-152
+[320]: #parameters-156
 
-[321]: #fetchminquorumvotesbpsset
+[321]: #parsefeerecipientsetevent
 
-[322]: #parameters-153
+[322]: #parameters-157
 
-[323]: #fetchnewadmin
+[323]: #parsefeedbacksentevent
 
-[324]: #parameters-154
+[324]: #parameters-158
 
-[325]: #fetchnewimplementation
+[325]: #parseownershiptransferredevent3
 
-[326]: #parameters-155
+[326]: #parameters-159
 
-[327]: #fetchnewpendingadmin
+[327]: #fetchstatuschangeevents
 
-[328]: #parameters-156
+[328]: #parameters-160
 
-[329]: #fetchnewpendingvetoer
+[329]: #parseproposalcandidatecanceledevent
 
-[330]: #parameters-157
+[330]: #parameters-161
 
-[331]: #fetchnewvetoer
+[331]: #parseproposalcandidatecreatedevent
 
-[332]: #parameters-158
+[332]: #parameters-162
 
-[333]: #fetchobjectionperioddurationset
+[333]: #_filterstatuschangebyblock
 
-[334]: #parameters-159
+[334]: #parameters-163
 
-[335]: #fetchproposalcanceled
+[335]: #parseproposalcandidateupdatedevent
 
-[336]: #parameters-160
+[336]: #parameters-164
 
-[337]: #fetchproposals
+[337]: #fetchvotecastevents
 
-[338]: #parameters-161
+[338]: #parameters-165
 
-[339]: #_filterproposalsbyblock
+[339]: #parsesignatureaddedevent
 
-[340]: #parameters-162
+[340]: #parameters-166
 
-[341]: #_filterproposalsbyid
+[341]: #parseupdatecandidatecostsetevent
 
-[342]: #parameters-163
+[342]: #parameters-167
 
-[343]: #fetchproposalcreatedontimelockv1
+[343]: #fetchvotesnapshotblockswitchproposalidset
 
-[344]: #parameters-164
+[344]: #parameters-168
 
-[345]: #fetchproposalcreatedwithrequirements
+[345]: #parseupgradedevent
 
-[346]: #parameters-165
+[346]: #parameters-169
 
-[347]: #fetchproposaldescriptionupdated
+[347]: #nouns_data_parsers
 
-[348]: #parameters-166
+[348]: #fetchvotingdelayset
 
-[349]: #fetchproposalexecuted
+[349]: #parameters-170
 
-[350]: #parameters-167
+[350]: #fetchvotingperiodset
 
-[351]: #fetchproposalobjectionperiodset
+[351]: #parameters-171
 
-[352]: #parameters-168
+[352]: #fetchwithdraw
 
-[353]: #fetchproposalqueued
+[353]: #parameters-172
 
-[354]: #parameters-169
+[354]: #fetchwithdrawfromforkescrow
 
-[355]: #fetchproposalthresholdbpsset
+[355]: #parameters-173
 
-[356]: #parameters-170
+[356]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[357]: #fetchproposaltransactionsupdated
+[357]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 
-[358]: #parameters-171
+[358]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-[359]: #fetchproposalupdatableperiodset
-
-[360]: #parameters-172
-
-[361]: #fetchproposalupdated
-
-[362]: #parameters-173
-
-[363]: #fetchproposalvetoed
-
-[364]: #parameters-174
-
-[365]: #fetchquorumcoefficientset
-
-[366]: #parameters-175
-
-[367]: #fetchquorumvotesbpsset
-
-[368]: #parameters-176
-
-[369]: #fetchrefundablevote
-
-[370]: #parameters-177
-
-[371]: #fetchsignaturecancelled
-
-[372]: #parameters-178
-
-[373]: #fetchtimelocksandadminset
-
-[374]: #parameters-179
-
-[375]: #fetchstatuschangeevents
-
-[376]: #parameters-180
-
-[377]: #_filterstatuschangebyblock
-
-[378]: #parameters-181
-
-[379]: #fetchvotecastevents
-
-[380]: #parameters-182
-
-[381]: #fetchvotesnapshotblockswitchproposalidset
-
-[382]: #parameters-183
-
-[383]: #fetchvotingdelayset
-
-[384]: #parameters-184
-
-[385]: #fetchvotingperiodset
-
-[386]: #parameters-185
-
-[387]: #fetchwithdraw
-
-[388]: #parameters-186
-
-[389]: #fetchwithdrawfromforkescrow
-
-[390]: #parameters-187
-
-[391]: #nounsoptions
-
-[392]: #pollingtime
-
-[393]: #_filterbyblock
-
-[394]: #parameters-188
-
-[395]: #fetchdelegatechangedevents
-
-[396]: #parameters-189
-
-[397]: #fetchdelegatevoteschangedevents
-
-[398]: #parameters-190
-
-[399]: #fetchtransferevents
-
-[400]: #parameters-191
-
-[401]: #fetchapproval
-
-[402]: #parameters-192
-
-[403]: #fetchapprovalforall
-
-[404]: #parameters-193
-
-[405]: #fetchnouncreatedevents
-
-[406]: #parameters-194
-
-[407]: #fetchdescriptorlocked
-
-[408]: #parameters-195
-
-[409]: #fetchdescriptorupdated
-
-[410]: #parameters-196
-
-[411]: #fetchminterlocked
-
-[412]: #parameters-197
-
-[413]: #fetchminterupdated
-
-[414]: #parameters-198
-
-[415]: #fetchnounburned
-
-[416]: #parameters-199
-
-[417]: #fetchnoundersdaoupdated
-
-[418]: #parameters-200
-
-[419]: #fetchseederlocked
-
-[420]: #parameters-201
-
-[421]: #fetchseederupdated
-
-[422]: #parameters-202
-
-[423]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
-
-[424]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
-
-[425]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
-
-[426]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[359]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number

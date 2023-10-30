@@ -1,9 +1,6 @@
 import { ethers, BigNumber } from "ethers";
-import { stringify } from "querystring";
-import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData } from "../types";
+import { VoteDirection, Account, EventData } from "../types";
 import { SUPPORTED_NOUNS_DAO_EVENTS } from "../constants";
-
-import { NounsDAOABI } from "@nouns/contracts";
 
 import { default as NounsDAOLogicV3ABI } from "./abis/NounsDAOLogicV3.json";
 

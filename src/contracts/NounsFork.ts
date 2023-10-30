@@ -1,6 +1,5 @@
 import { ethers, BigNumber } from "ethers";
-import { stringify } from "querystring";
-import { Auction, Bid, Proposal, TokenMetadata, Vote, VoteDirection, Account, ProposalStatus, EventData } from "../types";
+import { VoteDirection, Account, EventData } from "../types";
 import { SUPPORTED_NOUNS_FORK_EVENTS } from "../constants";
 
 import { default as NounsForkABI } from "./abis/NounsForkGovernance.json";

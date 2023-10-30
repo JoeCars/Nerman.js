@@ -1,5 +1,4 @@
 import { ethers } from "ethers";
-import * as NounsDAO from "./contracts/NounsDAO";
 
 import { _NounsAuctionHouse } from "./contracts/NounsAuctionHouse";
 import { _NounsToken } from "./contracts/NounsToken";
@@ -15,6 +14,7 @@ export { _NounsForkAuctionHouse as NounsForkAuctionHouse } from "./contracts/Nou
 export { _NounsFork as NounsFork } from "./contracts/NounsFork";
 export { _Propdates as Propdates } from "./contracts/propdates/Propdates";
 export { LilNouns } from "./contracts/lil-nouns/LilNouns";
+export { IndexerWriter } from "./indexer/IndexerWriter";
 
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;

@@ -11,8 +11,9 @@
     "test": "echo \"Error: no test specified\" && exit 1 ",
     "build": "tsc",
     "build-docs": "npm run build-contract-docs && npm run build-indexer-docs",
-    "build-contract-docs": "npx documentation build src/contracts/** --parse-extension ts -f md -o docs/contracts.md",
-    "build-indexer-docs": "npx documentation build src/indexer/** --parse-extension ts -f md -o docs/indexer.md"
+    "build-contract-docs": "npx documentation build src/contracts/** --parse-extension ts -f md -o docs/contracts.md --shallow",
+    "build-indexer-docs": "npx documentation build src/indexer/** --parse-extension ts -f md -o docs/indexer.md --shallow",
+    "build-types-docs": "npx documentation build src/types.ts --parse-extension ts -f md -o docs/types.md --shallow"
   },
   "repository": {
     "type": "git",
