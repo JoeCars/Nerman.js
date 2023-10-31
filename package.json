@@ -1,6 +1,6 @@
 {
   "name": "nerman",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@nouns/contracts": "^0.3.0",
-    "@opensea/seaport-js": "^1.0.5",
+    "ethers": "^5.7.0",
     "node-cron": "^3.0.2",
     "node-fetch": "^2.6.11"
   }
