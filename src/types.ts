@@ -70,7 +70,9 @@ export namespace EventData {
 	//
 	// ******************************************
 
-	/** DAOWithdrawNounsFromEscrow event data. */
+	/** DAOWithdrawNounsFromEscrow event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L191C9-L191C9 | Github}
+	 */
 	export interface DAOWithdrawNounsFromEscrow {
 		/** List of tokens being withdrawn. */
 		tokenIds: number[];
@@ -80,17 +82,21 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** ERC20TokensToIncludeInForkSet event data. */
+	/** ERC20TokensToIncludeInForkSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L513 | Github}
+	 */
 	export interface ERC20TokensToIncludeInForkSet {
-		/** ??? */
+		/** Old ERC20 tokens for splitting funds. */
 		oldErc20Tokens: string[];
-		/** ??? */
+		/** New ERC20 tokens for splitting funds. */
 		newErc20tokens: string[];
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** EscrowedToFork event data. */
+	/** EscrowedToFork event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L74 | Github}
+	 */
 	export interface EscrowedToFork {
 		/** Fork number. */
 		forkId: number;
@@ -98,7 +104,7 @@ export namespace EventData {
 		owner: Account;
 		/** List of tokens being escrowed. */
 		tokenIds: number[];
-		/** Owner's currently active proposals being transferred to the fork. */
+		/** Proposal IDs which are the reason for wanting to fork. */
 		proposalIds: number[];
 		/** Optional reason. */
 		reason: string;
@@ -106,15 +112,17 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** ExecuteFork event data. */
+	/** ExecuteFork event data. The fork escrow is closed.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L111 | Github}
+	 */
 	export interface ExecuteFork {
 		/** Fork number. */
 		forkId: number;
-		/** Fork treasury account. */
+		/** New fork treasury address. */
 		forkTreasury: Account;
-		/** Fork token account. */
+		/** New fork token address. */
 		forkToken: Account;
-		/** ??? */
+		/** The timestamp until which the fork can rejoin the DAO. */
 		forkEndTimestamp: number;
 		/** Tokens in escrow at the moment of the escrow. These are lost from the main treasury. */
 		tokensInEscrow: number;
@@ -122,27 +130,33 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** ForkDAODeployerSet event data. */
+	/** ForkDAODeployerSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L500 | Github}
+	 */
 	export interface ForkDAODeployerSet {
-		/** ??? */
+		/** Old fork DAO deployer contract. */
 		oldForkDAODeployer: Account;
-		/** ??? */
+		/** New fork DAO deployer contract. */
 		newForkDAODeployer: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ForkDAODeployerSet event data. */
+	/** ForkPeriodSet event data. Sets how much time a fork has to rejoin the DAO after it has been executed.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L533 | Github}
+	 */
 	export interface ForkPeriodSet {
-		/** ??? */
+		/** Old fork period. */
 		oldForkPeriod: number;
-		/** ??? */
+		/** New fork period. */
 		newForkPeriod: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ForkThresholdSet event data. */
+	/** ForkThresholdSet event data. Sets the threshold of Nouns in escrow needed to execute a fork.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L551 | Github}
+	 */
 	export interface ForkThresholdSet {
 		/** The old token amount needed to successfully fork the DAO. A percentage of the token supply. */
 		oldForkThreshold: number;
@@ -152,8 +166,8 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** JoinFork event data.
-	 * Triggers after the fork is executed, but still has a chance to rejoin the main fork.
+	/** JoinFork event data. Joins contract after the contract has been executed, but before the time to rejoin has ended.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L141 | Github}
 	 */
 	export interface JoinFork {
 		/** Fork number. */
@@ -170,97 +184,117 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** LastMinuteWindowSet event data. */
+	/** LastMinuteWindowSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L229 | Github}
+	 */
 	export interface LastMinuteWindowSet {
-		/** ??? */
+		/** Old objection period last minute window. */
 		oldLastMinuteWindowInBlocks: number;
-		/** ??? */
+		/** New objection period last minute window. */
 		newLastMinuteWindowInBlocks: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** MaxQuorumVotesBPSSet event data. */
+	/** MaxQuorumVotesBPSSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L381 | Github}
+	 */
 	export interface MaxQuorumVotesBPSSet {
-		/** ??? */
+		/** Old maximum quorum votes BPS. */
 		oldMaxQuorumVotesBPS: number;
-		/** ??? */
+		/** New maximum quorum votes BPS. */
 		newMaxQuorumVotesBPS: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** MinQuorumVotesBPSSet event data. */
+	/** MinQuorumVotesBPSSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L351 | Github}
+	 */
 	export interface MinQuorumVotesBPSSet {
-		/** ??? */
+		/** Old minimum quorum votes BPS. */
 		oldMinQuorumVotesBPS: number;
-		/** ??? */
+		/** New minimum quorum votes BPS. */
 		newMinQuorumVotesBPS: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** NewAdmin event data. */
+	/** NewAdmin event data. Transfers admin rights.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L276 | Github}
+	 */
 	export interface NewAdmin {
-		/** ??? */
+		/** Old admin address. */
 		oldAdmin: Account;
-		/** ??? */
+		/** New admin address. */
 		newAdmin: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** NewImplementation event data. */
+	/** NewImplementation event data. Updates implementation of the delegator.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOProxyV3.sol#L81 | Github}
+	 */
 	export interface NewImplementation {
-		/** ??? */
+		/** Old delegator implementation. */
 		oldImplementation: Account;
-		/** ??? */
+		/** New delegator implementation. */
 		newImplementation: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** NewPendingAdmin event data. */
+	/** NewPendingAdmin event data. Offers the admin position to a new address. The new address must accept it to become an admin.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L261 | Github}
+	 */
 	export interface NewPendingAdmin {
-		/** ??? */
+		/** Old pending admin address. */
 		oldPendingAdmin: Account;
-		/** ??? */
+		/** New pending admin address. */
 		newPendingAdmin: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** NewPendingVetoer event data. */
+	/** NewPendingVetoer event data. Offers the vetoer position to a new address. The new address must accept it to become a vetoer.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L301 | Github}
+	 */
 	export interface NewPendingVetoer {
-		/** ??? */
+		/** Old pending vetoer. */
 		oldPendingVetoer: Account;
-		/** ??? */
+		/** New pending vetoer. */
 		newPendingVetoer: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** NewVetoer event data. */
+	/** NewVetoer event data. Transfers vetoer rights.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L314 | Github}
+	 */
 	export interface NewVetoer {
-		/** ??? */
+		/** Old vetoer. */
 		oldVetoer: Account;
-		/** ??? */
+		/** New vetoer. */
 		newVetoer: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ObjectionPeriodDurationSet event data. */
+	/** ObjectionPeriodDurationSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L212 | Github}
+	 */
 	export interface ObjectionPeriodDurationSet {
-		/** ??? */
+		/** Old objection period. */
 		oldObjectionPeriodDurationInBlocks: number;
-		/** ??? */
+		/** New objection period. */
 		newObjectionPeriodDurationInBlocks: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ProposalCanceled event data. */
+	/** ProposalCanceled event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L571 | Github}
+	 */
 	export interface ProposalCanceled {
 		/** id of the proposal being cancelled. */
 		id: number;
@@ -268,19 +302,21 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** ProposalCreated event data. */
+	/** ProposalCreated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L917 | Github}
+	 */
 	export interface ProposalCreated {
 		/** id of the proposal being created. */
 		id: number;
 		/** Account of the proposer. */
 		proposer: Account;
-		/** ??? */
+		/** Target addresses for proposal calls. */
 		targets: string[];
-		/** ??? */
+		/** Eth values for proposal calls. */
 		values: BigNumber[];
-		/** ??? */
+		/** Function signatures for proposal calls. */
 		signatures: string[];
-		/** ??? */
+		/** Calldatas for proposal calls. */
 		calldatas: any[]; // type is bytes[]
 		/** The block voting starts. */
 		startBlock: number;
@@ -299,7 +335,9 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** ProposalCreatedOnTimelockV1 event data. */
+	/** ProposalCreatedOnTimelockV1 event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L197 | Github}
+	 */
 	export interface ProposalCreatedOnTimelockV1 {
 		/** id of the proposal created. */
 		id: number;
@@ -307,31 +345,33 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** ProposalCreatedWithRequirements event data. */
+	/** ProposalCreatedWithRequirements event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L917 | Github}
+	 */
 	export interface ProposalCreatedWithRequirements {
 		/** id of the proposal created. */
 		id: number;
 		/** Account of the proposer. */
 		proposer: Account;
-		/** ??? - Only in V3 contract. */
+		/** List of signers. In V3. */
 		signers?: string[];
-		/** ??? */
+		/** Target addresses for proposal calls. */
 		targets: string[];
-		/** ??? */
+		/** Eth values for proposal calls. */
 		values: BigNumber[];
-		/** ??? */
+		/** Function signatures for proposal calls. */
 		signatures: string[];
-		/** ??? */
+		/** Calldatas for proposal calls. */
 		calldatas: any[];
 		/** The block voting starts. */
 		startBlock: number;
 		/** The block voting ends. */
 		endBlock: number;
-		/** ??? - Only in V3 contract. */
+		/** Period where the proposal is updatable. In V3. */
 		updatePeriodEndBlock?: number;
-		/** ??? */
+		/** The proposal threshold. In V1. */
 		proposalThreshold: number;
-		/** ??? */
+		/** The quorum votes. In V1. Renamed to minQuorumVotes in V2.*/
 		quorumVotes: number;
 		/**
 		 * Proposal description.
@@ -346,21 +386,25 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** ProposalDescriptionUpdated event data. */
+	/** ProposalDescriptionUpdated event data. The proposal description was updated during the updateable period.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L360 | Github}
+	 */
 	export interface ProposalDescriptionUpdated {
 		/** id of the proposal updated. */
 		id: number;
 		/** Account of the proposer. */
 		proposer: Account;
-		/** Proposal description. */
-		description: string;
 		/** Updated proposal description. */
+		description: string;
+		/** A message explaining the update. */
 		updatedMessage: string;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ProposalExecuted event data. */
+	/** ProposalExecuted event data. Executes a fork that is currently queued. Not possible during forking period.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L495 | Github}
+	 */
 	export interface ProposalExecuted {
 		/** id of the proposal executed. */
 		id: number;
@@ -368,91 +412,103 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** ProposalObjectionPeriodSet event data. */
+	/** ProposalObjectionPeriodSet event data. A last minute FOR vote that changes the proposal from defeated to succeeded will trigger this event. Extends voting time.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Votes.sol#L210 | Github}
+	 */
 	export interface ProposalObjectionPeriodSet {
 		/** id of the proposal. */
 		id: number;
-		/** ??? */
+		/** Object end time. */
 		objectionPeriodEndBlock: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ProposalQueued event data.
-	 * The proposal has enough For votes to pass, and has entered a queued stage to be executed.
+	/** ProposalQueued event data. A proposal that was successful during the voting period is queued.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L438 | Github }
 	 */
 	export interface ProposalQueued {
 		/** id of the proposal. */
 		id: number;
-		/** Block number signifying end of the queued period. */
+		/** Block number signifying end of the queued period. The proposal is executed once this is over. */
 		eta: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ProposalThresholdBPSSet event data. */
+	/** ProposalThresholdBPSSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L193 | Github}
+	 */
 	export interface ProposalThresholdBPSSet {
-		/** ??? */
+		/** Old proposal threshold basis points. */
 		oldProposalThresholdBPS: number;
-		/** ??? */
+		/** New proposal threshold basis points. */
 		newProposalThresholdBPS: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ProposalTransactionsUpdated event data. */
+	/** ProposalTransactionsUpdated event data. Updates list of proposal transactions during the updateable period.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L321 | Github}
+	 */
 	export interface ProposalTransactionsUpdated {
 		/** id of the proposal. */
 		id: number;
 		/** Account of the proposer. */
 		proposer: Account;
-		/** ??? */
+		/** Target addresses for proposal calls. */
 		targets: string[];
-		/** ??? */
+		/** Eth values for proposal calls. */
 		values: number[];
-		/** ??? */
+		/** Function signatures for proposal calls. */
 		signatures: string[];
-		/** ??? */
+		/** Calldatas for proposal calls. */
 		calldatas: any[];
-		/** ??? */
+		/** The reason for the update. */
 		updateMessage: string;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ProposalUpdatablePeriodSet event data. */
+	/** ProposalUpdatablePeriodSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L243 | Github}
+	 */
 	export interface ProposalUpdatablePeriodSet {
-		/** The old contract constant. */
+		/** The old proposal updatable period. */
 		oldProposalUpdatablePeriodInBlocks: number;
-		/** The new contract constant. */
+		/** The new proposal updatable period. */
 		newProposalUpdatablePeriodInBlocks: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ProposalUpdated event data. */
+	/** ProposalUpdated event data. Updates both the description and transaction.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L288 | Github}
+	 */
 	export interface ProposalUpdated {
 		/** id of the proposal. */
 		id: number;
 		/** Account of the proposer. */
 		proposer: Account;
-		/** ??? */
+		/** Updated target addresses for proposal calls. */
 		targets: string[];
-		/** ??? */
+		/** Updated eth values for proposal calls. */
 		values: number[];
-		/** ??? */
+		/** Updated function signatures for proposal calls. */
 		signatures: string[];
-		/** ??? */
+		/** Updated calldatas for proposal calls. */
 		calldatas: any[];
-		/** Proposal description. */
+		/** Updated proposal description. */
 		description: string;
-		/** New proposal description. */
+		/** Message explaining the update. */
 		updateMessage: string;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ProposalVetoed event data. */
+	/** ProposalVetoed event data. Vetoes a proposal that has not been executed.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L536 | Github}
+	 */
 	export interface ProposalVetoed {
 		/** id of the proposal. */
 		id: number;
@@ -460,7 +516,9 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** Quit event data. */
+	/** Quit event data. Token holders return their tokens in exchange for eth.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/newdao/governance/NounsDAOLogicV1Fork.sol#L222 | Github}
+	 */
 	export interface Quit {
 		/** The account quitting the Nouns DAO. */
 		msgSender: Account;
@@ -470,27 +528,33 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** QuorumCoefficientSet event data. */
+	/** QuorumCoefficientSet event data. Sets a new fixed point integer with 6 decimals.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L408 | Github}
+	 */
 	export interface QuorumCoefficientSet {
-		/** The old contract constant. */
+		/** The old quorum coefficient. */
 		oldQuorumCoefficient: number;
-		/** The new contract constant. */
+		/** The new quorum coefficient. */
 		newQuorumCoefficient: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** QuorumVotesBPSSet event data. */
+	/** QuorumVotesBPSSet event data. (Old)
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/newdao/governance/NounsDAOLogicV1Fork.sol#L709 | Github}
+	 */
 	export interface QuorumVotesBPSSet {
-		/** The old contract constant. */
+		/** The old quorum votes basis points. */
 		oldQuorumVotesBPS: number;
-		/** The new contract constant. */
+		/** The new quorum votes basis points. */
 		newQuorumVotesBPS: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** RefundableVote event data. */
+	/** RefundableVote event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Votes.sol#L295 | Github}
+	 */
 	export interface RefundableVote {
 		/** The voter account. */
 		voter: Account;
@@ -502,29 +566,35 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** SignatureCancelled event data. */
+	/** SignatureCancelled event data. Invalidates a signature for signing a proposal.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L270 | Github}
+	 */
 	export interface SignatureCancelled {
 		/** The account cancelling the signature. */
 		signer: Account;
-		/** ??? */
+		/** The signature to cancel. */
 		sig: any;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** TimelocksAndAdminSet event data. */
+	/** TimelocksAndAdminSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L566 | Github}
+	 */
 	export interface TimelocksAndAdminSet {
-		/** ??? */
+		/** The new timelock contract. */
 		timelock: Account;
-		/** ??? */
+		/** The new timelockV1 contract. */
 		timelockV1: Account;
-		/** ??? */
+		/** The new admin address. */
 		admin: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** VoteCast event data. */
+	/** VoteCast event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Votes.sol#L70 | Github}
+	 */
 	export interface VoteCast {
 		/** The voter account. */
 		voter: Account;
@@ -540,47 +610,57 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** VoteSnapshotBlockSwitchProposalIdSet event data. */
+	/** VoteSnapshotBlockSwitchProposalIdSet event data. The proposal id after which the snapshot was taken the day voting started.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L482 | Github}
+	 */
 	export interface VoteSnapshotBlockSwitchProposalIdSet {
-		/** ??? */
+		/** 0. This event was only intended to ever be executed once. */
 		oldVoteSnapshotBlockSwitchProposalId: number;
-		/** ??? */
+		/** The proposal id from which the snapshot became the starting day. */
 		newVoteSnapshotBlockSwitchProposalId: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** VotingDelaySet event data. */
+	/** VotingDelaySet event data. Voting delay is the time before voting begins, in blocks.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L162 | Github}
+	 */
 	export interface VotingDelaySet {
-		/** The old contract constant. */
+		/** The old voting delay in blocks. */
 		oldVotingDelay: number;
-		/** The new contract constant. */
+		/** The new voting delay in blocks. */
 		newVotingDelay: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** VotingPeriodSet event data. */
+	/** VotingPeriodSet event data. Voting period is how long voting lasts, in blocks.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L177 | Github}
+	 */
 	export interface VotingPeriodSet {
-		/** The old contract constant. */
+		/** The old voting period in blocks. */
 		oldVotingPeriod: number;
-		/** The new contract constant. */
+		/** The new voting period in blocks. */
 		newVotingPeriod: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** Withdraw event data. */
+	/** Withdraw event data. Withdraws all the eth in the contract.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L468 | Github}
+	 */
 	export interface Withdraw {
-		/** ??? */
+		/** The amount withdrawn. */
 		amount: number;
-		/** ??? */
+		/** Whether the withdrawn amount was sent. */
 		sent: boolean;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** WithdrawFromForkEscrow event data. */
+	/** WithdrawFromForkEscrow event data. Withdraws nouns from the escrow if the fork has not been executed yet.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L95 | Github}
+	 */
 	export interface WithdrawFromForkEscrow {
 		/** The fork escrow withdrawing from. */
 		forkId: number;
@@ -598,8 +678,7 @@ export namespace EventData {
 	//
 	// ******************************************
 
-	// CUSTOM TYPES
-	/** AuctionComplete event data. */
+	/** AuctionComplete event data. Custom type. */
 	export interface AuctionComplete {
 		/** Noun token id. */
 		id: number;
@@ -610,7 +689,9 @@ export namespace EventData {
 
 	// EventData types from ABI
 
-	/** AuctionBid event data. */
+	/** AuctionBid event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L104 | Github}
+	 */
 	export interface AuctionBid {
 		/** Noun token id. */
 		id: number;
@@ -618,25 +699,29 @@ export namespace EventData {
 		amount: number;
 		/** Bidder account. */
 		bidder: Account;
-		/** ??? */
+		/** Whether the bid was received within the end time buffer, thus extending the auction. */
 		extended: boolean;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** AuctionCreated event data. */
+	/** AuctionCreated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L197 | Github}
+	 */
 	export interface AuctionCreated {
 		/** Noun token id. */
 		id: number;
-		/** Auction starting block. */
+		/** Auction starting time. */
 		startTime: number;
-		/** Auction ending block. */
+		/** Auction ending time. */
 		endTime: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** AuctionExtended event data. */
+	/** AuctionExtended event data. Happens whenever a bid comes in within the end buffer of the auction.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L104 | Github}
+	 */
 	export interface AuctionExtended {
 		/** Noun token id. */
 		id: number;
@@ -646,7 +731,9 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** AuctionSettled event data. Triggers when the next auction begins. */
+	/** AuctionSettled event data. Triggers when the next auction begins.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L221 | Github}
+	 */
 	export interface AuctionSettled {
 		/** Noun token id. */
 		id: number;
@@ -658,51 +745,63 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** AuctionTimeBufferUpdated event data. */
+	/** AuctionTimeBufferUpdated event data. The time buffer that extends an auction.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L165 | Github}
+	 */
 	export interface AuctionTimeBufferUpdated {
-		/** ??? */
+		/** New time buffer. */
 		timeBuffer: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** AuctionReservePriceUpdated event data. */
+	/** AuctionReservePriceUpdated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L175 | Github}
+	 */
 	export interface AuctionReservePriceUpdated {
-		/** ??? */
+		/** New auction reserve price. */
 		reservePrice: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** AuctionMinBidIncrementPercentageUpdated event data. */
+	/** AuctionMinBidIncrementPercentageUpdated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L185 | Github}
+	 */
 	export interface AuctionMinBidIncrementPercentageUpdated {
-		/** ??? */
+		/** New auction minimum bid increment percentage. */
 		minBidIncrementPercentage: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** OwnershipTransferred event data. */
+	/** OwnershipTransferred event data.
+	 * In ABI but not in contract.
+	 */
 	export interface OwnershipTransferred {
-		/** ??? */
+		/** Previous owner. */
 		previousOwner: Account;
-		/** ??? */
+		/** New owner. */
 		newOwner: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** Paused event data. */
+	/** Paused event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L144 | Github}
+	 */
 	export interface Paused {
-		/** ??? */
+		/** Address paused. */
 		address: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** Unpaused event data. */
+	/** Unpaused event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L153 | Github}
+	 */
 	export interface Unpaused {
-		/** ??? */
+		/** Address paused. */
 		address: Account;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -715,7 +814,9 @@ export namespace EventData {
 	// ******************************************
 	// EventData types
 
-	/** DelegateChanged event data. */
+	/** DelegateChanged event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721Checkpointable.sol#L197 | Github}
+	 */
 	export interface DelegateChanged {
 		/** Token owner account. */
 		delegator: Account;
@@ -727,7 +828,9 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** DelegateVotesChanged event data. */
+	/** DelegateVotesChanged event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721Checkpointable.sol#L232 | Github}
+	 */
 	export interface DelegateVotesChanged {
 		/** Delegate account. */
 		delegate: Account;
@@ -739,7 +842,9 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** Transfer event data. */
+	/** Transfer event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721.sol#L373 | Github}
+	 */
 	export interface Transfer {
 		/** Old token owner. */
 		from: Account;
@@ -751,11 +856,13 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** Approval event data. */
+	/** Approval event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721.sol#L398 | Github}
+	 */
 	export interface Approval {
-		/** ??? */
+		/** Owner of the token. */
 		owner: Account;
-		/** ??? */
+		/** The person given permission to operate on the token. */
 		approved: Account;
 		/** Nouns token id. */
 		tokenId: number;
@@ -763,47 +870,59 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** ApprovalForAll event data. */
+	/** ApprovalForAll event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721.sol#L165 | Github}
+	 */
 	export interface ApprovalForAll {
-		/** ??? */
+		/** The token owner. */
 		owner: Account;
-		/** ??? */
+		/** The person given permission to operate on the token. */
 		operator: Account;
-		/** ??? */
+		/** Whether the operator has permission for the token. */
 		approved: boolean;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** DescriptorLocked event data. */
+	/** DescriptorLocked event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L226 | Github}
+	 */
 	export interface DescriptorLocked {
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** DescriptorUpdated event data. */
+	/** DescriptorUpdated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L216 | Github}
+	 */
 	export interface DescriptorUpdated {
-		/** ??? */
+		/** New token URI descriptor. */
 		descriptor: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** MinterLocked event data. */
+	/** MinterLocked event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L206 | Github}
+	 */
 	export interface MinterLocked {
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** MinterUpdated event data. */
+	/** MinterUpdated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L196 | Github}
+	 */
 	export interface MinterUpdated {
-		/** ??? */
+		/** Token minter. */
 		minter: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** NounBurned event data. */
+	/** NounBurned event data. Burns a noun. Happens when an auction has no bids.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L159 | Github}
+	 */
 	export interface NounBurned {
 		/** Noun token id. */
 		id: number;
@@ -811,7 +930,9 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** NounCreated event data. */
+	/** NounCreated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L255 | Github}
+	 */
 	export interface NounCreated {
 		/** Noun token id. */
 		id: number;
@@ -821,33 +942,41 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** NoundersDAOUpdated event data. */
+	/** NoundersDAOUpdated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L186 | Github}
+	 */
 	export interface NoundersDAOUpdated {
-		/** ??? */
+		/** Nounders DAO. */
 		noundersDAO: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** OwnershipTransferred event data. */
+	/** OwnershipTransferred event data.
+	 *  In ABI but not in contract.
+	 */
 	export interface OwnershipTransferred {
-		/** ??? */
+		/** Previous owner. */
 		previousOwner: Account;
-		/** ??? */
+		/** New owner. */
 		newOwner: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** SeederLocked event data. */
+	/** SeederLocked event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L246 | Github}
+	 */
 	export interface SeederLocked {
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** SeederUpdated event data. */
+	/** SeederUpdated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L236 | Github}
+	 */
 	export interface SeederUpdated {
-		/** ??? */
+		/** Token seeder. */
 		seeder: Account;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -859,25 +988,31 @@ export namespace EventData {
 	//
 	// ******************************************
 
-	/** AdminChanged event data. */
+	/** AdminChanged event data.
+	 * In ABI but not in contract.
+	 */
 	export interface AdminChanged {
-		/** ??? */
+		/** Previous admin. */
 		previousAdmin: Account;
-		/** ??? */
+		/** New admin. */
 		newAdmin: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** BeaconUpgraded event data. */
+	/** BeaconUpgraded event data.
+	 * In ABI but not in contract.
+	 */
 	export interface BeaconUpgraded {
-		/** ??? */
+		/** Beacon. */
 		beacon: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** CandidateFeedbackSent event data. */
+	/** CandidateFeedbackSent event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L279 | Github}
+	 */
 	export interface CandidateFeedbackSent {
 		/** Feedbacker account. */
 		msgSender: Account;
@@ -893,19 +1028,23 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** CreateCandidateCostSet event data. */
+	/** CreateCandidateCostSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L297 | Github}
+	 */
 	export interface CreateCandidateCostSet {
-		/** ??? */
+		/** Old cost of creating candidate proposal. */
 		oldCreateCandidateCost: number;
-		/** ??? */
+		/** New cost of creating candidate proposal. */
 		newCreateCandidateCost: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ETHWithdrawn event data. */
+	/** ETHWithdrawn event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L323C9-L323C9 | Github}
+	 */
 	export interface ETHWithdrawn {
-		/** ??? */
+		/** Amount recipient. */
 		to: Account;
 		/** Amount of eth withdrawn in wei. */
 		amount: number;
@@ -913,17 +1052,21 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** FeeRecipientSet event data. */
+	/** FeeRecipientSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L311 | Github}
+	 */
 	export interface FeeRecipientSet {
-		/** ??? */
+		/** Old fee recipient. */
 		oldFeeRecipient: Account;
-		/** ??? */
+		/** New fee recipient. */
 		newFeeRecipient: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** FeedbackSent event data. */
+	/** FeedbackSent event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L261 | Github}
+	 */
 	export interface FeedbackSent {
 		/** Feedbacker account. */
 		msgSender: Account;
@@ -937,17 +1080,21 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** OwnershipTransferred event data. */
+	/** OwnershipTransferred event data.
+	 * In ABI but not in contract.
+	 */
 	export interface OwnershipTransferred {
-		/** ??? */
+		/** Previous owner. */
 		previousOwner: Account;
-		/** ??? */
+		/** New owner. */
 		newOwner: Account;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ProposalCandidateCanceled event data. */
+	/** ProposalCandidateCanceled event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L204 | Github}
+	 */
 	export interface ProposalCandidateCanceled {
 		/** Proposal candidate creator account. */
 		msgSender: Account;
@@ -957,49 +1104,53 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** ProposalCandidateCreated event data. */
+	/** ProposalCandidateCreated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L111 | Github}
+	 */
 	export interface ProposalCandidateCreated {
 		/** Proposal candidate creator account. */
 		msgSender: Account;
-		/** ??? */
+		/** Target addresses for proposal calls. */
 		targets: string[];
-		/** ??? */
+		/** Eth values for proposal calls. */
 		values: number[];
-		/** ??? */
+		/** Function signatures for proposal calls. */
 		signatures: string[];
-		/** ??? */
+		/** Calldatas for proposal calls. */
 		calldatas: any[];
 		/** Proposal candidate's description. */
 		description: string;
 		/** Proposal candidate unique identifier. */
 		slug: string;
-		/** ??? */
+		/** The id of the proposal to update if this is an update to an existing proposal. */
 		proposalIdToUpdate: number;
-		/** ??? */
+		/** Hash of the proposal that this is an update for. */
 		encodedProposalHash: string;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** ProposalCandidateUpdated event data. */
+	/** ProposalCandidateUpdated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L161 | Github}
+	 */
 	export interface ProposalCandidateUpdated {
 		/** Proposal candidate creator account. */
 		msgSender: Account;
-		/** ??? */
+		/** Target addresses for proposal calls. */
 		targets: string[];
-		/** ??? */
+		/** Eth values for proposal calls. */
 		values: number[];
-		/** ??? */
+		/** Function signatures for proposal calls. */
 		signatures: string[];
-		/** ??? */
+		/** Calldatas for proposal calls. */
 		calldatas: any[];
 		/** Proposal candidate's description. */
 		description: string;
 		/** Proposal candidate unique identifier. */
 		slug: string;
-		/** ??? */
+		/** The id of the proposal to update if this is an update to an existing proposal.  */
 		proposalIdToUpdate: number;
-		/** ??? */
+		/** Hash of the proposal that this is an update for. */
 		encodedProposalHash: string;
 		/** Optional reason for explaining the update. */
 		reason: string;
@@ -1007,23 +1158,25 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** SignatureAdded event data. Token holders can sign proposal candidates to convert them into DAO proposals. */
+	/** SignatureAdded event data. Token holders can sign proposal candidates to convert them into DAO proposals.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L222 | Github}
+	 */
 	export interface SignatureAdded {
 		/** Signer account. */
 		signer: Account;
-		/** ??? */
+		/** The signature bytes. */
 		sig: string;
-		/** ??? */
+		/** The signature's expiration timestamp. */
 		expirationTimestamp: number;
 		/** Proposal candidate creator account. */
 		proposer: Account;
 		/** Proposal candidate unique identifier. */
 		slug: string;
-		/** ??? */
+		/** The id of the proposal to update if this is an update to an existing proposal. */
 		proposalIdToUpdate: number;
-		/** ??? */
+		/** Hash of the proposal that this is an update for. */
 		encodedPropHash: string;
-		/** ??? */
+		/** The abi encoding of the candidate version signed. */
 		sigDigest: string;
 		/** Optional reason for signing proposal candidate. */
 		reason: string;
@@ -1031,19 +1184,23 @@ export namespace EventData {
 		event: ethers.Event;
 	}
 
-	/** UpdateCandidateCostSet event data. */
+	/** UpdateCandidateCostSet event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L304 | Github}
+	 */
 	export interface UpdateCandidateCostSet {
-		/** ??? */
+		/** Old update cost. */
 		oldUpdateCandidateCost: number;
-		/** ??? */
+		/** New update cost. */
 		newUpdateCandidateCost: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
 
-	/** Upgraded event data. */
+	/** Upgraded event data.
+	 * In ABI but not in contract.
+	 */
 	export interface Upgraded {
-		/** ??? */
+		/** Implementation. */
 		implementation: Account;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -1172,9 +1329,11 @@ export namespace EventData {
 	export namespace Federation {
 		/** GovPool event data. */
 		export namespace GovPool {
-			/** BidPlaced event data. */
+			/** BidPlaced event data.
+			 * {@link https://github.com/nounish/federation/blob/6360984278f017f182290facb0dc665c2b7108ad/contracts/src/experimental/delegate-bid.sol#L138 | Github}
+			 */
 			export interface BidPlaced {
-				/** ??? */
+				/** The address of the DAO. */
 				dao: string;
 				/** Proposal being bid on. */
 				propId: number;
@@ -1188,9 +1347,11 @@ export namespace EventData {
 				reason?: string;
 			}
 
-			/** VoteCast event data. */
+			/** VoteCast event data.
+			 * {@link https://github.com/nounish/federation/blob/6360984278f017f182290facb0dc665c2b7108ad/contracts/src/experimental/delegate-bid.sol#L188C1-L188C1 | Github}
+			 */
 			export interface VoteCast {
-				/** ??? */
+				/** The address of the DAO. */
 				dao: string;
 				/** Proposal that Federation is voting on. */
 				propId: number;
@@ -1228,9 +1389,9 @@ export namespace EventData {
 		export interface PropUpdateAdminTransferStarted {
 			/** Proposal.  */
 			propId: number;
-			/** ??? */
+			/** Old admin. */
 			oldAdmin: Account;
-			/** ??? */
+			/** New admin. */
 			newAdmin: Account;
 			/** Event meta data. */
 			event: ethers.Event;
@@ -1240,9 +1401,9 @@ export namespace EventData {
 		export interface PropUpdateAdminTransfered {
 			/** Proposal.  */
 			propId: number;
-			/** ??? */
+			/** Old admin. */
 			oldAdmin: Account;
-			/** ??? */
+			/** New admin. */
 			newAdmin: Account;
 			/** Event meta data. */
 			event: ethers.Event;
@@ -1258,7 +1419,7 @@ export namespace EventData {
 	export namespace LilNouns {
 		/** LilNoundersDAOUpdated event data. */
 		export interface LilNoundersDAOUpdated {
-			/** ??? */
+			/** LilNounders DAO. */
 			lilnoundersDAO: Account;
 			/** Event meta data. */
 			event: ethers.Event;
@@ -1266,7 +1427,7 @@ export namespace EventData {
 
 		/** NounsDAOUpdated event data. */
 		export interface NounsDAOUpdated {
-			/** ??? */
+			/** Nouns DAO. */
 			nounsDAO: Account;
 			/** Event meta data. */
 			event: ethers.Event;
