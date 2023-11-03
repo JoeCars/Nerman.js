@@ -29,8 +29,12 @@ export async function indexEvent(
 
 	let allEvents: ethers.Event[] = [];
 	if (isUpdating) {
-		const file = await readFile(filePath);
-		allEvents = JSON.parse(file.toString());
+		try {
+			const file = await readFile(filePath);
+			allEvents = JSON.parse(file.toString());
+		} catch (error) {
+			console.error("indexEvent():", error);
+		}
 	}
 	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE) {
 		let events = await contract.queryFilter(eventName, currentBlock, Math.min(currentBlock + BLOCK_BATCH_SIZE, endBlock));
@@ -88,8 +92,14 @@ export async function listenForEvent(contract: ethers.Contract, event: string, p
  */
 async function retrieveLatestBlock(event: string, directoryPath: string) {
 	const filePath = `${directoryPath}/${event}.json`;
-	const file = await readFile(filePath);
-	const events = JSON.parse(file.toString());
+
+	let events = [];
+	try {
+		const file = await readFile(filePath);
+		events = JSON.parse(file.toString());
+	} catch (error) {
+		console.error("retrieveLatestBlock():", error);
+	}
 
 	if (events.length === 0) {
 		return NOUNS_STARTING_BLOCK;
