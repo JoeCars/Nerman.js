@@ -1,11 +1,14 @@
-[
-	{
-		"blockNumber": 15195476,
-		"blockHash": "0x5b3abf58dc1610009988f51982c65559cf7c4c2feb37375c2b2ffeb6f74eb9ce",
-		"transactionIndex": 237,
-		"address": "0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03",
-		"transactionHash": "0xfd30eed50c37f441ad3f922358fca76a0d32919344736a6434d941791eb016cb",
-		"eventName": "DescriptorUpdated",
-		"eventSignature": "DescriptorUpdated(address)"
-	}
-]
+{
+	"newestBlock": 15195476,
+	"events": [
+		{
+			"blockNumber": 15195476,
+			"blockHash": "0x5b3abf58dc1610009988f51982c65559cf7c4c2feb37375c2b2ffeb6f74eb9ce",
+			"transactionIndex": 237,
+			"address": "0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03",
+			"transactionHash": "0xfd30eed50c37f441ad3f922358fca76a0d32919344736a6434d941791eb016cb",
+			"eventName": "DescriptorUpdated",
+			"eventSignature": "DescriptorUpdated(address)"
+		}
+	]
+}

@@ -1,1 +1,16 @@
-[]
+{
+	"newestBlock": 17998992,
+	"events": [
+		{
+			"blockNumber": 17998992,
+			"blockHash": "0x35f881359e91d37c4e770d4a7aa4e28ceeb96bd28407ac83c385c18270d59dfb",
+			"transactionIndex": 3,
+			"address": "0x830BD73E4184ceF73443C15111a1DF14e495C706",
+			"transactionHash": "0xd2bffdf331f022b2ce5214b51e6513febf8c772303ab0a407a5ef62b6cda9719",
+			"eventName": "OwnershipTransferred",
+			"eventSignature": "OwnershipTransferred(address,address)",
+			"previousOwner": "0x0BC3807Ec262cB779b38D65b38158acC3bfedE10",
+			"newOwner": "0xb1a32FC9F9D8b2cf86C068Cae13108809547ef71"
+		}
+	]
+}

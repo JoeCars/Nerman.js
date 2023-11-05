@@ -1,0 +1,16 @@
+{
+	"newestBlock": 17998992,
+	"events": [
+		{
+			"blockNumber": 17998992,
+			"blockHash": "0x35f881359e91d37c4e770d4a7aa4e28ceeb96bd28407ac83c385c18270d59dfb",
+			"transactionIndex": 3,
+			"address": "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d",
+			"transactionHash": "0xd2bffdf331f022b2ce5214b51e6513febf8c772303ab0a407a5ef62b6cda9719",
+			"eventName": "ForkDAODeployerSet",
+			"eventSignature": "ForkDAODeployerSet(address,address)",
+			"oldForkDAODeployer": "0x0000000000000000000000000000000000000000",
+			"newForkDAODeployer": "0xcD65e61f70e0b1Aa433ca1d9A6FC2332e9e73cE3"
+		}
+	]
+}

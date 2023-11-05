@@ -1,24 +1,27 @@
-[
-	{
-		"blockNumber": 15847075,
-		"blockHash": "0x4bc7b3b3f7cc6f49d2cb74d1e053ca18e08b4298b0cb6dc0905a474da6bfa269",
-		"transactionIndex": 81,
-		"address": "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d",
-		"transactionHash": "0x864087c37639b05edfcb76eb21511012d909f3e950095a62e9a6bbd3df54b02d",
-		"eventName": "VotingDelaySet",
-		"eventSignature": "VotingDelaySet(uint256,uint256)",
-		"oldVotingDelay": "13140",
-		"newVotingDelay": "14400"
-	},
-	{
-		"blockNumber": 16272204,
-		"blockHash": "0xa13abd8a659828789dac505e37151b533ef6112b580f1256d52a38fc60093775",
-		"transactionIndex": 66,
-		"address": "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d",
-		"transactionHash": "0x88f2b0eaa8d19891613d0d5757442a045feddf9408822cfabf316d62d308dca2",
-		"eventName": "VotingDelaySet",
-		"eventSignature": "VotingDelaySet(uint256,uint256)",
-		"oldVotingDelay": "14400",
-		"newVotingDelay": "36000"
-	}
-]
+{
+	"newestBlock": 16272204,
+	"events": [
+		{
+			"blockNumber": 15847075,
+			"blockHash": "0x4bc7b3b3f7cc6f49d2cb74d1e053ca18e08b4298b0cb6dc0905a474da6bfa269",
+			"transactionIndex": 81,
+			"address": "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d",
+			"transactionHash": "0x864087c37639b05edfcb76eb21511012d909f3e950095a62e9a6bbd3df54b02d",
+			"eventName": "VotingDelaySet",
+			"eventSignature": "VotingDelaySet(uint256,uint256)",
+			"oldVotingDelay": "13140",
+			"newVotingDelay": "14400"
+		},
+		{
+			"blockNumber": 16272204,
+			"blockHash": "0xa13abd8a659828789dac505e37151b533ef6112b580f1256d52a38fc60093775",
+			"transactionIndex": 66,
+			"address": "0x6f3E6272A167e8AcCb32072d08E0957F9c79223d",
+			"transactionHash": "0x88f2b0eaa8d19891613d0d5757442a045feddf9408822cfabf316d62d308dca2",
+			"eventName": "VotingDelaySet",
+			"eventSignature": "VotingDelaySet(uint256,uint256)",
+			"oldVotingDelay": "14400",
+			"newVotingDelay": "36000"
+		}
+	]
+}
