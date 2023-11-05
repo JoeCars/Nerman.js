@@ -31,7 +31,7 @@ export async function indexEvent(
 	if (isUpdating) {
 		try {
 			const file = await readFile(filePath);
-			allEvents = JSON.parse(file.toString());
+			allEvents = JSON.parse(file.toString()).events;
 		} catch (error) {
 			console.error("indexEvent():", error);
 		}
@@ -45,7 +45,12 @@ export async function indexEvent(
 
 		allEvents.push(...events);
 	}
-	await writeFile(filePath, JSON.stringify(allEvents));
+
+	const output = {
+		newestBlock: endBlock,
+		events: allEvents
+	};
+	await writeFile(filePath, JSON.stringify(output));
 }
 
 //===================================
@@ -62,9 +67,14 @@ async function parseData(data: { event: ethers.Event }, parser: Function, direct
 	const filePath = `${directoryPath}/${data.event.event}.json`;
 	const formattedData = parser(data);
 	const file = await readFile(filePath);
-	const events = JSON.parse(file.toString());
+	const events = JSON.parse(file.toString()).events;
 	events.push(formattedData);
-	await writeFile(filePath, events);
+
+	const output = {
+		newestBlock: formattedData.blockNumber,
+		events: events
+	};
+	await writeFile(filePath, JSON.stringify(output));
 }
 
 /**
@@ -93,21 +103,16 @@ export async function listenForEvent(contract: ethers.Contract, event: string, p
 async function retrieveLatestBlock(event: string, directoryPath: string) {
 	const filePath = `${directoryPath}/${event}.json`;
 
-	let events = [];
+	let newestBlockNumber = NOUNS_STARTING_BLOCK;
 	try {
 		const file = await readFile(filePath);
-		events = JSON.parse(file.toString());
+		newestBlockNumber = JSON.parse(file.toString()).newestBlock;
 	} catch (error) {
 		console.error("retrieveLatestBlock():", error);
 	}
 
-	if (events.length === 0) {
-		return NOUNS_STARTING_BLOCK;
-	}
-
-	const newestEvent = events[events.length - 1];
 	// The block has already been indexed, so we return the next one. Hence + 1.
-	return (newestEvent.blockNumber + 1) as number;
+	return (newestBlockNumber + 1) as number;
 }
 
 /**
@@ -119,5 +124,5 @@ async function retrieveLatestBlock(event: string, directoryPath: string) {
  */
 export async function updateIndexedEvent(contract: ethers.Contract, event: string, formatter: Function, directoryPath: string) {
 	const latestBlockNumber = await retrieveLatestBlock(event, directoryPath);
-	indexEvent(contract, event, formatter, directoryPath, latestBlockNumber, true);
+	await indexEvent(contract, event, formatter, directoryPath, latestBlockNumber, true);
 }
