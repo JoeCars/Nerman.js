@@ -609,12 +609,13 @@ Event data types for contract listeners.
 ## DAOWithdrawNounsFromEscrow
 
 DAOWithdrawNounsFromEscrow event data.
+[| Github][524]
 
 ### tokenIds
 
 List of tokens being withdrawn.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### to
 
@@ -631,18 +632,19 @@ Type: ethers.Event
 ## ERC20TokensToIncludeInForkSet
 
 ERC20TokensToIncludeInForkSet event data.
+[| Github][526]
 
 ### oldErc20Tokens
 
-???
+Old ERC20 tokens for splitting funds.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### newErc20tokens
 
-???
+New ERC20 tokens for splitting funds.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### event
 
@@ -653,6 +655,7 @@ Type: ethers.Event
 ## EscrowedToFork
 
 EscrowedToFork event data.
+[| Github][527]
 
 ### forkId
 
@@ -670,13 +673,13 @@ Type: [Account][3]
 
 List of tokens being escrowed.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### proposalIds
 
-Owner's currently active proposals being transferred to the fork.
+Proposal IDs which are the reason for wanting to fork.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### reason
 
@@ -692,7 +695,8 @@ Type: ethers.Event
 
 ## ExecuteFork
 
-ExecuteFork event data.
+ExecuteFork event data. The fork escrow is closed.
+[| Github][528]
 
 ### forkId
 
@@ -702,19 +706,19 @@ Type: [number][522]
 
 ### forkTreasury
 
-Fork treasury account.
+New fork treasury address.
 
 Type: [Account][3]
 
 ### forkToken
 
-Fork token account.
+New fork token address.
 
 Type: [Account][3]
 
 ### forkEndTimestamp
 
-???
+The timestamp until which the fork can rejoin the DAO.
 
 Type: [number][522]
 
@@ -733,16 +737,17 @@ Type: ethers.Event
 ## ForkDAODeployerSet
 
 ForkDAODeployerSet event data.
+[| Github][529]
 
 ### oldForkDAODeployer
 
-???
+Old fork DAO deployer contract.
 
 Type: [Account][3]
 
 ### newForkDAODeployer
 
-???
+New fork DAO deployer contract.
 
 Type: [Account][3]
 
@@ -754,17 +759,18 @@ Type: ethers.Event
 
 ## ForkPeriodSet
 
-ForkDAODeployerSet event data.
+ForkPeriodSet event data. Sets how much time a fork has to rejoin the DAO after it has been executed.
+[| Github][530]
 
 ### oldForkPeriod
 
-???
+Old fork period.
 
 Type: [number][522]
 
 ### newForkPeriod
 
-???
+New fork period.
 
 Type: [number][522]
 
@@ -776,7 +782,8 @@ Type: ethers.Event
 
 ## ForkThresholdSet
 
-ForkThresholdSet event data.
+ForkThresholdSet event data. Sets the threshold of Nouns in escrow needed to execute a fork.
+[| Github][531]
 
 ### oldForkThreshold
 
@@ -798,8 +805,8 @@ Type: ethers.Event
 
 ## JoinFork
 
-JoinFork event data.
-Triggers after the fork is executed, but still has a chance to rejoin the main fork.
+JoinFork event data. Joins contract after the contract has been executed, but before the time to rejoin has ended.
+[| Github][532]
 
 ### forkId
 
@@ -817,13 +824,13 @@ Type: [Account][3]
 
 List of tokens being escrowed.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### proposalIds
 
 Owner's currently active proposals being transferred to the fork.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### reason
 
@@ -840,16 +847,17 @@ Type: ethers.Event
 ## LastMinuteWindowSet
 
 LastMinuteWindowSet event data.
+[| Github][533]
 
 ### oldLastMinuteWindowInBlocks
 
-???
+Old objection period last minute window.
 
 Type: [number][522]
 
 ### newLastMinuteWindowInBlocks
 
-???
+New objection period last minute window.
 
 Type: [number][522]
 
@@ -862,16 +870,17 @@ Type: ethers.Event
 ## MaxQuorumVotesBPSSet
 
 MaxQuorumVotesBPSSet event data.
+[| Github][534]
 
 ### oldMaxQuorumVotesBPS
 
-???
+Old maximum quorum votes BPS.
 
 Type: [number][522]
 
 ### newMaxQuorumVotesBPS
 
-???
+New maximum quorum votes BPS.
 
 Type: [number][522]
 
@@ -884,16 +893,17 @@ Type: ethers.Event
 ## MinQuorumVotesBPSSet
 
 MinQuorumVotesBPSSet event data.
+[| Github][535]
 
 ### oldMinQuorumVotesBPS
 
-???
+Old minimum quorum votes BPS.
 
 Type: [number][522]
 
 ### newMinQuorumVotesBPS
 
-???
+New minimum quorum votes BPS.
 
 Type: [number][522]
 
@@ -905,17 +915,18 @@ Type: ethers.Event
 
 ## NewAdmin
 
-NewAdmin event data.
+NewAdmin event data. Transfers admin rights.
+[| Github][536]
 
 ### oldAdmin
 
-???
+Old admin address.
 
 Type: [Account][3]
 
 ### newAdmin
 
-???
+New admin address.
 
 Type: [Account][3]
 
@@ -927,17 +938,18 @@ Type: ethers.Event
 
 ## NewImplementation
 
-NewImplementation event data.
+NewImplementation event data. Updates implementation of the delegator.
+[| Github][537]
 
 ### oldImplementation
 
-???
+Old delegator implementation.
 
 Type: [Account][3]
 
 ### newImplementation
 
-???
+New delegator implementation.
 
 Type: [Account][3]
 
@@ -949,17 +961,18 @@ Type: ethers.Event
 
 ## NewPendingAdmin
 
-NewPendingAdmin event data.
+NewPendingAdmin event data. Offers the admin position to a new address. The new address must accept it to become an admin.
+[| Github][538]
 
 ### oldPendingAdmin
 
-???
+Old pending admin address.
 
 Type: [Account][3]
 
 ### newPendingAdmin
 
-???
+New pending admin address.
 
 Type: [Account][3]
 
@@ -971,17 +984,18 @@ Type: ethers.Event
 
 ## NewPendingVetoer
 
-NewPendingVetoer event data.
+NewPendingVetoer event data. Offers the vetoer position to a new address. The new address must accept it to become a vetoer.
+[| Github][539]
 
 ### oldPendingVetoer
 
-???
+Old pending vetoer.
 
 Type: [Account][3]
 
 ### newPendingVetoer
 
-???
+New pending vetoer.
 
 Type: [Account][3]
 
@@ -993,17 +1007,18 @@ Type: ethers.Event
 
 ## NewVetoer
 
-NewVetoer event data.
+NewVetoer event data. Transfers vetoer rights.
+[| Github][540]
 
 ### oldVetoer
 
-???
+Old vetoer.
 
 Type: [Account][3]
 
 ### newVetoer
 
-???
+New vetoer.
 
 Type: [Account][3]
 
@@ -1016,16 +1031,17 @@ Type: ethers.Event
 ## ObjectionPeriodDurationSet
 
 ObjectionPeriodDurationSet event data.
+[| Github][541]
 
 ### oldObjectionPeriodDurationInBlocks
 
-???
+Old objection period.
 
 Type: [number][522]
 
 ### newObjectionPeriodDurationInBlocks
 
-???
+New objection period.
 
 Type: [number][522]
 
@@ -1038,6 +1054,7 @@ Type: ethers.Event
 ## ProposalCanceled
 
 ProposalCanceled event data.
+[| Github][542]
 
 ### id
 
@@ -1054,6 +1071,7 @@ Type: ethers.Event
 ## ProposalCreated
 
 ProposalCreated event data.
+[| Github][543]
 
 ### id
 
@@ -1069,27 +1087,27 @@ Type: [Account][3]
 
 ### targets
 
-???
+Target addresses for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### values
 
-???
+Eth values for proposal calls.
 
-Type: [Array][524]\<BigNumber>
+Type: [Array][525]\<BigNumber>
 
 ### signatures
 
-???
+Function signatures for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### calldatas
 
-???
+Calldatas for proposal calls.
 
-Type: [Array][524]\<any>
+Type: [Array][525]\<any>
 
 ### startBlock
 
@@ -1127,6 +1145,7 @@ Type: ethers.Event
 ## ProposalCreatedOnTimelockV1
 
 ProposalCreatedOnTimelockV1 event data.
+[| Github][544]
 
 ### id
 
@@ -1143,6 +1162,7 @@ Type: ethers.Event
 ## ProposalCreatedWithRequirements
 
 ProposalCreatedWithRequirements event data.
+[| Github][543]
 
 ### id
 
@@ -1158,33 +1178,33 @@ Type: [Account][3]
 
 ### signers
 
-??? - Only in V3 contract.
+List of signers. In V3.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### targets
 
-???
+Target addresses for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### values
 
-???
+Eth values for proposal calls.
 
-Type: [Array][524]\<BigNumber>
+Type: [Array][525]\<BigNumber>
 
 ### signatures
 
-???
+Function signatures for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### calldatas
 
-???
+Calldatas for proposal calls.
 
-Type: [Array][524]\<any>
+Type: [Array][525]\<any>
 
 ### startBlock
 
@@ -1200,19 +1220,19 @@ Type: [number][522]
 
 ### updatePeriodEndBlock
 
-??? - Only in V3 contract.
+Period where the proposal is updatable. In V3.
 
 Type: [number][522]
 
 ### proposalThreshold
 
-???
+The proposal threshold. In V1.
 
 Type: [number][522]
 
 ### quorumVotes
 
-???
+The quorum votes. In V1. Renamed to minQuorumVotes in V2.
 
 Type: [number][522]
 
@@ -1239,7 +1259,8 @@ Type: ethers.Event
 
 ## ProposalDescriptionUpdated
 
-ProposalDescriptionUpdated event data.
+ProposalDescriptionUpdated event data. The proposal description was updated during the updateable period.
+[| Github][545]
 
 ### id
 
@@ -1255,13 +1276,13 @@ Type: [Account][3]
 
 ### description
 
-Proposal description.
+Updated proposal description.
 
 Type: [string][523]
 
 ### updatedMessage
 
-Updated proposal description.
+A message explaining the update.
 
 Type: [string][523]
 
@@ -1273,7 +1294,8 @@ Type: ethers.Event
 
 ## ProposalExecuted
 
-ProposalExecuted event data.
+ProposalExecuted event data. Executes a fork that is currently queued. Not possible during forking period.
+[| Github][546]
 
 ### id
 
@@ -1289,7 +1311,8 @@ Type: ethers.Event
 
 ## ProposalObjectionPeriodSet
 
-ProposalObjectionPeriodSet event data.
+ProposalObjectionPeriodSet event data. A last minute FOR vote that changes the proposal from defeated to succeeded will trigger this event. Extends voting time.
+[| Github][547]
 
 ### id
 
@@ -1299,7 +1322,7 @@ Type: [number][522]
 
 ### objectionPeriodEndBlock
 
-???
+Object end time.
 
 Type: [number][522]
 
@@ -1311,8 +1334,8 @@ Type: ethers.Event
 
 ## ProposalQueued
 
-ProposalQueued event data.
-The proposal has enough For votes to pass, and has entered a queued stage to be executed.
+ProposalQueued event data. A proposal that was successful during the voting period is queued.
+[| Github ][548]
 
 ### id
 
@@ -1322,7 +1345,7 @@ Type: [number][522]
 
 ### eta
 
-Block number signifying end of the queued period.
+Block number signifying end of the queued period. The proposal is executed once this is over.
 
 Type: [number][522]
 
@@ -1335,16 +1358,17 @@ Type: ethers.Event
 ## ProposalThresholdBPSSet
 
 ProposalThresholdBPSSet event data.
+[| Github][549]
 
 ### oldProposalThresholdBPS
 
-???
+Old proposal threshold basis points.
 
 Type: [number][522]
 
 ### newProposalThresholdBPS
 
-???
+New proposal threshold basis points.
 
 Type: [number][522]
 
@@ -1356,7 +1380,8 @@ Type: ethers.Event
 
 ## ProposalTransactionsUpdated
 
-ProposalTransactionsUpdated event data.
+ProposalTransactionsUpdated event data. Updates list of proposal transactions during the updateable period.
+[| Github][550]
 
 ### id
 
@@ -1372,31 +1397,31 @@ Type: [Account][3]
 
 ### targets
 
-???
+Target addresses for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### values
 
-???
+Eth values for proposal calls.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### signatures
 
-???
+Function signatures for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### calldatas
 
-???
+Calldatas for proposal calls.
 
-Type: [Array][524]\<any>
+Type: [Array][525]\<any>
 
 ### updateMessage
 
-???
+The reason for the update.
 
 Type: [string][523]
 
@@ -1409,16 +1434,17 @@ Type: ethers.Event
 ## ProposalUpdatablePeriodSet
 
 ProposalUpdatablePeriodSet event data.
+[| Github][551]
 
 ### oldProposalUpdatablePeriodInBlocks
 
-The old contract constant.
+The old proposal updatable period.
 
 Type: [number][522]
 
 ### newProposalUpdatablePeriodInBlocks
 
-The new contract constant.
+The new proposal updatable period.
 
 Type: [number][522]
 
@@ -1430,7 +1456,8 @@ Type: ethers.Event
 
 ## ProposalUpdated
 
-ProposalUpdated event data.
+ProposalUpdated event data. Updates both the description and transaction.
+[| Github][552]
 
 ### id
 
@@ -1446,37 +1473,37 @@ Type: [Account][3]
 
 ### targets
 
-???
+Updated target addresses for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### values
 
-???
+Updated eth values for proposal calls.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### signatures
 
-???
+Updated function signatures for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### calldatas
 
-???
+Updated calldatas for proposal calls.
 
-Type: [Array][524]\<any>
+Type: [Array][525]\<any>
 
 ### description
 
-Proposal description.
+Updated proposal description.
 
 Type: [string][523]
 
 ### updateMessage
 
-New proposal description.
+Message explaining the update.
 
 Type: [string][523]
 
@@ -1488,7 +1515,8 @@ Type: ethers.Event
 
 ## ProposalVetoed
 
-ProposalVetoed event data.
+ProposalVetoed event data. Vetoes a proposal that has not been executed.
+[| Github][553]
 
 ### id
 
@@ -1504,7 +1532,8 @@ Type: ethers.Event
 
 ## Quit
 
-Quit event data.
+Quit event data. Token holders return their tokens in exchange for eth.
+[| Github][554]
 
 ### msgSender
 
@@ -1516,7 +1545,7 @@ Type: [Account][3]
 
 The tokens returned in exchange for eth.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### event
 
@@ -1526,17 +1555,18 @@ Type: ethers.Event
 
 ## QuorumCoefficientSet
 
-QuorumCoefficientSet event data.
+QuorumCoefficientSet event data. Sets a new fixed point integer with 6 decimals.
+[| Github][555]
 
 ### oldQuorumCoefficient
 
-The old contract constant.
+The old quorum coefficient.
 
 Type: [number][522]
 
 ### newQuorumCoefficient
 
-The new contract constant.
+The new quorum coefficient.
 
 Type: [number][522]
 
@@ -1548,17 +1578,18 @@ Type: ethers.Event
 
 ## QuorumVotesBPSSet
 
-QuorumVotesBPSSet event data.
+QuorumVotesBPSSet event data. (Old)
+[| Github][556]
 
 ### oldQuorumVotesBPS
 
-The old contract constant.
+The old quorum votes basis points.
 
 Type: [number][522]
 
 ### newQuorumVotesBPS
 
-The new contract constant.
+The new quorum votes basis points.
 
 Type: [number][522]
 
@@ -1571,6 +1602,7 @@ Type: ethers.Event
 ## RefundableVote
 
 RefundableVote event data.
+[| Github][557]
 
 ### voter
 
@@ -1588,7 +1620,7 @@ Type: [number][522]
 
 Whether the refund was sent or not.
 
-Type: [boolean][525]
+Type: [boolean][558]
 
 ### event
 
@@ -1598,7 +1630,8 @@ Type: ethers.Event
 
 ## SignatureCancelled
 
-SignatureCancelled event data.
+SignatureCancelled event data. Invalidates a signature for signing a proposal.
+[| Github][559]
 
 ### signer
 
@@ -1608,7 +1641,7 @@ Type: [Account][3]
 
 ### sig
 
-???
+The signature to cancel.
 
 Type: any
 
@@ -1621,22 +1654,23 @@ Type: ethers.Event
 ## TimelocksAndAdminSet
 
 TimelocksAndAdminSet event data.
+[| Github][560]
 
 ### timelock
 
-???
+The new timelock contract.
 
 Type: [Account][3]
 
 ### timelockV1
 
-???
+The new timelockV1 contract.
 
 Type: [Account][3]
 
 ### admin
 
-???
+The new admin address.
 
 Type: [Account][3]
 
@@ -1649,6 +1683,7 @@ Type: ethers.Event
 ## VoteCast
 
 VoteCast event data.
+[| Github][561]
 
 ### voter
 
@@ -1688,7 +1723,7 @@ Type: ethers.Event
 
 ### dao
 
-???
+The address of the DAO.
 
 Type: [string][523]
 
@@ -1719,6 +1754,7 @@ Type: [string][523]
 ## VoteCast
 
 VoteCast event data.
+[| Github][562]
 
 ### voter
 
@@ -1758,7 +1794,7 @@ Type: ethers.Event
 
 ### dao
 
-???
+The address of the DAO.
 
 Type: [string][523]
 
@@ -1788,17 +1824,18 @@ Type: [string][523]
 
 ## VoteSnapshotBlockSwitchProposalIdSet
 
-VoteSnapshotBlockSwitchProposalIdSet event data.
+VoteSnapshotBlockSwitchProposalIdSet event data. The proposal id after which the snapshot was taken the day voting started.
+[| Github][563]
 
 ### oldVoteSnapshotBlockSwitchProposalId
 
-???
+0.  This event was only intended to ever be executed once.
 
 Type: [number][522]
 
 ### newVoteSnapshotBlockSwitchProposalId
 
-???
+The proposal id from which the snapshot became the starting day.
 
 Type: [number][522]
 
@@ -1810,17 +1847,18 @@ Type: ethers.Event
 
 ## VotingDelaySet
 
-VotingDelaySet event data.
+VotingDelaySet event data. Voting delay is the time before voting begins, in blocks.
+[| Github][564]
 
 ### oldVotingDelay
 
-The old contract constant.
+The old voting delay in blocks.
 
 Type: [number][522]
 
 ### newVotingDelay
 
-The new contract constant.
+The new voting delay in blocks.
 
 Type: [number][522]
 
@@ -1832,17 +1870,18 @@ Type: ethers.Event
 
 ## VotingPeriodSet
 
-VotingPeriodSet event data.
+VotingPeriodSet event data. Voting period is how long voting lasts, in blocks.
+[| Github][565]
 
 ### oldVotingPeriod
 
-The old contract constant.
+The old voting period in blocks.
 
 Type: [number][522]
 
 ### newVotingPeriod
 
-The new contract constant.
+The new voting period in blocks.
 
 Type: [number][522]
 
@@ -1854,19 +1893,20 @@ Type: ethers.Event
 
 ## Withdraw
 
-Withdraw event data.
+Withdraw event data. Withdraws all the eth in the contract.
+[| Github][566]
 
 ### amount
 
-???
+The amount withdrawn.
 
 Type: [number][522]
 
 ### sent
 
-???
+Whether the withdrawn amount was sent.
 
-Type: [boolean][525]
+Type: [boolean][558]
 
 ### event
 
@@ -1876,7 +1916,8 @@ Type: ethers.Event
 
 ## WithdrawFromForkEscrow
 
-WithdrawFromForkEscrow event data.
+WithdrawFromForkEscrow event data. Withdraws nouns from the escrow if the fork has not been executed yet.
+[| Github][567]
 
 ### forkId
 
@@ -1894,7 +1935,7 @@ Type: [Account][3]
 
 The tokens withdrawing.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### event
 
@@ -1904,7 +1945,7 @@ Type: ethers.Event
 
 ## AuctionComplete
 
-AuctionComplete event data.
+AuctionComplete event data. Custom type.
 
 ### id
 
@@ -1921,6 +1962,7 @@ Type: [number][522]
 ## AuctionBid
 
 AuctionBid event data.
+[| Github][568]
 
 ### id
 
@@ -1942,9 +1984,9 @@ Type: [Account][3]
 
 ### extended
 
-???
+Whether the bid was received within the end time buffer, thus extending the auction.
 
-Type: [boolean][525]
+Type: [boolean][558]
 
 ### event
 
@@ -1955,6 +1997,7 @@ Type: ethers.Event
 ## AuctionCreated
 
 AuctionCreated event data.
+[| Github][569]
 
 ### id
 
@@ -1964,13 +2007,13 @@ Type: [number][522]
 
 ### startTime
 
-Auction starting block.
+Auction starting time.
 
 Type: [number][522]
 
 ### endTime
 
-Auction ending block.
+Auction ending time.
 
 Type: [number][522]
 
@@ -1982,7 +2025,8 @@ Type: ethers.Event
 
 ## AuctionExtended
 
-AuctionExtended event data.
+AuctionExtended event data. Happens whenever a bid comes in within the end buffer of the auction.
+[| Github][568]
 
 ### id
 
@@ -2005,6 +2049,7 @@ Type: ethers.Event
 ## AuctionSettled
 
 AuctionSettled event data. Triggers when the next auction begins.
+[| Github][570]
 
 ### id
 
@@ -2032,11 +2077,12 @@ Type: ethers.Event
 
 ## AuctionTimeBufferUpdated
 
-AuctionTimeBufferUpdated event data.
+AuctionTimeBufferUpdated event data. The time buffer that extends an auction.
+[| Github][571]
 
 ### timeBuffer
 
-???
+New time buffer.
 
 Type: [number][522]
 
@@ -2049,10 +2095,11 @@ Type: ethers.Event
 ## AuctionReservePriceUpdated
 
 AuctionReservePriceUpdated event data.
+[| Github][572]
 
 ### reservePrice
 
-???
+New auction reserve price.
 
 Type: [number][522]
 
@@ -2065,10 +2112,11 @@ Type: ethers.Event
 ## AuctionMinBidIncrementPercentageUpdated
 
 AuctionMinBidIncrementPercentageUpdated event data.
+[| Github][573]
 
 ### minBidIncrementPercentage
 
-???
+New auction minimum bid increment percentage.
 
 Type: [number][522]
 
@@ -2081,40 +2129,41 @@ Type: ethers.Event
 ## OwnershipTransferred
 
 OwnershipTransferred event data.
+In ABI but not in contract.
 
 ### previousOwner
 
-???
-
-Type: [Account][3]
-
-### previousOwner
-
-???
+Previous owner.
 
 Type: [Account][3]
 
 ### previousOwner
 
-???
+Previous owner.
+
+Type: [Account][3]
+
+### previousOwner
+
+Previous owner.
 
 Type: [Account][3]
 
 ### newOwner
 
-???
+New owner.
 
 Type: [Account][3]
 
 ### newOwner
 
-???
+New owner.
 
 Type: [Account][3]
 
 ### newOwner
 
-???
+New owner.
 
 Type: [Account][3]
 
@@ -2139,40 +2188,41 @@ Type: ethers.Event
 ## OwnershipTransferred
 
 OwnershipTransferred event data.
+In ABI but not in contract.
 
 ### previousOwner
 
-???
-
-Type: [Account][3]
-
-### previousOwner
-
-???
+Previous owner.
 
 Type: [Account][3]
 
 ### previousOwner
 
-???
+Previous owner.
+
+Type: [Account][3]
+
+### previousOwner
+
+Previous owner.
 
 Type: [Account][3]
 
 ### newOwner
 
-???
+New owner.
 
 Type: [Account][3]
 
 ### newOwner
 
-???
+New owner.
 
 Type: [Account][3]
 
 ### newOwner
 
-???
+New owner.
 
 Type: [Account][3]
 
@@ -2197,40 +2247,41 @@ Type: ethers.Event
 ## OwnershipTransferred
 
 OwnershipTransferred event data.
+In ABI but not in contract.
 
 ### previousOwner
 
-???
-
-Type: [Account][3]
-
-### previousOwner
-
-???
+Previous owner.
 
 Type: [Account][3]
 
 ### previousOwner
 
-???
+Previous owner.
+
+Type: [Account][3]
+
+### previousOwner
+
+Previous owner.
 
 Type: [Account][3]
 
 ### newOwner
 
-???
+New owner.
 
 Type: [Account][3]
 
 ### newOwner
 
-???
+New owner.
 
 Type: [Account][3]
 
 ### newOwner
 
-???
+New owner.
 
 Type: [Account][3]
 
@@ -2255,10 +2306,11 @@ Type: ethers.Event
 ## Paused
 
 Paused event data.
+[| Github][574]
 
 ### address
 
-???
+Address paused.
 
 Type: [Account][3]
 
@@ -2271,10 +2323,11 @@ Type: ethers.Event
 ## Unpaused
 
 Unpaused event data.
+[| Github][575]
 
 ### address
 
-???
+Address paused.
 
 Type: [Account][3]
 
@@ -2287,6 +2340,7 @@ Type: ethers.Event
 ## DelegateChanged
 
 DelegateChanged event data.
+[| Github][576]
 
 ### delegator
 
@@ -2315,6 +2369,7 @@ Type: ethers.Event
 ## DelegateVotesChanged
 
 DelegateVotesChanged event data.
+[| Github][577]
 
 ### delegate
 
@@ -2343,6 +2398,7 @@ Type: ethers.Event
 ## Transfer
 
 Transfer event data.
+[| Github][578]
 
 ### from
 
@@ -2371,16 +2427,17 @@ Type: ethers.Event
 ## Approval
 
 Approval event data.
+[| Github][579]
 
 ### owner
 
-???
+Owner of the token.
 
 Type: [Account][3]
 
 ### approved
 
-???
+The person given permission to operate on the token.
 
 Type: [Account][3]
 
@@ -2399,24 +2456,25 @@ Type: ethers.Event
 ## ApprovalForAll
 
 ApprovalForAll event data.
+[| Github][580]
 
 ### owner
 
-???
+The token owner.
 
 Type: [Account][3]
 
 ### operator
 
-???
+The person given permission to operate on the token.
 
 Type: [Account][3]
 
 ### approved
 
-???
+Whether the operator has permission for the token.
 
-Type: [boolean][525]
+Type: [boolean][558]
 
 ### event
 
@@ -2427,6 +2485,7 @@ Type: ethers.Event
 ## DescriptorLocked
 
 DescriptorLocked event data.
+[| Github][581]
 
 ### event
 
@@ -2437,10 +2496,11 @@ Type: ethers.Event
 ## DescriptorUpdated
 
 DescriptorUpdated event data.
+[| Github][582]
 
 ### descriptor
 
-???
+New token URI descriptor.
 
 Type: [Account][3]
 
@@ -2453,6 +2513,7 @@ Type: ethers.Event
 ## MinterLocked
 
 MinterLocked event data.
+[| Github][583]
 
 ### event
 
@@ -2463,10 +2524,11 @@ Type: ethers.Event
 ## MinterUpdated
 
 MinterUpdated event data.
+[| Github][584]
 
 ### minter
 
-???
+Token minter.
 
 Type: [Account][3]
 
@@ -2478,7 +2540,8 @@ Type: ethers.Event
 
 ## NounBurned
 
-NounBurned event data.
+NounBurned event data. Burns a noun. Happens when an auction has no bids.
+[| Github][585]
 
 ### id
 
@@ -2495,6 +2558,7 @@ Type: ethers.Event
 ## NounCreated
 
 NounCreated event data.
+[| Github][586]
 
 ### id
 
@@ -2517,10 +2581,11 @@ Type: ethers.Event
 ## NoundersDAOUpdated
 
 NoundersDAOUpdated event data.
+[| Github][587]
 
 ### noundersDAO
 
-???
+Nounders DAO.
 
 Type: [Account][3]
 
@@ -2533,6 +2598,7 @@ Type: ethers.Event
 ## SeederLocked
 
 SeederLocked event data.
+[| Github][588]
 
 ### event
 
@@ -2543,10 +2609,11 @@ Type: ethers.Event
 ## SeederUpdated
 
 SeederUpdated event data.
+[| Github][589]
 
 ### seeder
 
-???
+Token seeder.
 
 Type: [Account][3]
 
@@ -2559,16 +2626,17 @@ Type: ethers.Event
 ## AdminChanged
 
 AdminChanged event data.
+In ABI but not in contract.
 
 ### previousAdmin
 
-???
+Previous admin.
 
 Type: [Account][3]
 
 ### newAdmin
 
-???
+New admin.
 
 Type: [Account][3]
 
@@ -2581,10 +2649,11 @@ Type: ethers.Event
 ## BeaconUpgraded
 
 BeaconUpgraded event data.
+In ABI but not in contract.
 
 ### beacon
 
-???
+Beacon.
 
 Type: [Account][3]
 
@@ -2597,6 +2666,7 @@ Type: ethers.Event
 ## CandidateFeedbackSent
 
 CandidateFeedbackSent event data.
+[| Github][590]
 
 ### msgSender
 
@@ -2637,16 +2707,17 @@ Type: ethers.Event
 ## CreateCandidateCostSet
 
 CreateCandidateCostSet event data.
+[| Github][591]
 
 ### oldCreateCandidateCost
 
-???
+Old cost of creating candidate proposal.
 
 Type: [number][522]
 
 ### newCreateCandidateCost
 
-???
+New cost of creating candidate proposal.
 
 Type: [number][522]
 
@@ -2659,10 +2730,11 @@ Type: ethers.Event
 ## ETHWithdrawn
 
 ETHWithdrawn event data.
+[| Github][592]
 
 ### to
 
-???
+Amount recipient.
 
 Type: [Account][3]
 
@@ -2681,16 +2753,17 @@ Type: ethers.Event
 ## FeeRecipientSet
 
 FeeRecipientSet event data.
+[| Github][593]
 
 ### oldFeeRecipient
 
-???
+Old fee recipient.
 
 Type: [Account][3]
 
 ### newFeeRecipient
 
-???
+New fee recipient.
 
 Type: [Account][3]
 
@@ -2703,6 +2776,7 @@ Type: ethers.Event
 ## FeedbackSent
 
 FeedbackSent event data.
+[| Github][594]
 
 ### msgSender
 
@@ -2737,6 +2811,7 @@ Type: ethers.Event
 ## ProposalCandidateCanceled
 
 ProposalCandidateCanceled event data.
+[| Github][595]
 
 ### msgSender
 
@@ -2759,6 +2834,7 @@ Type: ethers.Event
 ## ProposalCandidateCreated
 
 ProposalCandidateCreated event data.
+[| Github][596]
 
 ### msgSender
 
@@ -2768,27 +2844,27 @@ Type: [Account][3]
 
 ### targets
 
-???
+Target addresses for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### values
 
-???
+Eth values for proposal calls.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### signatures
 
-???
+Function signatures for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### calldatas
 
-???
+Calldatas for proposal calls.
 
-Type: [Array][524]\<any>
+Type: [Array][525]\<any>
 
 ### description
 
@@ -2804,13 +2880,13 @@ Type: [string][523]
 
 ### proposalIdToUpdate
 
-???
+The id of the proposal to update if this is an update to an existing proposal.
 
 Type: [number][522]
 
 ### encodedProposalHash
 
-???
+Hash of the proposal that this is an update for.
 
 Type: [string][523]
 
@@ -2823,6 +2899,7 @@ Type: ethers.Event
 ## ProposalCandidateUpdated
 
 ProposalCandidateUpdated event data.
+[| Github][597]
 
 ### msgSender
 
@@ -2832,27 +2909,27 @@ Type: [Account][3]
 
 ### targets
 
-???
+Target addresses for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### values
 
-???
+Eth values for proposal calls.
 
-Type: [Array][524]<[number][522]>
+Type: [Array][525]<[number][522]>
 
 ### signatures
 
-???
+Function signatures for proposal calls.
 
-Type: [Array][524]<[string][523]>
+Type: [Array][525]<[string][523]>
 
 ### calldatas
 
-???
+Calldatas for proposal calls.
 
-Type: [Array][524]\<any>
+Type: [Array][525]\<any>
 
 ### description
 
@@ -2868,13 +2945,13 @@ Type: [string][523]
 
 ### proposalIdToUpdate
 
-???
+The id of the proposal to update if this is an update to an existing proposal.
 
 Type: [number][522]
 
 ### encodedProposalHash
 
-???
+Hash of the proposal that this is an update for.
 
 Type: [string][523]
 
@@ -2893,6 +2970,7 @@ Type: ethers.Event
 ## SignatureAdded
 
 SignatureAdded event data. Token holders can sign proposal candidates to convert them into DAO proposals.
+[| Github][598]
 
 ### signer
 
@@ -2902,13 +2980,13 @@ Type: [Account][3]
 
 ### sig
 
-???
+The signature bytes.
 
 Type: [string][523]
 
 ### expirationTimestamp
 
-???
+The signature's expiration timestamp.
 
 Type: [number][522]
 
@@ -2926,19 +3004,19 @@ Type: [string][523]
 
 ### proposalIdToUpdate
 
-???
+The id of the proposal to update if this is an update to an existing proposal.
 
 Type: [number][522]
 
 ### encodedPropHash
 
-???
+Hash of the proposal that this is an update for.
 
 Type: [string][523]
 
 ### sigDigest
 
-???
+The abi encoding of the candidate version signed.
 
 Type: [string][523]
 
@@ -2957,16 +3035,17 @@ Type: ethers.Event
 ## UpdateCandidateCostSet
 
 UpdateCandidateCostSet event data.
+[| Github][599]
 
 ### oldUpdateCandidateCost
 
-???
+Old update cost.
 
 Type: [number][522]
 
 ### newUpdateCandidateCost
 
-???
+New update cost.
 
 Type: [number][522]
 
@@ -2979,10 +3058,11 @@ Type: ethers.Event
 ## Upgraded
 
 Upgraded event data.
+In ABI but not in contract.
 
 ### implementation
 
-???
+Implementation.
 
 Type: [Account][3]
 
@@ -3052,7 +3132,7 @@ Type: [number][522]
 
 List of upvotes.
 
-Type: [Array][524]<[Upvote][474]>
+Type: [Array][525]<[Upvote][474]>
 
 ### root
 
@@ -3128,7 +3208,7 @@ Type: [number][522]
 
 List of upvotes.
 
-Type: [Array][524]<[Upvote][474]>
+Type: [Array][525]<[Upvote][474]>
 
 ### \_count
 
@@ -3186,7 +3266,7 @@ Type: [number][522]
 
 List of upvotes.
 
-Type: [Array][524]<[Upvote][474]>
+Type: [Array][525]<[Upvote][474]>
 
 ## Upvote
 
@@ -3242,7 +3322,7 @@ Type: [number][522]
 
 True if they are using their real name.
 
-Type: [boolean][525]
+Type: [boolean][558]
 
 ### name
 
@@ -3273,10 +3353,11 @@ GovPool event data.
 ## BidPlaced
 
 BidPlaced event data.
+[| Github][600]
 
 ### dao
 
-???
+The address of the DAO.
 
 Type: [string][523]
 
@@ -3328,7 +3409,7 @@ Type: [number][522]
 
 Whether the proposal is complete.
 
-Type: [boolean][525]
+Type: [boolean][558]
 
 ### update
 
@@ -3354,13 +3435,13 @@ Type: [number][522]
 
 ### oldAdmin
 
-???
+Old admin.
 
 Type: [Account][3]
 
 ### newAdmin
 
-???
+New admin.
 
 Type: [Account][3]
 
@@ -3382,13 +3463,13 @@ Type: [number][522]
 
 ### oldAdmin
 
-???
+Old admin.
 
 Type: [Account][3]
 
 ### newAdmin
 
-???
+New admin.
 
 Type: [Account][3]
 
@@ -3408,7 +3489,7 @@ LilNoundersDAOUpdated event data.
 
 ### lilnoundersDAO
 
-???
+LilNounders DAO.
 
 Type: [Account][3]
 
@@ -3424,7 +3505,7 @@ NounsDAOUpdated event data.
 
 ### nounsDAO
 
-???
+Nouns DAO.
 
 Type: [Account][3]
 
@@ -4492,6 +4573,156 @@ NounsDAO Indexer types.
 
 [523]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[524]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[524]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L191C9-L191C9
 
-[525]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[525]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[526]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L513
+
+[527]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L74
+
+[528]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L111
+
+[529]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L500
+
+[530]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L533
+
+[531]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L551
+
+[532]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L141
+
+[533]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L229
+
+[534]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L381
+
+[535]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L351
+
+[536]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L276
+
+[537]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOProxyV3.sol#L81
+
+[538]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L261
+
+[539]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L301
+
+[540]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L314
+
+[541]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L212
+
+[542]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L571
+
+[543]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L917
+
+[544]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L197
+
+[545]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L360
+
+[546]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L495
+
+[547]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Votes.sol#L210
+
+[548]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L438
+
+[549]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L193
+
+[550]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L321
+
+[551]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L243
+
+[552]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L288
+
+[553]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L536
+
+[554]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/newdao/governance/NounsDAOLogicV1Fork.sol#L222
+
+[555]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L408
+
+[556]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/newdao/governance/NounsDAOLogicV1Fork.sol#L709
+
+[557]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Votes.sol#L295
+
+[558]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+
+[559]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L270
+
+[560]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L566
+
+[561]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Votes.sol#L70
+
+[562]: https://github.com/nounish/federation/blob/6360984278f017f182290facb0dc665c2b7108ad/contracts/src/experimental/delegate-bid.sol#L188C1-L188C1
+
+[563]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L482
+
+[564]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L162
+
+[565]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L177
+
+[566]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L468
+
+[567]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L95
+
+[568]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L104
+
+[569]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L197
+
+[570]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L221
+
+[571]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L165
+
+[572]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L175
+
+[573]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L185
+
+[574]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L144
+
+[575]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L153
+
+[576]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721Checkpointable.sol#L197
+
+[577]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721Checkpointable.sol#L232
+
+[578]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721.sol#L373
+
+[579]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721.sol#L398
+
+[580]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721.sol#L165
+
+[581]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L226
+
+[582]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L216
+
+[583]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L206
+
+[584]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L196
+
+[585]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L159
+
+[586]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L255
+
+[587]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L186
+
+[588]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L246
+
+[589]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L236
+
+[590]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L279
+
+[591]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L297
+
+[592]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L323C9-L323C9
+
+[593]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L311
+
+[594]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L261
+
+[595]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L204
+
+[596]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L111
+
+[597]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L161
+
+[598]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L222
+
+[599]: https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L304
+
+[600]: https://github.com/nounish/federation/blob/6360984278f017f182290facb0dc665c2b7108ad/contracts/src/experimental/delegate-bid.sol#L138
