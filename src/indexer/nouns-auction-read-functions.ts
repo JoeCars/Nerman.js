@@ -42,7 +42,7 @@ export async function fetchAuctionCreatedEvents(query?: Indexer.NounsAuctionHous
 async function _fetchAllAuctionCreated() {
 	let path = join(__dirname, "..", "data", "indexer", "AuctionCreated.json");
 	let file = await readFile(path, { encoding: "utf8" });
-	let auctions: Indexer.NounsAuctionHouse.AuctionCreated[] = JSON.parse(file);
+	let auctions: Indexer.NounsAuctionHouse.AuctionCreated[] = JSON.parse(file).events;
 	return auctions;
 }
 
@@ -102,7 +102,7 @@ export async function fetchAuctionBidEvents(query?: Indexer.NounsAuctionHouse.Au
 async function _fetchAllAuctionBid() {
 	let path = join(__dirname, "..", "data", "indexer", "AuctionBid.json");
 	let file = await readFile(path, { encoding: "utf8" });
-	let bids: Indexer.NounsAuctionHouse.AuctionBid[] = JSON.parse(file);
+	let bids: Indexer.NounsAuctionHouse.AuctionBid[] = JSON.parse(file).events;
 	return bids;
 }
 
@@ -144,7 +144,7 @@ export async function fetchAuctionExtended(query?: Indexer.NounsAuctionHouse.Auc
 async function _fetchAllAuctionExtended() {
 	let path = join(__dirname, "..", "data", "indexer", "AuctionExtended.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.AuctionExtended[] = JSON.parse(proposalFile);
+	let proposals: Indexer.NounsAuctionHouse.AuctionExtended[] = JSON.parse(proposalFile).events;
 	return proposals;
 }
 
@@ -204,7 +204,7 @@ export async function fetchAuctionSettledEvents(query?: Indexer.NounsAuctionHous
 async function _fetchAllAuctionSettled() {
 	let path = join(__dirname, "..", "data", "indexer", "AuctionSettled.json");
 	let file = await readFile(path, { encoding: "utf8" });
-	let auctions: Indexer.NounsAuctionHouse.AuctionSettled[] = JSON.parse(file);
+	let auctions: Indexer.NounsAuctionHouse.AuctionSettled[] = JSON.parse(file).events;
 	return auctions;
 }
 
@@ -244,7 +244,7 @@ export async function fetchAuctionTimeBufferUpdated(query?: Indexer.NounsAuction
 async function _fetchAllAuctionTimeBufferUpdated() {
 	let path = join(__dirname, "..", "data", "indexer", "AuctionTimeBufferUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated[] = JSON.parse(proposalFile);
+	let proposals: Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated[] = JSON.parse(proposalFile).events;
 	return proposals;
 }
 
@@ -284,7 +284,7 @@ export async function fetchAuctionReservePriceUpdated(query?: Indexer.NounsAucti
 async function _fetchAllAuctionReservePriceUpdated() {
 	let path = join(__dirname, "..", "data", "indexer", "AuctionReservePriceUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.AuctionReservePriceUpdated[] = JSON.parse(proposalFile);
+	let proposals: Indexer.NounsAuctionHouse.AuctionReservePriceUpdated[] = JSON.parse(proposalFile).events;
 	return proposals;
 }
 
@@ -326,7 +326,7 @@ export async function fetchAuctionMinBidIncrementPercentageUpdated(
 async function _fetchAllAuctionMinBidIncrementPercentageUpdated() {
 	let path = join(__dirname, "..", "data", "indexer", "AuctionMinBidIncrementPercentageUpdated.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdated[] = JSON.parse(proposalFile);
+	let proposals: Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdated[] = JSON.parse(proposalFile).events;
 	return proposals;
 }
 
@@ -382,7 +382,7 @@ export async function fetchOwnershipTransferred(query?: Indexer.NounsAuctionHous
 async function _fetchAllOwnershipTransferred() {
 	let path = join(__dirname, "..", "data", "indexer", "OwnershipTransferred.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.OwnershipTransferred[] = JSON.parse(proposalFile);
+	let proposals: Indexer.NounsAuctionHouse.OwnershipTransferred[] = JSON.parse(proposalFile).events;
 	return proposals;
 }
 
@@ -418,7 +418,7 @@ export async function fetchPaused(query?: Indexer.NounsAuctionHouse.PausedQuery)
 async function _fetchAllPaused() {
 	let path = join(__dirname, "..", "data", "indexer", "Paused.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.Paused[] = JSON.parse(proposalFile);
+	let proposals: Indexer.NounsAuctionHouse.Paused[] = JSON.parse(proposalFile).events;
 	return proposals;
 }
 
@@ -454,6 +454,6 @@ export async function fetchUnpaused(query?: Indexer.NounsAuctionHouse.UnpausedQu
 async function _fetchAllUnpaused() {
 	let path = join(__dirname, "..", "data", "indexer", "Unpaused.json");
 	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.Unpaused[] = JSON.parse(proposalFile);
+	let proposals: Indexer.NounsAuctionHouse.Unpaused[] = JSON.parse(proposalFile).events;
 	return proposals;
 }
