@@ -1,8 +1,6 @@
-import { readFile } from "fs/promises";
-import { join } from "path";
 import { Indexer } from "../types";
 import { NOUNS_STARTING_BLOCK } from "../constants";
-import { _filterByBlock } from "../utilities/indexer";
+import { _filterByBlock, _fetchAllEvents } from "../utilities/indexer";
 
 // ==================================
 // AuctionCreated
@@ -14,7 +12,7 @@ import { _filterByBlock } from "../utilities/indexer";
  * @returns An array of events.
  */
 export async function fetchAuctionCreatedEvents(query?: Indexer.NounsAuctionHouse.AuctionCreatedQuery) {
-	let events = await _fetchAllAuctionCreated();
+	let events = (await _fetchAllEvents("AuctionCreated")) as Indexer.NounsAuctionHouse.AuctionCreated[];
 
 	if (!query) {
 		return events;
@@ -39,13 +37,6 @@ export async function fetchAuctionCreatedEvents(query?: Indexer.NounsAuctionHous
 	return events;
 }
 
-async function _fetchAllAuctionCreated() {
-	let path = join(__dirname, "..", "data", "indexer", "AuctionCreated.json");
-	let file = await readFile(path, { encoding: "utf8" });
-	let auctions: Indexer.NounsAuctionHouse.AuctionCreated[] = JSON.parse(file).events;
-	return auctions;
-}
-
 // ==================================
 // AuctionBid
 // ==================================
@@ -56,7 +47,7 @@ async function _fetchAllAuctionCreated() {
  * @returns An array of events.
  */
 export async function fetchAuctionBidEvents(query?: Indexer.NounsAuctionHouse.AuctionBidQuery) {
-	let events = await _fetchAllAuctionBid();
+	let events = (await _fetchAllEvents("AuctionBid")) as Indexer.NounsAuctionHouse.AuctionBid[];
 
 	if (!query) {
 		return events;
@@ -99,13 +90,6 @@ export async function fetchAuctionBidEvents(query?: Indexer.NounsAuctionHouse.Au
 	return events;
 }
 
-async function _fetchAllAuctionBid() {
-	let path = join(__dirname, "..", "data", "indexer", "AuctionBid.json");
-	let file = await readFile(path, { encoding: "utf8" });
-	let bids: Indexer.NounsAuctionHouse.AuctionBid[] = JSON.parse(file).events;
-	return bids;
-}
-
 // ==================================
 // AuctionExtended
 // ==================================
@@ -116,7 +100,7 @@ async function _fetchAllAuctionBid() {
  * @returns An array of events.
  */
 export async function fetchAuctionExtended(query?: Indexer.NounsAuctionHouse.AuctionExtendedQuery) {
-	let events = await _fetchAllAuctionExtended();
+	let events = (await _fetchAllEvents("AuctionExtended")) as Indexer.NounsAuctionHouse.AuctionExtended[];
 
 	if (!query) {
 		return events;
@@ -141,13 +125,6 @@ export async function fetchAuctionExtended(query?: Indexer.NounsAuctionHouse.Auc
 	return events;
 }
 
-async function _fetchAllAuctionExtended() {
-	let path = join(__dirname, "..", "data", "indexer", "AuctionExtended.json");
-	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.AuctionExtended[] = JSON.parse(proposalFile).events;
-	return proposals;
-}
-
 // ==================================
 // AuctionSettled
 // ==================================
@@ -158,7 +135,7 @@ async function _fetchAllAuctionExtended() {
  * @returns An array of events.
  */
 export async function fetchAuctionSettledEvents(query?: Indexer.NounsAuctionHouse.AuctionSettledQuery) {
-	let events = await _fetchAllAuctionSettled();
+	let events = (await _fetchAllEvents("AuctionSettled")) as Indexer.NounsAuctionHouse.AuctionSettled[];
 
 	if (!query) {
 		return events;
@@ -201,13 +178,6 @@ export async function fetchAuctionSettledEvents(query?: Indexer.NounsAuctionHous
 	return events;
 }
 
-async function _fetchAllAuctionSettled() {
-	let path = join(__dirname, "..", "data", "indexer", "AuctionSettled.json");
-	let file = await readFile(path, { encoding: "utf8" });
-	let auctions: Indexer.NounsAuctionHouse.AuctionSettled[] = JSON.parse(file).events;
-	return auctions;
-}
-
 // ==================================
 // AuctionTimeBufferUpdated
 // ==================================
@@ -218,7 +188,7 @@ async function _fetchAllAuctionSettled() {
  * @returns An array of events.
  */
 export async function fetchAuctionTimeBufferUpdated(query?: Indexer.NounsAuctionHouse.AuctionTimeBufferUpdatedQuery) {
-	let events = await _fetchAllAuctionTimeBufferUpdated();
+	let events = (await _fetchAllEvents("AuctionTimeBufferUpdated")) as Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated[];
 
 	if (!query) {
 		return events;
@@ -241,13 +211,6 @@ export async function fetchAuctionTimeBufferUpdated(query?: Indexer.NounsAuction
 	return events;
 }
 
-async function _fetchAllAuctionTimeBufferUpdated() {
-	let path = join(__dirname, "..", "data", "indexer", "AuctionTimeBufferUpdated.json");
-	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated[] = JSON.parse(proposalFile).events;
-	return proposals;
-}
-
 // ==================================
 // AuctionReservePriceUpdated
 // ==================================
@@ -258,7 +221,9 @@ async function _fetchAllAuctionTimeBufferUpdated() {
  * @returns An array of events.
  */
 export async function fetchAuctionReservePriceUpdated(query?: Indexer.NounsAuctionHouse.AuctionReservePriceUpdatedQuery) {
-	let events = await _fetchAllAuctionReservePriceUpdated();
+	let events = (await _fetchAllEvents(
+		"AuctionReservePriceUpdated"
+	)) as Indexer.NounsAuctionHouse.AuctionReservePriceUpdated[];
 
 	if (!query) {
 		return events;
@@ -281,13 +246,6 @@ export async function fetchAuctionReservePriceUpdated(query?: Indexer.NounsAucti
 	return events;
 }
 
-async function _fetchAllAuctionReservePriceUpdated() {
-	let path = join(__dirname, "..", "data", "indexer", "AuctionReservePriceUpdated.json");
-	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.AuctionReservePriceUpdated[] = JSON.parse(proposalFile).events;
-	return proposals;
-}
-
 // ==================================
 // AuctionMinBidIncrementPercentageUpdated
 // ==================================
@@ -300,7 +258,9 @@ async function _fetchAllAuctionReservePriceUpdated() {
 export async function fetchAuctionMinBidIncrementPercentageUpdated(
 	query?: Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdatedQuery
 ) {
-	let events = await _fetchAllAuctionMinBidIncrementPercentageUpdated();
+	let events = (await _fetchAllEvents(
+		"AuctionMinBidIncrementPercentageUpdated"
+	)) as Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdated[];
 
 	if (!query) {
 		return events;
@@ -323,13 +283,6 @@ export async function fetchAuctionMinBidIncrementPercentageUpdated(
 	return events;
 }
 
-async function _fetchAllAuctionMinBidIncrementPercentageUpdated() {
-	let path = join(__dirname, "..", "data", "indexer", "AuctionMinBidIncrementPercentageUpdated.json");
-	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdated[] = JSON.parse(proposalFile).events;
-	return proposals;
-}
-
 // ==================================
 // OwnershipTransferred
 // ==================================
@@ -340,7 +293,7 @@ async function _fetchAllAuctionMinBidIncrementPercentageUpdated() {
  * @returns An array of events.
  */
 export async function fetchOwnershipTransferred(query?: Indexer.NounsAuctionHouse.OwnershipTransferredQuery) {
-	let events = await _fetchAllOwnershipTransferred();
+	let events = (await _fetchAllEvents("OwnershipTransferred")) as Indexer.NounsAuctionHouse.OwnershipTransferred[];
 
 	if (!query) {
 		return events;
@@ -379,13 +332,6 @@ export async function fetchOwnershipTransferred(query?: Indexer.NounsAuctionHous
 	return events;
 }
 
-async function _fetchAllOwnershipTransferred() {
-	let path = join(__dirname, "..", "data", "indexer", "OwnershipTransferred.json");
-	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.OwnershipTransferred[] = JSON.parse(proposalFile).events;
-	return proposals;
-}
-
 // ==================================
 // Paused
 // ==================================
@@ -396,7 +342,7 @@ async function _fetchAllOwnershipTransferred() {
  * @returns An array of events.
  */
 export async function fetchPaused(query?: Indexer.NounsAuctionHouse.PausedQuery) {
-	let events = await _fetchAllPaused();
+	let events = (await _fetchAllEvents("Paused")) as Indexer.NounsAuctionHouse.Paused[];
 
 	if (!query) {
 		return events;
@@ -415,13 +361,6 @@ export async function fetchPaused(query?: Indexer.NounsAuctionHouse.PausedQuery)
 	return events;
 }
 
-async function _fetchAllPaused() {
-	let path = join(__dirname, "..", "data", "indexer", "Paused.json");
-	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.Paused[] = JSON.parse(proposalFile).events;
-	return proposals;
-}
-
 // ==================================
 // Unpaused
 // ==================================
@@ -432,7 +371,7 @@ async function _fetchAllPaused() {
  * @returns An array of events.
  */
 export async function fetchUnpaused(query?: Indexer.NounsAuctionHouse.UnpausedQuery) {
-	let events = await _fetchAllUnpaused();
+	let events = (await _fetchAllEvents("Unpaused")) as Indexer.NounsAuctionHouse.Unpaused[];
 
 	if (!query) {
 		return events;
@@ -449,11 +388,4 @@ export async function fetchUnpaused(query?: Indexer.NounsAuctionHouse.UnpausedQu
 	}
 
 	return events;
-}
-
-async function _fetchAllUnpaused() {
-	let path = join(__dirname, "..", "data", "indexer", "Unpaused.json");
-	let proposalFile = await readFile(path, { encoding: "utf8" });
-	let proposals: Indexer.NounsAuctionHouse.Unpaused[] = JSON.parse(proposalFile).events;
-	return proposals;
 }
