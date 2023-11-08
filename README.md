@@ -1,200 +1,56 @@
-# README 
+# Nerman.js
 
-## Import into ES6 TypeScript project
+[![NPM Version](https://img.shields.io/npm/v/nerman.svg?style=flat)]()
+
+Nerman.js is a JavaScript/TypeScript wrapper for Nouns projects like the Nouns DAO, LilNouns DAO, Propdates, and more. Our goal is to create an intuitive toolkit to interact with these contracts, lowering the barrier of entry to this community, and enabling developer creativity.
+
+If there's a Nouns project you think should be a part of Nerman.js, feel free to open an issue so we can add support.
+
+## Installation
+
+Ensure you have `npm` installed and are in a node project.
 
 ```
-import 'dotenv/config';
+npm install --save nerman
+```
 
+## Examples
+
+To use Nerman.js, you will need a `JSON_RPC_URL` from a blockchain development platform like [Alchemy](https://www.alchemy.com/).
+
+To listen to an on-chain vote event for Nouns DAO, write the following:
+
+```ts
 import * as nerman from "nerman";
 
-const Nouns = new nerman.Nouns(process.env.JSON_RPC_API_URL);
+const nouns = new nerman.Nouns("<JSON_RPC_URL>");
 
-Nouns.on("VoteCast", (vote : nerman.EventData.VoteCast) => {
-
-  Nouns.on("AuctionBid", (data) => {
-
-    console.log("NounsAuctionHouse | AuctionBid " + data.id + " " + data.bidder.id + " " + data.amount + " " + data.extended);
-    
-  });
-
+nouns.on("VoteCast", (vote: nerman.EventData.VoteCast) => {
+	console.log(
+		"NounsDAO | VoteCast | id:" +
+			vote.proposalId +
+			",  voter: " +
+			vote.voter.id +
+			", votes: " +
+			vote.votes +
+			" , supportDetailed: " +
+			vote.supportDetailed +
+			", reason: " +
+			vote.reason
+	);
 });
-
 ```
 
+For more details on events, see: [Event Types](./docs/types.md).
 
+For more details on contract wrappers, see: [Contracts](./docs//contracts.md).
 
-## Import into CommonJS Project
+## License
 
-```
-require('dotenv').config();
+Nerman.js is distributed under an [MIT](./LICENSE) license.
 
-const _nerman = import('nerman');
+## Contribution
 
-async function runApp() {
+Nerman.js is currently not open to contribution.
 
-  const nerman = await _nerman;
-  const Nouns = new nerman.Nouns(process.env.JSON_RPC_API_URL);
-
-  Nouns.on("AuctionBid", (data) => {
-
-    console.log("NounsAuctionHouse | AuctionBid " + data.id + " " + data.bidder.id + " " + data.amount + " " + data.extended);
-    
-  });
-
-}
-
-runApp()
-.catch(err => { console.log(err); });
-```
-
-## Short Example
-
-```
-import 'dotenv/config';
-
-import * as nerman from "nerman";
-const Nouns = new nerman.Nouns(process.env.JSON_RPC_API_URL);
-
-Nouns.on("ProposalCreated", (data : nerman.EventData.ProposalCreatedWithRequirements) => {
-
-  // do stuff here
-  
-});
-
-
-```
-
-## Listen To Common Nouns Events
-
-```
-import 'dotenv/config';
-
-import * as nerman from "nerman";
-const Nouns = new nerman.Nouns(process.env.JSON_RPC_API_URL);
-
-async function listenToStandardEvents () {
-
-  Nouns.on("ProposalCreatedWithRequirements", (data : nerman.EventData.ProposalCreatedWithRequirements) => {
-
-    data.description = data.description.substring(0,150);
-    console.log("NounsDAO | ProposalCreatedWithRequirements | id:" + data.id + ", proposer: " + data.proposer.id +
-    ", startBlock: " + data.startBlock + ", endBlock: " + data.endBlock + "quorumVotes " + data.quorumVotes
-    + ", proposalThreshold: "+ data.proposalThreshold + ", description: " + data.description);
-    
-  });
-
-  Nouns.on("ProposalCanceled", (data : nerman.EventData.ProposalCanceled) => {
-
-    console.log("NounsDAO | ProposalCanceled | id:" + data.id );
-    
-  });
-
-  Nouns.on("ProposalQueued", (data : nerman.EventData.ProposalQueued) => {
-
-    console.log("NounsDAO | ProposalQueued | id:" + data.id + ", eta: " + data.eta);
-    
-  });
-
-  Nouns.on("ProposalVetoed", (data : nerman.EventData.ProposalVetoed) => {
-
-    console.log("NounsDAO | ProposalVetoed | id:" + data.id );
-    
-  });
-
-  Nouns.on("AuctionExtended", (data : nerman.EventData.AuctionExtended) => {
-
-    console.log("NounsAuctionHouse | AuctionExtended | id:" + data.id + ", endTime:" + data.endTime);
-    
-  });
-
-  Nouns.on("ApprovalForAll", (data : nerman.EventData.ApprovalForAll) => {
-
-    console.log("NounsToken | ApprovalForAll | owner:" + data.owner.id + ", operator: " + data.operator.id + 
-    ", approved: " + data.approved );
-    
-  });
-
-  Nouns.on("VoteCast", (vote : nerman.EventData.VoteCast) => {
-
-    console.log("NounsDAO | VoteCast | id:" + vote.proposalId + ",  voter: " + vote.voter.id + ", votes: " +
-    vote.votes + " , supportDetailed: " + vote.supportDetailed + ", reason: " + vote.reason);
-
-  });
-
-  Nouns.on("ProposalExecuted", (data : nerman.EventData.ProposalExecuted) => {
-
-    console.log("NounsDAO | ProposalExecuted | id:" + data.id );
-    
-  });
-
-  Nouns.on("AuctionCreated", (auction: nerman.EventData.AuctionCreated) => {
-
-    console.log("NounsAuctionHouse | AuctionCreated " + auction.id + " " + auction.startTime + " " + auction.endTime);
-    
-  });
-
-  Nouns.on("AuctionBid", (data : nerman.EventData.AuctionBid) => {
-
-    console.log("NounsAuctionHouse | AuctionBid " + data.id + " " + data.bidder.id + " " + data.amount + " " + data.extended);
-    
-  });
-
-  Nouns.on("AuctionSettled", (data : nerman.EventData.AuctionSettled) => {
-
-    console.log("NounsAuctionHouse | AuctionSettled | id:" + data.id + ", winnerId:" + data.winner.id + ", amount: " + data.amount);
-    
-  });
-
-  Nouns.on("Approval", (data : nerman.EventData.Approval) => {
-
-    console.log("NounsToken | Approval | owner:" + data.owner.id + ", approved: " + data.approved.id + 
-    ", tokenId: " + data.tokenId );
-    
-  });
-
-  Nouns.on("Transfer", (data : nerman.EventData.Transfer) => {
-
-    console.log("NounsToken | Transfer | from:" + data.from.id + ", to: " + data.to.id + ", tokenId: " + data.tokenId);
-    
-  });
-
-  Nouns.on("NounCreated", (data : nerman.EventData.NounCreated) => {
-
-    console.log("NounsToken | NounCreated | id:" + data.id + ", seed: " + JSON.stringify(data.seed));
-    
-  });
-
-  Nouns.on("DelegateChanged", (data : nerman.EventData.DelegateChanged) => {
-
-    console.log("NounsToken | DelegateChanged | delegator:" + data.delegator.id + ", fromDelegate: " + data.fromDelegate.id + 
-    ", toDelegate: " + data.toDelegate.id );
-    
-  });
-
-  Nouns.on("DelegateVotesChanged", (data : nerman.EventData.DelegateVotesChanged) => {
-
-    console.log("NounsToken | DelegateVotesChanged | delegate:" + data.delegate.id + ", previousBalance: " + data.previousBalance + 
-    ", newBalance: " + data.newBalance );
-    
-  });
-}
-
-listenToStandardEvents();
-
-
-
-```
-
-## NounsNymz events: NewPost
-
-```
-import * as nerman from "nerman";
-
-const NounsNymz = new nerman.NounsNymz();
-NounsNymz.on("NewPost", (data : nerman.EventData.NounsNymz.NewPost) => {
-
-  // do stuff here
-
-});
-
-```
+If you have any suggestions or experience any bugs, please feel free to open a Github issue. We are always eager to better support the Nouns community.
