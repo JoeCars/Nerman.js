@@ -97,6 +97,15 @@ export class Nouns {
 
 	private async updateCache() {}
 
+	/**
+	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
+	 * @param eventName The name of the event.
+	 * @param listener The listener function.
+	 * @example
+	 * nouns.on('NounCreated', (data) => {
+	 * 	console.log(data.id);
+	 * });
+	 */
 	public async on(eventName: string, listener: Function) {
 		console.log("StateOfNouns.ts on(" + eventName + ") created");
 		this.registeredListeners.set(eventName, listener);
@@ -208,6 +217,22 @@ export class Nouns {
 		}, pollingTime);
 	}
 
+	/**
+	 * Triggers an event.
+	 * @param eventName the event name.
+	 * @param data the event data.
+	 * @example
+	 * nouns.trigger('NounCreated', {
+	 * 	id: 420,
+	 * 	seed: {
+	 * 		background: 0,
+	 * 		body: 0,
+	 * 		accessory: 0,
+	 * 		head: 0,
+	 * 		glasses: 0
+	 * 	}
+	 * });
+	 */
 	public trigger(eventName: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventName);
 		if (listener) {
@@ -217,6 +242,11 @@ export class Nouns {
 		}
 	}
 
+	/**
+	 * @param eventName the event name.
+	 * @example
+	 * nounsToken.off('NounCreated');
+	 */
 	public off(eventName: string) {
 		console.log("StateOfNouns off " + eventName);
 	}
@@ -231,6 +261,13 @@ export class Nouns {
 		}
 	}
 
+	/**
+	 * Returns the ens name of the address if available.
+	 * @param address the wallet address.
+	 * @returns the ens name as a string if it exists, or undefined.
+	 * @example
+	 * const ens = await nouns.ensReverseLookup('0x281ec184e704ce57570614c33b3477ec7ff07243');
+	 */
 	public async ensReverseLookup(address: string) {
 		const ens = await this.provider.lookupAddress(address);
 		return ens;

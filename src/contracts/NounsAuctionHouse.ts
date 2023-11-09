@@ -194,6 +194,8 @@ export class _NounsAuctionHouse {
 	/**
 	 * Removes an event listener.
 	 * @param eventName the event listened to.
+	 * @example
+	 * nounsAuctionHouse.off('AuctionCreated');
 	 */
 	public off(eventName: string) {
 		let listener = this.registeredListeners.get(eventName);
@@ -207,6 +209,12 @@ export class _NounsAuctionHouse {
 	 * Triggers an event. Throws an error if the listener cannot be found.
 	 * @param eventType the name of the event.
 	 * @param data the event data.
+	 * @example
+	 * nounsAuctionHouse.trigger('AuctionCreated', {
+	 * 	id: 420,
+	 * 	startTime: 1689677183,
+	 * 	endTime: 1689763583
+	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);

@@ -287,6 +287,8 @@ export class _NounsToken {
 	/**
 	 * Removes an event listener.
 	 * @param eventName the event name.
+	 * @example
+	 * nounsToken.off('NounCreated');
 	 */
 	public off(eventName: string) {
 		let listener = this.registeredListeners.get(eventName);
@@ -300,6 +302,17 @@ export class _NounsToken {
 	 * Triggers an event. Throws an error if there is no assigned listener.
 	 * @param eventType the event name.
 	 * @param data the event data.
+	 * @example
+	 * nounsToken.trigger('NounCreated', {
+	 * 	id: 420,
+	 * 	seed: {
+	 * 		background: 0,
+	 * 		body: 0,
+	 * 		accessory: 0,
+	 * 		head: 0,
+	 * 		glasses: 0
+	 * 	}
+	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);

@@ -69,6 +69,8 @@ export class LilNouns {
 	 * Removes any assigned listeners from the event.
 	 * Does nothing if there was no listener.
 	 * @param eventName the event whose listener you are removing.
+	 * @example
+	 * lilNouns.off('ProposalExecuted');
 	 */
 	public off(eventName: string) {
 		if (this.lilNounsAuctionHouse.supportedEvents.includes(eventName)) {

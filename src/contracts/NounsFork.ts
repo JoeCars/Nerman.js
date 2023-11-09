@@ -28,7 +28,7 @@ export class _NounsFork {
 	 * @example
 	 * nounsFork.on('VoteCast', (data) => {
 	 * 	console.log(data.proposalId);
-	 * })
+	 * });
 	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
@@ -370,6 +370,8 @@ export class _NounsFork {
 	/**
 	 * Removes an event listener.
 	 * @param eventName the name of the event.
+	 * @example
+	 * nounsFork.off('VoteCast');
 	 */
 	public off(eventName: string) {
 		let listener = this.registeredListeners.get(eventName);

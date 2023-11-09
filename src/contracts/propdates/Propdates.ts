@@ -86,6 +86,8 @@ export class _Propdates {
 	/**
 	 * Removes a listener.
 	 * @param eventName the event listened to.
+	 * @example
+	 * propdates.off('PostUpdate');
 	 */
 	public off(eventName: string) {
 		let listener = this.registeredListeners.get(eventName);

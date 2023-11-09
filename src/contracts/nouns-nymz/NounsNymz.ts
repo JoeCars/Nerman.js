@@ -55,6 +55,8 @@ export class NounsNymz {
 	/**
 	 * Removes an event listener.
 	 * @param eventName the event listened to.
+	 * @example
+	 * nounsNymz.off('NewPost');
 	 */
 	public off(eventName: string) {
 		this.registeredListeners.delete(eventName);

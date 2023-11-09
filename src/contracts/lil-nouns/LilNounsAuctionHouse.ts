@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { Account, EventData } from "../../types";
 import { default as LilNounsAuctionHouseABI } from "../abis/lil-nouns/NounsAuctionHouse.json";
 // The contract is identical, so using the same event list as NounsAuctionHouse.
-import { SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS } from "../../constants"; 
+import { SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS } from "../../constants";
 
 /**
  * A wrapper class around the LilNounsAuctionHouse contract.
@@ -179,6 +179,8 @@ export class LilNounsAuctionHouse {
 	/**
 	 * Removes an event listener.
 	 * @param eventName the event listened to.
+	 * @example
+	 * lilNounsAuctionHouse.off('AuctionCreated');
 	 */
 	public off(eventName: string) {
 		let listener = this.registeredListeners.get(eventName);
@@ -192,6 +194,12 @@ export class LilNounsAuctionHouse {
 	 * Triggers an event. Throws an error if the listener cannot be found.
 	 * @param eventType the name of the event.
 	 * @param data the event data.
+	 * @example
+	 * lilNounsAuctionHouse.trigger('AuctionCreated', {
+	 * 	id: 420,
+	 * 	startTime: 1689677183,
+	 * 	endTime: 1689763583
+	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
