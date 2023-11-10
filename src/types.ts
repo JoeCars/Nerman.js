@@ -284,7 +284,7 @@ export namespace EventData {
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L212 | Github}
 	 */
 	export interface ObjectionPeriodDurationSet {
-		/** Old objection period in blocks.. */
+		/** Old objection period in blocks. */
 		oldObjectionPeriodDurationInBlocks: number;
 		/** New objection period in blocks. */
 		newObjectionPeriodDurationInBlocks: number;
@@ -327,7 +327,7 @@ export namespace EventData {
 		 * @example
 		 * `
 		 * # Proposal Title \n
-		 * Proposal details go here.
+		 * Proposal content.
 		 * `
 		 */
 		description: string;
@@ -801,7 +801,7 @@ export namespace EventData {
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L153 | Github}
 	 */
 	export interface Unpaused {
-		/** Address paused. */
+		/** Address unpaused. */
 		address: Account;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -1226,7 +1226,7 @@ export namespace EventData {
 			timestamp: string;
 			/** Poster id. */
 			userId: string;
-			/** Parent post id.. */
+			/** Parent post id. */
 			parentId?: string;
 			/** Number of replies in chain. */
 			depth: number;
