@@ -393,7 +393,6 @@ export class _NounsFork {
 	 * 	supportDetailed: 0,
 	 * 	votes: 24,
 	 * 	reason: "Really good reason.",
-	 * 	event: {}
 	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {

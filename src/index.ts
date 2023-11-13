@@ -245,7 +245,7 @@ export class Nouns {
 	/**
 	 * @param eventName the event name.
 	 * @example
-	 * nounsToken.off('NounCreated');
+	 * nouns.off('NounCreated');
 	 */
 	public off(eventName: string) {
 		console.log("StateOfNouns off " + eventName);

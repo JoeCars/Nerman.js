@@ -73,7 +73,7 @@ export class NounsNymz {
 	 * 	body: "It's been fun seeing some life here in the past couple weeks! \n\nWe've noticed that most new nyms are randomly generated/single-use. For those posting from single-use nyms: do you see any value in re-using a name you've used in the past? ",
 	 * 	timestamp: "2023-07-31T17:54:17.000Z",
 	 * 	userId: "0x141b63d93daf55bfb7f396eee6114f3a5d4a90b2",
-	 * 	parentId: null,
+	 * 	parentId: null
 	 * });
 	 */
 	public trigger(eventName: string, data: unknown) {

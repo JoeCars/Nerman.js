@@ -105,7 +105,7 @@ export class _Propdates {
 	 * propdates.trigger('PostUpdate', {
 	 * 	propId: 117,
 	 * 	isCompleted: true,
-	 * 	update: "It's done!",
+	 * 	update: "It's done!"
 	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {

@@ -51,7 +51,7 @@ export class LilNouns {
 	 * @param eventName the name of the event you are triggering.
 	 * @param data the data passed to the listener.
 	 * @example
-	 * lilNouns.trigger('ProposalExecuted', {id: 420, event: {}});
+	 * lilNouns.trigger('ProposalExecuted', {id: 420});
 	 */
 	public trigger(eventName: string, data: unknown) {
 		if (this.lilNounsAuctionHouse.supportedEvents.includes(eventName)) {

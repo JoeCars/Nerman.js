@@ -327,7 +327,7 @@ export class _NounsDAOData {
 	 * nounsDAOData.trigger('CandidateFeedbackSent', {
 	 * 	msgSender: {id: '0x281eC184E704CE57570614C33B3477Ec7Ff07243'},
 	 * 	proposer: {id: '0x281eC184E704CE57570614C33B3477Ec7Ff07243'},
-	 * 	slug: '0x281eC184E704CE57570614C33B3477Ec7Ff07243-candidate-title',
+	 * 	slug: 'candidate-title',
 	 * 	support: 0,
 	 * 	reason: ''
 	 * });
