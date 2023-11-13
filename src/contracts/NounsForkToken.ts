@@ -287,6 +287,8 @@ export class _NounsForkToken {
 	/**
 	 * Removes an event listener.
 	 * @param eventName the event name.
+	 * @example
+	 * nounsForkToken.off('NounCreated');
 	 */
 	public off(eventName: string) {
 		let listener = this.registeredListeners.get(eventName);

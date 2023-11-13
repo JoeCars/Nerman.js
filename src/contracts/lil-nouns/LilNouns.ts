@@ -51,7 +51,7 @@ export class LilNouns {
 	 * @param eventName the name of the event you are triggering.
 	 * @param data the data passed to the listener.
 	 * @example
-	 * lilNouns.trigger('ProposalExecuted', {id: 420, event: {}});
+	 * lilNouns.trigger('ProposalExecuted', {id: 420});
 	 */
 	public trigger(eventName: string, data: unknown) {
 		if (this.lilNounsAuctionHouse.supportedEvents.includes(eventName)) {
@@ -69,6 +69,8 @@ export class LilNouns {
 	 * Removes any assigned listeners from the event.
 	 * Does nothing if there was no listener.
 	 * @param eventName the event whose listener you are removing.
+	 * @example
+	 * lilNouns.off('ProposalExecuted');
 	 */
 	public off(eventName: string) {
 		if (this.lilNounsAuctionHouse.supportedEvents.includes(eventName)) {

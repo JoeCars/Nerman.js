@@ -298,6 +298,8 @@ export class LilNounsDAOLogic {
 	/**
 	 * Removes an event listener.
 	 * @param eventName the event listened to.
+	 * @example
+	 * lilNounsDAOLogic.off('VoteCast');
 	 */
 	public off(eventName: string) {
 		let listener = this.registeredListeners.get(eventName);
@@ -311,6 +313,14 @@ export class LilNounsDAOLogic {
 	 * Triggers an event. Throws an error if the listener cannot be found.
 	 * @param eventType the name of the event.
 	 * @param data the event data.
+	 * @example
+	 * lilNounsDAOLogic.trigger('VoteCast', {
+	 * 	voter: { id: "0x281eC184E704CE57570614C33B3477Ec7Ff07243" },
+	 * 	proposalId: 117,
+	 * 	supportDetailed: 0,
+	 * 	votes: 24,
+	 * 	reason: "Really good reason."
+	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);

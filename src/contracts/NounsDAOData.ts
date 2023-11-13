@@ -308,6 +308,8 @@ export class _NounsDAOData {
 	/**
 	 * Removes an event listener.
 	 * @param eventName the event listened to.
+	 * @example
+	 * nounsDAOData.off('CandidateFeedbackSent');
 	 */
 	public off(eventName: string) {
 		let listener = this.registeredListeners.get(eventName);
@@ -321,6 +323,14 @@ export class _NounsDAOData {
 	 * Triggers an event. Throws an error if there is no assigned listener.
 	 * @param eventType the event name.
 	 * @param data the event data.
+	 * @example
+	 * nounsDAOData.trigger('CandidateFeedbackSent', {
+	 * 	msgSender: {id: '0x281eC184E704CE57570614C33B3477Ec7Ff07243'},
+	 * 	proposer: {id: '0x281eC184E704CE57570614C33B3477Ec7Ff07243'},
+	 * 	slug: 'candidate-title',
+	 * 	support: 0,
+	 * 	reason: ''
+	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);

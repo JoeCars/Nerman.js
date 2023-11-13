@@ -193,6 +193,8 @@ export class _NounsForkAuctionHouse {
 	/**
 	 * Removes an event listener.
 	 * @param eventName the event name.
+	 * @example
+	 * nounsForkAuctionHouse.off('AuctionCreated');
 	 */
 	public off(eventName: string) {
 		let listener = this.registeredListeners.get(eventName);

@@ -122,7 +122,7 @@ export namespace EventData {
 		forkTreasury: Account;
 		/** New fork token address. */
 		forkToken: Account;
-		/** The timestamp until which the fork can rejoin the DAO. */
+		/** The unix timestamp in seconds until which the fork can rejoin the DAO. */
 		forkEndTimestamp: number;
 		/** Tokens in escrow at the moment of the escrow. These are lost from the main treasury. */
 		tokensInEscrow: number;
@@ -146,9 +146,9 @@ export namespace EventData {
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L533 | Github}
 	 */
 	export interface ForkPeriodSet {
-		/** Old fork period. */
+		/** Old fork period in seconds.*/
 		oldForkPeriod: number;
-		/** New fork period. */
+		/** New fork period in seconds. */
 		newForkPeriod: number;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -284,9 +284,9 @@ export namespace EventData {
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L212 | Github}
 	 */
 	export interface ObjectionPeriodDurationSet {
-		/** Old objection period. */
+		/** Old objection period in blocks. */
 		oldObjectionPeriodDurationInBlocks: number;
-		/** New objection period. */
+		/** New objection period in blocks. */
 		newObjectionPeriodDurationInBlocks: number;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -327,7 +327,7 @@ export namespace EventData {
 		 * @example
 		 * `
 		 * # Proposal Title \n
-		 * Proposal details go here.
+		 * Proposal content.
 		 * `
 		 */
 		description: string;
@@ -418,7 +418,7 @@ export namespace EventData {
 	export interface ProposalObjectionPeriodSet {
 		/** id of the proposal. */
 		id: number;
-		/** Object end time. */
+		/** Objection end block. */
 		objectionPeriodEndBlock: number;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -474,9 +474,9 @@ export namespace EventData {
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L243 | Github}
 	 */
 	export interface ProposalUpdatablePeriodSet {
-		/** The old proposal updatable period. */
+		/** The old proposal updatable period in blocks. */
 		oldProposalUpdatablePeriodInBlocks: number;
-		/** The new proposal updatable period. */
+		/** The new proposal updatable period in blocks. */
 		newProposalUpdatablePeriodInBlocks: number;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -711,9 +711,9 @@ export namespace EventData {
 	export interface AuctionCreated {
 		/** Noun token id. */
 		id: number;
-		/** Auction starting time. */
+		/** Auction starting time as seconds since unix epoch. */
 		startTime: number;
-		/** Auction ending time. */
+		/** Auction ending time as seconds since unix epoch. */
 		endTime: number;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -725,7 +725,7 @@ export namespace EventData {
 	export interface AuctionExtended {
 		/** Noun token id. */
 		id: number;
-		/** New auction end time. */
+		/** New auction end time as seconds since unix epoch. */
 		endTime: number;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -801,7 +801,7 @@ export namespace EventData {
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L153 | Github}
 	 */
 	export interface Unpaused {
-		/** Address paused. */
+		/** Address unpaused. */
 		address: Account;
 		/** Event meta data. */
 		event: ethers.Event;
@@ -1020,7 +1020,7 @@ export namespace EventData {
 		proposer: Account;
 		/** Candidate proposal unique identifier. */
 		slug: string;
-		/** Feedback vote. Either FOR, AGAINST, or ABSTAIN. */
+		/** Feedback vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
 		support: number;
 		/** Optional reason left by the feedbacker. */
 		reason: string;
@@ -1072,7 +1072,7 @@ export namespace EventData {
 		msgSender: Account;
 		/** Proposal receiving feedback. */
 		proposalId: number;
-		/** Feedback vote. Either FOR, AGAINST, or ABSTAIN. */
+		/** Feedback vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
 		support: number;
 		/** Optional reason left by the feedbacker. */
 		reason: string;
@@ -1166,7 +1166,7 @@ export namespace EventData {
 		signer: Account;
 		/** The signature bytes. */
 		sig: string;
-		/** The signature's expiration timestamp. */
+		/** The signature's expiration timestamp. As milliseconds since Unix epoch. */
 		expirationTimestamp: number;
 		/** Proposal candidate creator account. */
 		proposer: Account;
@@ -1222,11 +1222,11 @@ export namespace EventData {
 			title: string;
 			/** Post body. */
 			body: string;
-			/** Post time. */
+			/** Post UTC timestamp. */
 			timestamp: string;
 			/** Poster id. */
 			userId: string;
-			/** Parent post id.. */
+			/** Parent post id. */
 			parentId?: string;
 			/** Number of replies in chain. */
 			depth: number;
@@ -1251,7 +1251,7 @@ export namespace EventData {
 			title: string;
 			/** Post body. */
 			body: string;
-			/** Post time. */
+			/** Post UTC timestamp. */
 			timestamp: string;
 			/** Poster id. */
 			userId: string;
@@ -1276,7 +1276,7 @@ export namespace EventData {
 			title: string;
 			/** Post body. */
 			body: string;
-			/** Post time. */
+			/** Post UTC timestamp. */
 			timestamp: string;
 			/** Poster id. */
 			userId: string;
@@ -1294,7 +1294,7 @@ export namespace EventData {
 			id: string;
 			/** ??? */
 			address: string;
-			/** ??? */
+			/** Upvote UTC timestamp. */
 			timestamp: string;
 		}
 
@@ -1312,9 +1312,9 @@ export namespace EventData {
 			doxed: boolean;
 			/** Name. */
 			name: string;
-			/** Last time active. */
+			/** Last time active, as UTC timestamp. */
 			lastActive: string;
-			/** ??? */
+			/** Number of upvotes. */
 			upvotes: number;
 		}
 	}
@@ -1337,7 +1337,7 @@ export namespace EventData {
 				dao: string;
 				/** Proposal being bid on. */
 				propId: number;
-				/** The bidder's stance on the proposal. FOR, AGAINST, or ABSTAIN. */
+				/** The bidder's stance on the proposal. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
 				support: number;
 				/** The amount bid, in wei. */
 				amount: number;
@@ -1355,7 +1355,7 @@ export namespace EventData {
 				dao: string;
 				/** Proposal that Federation is voting on. */
 				propId: number;
-				/** The direction of the vote. FOR, AGAINST, or ABSTAIN. */
+				/** The direction of the vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
 				support: number;
 				/** The winning bid amount, in wei. */
 				amount: number;

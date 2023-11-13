@@ -86,6 +86,8 @@ export class _Propdates {
 	/**
 	 * Removes a listener.
 	 * @param eventName the event listened to.
+	 * @example
+	 * propdates.off('PostUpdate');
 	 */
 	public off(eventName: string) {
 		let listener = this.registeredListeners.get(eventName);
@@ -103,7 +105,7 @@ export class _Propdates {
 	 * propdates.trigger('PostUpdate', {
 	 * 	propId: 117,
 	 * 	isCompleted: true,
-	 * 	update: "It's done!",
+	 * 	update: "It's done!"
 	 * });
 	 */
 	public trigger(eventType: string, data: unknown) {
