@@ -29,8 +29,12 @@ export async function indexEvent(
 
 	let allEvents: ethers.Event[] = [];
 	if (isUpdating) {
-		const file = await readFile(filePath);
-		allEvents = JSON.parse(file.toString());
+		try {
+			const file = await readFile(filePath);
+			allEvents = JSON.parse(file.toString()).events;
+		} catch (error) {
+			console.error("indexEvent():", error);
+		}
 	}
 	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE) {
 		let events = await contract.queryFilter(eventName, currentBlock, Math.min(currentBlock + BLOCK_BATCH_SIZE, endBlock));
@@ -41,7 +45,12 @@ export async function indexEvent(
 
 		allEvents.push(...events);
 	}
-	await writeFile(filePath, JSON.stringify(allEvents));
+
+	const output = {
+		newestBlock: endBlock,
+		events: allEvents
+	};
+	await writeFile(filePath, JSON.stringify(output));
 }
 
 //===================================
@@ -58,9 +67,14 @@ async function parseData(data: { event: ethers.Event }, parser: Function, direct
 	const filePath = `${directoryPath}/${data.event.event}.json`;
 	const formattedData = parser(data);
 	const file = await readFile(filePath);
-	const events = JSON.parse(file.toString());
+	const events = JSON.parse(file.toString()).events;
 	events.push(formattedData);
-	await writeFile(filePath, events);
+
+	const output = {
+		newestBlock: formattedData.blockNumber,
+		events: events
+	};
+	await writeFile(filePath, JSON.stringify(output));
 }
 
 /**
@@ -88,16 +102,17 @@ export async function listenForEvent(contract: ethers.Contract, event: string, p
  */
 async function retrieveLatestBlock(event: string, directoryPath: string) {
 	const filePath = `${directoryPath}/${event}.json`;
-	const file = await readFile(filePath);
-	const events = JSON.parse(file.toString());
 
-	if (events.length === 0) {
-		return NOUNS_STARTING_BLOCK;
+	let newestBlockNumber = NOUNS_STARTING_BLOCK;
+	try {
+		const file = await readFile(filePath);
+		newestBlockNumber = JSON.parse(file.toString()).newestBlock;
+	} catch (error) {
+		console.error("retrieveLatestBlock():", error);
 	}
 
-	const newestEvent = events[events.length - 1];
 	// The block has already been indexed, so we return the next one. Hence + 1.
-	return (newestEvent.blockNumber + 1) as number;
+	return (newestBlockNumber + 1) as number;
 }
 
 /**
@@ -109,5 +124,5 @@ async function retrieveLatestBlock(event: string, directoryPath: string) {
  */
 export async function updateIndexedEvent(contract: ethers.Contract, event: string, formatter: Function, directoryPath: string) {
 	const latestBlockNumber = await retrieveLatestBlock(event, directoryPath);
-	indexEvent(contract, event, formatter, directoryPath, latestBlockNumber, true);
+	await indexEvent(contract, event, formatter, directoryPath, latestBlockNumber, true);
 }

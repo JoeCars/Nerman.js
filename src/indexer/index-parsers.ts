@@ -1697,17 +1697,17 @@ export function parseUpgradedEvent(event: ethers.Event) {
  * A map of supported events and their associated parsers.
  */
 export const NOUNS_DATA_PARSERS = new Map<string, Function>();
-NOUNS_DAO_PARSERS.set("AdminChanged", parseAdminChangedEvent);
-NOUNS_DAO_PARSERS.set("BeaconUpgraded", parseBeaconUpgradedEvent);
-NOUNS_DAO_PARSERS.set("CandidateFeedbackSent", parseCandidateFeedbackSentEvent);
-NOUNS_DAO_PARSERS.set("CreateCandidateCostSet", parseCreateCandidateCostSetEvent);
-NOUNS_DAO_PARSERS.set("ETHWithdrawn", parseETHWithdrawnEvent);
-NOUNS_DAO_PARSERS.set("FeeRecipientSet", parseFeeRecipientSetEvent);
-NOUNS_DAO_PARSERS.set("FeedbackSent", parseFeedbackSentEvent);
-NOUNS_DAO_PARSERS.set("OwnershipTransferred", parseOwnershipTransferredEvent3);
-NOUNS_DAO_PARSERS.set("ProposalCandidateCanceled", parseProposalCandidateCanceledEvent);
-NOUNS_DAO_PARSERS.set("ProposalCandidateCreated", parseProposalCandidateCreatedEvent);
-NOUNS_DAO_PARSERS.set("ProposalCandidateUpdated", parseProposalCandidateUpdatedEvent);
-NOUNS_DAO_PARSERS.set("SignatureAdded", parseSignatureAddedEvent);
-NOUNS_DAO_PARSERS.set("UpdateCandidateCostSet", parseUpdateCandidateCostSetEvent);
-NOUNS_DAO_PARSERS.set("Upgraded", parseUpgradedEvent);
+NOUNS_DATA_PARSERS.set("AdminChanged", parseAdminChangedEvent);
+NOUNS_DATA_PARSERS.set("BeaconUpgraded", parseBeaconUpgradedEvent);
+NOUNS_DATA_PARSERS.set("CandidateFeedbackSent", parseCandidateFeedbackSentEvent);
+NOUNS_DATA_PARSERS.set("CreateCandidateCostSet", parseCreateCandidateCostSetEvent);
+NOUNS_DATA_PARSERS.set("ETHWithdrawn", parseETHWithdrawnEvent);
+NOUNS_DATA_PARSERS.set("FeeRecipientSet", parseFeeRecipientSetEvent);
+NOUNS_DATA_PARSERS.set("FeedbackSent", parseFeedbackSentEvent);
+NOUNS_DATA_PARSERS.set("OwnershipTransferred", parseOwnershipTransferredEvent3);
+NOUNS_DATA_PARSERS.set("ProposalCandidateCanceled", parseProposalCandidateCanceledEvent);
+NOUNS_DATA_PARSERS.set("ProposalCandidateCreated", parseProposalCandidateCreatedEvent);
+NOUNS_DATA_PARSERS.set("ProposalCandidateUpdated", parseProposalCandidateUpdatedEvent);
+NOUNS_DATA_PARSERS.set("SignatureAdded", parseSignatureAddedEvent);
+NOUNS_DATA_PARSERS.set("UpdateCandidateCostSet", parseUpdateCandidateCostSetEvent);
+NOUNS_DATA_PARSERS.set("Upgraded", parseUpgradedEvent);
