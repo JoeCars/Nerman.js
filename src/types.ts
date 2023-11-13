@@ -1020,7 +1020,7 @@ export namespace EventData {
 		proposer: Account;
 		/** Candidate proposal unique identifier. */
 		slug: string;
-		/** Feedback vote. Either FOR, AGAINST, or ABSTAIN. */
+		/** Feedback vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
 		support: number;
 		/** Optional reason left by the feedbacker. */
 		reason: string;
@@ -1072,7 +1072,7 @@ export namespace EventData {
 		msgSender: Account;
 		/** Proposal receiving feedback. */
 		proposalId: number;
-		/** Feedback vote. Either FOR, AGAINST, or ABSTAIN. */
+		/** Feedback vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
 		support: number;
 		/** Optional reason left by the feedbacker. */
 		reason: string;
@@ -1337,7 +1337,7 @@ export namespace EventData {
 				dao: string;
 				/** Proposal being bid on. */
 				propId: number;
-				/** The bidder's stance on the proposal. FOR, AGAINST, or ABSTAIN. */
+				/** The bidder's stance on the proposal. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
 				support: number;
 				/** The amount bid, in wei. */
 				amount: number;
@@ -1355,7 +1355,7 @@ export namespace EventData {
 				dao: string;
 				/** Proposal that Federation is voting on. */
 				propId: number;
-				/** The direction of the vote. FOR, AGAINST, or ABSTAIN. */
+				/** The direction of the vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
 				support: number;
 				/** The winning bid amount, in wei. */
 				amount: number;

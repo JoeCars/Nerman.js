@@ -1009,7 +1009,7 @@ CandidateFeedbackSent event data. [Github](https://github.com/nounsDAO/nouns-mon
 -   **msgSender**: `Account`. Feedbacker account.
 -   **proposer**: `Account`. Candidate proposal creator account.
 -   **slug**: `string`. Candidate proposal unique identifier.
--   **support**: `number`. Feedback vote. Either FOR, AGAINST, or ABSTAIN.
+-   **support**: `number`. Feedback vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively).
 -   **reason**: `string`. Optional reason left by the feedbacker.
 -   **event**: `ethers.Event`. Event meta data.
 
@@ -1053,7 +1053,7 @@ FeedbackSent event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blo
 
 -   **msgSender**: `Account`. Feedbacker account.
 -   **proposalId**: `number`. Proposal receiving feedback.
--   **support**: `number`. Feedback vote. Either FOR, AGAINST, or ABSTAIN.
+-   **support**: `number`. Feedback vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively).
 -   **reason**: `string`. Optional reason left by the feedbacker.
 -   **event**: `ethers.Event`. Event meta data.
 
@@ -1220,7 +1220,7 @@ BidPlaced event data. [Github](https://github.com/nounish/federation/blob/636098
 
 -   **dao**: `string`. The address of the DAO.
 -   **propId**: `number`. Proposal being bid on.
--   **support**: `number`. The bidder's stance on the proposal. FOR, AGAINST, or ABSTAIN.
+-   **support**: `number`. The bidder's stance on the proposal. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively).
 -   **amount**: `number`. The amount bid, in wei.
 -   **bidder**: `string`. The bidder account address.
 -   **reason**: `string`. The reason for the bid.
@@ -1231,7 +1231,7 @@ VoteCast event data. [Github](https://github.com/nounish/federation/blob/6360984
 
 -   **dao**: `string`. The address of the DAO.
 -   **propId**: `number`. Proposal that Federation is voting on.
--   **support**: `number`. The direction of the vote. FOR, AGAINST, or ABSTAIN.
+-   **support**: `number`. The direction of the vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively).
 -   **amount**: `number`. The winning bid amount, in wei.
 -   **bidder**: `string`. The winning bidder account address.
 
