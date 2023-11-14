@@ -8,11 +8,12 @@ import { _filterByBlock, _fetchAllEvents } from "../utilities/indexer";
 
 /**
  * Fetches all AdminChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchAdminChanged(query?: Indexer.NounsDAOData.AdminChangedQuery) {
-	let events = (await _fetchAllEvents("AdminChanged")) as Indexer.NounsDAOData.AdminChanged[];
+export async function fetchAdminChanged(directoryPath: string, query?: Indexer.NounsDAOData.AdminChangedQuery) {
+	let events = (await _fetchAllEvents("AdminChanged", directoryPath)) as Indexer.NounsDAOData.AdminChanged[];
 
 	if (!query) {
 		return events;
@@ -57,11 +58,12 @@ export async function fetchAdminChanged(query?: Indexer.NounsDAOData.AdminChange
 
 /**
  * Fetches all BeaconUpgraded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchBeaconUpgraded(query?: Indexer.NounsDAOData.BeaconUpgradedQuery) {
-	let events = (await _fetchAllEvents("BeaconUpgraded")) as Indexer.NounsDAOData.BeaconUpgraded[];
+export async function fetchBeaconUpgraded(directoryPath: string, query?: Indexer.NounsDAOData.BeaconUpgradedQuery) {
+	let events = (await _fetchAllEvents("BeaconUpgraded", directoryPath)) as Indexer.NounsDAOData.BeaconUpgraded[];
 
 	if (!query) {
 		return events;
@@ -86,11 +88,18 @@ export async function fetchBeaconUpgraded(query?: Indexer.NounsDAOData.BeaconUpg
 
 /**
  * Fetches all CandidateFeedbackSent events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchCandidateFeedbackSentEvents(query?: Indexer.NounsDAOData.CandidateFeedbackSentQuery) {
-	let events = (await _fetchAllEvents("CandidateFeedbackSent")) as Indexer.NounsDAOData.CandidateFeedbackSent[];
+export async function fetchCandidateFeedbackSentEvents(
+	directoryPath: string,
+	query?: Indexer.NounsDAOData.CandidateFeedbackSentQuery
+) {
+	let events = (await _fetchAllEvents(
+		"CandidateFeedbackSent",
+		directoryPath
+	)) as Indexer.NounsDAOData.CandidateFeedbackSent[];
 
 	if (!query) {
 		return events;
@@ -147,11 +156,18 @@ export async function fetchCandidateFeedbackSentEvents(query?: Indexer.NounsDAOD
 
 /**
  * Fetches all CreateCandidateCostSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchCreateCandidateCostSet(query?: Indexer.NounsDAOData.CreateCandidateCostSetQuery) {
-	let events = (await _fetchAllEvents("CreateCandidateCostSet")) as Indexer.NounsDAOData.CreateCandidateCostSet[];
+export async function fetchCreateCandidateCostSet(
+	directoryPath: string,
+	query?: Indexer.NounsDAOData.CreateCandidateCostSetQuery
+) {
+	let events = (await _fetchAllEvents(
+		"CreateCandidateCostSet",
+		directoryPath
+	)) as Indexer.NounsDAOData.CreateCandidateCostSet[];
 
 	if (!query) {
 		return events;
@@ -176,11 +192,12 @@ export async function fetchCreateCandidateCostSet(query?: Indexer.NounsDAOData.C
 
 /**
  * Fetches all ETHWithdrawn events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchETHWithdrawn(query?: Indexer.NounsDAOData.ETHWithdrawnQuery) {
-	let events = (await _fetchAllEvents("ETHWithdrawn")) as Indexer.NounsDAOData.ETHWithdrawn[];
+export async function fetchETHWithdrawn(directoryPath: string, query?: Indexer.NounsDAOData.ETHWithdrawnQuery) {
+	let events = (await _fetchAllEvents("ETHWithdrawn", directoryPath)) as Indexer.NounsDAOData.ETHWithdrawn[];
 
 	if (!query) {
 		return events;
@@ -211,11 +228,12 @@ export async function fetchETHWithdrawn(query?: Indexer.NounsDAOData.ETHWithdraw
 
 /**
  * Fetches all FeeRecipientSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchFeeRecipientSet(query?: Indexer.NounsDAOData.FeeRecipientSetQuery) {
-	let events = (await _fetchAllEvents("FeeRecipientSet")) as Indexer.NounsDAOData.FeeRecipientSet[];
+export async function fetchFeeRecipientSet(directoryPath: string, query?: Indexer.NounsDAOData.FeeRecipientSetQuery) {
+	let events = (await _fetchAllEvents("FeeRecipientSet", directoryPath)) as Indexer.NounsDAOData.FeeRecipientSet[];
 
 	if (!query) {
 		return events;
@@ -240,11 +258,12 @@ export async function fetchFeeRecipientSet(query?: Indexer.NounsDAOData.FeeRecip
 
 /**
  * Fetches all FeedbackSent events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchFeedbackSentEvents(query?: Indexer.NounsDAOData.FeedbackSentQuery) {
-	let events = (await _fetchAllEvents("FeedbackSent")) as Indexer.NounsDAOData.FeedbackSent[];
+export async function fetchFeedbackSentEvents(directoryPath: string, query?: Indexer.NounsDAOData.FeedbackSentQuery) {
+	let events = (await _fetchAllEvents("FeedbackSent", directoryPath)) as Indexer.NounsDAOData.FeedbackSent[];
 
 	if (!query) {
 		return events;
@@ -287,11 +306,12 @@ export async function fetchFeedbackSentEvents(query?: Indexer.NounsDAOData.Feedb
 
 /**
  * Fetches all OwnershipTransferred events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchOwnershipTransferred(query?: Indexer.NounsDAOData.OwnershipTransferredQuery) {
-	let events = (await _fetchAllEvents("OwnershipTransferred")) as Indexer.NounsDAOData.OwnershipTransferred[];
+export async function fetchOwnershipTransferred(directoryPath: string, query?: Indexer.NounsDAOData.OwnershipTransferredQuery) {
+	let events = (await _fetchAllEvents("OwnershipTransferred", directoryPath)) as Indexer.NounsDAOData.OwnershipTransferred[];
 
 	if (!query) {
 		return events;
@@ -336,11 +356,18 @@ export async function fetchOwnershipTransferred(query?: Indexer.NounsDAOData.Own
 
 /**
  * Fetches all ProposalCandidateCanceled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalCandidateCanceled(query?: Indexer.NounsDAOData.ProposalCandidateCanceledQuery) {
-	let events = (await _fetchAllEvents("ProposalCandidateCanceled")) as Indexer.NounsDAOData.ProposalCandidateCanceled[];
+export async function fetchProposalCandidateCanceled(
+	directoryPath: string,
+	query?: Indexer.NounsDAOData.ProposalCandidateCanceledQuery
+) {
+	let events = (await _fetchAllEvents(
+		"ProposalCandidateCanceled",
+		directoryPath
+	)) as Indexer.NounsDAOData.ProposalCandidateCanceled[];
 
 	if (!query) {
 		return events;
@@ -377,11 +404,18 @@ export async function fetchProposalCandidateCanceled(query?: Indexer.NounsDAODat
 
 /**
  * Fetches all ProposalCandidateCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalCandidateCreatedEvents(query?: Indexer.NounsDAOData.ProposalCandidateCreatedQuery) {
-	let events = (await _fetchAllEvents("ProposalCandidateCreated")) as Indexer.NounsDAOData.ProposalCandidateCreated[];
+export async function fetchProposalCandidateCreatedEvents(
+	directoryPath: string,
+	query?: Indexer.NounsDAOData.ProposalCandidateCreatedQuery
+) {
+	let events = (await _fetchAllEvents(
+		"ProposalCandidateCreated",
+		directoryPath
+	)) as Indexer.NounsDAOData.ProposalCandidateCreated[];
 
 	if (!query) {
 		return events;
@@ -418,11 +452,18 @@ export async function fetchProposalCandidateCreatedEvents(query?: Indexer.NounsD
 
 /**
  * Fetches all ProposalCandidateUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalCandidateUpdated(query?: Indexer.NounsDAOData.ProposalCandidateUpdatedQuery) {
-	let events = (await _fetchAllEvents("ProposalCandidateUpdated")) as Indexer.NounsDAOData.ProposalCandidateUpdated[];
+export async function fetchProposalCandidateUpdated(
+	directoryPath: string,
+	query?: Indexer.NounsDAOData.ProposalCandidateUpdatedQuery
+) {
+	let events = (await _fetchAllEvents(
+		"ProposalCandidateUpdated",
+		directoryPath
+	)) as Indexer.NounsDAOData.ProposalCandidateUpdated[];
 
 	if (!query) {
 		return events;
@@ -459,11 +500,12 @@ export async function fetchProposalCandidateUpdated(query?: Indexer.NounsDAOData
 
 /**
  * Fetches all SignatureAdded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchSignatureAddedEvents(query?: Indexer.NounsDAOData.SignatureAddedQuery) {
-	let events = (await _fetchAllEvents("SignatureAdded")) as Indexer.NounsDAOData.SignatureAdded[];
+export async function fetchSignatureAddedEvents(directoryPath: string, query?: Indexer.NounsDAOData.SignatureAddedQuery) {
+	let events = (await _fetchAllEvents("SignatureAdded", directoryPath)) as Indexer.NounsDAOData.SignatureAdded[];
 
 	if (!query) {
 		return events;
@@ -514,11 +556,18 @@ export async function fetchSignatureAddedEvents(query?: Indexer.NounsDAOData.Sig
 
 /**
  * Fetches all UpdateCandidateCostSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchUpdateCandidateCostSet(query?: Indexer.NounsDAOData.UpdateCandidateCostSetQuery) {
-	let events = (await _fetchAllEvents("UpdateCandidateCostSet")) as Indexer.NounsDAOData.UpdateCandidateCostSet[];
+export async function fetchUpdateCandidateCostSet(
+	directoryPath: string,
+	query?: Indexer.NounsDAOData.UpdateCandidateCostSetQuery
+) {
+	let events = (await _fetchAllEvents(
+		"UpdateCandidateCostSet",
+		directoryPath
+	)) as Indexer.NounsDAOData.UpdateCandidateCostSet[];
 
 	if (!query) {
 		return events;
@@ -543,11 +592,12 @@ export async function fetchUpdateCandidateCostSet(query?: Indexer.NounsDAOData.U
 
 /**
  * Fetches all Upgraded events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchUpgraded(query?: Indexer.NounsDAOData.UpgradedQuery) {
-	let events = (await _fetchAllEvents("Upgraded")) as Indexer.NounsDAOData.Upgraded[];
+export async function fetchUpgraded(directoryPath: string, query?: Indexer.NounsDAOData.UpgradedQuery) {
+	let events = (await _fetchAllEvents("Upgraded", directoryPath)) as Indexer.NounsDAOData.Upgraded[];
 
 	if (!query) {
 		return events;

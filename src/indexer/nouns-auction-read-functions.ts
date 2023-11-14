@@ -8,11 +8,12 @@ import { _filterByBlock, _fetchAllEvents } from "../utilities/indexer";
 
 /**
  * Fetches all AuctionCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchAuctionCreatedEvents(query?: Indexer.NounsAuctionHouse.AuctionCreatedQuery) {
-	let events = (await _fetchAllEvents("AuctionCreated")) as Indexer.NounsAuctionHouse.AuctionCreated[];
+export async function fetchAuctionCreatedEvents(directoryPath: string, query?: Indexer.NounsAuctionHouse.AuctionCreatedQuery) {
+	let events = (await _fetchAllEvents("AuctionCreated", directoryPath)) as Indexer.NounsAuctionHouse.AuctionCreated[];
 
 	if (!query) {
 		return events;
@@ -43,11 +44,12 @@ export async function fetchAuctionCreatedEvents(query?: Indexer.NounsAuctionHous
 
 /**
  * Fetches all AuctionBid events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchAuctionBidEvents(query?: Indexer.NounsAuctionHouse.AuctionBidQuery) {
-	let events = (await _fetchAllEvents("AuctionBid")) as Indexer.NounsAuctionHouse.AuctionBid[];
+export async function fetchAuctionBidEvents(directoryPath: string, query?: Indexer.NounsAuctionHouse.AuctionBidQuery) {
+	let events = (await _fetchAllEvents("AuctionBid", directoryPath)) as Indexer.NounsAuctionHouse.AuctionBid[];
 
 	if (!query) {
 		return events;
@@ -96,11 +98,12 @@ export async function fetchAuctionBidEvents(query?: Indexer.NounsAuctionHouse.Au
 
 /**
  * Fetches all AuctionExtended events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchAuctionExtended(query?: Indexer.NounsAuctionHouse.AuctionExtendedQuery) {
-	let events = (await _fetchAllEvents("AuctionExtended")) as Indexer.NounsAuctionHouse.AuctionExtended[];
+export async function fetchAuctionExtended(directoryPath: string, query?: Indexer.NounsAuctionHouse.AuctionExtendedQuery) {
+	let events = (await _fetchAllEvents("AuctionExtended", directoryPath)) as Indexer.NounsAuctionHouse.AuctionExtended[];
 
 	if (!query) {
 		return events;
@@ -131,11 +134,12 @@ export async function fetchAuctionExtended(query?: Indexer.NounsAuctionHouse.Auc
 
 /**
  * Fetches all AuctionSettled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchAuctionSettledEvents(query?: Indexer.NounsAuctionHouse.AuctionSettledQuery) {
-	let events = (await _fetchAllEvents("AuctionSettled")) as Indexer.NounsAuctionHouse.AuctionSettled[];
+export async function fetchAuctionSettledEvents(directoryPath: string, query?: Indexer.NounsAuctionHouse.AuctionSettledQuery) {
+	let events = (await _fetchAllEvents("AuctionSettled", directoryPath)) as Indexer.NounsAuctionHouse.AuctionSettled[];
 
 	if (!query) {
 		return events;
@@ -184,11 +188,18 @@ export async function fetchAuctionSettledEvents(query?: Indexer.NounsAuctionHous
 
 /**
  * Fetches all AuctionTimeBufferUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchAuctionTimeBufferUpdated(query?: Indexer.NounsAuctionHouse.AuctionTimeBufferUpdatedQuery) {
-	let events = (await _fetchAllEvents("AuctionTimeBufferUpdated")) as Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated[];
+export async function fetchAuctionTimeBufferUpdated(
+	directoryPath: string,
+	query?: Indexer.NounsAuctionHouse.AuctionTimeBufferUpdatedQuery
+) {
+	let events = (await _fetchAllEvents(
+		"AuctionTimeBufferUpdated",
+		directoryPath
+	)) as Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated[];
 
 	if (!query) {
 		return events;
@@ -217,12 +228,17 @@ export async function fetchAuctionTimeBufferUpdated(query?: Indexer.NounsAuction
 
 /**
  * Fetches all AuctionReservePriceUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchAuctionReservePriceUpdated(query?: Indexer.NounsAuctionHouse.AuctionReservePriceUpdatedQuery) {
+export async function fetchAuctionReservePriceUpdated(
+	directoryPath: string,
+	query?: Indexer.NounsAuctionHouse.AuctionReservePriceUpdatedQuery
+) {
 	let events = (await _fetchAllEvents(
-		"AuctionReservePriceUpdated"
+		"AuctionReservePriceUpdated",
+		directoryPath
 	)) as Indexer.NounsAuctionHouse.AuctionReservePriceUpdated[];
 
 	if (!query) {
@@ -252,14 +268,17 @@ export async function fetchAuctionReservePriceUpdated(query?: Indexer.NounsAucti
 
 /**
  * Fetches all AuctionMinBidIncrementPercentageUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
 export async function fetchAuctionMinBidIncrementPercentageUpdated(
+	directoryPath: string,
 	query?: Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdatedQuery
 ) {
 	let events = (await _fetchAllEvents(
-		"AuctionMinBidIncrementPercentageUpdated"
+		"AuctionMinBidIncrementPercentageUpdated",
+		directoryPath
 	)) as Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdated[];
 
 	if (!query) {
@@ -289,11 +308,18 @@ export async function fetchAuctionMinBidIncrementPercentageUpdated(
 
 /**
  * Fetches all OwnershipTransferred events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchOwnershipTransferred(query?: Indexer.NounsAuctionHouse.OwnershipTransferredQuery) {
-	let events = (await _fetchAllEvents("OwnershipTransferred")) as Indexer.NounsAuctionHouse.OwnershipTransferred[];
+export async function fetchOwnershipTransferred(
+	directoryPath: string,
+	query?: Indexer.NounsAuctionHouse.OwnershipTransferredQuery
+) {
+	let events = (await _fetchAllEvents(
+		"OwnershipTransferred",
+		directoryPath
+	)) as Indexer.NounsAuctionHouse.OwnershipTransferred[];
 
 	if (!query) {
 		return events;
@@ -338,11 +364,12 @@ export async function fetchOwnershipTransferred(query?: Indexer.NounsAuctionHous
 
 /**
  * Fetches all Paused events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchPaused(query?: Indexer.NounsAuctionHouse.PausedQuery) {
-	let events = (await _fetchAllEvents("Paused")) as Indexer.NounsAuctionHouse.Paused[];
+export async function fetchPaused(directoryPath: string, query?: Indexer.NounsAuctionHouse.PausedQuery) {
+	let events = (await _fetchAllEvents("Paused", directoryPath)) as Indexer.NounsAuctionHouse.Paused[];
 
 	if (!query) {
 		return events;
@@ -367,11 +394,12 @@ export async function fetchPaused(query?: Indexer.NounsAuctionHouse.PausedQuery)
 
 /**
  * Fetches all Unpaused events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchUnpaused(query?: Indexer.NounsAuctionHouse.UnpausedQuery) {
-	let events = (await _fetchAllEvents("Unpaused")) as Indexer.NounsAuctionHouse.Unpaused[];
+export async function fetchUnpaused(directoryPath: string, query?: Indexer.NounsAuctionHouse.UnpausedQuery) {
+	let events = (await _fetchAllEvents("Unpaused", directoryPath)) as Indexer.NounsAuctionHouse.Unpaused[];
 
 	if (!query) {
 		return events;

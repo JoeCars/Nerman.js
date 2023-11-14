@@ -8,11 +8,12 @@ import { _filterByBlock, _fetchAllEvents } from "../utilities/indexer";
 
 /**
  * Fetches all DelegateChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchDelegateChangedEvents(query?: Indexer.NounsToken.DelegateChangedQuery) {
-	let events = (await _fetchAllEvents("DelegateChanged")) as Indexer.NounsToken.DelegateChanged[];
+export async function fetchDelegateChangedEvents(directoryPath: string, query?: Indexer.NounsToken.DelegateChangedQuery) {
+	let events = (await _fetchAllEvents("DelegateChanged", directoryPath)) as Indexer.NounsToken.DelegateChanged[];
 
 	if (!query) {
 		return events;
@@ -64,11 +65,15 @@ export async function fetchDelegateChangedEvents(query?: Indexer.NounsToken.Dele
 
 /**
  * Fetches all DelegateVotesChanged events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchDelegateVotesChangedEvents(query?: Indexer.NounsToken.DelegateVotesChangedQuery) {
-	let events = (await _fetchAllEvents("DelegateVotesChanged")) as Indexer.NounsToken.DelegateVotesChanged[];
+export async function fetchDelegateVotesChangedEvents(
+	directoryPath: string,
+	query?: Indexer.NounsToken.DelegateVotesChangedQuery
+) {
+	let events = (await _fetchAllEvents("DelegateVotesChanged", directoryPath)) as Indexer.NounsToken.DelegateVotesChanged[];
 
 	if (!query) {
 		return events;
@@ -99,11 +104,12 @@ export async function fetchDelegateVotesChangedEvents(query?: Indexer.NounsToken
 
 /**
  * Fetches all Transfer events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchTransferEvents(query?: Indexer.NounsToken.TransferQuery) {
-	let events = (await _fetchAllEvents("Transfer")) as Indexer.NounsToken.Transfer[];
+export async function fetchTransferEvents(directoryPath: string, query?: Indexer.NounsToken.TransferQuery) {
+	let events = (await _fetchAllEvents("Transfer", directoryPath)) as Indexer.NounsToken.Transfer[];
 
 	if (!query) {
 		return events;
@@ -154,11 +160,12 @@ export async function fetchTransferEvents(query?: Indexer.NounsToken.TransferQue
 
 /**
  * Fetches all Approval events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchApproval(query?: Indexer.NounsToken.ApprovalQuery) {
-	let events = (await _fetchAllEvents("Approval")) as Indexer.NounsToken.Approval[];
+export async function fetchApproval(directoryPath: string, query?: Indexer.NounsToken.ApprovalQuery) {
+	let events = (await _fetchAllEvents("Approval", directoryPath)) as Indexer.NounsToken.Approval[];
 
 	if (!query) {
 		return events;
@@ -195,11 +202,12 @@ export async function fetchApproval(query?: Indexer.NounsToken.ApprovalQuery) {
 
 /**
  * Fetches all ApprovalForAll events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchApprovalForAll(query?: Indexer.NounsToken.ApprovalForAllQuery) {
-	let events = (await _fetchAllEvents("ApprovalForAll")) as Indexer.NounsToken.ApprovalForAll[];
+export async function fetchApprovalForAll(directoryPath: string, query?: Indexer.NounsToken.ApprovalForAllQuery) {
+	let events = (await _fetchAllEvents("ApprovalForAll", directoryPath)) as Indexer.NounsToken.ApprovalForAll[];
 
 	if (!query) {
 		return events;
@@ -230,11 +238,12 @@ export async function fetchApprovalForAll(query?: Indexer.NounsToken.ApprovalFor
 
 /**
  * Fetches all NounCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchNounCreatedEvents(query?: Indexer.NounsToken.NounCreatedQuery) {
-	let events = (await _fetchAllEvents("NounCreated")) as Indexer.NounsToken.NounCreated[];
+export async function fetchNounCreatedEvents(directoryPath: string, query?: Indexer.NounsToken.NounCreatedQuery) {
+	let events = (await _fetchAllEvents("NounCreated", directoryPath)) as Indexer.NounsToken.NounCreated[];
 
 	if (!query) {
 		return events;
@@ -295,11 +304,12 @@ export async function fetchNounCreatedEvents(query?: Indexer.NounsToken.NounCrea
 
 /**
  * Fetches all DescriptorLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchDescriptorLocked(query?: Indexer.NounsToken.DescriptorLockedQuery) {
-	let events = (await _fetchAllEvents("DescriptorLocked")) as Indexer.NounsToken.DescriptorLocked[];
+export async function fetchDescriptorLocked(directoryPath: string, query?: Indexer.NounsToken.DescriptorLockedQuery) {
+	let events = (await _fetchAllEvents("DescriptorLocked", directoryPath)) as Indexer.NounsToken.DescriptorLocked[];
 
 	if (!query) {
 		return events;
@@ -324,11 +334,12 @@ export async function fetchDescriptorLocked(query?: Indexer.NounsToken.Descripto
 
 /**
  * Fetches all DescriptorUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchDescriptorUpdated(query?: Indexer.NounsToken.DescriptorUpdatedQuery) {
-	let events = (await _fetchAllEvents("DescriptorUpdated")) as Indexer.NounsToken.DescriptorUpdated[];
+export async function fetchDescriptorUpdated(directoryPath: string, query?: Indexer.NounsToken.DescriptorUpdatedQuery) {
+	let events = (await _fetchAllEvents("DescriptorUpdated", directoryPath)) as Indexer.NounsToken.DescriptorUpdated[];
 
 	if (!query) {
 		return events;
@@ -353,11 +364,12 @@ export async function fetchDescriptorUpdated(query?: Indexer.NounsToken.Descript
 
 /**
  * Fetches all MinterLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchMinterLocked(query?: Indexer.NounsToken.MinterLockedQuery) {
-	let events = (await _fetchAllEvents("MinterLocked")) as Indexer.NounsToken.MinterLocked[];
+export async function fetchMinterLocked(directoryPath: string, query?: Indexer.NounsToken.MinterLockedQuery) {
+	let events = (await _fetchAllEvents("MinterLocked", directoryPath)) as Indexer.NounsToken.MinterLocked[];
 
 	if (!query) {
 		return events;
@@ -382,11 +394,12 @@ export async function fetchMinterLocked(query?: Indexer.NounsToken.MinterLockedQ
 
 /**
  * Fetches all MinterUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchMinterUpdated(query?: Indexer.NounsToken.MinterUpdatedQuery) {
-	let events = (await _fetchAllEvents("MinterUpdated")) as Indexer.NounsToken.MinterUpdated[];
+export async function fetchMinterUpdated(directoryPath: string, query?: Indexer.NounsToken.MinterUpdatedQuery) {
+	let events = (await _fetchAllEvents("MinterUpdated", directoryPath)) as Indexer.NounsToken.MinterUpdated[];
 
 	if (!query) {
 		return events;
@@ -411,11 +424,12 @@ export async function fetchMinterUpdated(query?: Indexer.NounsToken.MinterUpdate
 
 /**
  * Fetches all NounBurned events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchNounBurned(query?: Indexer.NounsToken.NounBurnedQuery) {
-	let events = (await _fetchAllEvents("NounBurned")) as Indexer.NounsToken.NounBurned[];
+export async function fetchNounBurned(directoryPath: string, query?: Indexer.NounsToken.NounBurnedQuery) {
+	let events = (await _fetchAllEvents("NounBurned", directoryPath)) as Indexer.NounsToken.NounBurned[];
 
 	if (!query) {
 		return events;
@@ -446,11 +460,12 @@ export async function fetchNounBurned(query?: Indexer.NounsToken.NounBurnedQuery
 
 /**
  * Fetches all NoundersDAOUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchNoundersDAOUpdated(query?: Indexer.NounsToken.NoundersDAOUpdatedQuery) {
-	let events = (await _fetchAllEvents("NoundersDAOUpdated")) as Indexer.NounsToken.NoundersDAOUpdated[];
+export async function fetchNoundersDAOUpdated(directoryPath: string, query?: Indexer.NounsToken.NoundersDAOUpdatedQuery) {
+	let events = (await _fetchAllEvents("NoundersDAOUpdated", directoryPath)) as Indexer.NounsToken.NoundersDAOUpdated[];
 
 	if (!query) {
 		return events;
@@ -475,11 +490,12 @@ export async function fetchNoundersDAOUpdated(query?: Indexer.NounsToken.Nounder
 
 /**
  * Fetches all OwnershipTransferred events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchOwnershipTransferred(query?: Indexer.NounsToken.OwnershipTransferredQuery) {
-	let events = (await _fetchAllEvents("OwnershipTransferred")) as Indexer.NounsToken.OwnershipTransferred[];
+export async function fetchOwnershipTransferred(directoryPath: string, query?: Indexer.NounsToken.OwnershipTransferredQuery) {
+	let events = (await _fetchAllEvents("OwnershipTransferred", directoryPath)) as Indexer.NounsToken.OwnershipTransferred[];
 
 	if (!query) {
 		return events;
@@ -524,11 +540,12 @@ export async function fetchOwnershipTransferred(query?: Indexer.NounsToken.Owner
 
 /**
  * Fetches all SeederLocked events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchSeederLocked(query?: Indexer.NounsToken.SeederLockedQuery) {
-	let events = (await _fetchAllEvents("SeederLocked")) as Indexer.NounsToken.SeederLocked[];
+export async function fetchSeederLocked(directoryPath: string, query?: Indexer.NounsToken.SeederLockedQuery) {
+	let events = (await _fetchAllEvents("SeederLocked", directoryPath)) as Indexer.NounsToken.SeederLocked[];
 
 	if (!query) {
 		return events;
@@ -553,11 +570,12 @@ export async function fetchSeederLocked(query?: Indexer.NounsToken.SeederLockedQ
 
 /**
  * Fetches all SeederUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchSeederUpdated(query?: Indexer.NounsToken.SeederUpdatedQuery) {
-	let events = (await _fetchAllEvents("SeederUpdated")) as Indexer.NounsToken.SeederUpdated[];
+export async function fetchSeederUpdated(directoryPath: string, query?: Indexer.NounsToken.SeederUpdatedQuery) {
+	let events = (await _fetchAllEvents("SeederUpdated", directoryPath)) as Indexer.NounsToken.SeederUpdated[];
 
 	if (!query) {
 		return events;

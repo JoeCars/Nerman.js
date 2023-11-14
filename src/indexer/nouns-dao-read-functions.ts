@@ -8,11 +8,18 @@ import { _filterByBlock, _fetchAllEvents } from "../utilities/indexer";
 
 /**
  * Fetches all DAOWithdrawNounsFromEscrow events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchDAOWithdrawNounsFromEscrow(query?: Indexer.NounsDAO.DAOWithdrawNounsFromEscrowQuery) {
-	let events = (await _fetchAllEvents("DAOWithdrawNounsFromEscrow")) as Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[];
+export async function fetchDAOWithdrawNounsFromEscrow(
+	directoryPath: string,
+	query?: Indexer.NounsDAO.DAOWithdrawNounsFromEscrowQuery
+) {
+	let events = (await _fetchAllEvents(
+		"DAOWithdrawNounsFromEscrow",
+		directoryPath
+	)) as Indexer.NounsDAO.DAOWithdrawNounsFromEscrow[];
 
 	if (!query) {
 		return events;
@@ -49,11 +56,18 @@ export async function fetchDAOWithdrawNounsFromEscrow(query?: Indexer.NounsDAO.D
 
 /**
  * Fetches all ERC20TokensToIncludeInForkSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchERC20TokensToIncludeInForkSet(query?: Indexer.NounsDAO.ERC20TokensToIncludeInForkSetQuery) {
-	let events = (await _fetchAllEvents("ERC20TokensToIncludeInForkSet")) as Indexer.NounsDAO.ERC20TokensToIncludeInForkSet[];
+export async function fetchERC20TokensToIncludeInForkSet(
+	directoryPath: string,
+	query?: Indexer.NounsDAO.ERC20TokensToIncludeInForkSetQuery
+) {
+	let events = (await _fetchAllEvents(
+		"ERC20TokensToIncludeInForkSet",
+		directoryPath
+	)) as Indexer.NounsDAO.ERC20TokensToIncludeInForkSet[];
 
 	if (!query) {
 		return events;
@@ -78,11 +92,12 @@ export async function fetchERC20TokensToIncludeInForkSet(query?: Indexer.NounsDA
 
 /**
  * Fetches all EscrowedToFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchEscrowedToFork(query?: Indexer.NounsDAO.EscrowedToForkQuery) {
-	let events = (await _fetchAllEvents("EscrowedToFork")) as Indexer.NounsDAO.EscrowedToFork[];
+export async function fetchEscrowedToFork(directoryPath: string, query?: Indexer.NounsDAO.EscrowedToForkQuery) {
+	let events = (await _fetchAllEvents("EscrowedToFork", directoryPath)) as Indexer.NounsDAO.EscrowedToFork[];
 
 	if (!query) {
 		return events;
@@ -131,11 +146,12 @@ export async function fetchEscrowedToFork(query?: Indexer.NounsDAO.EscrowedToFor
 
 /**
  * Fetches all ExecuteFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchExecutedFork(query?: Indexer.NounsDAO.ExecuteForkQuery) {
-	let events = (await _fetchAllEvents("ExecuteFork")) as Indexer.NounsDAO.ExecuteFork[];
+export async function fetchExecutedFork(directoryPath: string, query?: Indexer.NounsDAO.ExecuteForkQuery) {
+	let events = (await _fetchAllEvents("ExecuteFork", directoryPath)) as Indexer.NounsDAO.ExecuteFork[];
 
 	if (!query) {
 		return events;
@@ -187,11 +203,12 @@ function _filterExecutedForkById(forks: Indexer.NounsDAO.ExecuteFork[], startId:
 
 /**
  * Fetches all ForkDAODeployerSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchForkDAODeployerSet(query?: Indexer.NounsDAO.ForkDAODeployerSetQuery) {
-	let events = (await _fetchAllEvents("ForkDAODeployerSet")) as Indexer.NounsDAO.ForkDAODeployerSet[];
+export async function fetchForkDAODeployerSet(directoryPath: string, query?: Indexer.NounsDAO.ForkDAODeployerSetQuery) {
+	let events = (await _fetchAllEvents("ForkDAODeployerSet", directoryPath)) as Indexer.NounsDAO.ForkDAODeployerSet[];
 
 	if (!query) {
 		return events;
@@ -216,11 +233,12 @@ export async function fetchForkDAODeployerSet(query?: Indexer.NounsDAO.ForkDAODe
 
 /**
  * Fetches all ForkPeriodSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchForkPeriodSet(query?: Indexer.NounsDAO.ForkPeriodSetQuery) {
-	let events = (await _fetchAllEvents("ForkPeriodSet")) as Indexer.NounsDAO.ForkPeriodSet[];
+export async function fetchForkPeriodSet(directoryPath: string, query?: Indexer.NounsDAO.ForkPeriodSetQuery) {
+	let events = (await _fetchAllEvents("ForkPeriodSet", directoryPath)) as Indexer.NounsDAO.ForkPeriodSet[];
 
 	if (!query) {
 		return events;
@@ -245,11 +263,12 @@ export async function fetchForkPeriodSet(query?: Indexer.NounsDAO.ForkPeriodSetQ
 
 /**
  * Fetches all ForkThresholdSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchForkThresholdSet(query?: Indexer.NounsDAO.ForkThresholdSetQuery) {
-	let events = (await _fetchAllEvents("ForkThresholdSet")) as Indexer.NounsDAO.ForkThresholdSet[];
+export async function fetchForkThresholdSet(directoryPath: string, query?: Indexer.NounsDAO.ForkThresholdSetQuery) {
+	let events = (await _fetchAllEvents("ForkThresholdSet", directoryPath)) as Indexer.NounsDAO.ForkThresholdSet[];
 
 	if (!query) {
 		return events;
@@ -274,11 +293,12 @@ export async function fetchForkThresholdSet(query?: Indexer.NounsDAO.ForkThresho
 
 /**
  * Fetches all JoinFork events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchJoinFork(query?: Indexer.NounsDAO.JoinForkQuery) {
-	let events = (await _fetchAllEvents("JoinFork")) as Indexer.NounsDAO.JoinFork[];
+export async function fetchJoinFork(directoryPath: string, query?: Indexer.NounsDAO.JoinForkQuery) {
+	let events = (await _fetchAllEvents("JoinFork", directoryPath)) as Indexer.NounsDAO.JoinFork[];
 
 	if (!query) {
 		return events;
@@ -327,11 +347,12 @@ export async function fetchJoinFork(query?: Indexer.NounsDAO.JoinForkQuery) {
 
 /**
  * Fetches all LastMinuteWindowSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchLastMinuteWindowSet(query?: Indexer.NounsDAO.LastMinuteWindowSetQuery) {
-	let events = (await _fetchAllEvents("LastMinuteWindowSet")) as Indexer.NounsDAO.LastMinuteWindowSet[];
+export async function fetchLastMinuteWindowSet(directoryPath: string, query?: Indexer.NounsDAO.LastMinuteWindowSetQuery) {
+	let events = (await _fetchAllEvents("LastMinuteWindowSet", directoryPath)) as Indexer.NounsDAO.LastMinuteWindowSet[];
 
 	if (!query) {
 		return events;
@@ -356,11 +377,12 @@ export async function fetchLastMinuteWindowSet(query?: Indexer.NounsDAO.LastMinu
 
 /**
  * Fetches all MaxQuorumVotesBPSSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchMaxQuorumVotesBPSSet(query?: Indexer.NounsDAO.MaxQuorumVotesBPSSetQuery) {
-	let events = (await _fetchAllEvents("MaxQuorumVotesBPSSet")) as Indexer.NounsDAO.MaxQuorumVotesBPSSet[];
+export async function fetchMaxQuorumVotesBPSSet(directoryPath: string, query?: Indexer.NounsDAO.MaxQuorumVotesBPSSetQuery) {
+	let events = (await _fetchAllEvents("MaxQuorumVotesBPSSet", directoryPath)) as Indexer.NounsDAO.MaxQuorumVotesBPSSet[];
 
 	if (!query) {
 		return events;
@@ -385,11 +407,12 @@ export async function fetchMaxQuorumVotesBPSSet(query?: Indexer.NounsDAO.MaxQuor
 
 /**
  * Fetches all MinQuorumVotesBPSSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchMinQuorumVotesBPSSet(query?: Indexer.NounsDAO.MinQuorumVotesBPSSetQuery) {
-	let events = (await _fetchAllEvents("MinQuorumVotesBPSSet")) as Indexer.NounsDAO.MinQuorumVotesBPSSet[];
+export async function fetchMinQuorumVotesBPSSet(directoryPath: string, query?: Indexer.NounsDAO.MinQuorumVotesBPSSetQuery) {
+	let events = (await _fetchAllEvents("MinQuorumVotesBPSSet", directoryPath)) as Indexer.NounsDAO.MinQuorumVotesBPSSet[];
 
 	if (!query) {
 		return events;
@@ -414,11 +437,12 @@ export async function fetchMinQuorumVotesBPSSet(query?: Indexer.NounsDAO.MinQuor
 
 /**
  * Fetches all NewAdmin events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchNewAdmin(query?: Indexer.NounsDAO.NewAdminQuery) {
-	let events = (await _fetchAllEvents("NewAdmin")) as Indexer.NounsDAO.NewAdmin[];
+export async function fetchNewAdmin(directoryPath: string, query?: Indexer.NounsDAO.NewAdminQuery) {
+	let events = (await _fetchAllEvents("NewAdmin", directoryPath)) as Indexer.NounsDAO.NewAdmin[];
 
 	if (!query) {
 		return events;
@@ -443,11 +467,12 @@ export async function fetchNewAdmin(query?: Indexer.NounsDAO.NewAdminQuery) {
 
 /**
  * Fetches all NewImplementation events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchNewImplementation(query?: Indexer.NounsDAO.NewImplementationQuery) {
-	let events = (await _fetchAllEvents("NewImplementation")) as Indexer.NounsDAO.NewImplementation[];
+export async function fetchNewImplementation(directoryPath: string, query?: Indexer.NounsDAO.NewImplementationQuery) {
+	let events = (await _fetchAllEvents("NewImplementation", directoryPath)) as Indexer.NounsDAO.NewImplementation[];
 
 	if (!query) {
 		return events;
@@ -472,11 +497,12 @@ export async function fetchNewImplementation(query?: Indexer.NounsDAO.NewImpleme
 
 /**
  * Fetches all NewPendingAdmin events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchNewPendingAdmin(query?: Indexer.NounsDAO.NewPendingAdminQuery) {
-	let events = (await _fetchAllEvents("NewPendingAdmin")) as Indexer.NounsDAO.NewPendingAdmin[];
+export async function fetchNewPendingAdmin(directoryPath: string, query?: Indexer.NounsDAO.NewPendingAdminQuery) {
+	let events = (await _fetchAllEvents("NewPendingAdmin", directoryPath)) as Indexer.NounsDAO.NewPendingAdmin[];
 
 	if (!query) {
 		return events;
@@ -501,11 +527,12 @@ export async function fetchNewPendingAdmin(query?: Indexer.NounsDAO.NewPendingAd
 
 /**
  * Fetches all NewPendingVetoer events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchNewPendingVetoer(query?: Indexer.NounsDAO.NewPendingVetoerQuery) {
-	let events = (await _fetchAllEvents("NewPendingVetoer")) as Indexer.NounsDAO.NewPendingVetoer[];
+export async function fetchNewPendingVetoer(directoryPath: string, query?: Indexer.NounsDAO.NewPendingVetoerQuery) {
+	let events = (await _fetchAllEvents("NewPendingVetoer", directoryPath)) as Indexer.NounsDAO.NewPendingVetoer[];
 
 	if (!query) {
 		return events;
@@ -530,11 +557,12 @@ export async function fetchNewPendingVetoer(query?: Indexer.NounsDAO.NewPendingV
 
 /**
  * Fetches all NewVetoer events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchNewVetoer(query?: Indexer.NounsDAO.NewVetoerQuery) {
-	let events = (await _fetchAllEvents("NewVetoer")) as Indexer.NounsDAO.NewVetoer[];
+export async function fetchNewVetoer(directoryPath: string, query?: Indexer.NounsDAO.NewVetoerQuery) {
+	let events = (await _fetchAllEvents("NewVetoer", directoryPath)) as Indexer.NounsDAO.NewVetoer[];
 
 	if (!query) {
 		return events;
@@ -559,11 +587,18 @@ export async function fetchNewVetoer(query?: Indexer.NounsDAO.NewVetoerQuery) {
 
 /**
  * Fetches all ObjectionPeriodDurationSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchObjectionPeriodDurationSet(query?: Indexer.NounsDAO.ObjectionPeriodDurationSetQuery) {
-	let events = (await _fetchAllEvents("ObjectionPeriodDurationSet")) as Indexer.NounsDAO.ObjectionPeriodDurationSet[];
+export async function fetchObjectionPeriodDurationSet(
+	directoryPath: string,
+	query?: Indexer.NounsDAO.ObjectionPeriodDurationSetQuery
+) {
+	let events = (await _fetchAllEvents(
+		"ObjectionPeriodDurationSet",
+		directoryPath
+	)) as Indexer.NounsDAO.ObjectionPeriodDurationSet[];
 
 	if (!query) {
 		return events;
@@ -588,11 +623,12 @@ export async function fetchObjectionPeriodDurationSet(query?: Indexer.NounsDAO.O
 
 /**
  * Fetches all ProposalCanceled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalCanceled(query?: Indexer.NounsDAO.ProposalCanceledQuery) {
-	let events = (await _fetchAllEvents("ProposalCanceled")) as Indexer.NounsDAO.ProposalCanceled[];
+export async function fetchProposalCanceled(directoryPath: string, query?: Indexer.NounsDAO.ProposalCanceledQuery) {
+	let events = (await _fetchAllEvents("ProposalCanceled", directoryPath)) as Indexer.NounsDAO.ProposalCanceled[];
 
 	if (!query) {
 		return events;
@@ -623,11 +659,12 @@ export async function fetchProposalCanceled(query?: Indexer.NounsDAO.ProposalCan
 
 /**
  * Fetches all ProposalCreated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposals(query?: Indexer.NounsDAO.ProposalQuery) {
-	let events = (await _fetchAllEvents("ProposalCreated")) as Indexer.NounsDAO.ProposalCreated[];
+export async function fetchProposals(directoryPath: string, query?: Indexer.NounsDAO.ProposalQuery) {
+	let events = (await _fetchAllEvents("ProposalCreated", directoryPath)) as Indexer.NounsDAO.ProposalCreated[];
 
 	if (!query) {
 		return events;
@@ -662,7 +699,7 @@ export async function fetchProposals(query?: Indexer.NounsDAO.ProposalQuery) {
 	}
 
 	if (query.status) {
-		events = await _filterProposalsByStatus(events, query.status);
+		events = await _filterProposalsByStatus(events, query.status, directoryPath);
 	}
 
 	return events;
@@ -701,8 +738,8 @@ function _filterProposalByProposer(proposals: Indexer.NounsDAO.ProposalCreated[]
 	return filteredProposals;
 }
 
-async function _filterProposalsByStatus(proposals: Indexer.NounsDAO.ProposalCreated[], status: string) {
-	let statuses = await _fetchAllStatusChange();
+async function _filterProposalsByStatus(proposals: Indexer.NounsDAO.ProposalCreated[], status: string, directoryPath: string) {
+	let statuses = await _fetchAllStatusChange(directoryPath);
 	let newestProposalStatuses = new Map<number, { blockNumber: number; status: string }>();
 	for (let status of statuses) {
 		let storedStatus = newestProposalStatuses.get(status.proposalId);
@@ -719,11 +756,16 @@ async function _filterProposalsByStatus(proposals: Indexer.NounsDAO.ProposalCrea
 	return filteredProposals;
 }
 
-async function _fetchAllStatusChange() {
-	let proposals = (await _fetchAllEvents("ProposalCanceled")) as Indexer.NounsDAO.ProposalCanceled[];
-	proposals = proposals.concat((await _fetchAllEvents("ProposalExecuted")) as Indexer.NounsDAO.ProposalExecuted[]);
-	proposals = proposals.concat((await _fetchAllEvents("ProposalQueued")) as Indexer.NounsDAO.ProposalQueued[]);
-	proposals = proposals.concat((await _fetchAllEvents("ProposalVetoed")) as Indexer.NounsDAO.ProposalVetoed[]);
+/**
+ * @param directoryPath Path to the indexer directory.
+ */
+async function _fetchAllStatusChange(directoryPath: string) {
+	let proposals = (await _fetchAllEvents("ProposalCanceled", directoryPath)) as Indexer.NounsDAO.ProposalCanceled[];
+	proposals = proposals.concat(
+		(await _fetchAllEvents("ProposalExecuted", directoryPath)) as Indexer.NounsDAO.ProposalExecuted[]
+	);
+	proposals = proposals.concat((await _fetchAllEvents("ProposalQueued", directoryPath)) as Indexer.NounsDAO.ProposalQueued[]);
+	proposals = proposals.concat((await _fetchAllEvents("ProposalVetoed", directoryPath)) as Indexer.NounsDAO.ProposalVetoed[]);
 	proposals.sort((a, b) => {
 		return a.blockNumber - b.blockNumber;
 	});
@@ -736,11 +778,18 @@ async function _fetchAllStatusChange() {
 
 /**
  * Fetches all ProposalCreatedOnTimelockV1 events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalCreatedOnTimelockV1(query?: Indexer.NounsDAO.ProposalCreatedOnTimelockV1Query) {
-	let events = (await _fetchAllEvents("ProposalCreatedOnTimelockV1")) as Indexer.NounsDAO.ProposalCreatedOnTimelockV1[];
+export async function fetchProposalCreatedOnTimelockV1(
+	directoryPath: string,
+	query?: Indexer.NounsDAO.ProposalCreatedOnTimelockV1Query
+) {
+	let events = (await _fetchAllEvents(
+		"ProposalCreatedOnTimelockV1",
+		directoryPath
+	)) as Indexer.NounsDAO.ProposalCreatedOnTimelockV1[];
 
 	if (!query) {
 		return events;
@@ -765,16 +814,22 @@ export async function fetchProposalCreatedOnTimelockV1(query?: Indexer.NounsDAO.
 
 /**
  * Fetches all ProposalCreatedWithRequirements events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalCreatedWithRequirements(query?: Indexer.NounsDAO.ProposalCreatedWithRequirementsQuery) {
+export async function fetchProposalCreatedWithRequirements(
+	directoryPath: string,
+	query?: Indexer.NounsDAO.ProposalCreatedWithRequirementsQuery
+) {
 	let events = (await _fetchAllEvents(
-		"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)"
+		"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
+		directoryPath
 	)) as Indexer.NounsDAO.ProposalCreatedWithRequirements[];
 	events = events.concat(
 		(await _fetchAllEvents(
-			"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)"
+			"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
+			directoryPath
 		)) as Indexer.NounsDAO.ProposalCreatedWithRequirements[]
 	);
 
@@ -813,7 +868,11 @@ export async function fetchProposalCreatedWithRequirements(query?: Indexer.Nouns
 	}
 
 	if (query.status) {
-		events = (await _filterProposalsByStatus(events, query.status)) as Indexer.NounsDAO.ProposalCreatedWithRequirements[];
+		events = (await _filterProposalsByStatus(
+			events,
+			query.status,
+			directoryPath
+		)) as Indexer.NounsDAO.ProposalCreatedWithRequirements[];
 	}
 
 	return events;
@@ -825,11 +884,18 @@ export async function fetchProposalCreatedWithRequirements(query?: Indexer.Nouns
 
 /**
  * Fetches all ProposalDescriptionUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalDescriptionUpdated(query?: Indexer.NounsDAO.ProposalDescriptionUpdatedQuery) {
-	let events = (await _fetchAllEvents("ProposalDescriptionUpdated")) as Indexer.NounsDAO.ProposalDescriptionUpdated[];
+export async function fetchProposalDescriptionUpdated(
+	directoryPath: string,
+	query?: Indexer.NounsDAO.ProposalDescriptionUpdatedQuery
+) {
+	let events = (await _fetchAllEvents(
+		"ProposalDescriptionUpdated",
+		directoryPath
+	)) as Indexer.NounsDAO.ProposalDescriptionUpdated[];
 
 	if (!query) {
 		return events;
@@ -860,11 +926,12 @@ export async function fetchProposalDescriptionUpdated(query?: Indexer.NounsDAO.P
 
 /**
  * Fetches all ProposalExecuted events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalExecuted(query?: Indexer.NounsDAO.ProposalExecutedQuery) {
-	let events = (await _fetchAllEvents("ProposalExecuted")) as Indexer.NounsDAO.ProposalExecuted[];
+export async function fetchProposalExecuted(directoryPath: string, query?: Indexer.NounsDAO.ProposalExecutedQuery) {
+	let events = (await _fetchAllEvents("ProposalExecuted", directoryPath)) as Indexer.NounsDAO.ProposalExecuted[];
 
 	if (!query) {
 		return events;
@@ -895,11 +962,18 @@ export async function fetchProposalExecuted(query?: Indexer.NounsDAO.ProposalExe
 
 /**
  * Fetches all ProposalObjectionPeriodSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalObjectionPeriodSet(query?: Indexer.NounsDAO.ProposalObjectionPeriodSetQuery) {
-	let events = (await _fetchAllEvents("ProposalObjectionPeriodSet")) as Indexer.NounsDAO.ProposalObjectionPeriodSet[];
+export async function fetchProposalObjectionPeriodSet(
+	directoryPath: string,
+	query?: Indexer.NounsDAO.ProposalObjectionPeriodSetQuery
+) {
+	let events = (await _fetchAllEvents(
+		"ProposalObjectionPeriodSet",
+		directoryPath
+	)) as Indexer.NounsDAO.ProposalObjectionPeriodSet[];
 
 	if (!query) {
 		return events;
@@ -930,11 +1004,12 @@ export async function fetchProposalObjectionPeriodSet(query?: Indexer.NounsDAO.P
 
 /**
  * Fetches all ProposalQueued events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalQueued(query?: Indexer.NounsDAO.ProposalQueuedQuery) {
-	let events = (await _fetchAllEvents("ProposalQueued")) as Indexer.NounsDAO.ProposalQueued[];
+export async function fetchProposalQueued(directoryPath: string, query?: Indexer.NounsDAO.ProposalQueuedQuery) {
+	let events = (await _fetchAllEvents("ProposalQueued", directoryPath)) as Indexer.NounsDAO.ProposalQueued[];
 
 	if (!query) {
 		return events;
@@ -965,11 +1040,18 @@ export async function fetchProposalQueued(query?: Indexer.NounsDAO.ProposalQueue
 
 /**
  * Fetches all ProposalThresholdBPSSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalThresholdBPSSet(query?: Indexer.NounsDAO.ProposalThresholdBPSSetQuery) {
-	let events = (await _fetchAllEvents("ProposalThresholdBPSSet")) as Indexer.NounsDAO.ProposalThresholdBPSSet[];
+export async function fetchProposalThresholdBPSSet(
+	directoryPath: string,
+	query?: Indexer.NounsDAO.ProposalThresholdBPSSetQuery
+) {
+	let events = (await _fetchAllEvents(
+		"ProposalThresholdBPSSet",
+		directoryPath
+	)) as Indexer.NounsDAO.ProposalThresholdBPSSet[];
 
 	if (!query) {
 		return events;
@@ -994,11 +1076,18 @@ export async function fetchProposalThresholdBPSSet(query?: Indexer.NounsDAO.Prop
 
 /**
  * Fetches all ProposalTransactionsUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalTransactionsUpdated(query?: Indexer.NounsDAO.ProposalTransactionsUpdatedQuery) {
-	let events = (await _fetchAllEvents("ProposalTransactionsUpdated")) as Indexer.NounsDAO.ProposalTransactionsUpdated[];
+export async function fetchProposalTransactionsUpdated(
+	directoryPath: string,
+	query?: Indexer.NounsDAO.ProposalTransactionsUpdatedQuery
+) {
+	let events = (await _fetchAllEvents(
+		"ProposalTransactionsUpdated",
+		directoryPath
+	)) as Indexer.NounsDAO.ProposalTransactionsUpdated[];
 
 	if (!query) {
 		return events;
@@ -1035,11 +1124,18 @@ export async function fetchProposalTransactionsUpdated(query?: Indexer.NounsDAO.
 
 /**
  * Fetches all ProposalUpdatablePeriodSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalUpdatablePeriodSet(query?: Indexer.NounsDAO.ProposalUpdatablePeriodSetQuery) {
-	let events = (await _fetchAllEvents("ProposalUpdatablePeriodSet")) as Indexer.NounsDAO.ProposalUpdatablePeriodSet[];
+export async function fetchProposalUpdatablePeriodSet(
+	directoryPath: string,
+	query?: Indexer.NounsDAO.ProposalUpdatablePeriodSetQuery
+) {
+	let events = (await _fetchAllEvents(
+		"ProposalUpdatablePeriodSet",
+		directoryPath
+	)) as Indexer.NounsDAO.ProposalUpdatablePeriodSet[];
 
 	if (!query) {
 		return events;
@@ -1064,11 +1160,12 @@ export async function fetchProposalUpdatablePeriodSet(query?: Indexer.NounsDAO.P
 
 /**
  * Fetches all ProposalUpdated events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalUpdated(query?: Indexer.NounsDAO.ProposalUpdatedQuery) {
-	let events = (await _fetchAllEvents("ProposalUpdated")) as Indexer.NounsDAO.ProposalUpdated[];
+export async function fetchProposalUpdated(directoryPath: string, query?: Indexer.NounsDAO.ProposalUpdatedQuery) {
+	let events = (await _fetchAllEvents("ProposalUpdated", directoryPath)) as Indexer.NounsDAO.ProposalUpdated[];
 
 	if (!query) {
 		return events;
@@ -1105,11 +1202,12 @@ export async function fetchProposalUpdated(query?: Indexer.NounsDAO.ProposalUpda
 
 /**
  * Fetches all ProposalVetoed events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalVetoed(query?: Indexer.NounsDAO.ProposalVetoedQuery) {
-	let events = (await _fetchAllEvents("ProposalVetoed")) as Indexer.NounsDAO.ProposalVetoed[];
+export async function fetchProposalVetoed(directoryPath: string, query?: Indexer.NounsDAO.ProposalVetoedQuery) {
+	let events = (await _fetchAllEvents("ProposalVetoed", directoryPath)) as Indexer.NounsDAO.ProposalVetoed[];
 
 	if (!query) {
 		return events;
@@ -1140,11 +1238,12 @@ export async function fetchProposalVetoed(query?: Indexer.NounsDAO.ProposalVetoe
 
 /**
  * Fetches all QuorumCoefficientSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchQuorumCoefficientSet(query?: Indexer.NounsDAO.QuorumCoefficientSetQuery) {
-	let events = (await _fetchAllEvents("QuorumCoefficientSet")) as Indexer.NounsDAO.QuorumCoefficientSet[];
+export async function fetchQuorumCoefficientSet(directoryPath: string, query?: Indexer.NounsDAO.QuorumCoefficientSetQuery) {
+	let events = (await _fetchAllEvents("QuorumCoefficientSet", directoryPath)) as Indexer.NounsDAO.QuorumCoefficientSet[];
 
 	if (!query) {
 		return events;
@@ -1169,11 +1268,12 @@ export async function fetchQuorumCoefficientSet(query?: Indexer.NounsDAO.QuorumC
 
 /**
  * Fetches all QuorumVotesBPSSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchQuorumVotesBPSSet(query?: Indexer.NounsDAO.QuorumVotesBPSSetQuery) {
-	let events = (await _fetchAllEvents("QuorumVotesBPSSet")) as Indexer.NounsDAO.QuorumVotesBPSSet[];
+export async function fetchQuorumVotesBPSSet(directoryPath: string, query?: Indexer.NounsDAO.QuorumVotesBPSSetQuery) {
+	let events = (await _fetchAllEvents("QuorumVotesBPSSet", directoryPath)) as Indexer.NounsDAO.QuorumVotesBPSSet[];
 
 	if (!query) {
 		return events;
@@ -1198,11 +1298,12 @@ export async function fetchQuorumVotesBPSSet(query?: Indexer.NounsDAO.QuorumVote
 
 /**
  * Fetches all RefundableVote events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchRefundableVote(query?: Indexer.NounsDAO.RefundableVoteQuery) {
-	let events = (await _fetchAllEvents("RefundableVote")) as Indexer.NounsDAO.RefundableVote[];
+export async function fetchRefundableVote(directoryPath: string, query?: Indexer.NounsDAO.RefundableVoteQuery) {
+	let events = (await _fetchAllEvents("RefundableVote", directoryPath)) as Indexer.NounsDAO.RefundableVote[];
 
 	if (!query) {
 		return events;
@@ -1233,11 +1334,12 @@ export async function fetchRefundableVote(query?: Indexer.NounsDAO.RefundableVot
 
 /**
  * Fetches all SignatureCancelled events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchSignatureCancelled(query?: Indexer.NounsDAO.SignatureCancelledQuery) {
-	let events = (await _fetchAllEvents("SignatureCancelled")) as Indexer.NounsDAO.SignatureCancelled[];
+export async function fetchSignatureCancelled(directoryPath: string, query?: Indexer.NounsDAO.SignatureCancelledQuery) {
+	let events = (await _fetchAllEvents("SignatureCancelled", directoryPath)) as Indexer.NounsDAO.SignatureCancelled[];
 
 	if (!query) {
 		return events;
@@ -1268,11 +1370,12 @@ export async function fetchSignatureCancelled(query?: Indexer.NounsDAO.Signature
 
 /**
  * Fetches all TimelocksAndAdminSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchTimelocksAndAdminSet(query?: Indexer.NounsDAO.TimelocksAndAdminSetQuery) {
-	let events = (await _fetchAllEvents("TimelocksAndAdminSet")) as Indexer.NounsDAO.TimelocksAndAdminSet[];
+export async function fetchTimelocksAndAdminSet(directoryPath: string, query?: Indexer.NounsDAO.TimelocksAndAdminSetQuery) {
+	let events = (await _fetchAllEvents("TimelocksAndAdminSet", directoryPath)) as Indexer.NounsDAO.TimelocksAndAdminSet[];
 
 	if (!query) {
 		return events;
@@ -1303,26 +1406,27 @@ export async function fetchTimelocksAndAdminSet(query?: Indexer.NounsDAO.Timeloc
 
 /**
  * Fetches all ProposalStatusChange events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchStatusChangeEvents(query?: Indexer.NounsDAO.StatusChangeQuery) {
+export async function fetchStatusChangeEvents(directoryPath: string, query?: Indexer.NounsDAO.StatusChangeQuery) {
 	let events: Indexer.NounsDAO.ProposalCanceled[] = [];
 
 	if (!query) {
-		return _fetchAllStatusChange();
+		return _fetchAllStatusChange(directoryPath);
 	}
 
 	if (query.status === "Cancelled") {
-		events = (await _fetchAllEvents("ProposalCanceled")) as Indexer.NounsDAO.ProposalCanceled[];
+		events = (await _fetchAllEvents("ProposalCanceled", directoryPath)) as Indexer.NounsDAO.ProposalCanceled[];
 	} else if (query.status === "Vetoed") {
-		events = (await _fetchAllEvents("ProposalVetoed")) as Indexer.NounsDAO.ProposalVetoed[];
+		events = (await _fetchAllEvents("ProposalVetoed", directoryPath)) as Indexer.NounsDAO.ProposalVetoed[];
 	} else if (query.status === "Queued") {
-		events = (await _fetchAllEvents("ProposalQueued")) as Indexer.NounsDAO.ProposalQueued[];
+		events = (await _fetchAllEvents("ProposalQueued", directoryPath)) as Indexer.NounsDAO.ProposalQueued[];
 	} else if (query.status === "Executed") {
-		events = (await _fetchAllEvents("ProposalExecuted")) as Indexer.NounsDAO.ProposalExecuted[];
+		events = (await _fetchAllEvents("ProposalExecuted", directoryPath)) as Indexer.NounsDAO.ProposalExecuted[];
 	} else {
-		events = await _fetchAllStatusChange();
+		events = await _fetchAllStatusChange(directoryPath);
 	}
 
 	if (query.startBlock || query.endBlock) {
@@ -1366,11 +1470,12 @@ function _filterStatusChangeByProposalId(statuses: Indexer.NounsDAO.ProposalCanc
 
 /**
  * Fetches all VoteCast events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchVoteCastEvents(query?: Indexer.NounsDAO.VoteCastQuery) {
-	let events = (await _fetchAllEvents("VoteCast")) as Indexer.NounsDAO.VoteCast[];
+export async function fetchVoteCastEvents(directoryPath: string, query?: Indexer.NounsDAO.VoteCastQuery) {
+	let events = (await _fetchAllEvents("VoteCast", directoryPath)) as Indexer.NounsDAO.VoteCast[];
 
 	if (!query) {
 		return events;
@@ -1413,14 +1518,17 @@ export async function fetchVoteCastEvents(query?: Indexer.NounsDAO.VoteCastQuery
 
 /**
  * Fetches all VoteSnapshotBlockSwitchProposalIdSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
 export async function fetchVoteSnapshotBlockSwitchProposalIdSet(
+	directoryPath: string,
 	query?: Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSetQuery
 ) {
 	let events = (await _fetchAllEvents(
-		"VoteSnapshotBlockSwitchProposalIdSet"
+		"VoteSnapshotBlockSwitchProposalIdSet",
+		directoryPath
 	)) as Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSet[];
 
 	if (!query) {
@@ -1450,11 +1558,12 @@ export async function fetchVoteSnapshotBlockSwitchProposalIdSet(
 
 /**
  * Fetches all VotingDelaySet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchVotingDelaySet(query?: Indexer.NounsDAO.VotingDelaySetQuery) {
-	let events = (await _fetchAllEvents("VotingDelaySet")) as Indexer.NounsDAO.VotingDelaySet[];
+export async function fetchVotingDelaySet(directoryPath: string, query?: Indexer.NounsDAO.VotingDelaySetQuery) {
+	let events = (await _fetchAllEvents("VotingDelaySet", directoryPath)) as Indexer.NounsDAO.VotingDelaySet[];
 
 	if (!query) {
 		return events;
@@ -1479,11 +1588,12 @@ export async function fetchVotingDelaySet(query?: Indexer.NounsDAO.VotingDelaySe
 
 /**
  * Fetches all VotingPeriodSet events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchVotingPeriodSet(query?: Indexer.NounsDAO.VotingPeriodSetQuery) {
-	let events = (await _fetchAllEvents("VotingPeriodSet")) as Indexer.NounsDAO.VotingPeriodSet[];
+export async function fetchVotingPeriodSet(directoryPath: string, query?: Indexer.NounsDAO.VotingPeriodSetQuery) {
+	let events = (await _fetchAllEvents("VotingPeriodSet", directoryPath)) as Indexer.NounsDAO.VotingPeriodSet[];
 
 	if (!query) {
 		return events;
@@ -1508,11 +1618,12 @@ export async function fetchVotingPeriodSet(query?: Indexer.NounsDAO.VotingPeriod
 
 /**
  * Fetches all Withdraw events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchWithdraw(query?: Indexer.NounsDAO.WithdrawQuery) {
-	let events = (await _fetchAllEvents("Withdraw")) as Indexer.NounsDAO.Withdraw[];
+export async function fetchWithdraw(directoryPath: string, query?: Indexer.NounsDAO.WithdrawQuery) {
+	let events = (await _fetchAllEvents("Withdraw", directoryPath)) as Indexer.NounsDAO.Withdraw[];
 
 	if (!query) {
 		return events;
@@ -1537,11 +1648,12 @@ export async function fetchWithdraw(query?: Indexer.NounsDAO.WithdrawQuery) {
 
 /**
  * Fetches all WithdrawFromForkEscrow events from the file system. Filtering the results based on the query provided. If no query is provided, returns all events.
+ * @param directoryPath Path to the indexer directory.
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchWithdrawFromForkEscrow(query?: Indexer.NounsDAO.WithdrawFromForkEscrowQuery) {
-	let events = (await _fetchAllEvents("WithdrawFromForkEscrow")) as Indexer.NounsDAO.WithdrawFromForkEscrow[];
+export async function fetchWithdrawFromForkEscrow(directoryPath: string, query?: Indexer.NounsDAO.WithdrawFromForkEscrowQuery) {
+	let events = (await _fetchAllEvents("WithdrawFromForkEscrow", directoryPath)) as Indexer.NounsDAO.WithdrawFromForkEscrow[];
 
 	if (!query) {
 		return events;
