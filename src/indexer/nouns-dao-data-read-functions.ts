@@ -92,7 +92,7 @@ export async function fetchBeaconUpgraded(directoryPath: string, query?: Indexer
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchCandidateFeedbackSentEvents(
+export async function fetchCandidateFeedbackSent(
 	directoryPath: string,
 	query?: Indexer.NounsDAOData.CandidateFeedbackSentQuery
 ) {
@@ -262,7 +262,7 @@ export async function fetchFeeRecipientSet(directoryPath: string, query?: Indexe
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchFeedbackSentEvents(directoryPath: string, query?: Indexer.NounsDAOData.FeedbackSentQuery) {
+export async function fetchFeedbackSent(directoryPath: string, query?: Indexer.NounsDAOData.FeedbackSentQuery) {
 	let events = (await _fetchAllEvents("FeedbackSent", directoryPath)) as Indexer.NounsDAOData.FeedbackSent[];
 
 	if (!query) {
@@ -408,7 +408,7 @@ export async function fetchProposalCandidateCanceled(
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchProposalCandidateCreatedEvents(
+export async function fetchProposalCandidateCreated(
 	directoryPath: string,
 	query?: Indexer.NounsDAOData.ProposalCandidateCreatedQuery
 ) {
@@ -504,7 +504,7 @@ export async function fetchProposalCandidateUpdated(
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchSignatureAddedEvents(directoryPath: string, query?: Indexer.NounsDAOData.SignatureAddedQuery) {
+export async function fetchSignatureAdded(directoryPath: string, query?: Indexer.NounsDAOData.SignatureAddedQuery) {
 	let events = (await _fetchAllEvents("SignatureAdded", directoryPath)) as Indexer.NounsDAOData.SignatureAdded[];
 
 	if (!query) {

@@ -1410,7 +1410,7 @@ export async function fetchTimelocksAndAdminSet(directoryPath: string, query?: I
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchStatusChangeEvents(directoryPath: string, query?: Indexer.NounsDAO.StatusChangeQuery) {
+export async function fetchProposalStatusChange(directoryPath: string, query?: Indexer.NounsDAO.StatusChangeQuery) {
 	let events: Indexer.NounsDAO.ProposalCanceled[] = [];
 
 	if (!query) {
@@ -1474,7 +1474,7 @@ function _filterStatusChangeByProposalId(statuses: Indexer.NounsDAO.ProposalCanc
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchVoteCastEvents(directoryPath: string, query?: Indexer.NounsDAO.VoteCastQuery) {
+export async function fetchVoteCast(directoryPath: string, query?: Indexer.NounsDAO.VoteCastQuery) {
 	let events = (await _fetchAllEvents("VoteCast", directoryPath)) as Indexer.NounsDAO.VoteCast[];
 
 	if (!query) {

@@ -14,13 +14,13 @@ export class IndexerReader {
 		switch (eventName) {
 			// Nouns Auction House.
 			case "AuctionCreated":
-				return auctionReaders.fetchAuctionCreatedEvents(this.directoryPath, queryOptions);
+				return auctionReaders.fetchAuctionCreated(this.directoryPath, queryOptions);
 			case "AuctionBid":
-				return auctionReaders.fetchAuctionBidEvents(this.directoryPath, queryOptions);
+				return auctionReaders.fetchAuctionBid(this.directoryPath, queryOptions);
 			case "AuctionExtended":
 				return auctionReaders.fetchAuctionExtended(this.directoryPath, queryOptions);
 			case "AuctionSettled":
-				return auctionReaders.fetchAuctionSettledEvents(this.directoryPath, queryOptions);
+				return auctionReaders.fetchAuctionSettled(this.directoryPath, queryOptions);
 			case "AuctionTimeBufferUpdated":
 				return auctionReaders.fetchAuctionTimeBufferUpdated(this.directoryPath, queryOptions);
 			case "AuctionReservePriceUpdated":
@@ -40,7 +40,7 @@ export class IndexerReader {
 			case "BeaconUpgraded":
 				return dataReaders.fetchBeaconUpgraded(this.directoryPath, queryOptions);
 			case "CandidateFeedbackSent":
-				return dataReaders.fetchCandidateFeedbackSentEvents(this.directoryPath, queryOptions);
+				return dataReaders.fetchCandidateFeedbackSent(this.directoryPath, queryOptions);
 			case "CreateCandidateCostSet":
 				return dataReaders.fetchCreateCandidateCostSet(this.directoryPath, queryOptions);
 			case "ETHWithdrawn":
@@ -48,17 +48,17 @@ export class IndexerReader {
 			case "FeeRecipientSet":
 				return dataReaders.fetchFeeRecipientSet(this.directoryPath, queryOptions);
 			case "FeedbackSent":
-				return dataReaders.fetchFeedbackSentEvents(this.directoryPath, queryOptions);
+				return dataReaders.fetchFeedbackSent(this.directoryPath, queryOptions);
 			case "OwnershipTransferred":
 				return dataReaders.fetchOwnershipTransferred(this.directoryPath, queryOptions);
 			case "ProposalCandidateCanceled":
 				return dataReaders.fetchProposalCandidateCanceled(this.directoryPath, queryOptions);
 			case "ProposalCandidateCreated":
-				return dataReaders.fetchProposalCandidateCreatedEvents(this.directoryPath, queryOptions);
+				return dataReaders.fetchProposalCandidateCreated(this.directoryPath, queryOptions);
 			case "ProposalCandidateUpdated":
 				return dataReaders.fetchProposalCandidateUpdated(this.directoryPath, queryOptions);
 			case "SignatureAdded":
-				return dataReaders.fetchSignatureAddedEvents(this.directoryPath, queryOptions);
+				return dataReaders.fetchSignatureAdded(this.directoryPath, queryOptions);
 			case "UpdateCandidateCostSet":
 				return dataReaders.fetchUpdateCandidateCostSet(this.directoryPath, queryOptions);
 			case "Upgraded":
@@ -136,9 +136,9 @@ export class IndexerReader {
 			case "TimelocksAndAdminSet":
 				return daoReaders.fetchTimelocksAndAdminSet(this.directoryPath, queryOptions);
 			case "ProposalStatusChange":
-				return daoReaders.fetchStatusChangeEvents(this.directoryPath, queryOptions);
+				return daoReaders.fetchProposalStatusChange(this.directoryPath, queryOptions);
 			case "VoteCast":
-				return daoReaders.fetchVoteCastEvents(this.directoryPath, queryOptions);
+				return daoReaders.fetchVoteCast(this.directoryPath, queryOptions);
 			case "VoteSnapshotBlockSwitchProposalIdSet":
 				return daoReaders.fetchVoteSnapshotBlockSwitchProposalIdSet(this.directoryPath, queryOptions);
 			case "VotingDelaySet":
@@ -152,17 +152,17 @@ export class IndexerReader {
 
 			// Nouns DAO.
 			case "DelegateChanged":
-				return tokenReaders.fetchDelegateChangedEvents(this.directoryPath, queryOptions);
+				return tokenReaders.fetchDelegateChanged(this.directoryPath, queryOptions);
 			case "DelegateVotesChanged":
-				return tokenReaders.fetchDelegateVotesChangedEvents(this.directoryPath, queryOptions);
+				return tokenReaders.fetchDelegateVotesChanged(this.directoryPath, queryOptions);
 			case "Transfer":
-				return tokenReaders.fetchTransferEvents(this.directoryPath, queryOptions);
+				return tokenReaders.fetchTransfer(this.directoryPath, queryOptions);
 			case "Approval":
 				return tokenReaders.fetchApproval(this.directoryPath, queryOptions);
 			case "ApprovalForAll":
 				return tokenReaders.fetchApprovalForAll(this.directoryPath, queryOptions);
 			case "NounCreated":
-				return tokenReaders.fetchNounCreatedEvents(this.directoryPath, queryOptions);
+				return tokenReaders.fetchNounCreated(this.directoryPath, queryOptions);
 			case "DescriptorLocked":
 				return tokenReaders.fetchDescriptorLocked(this.directoryPath, queryOptions);
 			case "DescriptorUpdated":

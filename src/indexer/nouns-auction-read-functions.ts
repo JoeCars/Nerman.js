@@ -12,7 +12,7 @@ import { _filterByBlock, _fetchAllEvents } from "../utilities/indexer";
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchAuctionCreatedEvents(directoryPath: string, query?: Indexer.NounsAuctionHouse.AuctionCreatedQuery) {
+export async function fetchAuctionCreated(directoryPath: string, query?: Indexer.NounsAuctionHouse.AuctionCreatedQuery) {
 	let events = (await _fetchAllEvents("AuctionCreated", directoryPath)) as Indexer.NounsAuctionHouse.AuctionCreated[];
 
 	if (!query) {
@@ -48,7 +48,7 @@ export async function fetchAuctionCreatedEvents(directoryPath: string, query?: I
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchAuctionBidEvents(directoryPath: string, query?: Indexer.NounsAuctionHouse.AuctionBidQuery) {
+export async function fetchAuctionBid(directoryPath: string, query?: Indexer.NounsAuctionHouse.AuctionBidQuery) {
 	let events = (await _fetchAllEvents("AuctionBid", directoryPath)) as Indexer.NounsAuctionHouse.AuctionBid[];
 
 	if (!query) {
@@ -138,7 +138,7 @@ export async function fetchAuctionExtended(directoryPath: string, query?: Indexe
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchAuctionSettledEvents(directoryPath: string, query?: Indexer.NounsAuctionHouse.AuctionSettledQuery) {
+export async function fetchAuctionSettled(directoryPath: string, query?: Indexer.NounsAuctionHouse.AuctionSettledQuery) {
 	let events = (await _fetchAllEvents("AuctionSettled", directoryPath)) as Indexer.NounsAuctionHouse.AuctionSettled[];
 
 	if (!query) {

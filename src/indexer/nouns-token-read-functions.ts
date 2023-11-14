@@ -12,7 +12,7 @@ import { _filterByBlock, _fetchAllEvents } from "../utilities/indexer";
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchDelegateChangedEvents(directoryPath: string, query?: Indexer.NounsToken.DelegateChangedQuery) {
+export async function fetchDelegateChanged(directoryPath: string, query?: Indexer.NounsToken.DelegateChangedQuery) {
 	let events = (await _fetchAllEvents("DelegateChanged", directoryPath)) as Indexer.NounsToken.DelegateChanged[];
 
 	if (!query) {
@@ -69,7 +69,7 @@ export async function fetchDelegateChangedEvents(directoryPath: string, query?: 
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchDelegateVotesChangedEvents(
+export async function fetchDelegateVotesChanged(
 	directoryPath: string,
 	query?: Indexer.NounsToken.DelegateVotesChangedQuery
 ) {
@@ -108,7 +108,7 @@ export async function fetchDelegateVotesChangedEvents(
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchTransferEvents(directoryPath: string, query?: Indexer.NounsToken.TransferQuery) {
+export async function fetchTransfer(directoryPath: string, query?: Indexer.NounsToken.TransferQuery) {
 	let events = (await _fetchAllEvents("Transfer", directoryPath)) as Indexer.NounsToken.Transfer[];
 
 	if (!query) {
@@ -242,7 +242,7 @@ export async function fetchApprovalForAll(directoryPath: string, query?: Indexer
  * @param query A query object.
  * @returns An array of events.
  */
-export async function fetchNounCreatedEvents(directoryPath: string, query?: Indexer.NounsToken.NounCreatedQuery) {
+export async function fetchNounCreated(directoryPath: string, query?: Indexer.NounsToken.NounCreatedQuery) {
 	let events = (await _fetchAllEvents("NounCreated", directoryPath)) as Indexer.NounsToken.NounCreated[];
 
 	if (!query) {
