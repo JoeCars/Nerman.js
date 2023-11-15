@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-import * as indexer from "./indexer";
+import * as indexer from "./indexer-functions";
 import * as parsers from "./index-parsers";
 import { _NounsAuctionHouse } from "../contracts/NounsAuctionHouse";
 import { _NounsDAO } from "../contracts/NounsDAO";
