@@ -1,7 +1,4 @@
-import * as auctionReaders from "./nouns-auction-read-functions";
-import * as dataReaders from "./nouns-dao-data-read-functions";
-import * as daoReaders from "./nouns-dao-read-functions";
-import * as tokenReaders from "./nouns-token-read-functions";
+import { NounsAuctionHouse, NounsDAOData, NounsDAO, NounsToken } from "../utilities/indexer/indexer-queries";
 import { Indexer } from "../types";
 
 /** A class that manages reading and querying indexed events in the file system. */
@@ -25,173 +22,173 @@ export class IndexerReader {
 		switch (eventName) {
 			// Nouns Auction House.
 			case "AuctionCreated":
-				return auctionReaders.fetchAuctionCreated(this.directoryPath, queryOptions);
+				return NounsAuctionHouse.fetchAuctionCreated(this.directoryPath, queryOptions);
 			case "AuctionBid":
-				return auctionReaders.fetchAuctionBid(this.directoryPath, queryOptions);
+				return NounsAuctionHouse.fetchAuctionBid(this.directoryPath, queryOptions);
 			case "AuctionExtended":
-				return auctionReaders.fetchAuctionExtended(this.directoryPath, queryOptions);
+				return NounsAuctionHouse.fetchAuctionExtended(this.directoryPath, queryOptions);
 			case "AuctionSettled":
-				return auctionReaders.fetchAuctionSettled(this.directoryPath, queryOptions);
+				return NounsAuctionHouse.fetchAuctionSettled(this.directoryPath, queryOptions);
 			case "AuctionTimeBufferUpdated":
-				return auctionReaders.fetchAuctionTimeBufferUpdated(this.directoryPath, queryOptions);
+				return NounsAuctionHouse.fetchAuctionTimeBufferUpdated(this.directoryPath, queryOptions);
 			case "AuctionReservePriceUpdated":
-				return auctionReaders.fetchAuctionReservePriceUpdated(this.directoryPath, queryOptions);
+				return NounsAuctionHouse.fetchAuctionReservePriceUpdated(this.directoryPath, queryOptions);
 			case "AuctionMinBidIncrementPercentageUpdated":
-				return auctionReaders.fetchAuctionMinBidIncrementPercentageUpdated(this.directoryPath, queryOptions);
+				return NounsAuctionHouse.fetchAuctionMinBidIncrementPercentageUpdated(this.directoryPath, queryOptions);
 			case "OwnershipTransferred":
-				return auctionReaders.fetchOwnershipTransferred(this.directoryPath, queryOptions);
+				return NounsAuctionHouse.fetchOwnershipTransferred(this.directoryPath, queryOptions);
 			case "Paused":
-				return auctionReaders.fetchPaused(this.directoryPath, queryOptions);
+				return NounsAuctionHouse.fetchPaused(this.directoryPath, queryOptions);
 			case "Unpaused":
-				return auctionReaders.fetchUnpaused(this.directoryPath, queryOptions);
+				return NounsAuctionHouse.fetchUnpaused(this.directoryPath, queryOptions);
 
 			// Nouns DAO Data.
 			case "AdminChanged":
-				return dataReaders.fetchAdminChanged(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchAdminChanged(this.directoryPath, queryOptions);
 			case "BeaconUpgraded":
-				return dataReaders.fetchBeaconUpgraded(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchBeaconUpgraded(this.directoryPath, queryOptions);
 			case "CandidateFeedbackSent":
-				return dataReaders.fetchCandidateFeedbackSent(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchCandidateFeedbackSent(this.directoryPath, queryOptions);
 			case "CreateCandidateCostSet":
-				return dataReaders.fetchCreateCandidateCostSet(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchCreateCandidateCostSet(this.directoryPath, queryOptions);
 			case "ETHWithdrawn":
-				return dataReaders.fetchETHWithdrawn(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchETHWithdrawn(this.directoryPath, queryOptions);
 			case "FeeRecipientSet":
-				return dataReaders.fetchFeeRecipientSet(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchFeeRecipientSet(this.directoryPath, queryOptions);
 			case "FeedbackSent":
-				return dataReaders.fetchFeedbackSent(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchFeedbackSent(this.directoryPath, queryOptions);
 			case "OwnershipTransferred":
-				return dataReaders.fetchOwnershipTransferred(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchOwnershipTransferred(this.directoryPath, queryOptions);
 			case "ProposalCandidateCanceled":
-				return dataReaders.fetchProposalCandidateCanceled(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchProposalCandidateCanceled(this.directoryPath, queryOptions);
 			case "ProposalCandidateCreated":
-				return dataReaders.fetchProposalCandidateCreated(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchProposalCandidateCreated(this.directoryPath, queryOptions);
 			case "ProposalCandidateUpdated":
-				return dataReaders.fetchProposalCandidateUpdated(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchProposalCandidateUpdated(this.directoryPath, queryOptions);
 			case "SignatureAdded":
-				return dataReaders.fetchSignatureAdded(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchSignatureAdded(this.directoryPath, queryOptions);
 			case "UpdateCandidateCostSet":
-				return dataReaders.fetchUpdateCandidateCostSet(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchUpdateCandidateCostSet(this.directoryPath, queryOptions);
 			case "Upgraded":
-				return dataReaders.fetchUpgraded(this.directoryPath, queryOptions);
+				return NounsDAOData.fetchUpgraded(this.directoryPath, queryOptions);
 
 			// Nouns DAO.
 			case "DAOWithdrawNounsFromEscrow":
-				return daoReaders.fetchDAOWithdrawNounsFromEscrow(this.directoryPath, queryOptions);
+				return NounsDAO.fetchDAOWithdrawNounsFromEscrow(this.directoryPath, queryOptions);
 			case "ERC20TokensToIncludeInForkSet":
-				return daoReaders.fetchERC20TokensToIncludeInForkSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchERC20TokensToIncludeInForkSet(this.directoryPath, queryOptions);
 			case "EscrowedToFork":
-				return daoReaders.fetchEscrowedToFork(this.directoryPath, queryOptions);
+				return NounsDAO.fetchEscrowedToFork(this.directoryPath, queryOptions);
 			case "ExecuteFork":
-				return daoReaders.fetchExecutedFork(this.directoryPath, queryOptions);
+				return NounsDAO.fetchExecutedFork(this.directoryPath, queryOptions);
 			case "ForkDAODeployerSet":
-				return daoReaders.fetchForkDAODeployerSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchForkDAODeployerSet(this.directoryPath, queryOptions);
 			case "ForkPeriodSet":
-				return daoReaders.fetchForkPeriodSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchForkPeriodSet(this.directoryPath, queryOptions);
 			case "ForkThresholdSet":
-				return daoReaders.fetchForkThresholdSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchForkThresholdSet(this.directoryPath, queryOptions);
 			case "JoinFork":
-				return daoReaders.fetchJoinFork(this.directoryPath, queryOptions);
+				return NounsDAO.fetchJoinFork(this.directoryPath, queryOptions);
 			case "LastMinuteWindowSet":
-				return daoReaders.fetchLastMinuteWindowSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchLastMinuteWindowSet(this.directoryPath, queryOptions);
 			case "MaxQuorumVotesBPSSet":
-				return daoReaders.fetchMaxQuorumVotesBPSSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchMaxQuorumVotesBPSSet(this.directoryPath, queryOptions);
 			case "MinQuorumVotesBPSSet":
-				return daoReaders.fetchMinQuorumVotesBPSSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchMinQuorumVotesBPSSet(this.directoryPath, queryOptions);
 			case "NewAdmin":
-				return daoReaders.fetchNewAdmin(this.directoryPath, queryOptions);
+				return NounsDAO.fetchNewAdmin(this.directoryPath, queryOptions);
 			case "NewImplementation":
-				return daoReaders.fetchNewImplementation(this.directoryPath, queryOptions);
+				return NounsDAO.fetchNewImplementation(this.directoryPath, queryOptions);
 			case "NewPendingAdmin":
-				return daoReaders.fetchNewPendingAdmin(this.directoryPath, queryOptions);
+				return NounsDAO.fetchNewPendingAdmin(this.directoryPath, queryOptions);
 			case "NewPendingVetoer":
-				return daoReaders.fetchNewPendingVetoer(this.directoryPath, queryOptions);
+				return NounsDAO.fetchNewPendingVetoer(this.directoryPath, queryOptions);
 			case "NewVetoer":
-				return daoReaders.fetchNewVetoer(this.directoryPath, queryOptions);
+				return NounsDAO.fetchNewVetoer(this.directoryPath, queryOptions);
 			case "ObjectionPeriodDurationSet":
-				return daoReaders.fetchObjectionPeriodDurationSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchObjectionPeriodDurationSet(this.directoryPath, queryOptions);
 			case "ProposalCanceled":
-				return daoReaders.fetchProposalCanceled(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalCanceled(this.directoryPath, queryOptions);
 			case "ProposalCreated":
-				return daoReaders.fetchProposals(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposals(this.directoryPath, queryOptions);
 			case "ProposalCreatedOnTimelockV1":
-				return daoReaders.fetchProposalCreatedOnTimelockV1(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalCreatedOnTimelockV1(this.directoryPath, queryOptions);
 			case "ProposalCreatedWithRequirements":
-				return daoReaders.fetchProposalCreatedWithRequirements(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalCreatedWithRequirements(this.directoryPath, queryOptions);
 			case "ProposalDescriptionUpdated":
-				return daoReaders.fetchProposalDescriptionUpdated(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalDescriptionUpdated(this.directoryPath, queryOptions);
 			case "ProposalExecuted":
-				return daoReaders.fetchProposalExecuted(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalExecuted(this.directoryPath, queryOptions);
 			case "ProposalObjectionPeriodSet":
-				return daoReaders.fetchProposalObjectionPeriodSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalObjectionPeriodSet(this.directoryPath, queryOptions);
 			case "ProposalQueued":
-				return daoReaders.fetchProposalQueued(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalQueued(this.directoryPath, queryOptions);
 			case "ProposalThresholdBPSSet":
-				return daoReaders.fetchProposalThresholdBPSSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalThresholdBPSSet(this.directoryPath, queryOptions);
 			case "ProposalTransactionsUpdated":
-				return daoReaders.fetchProposalTransactionsUpdated(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalTransactionsUpdated(this.directoryPath, queryOptions);
 			case "ProposalUpdatablePeriodSet":
-				return daoReaders.fetchProposalUpdatablePeriodSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalUpdatablePeriodSet(this.directoryPath, queryOptions);
 			case "ProposalUpdated":
-				return daoReaders.fetchProposalUpdated(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalUpdated(this.directoryPath, queryOptions);
 			case "ProposalVetoed":
-				return daoReaders.fetchProposalVetoed(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalVetoed(this.directoryPath, queryOptions);
 			case "QuorumCoefficientSet":
-				return daoReaders.fetchQuorumCoefficientSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchQuorumCoefficientSet(this.directoryPath, queryOptions);
 			case "QuorumVotesBPSSet":
-				return daoReaders.fetchQuorumVotesBPSSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchQuorumVotesBPSSet(this.directoryPath, queryOptions);
 			case "RefundableVote":
-				return daoReaders.fetchRefundableVote(this.directoryPath, queryOptions);
+				return NounsDAO.fetchRefundableVote(this.directoryPath, queryOptions);
 			case "SignatureCancelled":
-				return daoReaders.fetchSignatureCancelled(this.directoryPath, queryOptions);
+				return NounsDAO.fetchSignatureCancelled(this.directoryPath, queryOptions);
 			case "TimelocksAndAdminSet":
-				return daoReaders.fetchTimelocksAndAdminSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchTimelocksAndAdminSet(this.directoryPath, queryOptions);
 			case "ProposalStatusChange":
-				return daoReaders.fetchProposalStatusChange(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalStatusChange(this.directoryPath, queryOptions);
 			case "VoteCast":
-				return daoReaders.fetchVoteCast(this.directoryPath, queryOptions);
+				return NounsDAO.fetchVoteCast(this.directoryPath, queryOptions);
 			case "VoteSnapshotBlockSwitchProposalIdSet":
-				return daoReaders.fetchVoteSnapshotBlockSwitchProposalIdSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchVoteSnapshotBlockSwitchProposalIdSet(this.directoryPath, queryOptions);
 			case "VotingDelaySet":
-				return daoReaders.fetchVotingDelaySet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchVotingDelaySet(this.directoryPath, queryOptions);
 			case "VotingPeriodSet":
-				return daoReaders.fetchVotingPeriodSet(this.directoryPath, queryOptions);
+				return NounsDAO.fetchVotingPeriodSet(this.directoryPath, queryOptions);
 			case "Withdraw":
-				return daoReaders.fetchWithdraw(this.directoryPath, queryOptions);
+				return NounsDAO.fetchWithdraw(this.directoryPath, queryOptions);
 			case "WithdrawFromForkEscrow":
-				return daoReaders.fetchWithdrawFromForkEscrow(this.directoryPath, queryOptions);
+				return NounsDAO.fetchWithdrawFromForkEscrow(this.directoryPath, queryOptions);
 
-			// Nouns DAO.
+			// Nouns Token.
 			case "DelegateChanged":
-				return tokenReaders.fetchDelegateChanged(this.directoryPath, queryOptions);
+				return NounsToken.fetchDelegateChanged(this.directoryPath, queryOptions);
 			case "DelegateVotesChanged":
-				return tokenReaders.fetchDelegateVotesChanged(this.directoryPath, queryOptions);
+				return NounsToken.fetchDelegateVotesChanged(this.directoryPath, queryOptions);
 			case "Transfer":
-				return tokenReaders.fetchTransfer(this.directoryPath, queryOptions);
+				return NounsToken.fetchTransfer(this.directoryPath, queryOptions);
 			case "Approval":
-				return tokenReaders.fetchApproval(this.directoryPath, queryOptions);
+				return NounsToken.fetchApproval(this.directoryPath, queryOptions);
 			case "ApprovalForAll":
-				return tokenReaders.fetchApprovalForAll(this.directoryPath, queryOptions);
+				return NounsToken.fetchApprovalForAll(this.directoryPath, queryOptions);
 			case "NounCreated":
-				return tokenReaders.fetchNounCreated(this.directoryPath, queryOptions);
+				return NounsToken.fetchNounCreated(this.directoryPath, queryOptions);
 			case "DescriptorLocked":
-				return tokenReaders.fetchDescriptorLocked(this.directoryPath, queryOptions);
+				return NounsToken.fetchDescriptorLocked(this.directoryPath, queryOptions);
 			case "DescriptorUpdated":
-				return tokenReaders.fetchDescriptorUpdated(this.directoryPath, queryOptions);
+				return NounsToken.fetchDescriptorUpdated(this.directoryPath, queryOptions);
 			case "MinterLocked":
-				return tokenReaders.fetchMinterLocked(this.directoryPath, queryOptions);
+				return NounsToken.fetchMinterLocked(this.directoryPath, queryOptions);
 			case "MinterUpdated":
-				return tokenReaders.fetchMinterUpdated(this.directoryPath, queryOptions);
+				return NounsToken.fetchMinterUpdated(this.directoryPath, queryOptions);
 			case "NounBurned":
-				return tokenReaders.fetchNounBurned(this.directoryPath, queryOptions);
+				return NounsToken.fetchNounBurned(this.directoryPath, queryOptions);
 			case "NoundersDAOUpdated":
-				return tokenReaders.fetchNoundersDAOUpdated(this.directoryPath, queryOptions);
+				return NounsToken.fetchNoundersDAOUpdated(this.directoryPath, queryOptions);
 			case "OwnershipTransferred":
-				return tokenReaders.fetchOwnershipTransferred(this.directoryPath, queryOptions);
+				return NounsToken.fetchOwnershipTransferred(this.directoryPath, queryOptions);
 			case "SeederLocked":
-				return tokenReaders.fetchSeederLocked(this.directoryPath, queryOptions);
+				return NounsToken.fetchSeederLocked(this.directoryPath, queryOptions);
 			case "SeederUpdated":
-				return tokenReaders.fetchSeederUpdated(this.directoryPath, queryOptions);
+				return NounsToken.fetchSeederUpdated(this.directoryPath, queryOptions);
 
 			// Errors.
 			default:

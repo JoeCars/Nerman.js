@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { writeFile, readFile } from "fs/promises";
-import { NOUNS_STARTING_BLOCK } from "../constants";
+import { NOUNS_STARTING_BLOCK } from "../../constants";
 
 //===================================
 // Indexers.
