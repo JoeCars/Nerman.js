@@ -1703,7 +1703,7 @@ export namespace NounsDAO {
 	 * @param query A query object.
 	 * @returns An array of events.
 	 */
-	export async function fetchProposals(directoryPath: string, query?: Indexer.NounsDAO.ProposalQuery) {
+	export async function fetchProposalCreated(directoryPath: string, query?: Indexer.NounsDAO.ProposalQuery) {
 		let events = (await _fetchAllEvents("ProposalCreated", directoryPath)) as Indexer.NounsDAO.ProposalCreated[];
 
 		if (!query) {

@@ -110,7 +110,7 @@ export class IndexerReader {
 			case "ProposalCanceled":
 				return NounsDAO.fetchProposalCanceled(this.directoryPath, queryOptions);
 			case "ProposalCreated":
-				return NounsDAO.fetchProposals(this.directoryPath, queryOptions);
+				return NounsDAO.fetchProposalCreated(this.directoryPath, queryOptions);
 			case "ProposalCreatedOnTimelockV1":
 				return NounsDAO.fetchProposalCreatedOnTimelockV1(this.directoryPath, queryOptions);
 			case "ProposalCreatedWithRequirements":
