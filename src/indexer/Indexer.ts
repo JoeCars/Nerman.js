@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { IndexerReader } from "./IndexerReader";
 import { IndexerWriter } from "./IndexerWriter";
 
-/** Indexer class responsible for storing and retrieved indexed events. */
+/** Indexer class responsible for storing and retrieving indexed events. */
 export class Indexer {
 	public reader: IndexerReader;
 	public writer: IndexerWriter;
@@ -17,7 +17,7 @@ export class Indexer {
 		this.writer = new IndexerWriter(provider, directoryPath);
 	}
 
-	/*
+	/**
 	 * Retrieves indexed event data, filtered by options. Throws an error if the event is not supported.
 	 * @param eventName Name of the event.
 	 * @param queryOptions Object with filter options for the indexed events.
