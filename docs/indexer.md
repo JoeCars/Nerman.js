@@ -390,7 +390,7 @@ indexer.updateAll();
 - **endBlock**: `number`. Newest block to return. Infinity by default.
 - **previousOwner**: `string`. Previous owner address to return. All by default.
 - **newOwner**: `string`. New owner address to return. All by default.
-- **including**: `string`. An included address to return, either the previousOwner or the newOwner. All by default.
+- **involving**: `string`. An involved address to return, either the previousOwner or the newOwner. All by default.
 
 ### `PausedQuery`
 
@@ -425,7 +425,7 @@ indexer.updateAll();
 - **endBlock**: `number`. Newest block to return. Infinity by default.
 - **from**: `string`. From address to return. All by default.
 - **to**: `string`. To address to return. All by default.
-- **involved**: `string`. An involved address to return, either the delegator, fromDelegate, or toDelegate. All by default.
+- **involving**: `string`. An involved address to return, either the delegator, fromDelegate, or toDelegate. All by default.
 - **tokenId**: `number`. Token id to return. All by default.
 
 
@@ -490,7 +490,7 @@ indexer.updateAll();
 - **endBlock**: `number`. Newest block to return. Infinity by default.
 - **previousOwner**: `string`. Previous owner address to return. All by default.
 - **newOwner**: `string`. New owner address to return. All by default.
-- **including**: `string`. An involved address to return, either the previousOwner, or newOwner. All by default.
+- **involving**: `string`. An involved address to return, either the previousOwner, or newOwner. All by default.
 
 ### `SeederLockedQuery`
 
@@ -510,7 +510,7 @@ indexer.updateAll();
 - **endBlock**: `number`. Newest block to return. Infinity by default.
 - **previousAdmin**: `string`. Previous admin address to return. All by default.
 - **newAdmin**: `string`. New admin address to return. All by default.
-- **including**: `string`. An involved address to return, either the previousAdmin, or newAdmin. All by default.
+- **involving**: `string`. An involved address to return, either the previousAdmin, or newAdmin. All by default.
 
 ### `BeaconUpgradedQuery`
 
@@ -523,7 +523,7 @@ indexer.updateAll();
 - **endBlock**: `number`. Newest block to return. Infinity by default.
 - **msgSender**: `string`. Message sender address to return. All by default.
 - **proposer**: `string`. Proposer address to return. All by default.
-- **involved**: `string`. An involved address to return, either the msgSender, or proposer. All by default.
+- **involving**: `string`. An involved address to return, either the msgSender, or proposer. All by default.
 - **slug**: `string`. Slug to return. All by default.
 - **supportChoice**: `"AGAINST" | "FOR" | "ABSTAIN"`. Support choice to return. All by default.
 
@@ -549,7 +549,7 @@ indexer.updateAll();
 - **endBlock**: `number`. Newest block to return. Infinity by default.
 - **previousOwner**: `string`. Previous owner address to return. All by default.
 - **newOwner**: `string`. New owner address to return. All by default.
-- **including**: `string`. An involved address to return, either the previousOwner, or newOwner. All by default.
+- **involving**: `string`. An involved address to return, either the previousOwner, or newOwner. All by default.
 
 ### `ProposalCandidateCanceledQuery`
 
@@ -578,7 +578,7 @@ indexer.updateAll();
 - **endBlock**: `number`. Newest block to return. Infinity by default.
 - **signer**: `string`. Signer address to return. All by default.
 - **proposer**: `string`. Proposer address to return. All by default.
-- **involved**: `string`. An involved address to return, either the signer, or proposer. All by default.
+- **involving**: `string`. An involved address to return, either the signer, or proposer. All by default.
 - **slug**: `string`. Slug to return. All by default.
 
 ### `UpdateCandidateCostSetQuery`

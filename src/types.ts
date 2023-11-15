@@ -2212,8 +2212,8 @@ export namespace Indexer {
 			previousOwner?: string;
 			/** New owner address to return. All by default. */
 			newOwner?: string;
-			/** An included address to return, either the previousOwner or the newOwner. All by default. */
-			including?: string;
+			/** An involved address to return, either the previousOwner or the newOwner. All by default. */
+			involving?: string;
 		}
 
 		export interface PausedQuery {
@@ -2334,7 +2334,7 @@ export namespace Indexer {
 			/** To address to return. All by default. */
 			to?: string;
 			/** An involved address to return, either the delegator, fromDelegate, or toDelegate. All by default. */
-			involved?: string;
+			involving?: string;
 			/** Token id to return. All by default. */
 			tokenId?: number;
 		}
@@ -2432,7 +2432,7 @@ export namespace Indexer {
 			/** New owner address to return. All by default. */
 			newOwner?: string;
 			/** An involved address to return, either the previousOwner, or newOwner. All by default. */
-			including?: string;
+			involving?: string;
 		}
 
 		export interface SeederLockedQuery {
@@ -2558,7 +2558,7 @@ export namespace Indexer {
 			/** New admin address to return. All by default. */
 			newAdmin?: string;
 			/** An involved address to return, either the previousAdmin, or newAdmin. All by default. */
-			including?: string;
+			involving?: string;
 		}
 
 		export interface BeaconUpgradedQuery {
@@ -2578,7 +2578,7 @@ export namespace Indexer {
 			/** Proposer address to return. All by default. */
 			proposer?: string;
 			/** An involved address to return, either the msgSender, or proposer. All by default. */
-			involved?: string;
+			involving?: string;
 			/** Slug to return. All by default. */
 			slug?: string;
 			/** Support choice to return. All by default. */
@@ -2631,7 +2631,7 @@ export namespace Indexer {
 			/** New owner address to return. All by default. */
 			newOwner?: string;
 			/** An involved address to return, either the previousOwner, or newOwner. All by default. */
-			including?: string;
+			involving?: string;
 		}
 
 		export interface ProposalCandidateCanceledQuery {
@@ -2677,7 +2677,7 @@ export namespace Indexer {
 			/** Proposer address to return. All by default. */
 			proposer?: string;
 			/** An involved address to return, either the signer, or proposer. All by default. */
-			involved?: string;
+			involving?: string;
 			/** Slug to return. All by default. */
 			slug?: string;
 		}

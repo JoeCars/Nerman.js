@@ -369,10 +369,10 @@ export namespace NounsAuctionHouse {
 			});
 		}
 
-		if (query.including) {
+		if (query.involving) {
 			events = events.filter((event) => {
-				let isPreviousOwner = event.previousOwner === query.including;
-				let isNewOwner = event.newOwner === query.including;
+				let isPreviousOwner = event.previousOwner === query.involving;
+				let isNewOwner = event.newOwner === query.involving;
 				return isPreviousOwner || isNewOwner;
 			});
 		}
@@ -477,10 +477,10 @@ export namespace NounsDAOData {
 			});
 		}
 
-		if (query.including) {
+		if (query.involving) {
 			events = events.filter((event) => {
-				let isPreviousAdmin = event.previousAdmin === query.including;
-				let isNewAdmin = event.newAdmin === query.including;
+				let isPreviousAdmin = event.previousAdmin === query.involving;
+				let isNewAdmin = event.newAdmin === query.involving;
 				return isPreviousAdmin || isNewAdmin;
 			});
 		}
@@ -563,10 +563,10 @@ export namespace NounsDAOData {
 			});
 		}
 
-		if (query.involved) {
+		if (query.involving) {
 			events = events.filter((event) => {
-				let isMsgSender = event.msgSender === query.msgSender;
-				let isProposer = event.proposer === query.proposer;
+				let isMsgSender = event.msgSender === query.involving;
+				let isProposer = event.proposer === query.involving;
 				return isMsgSender || isProposer;
 			});
 		}
@@ -781,10 +781,10 @@ export namespace NounsDAOData {
 			});
 		}
 
-		if (query.including) {
+		if (query.involving) {
 			events = events.filter((event) => {
-				let isPreviousOwner = event.previousOwner === query.including;
-				let isNewOwner = event.newOwner === query.including;
+				let isPreviousOwner = event.previousOwner === query.involving;
+				let isNewOwner = event.newOwner === query.involving;
 				return isPreviousOwner || isNewOwner;
 			});
 		}
@@ -987,10 +987,10 @@ export namespace NounsDAOData {
 			});
 		}
 
-		if (query.involved) {
+		if (query.involving) {
 			events = events.filter((event) => {
-				let isSigner = event.signer === query.signer;
-				let isProposer = event.proposer === query.proposer;
+				let isSigner = event.signer === query.involving;
+				let isProposer = event.proposer === query.involving;
 				return isSigner || isProposer;
 			});
 		}
@@ -2843,10 +2843,10 @@ export namespace NounsToken {
 			});
 		}
 
-		if (query.involved) {
+		if (query.involving) {
 			events = events.filter((event) => {
-				let isFrom = event.from === query.involved;
-				let isTo = event.to === query.involved;
+				let isFrom = event.from === query.involving;
+				let isTo = event.to === query.involving;
 				return isFrom || isTo;
 			});
 		}
@@ -3215,10 +3215,10 @@ export namespace NounsToken {
 			});
 		}
 
-		if (query.including) {
+		if (query.involving) {
 			events = events.filter((event) => {
-				let isPreviousOwner = event.previousOwner === query.including;
-				let isNewOwner = event.newOwner === query.including;
+				let isPreviousOwner = event.previousOwner === query.involving;
+				let isNewOwner = event.newOwner === query.involving;
 				return isPreviousOwner || isNewOwner;
 			});
 		}
