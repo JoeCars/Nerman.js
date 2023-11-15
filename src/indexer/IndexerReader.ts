@@ -2,15 +2,26 @@ import * as auctionReaders from "./nouns-auction-read-functions";
 import * as dataReaders from "./nouns-dao-data-read-functions";
 import * as daoReaders from "./nouns-dao-read-functions";
 import * as tokenReaders from "./nouns-token-read-functions";
+import { Indexer } from "../types";
 
+/** A class that manages reading and querying indexed events in the file system. */
 export class IndexerReader {
 	private directoryPath: string;
 
+	/**
+	 * @param directoryPath Path to the directory holding indexed events.
+	 */
 	public constructor(directoryPath: string) {
 		this.directoryPath = directoryPath;
 	}
 
-	public async query(eventName: string, queryOptions: object) {
+	/**
+	 * Retrieves indexed event data, filtered by options. Throws an error if the event is not supported.
+	 * @param eventName Name of the event.
+	 * @param queryOptions Object with filter options for the indexed events.
+	 * @returns List of filtered indexed events.
+	 */
+	public async query(eventName: string, queryOptions?: object): Promise<Indexer.FormattedEvent[]> {
 		switch (eventName) {
 			// Nouns Auction House.
 			case "AuctionCreated":
