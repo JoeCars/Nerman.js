@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
-import * as indexer from "./indexer";
-import * as parsers from "./index-parsers";
+import * as indexer from "../utilities/indexer/indexer-logic";
+import * as parsers from "../utilities/indexer/index-parsers";
 import { _NounsAuctionHouse } from "../contracts/NounsAuctionHouse";
 import { _NounsDAO } from "../contracts/NounsDAO";
 import { _NounsDAOData } from "../contracts/NounsDAOData";

@@ -1700,256 +1700,384 @@ export namespace Indexer {
 		// Queries.
 
 		export interface DAOWithdrawNounsFromEscrowQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Token to return. All tokens by default. */
 			tokenId?: number;
+			/** Address to return. All addressed by default. */
 			to?: string;
 		}
 
 		export interface ERC20TokensToIncludeInForkSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface EscrowedToForkQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Fork id to return. All by default. */
 			forkId?: number;
+			/** Owner address to return. All by default. */
 			owner?: string;
+			/** Token id to return. All by default. */
 			tokenId?: number;
+			/** Proposal id to return. All by default. */
 			proposalId?: number;
 		}
 
 		export interface ExecuteForkQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Starting fork number to return. 0 by default. */
 			startId?: number;
+			/** Ending fork number to return. Infinity by default. */
 			endId?: number;
+			/** To return a single fork id, use in place of startId and endId. */
 			id?: number;
 		}
 
 		export interface ForkDAODeployerSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface ForkPeriodSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface ForkThresholdSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface JoinForkQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Fork id to return. All by default. */
 			forkId?: number;
+			/** Owner address to return. All by default. */
 			owner?: string;
+			/** Token id to return. All by default. */
 			tokenId?: number;
+			/** Proposal id to return. All by default. */
 			proposalId?: number;
 		}
 
 		export interface LastMinuteWindowSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface MaxQuorumVotesBPSSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface MinQuorumVotesBPSSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface NewAdminQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface NewImplementationQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface NewPendingAdminQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface NewPendingVetoerQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface NewVetoerQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface ObjectionPeriodDurationSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface ProposalCanceledQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Proposal id to return. All by default. */
 			proposalId?: number;
 		}
 
-		export interface ProposalQuery {
+		export interface ProposalCreatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** First proposal id to return. 0 by default. */
 			startId?: number;
+			/** Last proposal id to return. Infinity by default. */
 			endId?: number;
+			/** Used in place of startId and endId, to return only one proposal id. */
 			id?: number;
+			/** Latest proposal status to return. All by default. */
 			status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
+			/** Proposer address to return. All by default. */
 			proposer?: string;
 		}
 
 		export interface ProposalCreatedOnTimelockV1Query {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface ProposalCreatedWithRequirementsQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** First proposal id to return. 0 by default. */
 			startId?: number;
+			/** Last proposal id to return. Infinity by default. */
 			endId?: number;
+			/** Used in place of startId and endId, to return only one proposal id. */
 			id?: number;
+			/** Latest proposal status to return. All by default. */
 			status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
+			/** Proposer address to return. All by default. */
 			proposer?: string;
 		}
 
 		export interface ProposalDescriptionUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Proposer address to return. All by default. */
 			proposer?: string;
 		}
 
 		export interface ProposalExecutedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Proposal id to return. All by default. */
 			proposalId?: number;
 		}
 
 		export interface ProposalObjectionPeriodSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Proposal id to return. All by default. */
 			proposalId?: number;
 		}
 
 		export interface ProposalQueuedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Proposal id to return. All by default. */
 			proposalId?: number;
 		}
 
 		export interface ProposalThresholdBPSSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface ProposalTransactionsUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Proposal id to return. All by default. */
 			id?: number;
+			/** Proposer address to return. All by default. */
 			proposer?: string;
 		}
 
 		export interface ProposalUpdatablePeriodSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface ProposalUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Proposal id to return. All by default. */
 			id?: number;
+			/** Proposer address to return. All by default. */
 			proposer?: string;
 		}
 
 		export interface ProposalVetoedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Proposal id to return. All by default. */
 			proposalId?: number;
 		}
 
 		export interface QuorumCoefficientSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface QuorumVotesBPSSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface RefundableVoteQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Voter address to return. All by default. */
 			voter?: string;
 		}
 
 		export interface SignatureCancelledQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Signer address to return. All by default. */
 			signer?: string;
 		}
 
 		export interface TimelocksAndAdminSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Admin address to return. All by default. */
 			admin?: string;
 		}
 
 		export interface StatusChangeQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Proposal id to return. All by default. */
 			proposalId?: number;
+			/** Proposal status to return. All by default. */
 			status?: "Cancelled" | "Vetoed" | "Executed" | "Queued";
 		}
 
 		export interface VoteCastQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Voter address to return. All by default. */
 			voter?: string;
+			/** Proposal id to return. All by default. */
 			proposalId?: number;
+			/** Vote stance to return. All by default. */
 			support?: "AGAINST" | "FOR" | "ABSTAIN";
 		}
 
 		export interface VoteSnapshotBlockSwitchProposalIdSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface VotingDelaySetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface VotingPeriodSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface WithdrawQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface WithdrawFromForkEscrowQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Fork id to return. All by default. */
 			forkId?: number;
+			/** Owner address to return. All by default. */
 			owner?: string;
+			/** Token id to return. All by default. */
 			tokenId?: number;
 		}
 	}
@@ -2007,65 +2135,98 @@ export namespace Indexer {
 		// Queries.
 
 		export interface AuctionCreatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Noun id to return. All by default. */
 			nounId?: number;
 		}
 
 		export interface AuctionBidQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Noun id to return. All by default. */
 			nounId?: number;
+			/** Bidder address to return. All by default. */
 			bidder?: string;
+			/** Smallest bid to return. 0 by default. */
 			minBidAmount?: number;
+			/** Largest bid to return. Infinity by default. */
 			maxBidAmount?: number;
 		}
 
 		export interface AuctionExtendedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Noun id to return. All by default. */
 			nounId?: number;
 		}
 
 		export interface AuctionSettledQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Noun id to return. All by default. */
 			nounId?: number;
+			/** Winner address to return. All by default. */
 			winner?: string;
+			/** Smallest bid to return. 0 by default. */
 			minBidAmount?: number;
+			/** Largest bid to return. Infinity by default. */
 			maxBidAmount?: number;
 		}
 
 		export interface AuctionTimeBufferUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface AuctionReservePriceUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface AuctionMinBidIncrementPercentageUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface OwnershipTransferredQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Previous owner address to return. All by default. */
 			previousOwner?: string;
+			/** New owner address to return. All by default. */
 			newOwner?: string;
-			including?: string;
+			/** An involved address to return, either the previousOwner or the newOwner. All by default. */
+			involving?: string;
 		}
 
 		export interface PausedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface UnpausedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 	}
@@ -2140,99 +2301,151 @@ export namespace Indexer {
 		// Queries.
 
 		export interface DelegateChangedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Delegator address to return. All by default. */
 			delegator?: string;
+			/** From delegate address to return. All by default. */
 			fromDelegate?: string;
+			/** To delegate address to return. All by default. */
 			toDelegate?: string;
+			/** An involved address to return, either the delegator, fromDelegate, or toDelegate. All by default. */
 			involving?: string;
 		}
 
 		export interface DelegateVotesChangedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Delegate address to return. All by default. */
 			delegate?: string;
 		}
 
 		export interface TransferQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** From address to return. All by default. */
 			from?: string;
+			/** To address to return. All by default. */
 			to?: string;
-			involved?: string;
+			/** An involved address to return, either the delegator, fromDelegate, or toDelegate. All by default. */
+			involving?: string;
+			/** Token id to return. All by default. */
 			tokenId?: number;
 		}
 
 		export interface ApprovalQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Owner address to return. All by default. */
 			owner?: string;
+			/** Token id to return. All by default. */
 			tokenId?: number;
 		}
 
 		export interface ApprovalForAllQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Owner address to return. All by default. */
 			owner?: string;
 		}
 
 		export interface NounCreatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Token id to return. All by default. */
 			tokenId?: number;
+			/** Background seed to return. All by default. */
 			background?: number;
+			/** Body seed to return. All by default. */
 			body?: number;
+			/** Accessory seed to return. All by default. */
 			accessory?: number;
+			/** Head seed to return. All by default. */
 			head?: number;
+			/** Glasses seed to return. All by default. */
 			glasses?: number;
 		}
 
 		export interface DescriptorLockedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface DescriptorUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface MinterLockedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface MinterUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface NounBurnedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Noun id to return. All by default. */
 			nounId?: number;
 		}
 
 		export interface NoundersDAOUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface OwnershipTransferredQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Previous owner address to return. All by default. */
 			previousOwner?: string;
+			/** New owner address to return. All by default. */
 			newOwner?: string;
-			including?: string;
+			/** An involved address to return, either the previousOwner, or newOwner. All by default. */
+			involving?: string;
 		}
 
 		export interface SeederLockedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface SeederUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 	}
@@ -2336,97 +2549,150 @@ export namespace Indexer {
 		// Queries.
 
 		export interface AdminChangedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Previous admin address to return. All by default. */
 			previousAdmin?: string;
+			/** New admin address to return. All by default. */
 			newAdmin?: string;
-			including?: string;
+			/** An involved address to return, either the previousAdmin, or newAdmin. All by default. */
+			involving?: string;
 		}
 
 		export interface BeaconUpgradedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface CandidateFeedbackSentQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Message sender address to return. All by default. */
 			msgSender?: string;
+			/** Proposer address to return. All by default. */
 			proposer?: string;
-			involved?: string;
+			/** An involved address to return, either the msgSender, or proposer. All by default. */
+			involving?: string;
+			/** Slug to return. All by default. */
 			slug?: string;
+			/** Support choice to return. All by default. */
 			supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
 		}
 
 		export interface CreateCandidateCostSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface ETHWithdrawnQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** To address to return. All by default. */
 			to?: string;
 		}
 
 		export interface FeeRecipientSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface FeedbackSentQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Message sender address to return. All by default. */
 			msgSender?: string;
+			/** Proposal id to return. All by default. */
 			proposalId?: number;
+			/** Support choice to return. All by default. */
 			supportChoice?: "AGAINST" | "FOR" | "ABSTAIN";
 		}
 
 		export interface OwnershipTransferredQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Previous owner address to return. All by default. */
 			previousOwner?: string;
+			/** New owner address to return. All by default. */
 			newOwner?: string;
-			including?: string;
+			/** An involved address to return, either the previousOwner, or newOwner. All by default. */
+			involving?: string;
 		}
 
 		export interface ProposalCandidateCanceledQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Message sender address to return. All by default. */
 			msgSender?: string;
+			/** Slug to return. All by default. */
 			slug?: string;
 		}
 
 		export interface ProposalCandidateCreatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Message sender address to return. All by default. */
 			msgSender?: string;
+			/** Slug to return. All by default. */
 			slug?: string;
 		}
 
 		export interface ProposalCandidateUpdatedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Message sender address to return. All by default. */
 			msgSender?: string;
+			/** Slug to return. All by default. */
 			slug?: string;
 		}
 
 		export interface SignatureAddedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
+			/** Signer address to return. All by default. */
 			signer?: string;
+			/** Proposer address to return. All by default. */
 			proposer?: string;
-			involved?: string;
+			/** An involved address to return, either the signer, or proposer. All by default. */
+			involving?: string;
+			/** Slug to return. All by default. */
 			slug?: string;
 		}
 
 		export interface UpdateCandidateCostSetQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 
 		export interface UpgradedQuery {
+			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
+			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
 		}
 	}
