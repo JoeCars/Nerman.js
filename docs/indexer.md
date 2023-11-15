@@ -1,37 +1,86 @@
-# IndexerWriter
-A class that takes event data from on-chain and writes them to files.
+# Indexer
+
+Indexer class responsible for storing and retrieving indexed events.
 
 ### `constructor()`
 
-*   **provider**: `ethers.providers.JsonRpcProvider`. Provider uses to create wrappers.
-*   **path**: `string`. Directory path to indexer directory, where all files will be stored.
+-   **provider**: `ethers.providers.JsonRpcProvider`. The blockchain network connection needed to store data.
+-   **directoryPath**: `string`. The indexer directory for storing events.
+
+```js
+import { join } from "path";
+import { ethers } from "ethers";
+import { Indexer } from "nerman";
+
+const provider = new ethers.provider.JsonRpcProvider("<JSON_RPC_URL>");
+const path = join(__dirname, "data", "indexer");
+
+const indexer = new Indexer(provider, path);
+```
+
+### `query()`
+
+Retrieves indexed event data, filtered by options. Throws an error if the event is not supported.
+
+-   **eventName**: `string`. Name of the event.
+-   **queryOptions**: `object`. Object with filter options for the indexed events.
+
+```js
+const allForVotes = await indexer.query("VoteCast", { support: "FOR" });
+```
 
 ### `index()`
-Stores all event data from the starting block for nouns to the present.
 
-*   **event**: `string`. The event name.
+Stores all instances of the given event from the Nouns starting block to the present. Do not use this if the event is already indexed, as it will rewrite the existing data.
+
+-   **eventName**: `string`. Name of the event.
+
+```js
+indexer.index("ProposalCreated");
+```
 
 ### `listen()`
 
-Assigns a listener to the contract event, updating the index whenever the event is triggered on-chain. If the file does not already exist, it will create it.
+Assigns a listener to the given event, appending new instances to the existing store of indexed events.
 
-*   **event**: `string`. The event name.
+-   **eventName**: `string`. Name of the event.
+
+```js
+indexer.listen("ProposalCreated");
+```
 
 ### `update()`
 
-Updates already existing event index. Uses the most recently indexed block number of the event to append more recent events.
+Stores all instances of the given even from the most recent indexing efforts to the present. Appends all data, rather than overwriting. This will create the indexed event file if it does not already exist.
 
-*   **event**: `string`. The event name.
+-   **eventName**: `string`. Name of the event.
+
+```js
+indexer.update("ProposalCreated");
+```
 
 ### `indexAll()`
 
-Stores all event data from the starting block for nouns to the present. Does this for all events.
+Performs `index()` for all supported events.
+
+```js
+indexer.indexAll();
+```
 
 ### `listenAll()`
 
-Assigns a listener to all contract events, updating the index whenever the event is triggered on-chain.
+Performs `listen()` for all supported events.
+
+```js
+indexer.listenAll();
+```
 
 ### `updateAll()`
 
-Updates already existing event index. Uses the most recently indexed block number of the event to append more recent events. Creates new files for unindexed events.
-Does this for all events.
+Performs `update()` for all supported events.
+
+```js
+indexer.updateAll();
+```
+
+# Query Options
