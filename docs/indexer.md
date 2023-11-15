@@ -191,7 +191,7 @@ indexer.updateAll();
 - **endBlock**: `number`. Newest block to return. Infinity by default.
 - **proposalId**: `number`. Proposal id to return. All by default.
 
-### `ProposalQuery`
+### `ProposalCreatedQuery`
 
 - **startBlock**: `number`. Oldest block to return. Nouns starting block by default.
 - **endBlock**: `number`. Newest block to return. Infinity by default.

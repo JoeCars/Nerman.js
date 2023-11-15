@@ -1853,7 +1853,7 @@ export namespace Indexer {
 			proposalId?: number;
 		}
 
-		export interface ProposalQuery {
+		export interface ProposalCreatedQuery {
 			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
 			/** Newest block to return. Infinity by default. */
