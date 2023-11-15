@@ -1722,7 +1722,7 @@ export namespace Indexer {
 			startBlock?: number;
 			/** Newest block to return. Infinity by default. */
 			endBlock?: number;
-			/** Fork id to return. All by default.*/
+			/** Fork id to return. All by default. */
 			forkId?: number;
 			/** Owner address to return. All by default. */
 			owner?: string;
