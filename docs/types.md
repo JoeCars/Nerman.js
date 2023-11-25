@@ -46,8 +46,8 @@ DAOWithdrawNounsFromEscrow event data. [Github](https://github.com/nounsDAO/noun
 
 ```js
 {
-	tokenIds: [{type:"BigNumber",hex:"0x0329"}],
-	to: {id: "0x10deC36B4AC9d3b60490dFE2799881287d4a74cc" }
+	tokenIds: [181],
+	to: { id: "0xb1a32FC9F9D8b2cf86C068Cae13108809547ef71" }
 }
 ```
 
@@ -84,14 +84,10 @@ EscrowedToFork event data. [Github](https://github.com/nounsDAO/nouns-monorepo/b
 
 ```js
 {
-	forkId: 0,
-	owner: { id: "0x077FE07E30d419Deb781Cb2190684135C4ed93C3" },
-	tokenIds: [
-		{type:"BigNumber",hex:"0xdc"},
-		{type:"BigNumber",hex:"0x013e"},
-		{type:"BigNumber",hex:"0x022e"}
-	],
-	proposalIds: [],
+	forkId: 2,
+	owner: { id: "0x67DaCc258DCCc8CbFB493c652ab5170C3CFf0AD9" },
+	tokenIds: [877, 902, 903, 904, 905, 906, 907],
+	proposalIds: [439],
 	reason: ""
 }
 ```
@@ -112,8 +108,8 @@ ExecuteFork event data. The fork escrow is closed. [Github](https://github.com/n
 	forkId: 0,
 	forkTreasury: { id: "0x55Dd565C6f94B3Bad1f4A35398af4a526Fcd465f" },
 	forkToken: { id: "0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f" },
-	forkEndTimestamp: { type: "BigNumber", hex: "0x6504cc0b" },
-	tokensInEscrow: { type: "BigNumber", hex: "0xbb" }
+	forkEndTimestamp: 1694813195,
+	tokensInEscrow: 187
 }
 ```
 
@@ -142,8 +138,8 @@ ForkPeriodSet event data. Sets how much time a fork has to rejoin the DAO after 
 
 ```js
 {
-	oldForkPeriod: { type: "BigNumber", hex: "0x093a80" },
-	newForkPeriod: { type: "BigNumber", hex: "0x049d40" }
+	oldForkPeriod: 302400,
+	newForkPeriod: 604800
 }
 ```
 
@@ -157,8 +153,8 @@ ForkThresholdSet event data. Sets the threshold of Nouns in escrow needed to exe
 
 ```js
 {
-	oldForkThreshold: { type: "BigNumber", hex: "0x07d0" },
-	newForkThreshold: { type: "BigNumber", hex: "0x03e8" }
+	oldForkThreshold: 2000,
+	newForkThreshold: 1000
 }
 ```
 
@@ -175,9 +171,9 @@ JoinFork event data. Joins contract after the contract has been executed, but be
 
 ```js
 {
-	forkId: 1,
-	owner: { id: "0x67DaCc258DCCc8CbFB493c652ab5170C3CFf0AD9" },
-	tokenIds: [{ type: "BigNumber", hex: "0x036a" }],
+	forkId: 2,
+	owner: { id: "0x8D8B9c79196f32161BcB2A9728D274B3b45eB9AF" },
+	tokenIds: [878, 892, 894, 912],
 	proposalIds: [],
 	reason: ""
 }
@@ -577,6 +573,13 @@ QuorumVotesBPSSet event data. (Old). [Github](https://github.com/nounsDAO/nouns-
 -   **newQuorumVotesBPS**: `number`. The new quorum votes basis points.
 -   **event**: `ethers.Event`. Event meta data.
 
+```js
+{
+	oldQuorumVotesBPS: 0,
+	newQuorumVotesBPS: 1000
+}
+```
+
 ## `RefundableVote`
 
 RefundableVote event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Votes.sol#L295)
@@ -827,12 +830,24 @@ Paused event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2
 -   **address**: `Account`. Address paused.
 -   **event**: `ethers.Event`. Event meta data.
 
+```js
+{
+	address: { id: "0x830BD73E4184ceF73443C15111a1DF14e495C706" }
+}
+```
+
 ## `Unpaused`
 
 Unpaused event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L153)
 
 -   **address**: `Account`. Address unpaused.
 -   **event**: `ethers.Event`. Event meta data.
+
+```js
+{
+	address: { id: "0x830BD73E4184ceF73443C15111a1DF14e495C706" }
+}
+```
 
 ## `DelegateChanged`
 
@@ -1187,7 +1202,9 @@ Upgraded event data. In ABI but not in contract.
 
 ```js
 {
-	implementation: { id: "0x26d6cD86c1F30aD528c67300bD7ACf48F23F9EB6" }
+	implementation: {
+		id: "0x26d6cD86c1F30aD528c67300bD7ACf48F23F9EB6";
+	}
 }
 ```
 
