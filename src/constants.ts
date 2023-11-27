@@ -5,7 +5,7 @@ export const STATUS_EXECUTED = "EXECUTED";
 export const STATUS_QUEUED = "QUEUED";
 export const STATUS_ACTIVE = "ACTIVE";
 
-export const NOUNS_STARTING_BLOCK = 13072753;
+export const NOUNS_STARTING_BLOCK = 12985392;
 
 //=========================================
 // Supported Events

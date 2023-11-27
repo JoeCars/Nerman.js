@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 import { Indexer } from "../../types";
 
@@ -20,7 +20,9 @@ export function parseDAOWithdrawNounsFromEscrowEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		tokenIds: event.args!.tokenIds,
+		tokenIds: event.args!.tokenIds.map((tokenId: BigNumber) => {
+			return Number(tokenId);
+		}),
 		to: event.args!.to
 	} as Indexer.NounsDAO.DAOWithdrawNounsFromEscrow;
 }
@@ -60,8 +62,12 @@ export function parseEscrowedToForkEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		forkId: Number(event.args!.forkId),
 		owner: event.args!.owner,
-		tokenIds: event.args!.tokenIds,
-		proposalIds: event.args!.proposalIds,
+		tokenIds: event.args!.tokenIds.map((tokenId: BigNumber) => {
+			return Number(tokenId);
+		}),
+		proposalIds: event.args!.proposalIds.map((proposalId: BigNumber) => {
+			return Number(proposalId);
+		}),
 		reason: event.args!.reason
 	} as Indexer.NounsDAO.EscrowedToFork;
 }
@@ -83,8 +89,8 @@ export function parseExecuteForkEvent(event: ethers.Event) {
 		forkId: Number(event.args!.forkId),
 		forkTreasury: event.args!.forkTreasury,
 		forkToken: event.args!.forkToken,
-		forkEndTimestamp: event.args!.forkEndTimestamp,
-		tokensInEscrow: event.args!.tokensInEscrow
+		forkEndTimestamp: Number(event.args!.forkEndTimestamp),
+		tokensInEscrow: Number(event.args!.tokensInEscrow)
 	} as Indexer.NounsDAO.ExecuteFork;
 }
 
@@ -121,8 +127,8 @@ export function parseForkPeriodSetEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		oldForkPeriod: event.args!.oldForkPeriod,
-		newForkPeriod: event.args!.newForkPeriod
+		oldForkPeriod: Number(event.args!.oldForkPeriod),
+		newForkPeriod: Number(event.args!.newForkPeriod)
 	} as Indexer.NounsDAO.ForkPeriodSet;
 }
 
@@ -140,8 +146,8 @@ export function parseForkThresholdSetEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		oldForkThreshold: event.args!.oldForkThreshold,
-		newForkThreshold: event.args!.newForkThreshold
+		oldForkThreshold: Number(event.args!.oldForkThreshold),
+		newForkThreshold: Number(event.args!.newForkThreshold)
 	} as Indexer.NounsDAO.ForkThresholdSet;
 }
 
@@ -161,8 +167,12 @@ export function parseJoinForkEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		forkId: Number(event.args!.forkId),
 		owner: event.args!.owner,
-		tokenIds: event.args!.tokenIds,
-		proposalIds: event.args!.proposalIds,
+		tokenIds: event.args!.tokenIds.map((tokenId: BigNumber) => {
+			return Number(tokenId);
+		}),
+		proposalIds: event.args!.proposalIds.map((proposalId: BigNumber) => {
+			return Number(proposalId);
+		}),
 		reason: event.args!.reason
 	} as Indexer.NounsDAO.JoinFork;
 }
