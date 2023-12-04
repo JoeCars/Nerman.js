@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { Account, EventData } from "../../types";
-import { default as PropdatesABI } from "../abis/propdates/PropdatesABI.json";
+import { default as PropdatesABI } from "../abis/propdates/PropdatesV2.json";
 import { SUPPORTED_PROPDATES_EVENTS } from "../../constants";
 
 /**
@@ -15,7 +15,7 @@ export class _Propdates {
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
-		this.Contract = new ethers.Contract("0x94b4fb16893C0Fb4E470eEf2559C24FD87FEd5F1", PropdatesABI, this.provider);
+		this.Contract = new ethers.Contract("0xa5Bf9A9b8f60CFD98b1cCB592f2F9F37Bb0033a4", PropdatesABI, this.provider);
 		this.registeredListeners = new Map();
 		this.supportedEvents = SUPPORTED_PROPDATES_EVENTS;
 	}
@@ -31,6 +31,41 @@ export class _Propdates {
 	 */
 	public async on(eventType: string, listener: Function) {
 		switch (eventType) {
+			case "Initialized":
+				this.Contract.on("Initialized", (version: number, event: ethers.Event) => {
+					const data: EventData.Propdates.Initialized = {
+						version: Number(version),
+						event: event
+					};
+					listener(data);
+				});
+				this.registeredListeners.set(eventType, listener);
+				break;
+
+			case "OwnershipTransferStarted":
+				this.Contract.on("OwnershipTransferStarted", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+					const data: EventData.Propdates.OwnershipTransferStarted = {
+						previousOwner: { id: previousOwner },
+						newOwner: { id: newOwner },
+						event: event
+					};
+					listener(data);
+				});
+				this.registeredListeners.set(eventType, listener);
+				break;
+
+			case "OwnershipTransferred":
+				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+					const data: EventData.Propdates.OwnershipTransferred = {
+						previousOwner: { id: previousOwner },
+						newOwner: { id: newOwner },
+						event: event
+					};
+					listener(data);
+				});
+				this.registeredListeners.set(eventType, listener);
+				break;
+
 			case "PostUpdate":
 				this.Contract.on("PostUpdate", (propId: number, isCompleted: boolean, update: string, event: ethers.Event) => {
 					const data: EventData.Propdates.PostUpdate = {
@@ -44,11 +79,43 @@ export class _Propdates {
 				this.registeredListeners.set(eventType, listener);
 				break;
 
-			case "PropUpdateAdminTransferStarted":
+			case "PropUpdateAdminMigrated":
 				this.Contract.on(
-					"PropUpdateAdminTransferStarted",
+					"PropUpdateAdminMigrated",
 					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Event) => {
-						const data: EventData.Propdates.PropUpdateAdminTransferStarted = {
+						const data: EventData.Propdates.PropUpdateAdminMigrated = {
+							propId: Number(propId),
+							oldAdmin: { id: oldAdmin } as Account,
+							newAdmin: { id: newAdmin } as Account,
+							event: event
+						};
+						listener(data);
+					}
+				);
+				this.registeredListeners.set(eventType, listener);
+				break;
+
+			case "PropUpdateAdminRecovered":
+				this.Contract.on(
+					"PropUpdateAdminRecovered",
+					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+						const data: EventData.Propdates.PropUpdateAdminRecovered = {
+							propId: Number(propId),
+							oldAdmin: { id: oldAdmin } as Account,
+							newAdmin: { id: newAdmin } as Account,
+							event: event
+						};
+						listener(data);
+					}
+				);
+				this.registeredListeners.set(eventType, listener);
+				break;
+
+			case "PropUpdateAdminTransferred":
+				this.Contract.on(
+					"PropUpdateAdminTransferred",
+					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+						const data: EventData.Propdates.PropUpdateAdminTransferred = {
 							propId: propId,
 							oldAdmin: { id: oldAdmin } as Account,
 							newAdmin: { id: newAdmin } as Account,
@@ -61,20 +128,31 @@ export class _Propdates {
 				this.registeredListeners.set(eventType, listener);
 				break;
 
-			case "PropUpdateAdminTransfered":
+			case "SuperAdminTransferred":
 				this.Contract.on(
-					"PropUpdateAdminTransfered",
-					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Event) => {
-						const data: EventData.Propdates.PropUpdateAdminTransfered = {
-							propId: propId,
-							oldAdmin: { id: oldAdmin } as Account,
-							newAdmin: { id: newAdmin } as Account,
+					"SuperAdminTransferred",
+					(oldSuperAdmin: string, newSuperAdmin: string, event: ethers.Event) => {
+						const data: EventData.Propdates.SuperAdminTransferred = {
+							oldSuperAdmin: { id: oldSuperAdmin } as Account,
+							newSuperAdmin: { id: newSuperAdmin } as Account,
 							event: event
 						};
 
 						listener(data);
 					}
 				);
+				this.registeredListeners.set(eventType, listener);
+				break;
+
+			case "Upgraded":
+				this.Contract.on("Upgraded", (implementation: string, event: ethers.Event) => {
+					const data: EventData.Propdates.Upgraded = {
+						implementation: { id: implementation } as Account,
+						event: event
+					};
+
+					listener(data);
+				});
 				this.registeredListeners.set(eventType, listener);
 				break;
 

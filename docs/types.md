@@ -832,7 +832,9 @@ Paused event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2
 
 ```js
 {
-	address: { id: "0x830BD73E4184ceF73443C15111a1DF14e495C706" }
+	address: {
+		id: "0x830BD73E4184ceF73443C15111a1DF14e495C706";
+	}
 }
 ```
 
@@ -845,7 +847,9 @@ Unpaused event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31
 
 ```js
 {
-	address: { id: "0x830BD73E4184ceF73443C15111a1DF14e495C706" }
+	address: {
+		id: "0x830BD73E4184ceF73443C15111a1DF14e495C706";
+	}
 }
 ```
 
@@ -1256,6 +1260,29 @@ VoteCast event data. [Github](https://github.com/nounish/federation/blob/6360984
 
 Event types for Propdates contracts.
 
+## `Initialized`
+
+Initialized event data.
+
+-   **version**: `number`. The version number.
+-   **event**: `ethers.Event`. Event meta data.
+
+## `OwnershipTransferStarted`
+
+OwnershipTransferStarted event data.
+
+-   **previousOwner**: `Account`. Old owner.
+-   **newOwner**: `Account`. New owner.
+-   **event**: `ethers.Event`. Event meta data.
+
+## `OwnershipTransferred`
+
+OwnershipTransferred event data.
+
+-   **previousOwner**: `Account`. Old owner.
+-   **newOwner**: `Account`. New owner.
+-   **event**: `ethers.Event`. Event meta data.
+
 ## `PostUpdate`
 
 PostUpdate event data.
@@ -1265,22 +1292,46 @@ PostUpdate event data.
 -   **update**: `string`. Update description.
 -   **event**: `ethers.Event`. Event meta data.
 
-## `PropUpdateAdminTransferStarted`
+## `PropUpdateAdminMigrated`
 
-PropUpdateAdminTransferStarted event data.
+PropUpdateAdminMigrated event data.
 
 -   **propId**: `number`. Proposal.
 -   **oldAdmin**: `Account`. Old admin.
 -   **newAdmin**: `Account`. New admin.
 -   **event**: `ethers.Event`. Event meta data.
 
-## `PropUpdateAdminTransfered`
+## `PropUpdateAdminRecovered`
 
-PropUpdateAdminTransfered event data.
+PropUpdateAdminRecovered event data.
 
 -   **propId**: `number`. Proposal.
 -   **oldAdmin**: `Account`. Old admin.
 -   **newAdmin**: `Account`. New admin.
+-   **event**: `ethers.Event`. Event meta data.
+
+## `PropUpdateAdminTransferred`
+
+PropUpdateAdminTransferred event data.
+
+-   **propId**: `number`. Proposal.
+-   **oldAdmin**: `Account`. Old admin.
+-   **newAdmin**: `Account`. New admin.
+-   **event**: `ethers.Event`. Event meta data.
+
+## `SuperAdminTransferred`
+
+SuperAdminTransferred event data.
+
+-   **oldSuperAdmin**: `Account`. Old super admin.
+-   **newSuperAdmin**: `Account`. New super admin.
+-   **event**: `ethers.Event`. Event meta data.
+
+## `Upgraded`
+
+Upgraded event data.
+
+-   **implementation**: `Account`. Upgraded implementation address.
 -   **event**: `ethers.Event`. Event meta data.
 
 # LilNouns Types
