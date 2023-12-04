@@ -15,7 +15,17 @@ export const SUPPORTED_FEDERATION_EVENTS = ["BidPlaced", "VoteCast"];
 
 export const SUPPORTED_NOUNS_NYMZ_EVENTS = ["NewPost"];
 
-export const SUPPORTED_PROPDATES_EVENTS = ["PostUpdate", "PropUpdateAdminTransferStarted", "PropUpdateAdminTransfered"];
+export const SUPPORTED_PROPDATES_EVENTS = [
+	"Initialized",
+	"OwnershipTransferStarted",
+	"OwnershipTransferred",
+	"PostUpdate",
+	"PropUpdateAdminMigrated",
+	"PropUpdateAdminRecovered",
+	"PropUpdateAdminTransferred",
+	"SuperAdminTransferred",
+	"Upgraded"
+];
 
 export const SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS = [
 	"AuctionCreated",

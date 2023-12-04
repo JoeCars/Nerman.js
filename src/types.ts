@@ -1373,6 +1373,34 @@ export namespace EventData {
 
 	/** Propdates event data. */
 	export namespace Propdates {
+		/** Initialized event data. */
+		export interface Initialized {
+			/** The version number. */
+			version: number;
+			/** Event meta data. */
+			event: ethers.Event;
+		}
+
+		/** OwnershipTransferStarted event data. */
+		export interface OwnershipTransferStarted {
+			/** Old owner. */
+			previousOwner: Account;
+			/** New owner. */
+			newOwner: Account;
+			/** Event meta data. */
+			event: ethers.Event;
+		}
+
+		/** OwnershipTransferred event data. */
+		export interface OwnershipTransferred {
+			/** Old owner. */
+			previousOwner: Account;
+			/** New owner. */
+			newOwner: Account;
+			/** Event meta data. */
+			event: ethers.Event;
+		}
+
 		/** PostUpdate event data. */
 		export interface PostUpdate {
 			/** Proposal being updated. */
@@ -1385,8 +1413,8 @@ export namespace EventData {
 			event: ethers.Event;
 		}
 
-		/** PropUpdateAdminTransferStarted event data. */
-		export interface PropUpdateAdminTransferStarted {
+		/** PropUpdateAdminMigrated event data. */
+		export interface PropUpdateAdminMigrated {
 			/** Proposal.  */
 			propId: number;
 			/** Old admin. */
@@ -1397,14 +1425,44 @@ export namespace EventData {
 			event: ethers.Event;
 		}
 
-		/** PropUpdateAdminTransfered event data. */
-		export interface PropUpdateAdminTransfered {
+		/** PropUpdateAdminRecovered event data. */
+		export interface PropUpdateAdminRecovered {
 			/** Proposal.  */
 			propId: number;
 			/** Old admin. */
 			oldAdmin: Account;
 			/** New admin. */
 			newAdmin: Account;
+			/** Event meta data. */
+			event: ethers.Event;
+		}
+
+		/** PropUpdateAdminTransferred event data. */
+		export interface PropUpdateAdminTransferred {
+			/** Proposal.  */
+			propId: number;
+			/** Old admin. */
+			oldAdmin: Account;
+			/** New admin. */
+			newAdmin: Account;
+			/** Event meta data. */
+			event: ethers.Event;
+		}
+
+		/** SuperAdminTransferred event data. */
+		export interface SuperAdminTransferred {
+			/** Old super admin. */
+			oldSuperAdmin: Account;
+			/** New super admin. */
+			newSuperAdmin: Account;
+			/** Event meta data. */
+			event: ethers.Event;
+		}
+
+		/** Upgraded event data. */
+		export interface Upgraded {
+			/** Upgraded implementation address. */
+			implementation: Account;
 			/** Event meta data. */
 			event: ethers.Event;
 		}
