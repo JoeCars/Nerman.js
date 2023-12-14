@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { NounsTokenSeed, Account, EventData } from "../types";
-import { NounsTokenABI } from "@nouns/contracts";
 import { SUPPORTED_NOUNS_TOKEN_EVENTS } from "../constants";
+import { default as NounsTokenABI } from "./abis/NounsToken.json";
 
 /**
  * A wrapper around the NounsToken governance contract.

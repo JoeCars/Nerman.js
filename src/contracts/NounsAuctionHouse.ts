@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { Account, EventData } from "../types";
-import { NounsAuctionHouseABI } from "@nouns/contracts";
 import { SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS } from "../constants";
+import { default as NounsAuctionHouseABI } from "./abis/NounsAuctionHouse.json";
 
 /**
  * A wrapper class around the NounsAuctionHouse contract.
