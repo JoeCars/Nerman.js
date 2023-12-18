@@ -3,6 +3,8 @@ import NounsPool from "../abis/federation/NounsPool";
 import NounsPoolV2 from "../abis/federation/NounsPoolV2";
 import { SUPPORTED_FEDERATION_EVENTS } from "../../constants";
 
+export type SupportedEventsType = (typeof SUPPORTED_FEDERATION_EVENTS)[number];
+
 /**
  * A wrapper class that supports Federation NounsPool events.
  * Supports two events. `BidPlaced` and `VoteCast`.
@@ -12,7 +14,7 @@ export class FederationNounsPool {
 	public nounsPoolContractV1: ethers.Contract;
 	public nounsPoolContractV2: ethers.Contract;
 	public registeredListeners: Map<string, Function>;
-	public supportedEvents: string[];
+	public static readonly supportedEvents = SUPPORTED_FEDERATION_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
@@ -23,7 +25,6 @@ export class FederationNounsPool {
 			this.provider
 		);
 		this.registeredListeners = new Map();
-		this.supportedEvents = SUPPORTED_FEDERATION_EVENTS;
 	}
 
 	/**
@@ -35,7 +36,7 @@ export class FederationNounsPool {
 	 * 	console.log(data.propId);
 	 * });
 	 */
-	public on(event: string, listener: Function) {
+	public on(event: SupportedEventsType, listener: Function) {
 		if (event === "BidPlaced") {
 			this.nounsPoolContractV1.on(event, (dao, propId, support, amount, bidder) => {
 				listener({ dao, propId, support, amount, bidder });
@@ -63,7 +64,7 @@ export class FederationNounsPool {
 	 * @example
 	 * federationNounsPool.off('BidPlaced');
 	 */
-	public off(event: string) {
+	public off(event: SupportedEventsType) {
 		const listener = this.registeredListeners.get(event);
 		if (listener) {
 			this.nounsPoolContractV1.off(event, listener as ethers.providers.Listener);
@@ -87,7 +88,7 @@ export class FederationNounsPool {
 	 *		reason: ""
 	 * });
 	 */
-	public trigger(event: string, data: unknown) {
+	public trigger(event: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(event);
 		if (!listener) {
 			throw new Error(`${event} does not have a listener.`);

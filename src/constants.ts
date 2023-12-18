@@ -11,9 +11,9 @@ export const NOUNS_STARTING_BLOCK = 12985392;
 // Supported Events
 //=========================================
 
-export const SUPPORTED_FEDERATION_EVENTS = ["BidPlaced", "VoteCast"];
+export const SUPPORTED_FEDERATION_EVENTS = ["BidPlaced", "VoteCast"] as const;
 
-export const SUPPORTED_NOUNS_NYMZ_EVENTS = ["NewPost"];
+export const SUPPORTED_NOUNS_NYMZ_EVENTS = ["NewPost"] as const;
 
 export const SUPPORTED_PROPDATES_EVENTS = [
 	"Initialized",
@@ -25,7 +25,7 @@ export const SUPPORTED_PROPDATES_EVENTS = [
 	"PropUpdateAdminTransferred",
 	"SuperAdminTransferred",
 	"Upgraded"
-];
+] as const;
 
 export const SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS = [
 	"AuctionCreated",
@@ -38,7 +38,7 @@ export const SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS = [
 	"OwnershipTransferred",
 	"Paused",
 	"Unpaused"
-];
+] as const;
 
 export const SUPPORTED_NOUNS_DAO_EVENTS = [
 	"DAOWithdrawNounsFromEscrow",
@@ -82,7 +82,7 @@ export const SUPPORTED_NOUNS_DAO_EVENTS = [
 	"VotingPeriodSet",
 	"Withdraw",
 	"WithdrawFromForkEscrow"
-];
+] as const;
 
 export const SUPPORTED_NOUNS_DAO_DATA_EVENTS = [
 	"AdminChanged",
@@ -99,7 +99,7 @@ export const SUPPORTED_NOUNS_DAO_DATA_EVENTS = [
 	"SignatureAdded",
 	"UpdateCandidateCostSet",
 	"Upgraded"
-];
+] as const;
 
 export const SUPPORTED_NOUNS_FORK_EVENTS = [
 	"NewAdmin",
@@ -116,7 +116,7 @@ export const SUPPORTED_NOUNS_FORK_EVENTS = [
 	"VoteCast",
 	"VotingDelaySet",
 	"VotingPeriodSet"
-];
+] as const;
 
 export const SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS = [
 	"AuctionCreated",
@@ -129,7 +129,7 @@ export const SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS = [
 	"OwnershipTransferred",
 	"Paused",
 	"Unpaused"
-];
+] as const;
 
 export const SUPPORTED_NOUNS_FORK_TOKEN_EVENTS = [
 	"DelegateChanged",
@@ -147,7 +147,7 @@ export const SUPPORTED_NOUNS_FORK_TOKEN_EVENTS = [
 	"OwnershipTransferred",
 	"SeederLocked",
 	"SeederUpdated"
-];
+] as const;
 
 export const SUPPORTED_NOUNS_TOKEN_EVENTS = [
 	"DelegateChanged",
@@ -165,7 +165,7 @@ export const SUPPORTED_NOUNS_TOKEN_EVENTS = [
 	"OwnershipTransferred",
 	"SeederLocked",
 	"SeederUpdated"
-];
+] as const;
 
 export const SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS = [
 	"NewAdmin",
@@ -183,7 +183,7 @@ export const SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS = [
 	"VoteCast",
 	"VotingDelaySet",
 	"VotingPeriodSet"
-];
+] as const;
 
 export const SUPPORTED_LIL_NOUNS_TOKEN_EVENTS = [
 	"Approval",
@@ -202,4 +202,6 @@ export const SUPPORTED_LIL_NOUNS_TOKEN_EVENTS = [
 	"SeederLocked",
 	"SeederUpdated",
 	"Transfer"
-];
+] as const;
+
+export const SUPPORTED_PROP_HOUSE_EVENTS = ["RoundCreated", "HouseCreated"] as const;

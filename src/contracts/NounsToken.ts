@@ -3,19 +3,20 @@ import { NounsTokenSeed, Account, EventData } from "../types";
 import { SUPPORTED_NOUNS_TOKEN_EVENTS } from "../constants";
 import { default as NounsTokenABI } from "./abis/NounsToken.json";
 
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_TOKEN_EVENTS)[number];
+
 /**
  * A wrapper around the NounsToken governance contract.
  */
 export class _NounsToken {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public supportedEvents: string[];
 	public registeredListeners: Map<string, Function>;
+	public static readonly supportedEvents = SUPPORTED_NOUNS_TOKEN_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03", NounsTokenABI, this.provider);
-		this.supportedEvents = SUPPORTED_NOUNS_TOKEN_EVENTS;
 		this.registeredListeners = new Map();
 	}
 
@@ -29,7 +30,7 @@ export class _NounsToken {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
+	public async on(eventType: SupportedEventsType, listener: Function) {
 		switch (eventType) {
 			case "DelegateChanged": // WORKING
 				this.Contract.on(
@@ -290,7 +291,7 @@ export class _NounsToken {
 	 * @example
 	 * nounsToken.off('NounCreated');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -314,7 +315,7 @@ export class _NounsToken {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
+	public trigger(eventType: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);

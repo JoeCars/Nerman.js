@@ -3,19 +3,20 @@ import { Account, EventData, VoteDirection } from "../../types";
 import { default as LilNounsDAOLogicV1ABI } from "../abis/lil-nouns/NounsDAOLogicV1.json";
 import { SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS } from "../../constants";
 
+export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS)[number];
+
 /**
  * A wrapper class around the LilNounsAuctionHouse contract.
  */
 export class LilNounsDAOLogic {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public supportedEvents: string[];
 	public registeredListeners: Map<string, Function>;
+	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x5d2C31ce16924C2a71D317e5BbFd5ce387854039", LilNounsDAOLogicV1ABI, this.provider);
-		this.supportedEvents = SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS;
 		this.registeredListeners = new Map();
 	}
 
@@ -29,7 +30,7 @@ export class LilNounsDAOLogic {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
+	public async on(eventType: SupportedEventsType, listener: Function) {
 		switch (eventType) {
 			case "NewAdmin":
 				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Event) => {
@@ -301,7 +302,7 @@ export class LilNounsDAOLogic {
 	 * @example
 	 * lilNounsDAOLogic.off('VoteCast');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -322,7 +323,7 @@ export class LilNounsDAOLogic {
 	 * 	reason: "Really good reason."
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
+	public trigger(eventType: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);

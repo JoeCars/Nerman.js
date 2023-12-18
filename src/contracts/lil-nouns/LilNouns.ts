@@ -1,8 +1,13 @@
 import { ethers } from "ethers";
 
-import { LilNounsAuctionHouse } from "./LilNounsAuctionHouse";
-import { LilNounsDAOLogic } from "./LilNounsDAOLogic";
-import { LilNounsToken } from "./LilNounsToken";
+import { LilNounsAuctionHouse, SupportedEventsType as LilNounsAuctionHouseSupportedEventsType } from "./LilNounsAuctionHouse";
+import { LilNounsDAOLogic, SupportedEventsType as LilNounsDAOLogicSupportedEventsType } from "./LilNounsDAOLogic";
+import { LilNounsToken, SupportedEventsType as LilNounsTokenSupportedEventsType } from "./LilNounsToken";
+
+export type SupportedEventsType =
+	| LilNounsAuctionHouseSupportedEventsType
+	| LilNounsDAOLogicSupportedEventsType
+	| LilNounsTokenSupportedEventsType;
 
 /**
  * A wrapper class for all LilNouns contracts.
@@ -14,6 +19,11 @@ export class LilNouns {
 	public lilNounsAuctionHouse: LilNounsAuctionHouse;
 	public lilNounsDAOLogic: LilNounsDAOLogic;
 	public lilNounsToken: LilNounsToken;
+	public static readonly supportedEvents = [
+		...LilNounsAuctionHouse.supportedEvents,
+		...LilNounsDAOLogic.supportedEvents,
+		...LilNounsToken.supportedEvents
+	];
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
@@ -33,13 +43,13 @@ export class LilNouns {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public on(eventName: string, listener: Function) {
-		if (this.lilNounsAuctionHouse.supportedEvents.includes(eventName)) {
-			this.lilNounsAuctionHouse.on(eventName, listener);
-		} else if (this.lilNounsDAOLogic.supportedEvents.includes(eventName)) {
-			this.lilNounsDAOLogic.on(eventName, listener);
-		} else if (this.lilNounsToken.supportedEvents.includes(eventName)) {
-			this.lilNounsToken.on(eventName, listener);
+	public on(eventName: SupportedEventsType, listener: Function) {
+		if (LilNounsAuctionHouse.supportedEvents.includes(eventName as LilNounsAuctionHouseSupportedEventsType)) {
+			this.lilNounsAuctionHouse.on(eventName as LilNounsAuctionHouseSupportedEventsType, listener);
+		} else if (LilNounsDAOLogic.supportedEvents.includes(eventName as LilNounsDAOLogicSupportedEventsType)) {
+			this.lilNounsDAOLogic.on(eventName as LilNounsDAOLogicSupportedEventsType, listener);
+		} else if (LilNounsToken.supportedEvents.includes(eventName as LilNounsTokenSupportedEventsType)) {
+			this.lilNounsToken.on(eventName as LilNounsTokenSupportedEventsType, listener);
 		} else {
 			throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
@@ -53,13 +63,13 @@ export class LilNouns {
 	 * @example
 	 * lilNouns.trigger('ProposalExecuted', {id: 420});
 	 */
-	public trigger(eventName: string, data: unknown) {
-		if (this.lilNounsAuctionHouse.supportedEvents.includes(eventName)) {
-			this.lilNounsAuctionHouse.trigger(eventName, data);
-		} else if (this.lilNounsDAOLogic.supportedEvents.includes(eventName)) {
-			this.lilNounsDAOLogic.trigger(eventName, data);
-		} else if (this.lilNounsToken.supportedEvents.includes(eventName)) {
-			this.lilNounsToken.trigger(eventName, data);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		if (LilNounsAuctionHouse.supportedEvents.includes(eventName as LilNounsAuctionHouseSupportedEventsType)) {
+			this.lilNounsAuctionHouse.trigger(eventName as LilNounsAuctionHouseSupportedEventsType, data);
+		} else if (LilNounsDAOLogic.supportedEvents.includes(eventName as LilNounsDAOLogicSupportedEventsType)) {
+			this.lilNounsDAOLogic.trigger(eventName as LilNounsDAOLogicSupportedEventsType, data);
+		} else if (LilNounsToken.supportedEvents.includes(eventName as LilNounsTokenSupportedEventsType)) {
+			this.lilNounsToken.trigger(eventName as LilNounsTokenSupportedEventsType, data);
 		} else {
 			throw new Error(`${eventName} does not have a listener.`);
 		}
@@ -72,13 +82,13 @@ export class LilNouns {
 	 * @example
 	 * lilNouns.off('ProposalExecuted');
 	 */
-	public off(eventName: string) {
-		if (this.lilNounsAuctionHouse.supportedEvents.includes(eventName)) {
-			this.lilNounsAuctionHouse.off(eventName);
-		} else if (this.lilNounsDAOLogic.supportedEvents.includes(eventName)) {
-			this.lilNounsDAOLogic.off(eventName);
-		} else if (this.lilNounsToken.supportedEvents.includes(eventName)) {
-			this.lilNounsToken.off(eventName);
+	public off(eventName: SupportedEventsType) {
+		if (LilNounsAuctionHouse.supportedEvents.includes(eventName as LilNounsAuctionHouseSupportedEventsType)) {
+			this.lilNounsAuctionHouse.off(eventName as LilNounsAuctionHouseSupportedEventsType);
+		} else if (LilNounsDAOLogic.supportedEvents.includes(eventName as LilNounsDAOLogicSupportedEventsType)) {
+			this.lilNounsDAOLogic.off(eventName as LilNounsDAOLogicSupportedEventsType);
+		} else if (LilNounsToken.supportedEvents.includes(eventName as LilNounsTokenSupportedEventsType)) {
+			this.lilNounsToken.off(eventName as LilNounsTokenSupportedEventsType);
 		}
 	}
 

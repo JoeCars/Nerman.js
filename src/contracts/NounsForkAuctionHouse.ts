@@ -3,6 +3,8 @@ import { Account, EventData } from "../types";
 import { SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS } from "../constants";
 import { default as NounsAuctionHouseABI } from "./abis/NounsAuctionHouse.json";
 
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS)[number];
+
 /**
  * A wrapper class around the NounsForkAuctionHouse contract.
  */
@@ -10,13 +12,12 @@ export class _NounsForkAuctionHouse {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<string, Function>;
-	public supportedEvents: string[];
+	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xd5c122b40823e467bc6e3c859cb530b105cae22e", NounsAuctionHouseABI, this.provider);
 		this.registeredListeners = new Map<string, Function>();
-		this.supportedEvents = SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS;
 	}
 
 	/**
@@ -29,7 +30,7 @@ export class _NounsForkAuctionHouse {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
+	public async on(eventType: SupportedEventsType, listener: Function) {
 		switch (eventType) {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
 				this.Contract.on(
@@ -196,7 +197,7 @@ export class _NounsForkAuctionHouse {
 	 * @example
 	 * nounsForkAuctionHouse.off('AuctionCreated');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -216,7 +217,7 @@ export class _NounsForkAuctionHouse {
 	 * 	endTime: 1689763583,
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
+	public trigger(eventType: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);

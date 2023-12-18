@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
 
-import { _NounsAuctionHouse } from "./contracts/NounsAuctionHouse";
-import { _NounsToken } from "./contracts/NounsToken";
-import { _NounsDAO } from "./contracts/NounsDAO";
-import { _NounsDAOData } from "./contracts/NounsDAOData";
+import { _NounsAuctionHouse, SupportedEventsType as NounsAuctionHouseSupportedEventsType } from "./contracts/NounsAuctionHouse";
+import { _NounsToken, SupportedEventsType as NounsTokenSupportedEventsType } from "./contracts/NounsToken";
+import { _NounsDAO, SupportedEventsType as NounsDAOSupportedEventsType } from "./contracts/NounsDAO";
+import { _NounsDAOData, SupportedEventsType as NounsDAODataSupportedEventsType } from "./contracts/NounsDAOData";
 import { EventData, NounsOptions } from "./types";
 
 export { EventData, NounsOptions } from "./types";
@@ -18,6 +18,13 @@ export { IndexerWriter } from "./indexing/IndexerWriter";
 export { IndexerReader } from "./indexing/IndexerReader";
 export { Indexer } from "./indexing/Indexer";
 
+type SupportedEventsType =
+	| NounsAuctionHouseSupportedEventsType
+	| NounsTokenSupportedEventsType
+	| NounsDAOSupportedEventsType
+	| NounsDAODataSupportedEventsType
+	| "AuctionEnd";
+
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;
 
@@ -25,6 +32,13 @@ export class Nouns {
 	public NounsToken: _NounsToken;
 	public NounsDAO: _NounsDAO;
 	public NounsDAOData: _NounsDAOData;
+	public static readonly supportedEvents = [
+		..._NounsAuctionHouse.supportedEvents,
+		..._NounsToken.supportedEvents,
+		..._NounsDAO.supportedEvents,
+		..._NounsDAOData.supportedEvents,
+		"AuctionEnd"
+	];
 
 	public registeredListeners: Map<string, Function>;
 
@@ -108,14 +122,14 @@ export class Nouns {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventName: string, listener: Function) {
+	public async on(eventName: SupportedEventsType, listener: Function) {
 		console.log("StateOfNouns.ts on(" + eventName + ") created");
 		this.registeredListeners.set(eventName, listener);
 		let errorCount = 0;
 
 		//@todo use ABI to look up function signatures instead, try-catch feel ugly
 		try {
-			await this.NounsDAO.on(eventName, (data: unknown) => {
+			await this.NounsDAO.on(eventName as NounsDAOSupportedEventsType, (data: unknown) => {
 				listener(data);
 			});
 			return;
@@ -124,7 +138,7 @@ export class Nouns {
 		}
 
 		try {
-			await this.NounsAuctionHouse.on(eventName, (data: unknown) => {
+			await this.NounsAuctionHouse.on(eventName as NounsAuctionHouseSupportedEventsType, (data: unknown) => {
 				listener(data);
 			});
 			return;
@@ -133,7 +147,7 @@ export class Nouns {
 		}
 
 		try {
-			await this.NounsToken.on(eventName, (data: unknown) => {
+			await this.NounsToken.on(eventName as NounsTokenSupportedEventsType, (data: unknown) => {
 				listener(data);
 			});
 			return;
@@ -142,7 +156,7 @@ export class Nouns {
 		}
 
 		try {
-			await this.NounsDAOData.on(eventName, (data: unknown) => {
+			await this.NounsDAOData.on(eventName as NounsDAODataSupportedEventsType, (data: unknown) => {
 				listener(data);
 			});
 			return;
@@ -235,7 +249,7 @@ export class Nouns {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventName: string, data: unknown) {
+	public trigger(eventName: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			listener(data);
@@ -249,7 +263,7 @@ export class Nouns {
 	 * @example
 	 * nouns.off('NounCreated');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		console.log("StateOfNouns off " + eventName);
 	}
 

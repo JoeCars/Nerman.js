@@ -3,19 +3,20 @@ import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as LilNounsTokenABI } from "../abis/lil-nouns/NounsToken.json";
 import { SUPPORTED_LIL_NOUNS_TOKEN_EVENTS } from "../../constants";
 
+export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_TOKEN_EVENTS)[number];
+
 /**
  * A wrapper around the LilNounsToken governance contract.
  */
 export class LilNounsToken {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public supportedEvents: string[];
 	public registeredListeners: Map<string, Function>;
+	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_TOKEN_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x4b10701Bfd7BFEdc47d50562b76b436fbB5BdB3B", LilNounsTokenABI, this.provider);
-		this.supportedEvents = SUPPORTED_LIL_NOUNS_TOKEN_EVENTS;
 		this.registeredListeners = new Map();
 	}
 
@@ -29,7 +30,7 @@ export class LilNounsToken {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
+	public async on(eventType: SupportedEventsType, listener: Function) {
 		switch (eventType) {
 			case "Approval":
 				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Event) => {
@@ -252,7 +253,7 @@ export class LilNounsToken {
 	 * @example
 	 * lilNounsToken.off('NounCreated');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -276,7 +277,7 @@ export class LilNounsToken {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
+	public trigger(eventType: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);

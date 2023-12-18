@@ -3,6 +3,8 @@ import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesV2.json";
 import { SUPPORTED_PROPDATES_EVENTS } from "../../constants";
 
+export type SupportedEventsType = (typeof SUPPORTED_PROPDATES_EVENTS)[number];
+
 /**
  * A wrapper class around the Propdates contract.
  * Currently supports the `PostUpdate`, `PropUpdateAdminTransferStarted`, and `PropUpdateAdminTransfered` events.
@@ -11,13 +13,12 @@ export class _Propdates {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<string, Function>;
-	public supportedEvents: string[];
+	public static readonly supportedEvents = SUPPORTED_PROPDATES_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xa5Bf9A9b8f60CFD98b1cCB592f2F9F37Bb0033a4", PropdatesABI, this.provider);
 		this.registeredListeners = new Map();
-		this.supportedEvents = SUPPORTED_PROPDATES_EVENTS;
 	}
 
 	/**
@@ -29,7 +30,7 @@ export class _Propdates {
 	 * 	console.log(data.propId);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
+	public async on(eventType: SupportedEventsType, listener: Function) {
 		switch (eventType) {
 			case "Initialized":
 				this.Contract.on("Initialized", (version: number, event: ethers.Event) => {
@@ -167,7 +168,7 @@ export class _Propdates {
 	 * @example
 	 * propdates.off('PostUpdate');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -186,7 +187,7 @@ export class _Propdates {
 	 * 	update: "It's done!"
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
+	public trigger(eventType: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);

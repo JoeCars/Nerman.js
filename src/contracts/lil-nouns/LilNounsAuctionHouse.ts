@@ -4,14 +4,16 @@ import { default as LilNounsAuctionHouseABI } from "../abis/lil-nouns/NounsAucti
 // The contract is identical, so using the same event list as NounsAuctionHouse.
 import { SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS } from "../../constants";
 
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS)[number];
+
 /**
  * A wrapper class around the LilNounsAuctionHouse contract.
  */
 export class LilNounsAuctionHouse {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public supportedEvents: string[];
 	public registeredListeners: Map<string, Function>;
+	public static readonly supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
@@ -20,7 +22,6 @@ export class LilNounsAuctionHouse {
 			LilNounsAuctionHouseABI,
 			this.provider
 		);
-		this.supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
 		this.registeredListeners = new Map();
 	}
 
@@ -34,7 +35,7 @@ export class LilNounsAuctionHouse {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
+	public async on(eventType: SupportedEventsType, listener: Function) {
 		switch (eventType) {
 			case "AuctionBid":
 				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Event) => {
@@ -182,7 +183,7 @@ export class LilNounsAuctionHouse {
 	 * @example
 	 * lilNounsAuctionHouse.off('AuctionCreated');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -201,7 +202,7 @@ export class LilNounsAuctionHouse {
 	 * 	endTime: 1689763583
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
+	public trigger(eventType: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);

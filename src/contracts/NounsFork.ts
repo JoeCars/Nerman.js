@@ -1,8 +1,9 @@
 import { ethers, BigNumber } from "ethers";
 import { VoteDirection, Account, EventData } from "../types";
 import { SUPPORTED_NOUNS_FORK_EVENTS } from "../constants";
-
 import { default as NounsForkABI } from "./abis/NounsForkGovernance.json";
+
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_EVENTS)[number];
 
 /**
  * A wrapper around the NounsFork governance contract.
@@ -11,13 +12,12 @@ export class _NounsFork {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<string, Function>;
-	public supportedEvents: string[];
+	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6", NounsForkABI, this.provider);
 		this.registeredListeners = new Map<string, Function>();
-		this.supportedEvents = SUPPORTED_NOUNS_FORK_EVENTS;
 	}
 
 	/**
@@ -30,7 +30,7 @@ export class _NounsFork {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
+	public async on(eventType: SupportedEventsType, listener: Function) {
 		switch (eventType) {
 			// **********************************************************
 			//
@@ -373,7 +373,7 @@ export class _NounsFork {
 	 * @example
 	 * nounsFork.off('VoteCast');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -395,7 +395,7 @@ export class _NounsFork {
 	 * 	reason: "Really good reason.",
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
+	public trigger(eventType: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);

@@ -3,19 +3,20 @@ import { Account, EventData } from "../types";
 import { SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS } from "../constants";
 import { default as NounsAuctionHouseABI } from "./abis/NounsAuctionHouse.json";
 
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS)[number];
+
 /**
  * A wrapper class around the NounsAuctionHouse contract.
  */
 export class _NounsAuctionHouse {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public supportedEvents: string[];
 	public registeredListeners: Map<string, Function>;
+	public static readonly supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x830BD73E4184ceF73443C15111a1DF14e495C706", NounsAuctionHouseABI, this.provider);
-		this.supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
 		this.registeredListeners = new Map();
 	}
 
@@ -29,7 +30,7 @@ export class _NounsAuctionHouse {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
+	public async on(eventType: SupportedEventsType, listener: Function) {
 		switch (eventType) {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
 				this.Contract.on(
@@ -197,7 +198,7 @@ export class _NounsAuctionHouse {
 	 * @example
 	 * nounsAuctionHouse.off('AuctionCreated');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -216,7 +217,7 @@ export class _NounsAuctionHouse {
 	 * 	endTime: 1689763583
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
+	public trigger(eventType: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);

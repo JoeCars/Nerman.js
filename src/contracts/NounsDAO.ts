@@ -3,19 +3,20 @@ import { VoteDirection, Account, EventData } from "../types";
 import { SUPPORTED_NOUNS_DAO_EVENTS } from "../constants";
 import { default as NounsDAOLogicV3ABI } from "./abis/NounsDAOLogicV3.json";
 
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_EVENTS)[number];
+
 /**
  * A wrapper class around the NounsDAO contract.
  */
 export class _NounsDAO {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public supportedEvents: string[];
 	public registeredListeners: Map<string, Function>;
+	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x6f3E6272A167e8AcCb32072d08E0957F9c79223d", NounsDAOLogicV3ABI, this.provider);
-		this.supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
 		this.registeredListeners = new Map();
 	}
 
@@ -30,7 +31,7 @@ export class _NounsDAO {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
+	public async on(eventType: SupportedEventsType, listener: Function) {
 		switch (eventType) {
 			case "DAOWithdrawNounsFromEscrow":
 				this.Contract.on("DAOWithdrawNounsFromEscrow", (tokenIds: number[], to: string, event: ethers.Event) => {
@@ -911,7 +912,7 @@ export class _NounsDAO {
 	 * @example
 	 * nounsDAO.off('VoteCast');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			if (eventName === "ProposalCreatedWithRequirements") {
@@ -943,7 +944,7 @@ export class _NounsDAO {
 	 * 	reason: "Really good reason."
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
+	public trigger(eventType: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);

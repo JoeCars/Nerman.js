@@ -4,19 +4,20 @@ import { default as NounsDAODataABI } from "./abis/NounsDAOData.json";
 import { Account, EventData } from "../types";
 import { SUPPORTED_NOUNS_DAO_DATA_EVENTS } from "../constants";
 
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_DATA_EVENTS)[number];
+
 /**
  * A wrapper class around the NounsDAOData contract.
  */
 export class _NounsDAOData {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public supportedEvents: string[];
 	public registeredListeners: Map<string, Function>;
+	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xf790A5f59678dd733fb3De93493A91f472ca1365", NounsDAODataABI, this.provider);
-		this.supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 		this.registeredListeners = new Map();
 	}
 
@@ -30,7 +31,7 @@ export class _NounsDAOData {
 	 * 	console.log(data.slug);
 	 * });
 	 */
-	public async on(eventType: string, listener: ethers.providers.Listener) {
+	public async on(eventType: SupportedEventsType, listener: ethers.providers.Listener) {
 		switch (eventType) {
 			case "AdminChanged":
 				this.Contract.on(eventType, (previousAdmin: string, newAdmin: string, event: ethers.Event) => {
@@ -311,7 +312,7 @@ export class _NounsDAOData {
 	 * @example
 	 * nounsDAOData.off('CandidateFeedbackSent');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -332,7 +333,7 @@ export class _NounsDAOData {
 	 * 	reason: ''
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
+	public trigger(eventType: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventType);
 		if (!listener) {
 			throw new Error(`${eventType} does not have a listener.`);
