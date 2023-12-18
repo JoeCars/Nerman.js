@@ -13,7 +13,7 @@ export class FederationNounsPool {
 	private provider: ethers.providers.JsonRpcProvider;
 	public nounsPoolContractV1: ethers.Contract;
 	public nounsPoolContractV2: ethers.Contract;
-	public registeredListeners: Map<string, Function>;
+	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_FEDERATION_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {

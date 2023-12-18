@@ -12,7 +12,7 @@ export type SupportedEventsType = (typeof SUPPORTED_PROPDATES_EVENTS)[number];
 export class _Propdates {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public registeredListeners: Map<string, Function>;
+	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_PROPDATES_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {

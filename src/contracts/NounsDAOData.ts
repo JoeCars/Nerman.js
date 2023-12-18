@@ -12,7 +12,7 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_DATA_EVENTS)[numbe
 export class _NounsDAOData {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public registeredListeners: Map<string, Function>;
+	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {

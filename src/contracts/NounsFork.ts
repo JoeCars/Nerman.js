@@ -11,13 +11,13 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_EVENTS)[number];
 export class _NounsFork {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public registeredListeners: Map<string, Function>;
+	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6", NounsForkABI, this.provider);
-		this.registeredListeners = new Map<string, Function>();
+		this.registeredListeners = new Map<SupportedEventsType, Function>();
 	}
 
 	/**

@@ -11,13 +11,13 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVE
 export class _NounsForkAuctionHouse {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public registeredListeners: Map<string, Function>;
+	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xd5c122b40823e467bc6e3c859cb530b105cae22e", NounsAuctionHouseABI, this.provider);
-		this.registeredListeners = new Map<string, Function>();
+		this.registeredListeners = new Map<SupportedEventsType, Function>();
 	}
 
 	/**

@@ -11,7 +11,7 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_NYMZ_EVENTS)[number];
  */
 export class NounsNymz {
 	private lastTime: Date;
-	public registeredListeners: Map<string, Function>;
+	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_NYMZ_EVENTS;
 
 	constructor() {
