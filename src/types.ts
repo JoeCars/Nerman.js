@@ -1519,7 +1519,7 @@ export namespace EventData {
 
 		/** HouseCreated event data. */
 		export interface HouseCreated {
-			/** Round created address. */
+			/** House created address. */
 			creator: Account;
 			/** House address. */
 			house: Account;

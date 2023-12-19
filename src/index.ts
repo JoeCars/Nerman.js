@@ -24,7 +24,9 @@ type SupportedEventsType =
 	| NounsDAOSupportedEventsType
 	| NounsDAODataSupportedEventsType
 	| "AuctionEnd";
-
+/**
+ * A wrapper for all Nouns DAO contracts, allowing you to access them from a single place without worrying about which contract has the information you need.
+ */
 export class Nouns {
 	public provider: ethers.providers.JsonRpcProvider;
 
@@ -45,6 +47,10 @@ export class Nouns {
 	// this should eventually be part of on-chain indexed data
 	public cache: { [key: string]: { [key: string]: number | string } };
 
+	/**
+	 * @param apiUrl The JSON_RPC_URL needed to establish a connection to the Ethereum network. Typically retrieved through a provider like Alchemy.
+	 * @param options An options object to configure the Nouns wrappers.
+	 */
 	constructor(apiUrl: string | undefined, options?: NounsOptions) {
 		if (apiUrl === undefined) {
 			console.log("need to define process.env.JSON_RPC_API_URL");

@@ -1351,3 +1351,25 @@ NounsDAOUpdated event data.
 
 -   **nounsDAO**: `Account`. Nouns DAO.
 -   **event**: `ethers.Event`. Event meta data.
+
+# PropHouse Types
+
+Events exclusive to PropHouse contracts.
+
+## `RoundCreated`
+
+-   **creator**: `Account`. Round created address.
+-   **house**: `Account`. House address.
+-   **round**: `Account`. Round address.
+-   **kind**: `any`.
+-   **title**: `string`. Round title.
+-   **description**: `string`. Round description.
+-   **event**: `ethers.Event`. Event meta data.
+
+## `HouseCreated`
+
+-   **creator**: `Account`. House created address.
+-   **house**: `Account`. House address.
+-   **kind**: `any`.
+-   **event**: `ethers.Event`. Event meta data.
+
