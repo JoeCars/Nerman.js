@@ -1491,6 +1491,44 @@ export namespace EventData {
 			event: ethers.Event;
 		}
 	}
+
+	// ******************************************
+	//
+	// PropHouse
+	//
+	// ******************************************
+	/** PropHouse event data. */
+	export namespace PropHouse {
+		/** RoundCreated event data. */
+		export interface RoundCreated {
+			/** Round created address. */
+			creator: Account;
+			/** House address. */
+			house: Account;
+			/** Round address. */
+			round: Account;
+			/** ??? */
+			kind: any;
+			/** Round title. */
+			title: string;
+			/** Round description. */
+			description: string;
+			/** Event meta data. */
+			event: ethers.Event;
+		}
+
+		/** HouseCreated event data. */
+		export interface HouseCreated {
+			/** Round created address. */
+			creator: Account;
+			/** House address. */
+			house: Account;
+			/** ??? */
+			kind: any;
+			/** Event meta data. */
+			event: ethers.Event;
+		}
+	}
 }
 
 //=========================================
