@@ -1,8 +1,24 @@
 import { ethers } from "ethers";
 import { NounsTokenSeed, Account, EventData } from "../types";
-import { SUPPORTED_NOUNS_TOKEN_EVENTS } from "../constants";
 import { default as NounsTokenABI } from "./abis/NounsToken.json";
 
+const SUPPORTED_NOUNS_TOKEN_EVENTS = [
+	"DelegateChanged",
+	"DelegateVotesChanged",
+	"Transfer",
+	"Approval",
+	"ApprovalForAll",
+	"NounCreated",
+	"DescriptorLocked",
+	"DescriptorUpdated",
+	"MinterLocked",
+	"MinterUpdated",
+	"NounBurned",
+	"NoundersDAOUpdated",
+	"OwnershipTransferred",
+	"SeederLocked",
+	"SeederUpdated"
+] as const;
 export type SupportedEventsType = (typeof SUPPORTED_NOUNS_TOKEN_EVENTS)[number];
 
 /**

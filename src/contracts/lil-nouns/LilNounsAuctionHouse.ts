@@ -1,10 +1,21 @@
 import { ethers } from "ethers";
 import { Account, EventData } from "../../types";
 import { default as LilNounsAuctionHouseABI } from "../abis/lil-nouns/NounsAuctionHouse.json";
-// The contract is identical, so using the same event list as NounsAuctionHouse.
-import { SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS } from "../../constants";
 
-export type SupportedEventsType = (typeof SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS)[number];
+const SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS = [
+	"AuctionCreated",
+	"AuctionBid",
+	"AuctionExtended",
+	"AuctionSettled",
+	"AuctionTimeBufferUpdated",
+	"AuctionReservePriceUpdated",
+	"AuctionMinBidIncrementPercentageUpdated",
+	"OwnershipTransferred",
+	"Paused",
+	"Unpaused"
+] as const;
+
+export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS)[number];
 
 /**
  * A wrapper class around the LilNounsAuctionHouse contract.
@@ -13,7 +24,7 @@ export class LilNounsAuctionHouse {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
-	public static readonly supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
+	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;

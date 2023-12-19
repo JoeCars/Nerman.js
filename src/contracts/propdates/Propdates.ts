@@ -1,13 +1,22 @@
 import { ethers } from "ethers";
 import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesV2.json";
-import { SUPPORTED_PROPDATES_EVENTS } from "../../constants";
 
+const SUPPORTED_PROPDATES_EVENTS = [
+	"Initialized",
+	"OwnershipTransferStarted",
+	"OwnershipTransferred",
+	"PostUpdate",
+	"PropUpdateAdminMigrated",
+	"PropUpdateAdminRecovered",
+	"PropUpdateAdminTransferred",
+	"SuperAdminTransferred",
+	"Upgraded"
+] as const;
 export type SupportedEventsType = (typeof SUPPORTED_PROPDATES_EVENTS)[number];
 
 /**
  * A wrapper class around the Propdates contract.
- * Currently supports the `PostUpdate`, `PropUpdateAdminTransferStarted`, and `PropUpdateAdminTransfered` events.
  */
 export class _Propdates {
 	private provider: ethers.providers.JsonRpcProvider;

@@ -1,8 +1,25 @@
 import { ethers } from "ethers";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as LilNounsTokenABI } from "../abis/lil-nouns/NounsToken.json";
-import { SUPPORTED_LIL_NOUNS_TOKEN_EVENTS } from "../../constants";
 
+const SUPPORTED_LIL_NOUNS_TOKEN_EVENTS = [
+	"Approval",
+	"ApprovalForAll",
+	"DelegateChanged",
+	"DelegateVotesChanged",
+	"DescriptorLocked",
+	"DescriptorUpdated",
+	"LilNoundersDAOUpdated",
+	"MinterLocked",
+	"MinterUpdated",
+	"NounBurned",
+	"NounCreated",
+	"NounsDAOUpdated",
+	"OwnershipTransferred",
+	"SeederLocked",
+	"SeederUpdated",
+	"Transfer"
+] as const;
 export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_TOKEN_EVENTS)[number];
 
 /**

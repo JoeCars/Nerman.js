@@ -1,13 +1,12 @@
 import { ethers } from "ethers";
 import NounsPool from "../abis/federation/NounsPool";
 import NounsPoolV2 from "../abis/federation/NounsPoolV2";
-import { SUPPORTED_FEDERATION_EVENTS } from "../../constants";
 
+const SUPPORTED_FEDERATION_EVENTS = ["BidPlaced", "VoteCast"] as const;
 export type SupportedEventsType = (typeof SUPPORTED_FEDERATION_EVENTS)[number];
 
 /**
  * A wrapper class that supports Federation NounsPool events.
- * Supports two events. `BidPlaced` and `VoteCast`.
  */
 export class FederationNounsPool {
 	private provider: ethers.providers.JsonRpcProvider;

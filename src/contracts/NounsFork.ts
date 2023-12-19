@@ -1,8 +1,23 @@
 import { ethers, BigNumber } from "ethers";
 import { VoteDirection, Account, EventData } from "../types";
-import { SUPPORTED_NOUNS_FORK_EVENTS } from "../constants";
 import { default as NounsForkABI } from "./abis/NounsForkGovernance.json";
 
+const SUPPORTED_NOUNS_FORK_EVENTS = [
+	"NewAdmin",
+	"NewImplementation",
+	"NewPendingAdmin",
+	"ProposalCanceled",
+	"ProposalCreated",
+	"ProposalCreatedWithRequirements",
+	"ProposalExecuted",
+	"ProposalQueued",
+	"ProposalThresholdBPSSet",
+	"Quit",
+	"QuorumVotesBPSSet",
+	"VoteCast",
+	"VotingDelaySet",
+	"VotingPeriodSet"
+] as const;
 export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_EVENTS)[number];
 
 /**

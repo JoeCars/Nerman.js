@@ -1,13 +1,12 @@
 import * as cron from "node-cron";
 import fetch from "node-fetch";
 import { EventData } from "../../types";
-import { SUPPORTED_NOUNS_NYMZ_EVENTS } from "../../constants";
 
+const SUPPORTED_NOUNS_NYMZ_EVENTS = ["NewPost"] as const;
 export type SupportedEventsType = (typeof SUPPORTED_NOUNS_NYMZ_EVENTS)[number];
 
 /**
  * A wrapper class for NounsNymz events.
- * Supports the `NewPost` event.
  */
 export class NounsNymz {
 	private lastTime: Date;

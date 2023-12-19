@@ -1,8 +1,50 @@
 import { ethers, BigNumber } from "ethers";
 import { VoteDirection, Account, EventData } from "../types";
-import { SUPPORTED_NOUNS_DAO_EVENTS } from "../constants";
 import { default as NounsDAOLogicV3ABI } from "./abis/NounsDAOLogicV3.json";
 
+const SUPPORTED_NOUNS_DAO_EVENTS = [
+	"DAOWithdrawNounsFromEscrow",
+	"ERC20TokensToIncludeInForkSet",
+	"EscrowedToFork",
+	"ExecuteFork",
+	"ForkDAODeployerSet",
+	"ForkPeriodSet",
+	"ForkThresholdSet",
+	"JoinFork",
+	"LastMinuteWindowSet",
+	"MaxQuorumVotesBPSSet",
+	"MinQuorumVotesBPSSet",
+	"NewAdmin",
+	"NewImplementation",
+	"NewPendingAdmin",
+	"NewPendingVetoer",
+	"NewVetoer",
+	"ObjectionPeriodDurationSet",
+	"ProposalCanceled",
+	"ProposalCreated",
+	"ProposalCreatedOnTimelockV1",
+	"ProposalCreatedWithRequirements",
+	"ProposalDescriptionUpdated",
+	"ProposalExecuted",
+	"ProposalObjectionPeriodSet",
+	"ProposalQueued",
+	"ProposalThresholdBPSSet",
+	"ProposalTransactionsUpdated",
+	"ProposalUpdatablePeriodSet",
+	"ProposalUpdated",
+	"ProposalVetoed",
+	"QuorumCoefficientSet",
+	"QuorumVotesBPSSet",
+	"RefundableVote",
+	"SignatureCancelled",
+	"TimelocksAndAdminSet",
+	"VoteCast",
+	"VoteSnapshotBlockSwitchProposalIdSet",
+	"VotingDelaySet",
+	"VotingPeriodSet",
+	"Withdraw",
+	"WithdrawFromForkEscrow"
+] as const;
 export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_EVENTS)[number];
 
 /**

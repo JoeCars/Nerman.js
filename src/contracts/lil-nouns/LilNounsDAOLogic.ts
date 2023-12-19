@@ -1,8 +1,24 @@
 import { ethers } from "ethers";
 import { Account, EventData, VoteDirection } from "../../types";
 import { default as LilNounsDAOLogicV1ABI } from "../abis/lil-nouns/NounsDAOLogicV1.json";
-import { SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS } from "../../constants";
 
+const SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS = [
+	"NewAdmin",
+	"NewImplementation",
+	"NewPendingAdmin",
+	"NewVetoer",
+	"ProposalCanceled",
+	"ProposalCreated",
+	"ProposalCreatedWithRequirements",
+	"ProposalExecuted",
+	"ProposalQueued",
+	"ProposalThresholdBPSSet",
+	"ProposalVetoed",
+	"QuorumVotesBPSSet",
+	"VoteCast",
+	"VotingDelaySet",
+	"VotingPeriodSet"
+] as const;
 export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS)[number];
 
 /**

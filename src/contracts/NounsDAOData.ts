@@ -2,8 +2,23 @@ import { ethers } from "ethers";
 
 import { default as NounsDAODataABI } from "./abis/NounsDAOData.json";
 import { Account, EventData } from "../types";
-import { SUPPORTED_NOUNS_DAO_DATA_EVENTS } from "../constants";
 
+const SUPPORTED_NOUNS_DAO_DATA_EVENTS = [
+	"AdminChanged",
+	"BeaconUpgraded",
+	"CandidateFeedbackSent",
+	"CreateCandidateCostSet",
+	"ETHWithdrawn",
+	"FeeRecipientSet",
+	"FeedbackSent",
+	"OwnershipTransferred",
+	"ProposalCandidateCanceled",
+	"ProposalCandidateCreated",
+	"ProposalCandidateUpdated",
+	"SignatureAdded",
+	"UpdateCandidateCostSet",
+	"Upgraded"
+] as const;
 export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_DATA_EVENTS)[number];
 
 /**
