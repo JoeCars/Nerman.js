@@ -28,15 +28,15 @@ export class LilNounsAuctionHouse {
 	/**
 	 * Assigns a listener to the event, which triggers whenever the event happens onchain.
 	 * Throws an error if the event is not supported.
-	 * @param eventType The event name.
+	 * @param eventName The event name.
 	 * @param listener The listener function.
 	 * @example
 	 * lilNounsAuctionHouse.on('AuctionCreated', (data) => {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventType: SupportedEventsType, listener: Function) {
-		switch (eventType) {
+	public async on(eventName: SupportedEventsType, listener: Function) {
+		switch (eventName) {
 			case "AuctionBid":
 				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Event) => {
 					const data: EventData.AuctionBid = {
@@ -49,7 +49,7 @@ export class LilNounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionCreated":
@@ -66,7 +66,7 @@ export class LilNounsAuctionHouse {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionExtended":
@@ -79,7 +79,7 @@ export class LilNounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionMinBidIncrementPercentageUpdated":
@@ -94,7 +94,7 @@ export class LilNounsAuctionHouse {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionReservePriceUpdated":
@@ -106,7 +106,7 @@ export class LilNounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionSettled":
@@ -120,7 +120,7 @@ export class LilNounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionTimeBufferUpdated":
@@ -132,7 +132,7 @@ export class LilNounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
@@ -145,7 +145,7 @@ export class LilNounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Paused":
@@ -157,7 +157,7 @@ export class LilNounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Unpaused":
@@ -169,11 +169,11 @@ export class LilNounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			default:
-				throw new Error(`${eventType} is not supported. Please use a different event.`);
+				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 	}
 
@@ -193,7 +193,7 @@ export class LilNounsAuctionHouse {
 
 	/**
 	 * Triggers an event. Throws an error if the listener cannot be found.
-	 * @param eventType the name of the event.
+	 * @param eventName the name of the event.
 	 * @param data the event data.
 	 * @example
 	 * lilNounsAuctionHouse.trigger('AuctionCreated', {
@@ -202,10 +202,10 @@ export class LilNounsAuctionHouse {
 	 * 	endTime: 1689763583
 	 * });
 	 */
-	public trigger(eventType: SupportedEventsType, data: unknown) {
-		const listener = this.registeredListeners.get(eventType);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
-			throw new Error(`${eventType} does not have a listener.`);
+			throw new Error(`${eventName} does not have a listener.`);
 		}
 
 		listener(data);

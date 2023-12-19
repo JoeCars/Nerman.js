@@ -24,17 +24,17 @@ export class _NounsDAOData {
 	/**
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
 	 * Throws an error if the event is not supported.
-	 * @param eventType The name of the event.
+	 * @param eventName The name of the event.
 	 * @param listener The listener function.
 	 * @example
 	 * nounsDAOData.on('CandidateFeedbackSent', (data) => {
 	 * 	console.log(data.slug);
 	 * });
 	 */
-	public async on(eventType: SupportedEventsType, listener: ethers.providers.Listener) {
-		switch (eventType) {
+	public async on(eventName: SupportedEventsType, listener: ethers.providers.Listener) {
+		switch (eventName) {
 			case "AdminChanged":
-				this.Contract.on(eventType, (previousAdmin: string, newAdmin: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Event) => {
 					const data = {
 						previousAdmin: { id: previousAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
@@ -43,11 +43,11 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "BeaconUpgraded":
-				this.Contract.on(eventType, (beacon: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (beacon: string, event: ethers.Event) => {
 					const data = {
 						beacon: { id: beacon } as Account,
 						event: event
@@ -55,12 +55,12 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "CandidateFeedbackSent":
 				this.Contract.on(
-					eventType,
+					eventName,
 					(
 						msgSender: string,
 						proposer: string,
@@ -81,12 +81,12 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "CreateCandidateCostSet":
 				this.Contract.on(
-					eventType,
+					eventName,
 					(oldCreateCandidateCost: number, newCreateCandidateCost: number, event: ethers.Event) => {
 						const data = {
 							oldCreateCandidateCost: oldCreateCandidateCost,
@@ -100,7 +100,7 @@ export class _NounsDAOData {
 				break;
 
 			case "ETHWithdrawn":
-				this.Contract.on(eventType, (to: string, amount: number, event: ethers.Event) => {
+				this.Contract.on(eventName, (to: string, amount: number, event: ethers.Event) => {
 					const data = {
 						to: { id: to } as Account,
 						amount: amount,
@@ -109,11 +109,11 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "FeeRecipientSet":
-				this.Contract.on(eventType, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Event) => {
 					const data = {
 						oldFeeRecipient: { id: oldFeeRecipient } as Account,
 						newFeeRecipient: { id: newFeeRecipient } as Account,
@@ -122,12 +122,12 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "FeedbackSent":
 				this.Contract.on(
-					eventType,
+					eventName,
 					(msgSender: string, proposalId: number, support: number, reason: string, event: ethers.Event) => {
 						const data = {
 							msgSender: { id: msgSender } as Account,
@@ -140,11 +140,11 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on(eventType, (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Event) => {
 					const data = {
 						previousOwner: { id: previousOwner } as Account,
 						newOwner: { id: newOwner } as Account,
@@ -153,11 +153,11 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCandidateCanceled":
-				this.Contract.on(eventType, (msgSender: string, slug: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (msgSender: string, slug: string, event: ethers.Event) => {
 					const data = {
 						msgSender: { id: msgSender } as Account,
 						slug: slug,
@@ -166,12 +166,12 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCandidateCreated":
 				this.Contract.on(
-					eventType,
+					eventName,
 					(
 						msgSender: string,
 						targets: string[],
@@ -200,12 +200,12 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCandidateUpdated":
 				this.Contract.on(
-					eventType,
+					eventName,
 					(
 						msgSender: string,
 						targets: string[],
@@ -236,12 +236,12 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "SignatureAdded":
 				this.Contract.on(
-					eventType,
+					eventName,
 					(
 						signer: string,
 						sig: string,
@@ -270,12 +270,12 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "UpdateCandidateCostSet":
 				this.Contract.on(
-					eventType,
+					eventName,
 					(oldUpdateCandidateCost: number, newUpdateCandidateCost: number, event: ethers.Event) => {
 						const data = {
 							oldUpdateCandidateCost: oldUpdateCandidateCost,
@@ -286,11 +286,11 @@ export class _NounsDAOData {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Upgraded":
-				this.Contract.on(eventType, (implementation: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (implementation: string, event: ethers.Event) => {
 					const data = {
 						implementation: { id: implementation } as Account,
 						event: event
@@ -298,11 +298,11 @@ export class _NounsDAOData {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			default:
-				throw new Error(`${eventType} is not supported. Please use a different event.`);
+				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 	}
 
@@ -322,7 +322,7 @@ export class _NounsDAOData {
 
 	/**
 	 * Triggers an event. Throws an error if there is no assigned listener.
-	 * @param eventType the event name.
+	 * @param eventName the event name.
 	 * @param data the event data.
 	 * @example
 	 * nounsDAOData.trigger('CandidateFeedbackSent', {
@@ -333,10 +333,10 @@ export class _NounsDAOData {
 	 * 	reason: ''
 	 * });
 	 */
-	public trigger(eventType: SupportedEventsType, data: unknown) {
-		const listener = this.registeredListeners.get(eventType);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
-			throw new Error(`${eventType} does not have a listener.`);
+			throw new Error(`${eventName} does not have a listener.`);
 		}
 
 		listener(data);

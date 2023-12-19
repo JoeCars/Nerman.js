@@ -23,15 +23,15 @@ export class _NounsFork {
 	/**
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
 	 * Throws an error if the event is not supported.
-	 * @param eventType The name of the event.
+	 * @param eventName The name of the event.
 	 * @param listener The listener function.
 	 * @example
 	 * nounsFork.on('VoteCast', (data) => {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventType: SupportedEventsType, listener: Function) {
-		switch (eventType) {
+	public async on(eventName: SupportedEventsType, listener: Function) {
+		switch (eventName) {
 			// **********************************************************
 			//
 			// STATUS: TESTING AND DOCUMENTATION NEEDED
@@ -48,7 +48,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -70,7 +70,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -90,7 +90,7 @@ export class _NounsFork {
 					listener(data);
 				});
 
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -109,7 +109,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -151,7 +151,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -196,7 +196,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
@@ -208,7 +208,7 @@ export class _NounsFork {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -228,7 +228,7 @@ export class _NounsFork {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -250,7 +250,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Quit":
@@ -264,7 +264,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -286,7 +286,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "VoteCast": // WORKING
@@ -321,7 +321,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -340,7 +340,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -359,11 +359,11 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			default:
-				throw new Error(`${eventType} is not supported. Please use a different event.`);
+				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 	}
 
@@ -384,7 +384,7 @@ export class _NounsFork {
 	/**
 	 * Triggers the listener of the given event with the given data.
 	 * Throws an error if there is no assigned listener.
-	 * @param eventType The event to be triggered.
+	 * @param eventName The event to be triggered.
 	 * @param data The data being passed to the listener.
 	 * @example
 	 * nounsFork.trigger('VoteCast', {
@@ -395,10 +395,10 @@ export class _NounsFork {
 	 * 	reason: "Really good reason.",
 	 * });
 	 */
-	public trigger(eventType: SupportedEventsType, data: unknown) {
-		const listener = this.registeredListeners.get(eventType);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
-			throw new Error(`${eventType} does not have a listener.`);
+			throw new Error(`${eventName} does not have a listener.`);
 		}
 
 		listener(data);

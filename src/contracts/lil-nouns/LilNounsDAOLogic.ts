@@ -23,15 +23,15 @@ export class LilNounsDAOLogic {
 	/**
 	 * Assigns a listener to the event, which triggers whenever the event happens onchain.
 	 * Throws an error if the event is not supported.
-	 * @param eventType The event name.
+	 * @param eventName The event name.
 	 * @param listener The listener function.
 	 * @example
 	 * lilNounsDAOLogic.on('VoteCast', (data) => {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventType: SupportedEventsType, listener: Function) {
-		switch (eventType) {
+	public async on(eventName: SupportedEventsType, listener: Function) {
+		switch (eventName) {
 			case "NewAdmin":
 				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Event) => {
 					const data: EventData.NewAdmin = {
@@ -42,7 +42,7 @@ export class LilNounsDAOLogic {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewImplementation":
@@ -58,7 +58,7 @@ export class LilNounsDAOLogic {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewPendingAdmin":
@@ -71,7 +71,7 @@ export class LilNounsDAOLogic {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewVetoer":
@@ -84,7 +84,7 @@ export class LilNounsDAOLogic {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCanceled":
@@ -96,7 +96,7 @@ export class LilNounsDAOLogic {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCreated":
@@ -130,7 +130,7 @@ export class LilNounsDAOLogic {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCreatedWithRequirements":
@@ -168,7 +168,7 @@ export class LilNounsDAOLogic {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalExecuted":
@@ -179,7 +179,7 @@ export class LilNounsDAOLogic {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalQueued":
@@ -191,7 +191,7 @@ export class LilNounsDAOLogic {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalThresholdBPSSet":
@@ -207,7 +207,7 @@ export class LilNounsDAOLogic {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalVetoed":
@@ -218,7 +218,7 @@ export class LilNounsDAOLogic {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "QuorumVotesBPSSet":
@@ -234,7 +234,7 @@ export class LilNounsDAOLogic {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "VoteCast":
@@ -262,7 +262,7 @@ export class LilNounsDAOLogic {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "VotingDelaySet":
@@ -275,7 +275,7 @@ export class LilNounsDAOLogic {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "VotingPeriodSet":
@@ -288,11 +288,11 @@ export class LilNounsDAOLogic {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			default:
-				throw new Error(`${eventType} is not supported. Please use a different event.`);
+				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 	}
 
@@ -312,7 +312,7 @@ export class LilNounsDAOLogic {
 
 	/**
 	 * Triggers an event. Throws an error if the listener cannot be found.
-	 * @param eventType the name of the event.
+	 * @param eventName the name of the event.
 	 * @param data the event data.
 	 * @example
 	 * lilNounsDAOLogic.trigger('VoteCast', {
@@ -323,10 +323,10 @@ export class LilNounsDAOLogic {
 	 * 	reason: "Really good reason."
 	 * });
 	 */
-	public trigger(eventType: SupportedEventsType, data: unknown) {
-		const listener = this.registeredListeners.get(eventType);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
-			throw new Error(`${eventType} does not have a listener.`);
+			throw new Error(`${eventName} does not have a listener.`);
 		}
 
 		listener(data);
