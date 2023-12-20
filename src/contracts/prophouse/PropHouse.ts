@@ -1,8 +1,10 @@
 import { ethers, BigNumber } from "ethers";
-import { ChainId, PropHouse as PropHouseSDK } from "@prophouse/sdk";
+import { ChainId, OrderDirection, PropHouse as PropHouseSDK } from "@prophouse/sdk";
+import { OrderByProposalFields, OrderByVoteFields } from "@prophouse/sdk/dist/gql/starknet/graphql";
+import { schedule } from "node-cron";
 import { Account, EventData } from "../../types";
 
-const SUPPORTED_PROP_HOUSE_EVENTS = ["RoundCreated", "HouseCreated"] as const;
+const SUPPORTED_PROP_HOUSE_EVENTS = ["RoundCreated", "HouseCreated", "ProposalSubmitted", "VoteCast"] as const;
 export type SupportedEventsType = (typeof SUPPORTED_PROP_HOUSE_EVENTS)[number];
 
 /**
@@ -13,6 +15,8 @@ export class PropHouse {
 	public prophouse: PropHouseSDK;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public readonly supportedEvents = SUPPORTED_PROP_HOUSE_EVENTS;
+	private proposalSubmittedLastTime: number;
+	private voteCastLastTime: number;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
@@ -21,6 +25,8 @@ export class PropHouse {
 			evm: this.provider
 		});
 		this.registeredListeners = new Map();
+		this.proposalSubmittedLastTime = Date.now();
+		this.voteCastLastTime = Date.now();
 	}
 
 	/**
@@ -74,6 +80,14 @@ export class PropHouse {
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
+			case "ProposalSubmitted":
+				this.listenToProposalSubmittedEvent(listener as () => {});
+				this.registeredListeners.set(eventName, listener);
+				break;
+			case "VoteCast":
+				this.listenToVoteCastEvent(listener as () => {});
+				this.registeredListeners.set(eventName, listener);
+				break;
 			default:
 				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
@@ -112,5 +126,45 @@ export class PropHouse {
 	 */
 	public name() {
 		return "PropHouse";
+	}
+
+	private listenToProposalSubmittedEvent(listener: (arg: unknown) => void) {
+		schedule("*/1 * * * *", async () => {
+			const proposals = await this.prophouse.query.getProposals({
+				where: {
+					receivedAt_gt: this.proposalSubmittedLastTime
+				},
+				orderBy: OrderByProposalFields.ReceivedAt,
+				orderDirection: OrderDirection.Asc
+			});
+
+			for (let i = 0; i < proposals.length; ++i) {
+				// Transform into desired form.
+				if (i === proposals.length - 1) {
+					this.proposalSubmittedLastTime = proposals[i].receivedAt;
+				}
+				listener(proposals[i]);
+			}
+		});
+	}
+
+	private listenToVoteCastEvent(listener: (arg: unknown) => void) {
+		schedule("*/1 * * * *", async () => {
+			const votes = await this.prophouse.query.getVotes({
+				where: {
+					receivedAt_gt: this.voteCastLastTime
+				},
+				orderBy: OrderByVoteFields.ReceivedAt,
+				orderDirection: OrderDirection.Asc
+			});
+
+			for (let i = 0; i < votes.length; ++i) {
+				// Transform into desired form.
+				if (i === votes.length - 1) {
+					this.voteCastLastTime = votes[i].receivedAt;
+				}
+				listener(votes[i]);
+			}
+		});
 	}
 }
