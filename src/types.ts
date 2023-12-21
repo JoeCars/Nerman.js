@@ -1548,25 +1548,6 @@ export namespace EventData {
 			};
 		}
 
-		/** VoteCast event data. */
-		export interface VoteCast {
-			/** Voter address. */
-			voter: Account;
-			/** On-chain round address. */
-			round: Account;
-			/** Proposal id voted for in round. */
-			proposalId: number;
-			/** Vote amount. */
-			votingPower: string;
-			/** Event meta data. */
-			event: {
-				/** Time the vote was cast in seconds since the unix epoch. */
-				createdAt: number;
-				/** On-chain vote transaction hash. */
-				txHash: string;
-			};
-		}
-
 		/** ProposalSubmitted event data. */
 		export interface ProposalSubmitted {
 			/** Proposal id in round. */
@@ -1580,7 +1561,7 @@ export namespace EventData {
 			/** The proposal title. */
 			title: string;
 			/** The proposal description. In HTML format. */
-			description:string;
+			description: string;
 			/** Whether proposal has been cancelled or not. */
 			isCancelled: boolean;
 			/** Whether the proposal won or not. */
@@ -1589,12 +1570,13 @@ export namespace EventData {
 			winningPosition: null | any;
 			/** Current votes for this proposal. */
 			votingPower: string;
+			/** Event meta data. */
 			event: {
 				/** Time the proposal was submitted in seconds since the unix epoch. */
 				createdAt: number;
 				/** On-chain proposal submission transaction hash. */
 				txHash: string;
-			}
+			};
 		}
 	}
 }
