@@ -1528,6 +1528,74 @@ export namespace EventData {
 			/** Event meta data. */
 			event: ethers.Event;
 		}
+
+		/** VoteCast event data. */
+		export interface VoteCast {
+			/** Voter address. */
+			voter: Account;
+			/** On-chain round address. */
+			round: Account;
+			/** Proposal id voted for in round. */
+			proposalId: number;
+			/** Vote amount. */
+			votingPower: string;
+			/** Event meta data. */
+			event: {
+				/** Time the vote was cast in seconds since the unix epoch. */
+				createdAt: number;
+				/** On-chain vote transaction hash. */
+				txHash: string;
+			};
+		}
+
+		/** VoteCast event data. */
+		export interface VoteCast {
+			/** Voter address. */
+			voter: Account;
+			/** On-chain round address. */
+			round: Account;
+			/** Proposal id voted for in round. */
+			proposalId: number;
+			/** Vote amount. */
+			votingPower: string;
+			/** Event meta data. */
+			event: {
+				/** Time the vote was cast in seconds since the unix epoch. */
+				createdAt: number;
+				/** On-chain vote transaction hash. */
+				txHash: string;
+			};
+		}
+
+		/** ProposalSubmitted event data. */
+		export interface ProposalSubmitted {
+			/** Proposal id in round. */
+			proposalId: number;
+			/** Proposer address. */
+			proposer: Account;
+			/** Round address containing the proposal. */
+			round: Account;
+			/** Proposal meta data. */
+			metaDataURI: string;
+			/** The proposal title. */
+			title: string;
+			/** The proposal description. In HTML format. */
+			description:string;
+			/** Whether proposal has been cancelled or not. */
+			isCancelled: boolean;
+			/** Whether the proposal won or not. */
+			isWinner: boolean;
+			/** The placement when winning. */
+			winningPosition: null | any;
+			/** Current votes for this proposal. */
+			votingPower: string;
+			event: {
+				/** Time the proposal was submitted in seconds since the unix epoch. */
+				createdAt: number;
+				/** On-chain proposal submission transaction hash. */
+				txHash: string;
+			}
+		}
 	}
 }
 

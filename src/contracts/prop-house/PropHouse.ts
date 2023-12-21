@@ -25,8 +25,8 @@ export class PropHouse {
 			evm: this.provider
 		});
 		this.registeredListeners = new Map();
-		this.proposalSubmittedLastTime = Date.now();
-		this.voteCastLastTime = Date.now();
+		this.proposalSubmittedLastTime = Math.floor(Date.now() / 1000); // Needs seconds, not milliseconds.
+		this.voteCastLastTime = Math.floor(Date.now() / 1000); // Needs seconds, not milliseconds.
 	}
 
 	/**
@@ -139,11 +139,26 @@ export class PropHouse {
 			});
 
 			for (let i = 0; i < proposals.length; ++i) {
-				// Transform into desired form.
 				if (i === proposals.length - 1) {
 					this.proposalSubmittedLastTime = proposals[i].receivedAt;
 				}
-				listener(proposals[i]);
+				const proposal: EventData.PropHouse.ProposalSubmitted = {
+					proposalId: proposals[i].id,
+					proposer: { id: proposals[i].proposer },
+					round: { id: proposals[i].round },
+					metaDataURI: proposals[i].metadataURI,
+					title: proposals[i].title,
+					description: proposals[i].body,
+					isCancelled: proposals[i].isCancelled,
+					isWinner: proposals[i].isWinner,
+					winningPosition: proposals[i].winningPosition,
+					votingPower: proposals[i].votingPower,
+					event: {
+						createdAt: proposals[i].receivedAt,
+						txHash: proposals[i].txHash
+					}
+				};
+				listener(proposal);
 			}
 		});
 	}
@@ -159,12 +174,33 @@ export class PropHouse {
 			});
 
 			for (let i = 0; i < votes.length; ++i) {
-				// Transform into desired form.
 				if (i === votes.length - 1) {
 					this.voteCastLastTime = votes[i].receivedAt;
 				}
-				listener(votes[i]);
+
+				const vote: EventData.PropHouse.VoteCast = {
+					voter: { id: votes[i].voter },
+					round: { id: votes[i].round },
+					proposalId: votes[i].proposalId,
+					votingPower: votes[i].votingPower,
+					event: {
+						createdAt: votes[i].receivedAt,
+						txHash: votes[i].txHash
+					}
+				};
+				listener(vote);
 			}
+
+			/*
+			
+				voter: '0x10deC36B4AC9d3b60490dFE2799881287d4a74cc',
+				round: '0x57347c22f0a0a764c0aa3554cc3df20ca7ceb28d',
+				proposalId: 16,
+				votingPower: '4',
+				receivedAt: 1703036085,
+				txHash: '0x45280b8949058c1f154794a66c87796891224e9a1c08d58943feebe045fd2a1'
+
+			*/
 		});
 	}
 }
