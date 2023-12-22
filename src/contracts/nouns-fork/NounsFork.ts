@@ -14,6 +14,7 @@ export type SupportedEventsType = ForkAuctionHouseEventTypes | ForkLogicEventTyp
  * Allows you to listen to events without worrying about which contract it's in.
  */
 export class NounsFork {
+	private _forkId: number;
 	public provider: ethers.providers.JsonRpcProvider;
 	public nounsForkAuctionHouse: NounsForkAuctionHouse;
 	public nounsForkLogic: NounsForkLogic;
@@ -25,11 +26,16 @@ export class NounsFork {
 		...NounsForkToken.supportedEvents
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
+	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
 		this.provider = provider;
-		this.nounsForkAuctionHouse = new NounsForkAuctionHouse(provider);
-		this.nounsForkLogic = new NounsForkLogic(provider);
-		this.nounsForkToken = new NounsForkToken(provider);
+		this._forkId = forkId;
+		this.nounsForkAuctionHouse = new NounsForkAuctionHouse(provider, forkId);
+		this.nounsForkLogic = new NounsForkLogic(provider, forkId);
+		this.nounsForkToken = new NounsForkToken(provider, forkId);
+	}
+
+	get forkId() {
+		return this._forkId;
 	}
 
 	/**

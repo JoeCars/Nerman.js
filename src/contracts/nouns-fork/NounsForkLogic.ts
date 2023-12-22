@@ -24,15 +24,30 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_EVENTS)[number];
  * A wrapper around the NounsFork governance contract.
  */
 export class _NounsForkLogic {
+	private _forkId: number;
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_EVENTS;
+	public static readonly forkAddress = [
+		"0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6",
+		"0x5b8dd9f30425a7e6942c2ecf1d87acafbeab3073",
+		"0xcf8b3ce9e92990a689fbdc886585a84ea0e4aece"
+	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
+	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
 		this.provider = provider;
-		this.Contract = new ethers.Contract("0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6", NounsForkABI, this.provider);
+		this._forkId = forkId;
+		this.Contract = new ethers.Contract(_NounsForkLogic.forkAddress[forkId], NounsForkABI, this.provider);
 		this.registeredListeners = new Map<SupportedEventsType, Function>();
+	}
+
+	get forkId() {
+		return this._forkId;
+	}
+
+	get address() {
+		return _NounsForkLogic.forkAddress[this._forkId];
 	}
 
 	/**

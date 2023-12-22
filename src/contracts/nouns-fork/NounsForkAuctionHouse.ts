@@ -20,15 +20,30 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVE
  * A wrapper class around the NounsForkAuctionHouse contract.
  */
 export class _NounsForkAuctionHouse {
+	private _forkId: number;
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS;
+	public static readonly forkAddress = [
+		"0xd5c122b40823e467bc6e3c859cb530b105cae22e",
+		"0xb350beda0210fae7a179809fb0ae0ecd565164b0",
+		"0xd5d4c3863c320bc9f5fe9ee0d3da6f7b214449ef"
+	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
+	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
 		this.provider = provider;
-		this.Contract = new ethers.Contract("0xd5c122b40823e467bc6e3c859cb530b105cae22e", NounsAuctionHouseABI, this.provider);
+		this._forkId = forkId;
+		this.Contract = new ethers.Contract(_NounsForkAuctionHouse.forkAddress[forkId], NounsAuctionHouseABI, this.provider);
 		this.registeredListeners = new Map<SupportedEventsType, Function>();
+	}
+
+	get forkId() {
+		return this._forkId;
+	}
+
+	get address() {
+		return _NounsForkAuctionHouse.forkAddress[this._forkId];
 	}
 
 	/**

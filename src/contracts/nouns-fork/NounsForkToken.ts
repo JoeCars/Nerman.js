@@ -25,15 +25,30 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_TOKEN_EVENTS)[num
  * A wrapper around the NounsForkToken governance contract.
  */
 export class _NounsForkToken {
+	private _forkId: number;
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_TOKEN_EVENTS;
+	public static readonly forkAddress = [
+		"0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f",
+		"0xd6473f1d7c07dc08983a7f09f59c1a2aba17be41",
+		"0xd7bf9e2c54d07582004782004ed20d0336d52669"
+	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
+	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
 		this.provider = provider;
-		this.Contract = new ethers.Contract("0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f", NounsTokenABI, this.provider);
+		this._forkId = forkId;
+		this.Contract = new ethers.Contract(_NounsForkToken.forkAddress[forkId], NounsTokenABI, this.provider);
 		this.registeredListeners = new Map<SupportedEventsType, Function>();
+	}
+
+	get forkId() {
+		return this._forkId;
+	}
+
+	get address() {
+		return _NounsForkToken.forkAddress[this._forkId];
 	}
 
 	/**
