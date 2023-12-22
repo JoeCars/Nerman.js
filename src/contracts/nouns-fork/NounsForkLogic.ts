@@ -420,10 +420,10 @@ export class _NounsForkLogic {
 	}
 
 	/**
-	 * @returns The name of the contract. `NounsFork`.
+	 * @returns The name of the contract. `NounsForkLogic`.
 	 */
 	public name() {
-		return "NounsFork";
+		return "NounsForkLogic";
 	}
 }
 
