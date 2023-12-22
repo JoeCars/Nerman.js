@@ -1,6 +1,6 @@
 import { ethers, BigNumber } from "ethers";
-import { VoteDirection, Account, EventData } from "../types";
-import { default as NounsForkABI } from "./abis/NounsForkGovernance.json";
+import { VoteDirection, Account, EventData } from "../../types";
+import { default as NounsForkABI } from "../abis/NounsForkGovernance.json";
 
 const SUPPORTED_NOUNS_FORK_EVENTS = [
 	"NewAdmin",

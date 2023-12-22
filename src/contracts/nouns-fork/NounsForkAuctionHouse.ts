@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
-import { Account, EventData } from "../types";
-import { default as NounsAuctionHouseABI } from "./abis/NounsAuctionHouse.json";
+import { Account, EventData } from "../../types";
+import { default as NounsAuctionHouseABI } from "../abis/NounsAuctionHouse.json";
 
 const SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS = [
 	"AuctionCreated",
