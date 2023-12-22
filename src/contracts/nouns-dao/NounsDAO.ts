@@ -1,6 +1,6 @@
 import { ethers, BigNumber } from "ethers";
-import { VoteDirection, Account, EventData } from "../types";
-import { default as NounsDAOLogicV3ABI } from "./abis/NounsDAOLogicV3.json";
+import { VoteDirection, Account, EventData } from "../../types";
+import { default as NounsDAOLogicV3ABI } from "../abis/NounsDAOLogicV3.json";
 
 const SUPPORTED_NOUNS_DAO_EVENTS = [
 	"DAOWithdrawNounsFromEscrow",

@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
-import { NounsTokenSeed, Account, EventData } from "../types";
-import { default as NounsTokenABI } from "./abis/NounsToken.json";
+import { NounsTokenSeed, Account, EventData } from "../../types";
+import { default as NounsTokenABI } from "../abis/NounsToken.json";
 
 const SUPPORTED_NOUNS_TOKEN_EVENTS = [
 	"DelegateChanged",

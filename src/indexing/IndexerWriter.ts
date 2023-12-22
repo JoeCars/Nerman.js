@@ -2,10 +2,10 @@ import { ethers } from "ethers";
 
 import * as indexer from "../utilities/indexer/indexer-logic";
 import * as parsers from "../utilities/indexer/index-parsers";
-import { _NounsAuctionHouse } from "../contracts/NounsAuctionHouse";
-import { _NounsDAO } from "../contracts/NounsDAO";
-import { _NounsDAOData } from "../contracts/NounsDAOData";
-import { _NounsToken } from "../contracts/NounsToken";
+import { _NounsAuctionHouse } from "../contracts/nouns-dao/NounsAuctionHouse";
+import { _NounsDAO } from "../contracts/nouns-dao/NounsDAO";
+import { _NounsDAOData } from "../contracts/nouns-dao/NounsDAOData";
+import { _NounsToken } from "../contracts/nouns-dao/NounsToken";
 
 /** A class that takes event data from on-chain and writes them to files. */
 export class IndexerWriter {

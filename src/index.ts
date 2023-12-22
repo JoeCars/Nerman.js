@@ -1,7 +1,7 @@
 export { EventData, NounsOptions } from "./types";
 export { NounsNymz } from "./contracts/nouns-nymz/NounsNymz";
 export { FederationNounsPool } from "./contracts/federation/FederationNounsPool";
-export { Nouns } from "./contracts/Nouns";
+export { Nouns } from "./contracts/nouns-dao/Nouns";
 export { _NounsForkToken as NounsForkToken } from "./contracts/NounsForkToken";
 export { _NounsForkAuctionHouse as NounsForkAuctionHouse } from "./contracts/NounsForkAuctionHouse";
 export { _NounsFork as NounsFork } from "./contracts/NounsFork";

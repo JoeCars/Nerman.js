@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
-import { default as NounsDAODataABI } from "./abis/NounsDAOData.json";
-import { Account, EventData } from "../types";
+import { default as NounsDAODataABI } from "../abis/NounsDAOData.json";
+import { Account, EventData } from "../../types";
 
 const SUPPORTED_NOUNS_DAO_DATA_EVENTS = [
 	"AdminChanged",

@@ -4,7 +4,7 @@ import { _NounsAuctionHouse, SupportedEventsType as NounsAuctionHouseSupportedEv
 import { _NounsToken, SupportedEventsType as NounsTokenSupportedEventsType } from "./NounsToken";
 import { _NounsDAO, SupportedEventsType as NounsDAOSupportedEventsType } from "./NounsDAO";
 import { _NounsDAOData, SupportedEventsType as NounsDAODataSupportedEventsType } from "./NounsDAOData";
-import { EventData, NounsOptions } from "../types";
+import { EventData, NounsOptions } from "../../types";
 
 type SupportedEventsType =
 	| NounsAuctionHouseSupportedEventsType
