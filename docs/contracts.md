@@ -49,8 +49,32 @@ nouns.trigger("NounCreated", {
 
 A contract that handles posting updates.
 
-The previous contract address was `0x94b4fb16893C0Fb4E470eEf2559C24FD87FEd5F1`.
-Moved to `0xa5Bf9A9b8f60CFD98b1cCB592f2F9F37Bb0033a4` on block `18689732` (01-Dec-2023) with the launch of PropdatesV2.
+<table>
+	<tr>
+		<th> Version </th>
+		<th> Address </th>
+		<th> Note </th>
+	</tr>
+	<tr>
+		<td> V1 </td>
+		<td> 
+			<a href="https://etherscan.io/address/0x94b4fb16893C0Fb4E470eEf2559C24FD87FEd5F1">
+				0x94b4fb16893C0Fb4E470eEf2559C24FD87FEd5F1
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td> V2 </td>
+		<td> 
+			<a href="https://etherscan.io/address/0xa5Bf9A9b8f60CFD98b1cCB592f2F9F37Bb0033a4">
+				0xa5Bf9A9b8f60CFD98b1cCB592f2F9F37Bb0033a4
+			</a>
+		</td>
+		<td>
+			Updated to V2 on block 18689732. 01-Dec-2023.
+		</td>
+	</tr>
+</table>
 
 # Nouns Forks
 
