@@ -4,7 +4,7 @@ export { FederationNounsPool } from "./contracts/federation/FederationNounsPool"
 export { Nouns } from "./contracts/nouns-dao/Nouns";
 export { _NounsForkToken as NounsForkToken } from "./contracts/nouns-fork/NounsForkToken";
 export { _NounsForkAuctionHouse as NounsForkAuctionHouse } from "./contracts/nouns-fork/NounsForkAuctionHouse";
-export { _NounsFork as NounsFork } from "./contracts/nouns-fork/NounsFork";
+export { _NounsForkLogic as NounsForkLogic } from "./contracts/nouns-fork/NounsForkLogic";
 export { _Propdates as Propdates } from "./contracts/propdates/Propdates";
 export { LilNouns } from "./contracts/lil-nouns/LilNouns";
 export { IndexerWriter } from "./indexing/IndexerWriter";

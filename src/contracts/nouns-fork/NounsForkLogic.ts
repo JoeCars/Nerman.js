@@ -23,7 +23,7 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_EVENTS)[number];
 /**
  * A wrapper around the NounsFork governance contract.
  */
-export class _NounsFork {
+export class _NounsForkLogic {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
