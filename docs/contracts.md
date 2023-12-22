@@ -51,3 +51,63 @@ A contract that handles posting updates.
 
 The previous contract address was `0x94b4fb16893C0Fb4E470eEf2559C24FD87FEd5F1`.
 Moved to `0xa5Bf9A9b8f60CFD98b1cCB592f2F9F37Bb0033a4` on block `18689732` (01-Dec-2023) with the launch of PropdatesV2.
+
+# Nouns Forks
+
+Each fork has its own unique addresses for its treasury, token, auction, and logic contracts. These deployed contracts can be found in the [Nouns Fork Deployer Contract events](https://etherscan.io/address/0xcd65e61f70e0b1aa433ca1d9a6fc2332e9e73ce3#events).
+
+There do not appear to be any auction proxies at the moment, and there are no triggered auction events.
+
+<table>
+	<tr>
+		<th> Fork </th>
+		<th> Contract </th>
+		<th> Address </th>
+	<tr>
+	<tr>
+		<td rowspan=3> 0 </td>
+		<td> Token </td> 
+		<td> <a href="https://etherscan.io/address/0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f"> 
+			0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f 
+		</a> </td>
+	</tr>
+	<tr>
+		<td> Auction </td> 
+		<td> <a href="https://etherscan.io/address/0xd5c122b40823e467bc6e3c859cb530b105cae22e"> 
+			0xd5c122b40823e467bc6e3c859cb530b105cae22e 
+		</a> </td>
+	</tr>
+	<tr>
+		<td> Logic </td> 
+		<td> <a href="https://etherscan.io/address/0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6"> 
+			0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6
+		 </a> </td>
+	</tr>
+	<tr>
+		<td rowspan=3> 1 </td>
+		<td> Token </td> 
+		<td> <a href="https://etherscan.io/address/0xd6473f1d7c07dc08983a7f09f59c1a2aba17be41"> 0xd6473f1d7c07dc08983a7f09f59c1a2aba17be41 </a> </td>
+	</tr>
+	<tr>
+		<td> Auction </td> 
+		<td> <a href="https://etherscan.io/address/0xb350beda0210fae7a179809fb0ae0ecd565164b0"> 0xb350beda0210fae7a179809fb0ae0ecd565164b0 </a> </td>
+	</tr>
+	<tr>
+		<td> Logic </td> 
+		<td> <a href="https://etherscan.io/address/0x5b8dd9f30425a7e6942c2ecf1d87acafbeab3073"> 0x5b8dd9f30425a7e6942c2ecf1d87acafbeab3073 </a> </td>
+	</tr>
+	<tr>
+		<td rowspan=3> 2 </td>
+		<td> Token </td> 
+		<td> <a href="https://etherscan.io/address/0xd7bf9e2c54d07582004782004ed20d0336d52669"> 0xd7bf9e2c54d07582004782004ed20d0336d52669 </a> </td>
+	</tr>
+	<tr>
+		<td> Auction </td> 
+		<td> <a href="https://etherscan.io/address/0xd5d4c3863c320bc9f5fe9ee0d3da6f7b214449ef"> 0xd5d4c3863c320bc9f5fe9ee0d3da6f7b214449ef </a> </td>
+	</tr>
+	<tr>
+		<td> Logic </td> 
+		<td> <a href="https://etherscan.io/address/0xcf8b3ce9e92990a689fbdc886585a84ea0e4aece"> 0xcf8b3ce9e92990a689fbdc886585a84ea0e4aece</a> </td>
+	</tr>
+
+</table>
