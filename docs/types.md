@@ -1351,3 +1351,58 @@ NounsDAOUpdated event data.
 
 -   **nounsDAO**: `Account`. Nouns DAO.
 -   **event**: `ethers.Event`. Event meta data.
+
+# PropHouse Types
+
+Events exclusive to PropHouse contracts.
+
+## `RoundCreated`
+
+RoundCreated event data.
+
+-   **creator**: `Account`. Round created address.
+-   **house**: `Account`. House address.
+-   **round**: `Account`. Round address.
+-   **kind**: `any`.
+-   **title**: `string`. Round title.
+-   **description**: `string`. Round description.
+-   **event**: `ethers.Event`. Event meta data.
+
+## `HouseCreated`
+
+HouseCreated event data.
+
+-   **creator**: `Account`. House created address.
+-   **house**: `Account`. House address.
+-   **kind**: `any`.
+-   **event**: `ethers.Event`. Event meta data.
+
+## `VoteCast`
+
+VoteCast event data.
+
+-   **voter**: `Account`. Voter address.
+-   **round**: `Account`. On-chain round address.
+-   **proposalId**: `number`. Proposal id voted for in round.
+-   **votingPower**: `string`. Vote amount.
+-   **event**: Event meta data.
+    -   **createdAt**: `number`. Time the vote was cast in seconds since the unix epoch.
+    -   **txHash**: `string`. On-chain vote transaction hash.
+
+# `ProposalSubmitted`
+
+ProposalSubmitted event data.
+
+-   **proposalId**: `number`. Proposal id in round.
+-   **proposer**: `Account`. Proposer address.
+-   **round**: `Account`. Round address containing the proposal.
+-   **metaDataURI**: `string`. Proposal meta data.
+-   **title**: `string`. The proposal title.
+-   **description**: `string`. The proposal description. In HTML format.
+-   **isCancelled**: `boolean`. Whether proposal has been cancelled or not.
+-   **isWinner**: `boolean`. Whether the proposal won or not.
+-   **winningPosition**: `null | any;`. The placement when winning.
+-   **votingPower**: `string`. Current votes for this proposal.
+-   **event**: Event meta data.
+    -   **createdAt**: `number`. Time the proposal was submitted in seconds since the unix epoch.
+    -   **txHash**: `string`. On-chain proposal submission transaction hash.

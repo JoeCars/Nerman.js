@@ -1,36 +1,68 @@
 import { ethers } from "ethers";
-import { NounsTokenSeed, Account, EventData } from "../types";
-import { SUPPORTED_NOUNS_FORK_TOKEN_EVENTS } from "../constants";
-import { default as NounsTokenABI } from "./abis/NounsToken.json";
+import { NounsTokenSeed, Account, EventData } from "../../types";
+import { default as NounsTokenABI } from "../abis/NounsToken.json";
+
+const SUPPORTED_NOUNS_FORK_TOKEN_EVENTS = [
+	"DelegateChanged",
+	"DelegateVotesChanged",
+	"Transfer",
+	"Approval",
+	"ApprovalForAll",
+	"NounCreated",
+	"DescriptorLocked",
+	"DescriptorUpdated",
+	"MinterLocked",
+	"MinterUpdated",
+	"NounBurned",
+	"NoundersDAOUpdated",
+	"OwnershipTransferred",
+	"SeederLocked",
+	"SeederUpdated"
+] as const;
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_TOKEN_EVENTS)[number];
 
 /**
  * A wrapper around the NounsForkToken governance contract.
  */
 export class _NounsForkToken {
+	private _forkId: number;
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public registeredListeners: Map<string, Function>;
-	public supportedEvents: string[];
+	public registeredListeners: Map<SupportedEventsType, Function>;
+	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_TOKEN_EVENTS;
+	public static readonly forkAddress = [
+		"0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f",
+		"0xd6473f1d7c07dc08983a7f09f59c1a2aba17be41",
+		"0xd7bf9e2c54d07582004782004ed20d0336d52669"
+	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
+	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
 		this.provider = provider;
-		this.Contract = new ethers.Contract("0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f", NounsTokenABI, this.provider);
-		this.registeredListeners = new Map<string, Function>();
-		this.supportedEvents = SUPPORTED_NOUNS_FORK_TOKEN_EVENTS;
+		this._forkId = forkId;
+		this.Contract = new ethers.Contract(_NounsForkToken.forkAddress[forkId], NounsTokenABI, this.provider);
+		this.registeredListeners = new Map<SupportedEventsType, Function>();
+	}
+
+	get forkId() {
+		return this._forkId;
+	}
+
+	get address() {
+		return _NounsForkToken.forkAddress[this._forkId];
 	}
 
 	/**
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
 	 * Throws an error if the event is not supported.
-	 * @param eventType The name of the event.
+	 * @param eventName The name of the event.
 	 * @param listener The listener function.
 	 * @example
 	 * nounsForkToken.on('NounCreated', (data) => {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
-		switch (eventType) {
+	public async on(eventName: SupportedEventsType, listener: Function) {
+		switch (eventName) {
 			case "DelegateChanged": // WORKING
 				this.Contract.on(
 					"DelegateChanged",
@@ -45,7 +77,7 @@ export class _NounsForkToken {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "DelegateVotesChanged": // WORKING
@@ -62,7 +94,7 @@ export class _NounsForkToken {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Transfer": // WORKING
@@ -76,7 +108,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Approval": // WORKING
@@ -90,7 +122,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -112,7 +144,7 @@ export class _NounsForkToken {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NounCreated": // WORKING
@@ -125,7 +157,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -141,7 +173,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -158,7 +190,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -174,7 +206,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -191,7 +223,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -208,7 +240,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -225,7 +257,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -243,7 +275,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -259,7 +291,7 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -276,11 +308,11 @@ export class _NounsForkToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			default:
-				throw new Error(`${eventType} is not supported. Please use a different event.`);
+				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 	}
 
@@ -290,7 +322,7 @@ export class _NounsForkToken {
 	 * @example
 	 * nounsForkToken.off('NounCreated');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -301,7 +333,7 @@ export class _NounsForkToken {
 	/**
 	 * Triggers the listener of the given event with the given data.
 	 * Throws an error if there is no listener assigned.
-	 * @param eventType The event to be triggered.
+	 * @param eventName The event to be triggered.
 	 * @param data The data being passed to the listener.
 	 * @example
 	 * nounsForkToken.trigger('NounCreated', {
@@ -315,10 +347,10 @@ export class _NounsForkToken {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
-		const listener = this.registeredListeners.get(eventType);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
-			throw new Error(`${eventType} does not have a listener.`);
+			throw new Error(`${eventName} does not have a listener.`);
 		}
 
 		listener(data);

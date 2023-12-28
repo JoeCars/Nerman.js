@@ -1,23 +1,33 @@
 import { ethers } from "ethers";
 import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesV2.json";
-import { SUPPORTED_PROPDATES_EVENTS } from "../../constants";
+
+const SUPPORTED_PROPDATES_EVENTS = [
+	"Initialized",
+	"OwnershipTransferStarted",
+	"OwnershipTransferred",
+	"PostUpdate",
+	"PropUpdateAdminMigrated",
+	"PropUpdateAdminRecovered",
+	"PropUpdateAdminTransferred",
+	"SuperAdminTransferred",
+	"Upgraded"
+] as const;
+export type SupportedEventsType = (typeof SUPPORTED_PROPDATES_EVENTS)[number];
 
 /**
  * A wrapper class around the Propdates contract.
- * Currently supports the `PostUpdate`, `PropUpdateAdminTransferStarted`, and `PropUpdateAdminTransfered` events.
  */
 export class _Propdates {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public registeredListeners: Map<string, Function>;
-	public supportedEvents: string[];
+	public registeredListeners: Map<SupportedEventsType, Function>;
+	public static readonly supportedEvents = SUPPORTED_PROPDATES_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0xa5Bf9A9b8f60CFD98b1cCB592f2F9F37Bb0033a4", PropdatesABI, this.provider);
 		this.registeredListeners = new Map();
-		this.supportedEvents = SUPPORTED_PROPDATES_EVENTS;
 	}
 
 	/**
@@ -29,8 +39,8 @@ export class _Propdates {
 	 * 	console.log(data.propId);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
-		switch (eventType) {
+	public async on(eventName: SupportedEventsType, listener: Function) {
+		switch (eventName) {
 			case "Initialized":
 				this.Contract.on("Initialized", (version: number, event: ethers.Event) => {
 					const data: EventData.Propdates.Initialized = {
@@ -39,7 +49,7 @@ export class _Propdates {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferStarted":
@@ -51,7 +61,7 @@ export class _Propdates {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
@@ -63,7 +73,7 @@ export class _Propdates {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "PostUpdate":
@@ -76,7 +86,7 @@ export class _Propdates {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "PropUpdateAdminMigrated":
@@ -92,7 +102,7 @@ export class _Propdates {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "PropUpdateAdminRecovered":
@@ -108,7 +118,7 @@ export class _Propdates {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "PropUpdateAdminTransferred":
@@ -125,7 +135,7 @@ export class _Propdates {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "SuperAdminTransferred":
@@ -141,7 +151,7 @@ export class _Propdates {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Upgraded":
@@ -153,11 +163,11 @@ export class _Propdates {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			default:
-				throw new Error(`${eventType} is not supported. Please use a different event.`);
+				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 	}
 
@@ -167,7 +177,7 @@ export class _Propdates {
 	 * @example
 	 * propdates.off('PostUpdate');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -186,10 +196,10 @@ export class _Propdates {
 	 * 	update: "It's done!"
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
-		const listener = this.registeredListeners.get(eventType);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
-			throw new Error(`${eventType} does not have a listener.`);
+			throw new Error(`${eventName} does not have a listener.`);
 		}
 
 		listener(data);

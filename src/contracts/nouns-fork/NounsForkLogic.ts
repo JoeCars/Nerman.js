@@ -1,37 +1,67 @@
 import { ethers, BigNumber } from "ethers";
-import { VoteDirection, Account, EventData } from "../types";
-import { SUPPORTED_NOUNS_FORK_EVENTS } from "../constants";
+import { VoteDirection, Account, EventData } from "../../types";
+import { default as NounsForkABI } from "../abis/NounsForkGovernance.json";
 
-import { default as NounsForkABI } from "./abis/NounsForkGovernance.json";
+const SUPPORTED_NOUNS_FORK_EVENTS = [
+	"NewAdmin",
+	"NewImplementation",
+	"NewPendingAdmin",
+	"ProposalCanceled",
+	"ProposalCreated",
+	"ProposalCreatedWithRequirements",
+	"ProposalExecuted",
+	"ProposalQueued",
+	"ProposalThresholdBPSSet",
+	"Quit",
+	"QuorumVotesBPSSet",
+	"VoteCast",
+	"VotingDelaySet",
+	"VotingPeriodSet"
+] as const;
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_EVENTS)[number];
 
 /**
  * A wrapper around the NounsFork governance contract.
  */
-export class _NounsFork {
+export class _NounsForkLogic {
+	private _forkId: number;
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public registeredListeners: Map<string, Function>;
-	public supportedEvents: string[];
+	public registeredListeners: Map<SupportedEventsType, Function>;
+	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_EVENTS;
+	public static readonly forkAddress = [
+		"0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6",
+		"0x5b8dd9f30425a7e6942c2ecf1d87acafbeab3073",
+		"0xcf8b3ce9e92990a689fbdc886585a84ea0e4aece"
+	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
+	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
 		this.provider = provider;
-		this.Contract = new ethers.Contract("0xa30e1fbb8e1b5d6487e9f3dda55df05e225f82b6", NounsForkABI, this.provider);
-		this.registeredListeners = new Map<string, Function>();
-		this.supportedEvents = SUPPORTED_NOUNS_FORK_EVENTS;
+		this._forkId = forkId;
+		this.Contract = new ethers.Contract(_NounsForkLogic.forkAddress[forkId], NounsForkABI, this.provider);
+		this.registeredListeners = new Map<SupportedEventsType, Function>();
+	}
+
+	get forkId() {
+		return this._forkId;
+	}
+
+	get address() {
+		return _NounsForkLogic.forkAddress[this._forkId];
 	}
 
 	/**
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
 	 * Throws an error if the event is not supported.
-	 * @param eventType The name of the event.
+	 * @param eventName The name of the event.
 	 * @param listener The listener function.
 	 * @example
 	 * nounsFork.on('VoteCast', (data) => {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
-		switch (eventType) {
+	public async on(eventName: SupportedEventsType, listener: Function) {
+		switch (eventName) {
 			// **********************************************************
 			//
 			// STATUS: TESTING AND DOCUMENTATION NEEDED
@@ -48,7 +78,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -70,7 +100,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -90,7 +120,7 @@ export class _NounsFork {
 					listener(data);
 				});
 
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -109,7 +139,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -151,7 +181,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -196,7 +226,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
@@ -208,7 +238,7 @@ export class _NounsFork {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -228,7 +258,7 @@ export class _NounsFork {
 					};
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -250,7 +280,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Quit":
@@ -264,7 +294,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -286,7 +316,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "VoteCast": // WORKING
@@ -321,7 +351,7 @@ export class _NounsFork {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -340,7 +370,7 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -359,11 +389,11 @@ export class _NounsFork {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			default:
-				throw new Error(`${eventType} is not supported. Please use a different event.`);
+				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 	}
 
@@ -373,7 +403,7 @@ export class _NounsFork {
 	 * @example
 	 * nounsFork.off('VoteCast');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -384,7 +414,7 @@ export class _NounsFork {
 	/**
 	 * Triggers the listener of the given event with the given data.
 	 * Throws an error if there is no assigned listener.
-	 * @param eventType The event to be triggered.
+	 * @param eventName The event to be triggered.
 	 * @param data The data being passed to the listener.
 	 * @example
 	 * nounsFork.trigger('VoteCast', {
@@ -395,20 +425,20 @@ export class _NounsFork {
 	 * 	reason: "Really good reason.",
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
-		const listener = this.registeredListeners.get(eventType);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
-			throw new Error(`${eventType} does not have a listener.`);
+			throw new Error(`${eventName} does not have a listener.`);
 		}
 
 		listener(data);
 	}
 
 	/**
-	 * @returns The name of the contract. `NounsFork`.
+	 * @returns The name of the contract. `NounsForkLogic`.
 	 */
 	public name() {
-		return "NounsFork";
+		return "NounsForkLogic";
 	}
 }
 

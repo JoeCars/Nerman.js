@@ -1,21 +1,21 @@
 import * as cron from "node-cron";
 import fetch from "node-fetch";
 import { EventData } from "../../types";
-import { SUPPORTED_NOUNS_NYMZ_EVENTS } from "../../constants";
+
+const SUPPORTED_NOUNS_NYMZ_EVENTS = ["NewPost"] as const;
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_NYMZ_EVENTS)[number];
 
 /**
  * A wrapper class for NounsNymz events.
- * Supports the `NewPost` event.
  */
 export class NounsNymz {
 	private lastTime: Date;
-	public registeredListeners: Map<string, Function>;
-	public supportedEvents: string[];
+	public registeredListeners: Map<SupportedEventsType, Function>;
+	public static readonly supportedEvents = SUPPORTED_NOUNS_NYMZ_EVENTS;
 
 	constructor() {
 		this.lastTime = new Date();
 		this.registeredListeners = new Map();
-		this.supportedEvents = SUPPORTED_NOUNS_NYMZ_EVENTS;
 	}
 
 	/**
@@ -27,7 +27,7 @@ export class NounsNymz {
 	 * 	console.log(data.body);
 	 * });
 	 */
-	public on(eventName: string, listener: (post: EventData.NounsNymz.NewPost) => void) {
+	public on(eventName: SupportedEventsType, listener: (post: EventData.NounsNymz.NewPost) => void) {
 		this.registeredListeners.set(eventName, listener);
 
 		if (eventName !== "NewPost") {
@@ -58,7 +58,7 @@ export class NounsNymz {
 	 * @example
 	 * nounsNymz.off('NewPost');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		this.registeredListeners.delete(eventName);
 	}
 
@@ -76,7 +76,7 @@ export class NounsNymz {
 	 * 	parentId: null
 	 * });
 	 */
-	public trigger(eventName: string, data: unknown) {
+	public trigger(eventName: SupportedEventsType, data: unknown) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

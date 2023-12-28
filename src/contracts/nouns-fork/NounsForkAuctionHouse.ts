@@ -1,36 +1,63 @@
 import { ethers } from "ethers";
-import { Account, EventData } from "../types";
-import { SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS } from "../constants";
-import { default as NounsAuctionHouseABI } from "./abis/NounsAuctionHouse.json";
+import { Account, EventData } from "../../types";
+import { default as NounsAuctionHouseABI } from "../abis/NounsAuctionHouse.json";
+
+const SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS = [
+	"AuctionCreated",
+	"AuctionBid",
+	"AuctionExtended",
+	"AuctionSettled",
+	"AuctionTimeBufferUpdated",
+	"AuctionReservePriceUpdated",
+	"AuctionMinBidIncrementPercentageUpdated",
+	"OwnershipTransferred",
+	"Paused",
+	"Unpaused"
+] as const;
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS)[number];
 
 /**
  * A wrapper class around the NounsForkAuctionHouse contract.
  */
 export class _NounsForkAuctionHouse {
+	private _forkId: number;
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public registeredListeners: Map<string, Function>;
-	public supportedEvents: string[];
+	public registeredListeners: Map<SupportedEventsType, Function>;
+	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS;
+	public static readonly forkAddress = [
+		"0xd5c122b40823e467bc6e3c859cb530b105cae22e",
+		"0xb350beda0210fae7a179809fb0ae0ecd565164b0",
+		"0xd5d4c3863c320bc9f5fe9ee0d3da6f7b214449ef"
+	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
+	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
 		this.provider = provider;
-		this.Contract = new ethers.Contract("0xd5c122b40823e467bc6e3c859cb530b105cae22e", NounsAuctionHouseABI, this.provider);
-		this.registeredListeners = new Map<string, Function>();
-		this.supportedEvents = SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS;
+		this._forkId = forkId;
+		this.Contract = new ethers.Contract(_NounsForkAuctionHouse.forkAddress[forkId], NounsAuctionHouseABI, this.provider);
+		this.registeredListeners = new Map<SupportedEventsType, Function>();
+	}
+
+	get forkId() {
+		return this._forkId;
+	}
+
+	get address() {
+		return _NounsForkAuctionHouse.forkAddress[this._forkId];
 	}
 
 	/**
 	 * Registers a listener to the given event, triggering the function with the appropriate event data whenever it triggers in the blockchain.
 	 * Throws an error if the event is not supported.
-	 * @param eventType The event name.
+	 * @param eventName The event name.
 	 * @param listener The listener function.
 	 * @example
 	 * nounsForkAuctionHouse.on('AuctionCreated', (data) => {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
-		switch (eventType) {
+	public async on(eventName: SupportedEventsType, listener: Function) {
+		switch (eventName) {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
 				this.Contract.on(
 					"AuctionCreated",
@@ -45,7 +72,7 @@ export class _NounsForkAuctionHouse {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionBid": // FUNCTIONING CORRECTLY
@@ -60,7 +87,7 @@ export class _NounsForkAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -78,7 +105,7 @@ export class _NounsForkAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionSettled": // FUNCTIONING CORRECTLY
@@ -92,7 +119,7 @@ export class _NounsForkAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -109,7 +136,7 @@ export class _NounsForkAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -126,7 +153,7 @@ export class _NounsForkAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -146,7 +173,7 @@ export class _NounsForkAuctionHouse {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
@@ -159,7 +186,7 @@ export class _NounsForkAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Paused":
@@ -182,11 +209,11 @@ export class _NounsForkAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			default:
-				throw new Error(`${eventType} is not supported. Please use a different event.`);
+				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 	}
 
@@ -196,7 +223,7 @@ export class _NounsForkAuctionHouse {
 	 * @example
 	 * nounsForkAuctionHouse.off('AuctionCreated');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -207,7 +234,7 @@ export class _NounsForkAuctionHouse {
 	/**
 	 * Triggers the listener of the given event with the given data.
 	 * Throws an error if the event is not supported.
-	 * @param eventType The event to be triggered.
+	 * @param eventName The event to be triggered.
 	 * @param data The data being passed to the listener.
 	 * @example
 	 * nounsForkAuctionHouse.trigger('AuctionCreated', {
@@ -216,10 +243,10 @@ export class _NounsForkAuctionHouse {
 	 * 	endTime: 1689763583,
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
-		const listener = this.registeredListeners.get(eventType);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
-			throw new Error(`${eventType} does not have a listener.`);
+			throw new Error(`${eventName} does not have a listener.`);
 		}
 
 		listener(data);

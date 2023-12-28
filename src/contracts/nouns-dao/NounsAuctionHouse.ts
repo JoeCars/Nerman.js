@@ -1,7 +1,20 @@
 import { ethers } from "ethers";
-import { Account, EventData } from "../types";
-import { SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS } from "../constants";
-import { default as NounsAuctionHouseABI } from "./abis/NounsAuctionHouse.json";
+import { Account, EventData } from "../../types";
+import { default as NounsAuctionHouseABI } from "../abis/NounsAuctionHouse.json";
+
+const SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS = [
+	"AuctionCreated",
+	"AuctionBid",
+	"AuctionExtended",
+	"AuctionSettled",
+	"AuctionTimeBufferUpdated",
+	"AuctionReservePriceUpdated",
+	"AuctionMinBidIncrementPercentageUpdated",
+	"OwnershipTransferred",
+	"Paused",
+	"Unpaused"
+] as const;
+export type SupportedEventsType = (typeof SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS)[number];
 
 /**
  * A wrapper class around the NounsAuctionHouse contract.
@@ -9,28 +22,27 @@ import { default as NounsAuctionHouseABI } from "./abis/NounsAuctionHouse.json";
 export class _NounsAuctionHouse {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public supportedEvents: string[];
-	public registeredListeners: Map<string, Function>;
+	public registeredListeners: Map<SupportedEventsType, Function>;
+	public static readonly supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x830BD73E4184ceF73443C15111a1DF14e495C706", NounsAuctionHouseABI, this.provider);
-		this.supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
 		this.registeredListeners = new Map();
 	}
 
 	/**
 	 * Registers a listener to the given event, triggering the function with the appropriate event data whenever it triggers in the blockchain.
 	 * Throws an error if the event is not supported.
-	 * @param eventType The event name.
+	 * @param eventName The event name.
 	 * @param listener The listener function.
 	 * @example
 	 * nounsAuctionHouse.on('AuctionCreated', (data) => {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
-		switch (eventType) {
+	public async on(eventName: SupportedEventsType, listener: Function) {
+		switch (eventName) {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
 				this.Contract.on(
 					"AuctionCreated",
@@ -45,7 +57,7 @@ export class _NounsAuctionHouse {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionBid": // FUNCTIONING CORRECTLY
@@ -60,7 +72,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -78,7 +90,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionSettled": // FUNCTIONING CORRECTLY
@@ -92,7 +104,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -109,7 +121,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -126,7 +138,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -146,7 +158,7 @@ export class _NounsAuctionHouse {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
@@ -159,7 +171,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Paused":
@@ -171,7 +183,7 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Unpaused":
@@ -183,11 +195,11 @@ export class _NounsAuctionHouse {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			default:
-				throw new Error(`${eventType} is not supported. Please use a different event.`);
+				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 	}
 
@@ -197,7 +209,7 @@ export class _NounsAuctionHouse {
 	 * @example
 	 * nounsAuctionHouse.off('AuctionCreated');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -207,7 +219,7 @@ export class _NounsAuctionHouse {
 
 	/**
 	 * Triggers an event. Throws an error if the listener cannot be found.
-	 * @param eventType the name of the event.
+	 * @param eventName the name of the event.
 	 * @param data the event data.
 	 * @example
 	 * nounsAuctionHouse.trigger('AuctionCreated', {
@@ -216,10 +228,10 @@ export class _NounsAuctionHouse {
 	 * 	endTime: 1689763583
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
-		const listener = this.registeredListeners.get(eventType);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
-			throw new Error(`${eventType} does not have a listener.`);
+			throw new Error(`${eventName} does not have a listener.`);
 		}
 
 		listener(data);

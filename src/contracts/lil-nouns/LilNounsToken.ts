@@ -1,7 +1,26 @@
 import { ethers } from "ethers";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as LilNounsTokenABI } from "../abis/lil-nouns/NounsToken.json";
-import { SUPPORTED_LIL_NOUNS_TOKEN_EVENTS } from "../../constants";
+
+const SUPPORTED_LIL_NOUNS_TOKEN_EVENTS = [
+	"Approval",
+	"ApprovalForAll",
+	"DelegateChanged",
+	"DelegateVotesChanged",
+	"DescriptorLocked",
+	"DescriptorUpdated",
+	"LilNoundersDAOUpdated",
+	"MinterLocked",
+	"MinterUpdated",
+	"NounBurned",
+	"NounCreated",
+	"NounsDAOUpdated",
+	"OwnershipTransferred",
+	"SeederLocked",
+	"SeederUpdated",
+	"Transfer"
+] as const;
+export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_TOKEN_EVENTS)[number];
 
 /**
  * A wrapper around the LilNounsToken governance contract.
@@ -9,28 +28,27 @@ import { SUPPORTED_LIL_NOUNS_TOKEN_EVENTS } from "../../constants";
 export class LilNounsToken {
 	private provider: ethers.providers.JsonRpcProvider;
 	public Contract: ethers.Contract;
-	public supportedEvents: string[];
-	public registeredListeners: Map<string, Function>;
+	public registeredListeners: Map<SupportedEventsType, Function>;
+	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_TOKEN_EVENTS;
 
 	constructor(provider: ethers.providers.JsonRpcProvider) {
 		this.provider = provider;
 		this.Contract = new ethers.Contract("0x4b10701Bfd7BFEdc47d50562b76b436fbB5BdB3B", LilNounsTokenABI, this.provider);
-		this.supportedEvents = SUPPORTED_LIL_NOUNS_TOKEN_EVENTS;
 		this.registeredListeners = new Map();
 	}
 
 	/**
 	 * Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain.
 	 * Throws an error if the event is not supported.
-	 * @param eventType The name of the event.
+	 * @param eventName The name of the event.
 	 * @param listener The listener function.
 	 * @example
 	 * lilNounsToken.on('NounCreated', (data) => {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventType: string, listener: Function) {
-		switch (eventType) {
+	public async on(eventName: SupportedEventsType, listener: Function) {
+		switch (eventName) {
 			case "Approval":
 				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Event) => {
 					const data: EventData.Approval = {
@@ -42,7 +60,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ApprovalForAll":
@@ -59,7 +77,7 @@ export class LilNounsToken {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "DelegateChanged":
@@ -76,7 +94,7 @@ export class LilNounsToken {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "DelegateVotesChanged":
@@ -93,7 +111,7 @@ export class LilNounsToken {
 						listener(data);
 					}
 				);
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "DescriptorLocked":
@@ -104,7 +122,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "DescriptorUpdated":
@@ -116,7 +134,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "LilNoundersDAOUpdated":
@@ -128,7 +146,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "MinterLocked":
@@ -139,7 +157,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "MinterUpdated":
@@ -151,7 +169,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NounBurned":
@@ -163,7 +181,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NounCreated":
@@ -176,7 +194,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NounsDAOUpdated":
@@ -188,7 +206,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
@@ -201,7 +219,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "SeederLocked":
@@ -212,7 +230,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "SeederUpdated":
@@ -224,7 +242,7 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Transfer":
@@ -238,11 +256,11 @@ export class LilNounsToken {
 
 					listener(data);
 				});
-				this.registeredListeners.set(eventType, listener);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			default:
-				throw new Error(`${eventType} is not supported. Please use a different event.`);
+				throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
 	}
 
@@ -252,7 +270,7 @@ export class LilNounsToken {
 	 * @example
 	 * lilNounsToken.off('NounCreated');
 	 */
-	public off(eventName: string) {
+	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			this.Contract.off(eventName, listener as ethers.providers.Listener);
@@ -262,7 +280,7 @@ export class LilNounsToken {
 
 	/**
 	 * Triggers an event. Throws an error if there is no assigned listener.
-	 * @param eventType the event name.
+	 * @param eventName the event name.
 	 * @param data the event data.
 	 * @example
 	 * lilNounsToken.trigger('NounCreated', {
@@ -276,10 +294,10 @@ export class LilNounsToken {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventType: string, data: unknown) {
-		const listener = this.registeredListeners.get(eventType);
+	public trigger(eventName: SupportedEventsType, data: unknown) {
+		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
-			throw new Error(`${eventType} does not have a listener.`);
+			throw new Error(`${eventName} does not have a listener.`);
 		}
 
 		listener(data);
