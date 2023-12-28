@@ -31,8 +31,13 @@ export class _NounsForkAuctionHouse {
 		"0xd5d4c3863c320bc9f5fe9ee0d3da6f7b214449ef"
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
+
 		this._forkId = forkId;
 		this.Contract = new ethers.Contract(_NounsForkAuctionHouse.forkAddress[forkId], NounsAuctionHouseABI, this.provider);
 		this.registeredListeners = new Map<SupportedEventsType, Function>();

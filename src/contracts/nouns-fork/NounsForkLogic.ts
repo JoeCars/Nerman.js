@@ -35,8 +35,13 @@ export class _NounsForkLogic {
 		"0xcf8b3ce9e92990a689fbdc886585a84ea0e4aece"
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
+
 		this._forkId = forkId;
 		this.Contract = new ethers.Contract(_NounsForkLogic.forkAddress[forkId], NounsForkABI, this.provider);
 		this.registeredListeners = new Map<SupportedEventsType, Function>();

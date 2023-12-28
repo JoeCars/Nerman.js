@@ -18,8 +18,13 @@ export class PropHouse {
 	private proposalSubmittedLastTime: number;
 	private voteCastLastTime: number;
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
+
 		this.prophouse = new PropHouseSDK({
 			evmChainId: ChainId.EthereumMainnet,
 			evm: this.provider

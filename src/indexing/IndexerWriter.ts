@@ -19,7 +19,7 @@ export class IndexerWriter {
 	 * @param provider provider uses to create wrappers.
 	 * @param path directory path to indexer directory, where all files will be stored.
 	 */
-	public constructor(provider: ethers.providers.JsonRpcProvider, path: string) {
+	public constructor(provider: ethers.providers.JsonRpcProvider | string, path: string) {
 		this.path = path;
 		this.nounsAuctionHouse = new _NounsAuctionHouse(provider);
 		this.nounsDao = new _NounsDAO(provider);
