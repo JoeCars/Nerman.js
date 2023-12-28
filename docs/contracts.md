@@ -45,7 +45,7 @@ nouns.trigger("NounCreated", {
 });
 ```
 
-## Propdates
+# Propdates
 
 A contract that handles posting updates.
 
