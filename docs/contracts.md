@@ -2,6 +2,16 @@
 
 The contract wrappers provided by Nerman.js currently support basic event listening. You can interact with these events using the following functions on each wrapper.
 
+### `constructor()`
+
+- **provider**: `string | ethers.providers.JsonRpcProvider`. Our wrappers can handle providers behind the scene, so you only need to provide a JSON RPC URL from your preferred provider (like Alchemy) to make them work. We also offer the ability to pass in your own provider, giving you flexibility when needed.
+
+```js
+import * as nerman from "nerman";
+
+const nouns = new nerman.Nouns("<JSON_RPC_URL>");
+```
+
 ### `on()`
 
 Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain. Throws an error if the event is not supported.
