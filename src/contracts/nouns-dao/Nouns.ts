@@ -58,7 +58,9 @@ export class Nouns {
 		this.NounsDAOData = new _NounsDAOData(this.provider);
 
 		this.cache = {};
-		this.cacheInit();
+		if (!options?.shouldIgnoreCacheInit) {
+			this.cacheInit();
+		}
 
 		this.pollForAuctionEnd = this.pollForAuctionEnd.bind(this);
 		// this seems pretty hacky - needed to correctly get "this" in function
