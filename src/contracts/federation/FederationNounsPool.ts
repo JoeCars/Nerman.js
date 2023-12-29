@@ -15,8 +15,13 @@ export class FederationNounsPool {
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_FEDERATION_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
+
 		this.nounsPoolContractV1 = new ethers.Contract("0xBE5E6De0d0Ac82b087bAaA1d53F145a52EfE1642", NounsPool, this.provider);
 		this.nounsPoolContractV2 = new ethers.Contract(
 			"0x0f722d69B3D8C292E85F2b1E5D9F4439edd58F1e",

@@ -30,8 +30,13 @@ export class LilNounsDAOLogic {
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
+
 		this.Contract = new ethers.Contract("0x5d2C31ce16924C2a71D317e5BbFd5ce387854039", LilNounsDAOLogicV1ABI, this.provider);
 		this.registeredListeners = new Map();
 	}

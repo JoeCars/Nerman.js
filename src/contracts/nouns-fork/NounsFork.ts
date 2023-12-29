@@ -26,12 +26,17 @@ export class NounsFork {
 		...NounsForkToken.supportedEvents
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
+
 		this._forkId = forkId;
-		this.nounsForkAuctionHouse = new NounsForkAuctionHouse(provider, forkId);
-		this.nounsForkLogic = new NounsForkLogic(provider, forkId);
-		this.nounsForkToken = new NounsForkToken(provider, forkId);
+		this.nounsForkAuctionHouse = new NounsForkAuctionHouse(this.provider, forkId);
+		this.nounsForkLogic = new NounsForkLogic(this.provider, forkId);
+		this.nounsForkToken = new NounsForkToken(this.provider, forkId);
 	}
 
 	get forkId() {

@@ -31,8 +31,13 @@ export class LilNounsToken {
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_TOKEN_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
+
 		this.Contract = new ethers.Contract("0x4b10701Bfd7BFEdc47d50562b76b436fbB5BdB3B", LilNounsTokenABI, this.provider);
 		this.registeredListeners = new Map();
 	}

@@ -8,6 +8,7 @@ import { ethers, BigNumber } from "ethers";
 export interface NounsOptions {
 	/** The polling time in milliseconds. */
 	pollingTime?: number;
+	shouldIgnoreCacheInit?: boolean;
 }
 
 //=========================================

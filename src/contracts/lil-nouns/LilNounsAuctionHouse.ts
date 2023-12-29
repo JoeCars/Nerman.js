@@ -26,8 +26,13 @@ export class LilNounsAuctionHouse {
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
+		
 		this.Contract = new ethers.Contract(
 			"0x55e0F7A3bB39a28Bd7Bcc458e04b3cF00Ad3219E",
 			LilNounsAuctionHouseABI,

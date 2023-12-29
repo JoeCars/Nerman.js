@@ -2,6 +2,16 @@
 
 The contract wrappers provided by Nerman.js currently support basic event listening. You can interact with these events using the following functions on each wrapper.
 
+### `constructor()`
+
+- **provider**: `string | ethers.providers.JsonRpcProvider`. Our wrappers can handle providers behind the scene, so you only need to provide a JSON RPC URL from your preferred provider (like Alchemy) to make them work. We also offer the ability to pass in your own provider, giving you flexibility when needed.
+
+```js
+import * as nerman from "nerman";
+
+const nouns = new nerman.Nouns("<JSON_RPC_URL>");
+```
+
 ### `on()`
 
 Registers a listener function to the given event, triggering the function with the appropriate data whenever the event fires on the blockchain. Throws an error if the event is not supported.
@@ -45,7 +55,7 @@ nouns.trigger("NounCreated", {
 });
 ```
 
-## Propdates
+# Propdates
 
 A contract that handles posting updates.
 
@@ -89,7 +99,7 @@ There do not appear to be any auction proxies at the moment, and there are no tr
 		<th> Address </th>
 	<tr>
 	<tr>
-		<td rowspan=3> 0 </td>
+		<td rowspan=4> 0 </td>
 		<td> Token </td> 
 		<td> <a href="https://etherscan.io/address/0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f"> 
 			0x06cF70f6f90E0B1f17d19F3Cb962A39E505D5b3f 
@@ -108,7 +118,11 @@ There do not appear to be any auction proxies at the moment, and there are no tr
 		 </a> </td>
 	</tr>
 	<tr>
-		<td rowspan=3> 1 </td>
+		<td> Treasury </td> 
+		<td> <a href="https://etherscan.io/address/0x55dd565c6f94b3bad1f4a35398af4a526fcd465f"> 0x55dd565c6f94b3bad1f4a35398af4a526fcd465f</a> </td>
+	</tr>
+	<tr>
+		<td rowspan=4> 1 </td>
 		<td> Token </td> 
 		<td> <a href="https://etherscan.io/address/0xd6473f1d7c07dc08983a7f09f59c1a2aba17be41"> 0xd6473f1d7c07dc08983a7f09f59c1a2aba17be41 </a> </td>
 	</tr>
@@ -121,7 +135,11 @@ There do not appear to be any auction proxies at the moment, and there are no tr
 		<td> <a href="https://etherscan.io/address/0x5b8dd9f30425a7e6942c2ecf1d87acafbeab3073"> 0x5b8dd9f30425a7e6942c2ecf1d87acafbeab3073 </a> </td>
 	</tr>
 	<tr>
-		<td rowspan=3> 2 </td>
+		<td> Treasury </td> 
+		<td> <a href="https://etherscan.io/address/0x6a4c7cada167a0da8b0323dcc3f0083ac5706817"> 0x6a4c7cada167a0da8b0323dcc3f0083ac5706817</a> </td>
+	</tr>
+	<tr>
+		<td rowspan=4> 2 </td>
 		<td> Token </td> 
 		<td> <a href="https://etherscan.io/address/0xd7bf9e2c54d07582004782004ed20d0336d52669"> 0xd7bf9e2c54d07582004782004ed20d0336d52669 </a> </td>
 	</tr>
@@ -132,6 +150,10 @@ There do not appear to be any auction proxies at the moment, and there are no tr
 	<tr>
 		<td> Logic </td> 
 		<td> <a href="https://etherscan.io/address/0xcf8b3ce9e92990a689fbdc886585a84ea0e4aece"> 0xcf8b3ce9e92990a689fbdc886585a84ea0e4aece</a> </td>
+	</tr>
+	<tr>
+		<td> Treasury </td> 
+		<td> <a href="https://etherscan.io/address/0x4e2d32da6ea31cbdd96e14c34bf8141c15902e06"> 0x4e2d32da6ea31cbdd96e14c34bf8141c15902e06</a> </td>
 	</tr>
 
 </table>

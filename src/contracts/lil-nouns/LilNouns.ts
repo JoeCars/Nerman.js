@@ -25,8 +25,12 @@ export class LilNouns {
 		...LilNounsToken.supportedEvents
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
 
 		this.lilNounsAuctionHouse = new LilNounsAuctionHouse(this.provider);
 		this.lilNounsDAOLogic = new LilNounsDAOLogic(this.provider);

@@ -30,8 +30,13 @@ export class _NounsToken {
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_TOKEN_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
+
 		this.Contract = new ethers.Contract("0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03", NounsTokenABI, this.provider);
 		this.registeredListeners = new Map();
 	}

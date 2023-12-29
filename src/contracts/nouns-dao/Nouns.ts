@@ -37,16 +37,15 @@ export class Nouns {
 	public cache: { [key: string]: { [key: string]: number | string } };
 
 	/**
-	 * @param apiUrl The JSON_RPC_URL needed to establish a connection to the Ethereum network. Typically retrieved through a provider like Alchemy.
+	 * @param provider The JSON_RPC_URL needed to establish a connection to the Ethereum network. Typically retrieved through a provider like Alchemy.
 	 * @param options An options object to configure the Nouns wrappers.
 	 */
-	constructor(apiUrl: string | undefined, options?: NounsOptions) {
-		if (apiUrl === undefined) {
-			console.log("need to define process.env.JSON_RPC_API_URL");
-			process.exit();
-			return;
+	constructor(provider: string | ethers.providers.JsonRpcProvider, options?: NounsOptions) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
 		}
-		this.provider = new ethers.providers.JsonRpcProvider(apiUrl);
 
 		this.provider.pollingInterval = 10000;
 		if (options && options.pollingTime) {
@@ -59,7 +58,9 @@ export class Nouns {
 		this.NounsDAOData = new _NounsDAOData(this.provider);
 
 		this.cache = {};
-		this.cacheInit();
+		if (!options?.shouldIgnoreCacheInit) {
+			this.cacheInit();
+		}
 
 		this.pollForAuctionEnd = this.pollForAuctionEnd.bind(this);
 		// this seems pretty hacky - needed to correctly get "this" in function

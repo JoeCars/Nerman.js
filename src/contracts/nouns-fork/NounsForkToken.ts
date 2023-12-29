@@ -36,8 +36,13 @@ export class _NounsForkToken {
 		"0xd7bf9e2c54d07582004782004ed20d0336d52669"
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider, forkId = 0) {
-		this.provider = provider;
+	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+		if (typeof provider === "string") {
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
+		} else {
+			this.provider = provider;
+		}
+
 		this._forkId = forkId;
 		this.Contract = new ethers.Contract(_NounsForkToken.forkAddress[forkId], NounsTokenABI, this.provider);
 		this.registeredListeners = new Map<SupportedEventsType, Function>();
