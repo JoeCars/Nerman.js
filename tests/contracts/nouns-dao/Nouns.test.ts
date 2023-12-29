@@ -17,4 +17,11 @@ describe("Nouns tests", () => {
 		expect(nouns.provider).toBeDefined();
 		expect(typeof nouns.provider).toBe("object");
 	});
+	test("should change polling time with option", () => {
+		const nouns1 = new Nouns("JSON_RPC_URL", { shouldIgnoreCacheInit: true, pollingTime: 1 });
+		const nouns2 = new Nouns("JSON_RPC_URL", { shouldIgnoreCacheInit: true });
+
+		expect(nouns1.provider.pollingInterval).toBe(1);
+		expect(nouns2.provider.pollingInterval).toBe(10_000);
+	});
 });
