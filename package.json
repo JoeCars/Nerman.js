@@ -1,6 +1,6 @@
 {
   "name": "nerman",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -8,7 +8,7 @@
     "lib/**/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1 ",
+    "test": "npx jest",
     "build": "tsc"
   },
   "repository": {
