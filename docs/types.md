@@ -1389,7 +1389,7 @@ VoteCast event data.
     -   **createdAt**: `number`. Time the vote was cast in seconds since the unix epoch.
     -   **txHash**: `string`. On-chain vote transaction hash.
 
-# `ProposalSubmitted`
+## `ProposalSubmitted`
 
 ProposalSubmitted event data.
 
