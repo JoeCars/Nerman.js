@@ -32,7 +32,7 @@ export class LilNounsAuctionHouse {
 		} else {
 			this.provider = provider;
 		}
-		
+
 		this.Contract = new ethers.Contract(
 			"0x55e0F7A3bB39a28Bd7Bcc458e04b3cF00Ad3219E",
 			LilNounsAuctionHouseABI,

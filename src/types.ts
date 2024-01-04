@@ -1580,6 +1580,60 @@ export namespace EventData {
 			};
 		}
 	}
+
+	// ******************************************
+	//
+	// Farcaster
+	//
+	// ******************************************
+	export namespace Farcaster {
+		type CastId = {
+			/** User id. */
+			fid: number;
+			/** Cast hash. */
+			hash: string;
+		};
+
+		type Embed = {
+			/** Embed URL */
+			url: string;
+			/** Cast id embedded. */
+			castId?: CastId;
+		};
+
+		/** NounsCast event data. */
+		export interface NounsCast {
+			/** List of embeds within the cast. */
+			embeds: Embed[];
+			/** User ids mentioned. */
+			mentions: number[];
+			/** Position of mentions. */
+			mentionsPositions: number[];
+			/** Parent cast id. */
+			parentCastId?: CastId;
+			/** Parent url. Used for channels. */
+			parentUrl?: string;
+			/** Cast text. */
+			text: string;
+			/** Event meta data. */
+			event: {
+				/** Cast hash. */
+				hash: string;
+				/** Signature. */
+				signature: string;
+				/** Signer. */
+				signer: string;
+				/** User id. */
+				fid: number;
+				/** Network. */
+				network: string;
+				/** Timestamp. Order of the casts. Does not convert to actual time. */
+				timestamp: number;
+				/** Event type. */
+				type: string;
+			};
+		}
+	}
 }
 
 //=========================================
