@@ -1406,3 +1406,38 @@ ProposalSubmitted event data.
 -   **event**: Event meta data.
     -   **createdAt**: `number`. Time the proposal was submitted in seconds since the unix epoch.
     -   **txHash**: `string`. On-chain proposal submission transaction hash.
+
+# Farcaster Types
+
+## `NounsCast`
+
+NounsCast event data.
+
+-   **embeds**: `Embed[]`. List of embeds within the cast.
+-   **mentions**: `number[]`. User ids mentioned.
+-   **mentionsPositions**: `number[]`. Position of mentions.
+-   **parentCastId**: `CastId | undefined`. Parent cast id.
+-   **parentUrl**: `string | undefined`. Parent url. Used for channels.
+-   **text**: `string`. Cast text.
+-   **event**: Event meta data.
+    -   **hash**: `string`. Cast hash.
+    -   **signature**: `string`. Signature.
+    -   **signer**: `string`. Signer.
+    -   **fid**: `number`. User id.
+    -   **network**: `string`. Network.
+    -   **timestamp**: `number`. Timestamp. Order of the casts. Does not convert to actual time.
+    -   **type**: `string`. Event type.
+
+### `CastId`
+
+Data used in the NounsCast event.
+
+-   **fid**: `number`. User id.
+-   **hash**: `string`. Cast hash
+
+### `Embed`
+
+Data used in the NounsCast event.
+
+-   **url**: `string`. Embed URL.
+-   **castId**: `CastId | undefined`. Cast id embedded.
