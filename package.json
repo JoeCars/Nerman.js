@@ -1,40 +1,39 @@
 {
-  "name": "nerman",
-  "version": "0.0.33",
-  "description": "",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
-  "files": [
-    "lib/**/*"
-  ],
-  "scripts": {
-    "test": "npx jest",
-    "build": "tsc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JoeCars/Nerman.js.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/JoeCars/Nerman.js/issues"
-  },
-  "homepage": "https://github.com/JoeCars/Nerman.js#readme",
-  "devDependencies": {
-    "@types/jest": "^29.5.11",
-    "@types/node-cron": "^3.0.7",
-    "@types/node-fetch": "^2.6.4",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.1",
-    "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "@prophouse/sdk": "^1.0.11",
-    "@standard-crypto/farcaster-js-hub-rest": "^1.2.1",
-    "ethers": "^5.7.0",
-    "node-cron": "^3.0.2",
-    "node-fetch": "^2.6.11"
-  }
+	"name": "nerman",
+	"version": "0.0.33",
+	"description": "",
+	"main": "./lib/index.js",
+	"types": "./lib/index.d.ts",
+	"files": [
+		"lib/**/*"
+	],
+	"scripts": {
+		"test": "npx jest",
+		"build": "tsc"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/JoeCars/Nerman.js.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/JoeCars/Nerman.js/issues"
+	},
+	"homepage": "https://github.com/JoeCars/Nerman.js#readme",
+	"devDependencies": {
+		"@types/jest": "^29.5.11",
+		"@types/node-cron": "^3.0.7",
+		"@types/node-fetch": "^2.6.4",
+		"jest": "^29.7.0",
+		"ts-jest": "^29.1.1",
+		"typescript": "^5.3.3"
+	},
+	"dependencies": {
+		"@prophouse/sdk": "^1.0.11",
+		"ethers": "^5.7.0",
+		"node-cron": "^3.0.2",
+		"node-fetch": "^2.6.11"
+	}
 }
