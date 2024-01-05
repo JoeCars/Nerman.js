@@ -9,7 +9,7 @@ export { _NounsForkLogic as NounsForkLogic } from "./contracts/nouns-fork/NounsF
 export { _Propdates as Propdates } from "./contracts/propdates/Propdates";
 export { LilNouns } from "./contracts/lil-nouns/LilNouns";
 export { PropHouse } from "./contracts/prop-house/PropHouse";
-export { Farcaster } from "./contracts/farcaster/Farcaster";
+export { Farcaster } from "./contracts/farcaster-wrapper/Farcaster";
 export { IndexerWriter } from "./indexing/IndexerWriter";
 export { IndexerReader } from "./indexing/IndexerReader";
 export { Indexer } from "./indexing/Indexer";
