@@ -860,6 +860,7 @@ DelegateChanged event data. [Github](https://github.com/nounsDAO/nouns-monorepo/
 -   **delegator**: `Account`. Token owner account.
 -   **fromDelegate**: `Account`. Old delegate account.
 -   **toDelegate**: `Account`. New delegate account.
+-   **numOfVotesChanged**: `number`. Number of votes delegated.
 -   **event**: `ethers.Event`. Event meta data.
 
 ```js

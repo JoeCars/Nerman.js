@@ -825,6 +825,8 @@ export namespace EventData {
 		fromDelegate: Account;
 		/** New delegate account. */
 		toDelegate: Account;
+		/** Number of votes delegated. */
+		numOfVotesChanged: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
