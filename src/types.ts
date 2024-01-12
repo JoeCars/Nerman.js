@@ -1648,6 +1648,8 @@ export namespace EventData {
 			parentUrl?: string;
 			/** Cast text. */
 			text: string;
+			/** Author username. */
+			author: string;
 			/** Event meta data. */
 			event: {
 				/** Cast hash. */
