@@ -860,6 +860,7 @@ DelegateChanged event data. [Github](https://github.com/nounsDAO/nouns-monorepo/
 -   **delegator**: `Account`. Token owner account.
 -   **fromDelegate**: `Account`. Old delegate account.
 -   **toDelegate**: `Account`. New delegate account.
+-   **numOfVotesChanged**: `number | undefined`. Number of votes delegated.
 -   **event**: `ethers.Event`. Event meta data.
 
 ```js
@@ -1361,7 +1362,9 @@ Events exclusive to PropHouse contracts.
 RoundCreated event data.
 
 -   **creator**: `Account`. Round created address.
--   **house**: `Account`. House address.
+-   **house**: House information.
+    -   **id**: `string`. House address.
+    -   **name**: `string | undefined`. House name.
 -   **round**: `Account`. Round address.
 -   **kind**: `any`.
 -   **title**: `string`. Round title.
@@ -1382,7 +1385,13 @@ HouseCreated event data.
 VoteCast event data.
 
 -   **voter**: `Account`. Voter address.
--   **round**: `Account`. On-chain round address.
+-   **round**: Round information.
+    -   **id**: `string`. Round address.
+    -   **title**: `string`. Round title.
+-   **house**: House information.
+    -   **id**: `string`. House address.
+    -   **name**: `string | undefined`. House name.
+-   **proposalTitle**: `string`. Proposal's title
 -   **proposalId**: `number`. Proposal id voted for in round.
 -   **votingPower**: `string`. Vote amount.
 -   **event**: Event meta data.
@@ -1395,7 +1404,12 @@ ProposalSubmitted event data.
 
 -   **proposalId**: `number`. Proposal id in round.
 -   **proposer**: `Account`. Proposer address.
--   **round**: `Account`. Round address containing the proposal.
+-   **round**: Round information.
+    -   **id**: `string`. Round address.
+    -   **title**: `string`. Round title.
+-   **house**: House information.
+    -   **id**: `string`. House address.
+    -   **name**: `string | undefined`. House name.
 -   **metaDataURI**: `string`. Proposal meta data.
 -   **title**: `string`. The proposal title.
 -   **description**: `string`. The proposal description. In HTML format.

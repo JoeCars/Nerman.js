@@ -56,11 +56,29 @@ export class _NounsToken {
 			case "DelegateChanged": // WORKING
 				this.Contract.on(
 					"DelegateChanged",
-					(delegator: string, fromDelegate: string, toDelegate: string, event: ethers.Event) => {
+					async (delegator: string, fromDelegate: string, toDelegate: string, event: ethers.Event) => {
+						let numOfVotesChanged = 0;
+						try {
+							const receipt = await event.getTransactionReceipt();
+							if (receipt.logs[1]) {
+								// Removes '0x'
+								const hexData = receipt.logs[1].data.substring(2);
+								const hex1 = hexData.substring(0, 64);
+								const hex2 = hexData.substring(64);
+								const oldVotes = parseInt(hex1, 16);
+								const newVotes = parseInt(hex2, 16);
+
+								numOfVotesChanged = Math.abs(oldVotes - newVotes);
+							}
+						} catch (error) {
+							console.error("Unable to retrieve vote change information.", error);
+						}
+
 						const data: EventData.DelegateChanged = {
 							delegator: { id: delegator } as Account,
 							fromDelegate: { id: fromDelegate } as Account,
 							toDelegate: { id: toDelegate } as Account,
+							numOfVotesChanged: numOfVotesChanged,
 							event: event
 						};
 

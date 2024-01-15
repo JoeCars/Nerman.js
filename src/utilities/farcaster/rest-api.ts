@@ -14,7 +14,7 @@ type Embed = {
 	castId?: CastId;
 };
 
-interface Message {
+interface AugmentedMessage {
 	data: {
 		type: string;
 		fid: number;
@@ -37,8 +37,32 @@ interface Message {
 	signer: string;
 }
 
+interface AugmentedMessage {
+	data: {
+		type: string;
+		fid: number;
+		timestamp: number;
+		network: string;
+		castAddBody: {
+			embeds: Embed[];
+			embedsDeprecated: string[];
+			mentions: number[];
+			mentionsPositions: number[];
+			parentCastId?: CastId;
+			parentUrl?: string;
+			text: string;
+		};
+	};
+	hash: string;
+	hashScheme: string;
+	signature: string;
+	signatureScheme: string;
+	signer: string;
+	author: string;
+}
+
 interface CastResponse {
-	messages: Message[];
+	messages: AugmentedMessage[];
 	nextPageToken: string;
 }
 
@@ -59,7 +83,7 @@ export async function _fetchNounsCasts(pageSize = 5, pageToken = "") {
  * @param next Raw cast data.
  * @returns Formatted cast data.
  */
-export function _formatCastData(message: Message): EventData.Farcaster.NounsCast {
+export function _formatCastData(message: AugmentedMessage): EventData.Farcaster.NounsCast {
 	return {
 		embeds: message.data.castAddBody.embeds,
 		mentions: message.data.castAddBody.mentions,
@@ -67,6 +91,7 @@ export function _formatCastData(message: Message): EventData.Farcaster.NounsCast
 		parentCastId: message.data.castAddBody.parentCastId,
 		parentUrl: message.data.castAddBody.parentUrl,
 		text: message.data.castAddBody.text,
+		author: message.author,
 		event: {
 			hash: message.hash,
 			signature: message.signature,
@@ -97,6 +122,7 @@ export async function _fetchNewCasts(previousTimestamp: number, fetchCasts = _fe
 				isDone = true;
 				break;
 			}
+			message.author = await _fetchUsername(message.data.fid);
 			newestTimestamp = Math.max(newestTimestamp, message.data.timestamp);
 			casts.unshift(_formatCastData(message));
 		}
@@ -117,4 +143,23 @@ export async function _fetchNewCasts(previousTimestamp: number, fetchCasts = _fe
 export async function _fetchNewestTimestamp() {
 	const response = await _fetchNounsCasts(1);
 	return response.messages[0].data.timestamp;
+}
+
+/**
+ * @param fid Farcaster user id.
+ * @returns The username associated with the id.
+ */
+export async function _fetchUsername(fid: number) {
+	const url = `${HUB_URL}/v1/userNameProofsByFid?fid=${fid}`;
+	const res = await fetch(url);
+
+	if (!res.ok) {
+		throw new Error(`Unable to fetch usernames. ${res.status} ${res.statusText}`);
+	}
+
+	const body: { proofs: { name: string }[] } = await res.json();
+	const proofs = body.proofs;
+	const names = proofs.map((proof) => proof.name);
+
+	return names[names.length - 1];
 }

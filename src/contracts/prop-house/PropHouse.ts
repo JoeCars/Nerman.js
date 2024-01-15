@@ -48,7 +48,7 @@ export class PropHouse {
 			case "RoundCreated":
 				this.prophouse.contract.on(
 					"RoundCreated",
-					(
+					async (
 						creator: string,
 						house: string,
 						round: string,
@@ -57,9 +57,11 @@ export class PropHouse {
 						description: string,
 						event: ethers.Event
 					) => {
+						const houseObject = await this.prophouse.query.getHouse(house);
+
 						const data: EventData.PropHouse.RoundCreated = {
 							creator: { id: creator },
-							house: { id: house },
+							house: { id: house, name: houseObject.name },
 							round: { id: round },
 							kind,
 							title,
@@ -147,10 +149,13 @@ export class PropHouse {
 				if (i === proposals.length - 1) {
 					this.proposalSubmittedLastTime = proposals[i].receivedAt;
 				}
+
+				const round = await this.prophouse.query.getRoundWithHouseInfo(proposals[i].round);
 				const proposal: EventData.PropHouse.ProposalSubmitted = {
 					proposalId: proposals[i].id,
 					proposer: { id: proposals[i].proposer },
-					round: { id: proposals[i].round },
+					round: { id: proposals[i].round, title: round.title },
+					house: { id: round.house.address, name: round.house.name },
 					metaDataURI: proposals[i].metadataURI,
 					title: proposals[i].title,
 					description: proposals[i].body,
@@ -183,9 +188,14 @@ export class PropHouse {
 					this.voteCastLastTime = votes[i].receivedAt;
 				}
 
+				const proposal = await this.prophouse.query.getProposal(votes[i].round, votes[i].proposalId);
+				const round = await this.prophouse.query.getRoundWithHouseInfo(votes[i].round);
+
 				const vote: EventData.PropHouse.VoteCast = {
 					voter: { id: votes[i].voter },
-					round: { id: votes[i].round },
+					round: { id: votes[i].round, title: round.title },
+					house: { id: round.house.address, name: round.house.name },
+					proposalTitle: proposal.title,
 					proposalId: votes[i].proposalId,
 					votingPower: votes[i].votingPower,
 					event: {
@@ -195,17 +205,6 @@ export class PropHouse {
 				};
 				listener(vote);
 			}
-
-			/*
-			
-				voter: '0x10deC36B4AC9d3b60490dFE2799881287d4a74cc',
-				round: '0x57347c22f0a0a764c0aa3554cc3df20ca7ceb28d',
-				proposalId: 16,
-				votingPower: '4',
-				receivedAt: 1703036085,
-				txHash: '0x45280b8949058c1f154794a66c87796891224e9a1c08d58943feebe045fd2a1'
-
-			*/
 		});
 	}
 }

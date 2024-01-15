@@ -825,6 +825,8 @@ export namespace EventData {
 		fromDelegate: Account;
 		/** New delegate account. */
 		toDelegate: Account;
+		/** Number of votes delegated. */
+		numOfVotesChanged?: number;
 		/** Event meta data. */
 		event: ethers.Event;
 	}
@@ -1504,8 +1506,13 @@ export namespace EventData {
 		export interface RoundCreated {
 			/** Round created address. */
 			creator: Account;
-			/** House address. */
-			house: Account;
+			/** House information. */
+			house: {
+				/** House address. */
+				id: string;
+				/** House name. */
+				name?: string;
+			};
 			/** Round address. */
 			round: Account;
 			/** ??? */
@@ -1534,8 +1541,22 @@ export namespace EventData {
 		export interface VoteCast {
 			/** Voter address. */
 			voter: Account;
-			/** On-chain round address. */
-			round: Account;
+			/** Round information. */
+			round: {
+				/** Round address. */
+				id: string;
+				/** Round title. */
+				title: string;
+			};
+			/** House information. */
+			house: {
+				/** House address. */
+				id: string;
+				/** House name. */
+				name?: string;
+			};
+			/** Proposal's title. */
+			proposalTitle: string;
 			/** Proposal id voted for in round. */
 			proposalId: number;
 			/** Vote amount. */
@@ -1555,8 +1576,20 @@ export namespace EventData {
 			proposalId: number;
 			/** Proposer address. */
 			proposer: Account;
-			/** Round address containing the proposal. */
-			round: Account;
+			/** Round information. */
+			round: {
+				/** Round address. */
+				id: string;
+				/** Round title. */
+				title: string;
+			};
+			/** House information. */
+			house: {
+				/** House address. */
+				id: string;
+				/** House name. */
+				name?: string;
+			};
 			/** Proposal meta data. */
 			metaDataURI: string;
 			/** The proposal title. */
@@ -1615,6 +1648,8 @@ export namespace EventData {
 			parentUrl?: string;
 			/** Cast text. */
 			text: string;
+			/** Author username. */
+			author: string;
 			/** Event meta data. */
 			event: {
 				/** Cast hash. */
