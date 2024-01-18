@@ -1,10 +1,18 @@
 import { ethers } from "ethers";
-import { writeFile, readFile } from "fs/promises";
+import { writeFile, readFile, mkdir } from "fs/promises";
 import { NOUNS_STARTING_BLOCK } from "../../constants";
 
 //===================================
 // Indexers.
 //===================================
+
+export async function checkDirectory(filePath: string) {
+	try {
+		await mkdir(filePath, { recursive: true });
+	} catch (error) {
+		console.error(error);
+	}
+}
 
 /**
  * Finds every instance of the event triggering on the blockchain until the present block, and saves the result to a file.
@@ -26,6 +34,7 @@ export async function indexEvent(
 	const BLOCK_BATCH_SIZE = 1000;
 	const endBlock = await contract.provider.getBlockNumber();
 	const filePath = `${directoryPath}/${eventName}.json`;
+	await checkDirectory(filePath);
 
 	let allEvents: ethers.Event[] = [];
 	if (isUpdating) {
