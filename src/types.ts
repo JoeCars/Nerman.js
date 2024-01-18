@@ -9,6 +9,8 @@ export interface NounsOptions {
 	/** The polling time in milliseconds. */
 	pollingTime?: number;
 	shouldIgnoreCacheInit?: boolean;
+	/** Path to the indexer directory. */
+	indexerDirectoryPath?: string;
 }
 
 //=========================================
