@@ -4,6 +4,7 @@ import { _NounsAuctionHouse, SupportedEventsType as NounsAuctionHouseSupportedEv
 import { _NounsToken, SupportedEventsType as NounsTokenSupportedEventsType } from "./NounsToken";
 import { _NounsDAO, SupportedEventsType as NounsDAOSupportedEventsType } from "./NounsDAO";
 import { _NounsDAOData, SupportedEventsType as NounsDAODataSupportedEventsType } from "./NounsDAOData";
+import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
 
 type SupportedEventsType =
@@ -23,6 +24,7 @@ export class Nouns {
 	public NounsToken: _NounsToken;
 	public NounsDAO: _NounsDAO;
 	public NounsDAOData: _NounsDAOData;
+	public Indexer: Indexer;
 	public static readonly supportedEvents = [
 		..._NounsAuctionHouse.supportedEvents,
 		..._NounsToken.supportedEvents,
@@ -56,6 +58,12 @@ export class Nouns {
 		this.NounsToken = new _NounsToken(this.provider);
 		this.NounsDAO = new _NounsDAO(this.provider);
 		this.NounsDAOData = new _NounsDAOData(this.provider);
+
+		let indexerDirectoryPath = "./_nounsjs/data";
+		if (options?.indexerDirectoryPath) {
+			indexerDirectoryPath = options.indexerDirectoryPath;
+		}
+		this.Indexer = new Indexer(this.provider, indexerDirectoryPath);
 
 		this.cache = {};
 		if (!options?.shouldIgnoreCacheInit) {
@@ -299,6 +307,16 @@ export class Nouns {
 		}
 
 		return null;
+	}
+
+	public async index(...eventNames: SupportedEventsType[]) {
+		if (eventNames.length === 0) {
+			return this.Indexer.updateAll();
+		}
+
+		for (const eventName of eventNames) {
+			this.Indexer.update(eventName);
+		}
 	}
 }
 
