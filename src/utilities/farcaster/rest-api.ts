@@ -109,7 +109,7 @@ export function _formatCastData(message: AugmentedMessage): EventData.Farcaster.
  * @param previousTimestamp Previous timestamp.
  * @returns All Nouns Casts and the newest timestamp.
  */
-export async function _fetchNewCasts(previousTimestamp: number, fetchCasts = _fetchNounsCasts) {
+export async function _fetchNewCasts(previousTimestamp: number, fetchCasts = _fetchNounsCasts, _fetchAuthor = _fetchUsername) {
 	let nextPageToken = "";
 	let newestTimestamp = previousTimestamp;
 	const casts: EventData.Farcaster.NounsCast[] = [];
@@ -123,7 +123,7 @@ export async function _fetchNewCasts(previousTimestamp: number, fetchCasts = _fe
 					isDone = true;
 					break;
 				}
-				message.author = await _fetchUsername(message.data.fid);
+				message.author = await _fetchAuthor(message.data.fid);
 				newestTimestamp = Math.max(newestTimestamp, message.data.timestamp);
 				casts.unshift(_formatCastData(message));
 			}
