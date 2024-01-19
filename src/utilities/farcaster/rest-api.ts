@@ -116,18 +116,26 @@ export async function _fetchNewCasts(previousTimestamp: number, fetchCasts = _fe
 	let isDone = false;
 
 	while (!isDone) {
-		const response = await fetchCasts(5, nextPageToken);
-		for (const message of response.messages) {
-			if (message.data.timestamp <= previousTimestamp) {
-				isDone = true;
-				break;
+		try {
+			const response = await fetchCasts(5, nextPageToken);
+			for (const message of response.messages) {
+				if (message.data.timestamp <= previousTimestamp) {
+					isDone = true;
+					break;
+				}
+				message.author = await _fetchUsername(message.data.fid);
+				newestTimestamp = Math.max(newestTimestamp, message.data.timestamp);
+				casts.unshift(_formatCastData(message));
 			}
-			message.author = await _fetchUsername(message.data.fid);
-			newestTimestamp = Math.max(newestTimestamp, message.data.timestamp);
-			casts.unshift(_formatCastData(message));
+			nextPageToken = response.nextPageToken;
+			isDone = isDone || nextPageToken === "";
+		} catch (error: any) {
+			if (error.message === "Unable to fetch casts. 502 Bad Gateway") {
+				isDone = true;
+			} else {
+				throw error;
+			}
 		}
-		nextPageToken = response.nextPageToken;
-		isDone = isDone || nextPageToken === "";
 	}
 
 	return {
