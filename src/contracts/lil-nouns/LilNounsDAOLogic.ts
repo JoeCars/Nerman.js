@@ -124,16 +124,16 @@ export class LilNounsDAOLogic {
 				this.Contract.on(
 					"ProposalCreated",
 					(
-						id: ethers.BigNumber,
+						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: ethers.BigNumber[],
+						values: BigInt,
 						signatures: string[],
 						calldatas: any[], // type is bytes[]
-						startBlock: ethers.BigNumber,
-						endBlock: ethers.BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
 						description: string,
-						event: ethers.Event
+						event: BigInt
 					) => {
 						const data: EventData.ProposalCreated = {
 							id: id.toNumber(),
@@ -158,16 +158,16 @@ export class LilNounsDAOLogic {
 				this.Contract.on(
 					"ProposalCreatedWithRequirements",
 					(
-						id: ethers.BigNumber,
+						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: ethers.BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // bytes
-						startBlock: ethers.BigNumber,
-						endBlock: ethers.BigNumber,
-						proposalThreshold: ethers.BigNumber,
-						quorumVotes: ethers.BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
+						proposalThreshold: BigInt,
+						quorumVotes: BigInt,
 						description: string,
 						event: ethers.Event
 					) => {

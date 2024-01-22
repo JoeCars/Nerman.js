@@ -408,10 +408,10 @@ export class _NounsToken {
 				return await this.Contract.getApproved(fArgs[0]); // returns string
 				break;
 			case "getCurrentVotes":
-				return await this.Contract.getCurrentVotes(fArgs[0]); // returns BigNumber
+				return await this.Contract.getCurrentVotes(fArgs[0]); // returns BigInt
 				break;
 			case "getPriorVotes":
-				return await this.Contract.getPriorVotes(fArgs[0], fArgs[1]); // returns BigNumber
+				return await this.Contract.getPriorVotes(fArgs[0], fArgs[1]); // returns BigInt
 				break;
 			case "isApprovedForAll":
 				// {

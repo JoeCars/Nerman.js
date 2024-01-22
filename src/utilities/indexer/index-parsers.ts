@@ -20,7 +20,7 @@ export function parseDAOWithdrawNounsFromEscrowEvent(event: ethers.Event) {
 		transactionHash: event.transactionHash,
 		eventName: event.event,
 		eventSignature: event.eventSignature,
-		tokenIds: event.args!.tokenIds.map((tokenId: BigNumber) => {
+		tokenIds: event.args!.tokenIds.map((tokenId: BigInt) => {
 			return Number(tokenId);
 		}),
 		to: event.args!.to
@@ -62,10 +62,10 @@ export function parseEscrowedToForkEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		forkId: Number(event.args!.forkId),
 		owner: event.args!.owner,
-		tokenIds: event.args!.tokenIds.map((tokenId: BigNumber) => {
+		tokenIds: event.args!.tokenIds.map((tokenId: BigInt) => {
 			return Number(tokenId);
 		}),
-		proposalIds: event.args!.proposalIds.map((proposalId: BigNumber) => {
+		proposalIds: event.args!.proposalIds.map((proposalId: BigInt) => {
 			return Number(proposalId);
 		}),
 		reason: event.args!.reason
@@ -167,10 +167,10 @@ export function parseJoinForkEvent(event: ethers.Event) {
 		eventSignature: event.eventSignature,
 		forkId: Number(event.args!.forkId),
 		owner: event.args!.owner,
-		tokenIds: event.args!.tokenIds.map((tokenId: BigNumber) => {
+		tokenIds: event.args!.tokenIds.map((tokenId: BigInt) => {
 			return Number(tokenId);
 		}),
-		proposalIds: event.args!.proposalIds.map((proposalId: BigNumber) => {
+		proposalIds: event.args!.proposalIds.map((proposalId: BigInt) => {
 			return Number(proposalId);
 		}),
 		reason: event.args!.reason

@@ -299,7 +299,7 @@ ProposalCreated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/
 -   **id**: `number`. id of the proposal being created.
 -   **proposer**: `Account`. Account of the proposer.
 -   **targets**: `string[]`. Target addresses for proposal calls.
--   **values**: `BigNumber[]`. Eth values for proposal calls.
+-   **values**: `BigInt[]`. Eth values for proposal calls.
 -   **signatures**: `string[]`. Function signatures for proposal calls.
 -   **calldatas**: `any[]`. Bytes. Calldatas for proposal calls.
 -   **startBlock**: `number`. The block voting starts.
@@ -350,7 +350,7 @@ ProposalCreatedWithRequirements event data. [Github](https://github.com/nounsDAO
 -   **proposer**: `Account`. Account of the proposer.
 -   **signers**: `string[]`. List of signers. In V3.
 -   **targets**: `string[]`. Target addresses for proposal calls.
--   **values**: `BigNumber[]`. Eth values for proposal calls.
+-   **values**: `BigInt[]`. Eth values for proposal calls.
 -   **signatures**: `string[]`. Function signatures for proposal calls.
 -   **calldatas**: `any[]`. Calldatas for proposal calls.
 -   **startBlock**: `number`. The block voting starts.

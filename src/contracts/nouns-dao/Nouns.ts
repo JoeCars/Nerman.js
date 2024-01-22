@@ -337,10 +337,10 @@ export class Nouns {
 //   "event": "AuctionBid",
 //   "eventSignature": "AuctionBid(uint256,address,uint256,bool)",
 //   "args": [{
-//     "type": "BigNumber",
+//     "type": "BigInt",
 //     "hex": "0x17"
 //   }, "0x4ea324A72848F8A689110E41f891A512eF7BDA7b", {
-//     "type": "BigNumber",
+//     "type": "BigInt",
 //     "hex": "0x2386f26fc10000"
 //   }, false]
 // }

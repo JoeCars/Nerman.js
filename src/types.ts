@@ -316,7 +316,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigNumber[];
+		values: BigInt[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -361,7 +361,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigNumber[];
+		values: BigInt[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -1795,7 +1795,7 @@ export namespace Indexer {
 			id: number;
 			proposer: string;
 			targets: string[];
-			// values: BigNumber[]; Values is a function, not a variable.
+			// values: BigInt[]; Values is a function, not a variable.
 			signatures: string[];
 			calldatas: any[];
 			startBlock: number;

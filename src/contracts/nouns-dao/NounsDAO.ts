@@ -420,14 +420,14 @@ export class _NounsDAO {
 				this.Contract.on(
 					"ProposalCreated",
 					(
-						id: BigNumber,
+						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // type is bytes[]
-						startBlock: BigNumber,
-						endBlock: BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
 						description: string,
 						event: ethers.Event
 					) => {
@@ -474,18 +474,18 @@ export class _NounsDAO {
 				this.Contract.on(
 					"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
 					(
-						id: BigNumber,
+						id: BigInt,
 						proposer: string,
 						signers: string[],
 						targets: string[],
-						values: BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // bytes
-						startBlock: BigNumber,
-						endBlock: BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
 						updatePeriodEndBlock: number,
-						proposalThreshold: BigNumber,
-						quorumVotes: BigNumber,
+						proposalThreshold: BigInt,
+						quorumVotes: BigIntF,
 						description: string,
 						event: ethers.Event
 					) => {
@@ -512,16 +512,16 @@ export class _NounsDAO {
 				this.Contract.on(
 					"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
 					(
-						id: BigNumber,
+						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // bytes
-						startBlock: BigNumber,
-						endBlock: BigNumber,
-						proposalThreshold: BigNumber,
-						quorumVotes: BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
+						proposalThreshold: BigInt,
+						quorumVotes: BigInt,
 						description: string,
 						event: ethers.Event
 					) => {
