@@ -318,6 +318,10 @@ export class Nouns {
 			this.Indexer.update(eventName);
 		}
 	}
+
+	public async queryIndex(eventName: string, queryOptions: object) {
+		this.Indexer.query(eventName, queryOptions);
+	}
 }
 
 // {
