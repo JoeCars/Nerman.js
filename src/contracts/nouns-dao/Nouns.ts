@@ -309,7 +309,7 @@ export class Nouns {
 		return null;
 	}
 
-	public async index(...eventNames: SupportedEventsType[]) {
+	public async index(...eventNames: string[]) {
 		if (eventNames.length === 0) {
 			return this.Indexer.updateAll();
 		}
