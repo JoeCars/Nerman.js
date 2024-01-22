@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { writeFile, readFile, mkdir } from "fs/promises";
+import { dirname } from "path";
 import { NOUNS_STARTING_BLOCK } from "../../constants";
 
 //===================================
@@ -8,7 +9,8 @@ import { NOUNS_STARTING_BLOCK } from "../../constants";
 
 export async function checkDirectory(filePath: string) {
 	try {
-		await mkdir(filePath, { recursive: true });
+		const directoryPath = dirname(filePath);
+		await mkdir(directoryPath, { recursive: true });
 	} catch (error) {
 		console.error(error);
 	}
