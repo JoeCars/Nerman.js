@@ -4,7 +4,7 @@ Indexer class responsible for storing and retrieving indexed events.
 
 ### `constructor()`
 
--   **provider**: `ethers.providers.JsonRpcProvider | string`. The blockchain network connection needed to store data. You can simply pass in a JSON RPC URL, or configure a custom provider if needed.
+-   **provider**: `ethers.JsonRpcProvider | string`. The blockchain network connection needed to store data. You can simply pass in a JSON RPC URL, or configure a custom provider if needed.
 -   **directoryPath**: `string`. The indexer directory for storing events.
 
 ```js

@@ -12,7 +12,7 @@ export class Indexer {
 	 * @param provider The blockchain network connection needed to store data.
 	 * @param directoryPath The indexer directory for storing events.
 	 */
-	public constructor(provider: ethers.providers.JsonRpcProvider | string, directoryPath: string) {
+	public constructor(provider: ethers.JsonRpcProvider | string, directoryPath: string) {
 		this.reader = new IndexerReader(directoryPath);
 		this.writer = new IndexerWriter(provider, directoryPath);
 	}

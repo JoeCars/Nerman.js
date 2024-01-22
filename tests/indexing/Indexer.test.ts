@@ -8,7 +8,7 @@ describe("Indexer tests", () => {
 		expect(indexer).toBeDefined();
 	});
 	test("should construct with provider", () => {
-		const provider = new ethers.providers.JsonRpcProvider("JSON_RPC_URL");
+		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const indexer = new Indexer(provider, "");
 
 		expect(indexer).toBeDefined();

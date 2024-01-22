@@ -9,15 +9,15 @@ export type SupportedEventsType = (typeof SUPPORTED_FEDERATION_EVENTS)[number];
  * A wrapper class that supports Federation NounsPool events.
  */
 export class FederationNounsPool {
-	private provider: ethers.providers.JsonRpcProvider;
+	private provider: ethers.JsonRpcProvider;
 	public nounsPoolContractV1: ethers.Contract;
 	public nounsPoolContractV2: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_FEDERATION_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -71,8 +71,8 @@ export class FederationNounsPool {
 	public off(eventName: SupportedEventsType) {
 		const listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.nounsPoolContractV1.off(eventName, listener as ethers.providers.Listener);
-			this.nounsPoolContractV2.off(eventName, listener as ethers.providers.Listener);
+			this.nounsPoolContractV1.off(eventName, listener as ethers.Listener);
+			this.nounsPoolContractV2.off(eventName, listener as ethers.Listener);
 		}
 
 		this.registeredListeners.delete(eventName);

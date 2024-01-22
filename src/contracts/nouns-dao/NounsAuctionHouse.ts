@@ -20,14 +20,14 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS)[
  * A wrapper class around the NounsAuctionHouse contract.
  */
 export class _NounsAuctionHouse {
-	private provider: ethers.providers.JsonRpcProvider;
+	private provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -217,7 +217,7 @@ export class _NounsAuctionHouse {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -310,7 +310,7 @@ export class _NounsAuctionHouse {
 		if (bid != undefined && bid.args != undefined) {
 			const block = await this.getBlock(bid.blockNumber);
 			const date = new Date(block.timestamp * 1000);
-			const bidPrice = ethers.utils.formatEther(bid.args[2]);
+			const bidPrice = ethers.formatEther(bid.args[2]);
 			console.log("Bid on " + bid.args[0].toNumber() + " for " + bidPrice + " on " + date.toLocaleDateString());
 		}
 	}
@@ -343,7 +343,7 @@ export class _NounsAuctionHouse {
 				id: nounId,
 				block: bid.blockNumber,
 				date: new Date(block.timestamp * 1000),
-				amount: ethers.utils.formatEther(bid.args[2]),
+				amount: ethers.formatEther(bid.args[2]),
 				address: bid.args[1],
 				ens: ens
 			};

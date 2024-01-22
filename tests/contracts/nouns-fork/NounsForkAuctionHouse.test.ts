@@ -10,7 +10,7 @@ describe("NounsForkAuctionHouse tests", () => {
 		expect(typeof nounsForkAuctionHouse.Contract.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
-		const provider = new ethers.providers.JsonRpcProvider("JSON_RPC_URL");
+		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const nounsForkAuctionHouse = new _NounsForkAuctionHouse(provider);
 
 		expect(nounsForkAuctionHouse).toBeDefined();

@@ -10,7 +10,7 @@ describe("PropHouse tests", () => {
 		expect(typeof prophouse.prophouse.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
-		const provider = new ethers.providers.JsonRpcProvider("JSON_RPC_URL");
+		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const prophouse = new PropHouse(provider);
 
 		expect(prophouse).toBeDefined();

@@ -15,7 +15,7 @@ export type SupportedEventsType = ForkAuctionHouseEventTypes | ForkLogicEventTyp
  */
 export class NounsFork {
 	private _forkId: number;
-	public provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public nounsForkAuctionHouse: NounsForkAuctionHouse;
 	public nounsForkLogic: NounsForkLogic;
 	public nounsForkToken: NounsForkToken;
@@ -26,9 +26,9 @@ export class NounsFork {
 		...NounsForkToken.supportedEvents
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}

@@ -10,7 +10,7 @@ describe("NounsDAOData tests", () => {
 		expect(typeof nounsToken.Contract.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
-		const provider = new ethers.providers.JsonRpcProvider("JSON_RPC_URL");
+		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const nounsToken = new _NounsToken(provider);
 
 		expect(nounsToken).toBeDefined();

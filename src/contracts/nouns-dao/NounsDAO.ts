@@ -1,4 +1,4 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsDAOLogicV3ABI } from "../abis/NounsDAOLogicV3.json";
 
@@ -51,14 +51,14 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_EVENTS)[number];
  * A wrapper class around the NounsDAO contract.
  */
 export class _NounsDAO {
-	private provider: ethers.providers.JsonRpcProvider;
+	private provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -965,14 +965,14 @@ export class _NounsDAO {
 			if (eventName === "ProposalCreatedWithRequirements") {
 				this.Contract.off(
 					"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
-					listener as ethers.providers.Listener
+					listener as ethers.Listener
 				);
 				this.Contract.off(
 					"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
-					listener as ethers.providers.Listener
+					listener as ethers.Listener
 				);
 			} else {
-				this.Contract.off(eventName, listener as ethers.providers.Listener);
+				this.Contract.off(eventName, listener as ethers.Listener);
 			}
 		}
 		this.registeredListeners.delete(eventName);

@@ -26,7 +26,7 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_TOKEN_EVENTS)[num
  */
 export class _NounsForkToken {
 	private _forkId: number;
-	private provider: ethers.providers.JsonRpcProvider;
+	private provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_TOKEN_EVENTS;
@@ -36,9 +36,9 @@ export class _NounsForkToken {
 		"0xd7bf9e2c54d07582004782004ed20d0336d52669"
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -348,7 +348,7 @@ export class _NounsForkToken {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}

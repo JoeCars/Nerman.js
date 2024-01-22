@@ -12,7 +12,7 @@ describe("FederationNounsPool tests", () => {
 		expect(typeof federation.nounsPoolContractV2.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
-		const provider = new ethers.providers.JsonRpcProvider("JSON_RPC_URL");
+		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const federation = new FederationNounsPool(provider);
 
 		expect(federation).toBeDefined();

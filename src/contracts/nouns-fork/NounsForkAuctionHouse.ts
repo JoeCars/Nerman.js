@@ -21,7 +21,7 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVE
  */
 export class _NounsForkAuctionHouse {
 	private _forkId: number;
-	private provider: ethers.providers.JsonRpcProvider;
+	private provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS;
@@ -31,9 +31,9 @@ export class _NounsForkAuctionHouse {
 		"0xd5d4c3863c320bc9f5fe9ee0d3da6f7b214449ef"
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -231,7 +231,7 @@ export class _NounsForkAuctionHouse {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -325,7 +325,7 @@ export class _NounsForkAuctionHouse {
 		if (bid != undefined && bid.args != undefined) {
 			const block = await this.getBlock(bid.blockNumber);
 			const date = new Date(block.timestamp * 1000);
-			const bidPrice = ethers.utils.formatEther(bid.args[2]);
+			const bidPrice = ethers.formatEther(bid.args[2]);
 			console.log("Bid on " + bid.args[0].toNumber() + " for " + bidPrice + " on " + date.toLocaleDateString());
 		}
 	}

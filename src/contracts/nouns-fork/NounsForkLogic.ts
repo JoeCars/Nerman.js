@@ -1,4 +1,4 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsForkABI } from "../abis/NounsForkGovernance.json";
 
@@ -25,7 +25,7 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_EVENTS)[number];
  */
 export class _NounsForkLogic {
 	private _forkId: number;
-	private provider: ethers.providers.JsonRpcProvider;
+	private provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_EVENTS;
@@ -35,9 +35,9 @@ export class _NounsForkLogic {
 		"0xcf8b3ce9e92990a689fbdc886585a84ea0e4aece"
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -411,7 +411,7 @@ export class _NounsForkLogic {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}

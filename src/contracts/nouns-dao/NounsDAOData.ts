@@ -25,14 +25,14 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_DATA_EVENTS)[numbe
  * A wrapper class around the NounsDAOData contract.
  */
 export class _NounsDAOData {
-	private provider: ethers.providers.JsonRpcProvider;
+	private provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -51,7 +51,7 @@ export class _NounsDAOData {
 	 * 	console.log(data.slug);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: ethers.providers.Listener) {
+	public async on(eventName: SupportedEventsType, listener: ethers.Listener) {
 		switch (eventName) {
 			case "AdminChanged":
 				this.Contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Event) => {
@@ -335,7 +335,7 @@ export class _NounsDAOData {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}

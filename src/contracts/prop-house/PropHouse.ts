@@ -1,4 +1,4 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers";
 import { ChainId, OrderDirection, PropHouse as PropHouseSDK } from "@prophouse/sdk";
 import { OrderByProposalFields, OrderByVoteFields } from "@prophouse/sdk/dist/gql/starknet/graphql";
 import { schedule } from "node-cron";
@@ -11,16 +11,16 @@ export type SupportedEventsType = (typeof SUPPORTED_PROP_HOUSE_EVENTS)[number];
  * A wrapper class for PropHouse.
  */
 export class PropHouse {
-	private provider: ethers.providers.JsonRpcProvider;
+	private provider: ethers.JsonRpcProvider;
 	public prophouse: PropHouseSDK;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public readonly supportedEvents = SUPPORTED_PROP_HOUSE_EVENTS;
 	private proposalSubmittedLastTime: number;
 	private voteCastLastTime: number;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -109,7 +109,7 @@ export class PropHouse {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.prophouse.contract.off(eventName, listener as ethers.providers.Listener);
+			this.prophouse.contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}

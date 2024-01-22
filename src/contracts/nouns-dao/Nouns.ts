@@ -18,7 +18,7 @@ type SupportedEventsType =
  * A wrapper for all Nouns DAO contracts, allowing you to access them from a single place without worrying about which contract has the information you need.
  */
 export class Nouns {
-	public provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 
 	public NounsAuctionHouse: _NounsAuctionHouse; // @TODO refactor into NounishContract?
 	public NounsToken: _NounsToken;
@@ -42,9 +42,9 @@ export class Nouns {
 	 * @param provider The JSON_RPC_URL needed to establish a connection to the Ethereum network. Typically retrieved through a provider like Alchemy.
 	 * @param options An options object to configure the Nouns wrappers.
 	 */
-	constructor(provider: string | ethers.providers.JsonRpcProvider, options?: NounsOptions) {
+	constructor(provider: string | ethers.JsonRpcProvider, options?: NounsOptions) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -295,7 +295,7 @@ export class Nouns {
 
 	public async getAddress(address: string) {
 		// is this a proper address
-		if (ethers.utils.isAddress(address)) {
+		if (ethers.isAddress(address)) {
 			return address;
 		}
 
