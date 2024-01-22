@@ -47,7 +47,7 @@ export class _Propdates {
 	public async on(eventName: SupportedEventsType, listener: Function) {
 		switch (eventName) {
 			case "Initialized":
-				this.Contract.on("Initialized", (version: number, event: ethers.Event) => {
+				this.Contract.on("Initialized", (version: number, event: ethers.Log) => {
 					const data: EventData.Propdates.Initialized = {
 						version: Number(version),
 						event: event
@@ -58,7 +58,7 @@ export class _Propdates {
 				break;
 
 			case "OwnershipTransferStarted":
-				this.Contract.on("OwnershipTransferStarted", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on("OwnershipTransferStarted", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.Propdates.OwnershipTransferStarted = {
 						previousOwner: { id: previousOwner },
 						newOwner: { id: newOwner },
@@ -70,7 +70,7 @@ export class _Propdates {
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.Propdates.OwnershipTransferred = {
 						previousOwner: { id: previousOwner },
 						newOwner: { id: newOwner },
@@ -82,7 +82,7 @@ export class _Propdates {
 				break;
 
 			case "PostUpdate":
-				this.Contract.on("PostUpdate", (propId: number, isCompleted: boolean, update: string, event: ethers.Event) => {
+				this.Contract.on("PostUpdate", (propId: number, isCompleted: boolean, update: string, event: ethers.Log) => {
 					const data: EventData.Propdates.PostUpdate = {
 						propId: Number(propId),
 						isCompleted: isCompleted,
@@ -97,7 +97,7 @@ export class _Propdates {
 			case "PropUpdateAdminMigrated":
 				this.Contract.on(
 					"PropUpdateAdminMigrated",
-					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 						const data: EventData.Propdates.PropUpdateAdminMigrated = {
 							propId: Number(propId),
 							oldAdmin: { id: oldAdmin } as Account,
@@ -113,7 +113,7 @@ export class _Propdates {
 			case "PropUpdateAdminRecovered":
 				this.Contract.on(
 					"PropUpdateAdminRecovered",
-					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 						const data: EventData.Propdates.PropUpdateAdminRecovered = {
 							propId: Number(propId),
 							oldAdmin: { id: oldAdmin } as Account,
@@ -129,7 +129,7 @@ export class _Propdates {
 			case "PropUpdateAdminTransferred":
 				this.Contract.on(
 					"PropUpdateAdminTransferred",
-					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 						const data: EventData.Propdates.PropUpdateAdminTransferred = {
 							propId: propId,
 							oldAdmin: { id: oldAdmin } as Account,
@@ -146,7 +146,7 @@ export class _Propdates {
 			case "SuperAdminTransferred":
 				this.Contract.on(
 					"SuperAdminTransferred",
-					(oldSuperAdmin: string, newSuperAdmin: string, event: ethers.Event) => {
+					(oldSuperAdmin: string, newSuperAdmin: string, event: ethers.Log) => {
 						const data: EventData.Propdates.SuperAdminTransferred = {
 							oldSuperAdmin: { id: oldSuperAdmin } as Account,
 							newSuperAdmin: { id: newSuperAdmin } as Account,
@@ -160,7 +160,7 @@ export class _Propdates {
 				break;
 
 			case "Upgraded":
-				this.Contract.on("Upgraded", (implementation: string, event: ethers.Event) => {
+				this.Contract.on("Upgraded", (implementation: string, event: ethers.Log) => {
 					const data: EventData.Propdates.Upgraded = {
 						implementation: { id: implementation } as Account,
 						event: event

@@ -38,7 +38,7 @@ export async function indexEvent(
 	const filePath = `${directoryPath}/${eventName}.json`;
 	await checkDirectory(filePath);
 
-	let allEvents: ethers.Event[] = [];
+	let allEvents: ethers.EventLog[] = [];
 	if (isUpdating) {
 		try {
 			const file = await readFile(filePath);
@@ -48,7 +48,11 @@ export async function indexEvent(
 		}
 	}
 	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE) {
-		let events = await contract.queryFilter(eventName, currentBlock, Math.min(currentBlock + BLOCK_BATCH_SIZE, endBlock));
+		let events = (await contract.queryFilter(
+			eventName,
+			currentBlock,
+			Math.min(currentBlock + BLOCK_BATCH_SIZE, endBlock)
+		)) as ethers.EventLog[];
 
 		events = events.map((event) => {
 			return parser(event);
@@ -74,8 +78,8 @@ export async function indexEvent(
  * @param parser a formatter function.
  * @param directoryPath the path to the indexer directory.
  */
-async function parseData(data: { event: ethers.Event }, parser: Function, directoryPath: string) {
-	const filePath = `${directoryPath}/${data.event.event}.json`;
+async function parseData(data: { event: ethers.EventLog }, parser: Function, directoryPath: string) {
+	const filePath = `${directoryPath}/${data.event.eventName}.json`;
 	const formattedData = parser(data);
 	const file = await readFile(filePath);
 	const events = JSON.parse(file.toString()).events;

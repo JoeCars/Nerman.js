@@ -74,7 +74,7 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "NewAdmin":
 				/// @notice Emitted when pendingAdmin is accepted, which means admin is updated
-				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						oldAdmin: { id: oldAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
@@ -95,7 +95,7 @@ export class _NounsForkLogic {
 				/// @notice Emitted when implementation is changed
 				this.Contract.on(
 					"NewImplementation",
-					(oldImplementation: string, newImplementation: string, event: ethers.Event) => {
+					(oldImplementation: string, newImplementation: string, event: ethers.Log) => {
 						const data: EventData.NewImplementation = {
 							oldImplementation: { id: oldImplementation } as Account,
 							newImplementation: { id: newImplementation } as Account,
@@ -115,7 +115,7 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "NewPendingAdmin":
 				/// @notice Emitted when pendingAdmin is changed
-				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						oldPendingAdmin: { id: oldPendingAdmin } as Account,
 						newPendingAdmin: { id: newPendingAdmin } as Account,
@@ -136,7 +136,7 @@ export class _NounsForkLogic {
 
 			case "ProposalCanceled":
 				// @notice An event emitted when a proposal has been canceled
-				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
 						id: id,
 						event: event
@@ -168,7 +168,7 @@ export class _NounsForkLogic {
 						startBlock: BigInt,
 						endBlock: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreated = {
 							id: id.toNumber(),
@@ -211,7 +211,7 @@ export class _NounsForkLogic {
 						proposalThreshold: BigInt,
 						quorumVotes: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
 							id: id.toNumber(),
@@ -236,7 +236,7 @@ export class _NounsForkLogic {
 
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
 				// An event emitted when a proposal has been executed in the NounsDAOExecutor
-				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
 						id: id,
 						event: event
@@ -255,7 +255,7 @@ export class _NounsForkLogic {
 			case "ProposalQueued":
 				/// @notice An event emitted when a proposal has been queued in the NounsDAOExecutor
 				/// @param eta The timestamp that the proposal will be available for execution, set once the vote succeeds
-				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Event) => {
+				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
 						id: id,
 						eta: eta,
@@ -275,7 +275,7 @@ export class _NounsForkLogic {
 				/// @notice Emitted when proposal threshold basis points is set
 				this.Contract.on(
 					"ProposalThresholdBPSSet",
-					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Event) => {
+					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
 							oldProposalThresholdBPS: oldProposalThresholdBPS,
 							newProposalThresholdBPS: newProposalThresholdBPS,
@@ -290,7 +290,7 @@ export class _NounsForkLogic {
 
 			case "Quit":
 				/// @notice Emitted when quorum votes basis points is set
-				this.Contract.on("Quit", (msgSender: string, tokenIds: number[], event: ethers.Event) => {
+				this.Contract.on("Quit", (msgSender: string, tokenIds: number[], event: ethers.Log) => {
 					const data: EventData.Quit = {
 						msgSender: { id: msgSender } as Account,
 						tokenIds: tokenIds,
@@ -311,7 +311,7 @@ export class _NounsForkLogic {
 				/// @notice Emitted when quorum votes basis points is set
 				this.Contract.on(
 					"QuorumVotesBPSSet",
-					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Event) => {
+					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Log) => {
 						const data: EventData.QuorumVotesBPSSet = {
 							oldQuorumVotesBPS: oldQuorumVotesBPS,
 							newQuorumVotesBPS: newQuorumVotesBPS,
@@ -340,7 +340,7 @@ export class _NounsForkLogic {
 						support: number,
 						votes: number,
 						reason: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const supportDetailed: VoteDirection = support;
 
@@ -366,7 +366,7 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "VotingDelaySet":
 				/// @notice An event emitted when the voting delay is set
-				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Event) => {
+				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
@@ -385,7 +385,7 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "VotingPeriodSet":
 				/// @notice An event emitted when the voting period is set
-				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Event) => {
+				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,

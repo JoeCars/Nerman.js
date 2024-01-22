@@ -71,7 +71,7 @@ export class _NounsForkToken {
 			case "DelegateChanged": // WORKING
 				this.Contract.on(
 					"DelegateChanged",
-					async (delegator: string, fromDelegate: string, toDelegate: string, event: ethers.Event) => {
+					async (delegator: string, fromDelegate: string, toDelegate: string, event: ethers.Log) => {
 						let numOfVotesChanged = 0;
 						try {
 							const receipt = await event.getTransactionReceipt();
@@ -106,7 +106,7 @@ export class _NounsForkToken {
 			case "DelegateVotesChanged": // WORKING
 				this.Contract.on(
 					"DelegateVotesChanged",
-					(delegate: string, previousBalance: number, newBalance: number, event: ethers.Event) => {
+					(delegate: string, previousBalance: number, newBalance: number, event: ethers.Log) => {
 						const data: EventData.DelegateVotesChanged = {
 							delegate: { id: delegate } as Account,
 							previousBalance: previousBalance,
@@ -121,7 +121,7 @@ export class _NounsForkToken {
 				break;
 
 			case "Transfer": // WORKING
-				this.Contract.on("Transfer", (from: string, to: string, tokenId: number, event: ethers.Event) => {
+				this.Contract.on("Transfer", (from: string, to: string, tokenId: number, event: ethers.Log) => {
 					const data: EventData.Transfer = {
 						from: { id: from } as Account,
 						to: { id: to } as Account,
@@ -135,7 +135,7 @@ export class _NounsForkToken {
 				break;
 
 			case "Approval": // WORKING
-				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Event) => {
+				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Log) => {
 					const data: EventData.Approval = {
 						owner: { id: owner } as Account,
 						approved: { id: approved } as Account,
@@ -156,7 +156,7 @@ export class _NounsForkToken {
 			case "ApprovalForAll":
 				this.Contract.on(
 					"ApprovalForAll",
-					(owner: string, operator: string, approved: boolean, event: ethers.Event) => {
+					(owner: string, operator: string, approved: boolean, event: ethers.Log) => {
 						const data: EventData.ApprovalForAll = {
 							owner: { id: owner } as Account,
 							operator: { id: operator } as Account,
@@ -171,7 +171,7 @@ export class _NounsForkToken {
 				break;
 
 			case "NounCreated": // WORKING
-				this.Contract.on("NounCreated", (tokenId: number, seed: NounsTokenSeed, event: ethers.Event) => {
+				this.Contract.on("NounCreated", (tokenId: number, seed: NounsTokenSeed, event: ethers.Log) => {
 					const data: EventData.NounCreated = {
 						id: tokenId,
 						seed: seed,
@@ -189,7 +189,7 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "DescriptorLocked":
-				this.Contract.on("DescriptorLocked", (event: ethers.Event) => {
+				this.Contract.on("DescriptorLocked", (event: ethers.Log) => {
 					const data: EventData.DescriptorLocked = {
 						event: event
 					};
@@ -205,7 +205,7 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "DescriptorUpdated":
-				this.Contract.on("DescriptorUpdated", (_descriptor: string, event: ethers.Event) => {
+				this.Contract.on("DescriptorUpdated", (_descriptor: string, event: ethers.Log) => {
 					const data: EventData.DescriptorUpdated = {
 						descriptor: { id: _descriptor } as Account,
 						event: event
@@ -222,7 +222,7 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "MinterLocked":
-				this.Contract.on("MinterLocked", (event: ethers.Event) => {
+				this.Contract.on("MinterLocked", (event: ethers.Log) => {
 					const data: EventData.MinterLocked = {
 						event: event
 					};
@@ -238,7 +238,7 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "MinterUpdated":
-				this.Contract.on("MinterUpdated", (_minter: string, event: ethers.Event) => {
+				this.Contract.on("MinterUpdated", (_minter: string, event: ethers.Log) => {
 					const data: EventData.MinterUpdated = {
 						minter: { id: _minter } as Account,
 						event: event
@@ -255,7 +255,7 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "NounBurned":
-				this.Contract.on("NounBurned", (nounId: number, event: ethers.Event) => {
+				this.Contract.on("NounBurned", (nounId: number, event: ethers.Log) => {
 					const data: EventData.NounBurned = {
 						id: nounId,
 						event: event
@@ -272,7 +272,7 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "NoundersDAOUpdated":
-				this.Contract.on("NoundersDAOUpdated", (_noundersDAO: string, event: ethers.Event) => {
+				this.Contract.on("NoundersDAOUpdated", (_noundersDAO: string, event: ethers.Log) => {
 					const data: EventData.NoundersDAOUpdated = {
 						noundersDAO: { id: _noundersDAO } as Account,
 						event: event
@@ -289,7 +289,7 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "OwnershipTransferred":
-				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.OwnershipTransferred = {
 						previousOwner: { id: previousOwner } as Account,
 						newOwner: { id: newOwner } as Account,
@@ -307,7 +307,7 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "SeederLocked":
-				this.Contract.on("SeederLocked", (event: ethers.Event) => {
+				this.Contract.on("SeederLocked", (event: ethers.Log) => {
 					const data: EventData.SeederLocked = {
 						event: event
 					};
@@ -323,7 +323,7 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "SeederUpdated":
-				this.Contract.on("SeederUpdated", (_seeder: string, event: ethers.Event) => {
+				this.Contract.on("SeederUpdated", (_seeder: string, event: ethers.Log) => {
 					const data: EventData.SeederUpdated = {
 						seeder: { id: _seeder } as Account,
 						event: event

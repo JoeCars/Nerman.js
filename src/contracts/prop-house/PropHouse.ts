@@ -55,7 +55,7 @@ export class PropHouse {
 						kind: any,
 						title: string,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const houseObject = await this.prophouse.query.getHouse(house);
 
@@ -75,7 +75,7 @@ export class PropHouse {
 				this.registeredListeners.set(eventName, listener);
 				break;
 			case "HouseCreated":
-				this.prophouse.contract.on("HouseCreated", (creator: string, house: string, kind: any, event: ethers.Event) => {
+				this.prophouse.contract.on("HouseCreated", (creator: string, house: string, kind: any, event: ethers.Log) => {
 					const data: EventData.PropHouse.HouseCreated = {
 						creator: { id: creator },
 						house: { id: house },

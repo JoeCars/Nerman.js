@@ -66,7 +66,7 @@ export class _NounsForkAuctionHouse {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
 				this.Contract.on(
 					"AuctionCreated",
-					(nounId: number, startTime: number, endTime: number, event: ethers.Event) => {
+					(nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
 						const data: EventData.AuctionCreated = {
 							id: nounId,
 							startTime: startTime,
@@ -81,7 +81,7 @@ export class _NounsForkAuctionHouse {
 				break;
 
 			case "AuctionBid": // FUNCTIONING CORRECTLY
-				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Event) => {
+				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Log) => {
 					const data: EventData.AuctionBid = {
 						id: nounId,
 						amount: value,
@@ -101,7 +101,7 @@ export class _NounsForkAuctionHouse {
 			//
 			// **********************************************************
 			case "AuctionExtended":
-				this.Contract.on("AuctionExtended", (nounId: number, endTime: number, event: ethers.Event) => {
+				this.Contract.on("AuctionExtended", (nounId: number, endTime: number, event: ethers.Log) => {
 					const data: EventData.AuctionExtended = {
 						id: nounId,
 						endTime: endTime,
@@ -114,7 +114,7 @@ export class _NounsForkAuctionHouse {
 				break;
 
 			case "AuctionSettled": // FUNCTIONING CORRECTLY
-				this.Contract.on("AuctionSettled", (nounId: number, winner: string, amount: number, event: ethers.Event) => {
+				this.Contract.on("AuctionSettled", (nounId: number, winner: string, amount: number, event: ethers.Log) => {
 					const data: EventData.AuctionSettled = {
 						id: nounId,
 						winner: { id: winner } as Account,
@@ -133,7 +133,7 @@ export class _NounsForkAuctionHouse {
 			//
 			// **********************************************************
 			case "AuctionTimeBufferUpdated":
-				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: number, event: ethers.Event) => {
+				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: number, event: ethers.Log) => {
 					const data: EventData.AuctionTimeBufferUpdated = {
 						timeBuffer: timeBuffer,
 						event: event
@@ -150,7 +150,7 @@ export class _NounsForkAuctionHouse {
 			//
 			// **********************************************************
 			case "AuctionReservePriceUpdated":
-				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: number, event: ethers.Event) => {
+				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: number, event: ethers.Log) => {
 					const data: EventData.AuctionReservePriceUpdated = {
 						reservePrice: reservePrice,
 						event: event
@@ -169,7 +169,7 @@ export class _NounsForkAuctionHouse {
 			case "AuctionMinBidIncrementPercentageUpdated":
 				this.Contract.on(
 					"AuctionMinBidIncrementPercentageUpdated",
-					(minBidIncrementPercentage: number, event: ethers.Event) => {
+					(minBidIncrementPercentage: number, event: ethers.Log) => {
 						const data: EventData.AuctionMinBidIncrementPercentageUpdated = {
 							minBidIncrementPercentage: minBidIncrementPercentage,
 							event: event
@@ -182,7 +182,7 @@ export class _NounsForkAuctionHouse {
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.OwnershipTransferred = {
 						previousOwner: { id: previousOwner },
 						newOwner: { id: newOwner },
@@ -195,7 +195,7 @@ export class _NounsForkAuctionHouse {
 				break;
 
 			case "Paused":
-				this.Contract.on("Paused", (address: string, event: ethers.Event) => {
+				this.Contract.on("Paused", (address: string, event: ethers.Log) => {
 					const data: EventData.Paused = {
 						address: { id: address },
 						event: event
@@ -206,7 +206,7 @@ export class _NounsForkAuctionHouse {
 				break;
 
 			case "Unpaused":
-				this.Contract.on("Unpaused", (address: string, event: ethers.Event) => {
+				this.Contract.on("Unpaused", (address: string, event: ethers.Log) => {
 					const data: EventData.Unpaused = {
 						address: { id: address },
 						event: event
@@ -263,7 +263,7 @@ export class _NounsForkAuctionHouse {
 	 */
 	public async getLatestAuctions() {
 		const filter = this.Contract.filters.AuctionCreated();
-		const auctions = (await this.Contract.queryFilter(filter)) as Array<ethers.Event>;
+		const auctions = (await this.Contract.queryFilter(filter)) as Array<ethers.Log>;
 		return auctions;
 	}
 
@@ -273,7 +273,7 @@ export class _NounsForkAuctionHouse {
 	 */
 	public async getLatestAuctionExtended() {
 		const filter = this.Contract.filters.AuctionExtended();
-		const auctionExtendeds = (await this.Contract.queryFilter(filter)) as Array<ethers.Event>;
+		const auctionExtendeds = (await this.Contract.queryFilter(filter)) as Array<ethers.Log>;
 		return auctionExtendeds;
 	}
 
@@ -283,7 +283,7 @@ export class _NounsForkAuctionHouse {
 	 */
 	public async getAuctionBids(nounId: number) {
 		const filter = this.Contract.filters.AuctionBid(nounId);
-		const bids = (await this.Contract.queryFilter(filter)) as Array<ethers.Event>;
+		const bids = (await this.Contract.queryFilter(filter)) as Array<ethers.Log>;
 		return bids;
 	}
 
@@ -321,7 +321,7 @@ export class _NounsForkAuctionHouse {
 	 * Formats and prints bid information.
 	 * @param bid The bid event.
 	 */
-	public async tempFormatAuctionBid(bid: ethers.Event) {
+	public async tempFormatAuctionBid(bid: ethers.Log) {
 		if (bid != undefined && bid.args != undefined) {
 			const block = await this.getBlock(bid.blockNumber);
 			const date = new Date(block.timestamp * 1000);

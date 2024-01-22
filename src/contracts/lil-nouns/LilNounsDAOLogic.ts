@@ -54,7 +54,7 @@ export class LilNounsDAOLogic {
 	public async on(eventName: SupportedEventsType, listener: Function) {
 		switch (eventName) {
 			case "NewAdmin":
-				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						oldAdmin: { id: oldAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
@@ -69,7 +69,7 @@ export class LilNounsDAOLogic {
 			case "NewImplementation":
 				this.Contract.on(
 					"NewImplementation",
-					(oldImplementation: string, newImplementation: string, event: ethers.Event) => {
+					(oldImplementation: string, newImplementation: string, event: ethers.Log) => {
 						const data: EventData.NewImplementation = {
 							oldImplementation: { id: oldImplementation } as Account,
 							newImplementation: { id: newImplementation } as Account,
@@ -83,7 +83,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "NewPendingAdmin":
-				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						oldPendingAdmin: { id: oldPendingAdmin } as Account,
 						newPendingAdmin: { id: newPendingAdmin } as Account,
@@ -96,7 +96,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "NewVetoer":
-				this.Contract.on("NewVetoer", (oldVetoer: string, newVetoer: string, event: ethers.Event) => {
+				this.Contract.on("NewVetoer", (oldVetoer: string, newVetoer: string, event: ethers.Log) => {
 					const data: EventData.NewVetoer = {
 						oldVetoer: { id: oldVetoer },
 						newVetoer: { id: newVetoer },
@@ -109,7 +109,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "ProposalCanceled":
-				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
 						id: id,
 						event: event
@@ -169,7 +169,7 @@ export class LilNounsDAOLogic {
 						proposalThreshold: BigInt,
 						quorumVotes: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
 							id: id.toNumber(),
@@ -193,7 +193,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "ProposalExecuted":
-				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
 						id: id,
 						event: event
@@ -204,7 +204,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "ProposalQueued":
-				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Event) => {
+				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
 						id: id,
 						eta: eta,
@@ -218,7 +218,7 @@ export class LilNounsDAOLogic {
 			case "ProposalThresholdBPSSet":
 				this.Contract.on(
 					"ProposalThresholdBPSSet",
-					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Event) => {
+					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
 							oldProposalThresholdBPS: oldProposalThresholdBPS,
 							newProposalThresholdBPS: newProposalThresholdBPS,
@@ -232,7 +232,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "ProposalVetoed":
-				this.Contract.on("ProposalVetoed", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalVetoed", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalVetoed = {
 						id: id,
 						event: event
@@ -245,7 +245,7 @@ export class LilNounsDAOLogic {
 			case "QuorumVotesBPSSet":
 				this.Contract.on(
 					"QuorumVotesBPSSet",
-					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Event) => {
+					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Log) => {
 						const data: EventData.QuorumVotesBPSSet = {
 							oldQuorumVotesBPS: oldQuorumVotesBPS,
 							newQuorumVotesBPS: newQuorumVotesBPS,
@@ -267,7 +267,7 @@ export class LilNounsDAOLogic {
 						support: number,
 						votes: number,
 						reason: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const supportDetailed: VoteDirection = support;
 
@@ -287,7 +287,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "VotingDelaySet":
-				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Event) => {
+				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
@@ -300,7 +300,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "VotingPeriodSet":
-				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Event) => {
+				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,

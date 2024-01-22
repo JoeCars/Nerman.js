@@ -81,7 +81,7 @@ export class _NounsDAO {
 	public async on(eventName: SupportedEventsType, listener: Function) {
 		switch (eventName) {
 			case "DAOWithdrawNounsFromEscrow":
-				this.Contract.on("DAOWithdrawNounsFromEscrow", (tokenIds: number[], to: string, event: ethers.Event) => {
+				this.Contract.on("DAOWithdrawNounsFromEscrow", (tokenIds: number[], to: string, event: ethers.Log) => {
 					const data = {
 						tokenIds: tokenIds,
 						to: { id: to } as Account,
@@ -96,7 +96,7 @@ export class _NounsDAO {
 			case "ERC20TokensToIncludeInForkSet":
 				this.Contract.on(
 					"ERC20TokensToIncludeInForkSet",
-					(oldErc20Tokens: string[], newErc20tokens: string[], event: ethers.Event) => {
+					(oldErc20Tokens: string[], newErc20tokens: string[], event: ethers.Log) => {
 						const data = {
 							oldErc20Tokens: oldErc20Tokens,
 							newErc20tokens: newErc20tokens,
@@ -118,7 +118,7 @@ export class _NounsDAO {
 						tokenIds: number[],
 						proposalIds: number[],
 						reason: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							forkId: forkId,
@@ -144,7 +144,7 @@ export class _NounsDAO {
 						forkToken: string,
 						forkEndTimestamp: number,
 						tokensInEscrow: number,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							forkId: forkId,
@@ -164,7 +164,7 @@ export class _NounsDAO {
 			case "ForkDAODeployerSet":
 				this.Contract.on(
 					"ForkDAODeployerSet",
-					(oldForkDAODeployer: string, newForkDAODeployer: string, event: ethers.Event) => {
+					(oldForkDAODeployer: string, newForkDAODeployer: string, event: ethers.Log) => {
 						const data = {
 							oldForkDAODeployer: { id: oldForkDAODeployer } as Account,
 							newForkDAODeployer: { id: newForkDAODeployer } as Account,
@@ -178,7 +178,7 @@ export class _NounsDAO {
 				break;
 
 			case "ForkPeriodSet":
-				this.Contract.on("ForkPeriodSet", (oldForkPeriod: number, newForkPeriod: number, event: ethers.Event) => {
+				this.Contract.on("ForkPeriodSet", (oldForkPeriod: number, newForkPeriod: number, event: ethers.Log) => {
 					const data = {
 						oldForkPeriod: oldForkPeriod,
 						newForkPeriod: newForkPeriod,
@@ -193,7 +193,7 @@ export class _NounsDAO {
 			case "ForkThresholdSet":
 				this.Contract.on(
 					"ForkThresholdSet",
-					(oldForkThreshold: number, newForkThreshold: number, event: ethers.Event) => {
+					(oldForkThreshold: number, newForkThreshold: number, event: ethers.Log) => {
 						const data = {
 							oldForkThreshold: oldForkThreshold,
 							newForkThreshold: newForkThreshold,
@@ -215,7 +215,7 @@ export class _NounsDAO {
 						tokenIds: number[],
 						proposalIds: number[],
 						reason: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							forkId: forkId,
@@ -235,7 +235,7 @@ export class _NounsDAO {
 			case "LastMinuteWindowSet":
 				this.Contract.on(
 					"LastMinuteWindowSet",
-					(oldLastMinuteWindowInBlocks: number, newLastMinuteWindowInBlocks: number, event: ethers.Event) => {
+					(oldLastMinuteWindowInBlocks: number, newLastMinuteWindowInBlocks: number, event: ethers.Log) => {
 						const data = {
 							oldLastMinuteWindowInBlocks: oldLastMinuteWindowInBlocks,
 							newLastMinuteWindowInBlocks: newLastMinuteWindowInBlocks,
@@ -251,7 +251,7 @@ export class _NounsDAO {
 			case "MaxQuorumVotesBPSSet":
 				this.Contract.on(
 					"MaxQuorumVotesBPSSet",
-					(oldMaxQuorumVotesBPS: number, newMaxQuorumVotesBPS: number, event: ethers.Event) => {
+					(oldMaxQuorumVotesBPS: number, newMaxQuorumVotesBPS: number, event: ethers.Log) => {
 						const data = {
 							oldMaxQuorumVotesBPS: oldMaxQuorumVotesBPS,
 							newMaxQuorumVotesBPS: newMaxQuorumVotesBPS,
@@ -267,7 +267,7 @@ export class _NounsDAO {
 			case "MinQuorumVotesBPSSet":
 				this.Contract.on(
 					"MinQuorumVotesBPSSet",
-					(oldMinQuorumVotesBPS: number, newMinQuorumVotesBPS: number, event: ethers.Event) => {
+					(oldMinQuorumVotesBPS: number, newMinQuorumVotesBPS: number, event: ethers.Log) => {
 						const data = {
 							oldMinQuorumVotesBPS: oldMinQuorumVotesBPS,
 							newMinQuorumVotesBPS: newMinQuorumVotesBPS,
@@ -287,7 +287,7 @@ export class _NounsDAO {
 			// **********************************************************
 			case "NewAdmin":
 				/// @notice Emitted when pendingAdmin is accepted, which means admin is updated
-				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						oldAdmin: { id: oldAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
@@ -308,7 +308,7 @@ export class _NounsDAO {
 				/// @notice Emitted when implementation is changed
 				this.Contract.on(
 					"NewImplementation",
-					(oldImplementation: string, newImplementation: string, event: ethers.Event) => {
+					(oldImplementation: string, newImplementation: string, event: ethers.Log) => {
 						const data: EventData.NewImplementation = {
 							oldImplementation: { id: oldImplementation } as Account,
 							newImplementation: { id: newImplementation } as Account,
@@ -328,7 +328,7 @@ export class _NounsDAO {
 			// **********************************************************
 			case "NewPendingAdmin":
 				/// @notice Emitted when pendingAdmin is changed
-				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						oldPendingAdmin: { id: oldPendingAdmin } as Account,
 						newPendingAdmin: { id: newPendingAdmin } as Account,
@@ -343,7 +343,7 @@ export class _NounsDAO {
 			case "NewPendingVetoer":
 				this.Contract.on(
 					"NewPendingVetoer",
-					(oldPendingVetoer: string, newPendingVetoer: string, event: ethers.Event) => {
+					(oldPendingVetoer: string, newPendingVetoer: string, event: ethers.Log) => {
 						const data = {
 							oldPendingVetoer: { id: oldPendingVetoer } as Account,
 							newPendingVetoer: { id: newPendingVetoer } as Account,
@@ -357,7 +357,7 @@ export class _NounsDAO {
 				break;
 
 			case "NewVetoer":
-				this.Contract.on("NewVetoer", (oldVetoer: string, newVetoer: string, event: ethers.Event) => {
+				this.Contract.on("NewVetoer", (oldVetoer: string, newVetoer: string, event: ethers.Log) => {
 					const data: EventData.NewVetoer = {
 						oldVetoer: { id: oldVetoer },
 						newVetoer: { id: newVetoer },
@@ -375,7 +375,7 @@ export class _NounsDAO {
 					(
 						oldObjectionPeriodDurationInBlocks: number,
 						newObjectionPeriodDurationInBlocks: number,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							oldObjectionPeriodDurationInBlocks: oldObjectionPeriodDurationInBlocks,
@@ -397,7 +397,7 @@ export class _NounsDAO {
 
 			case "ProposalCanceled":
 				// @notice An event emitted when a proposal has been canceled
-				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
 						id: id,
 						event: event
@@ -429,7 +429,7 @@ export class _NounsDAO {
 						startBlock: BigInt,
 						endBlock: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreated = {
 							id: id.toNumber(),
@@ -451,7 +451,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalCreatedOnTimelockV1":
-				this.Contract.on("ProposalCreatedOnTimelockV1", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalCreatedOnTimelockV1", (id: number, event: ethers.Log) => {
 					const data = {
 						id: id,
 						event: event
@@ -487,7 +487,7 @@ export class _NounsDAO {
 						proposalThreshold: BigInt,
 						quorumVotes: BigIntF,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
 							id: id.toNumber(),
@@ -523,7 +523,7 @@ export class _NounsDAO {
 						proposalThreshold: BigInt,
 						quorumVotes: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
 							id: id.toNumber(),
@@ -549,7 +549,7 @@ export class _NounsDAO {
 			case "ProposalDescriptionUpdated":
 				this.Contract.on(
 					"ProposalDescriptionUpdated",
-					(id: number, proposer: string, description: string, updatedMessage: string, event: ethers.Event) => {
+					(id: number, proposer: string, description: string, updatedMessage: string, event: ethers.Log) => {
 						const data = {
 							id: id,
 							proposer: { id: proposer } as Account,
@@ -566,7 +566,7 @@ export class _NounsDAO {
 
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
 				// An event emitted when a proposal has been executed in the NounsDAOExecutor
-				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
 						id: id,
 						event: event
@@ -579,7 +579,7 @@ export class _NounsDAO {
 			case "ProposalObjectionPeriodSet":
 				this.Contract.on(
 					"ProposalObjectionPeriodSet",
-					(id: number, objectionPeriodEndBlock: number, event: ethers.Event) => {
+					(id: number, objectionPeriodEndBlock: number, event: ethers.Log) => {
 						const data = {
 							id: id,
 							objectionPeriodEndBlock: objectionPeriodEndBlock,
@@ -601,7 +601,7 @@ export class _NounsDAO {
 			case "ProposalQueued":
 				/// @notice An event emitted when a proposal has been queued in the NounsDAOExecutor
 				/// @param eta The timestamp that the proposal will be available for execution, set once the vote succeeds
-				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Event) => {
+				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
 						id: id,
 						eta: eta,
@@ -621,7 +621,7 @@ export class _NounsDAO {
 				/// @notice Emitted when proposal threshold basis points is set
 				this.Contract.on(
 					"ProposalThresholdBPSSet",
-					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Event) => {
+					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
 							oldProposalThresholdBPS: oldProposalThresholdBPS,
 							newProposalThresholdBPS: newProposalThresholdBPS,
@@ -645,7 +645,7 @@ export class _NounsDAO {
 						signatures: string[],
 						calldatas: any[],
 						updateMessage: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							id: id,
@@ -670,7 +670,7 @@ export class _NounsDAO {
 					(
 						oldProposalUpdatablePeriodInBlocks: number,
 						newProposalUpdatablePeriodInBlocks: number,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							oldProposalUpdatablePeriodInBlocks: oldProposalUpdatablePeriodInBlocks,
@@ -696,7 +696,7 @@ export class _NounsDAO {
 						calldatas: any[],
 						description: string,
 						updateMessage: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							id: id,
@@ -723,7 +723,7 @@ export class _NounsDAO {
 			// **********************************************************
 			case "ProposalVetoed":
 				/// @notice An event emitted when a proposal has been vetoed by vetoAddress
-				this.Contract.on("ProposalVetoed", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalVetoed", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalVetoed = {
 						id: id,
 						event: event
@@ -736,7 +736,7 @@ export class _NounsDAO {
 			case "QuorumCoefficientSet":
 				this.Contract.on(
 					"QuorumCoefficientSet",
-					(oldQuorumCoefficient: number, newQuorumCoefficient: number, event: ethers.Event) => {
+					(oldQuorumCoefficient: number, newQuorumCoefficient: number, event: ethers.Log) => {
 						const data = {
 							oldQuorumCoefficient: oldQuorumCoefficient,
 							newQuorumCoefficient: newQuorumCoefficient,
@@ -758,7 +758,7 @@ export class _NounsDAO {
 				/// @notice Emitted when quorum votes basis points is set
 				this.Contract.on(
 					"QuorumVotesBPSSet",
-					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Event) => {
+					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Log) => {
 						const data: EventData.QuorumVotesBPSSet = {
 							oldQuorumVotesBPS: oldQuorumVotesBPS,
 							newQuorumVotesBPS: newQuorumVotesBPS,
@@ -774,7 +774,7 @@ export class _NounsDAO {
 			case "RefundableVote":
 				this.Contract.on(
 					"RefundableVote",
-					(voter: string, refundAmount: number, refundSent: boolean, event: ethers.Event) => {
+					(voter: string, refundAmount: number, refundSent: boolean, event: ethers.Log) => {
 						const data = {
 							voter: { id: voter } as Account,
 							refundAmount: refundAmount,
@@ -789,7 +789,7 @@ export class _NounsDAO {
 				break;
 
 			case "SignatureCancelled":
-				this.Contract.on("SignatureCancelled", (signer: string, sig: any, event: ethers.Event) => {
+				this.Contract.on("SignatureCancelled", (signer: string, sig: any, event: ethers.Log) => {
 					const data = {
 						signer: { id: signer } as Account,
 						sig: sig,
@@ -804,7 +804,7 @@ export class _NounsDAO {
 			case "TimelocksAndAdminSet":
 				this.Contract.on(
 					"TimelocksAndAdminSet",
-					(timelock: string, timelockV1: string, admin: string, event: ethers.Event) => {
+					(timelock: string, timelockV1: string, admin: string, event: ethers.Log) => {
 						const data = {
 							timelock: { id: timelock } as Account,
 							timelockV1: { id: timelockV1 } as Account,
@@ -834,7 +834,7 @@ export class _NounsDAO {
 						support: number,
 						votes: number,
 						reason: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const supportDetailed: VoteDirection = support;
 
@@ -859,7 +859,7 @@ export class _NounsDAO {
 					(
 						oldVoteSnapshotBlockSwitchProposalId: number,
 						newVoteSnapshotBlockSwitchProposalId: number,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							oldVoteSnapshotBlockSwitchProposalId: oldVoteSnapshotBlockSwitchProposalId,
@@ -880,7 +880,7 @@ export class _NounsDAO {
 			// **********************************************************
 			case "VotingDelaySet":
 				/// @notice An event emitted when the voting delay is set
-				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Event) => {
+				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
@@ -899,7 +899,7 @@ export class _NounsDAO {
 			// **********************************************************
 			case "VotingPeriodSet":
 				/// @notice An event emitted when the voting period is set
-				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Event) => {
+				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,
@@ -912,7 +912,7 @@ export class _NounsDAO {
 				break;
 
 			case "Withdraw":
-				this.Contract.on("Withdraw", (amount: number, sent: boolean, event: ethers.Event) => {
+				this.Contract.on("Withdraw", (amount: number, sent: boolean, event: ethers.Log) => {
 					const data = {
 						amount: amount,
 						sent: sent,
@@ -927,7 +927,7 @@ export class _NounsDAO {
 			case "WithdrawFromForkEscrow":
 				this.Contract.on(
 					"WithdrawFromForkEscrow",
-					(forkId: number, owner: string, tokenIds: number[], event: ethers.Event) => {
+					(forkId: number, owner: string, tokenIds: number[], event: ethers.Log) => {
 						const data = {
 							forkId: forkId,
 							owner: { id: owner } as Account,

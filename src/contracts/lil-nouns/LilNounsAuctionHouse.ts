@@ -54,7 +54,7 @@ export class LilNounsAuctionHouse {
 	public async on(eventName: SupportedEventsType, listener: Function) {
 		switch (eventName) {
 			case "AuctionBid":
-				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Event) => {
+				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Log) => {
 					const data: EventData.AuctionBid = {
 						id: nounId,
 						amount: value,
@@ -71,7 +71,7 @@ export class LilNounsAuctionHouse {
 			case "AuctionCreated":
 				this.Contract.on(
 					"AuctionCreated",
-					(nounId: number, startTime: number, endTime: number, event: ethers.Event) => {
+					(nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
 						const data: EventData.AuctionCreated = {
 							id: nounId,
 							startTime: startTime,
@@ -86,7 +86,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "AuctionExtended":
-				this.Contract.on("AuctionExtended", (nounId: number, endTime: number, event: ethers.Event) => {
+				this.Contract.on("AuctionExtended", (nounId: number, endTime: number, event: ethers.Log) => {
 					const data: EventData.AuctionExtended = {
 						id: nounId,
 						endTime: endTime,
@@ -101,7 +101,7 @@ export class LilNounsAuctionHouse {
 			case "AuctionMinBidIncrementPercentageUpdated":
 				this.Contract.on(
 					"AuctionMinBidIncrementPercentageUpdated",
-					(minBidIncrementPercentage: number, event: ethers.Event) => {
+					(minBidIncrementPercentage: number, event: ethers.Log) => {
 						const data: EventData.AuctionMinBidIncrementPercentageUpdated = {
 							minBidIncrementPercentage: minBidIncrementPercentage,
 							event: event
@@ -114,7 +114,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "AuctionReservePriceUpdated":
-				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: number, event: ethers.Event) => {
+				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: number, event: ethers.Log) => {
 					const data: EventData.AuctionReservePriceUpdated = {
 						reservePrice: reservePrice,
 						event: event
@@ -126,7 +126,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "AuctionSettled":
-				this.Contract.on("AuctionSettled", (nounId: number, winner: string, amount: number, event: ethers.Event) => {
+				this.Contract.on("AuctionSettled", (nounId: number, winner: string, amount: number, event: ethers.Log) => {
 					const data: EventData.AuctionSettled = {
 						id: nounId,
 						winner: { id: winner } as Account,
@@ -140,7 +140,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "AuctionTimeBufferUpdated":
-				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: number, event: ethers.Event) => {
+				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: number, event: ethers.Log) => {
 					const data: EventData.AuctionTimeBufferUpdated = {
 						timeBuffer: timeBuffer,
 						event: event
@@ -152,7 +152,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.OwnershipTransferred = {
 						previousOwner: { id: previousOwner },
 						newOwner: { id: newOwner },
@@ -165,7 +165,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "Paused":
-				this.Contract.on("Paused", (address: string, event: ethers.Event) => {
+				this.Contract.on("Paused", (address: string, event: ethers.Log) => {
 					const data: EventData.Paused = {
 						address: { id: address },
 						event: event
@@ -177,7 +177,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "Unpaused":
-				this.Contract.on("Unpaused", (address: string, event: ethers.Event) => {
+				this.Contract.on("Unpaused", (address: string, event: ethers.Log) => {
 					const data: EventData.Unpaused = {
 						address: { id: address },
 						event: event
