@@ -49,19 +49,16 @@ export class _NounsAuctionHouse {
 	public async on(eventName: SupportedEventsType, listener: Function) {
 		switch (eventName) {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
-				this.Contract.on(
-					"AuctionCreated",
-					(nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
-						const data: EventData.AuctionCreated = {
-							id: nounId,
-							startTime: startTime,
-							endTime: endTime,
-							event: event
-						};
+				this.Contract.on("AuctionCreated", (nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
+					const data: EventData.AuctionCreated = {
+						id: nounId,
+						startTime: startTime,
+						endTime: endTime,
+						event: event
+					};
 
-						listener(data);
-					}
-				);
+					listener(data);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
