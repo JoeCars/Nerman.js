@@ -202,7 +202,7 @@ export class Nouns {
 		if (this.cache.auction && (this.cache.auction.state == "ACTIVE" || this.cache.auction.state == "EXTENDED")) {
 			const blockNumber = await this.provider.getBlockNumber();
 			const block = await this.provider.getBlock(blockNumber);
-			const timestamp = block.timestamp;
+			const timestamp = block!.timestamp;
 
 			if (timestamp > (this.cache.auction.endTime as number)) {
 				this.cache.auction.state = "COMPLETE";

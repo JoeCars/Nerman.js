@@ -309,7 +309,7 @@ export class _NounsAuctionHouse {
 	public async tempFormatAuctionBid(bid: ethers.EventLog) {
 		if (bid != undefined && bid.args != undefined) {
 			const block = await this.getBlock(bid.blockNumber);
-			const date = new Date(block.timestamp * 1000);
+			const date = new Date(block!.timestamp * 1000);
 			const bidPrice = ethers.formatEther(bid.args[2]);
 			console.log("Bid on " + bid.args[0].toNumber() + " for " + bidPrice + " on " + date.toLocaleDateString());
 		}
@@ -342,7 +342,7 @@ export class _NounsAuctionHouse {
 			const latestBidData = {
 				id: nounId,
 				block: bid.blockNumber,
-				date: new Date(block.timestamp * 1000),
+				date: new Date(block!.timestamp * 1000),
 				amount: ethers.formatEther(bid.args[2]),
 				address: bid.args[1],
 				ens: ens
