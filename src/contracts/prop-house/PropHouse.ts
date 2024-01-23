@@ -27,7 +27,7 @@ export class PropHouse {
 
 		this.prophouse = new PropHouseSDK({
 			evmChainId: ChainId.EthereumMainnet,
-			evm: this.provider
+			evm: this.provider as any
 		});
 		this.registeredListeners = new Map();
 		this.proposalSubmittedLastTime = Math.floor(Date.now() / 1000); // Needs seconds, not milliseconds.
