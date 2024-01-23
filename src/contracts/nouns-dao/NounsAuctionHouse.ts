@@ -248,7 +248,7 @@ export class _NounsAuctionHouse {
 	 */
 	public async getLatestAuctions() {
 		const filter = this.Contract.filters.AuctionCreated();
-		const auctions = (await this.Contract.queryFilter(filter)) as Array<ethers.Log>;
+		const auctions = (await this.Contract.queryFilter(filter)) as ethers.EventLog[];
 		return auctions;
 	}
 
@@ -258,7 +258,7 @@ export class _NounsAuctionHouse {
 	 */
 	public async getLatestAuctionExtended() {
 		const filter = this.Contract.filters.AuctionExtended();
-		const auctionExtendeds = (await this.Contract.queryFilter(filter)) as Array<ethers.Log>;
+		const auctionExtendeds = (await this.Contract.queryFilter(filter)) as ethers.EventLog[];
 		return auctionExtendeds;
 	}
 
@@ -268,7 +268,7 @@ export class _NounsAuctionHouse {
 	 */
 	public async getAuctionBids(nounId: number) {
 		const filter = this.Contract.filters.AuctionBid(nounId);
-		const bids = (await this.Contract.queryFilter(filter)) as Array<ethers.Log>;
+		const bids = (await this.Contract.queryFilter(filter)) as ethers.EventLog[];
 		return bids;
 	}
 
@@ -306,7 +306,7 @@ export class _NounsAuctionHouse {
 	 * Formats and prints bid information.
 	 * @param bid The bid event.
 	 */
-	public async tempFormatAuctionBid(bid: ethers.Log) {
+	public async tempFormatAuctionBid(bid: ethers.EventLog) {
 		if (bid != undefined && bid.args != undefined) {
 			const block = await this.getBlock(bid.blockNumber);
 			const date = new Date(block.timestamp * 1000);
