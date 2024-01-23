@@ -133,7 +133,7 @@ export class LilNounsDAOLogic {
 						startBlock: BigInt,
 						endBlock: BigInt,
 						description: string,
-						event: BigInt
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreated = {
 							id: id.toNumber(),
@@ -261,14 +261,7 @@ export class LilNounsDAOLogic {
 			case "VoteCast":
 				this.Contract.on(
 					"VoteCast",
-					(
-						voter: string,
-						proposalId: number,
-						support: number,
-						votes: number,
-						reason: string,
-						event: ethers.Log
-					) => {
+					(voter: string, proposalId: number, support: number, votes: number, reason: string, event: ethers.Log) => {
 						const supportDetailed: VoteDirection = support;
 
 						const data: EventData.VoteCast = {
