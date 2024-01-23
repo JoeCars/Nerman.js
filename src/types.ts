@@ -106,9 +106,9 @@ export namespace EventData {
 		/** Token owner who is escrowing to fork. */
 		owner: Account;
 		/** List of tokens being escrowed. */
-		tokenIds: number[];
+		tokenIds: BigInt[];
 		/** Proposal IDs which are the reason for wanting to fork. */
-		proposalIds: number[];
+		proposalIds: BigInt[];
 		/** Optional reason. */
 		reason: string;
 		/** Event meta data. */
@@ -126,9 +126,9 @@ export namespace EventData {
 		/** New fork token address. */
 		forkToken: Account;
 		/** The unix timestamp in seconds until which the fork can rejoin the DAO. */
-		forkEndTimestamp: number;
+		forkEndTimestamp: BigInt;
 		/** Tokens in escrow at the moment of the escrow. These are lost from the main treasury. */
-		tokensInEscrow: number;
+		tokensInEscrow: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -150,9 +150,9 @@ export namespace EventData {
 	 */
 	export interface ForkPeriodSet {
 		/** Old fork period in seconds.*/
-		oldForkPeriod: number;
+		oldForkPeriod: BigInt;
 		/** New fork period in seconds. */
-		newForkPeriod: number;
+		newForkPeriod: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -162,9 +162,9 @@ export namespace EventData {
 	 */
 	export interface ForkThresholdSet {
 		/** The old token amount needed to successfully fork the DAO. A percentage of the token supply. */
-		oldForkThreshold: number;
+		oldForkThreshold: BigInt;
 		/** The new token amount needed to successfully fork the DAO. A percentage of the token supply. */
-		newForkThreshold: number;
+		newForkThreshold: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -178,9 +178,9 @@ export namespace EventData {
 		/** Token owner who is escrowing to fork. */
 		owner: Account;
 		/** List of tokens being escrowed. */
-		tokenIds: number[];
+		tokenIds: BigInt[];
 		/** Owner's currently active proposals being transferred to the fork. */
-		proposalIds: number[];
+		proposalIds: BigInt[];
 		/** Optional reason. */
 		reason: string;
 		/** Event meta data. */
@@ -310,7 +310,7 @@ export namespace EventData {
 	 */
 	export interface ProposalCreated {
 		/** id of the proposal being created. */
-		id: number;
+		id: BigInt;
 		/** Account of the proposer. */
 		proposer: Account;
 		/** Target addresses for proposal calls. */
@@ -322,9 +322,9 @@ export namespace EventData {
 		/** Calldatas for proposal calls. */
 		calldatas: any[]; // type is bytes[]
 		/** The block voting starts. */
-		startBlock: number;
+		startBlock: BigInt;
 		/** The block voting ends. */
-		endBlock: number;
+		endBlock: BigInt;
 		/**
 		 * Proposal description.
 		 * @example
@@ -353,7 +353,7 @@ export namespace EventData {
 	 */
 	export interface ProposalCreatedWithRequirements {
 		/** id of the proposal created. */
-		id: number;
+		id: BigInt;
 		/** Account of the proposer. */
 		proposer: Account;
 		/** List of signers. In V3. */
@@ -367,15 +367,15 @@ export namespace EventData {
 		/** Calldatas for proposal calls. */
 		calldatas: any[];
 		/** The block voting starts. */
-		startBlock: number;
+		startBlock: BigInt;
 		/** The block voting ends. */
-		endBlock: number;
+		endBlock: BigInt;
 		/** Period where the proposal is updatable. In V3. */
 		updatePeriodEndBlock?: number;
 		/** The proposal threshold. In V1. */
-		proposalThreshold: number;
+		proposalThreshold: BigInt;
 		/** The quorum votes. In V1. Renamed to minQuorumVotes in V2.*/
-		quorumVotes: number;
+		quorumVotes: BigInt;
 		/**
 		 * Proposal description.
 		 * @example
@@ -670,7 +670,7 @@ export namespace EventData {
 		/** The account withdrawing. */
 		owner: Account;
 		/** The tokens withdrawing. */
-		tokenIds: number[];
+		tokenIds: BigInt[];
 		/** Event meta data. */
 		event: ethers.Log;
 	}

@@ -171,14 +171,14 @@ export class _NounsForkLogic {
 						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreated = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas, // type is bytes[]
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
 							description: description,
 							event: event
 						};
@@ -214,16 +214,16 @@ export class _NounsForkLogic {
 						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas,
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
-							proposalThreshold: proposalThreshold.toNumber(),
-							quorumVotes: quorumVotes.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
+							proposalThreshold: proposalThreshold,
+							quorumVotes: quorumVotes,
 							description: description,
 							event: event
 						};
@@ -334,14 +334,7 @@ export class _NounsForkLogic {
 
 				this.Contract.on(
 					"VoteCast",
-					(
-						voter: string,
-						proposalId: number,
-						support: number,
-						votes: number,
-						reason: string,
-						event: ethers.Log
-					) => {
+					(voter: string, proposalId: number, support: number, votes: number, reason: string, event: ethers.Log) => {
 						const supportDetailed: VoteDirection = support;
 
 						const data: EventData.VoteCast = {

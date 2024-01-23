@@ -127,7 +127,7 @@ export class LilNounsDAOLogic {
 						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: BigInt,
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // type is bytes[]
 						startBlock: BigInt,
@@ -136,14 +136,14 @@ export class LilNounsDAOLogic {
 						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreated = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas, // type is bytes[]
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
 							description: description,
 							event: event
 						};
@@ -172,16 +172,16 @@ export class LilNounsDAOLogic {
 						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas,
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
-							proposalThreshold: proposalThreshold.toNumber(),
-							quorumVotes: quorumVotes.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
+							proposalThreshold: proposalThreshold,
+							quorumVotes: quorumVotes,
 							description: description,
 							event: event
 						};

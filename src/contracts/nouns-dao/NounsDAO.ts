@@ -115,8 +115,8 @@ export class _NounsDAO {
 					(
 						forkId: number,
 						owner: string,
-						tokenIds: number[],
-						proposalIds: number[],
+						tokenIds: BigInt[],
+						proposalIds: BigInt[],
 						reason: string,
 						event: ethers.Log
 					) => {
@@ -142,8 +142,8 @@ export class _NounsDAO {
 						forkId: number,
 						forkTreasury: string,
 						forkToken: string,
-						forkEndTimestamp: number,
-						tokensInEscrow: number,
+						forkEndTimestamp: BigInt,
+						tokensInEscrow: BigInt,
 						event: ethers.Log
 					) => {
 						const data = {
@@ -178,7 +178,7 @@ export class _NounsDAO {
 				break;
 
 			case "ForkPeriodSet":
-				this.Contract.on("ForkPeriodSet", (oldForkPeriod: number, newForkPeriod: number, event: ethers.Log) => {
+				this.Contract.on("ForkPeriodSet", (oldForkPeriod: BigInt, newForkPeriod: BigInt, event: ethers.Log) => {
 					const data = {
 						oldForkPeriod: oldForkPeriod,
 						newForkPeriod: newForkPeriod,
@@ -193,7 +193,7 @@ export class _NounsDAO {
 			case "ForkThresholdSet":
 				this.Contract.on(
 					"ForkThresholdSet",
-					(oldForkThreshold: number, newForkThreshold: number, event: ethers.Log) => {
+					(oldForkThreshold: BigInt, newForkThreshold: BigInt, event: ethers.Log) => {
 						const data = {
 							oldForkThreshold: oldForkThreshold,
 							newForkThreshold: newForkThreshold,
@@ -212,8 +212,8 @@ export class _NounsDAO {
 					(
 						forkId: number,
 						owner: string,
-						tokenIds: number[],
-						proposalIds: number[],
+						tokenIds: BigInt[],
+						proposalIds: BigInt[],
 						reason: string,
 						event: ethers.Log
 					) => {
@@ -432,14 +432,14 @@ export class _NounsDAO {
 						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreated = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas, // type is bytes[]
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
 							description: description,
 							event: event
 						};
@@ -485,23 +485,23 @@ export class _NounsDAO {
 						endBlock: BigInt,
 						updatePeriodEndBlock: number,
 						proposalThreshold: BigInt,
-						quorumVotes: BigIntF,
+						quorumVotes: BigInt,
 						description: string,
 						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							signers: signers,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas,
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
 							updatePeriodEndBlock: updatePeriodEndBlock,
-							proposalThreshold: proposalThreshold.toNumber(),
-							quorumVotes: quorumVotes.toNumber(),
+							proposalThreshold: proposalThreshold,
+							quorumVotes: quorumVotes,
 							description: description,
 							event: event
 						};
@@ -526,16 +526,16 @@ export class _NounsDAO {
 						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas,
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
-							proposalThreshold: proposalThreshold.toNumber(),
-							quorumVotes: quorumVotes.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
+							proposalThreshold: proposalThreshold,
+							quorumVotes: quorumVotes,
 							description: description,
 							event: event
 						};
@@ -828,14 +828,7 @@ export class _NounsDAO {
 
 				this.Contract.on(
 					"VoteCast",
-					(
-						voter: string,
-						proposalId: number,
-						support: number,
-						votes: number,
-						reason: string,
-						event: ethers.Log
-					) => {
+					(voter: string, proposalId: number, support: number, votes: number, reason: string, event: ethers.Log) => {
 						const supportDetailed: VoteDirection = support;
 
 						const data: EventData.VoteCast = {
@@ -927,7 +920,7 @@ export class _NounsDAO {
 			case "WithdrawFromForkEscrow":
 				this.Contract.on(
 					"WithdrawFromForkEscrow",
-					(forkId: number, owner: string, tokenIds: number[], event: ethers.Log) => {
+					(forkId: number, owner: string, tokenIds: BigInt[], event: ethers.Log) => {
 						const data = {
 							forkId: forkId,
 							owner: { id: owner } as Account,
