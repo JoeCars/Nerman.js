@@ -27,6 +27,7 @@ export async function checkDirectory(filePath: string) {
  */
 export async function indexEvent(
 	contract: ethers.Contract,
+	provider: ethers.JsonRpcProvider,
 	eventName: string,
 	parser: Function,
 	directoryPath: string,
@@ -34,7 +35,7 @@ export async function indexEvent(
 	isUpdating = false
 ) {
 	const BLOCK_BATCH_SIZE = 1000;
-	const endBlock = await contract.provider.getBlockNumber();
+	const endBlock = await provider.getBlockNumber();
 	const filePath = `${directoryPath}/${eventName}.json`;
 	await checkDirectory(filePath);
 
@@ -137,7 +138,13 @@ async function retrieveLatestBlock(event: string, directoryPath: string) {
  * @param formatter the event formatter
  * @param directoryPath the directory path to the indexed data
  */
-export async function updateIndexedEvent(contract: ethers.Contract, event: string, formatter: Function, directoryPath: string) {
+export async function updateIndexedEvent(
+	contract: ethers.Contract,
+	provider: ethers.JsonRpcProvider,
+	event: string,
+	formatter: Function,
+	directoryPath: string
+) {
 	const latestBlockNumber = await retrieveLatestBlock(event, directoryPath);
-	await indexEvent(contract, event, formatter, directoryPath, latestBlockNumber, true);
+	await indexEvent(contract, provider, event, formatter, directoryPath, latestBlockNumber, true);
 }
