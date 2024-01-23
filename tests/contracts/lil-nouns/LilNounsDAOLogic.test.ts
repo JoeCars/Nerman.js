@@ -17,4 +17,18 @@ describe("LilNounsDAOLogic tests", () => {
 		expect(lilNounsDAOLogic.provider).toBeDefined();
 		expect(typeof lilNounsDAOLogic.provider).toBe("object");
 	});
+	test("should listen to all supported events", async () => {
+		const lilNouns = new LilNounsDAOLogic(process.env.ALCHEMY_URL as string);
+		const mockListener = jest.fn();
+
+		try {
+			for (const eventName of LilNounsDAOLogic.supportedEvents) {
+				await lilNouns.on(eventName, mockListener);
+				lilNouns.off(eventName); // Prevents alchemy error.
+			}
+			lilNouns.provider.pause(); // Terminate provider so the tests can end.
+		} catch (error) {
+			expect(error).not.toThrow();
+		}
+	});
 });

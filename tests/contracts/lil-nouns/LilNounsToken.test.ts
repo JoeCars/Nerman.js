@@ -17,4 +17,18 @@ describe("LilNounsToken tests", () => {
 		expect(lilNounsToken.provider).toBeDefined();
 		expect(typeof lilNounsToken.provider).toBe("object");
 	});
+	test("should listen to all supported events", async () => {
+		const lilNouns = new LilNounsToken(process.env.ALCHEMY_URL as string);
+		const mockListener = jest.fn();
+
+		try {
+			for (const eventName of LilNounsToken.supportedEvents) {
+				await lilNouns.on(eventName, mockListener);
+				lilNouns.off(eventName); // Prevents alchemy error.
+			}
+			lilNouns.provider.pause(); // Terminate provider so the tests can end.
+		} catch (error) {
+			expect(error).not.toThrow();
+		}
+	});
 });

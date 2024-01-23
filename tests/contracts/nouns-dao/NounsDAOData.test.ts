@@ -17,4 +17,18 @@ describe("NounsDAOData tests", () => {
 		expect(nounsDAOData.provider).toBeDefined();
 		expect(typeof nounsDAOData.provider).toBe("object");
 	});
+	test("should listen to all supported events", async () => {
+		const nouns = new _NounsDAOData(process.env.ALCHEMY_URL as string);
+		const mockListener = jest.fn();
+
+		try {
+			for (const eventName of _NounsDAOData.supportedEvents) {
+				await nouns.on(eventName, mockListener);
+				nouns.off(eventName); // Prevents alchemy error.
+			}
+			nouns.provider.pause(); // Terminate provider so the tests can end.
+		} catch (error) {
+			expect(error).not.toThrow();
+		}
+	});
 });

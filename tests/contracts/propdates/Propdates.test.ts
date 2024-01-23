@@ -17,4 +17,18 @@ describe("Propdates tests", () => {
 		expect(propdates.provider).toBeDefined();
 		expect(typeof propdates.provider).toBe("object");
 	});
+	test("should listen to all supported events", async () => {
+		const propdates = new _Propdates(process.env.ALCHEMY_URL as string);
+		const mockListener = jest.fn();
+
+		try {
+			for (const eventName of _Propdates.supportedEvents) {
+				await propdates.on(eventName, mockListener);
+				propdates.off(eventName); // Prevents alchemy error.
+			}
+			propdates.provider.pause(); // Terminate provider so the tests can end.
+		} catch (error) {
+			expect(error).not.toThrow();
+		}
+	});
 });
