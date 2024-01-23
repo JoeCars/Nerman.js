@@ -74,7 +74,7 @@ export async function _fetchNounsCasts(pageSize = 5, pageToken = "") {
 		throw new Error(`Unable to fetch casts. ${res.status} ${res.statusText}`);
 	}
 
-	const body: CastResponse = await res.json();
+	const body = (await res.json()) as CastResponse;
 	return body;
 }
 
@@ -165,7 +165,7 @@ export async function _fetchUsername(fid: number) {
 		throw new Error(`Unable to fetch usernames. ${res.status} ${res.statusText}`);
 	}
 
-	const body: { proofs: { name: string }[] } = await res.json();
+	const body = (await res.json()) as { proofs: { name: string }[] };
 	const proofs = body.proofs;
 	const names = proofs.map((proof) => proof.name);
 
