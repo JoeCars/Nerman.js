@@ -77,8 +77,8 @@ EscrowedToFork event data. [Github](https://github.com/nounsDAO/nouns-monorepo/b
 
 -   **forkId**: `number`. Fork number.
 -   **owner**: `Account`. Token owner who is escrowing to fork.
--   **tokenIds**: `number[]`. List of tokens being escrowed.
--   **proposalIds**: `number[]`. Proposal IDs which are the reason for wanting to fork.
+-   **tokenIds**: `BigInt[]`. List of tokens being escrowed.
+-   **proposalIds**: `BigInt[]`. Proposal IDs which are the reason for wanting to fork.
 -   **reason**: `string`. Optional reason.
 -   **event**: `ethers.Log`. Event meta data.
 
@@ -99,8 +99,8 @@ ExecuteFork event data. The fork escrow is closed. [Github](https://github.com/n
 -   **forkId**: `number`. Fork number.
 -   **forkTreasury**: `Account`. New fork treasury address.
 -   **forkToken**: `Account`. New fork token address.
--   **forkEndTimestamp**: `number`. The unix timestamp in seconds until which the fork can rejoin the DAO.
--   **tokensInEscrow**: `number`. Tokens in escrow at the moment of the escrow. These are lost from the main treasury.
+-   **forkEndTimestamp**: `BigInt`. The unix timestamp in seconds until which the fork can rejoin the DAO.
+-   **tokensInEscrow**: `BigInt`. Tokens in escrow at the moment of the escrow. These are lost from the main treasury.
 -   **event**: `ethers.Log`. Event meta data.
 
 ```js
@@ -132,8 +132,8 @@ ForkDAODeployerSet event data. [Github](https://github.com/nounsDAO/nouns-monore
 
 ForkPeriodSet event data. Sets how much time a fork has to rejoin the DAO after it has been executed. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L533)
 
--   **oldForkPeriod**: `number`. Old fork period in seconds.
--   **newForkPeriod**: `number`. New fork period in seconds.
+-   **oldForkPeriod**: `BigInt`. Old fork period in seconds.
+-   **newForkPeriod**: `BigInt`. New fork period in seconds.
 -   **event**: `ethers.Log`. Event meta data.
 
 ```js
@@ -147,8 +147,8 @@ ForkPeriodSet event data. Sets how much time a fork has to rejoin the DAO after 
 
 ForkThresholdSet event data. Sets the threshold of Nouns in escrow needed to execute a fork. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L551)
 
--   **oldForkThreshold**: `number`. The old token amount needed to successfully fork the DAO. A percentage of the token supply.
--   **newForkThreshold**: `number`. The new token amount needed to successfully fork the DAO. A percentage of the token supply.
+-   **oldForkThreshold**: `BigInt`. The old token amount needed to successfully fork the DAO. A percentage of the token supply.
+-   **newForkThreshold**: `BigInt`. The new token amount needed to successfully fork the DAO. A percentage of the token supply.
 -   **event**: `ethers.Log`. Event meta data.
 
 ```js
@@ -164,8 +164,8 @@ JoinFork event data. Joins contract after the contract has been executed, but be
 
 -   **forkId**: `number`. Fork number.
 -   **owner**: `Account`. Token owner who is escrowing to fork.
--   **tokenIds**: `number[]`. List of tokens being escrowed.
--   **proposalIds**: `number[]`. Owner's currently active proposals being transferred to the fork.
+-   **tokenIds**: `BigInt[]`. List of tokens being escrowed.
+-   **proposalIds**: `BigInt[]`. Owner's currently active proposals being transferred to the fork.
 -   **reason**: `string`. Optional reason.
 -   **event**: `ethers.Log`. Event meta data.
 
@@ -296,14 +296,14 @@ ProposalCanceled event data. [Github](https://github.com/nounsDAO/nouns-monorepo
 
 ProposalCreated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L917)
 
--   **id**: `number`. id of the proposal being created.
+-   **id**: `BigInt`. id of the proposal being created.
 -   **proposer**: `Account`. Account of the proposer.
 -   **targets**: `string[]`. Target addresses for proposal calls.
 -   **values**: `BigInt[]`. Eth values for proposal calls.
 -   **signatures**: `string[]`. Function signatures for proposal calls.
 -   **calldatas**: `any[]`. Bytes. Calldatas for proposal calls.
--   **startBlock**: `number`. The block voting starts.
--   **endBlock**: `number`. The block voting ends.
+-   **startBlock**: `BigInt`. The block voting starts.
+-   **endBlock**: `BigInt`. The block voting ends.
 -   **description**: `string`. Proposal description. Typically formatted as:
 
 ```md
@@ -346,18 +346,18 @@ ProposalCreatedOnTimelockV1 event data. [Github](https://github.com/nounsDAO/nou
 
 ProposalCreatedWithRequirements event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L917)
 
--   **id**: `number`. id of the proposal created.
+-   **id**: `BigInt`. id of the proposal created.
 -   **proposer**: `Account`. Account of the proposer.
 -   **signers**: `string[]`. List of signers. In V3.
 -   **targets**: `string[]`. Target addresses for proposal calls.
 -   **values**: `BigInt[]`. Eth values for proposal calls.
 -   **signatures**: `string[]`. Function signatures for proposal calls.
 -   **calldatas**: `any[]`. Calldatas for proposal calls.
--   **startBlock**: `number`. The block voting starts.
--   **endBlock**: `number`. The block voting ends.
+-   **startBlock**: `BigInt`. The block voting starts.
+-   **endBlock**: `BigInt`. The block voting ends.
 -   **updatePeriodEndBlock**: `number`. Period where the proposal is updatable. In V3.
--   **proposalThreshold**: `number`. The proposal threshold. In V1.
--   **quorumVotes**: `number`. The quorum votes. In V1. Renamed to minQuorumVotes in V2.
+-   **proposalThreshold**: `BigInt`. The proposal threshold. In V1.
+-   **quorumVotes**: `BigInt`. The quorum votes. In V1. Renamed to minQuorumVotes in V2.
 -   **description**: `string`. Proposal description.
 -   **event**: `ethers.Log`. Event meta data.
 
@@ -709,7 +709,7 @@ WithdrawFromForkEscrow event data. Withdraws nouns from the escrow if the fork h
 
 -   **forkId**: `number`. The fork escrow withdrawing from.
 -   **owner**: `Account`. The account withdrawing.
--   **tokenIds**: `number[]`. The tokens withdrawing.
+-   **tokenIds**: `BigInt[]`. The tokens withdrawing.
 -   **event**: `ethers.Log`. Event meta data.
 
 ## `AuctionComplete`
