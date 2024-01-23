@@ -14,7 +14,7 @@ export type SupportedEventsType =
  * Allows you to listen to events without worrying about which contract it's in.
  */
 export class LilNouns {
-	public provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 
 	public lilNounsAuctionHouse: LilNounsAuctionHouse;
 	public lilNounsDAOLogic: LilNounsDAOLogic;
@@ -25,9 +25,9 @@ export class LilNouns {
 		...LilNounsToken.supportedEvents
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
