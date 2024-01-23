@@ -64,19 +64,16 @@ export class _NounsForkAuctionHouse {
 	public async on(eventName: SupportedEventsType, listener: Function) {
 		switch (eventName) {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
-				this.Contract.on(
-					"AuctionCreated",
-					(nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
-						const data: EventData.AuctionCreated = {
-							id: nounId,
-							startTime: startTime,
-							endTime: endTime,
-							event: event
-						};
+				this.Contract.on("AuctionCreated", (nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
+					const data: EventData.AuctionCreated = {
+						id: nounId,
+						startTime: startTime,
+						endTime: endTime,
+						event: event
+					};
 
-						listener(data);
-					}
-				);
+					listener(data);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
@@ -263,7 +260,7 @@ export class _NounsForkAuctionHouse {
 	 */
 	public async getLatestAuctions() {
 		const filter = this.Contract.filters.AuctionCreated();
-		const auctions = (await this.Contract.queryFilter(filter)) as Array<ethers.Log>;
+		const auctions = (await this.Contract.queryFilter(filter)) as ethers.EventLog[];
 		return auctions;
 	}
 
@@ -273,7 +270,7 @@ export class _NounsForkAuctionHouse {
 	 */
 	public async getLatestAuctionExtended() {
 		const filter = this.Contract.filters.AuctionExtended();
-		const auctionExtendeds = (await this.Contract.queryFilter(filter)) as Array<ethers.Log>;
+		const auctionExtendeds = (await this.Contract.queryFilter(filter)) as ethers.EventLog[];
 		return auctionExtendeds;
 	}
 
@@ -283,7 +280,7 @@ export class _NounsForkAuctionHouse {
 	 */
 	public async getAuctionBids(nounId: number) {
 		const filter = this.Contract.filters.AuctionBid(nounId);
-		const bids = (await this.Contract.queryFilter(filter)) as Array<ethers.Log>;
+		const bids = (await this.Contract.queryFilter(filter)) as ethers.EventLog[];
 		return bids;
 	}
 
@@ -321,10 +318,10 @@ export class _NounsForkAuctionHouse {
 	 * Formats and prints bid information.
 	 * @param bid The bid event.
 	 */
-	public async tempFormatAuctionBid(bid: ethers.Log) {
+	public async tempFormatAuctionBid(bid: ethers.EventLog) {
 		if (bid != undefined && bid.args != undefined) {
 			const block = await this.getBlock(bid.blockNumber);
-			const date = new Date(block.timestamp * 1000);
+			const date = new Date(block!.timestamp * 1000);
 			const bidPrice = ethers.formatEther(bid.args[2]);
 			console.log("Bid on " + bid.args[0].toNumber() + " for " + bidPrice + " on " + date.toLocaleDateString());
 		}
@@ -357,8 +354,8 @@ export class _NounsForkAuctionHouse {
 			const latestBidData = {
 				id: nounId,
 				block: bid.blockNumber,
-				date: new Date(block.timestamp * 1000),
-				amount: ethers.utils.formatEther(bid.args[2]),
+				date: new Date(block!.timestamp * 1000),
+				amount: ethers.formatEther(bid.args[2]),
 				address: bid.args[1],
 				ens: ens
 			};
