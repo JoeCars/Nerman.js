@@ -19,7 +19,7 @@ export type SupportedEventsType = (typeof SUPPORTED_PROPDATES_EVENTS)[number];
  * A wrapper class around the Propdates contract.
  */
 export class _Propdates {
-	private provider: ethers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_PROPDATES_EVENTS;
