@@ -6,15 +6,15 @@ describe("LilNounsDAOLogic tests", () => {
 		const lilNounsDAOLogic = new LilNounsDAOLogic("JSON_RPC_URL");
 
 		expect(lilNounsDAOLogic).toBeDefined();
-		expect(lilNounsDAOLogic.Contract.provider).toBeDefined();
-		expect(typeof lilNounsDAOLogic.Contract.provider).toBe("object");
+		expect(lilNounsDAOLogic.provider).toBeDefined();
+		expect(typeof lilNounsDAOLogic.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
 		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const lilNounsDAOLogic = new LilNounsDAOLogic(provider);
 
 		expect(lilNounsDAOLogic).toBeDefined();
-		expect(lilNounsDAOLogic.Contract.provider).toBeDefined();
-		expect(typeof lilNounsDAOLogic.Contract.provider).toBe("object");
+		expect(lilNounsDAOLogic.provider).toBeDefined();
+		expect(typeof lilNounsDAOLogic.provider).toBe("object");
 	});
 });

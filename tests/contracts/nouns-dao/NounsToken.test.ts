@@ -6,15 +6,15 @@ describe("NounsDAOData tests", () => {
 		const nounsToken = new _NounsToken("JSON_RPC_URL");
 
 		expect(nounsToken).toBeDefined();
-		expect(nounsToken.Contract.provider).toBeDefined();
-		expect(typeof nounsToken.Contract.provider).toBe("object");
+		expect(nounsToken.provider).toBeDefined();
+		expect(typeof nounsToken.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
 		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const nounsToken = new _NounsToken(provider);
 
 		expect(nounsToken).toBeDefined();
-		expect(nounsToken.Contract.provider).toBeDefined();
-		expect(typeof nounsToken.Contract.provider).toBe("object");
+		expect(nounsToken.provider).toBeDefined();
+		expect(typeof nounsToken.provider).toBe("object");
 	});
 });

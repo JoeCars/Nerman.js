@@ -26,7 +26,7 @@ export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_TOKEN_EVENTS)[numb
  * A wrapper around the LilNounsToken governance contract.
  */
 export class LilNounsToken {
-	private provider: ethers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_TOKEN_EVENTS;

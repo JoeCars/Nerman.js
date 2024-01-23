@@ -25,7 +25,7 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_TOKEN_EVENTS)[number];
  * A wrapper around the NounsToken governance contract.
  */
 export class _NounsToken {
-	private provider: ethers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_TOKEN_EVENTS;

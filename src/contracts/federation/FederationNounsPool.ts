@@ -9,7 +9,7 @@ export type SupportedEventsType = (typeof SUPPORTED_FEDERATION_EVENTS)[number];
  * A wrapper class that supports Federation NounsPool events.
  */
 export class FederationNounsPool {
-	private provider: ethers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public nounsPoolContractV1: ethers.Contract;
 	public nounsPoolContractV2: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;

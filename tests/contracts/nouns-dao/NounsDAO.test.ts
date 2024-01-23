@@ -6,15 +6,15 @@ describe("NounsDAO tests", () => {
 		const nounsDAO = new _NounsDAO("JSON_RPC_URL");
 
 		expect(nounsDAO).toBeDefined();
-		expect(nounsDAO.Contract.provider).toBeDefined();
-		expect(typeof nounsDAO.Contract.provider).toBe("object");
+		expect(nounsDAO.provider).toBeDefined();
+		expect(typeof nounsDAO.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
 		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const nounsDAO = new _NounsDAO(provider);
 
 		expect(nounsDAO).toBeDefined();
-		expect(nounsDAO.Contract.provider).toBeDefined();
-		expect(typeof nounsDAO.Contract.provider).toBe("object");
+		expect(nounsDAO.provider).toBeDefined();
+		expect(typeof nounsDAO.provider).toBe("object");
 	});
 });

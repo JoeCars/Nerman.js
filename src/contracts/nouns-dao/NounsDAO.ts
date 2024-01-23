@@ -51,7 +51,7 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_EVENTS)[number];
  * A wrapper class around the NounsDAO contract.
  */
 export class _NounsDAO {
-	private provider: ethers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
