@@ -6,15 +6,15 @@ describe("NounsForkLogic tests", () => {
 		const nounsForkLogic = new _NounsForkLogic("JSON_RPC_URL");
 
 		expect(nounsForkLogic).toBeDefined();
-		expect(nounsForkLogic.Contract.provider).toBeDefined();
-		expect(typeof nounsForkLogic.Contract.provider).toBe("object");
+		expect(nounsForkLogic.provider).toBeDefined();
+		expect(typeof nounsForkLogic.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
 		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const nounsForkLogic = new _NounsForkLogic(provider);
 
 		expect(nounsForkLogic).toBeDefined();
-		expect(nounsForkLogic.Contract.provider).toBeDefined();
-		expect(typeof nounsForkLogic.Contract.provider).toBe("object");
+		expect(nounsForkLogic.provider).toBeDefined();
+		expect(typeof nounsForkLogic.provider).toBe("object");
 	});
 });

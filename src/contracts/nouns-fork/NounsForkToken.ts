@@ -26,7 +26,7 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_TOKEN_EVENTS)[num
  */
 export class _NounsForkToken {
 	private _forkId: number;
-	private provider: ethers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_TOKEN_EVENTS;

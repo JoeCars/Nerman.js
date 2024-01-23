@@ -6,15 +6,15 @@ describe("NounsForkAuctionHouse tests", () => {
 		const nounsForkAuctionHouse = new _NounsForkAuctionHouse("JSON_RPC_URL");
 
 		expect(nounsForkAuctionHouse).toBeDefined();
-		expect(nounsForkAuctionHouse.Contract.provider).toBeDefined();
-		expect(typeof nounsForkAuctionHouse.Contract.provider).toBe("object");
+		expect(nounsForkAuctionHouse.provider).toBeDefined();
+		expect(typeof nounsForkAuctionHouse.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
 		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const nounsForkAuctionHouse = new _NounsForkAuctionHouse(provider);
 
 		expect(nounsForkAuctionHouse).toBeDefined();
-		expect(nounsForkAuctionHouse.Contract.provider).toBeDefined();
-		expect(typeof nounsForkAuctionHouse.Contract.provider).toBe("object");
+		expect(nounsForkAuctionHouse.provider).toBeDefined();
+		expect(typeof nounsForkAuctionHouse.provider).toBe("object");
 	});
 });

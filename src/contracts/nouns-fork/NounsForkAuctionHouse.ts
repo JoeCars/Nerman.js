@@ -21,7 +21,7 @@ export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVE
  */
 export class _NounsForkAuctionHouse {
 	private _forkId: number;
-	private provider: ethers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_AUCTION_HOUSE_EVENTS;
