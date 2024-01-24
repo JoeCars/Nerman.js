@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 import { LilNounsAuctionHouse, SupportedEventsType as LilNounsAuctionHouseSupportedEventsType } from "./LilNounsAuctionHouse";
 import { LilNounsDAOLogic, SupportedEventsType as LilNounsDAOLogicSupportedEventsType } from "./LilNounsDAOLogic";

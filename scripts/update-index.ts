@@ -1,5 +1,5 @@
 import { Indexer } from "../src/index";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 import { join } from "path";
 
 const provider = new ethers.JsonRpcProvider(process.env.ALCHEMY_URL);

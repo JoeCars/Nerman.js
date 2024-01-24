@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesV2.json";
 
@@ -144,18 +144,15 @@ export class _Propdates {
 				break;
 
 			case "SuperAdminTransferred":
-				this.Contract.on(
-					"SuperAdminTransferred",
-					(oldSuperAdmin: string, newSuperAdmin: string, event: ethers.Log) => {
-						const data: EventData.Propdates.SuperAdminTransferred = {
-							oldSuperAdmin: { id: oldSuperAdmin } as Account,
-							newSuperAdmin: { id: newSuperAdmin } as Account,
-							event: event
-						};
+				this.Contract.on("SuperAdminTransferred", (oldSuperAdmin: string, newSuperAdmin: string, event: ethers.Log) => {
+					const data: EventData.Propdates.SuperAdminTransferred = {
+						oldSuperAdmin: { id: oldSuperAdmin } as Account,
+						newSuperAdmin: { id: newSuperAdmin } as Account,
+						event: event
+					};
 
-						listener(data);
-					}
-				);
+					listener(data);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 

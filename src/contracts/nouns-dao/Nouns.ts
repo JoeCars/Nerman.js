@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 import { _NounsAuctionHouse, SupportedEventsType as NounsAuctionHouseSupportedEventsType } from "./NounsAuctionHouse";
 import { _NounsToken, SupportedEventsType as NounsTokenSupportedEventsType } from "./NounsToken";

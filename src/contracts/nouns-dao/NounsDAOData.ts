@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 import { default as NounsDAODataABI } from "../abis/NounsDAOData.json";
 import { Account, EventData } from "../../types";

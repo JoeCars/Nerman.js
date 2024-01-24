@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 import NounsPool from "../abis/federation/NounsPool";
 import NounsPoolV2 from "../abis/federation/NounsPoolV2";
 

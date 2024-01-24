@@ -11,23 +11,23 @@ export type SupportedEventsType = (typeof SUPPORTED_PROP_HOUSE_EVENTS)[number];
  * A wrapper class for PropHouse.
  */
 export class PropHouse {
-	private provider: ethers.JsonRpcProvider;
+	public provider: ethers.providers.JsonRpcProvider;
 	public prophouse: PropHouseSDK;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public readonly supportedEvents = SUPPORTED_PROP_HOUSE_EVENTS;
 	private proposalSubmittedLastTime: number;
 	private voteCastLastTime: number;
 
-	constructor(provider: ethers.JsonRpcProvider | string) {
+	constructor(provider: ethers.providers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = new ethers.providers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
 
 		this.prophouse = new PropHouseSDK({
 			evmChainId: ChainId.EthereumMainnet,
-			evm: this.provider as any
+			evm: this.provider
 		});
 		this.registeredListeners = new Map();
 		this.proposalSubmittedLastTime = Math.floor(Date.now() / 1000); // Needs seconds, not milliseconds.
@@ -55,7 +55,7 @@ export class PropHouse {
 						kind: any,
 						title: string,
 						description: string,
-						event: ethers.Log
+						event: ethers.Event
 					) => {
 						const houseObject = await this.prophouse.query.getHouse(house);
 
@@ -75,7 +75,7 @@ export class PropHouse {
 				this.registeredListeners.set(eventName, listener);
 				break;
 			case "HouseCreated":
-				this.prophouse.contract.on("HouseCreated", (creator: string, house: string, kind: any, event: ethers.Log) => {
+				this.prophouse.contract.on("HouseCreated", (creator: string, house: string, kind: any, event: ethers.Event) => {
 					const data: EventData.PropHouse.HouseCreated = {
 						creator: { id: creator },
 						house: { id: house },
@@ -109,7 +109,7 @@ export class PropHouse {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.prophouse.contract.off(eventName, listener as ethers.Listener);
+			this.prophouse.contract.off(eventName, listener as ethers.providers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}

@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as NounsAuctionHouseABI } from "../abis/NounsAuctionHouse.json";
 
