@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { ChainId, OrderDirection, PropHouse as PropHouseSDK } from "@prophouse/sdk";
 import { OrderByProposalFields, OrderByVoteFields } from "@prophouse/sdk/dist/gql/starknet/graphql";
-import { schedule } from "node-cron";
+import { schedule, ScheduledTask } from "node-cron";
 import { Account, EventData } from "../../types";
 
 const SUPPORTED_PROP_HOUSE_EVENTS = ["RoundCreated", "HouseCreated", "ProposalSubmitted", "VoteCast"] as const;
@@ -17,6 +17,8 @@ export class PropHouse {
 	public static readonly supportedEvents = SUPPORTED_PROP_HOUSE_EVENTS;
 	private proposalSubmittedLastTime: number;
 	private voteCastLastTime: number;
+	private proposalSubmittedTask?: ScheduledTask;
+	private voteCastTask?: ScheduledTask;
 
 	constructor(provider: ethers.providers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
@@ -88,11 +90,11 @@ export class PropHouse {
 				this.registeredListeners.set(eventName, listener);
 				break;
 			case "ProposalSubmitted":
-				this.listenToProposalSubmittedEvent(listener as () => {});
+				this.proposalSubmittedTask = this.listenToProposalSubmittedEvent(listener as () => {});
 				this.registeredListeners.set(eventName, listener);
 				break;
 			case "VoteCast":
-				this.listenToVoteCastEvent(listener as () => {});
+				this.voteCastTask = this.listenToVoteCastEvent(listener as () => {});
 				this.registeredListeners.set(eventName, listener);
 				break;
 			default:
@@ -109,7 +111,13 @@ export class PropHouse {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.prophouse.contract.off(eventName, listener as ethers.providers.Listener);
+			if (eventName === "HouseCreated" || eventName === "RoundCreated") {
+				this.prophouse.contract.off(eventName, listener as ethers.providers.Listener);
+			} else if (eventName === "ProposalSubmitted") {
+				this.proposalSubmittedTask?.stop();
+			} else if (eventName === "VoteCast") {
+				this.voteCastTask?.stop();
+			}
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -136,7 +144,7 @@ export class PropHouse {
 	}
 
 	private listenToProposalSubmittedEvent(listener: (arg: unknown) => void) {
-		schedule("*/1 * * * *", async () => {
+		return schedule("*/1 * * * *", async () => {
 			const proposals = await this.prophouse.query.getProposals({
 				where: {
 					receivedAt_gt: this.proposalSubmittedLastTime
@@ -174,7 +182,7 @@ export class PropHouse {
 	}
 
 	private listenToVoteCastEvent(listener: (arg: unknown) => void) {
-		schedule("*/1 * * * *", async () => {
+		return schedule("*/1 * * * *", async () => {
 			const votes = await this.prophouse.query.getVotes({
 				where: {
 					receivedAt_gt: this.voteCastLastTime
