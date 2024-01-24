@@ -2,6 +2,24 @@ import { ethers } from "ethers-v6";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as LilNounsTokenABI } from "../abis/lil-nouns/NounsToken.json";
 
+interface SUPPORTED_EVENT_MAP {
+	Approval: EventData.Approval;
+	ApprovalForAll: EventData.ApprovalForAll;
+	DelegateChanged: EventData.DelegateChanged;
+	DelegateVotesChanged: EventData.DelegateVotesChanged;
+	DescriptorLocked: EventData.DescriptorLocked;
+	DescriptorUpdated: EventData.DescriptorUpdated;
+	LilNoundersDAOUpdated: EventData.LilNouns.LilNoundersDAOUpdated;
+	MinterLocked: EventData.MinterLocked;
+	MinterUpdated: EventData.MinterUpdated;
+	NounBurned: EventData.NounBurned;
+	NounCreated: EventData.NounCreated;
+	NounsDAOUpdated: EventData.LilNouns.NounsDAOUpdated;
+	OwnershipTransferred: EventData.OwnershipTransferred;
+	SeederLocked: EventData.SeederLocked;
+	SeederUpdated: EventData.SeederUpdated;
+	Transfer: EventData.Transfer;
+}
 const SUPPORTED_LIL_NOUNS_TOKEN_EVENTS = [
 	"Approval",
 	"ApprovalForAll",
@@ -20,7 +38,7 @@ const SUPPORTED_LIL_NOUNS_TOKEN_EVENTS = [
 	"SeederUpdated",
 	"Transfer"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_TOKEN_EVENTS)[number];
+export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
 
 /**
  * A wrapper around the LilNounsToken governance contract.
@@ -52,7 +70,7 @@ export class LilNounsToken {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
 		switch (eventName) {
 			case "Approval":
 				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Log) => {
@@ -62,26 +80,22 @@ export class LilNounsToken {
 						tokenId: tokenId,
 						event: event
 					};
-
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ApprovalForAll":
-				this.Contract.on(
-					"ApprovalForAll",
-					(owner: string, operator: string, approved: boolean, event: ethers.Log) => {
-						const data: EventData.ApprovalForAll = {
-							owner: { id: owner } as Account,
-							operator: { id: operator } as Account,
-							approved: approved,
-							event: event
-						};
+				this.Contract.on("ApprovalForAll", (owner: string, operator: string, approved: boolean, event: ethers.Log) => {
+					const data: EventData.ApprovalForAll = {
+						owner: { id: owner } as Account,
+						operator: { id: operator } as Account,
+						approved: approved,
+						event: event
+					};
 
-						listener(data);
-					}
-				);
+					listener(data as any);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
@@ -113,7 +127,7 @@ export class LilNounsToken {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -130,7 +144,7 @@ export class LilNounsToken {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -142,7 +156,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -154,7 +168,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -166,7 +180,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -177,7 +191,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -189,7 +203,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -201,7 +215,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -214,7 +228,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -226,7 +240,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -239,7 +253,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -250,7 +264,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -262,7 +276,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -276,7 +290,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -316,7 +330,7 @@ export class LilNounsToken {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

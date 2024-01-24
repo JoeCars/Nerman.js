@@ -4,8 +4,14 @@ import { OrderByProposalFields, OrderByVoteFields } from "@prophouse/sdk/dist/gq
 import { schedule, ScheduledTask } from "node-cron";
 import { Account, EventData } from "../../types";
 
+interface SUPPORTED_EVENT_MAP {
+	RoundCreated: EventData.PropHouse.RoundCreated;
+	HouseCreated: EventData.PropHouse.HouseCreated;
+	ProposalSubmitted: EventData.PropHouse.ProposalSubmitted;
+	VoteCast: EventData.PropHouse.VoteCast;
+}
 const SUPPORTED_PROP_HOUSE_EVENTS = ["RoundCreated", "HouseCreated", "ProposalSubmitted", "VoteCast"] as const;
-export type SupportedEventsType = (typeof SUPPORTED_PROP_HOUSE_EVENTS)[number];
+export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
 
 /**
  * A wrapper class for PropHouse.
@@ -45,7 +51,7 @@ export class PropHouse {
 	 * 	console.log(data.creator);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
 		switch (eventName) {
 			case "RoundCreated":
 				this.prophouse.contract.on(
@@ -71,7 +77,7 @@ export class PropHouse {
 							event: event as any
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -85,7 +91,7 @@ export class PropHouse {
 						event: event as any
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -127,7 +133,7 @@ export class PropHouse {
 	 * @param eventName The event to be triggered.
 	 * @param data The data being passed to the listener.
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
@@ -143,7 +149,7 @@ export class PropHouse {
 		return "PropHouse";
 	}
 
-	private listenToProposalSubmittedEvent(listener: (arg: unknown) => void) {
+	private listenToProposalSubmittedEvent(listener: (arg: EventData.PropHouse.ProposalSubmitted) => void) {
 		return schedule("*/1 * * * *", async () => {
 			const proposals = await this.prophouse.query.getProposals({
 				where: {
@@ -181,7 +187,7 @@ export class PropHouse {
 		});
 	}
 
-	private listenToVoteCastEvent(listener: (arg: unknown) => void) {
+	private listenToVoteCastEvent(listener: (arg: EventData.PropHouse.VoteCast) => void) {
 		return schedule("*/1 * * * *", async () => {
 			const votes = await this.prophouse.query.getVotes({
 				where: {

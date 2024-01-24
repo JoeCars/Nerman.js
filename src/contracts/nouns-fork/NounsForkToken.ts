@@ -2,6 +2,23 @@ import { ethers } from "ethers-v6";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as NounsTokenABI } from "../abis/NounsToken.json";
 
+interface SUPPORTED_EVENT_MAP {
+	DelegateChanged: EventData.DelegateChanged;
+	DelegateVotesChanged: EventData.DelegateVotesChanged;
+	Transfer: EventData.Transfer;
+	Approval: EventData.Approval;
+	ApprovalForAll: EventData.ApprovalForAll;
+	NounCreated: EventData.NounCreated;
+	DescriptorLocked: EventData.DescriptorLocked;
+	DescriptorUpdated: EventData.DescriptorUpdated;
+	MinterLocked: EventData.MinterLocked;
+	MinterUpdated: EventData.MinterUpdated;
+	NounBurned: EventData.NounBurned;
+	NoundersDAOUpdated: EventData.NoundersDAOUpdated;
+	OwnershipTransferred: EventData.OwnershipTransferred;
+	SeederLocked: EventData.SeederLocked;
+	SeederUpdated: EventData.SeederUpdated;
+}
 const SUPPORTED_NOUNS_FORK_TOKEN_EVENTS = [
 	"DelegateChanged",
 	"DelegateVotesChanged",
@@ -19,7 +36,7 @@ const SUPPORTED_NOUNS_FORK_TOKEN_EVENTS = [
 	"SeederLocked",
 	"SeederUpdated"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_TOKEN_EVENTS)[number];
+export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
 
 /**
  * A wrapper around the NounsForkToken governance contract.
@@ -66,7 +83,7 @@ export class _NounsForkToken {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
 		switch (eventName) {
 			case "DelegateChanged": // WORKING
 				this.Contract.on(
@@ -97,7 +114,7 @@ export class _NounsForkToken {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -114,7 +131,7 @@ export class _NounsForkToken {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -129,7 +146,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -143,7 +160,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -154,19 +171,16 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "ApprovalForAll":
-				this.Contract.on(
-					"ApprovalForAll",
-					(owner: string, operator: string, approved: boolean, event: ethers.Log) => {
-						const data: EventData.ApprovalForAll = {
-							owner: { id: owner } as Account,
-							operator: { id: operator } as Account,
-							approved: approved,
-							event: event
-						};
+				this.Contract.on("ApprovalForAll", (owner: string, operator: string, approved: boolean, event: ethers.Log) => {
+					const data: EventData.ApprovalForAll = {
+						owner: { id: owner } as Account,
+						operator: { id: operator } as Account,
+						approved: approved,
+						event: event
+					};
 
-						listener(data);
-					}
-				);
+					listener(data as any);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
@@ -178,7 +192,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -194,7 +208,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -211,7 +225,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -227,7 +241,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -244,7 +258,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -261,7 +275,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -278,7 +292,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -296,7 +310,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -312,7 +326,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -329,7 +343,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -370,7 +384,7 @@ export class _NounsForkToken {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

@@ -2,6 +2,17 @@ import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesV2.json";
 
+interface SUPPORTED_EVENT_MAP {
+	Initialized: EventData.Propdates.Initialized;
+	OwnershipTransferStarted: EventData.Propdates.OwnershipTransferStarted;
+	OwnershipTransferred: EventData.Propdates.OwnershipTransferred;
+	PostUpdate: EventData.Propdates.PostUpdate;
+	PropUpdateAdminMigrated: EventData.Propdates.PropUpdateAdminMigrated;
+	PropUpdateAdminRecovered: EventData.Propdates.PropUpdateAdminRecovered;
+	PropUpdateAdminTransferred: EventData.Propdates.PropUpdateAdminTransferred;
+	SuperAdminTransferred: EventData.Propdates.SuperAdminTransferred;
+	Upgraded: EventData.Propdates.Upgraded;
+}
 const SUPPORTED_PROPDATES_EVENTS = [
 	"Initialized",
 	"OwnershipTransferStarted",
@@ -13,7 +24,7 @@ const SUPPORTED_PROPDATES_EVENTS = [
 	"SuperAdminTransferred",
 	"Upgraded"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_PROPDATES_EVENTS)[number];
+export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
 
 /**
  * A wrapper class around the Propdates contract.
@@ -44,7 +55,7 @@ export class _Propdates {
 	 * 	console.log(data.propId);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
 		switch (eventName) {
 			case "Initialized":
 				this.Contract.on("Initialized", (version: number, event: ethers.Log) => {
@@ -52,7 +63,7 @@ export class _Propdates {
 						version: Number(version),
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -64,7 +75,7 @@ export class _Propdates {
 						newOwner: { id: newOwner },
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -76,7 +87,7 @@ export class _Propdates {
 						newOwner: { id: newOwner },
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -89,7 +100,7 @@ export class _Propdates {
 						update: update,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -104,7 +115,7 @@ export class _Propdates {
 							newAdmin: { id: newAdmin } as Account,
 							event: event
 						};
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -120,7 +131,7 @@ export class _Propdates {
 							newAdmin: { id: newAdmin } as Account,
 							event: event
 						};
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -137,7 +148,7 @@ export class _Propdates {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -151,7 +162,7 @@ export class _Propdates {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -163,7 +174,7 @@ export class _Propdates {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -198,7 +209,7 @@ export class _Propdates {
 	 * 	update: "It's done!"
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

@@ -2,6 +2,49 @@ import { ethers } from "ethers-v6";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsDAOLogicV3ABI } from "../abis/NounsDAOLogicV3.json";
 
+interface SUPPORTED_EVENT_MAP {
+	DAOWithdrawNounsFromEscrow: EventData.DAOWithdrawNounsFromEscrow;
+	ERC20TokensToIncludeInForkSet: EventData.ERC20TokensToIncludeInForkSet;
+	EscrowedToFork: EventData.EscrowedToFork;
+	ExecuteFork: EventData.ExecuteFork;
+	ForkDAODeployerSet: EventData.ForkDAODeployerSet;
+	ForkPeriodSet: EventData.ForkPeriodSet;
+	ForkThresholdSet: EventData.ForkThresholdSet;
+	JoinFork: EventData.JoinFork;
+	LastMinuteWindowSet: EventData.LastMinuteWindowSet;
+	MaxQuorumVotesBPSSet: EventData.MaxQuorumVotesBPSSet;
+	MinQuorumVotesBPSSet: EventData.MinQuorumVotesBPSSet;
+	NewAdmin: EventData.NewAdmin;
+	NewImplementation: EventData.NewImplementation;
+	NewPendingAdmin: EventData.NewPendingAdmin;
+	NewPendingVetoer: EventData.NewPendingVetoer;
+	NewVetoer: EventData.NewVetoer;
+	ObjectionPeriodDurationSet: EventData.ObjectionPeriodDurationSet;
+	ProposalCanceled: EventData.ProposalCanceled;
+	ProposalCreated: EventData.ProposalCreated;
+	ProposalCreatedOnTimelockV1: EventData.ProposalCreatedOnTimelockV1;
+	ProposalCreatedWithRequirements: EventData.ProposalCreatedWithRequirements;
+	ProposalDescriptionUpdated: EventData.ProposalDescriptionUpdated;
+	ProposalExecuted: EventData.ProposalExecuted;
+	ProposalObjectionPeriodSet: EventData.ProposalObjectionPeriodSet;
+	ProposalQueued: EventData.ProposalQueued;
+	ProposalThresholdBPSSet: EventData.ProposalThresholdBPSSet;
+	ProposalTransactionsUpdated: EventData.ProposalTransactionsUpdated;
+	ProposalUpdatablePeriodSet: EventData.ProposalUpdatablePeriodSet;
+	ProposalUpdated: EventData.ProposalUpdated;
+	ProposalVetoed: EventData.ProposalVetoed;
+	QuorumCoefficientSet: EventData.QuorumCoefficientSet;
+	QuorumVotesBPSSet: EventData.QuorumVotesBPSSet;
+	RefundableVote: EventData.RefundableVote;
+	SignatureCancelled: EventData.SignatureCancelled;
+	TimelocksAndAdminSet: EventData.TimelocksAndAdminSet;
+	VoteCast: EventData.VoteCast;
+	VoteSnapshotBlockSwitchProposalIdSet: EventData.VoteSnapshotBlockSwitchProposalIdSet;
+	VotingDelaySet: EventData.VotingDelaySet;
+	VotingPeriodSet: EventData.VotingPeriodSet;
+	Withdraw: EventData.Withdraw;
+	WithdrawFromForkEscrow: EventData.WithdrawFromForkEscrow;
+}
 const SUPPORTED_NOUNS_DAO_EVENTS = [
 	"DAOWithdrawNounsFromEscrow",
 	"ERC20TokensToIncludeInForkSet",
@@ -45,7 +88,7 @@ const SUPPORTED_NOUNS_DAO_EVENTS = [
 	"Withdraw",
 	"WithdrawFromForkEscrow"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_EVENTS)[number];
+export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
 
 /**
  * A wrapper class around the NounsDAO contract.
@@ -78,7 +121,7 @@ export class _NounsDAO {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
 		switch (eventName) {
 			case "DAOWithdrawNounsFromEscrow":
 				this.Contract.on("DAOWithdrawNounsFromEscrow", (tokenIds: number[], to: string, event: ethers.Log) => {
@@ -88,7 +131,7 @@ export class _NounsDAO {
 						event: event
 					} as EventData.DAOWithdrawNounsFromEscrow;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -103,7 +146,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ERC20TokensToIncludeInForkSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -129,7 +172,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.EscrowedToFork;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -155,7 +198,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ExecuteFork;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -171,7 +214,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ForkDAODeployerSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -185,7 +228,7 @@ export class _NounsDAO {
 						event: event
 					} as EventData.ForkPeriodSet;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -200,7 +243,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ForkThresholdSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -226,7 +269,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.JoinFork;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -242,7 +285,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.LastMinuteWindowSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -258,7 +301,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.MaxQuorumVotesBPSSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -274,7 +317,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.MinQuorumVotesBPSSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -294,7 +337,7 @@ export class _NounsDAO {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -315,7 +358,7 @@ export class _NounsDAO {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -335,7 +378,7 @@ export class _NounsDAO {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -350,7 +393,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.NewPendingVetoer;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -364,7 +407,7 @@ export class _NounsDAO {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -383,7 +426,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ObjectionPeriodDurationSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -403,7 +446,7 @@ export class _NounsDAO {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -444,7 +487,7 @@ export class _NounsDAO {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -457,7 +500,7 @@ export class _NounsDAO {
 						event: event
 					} as EventData.ProposalCreatedOnTimelockV1;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -506,7 +549,7 @@ export class _NounsDAO {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.Contract.on(
@@ -540,7 +583,7 @@ export class _NounsDAO {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -558,7 +601,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ProposalDescriptionUpdated;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -571,7 +614,7 @@ export class _NounsDAO {
 						id: id,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -586,7 +629,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ProposalObjectionPeriodSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -607,7 +650,7 @@ export class _NounsDAO {
 						eta: eta,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -628,7 +671,7 @@ export class _NounsDAO {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -658,7 +701,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ProposalTransactionsUpdated;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -678,7 +721,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ProposalUpdatablePeriodSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -710,7 +753,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ProposalUpdated;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -728,7 +771,7 @@ export class _NounsDAO {
 						id: id,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -743,7 +786,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.QuorumCoefficientSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -765,7 +808,7 @@ export class _NounsDAO {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -782,7 +825,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.RefundableVote;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -796,7 +839,7 @@ export class _NounsDAO {
 						event: event
 					} as EventData.SignatureCancelled;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -812,7 +855,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.TimelocksAndAdminSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -840,7 +883,7 @@ export class _NounsDAO {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -860,7 +903,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.VoteSnapshotBlockSwitchProposalIdSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -880,7 +923,7 @@ export class _NounsDAO {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -899,7 +942,7 @@ export class _NounsDAO {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -912,7 +955,7 @@ export class _NounsDAO {
 						event: event
 					} as EventData.Withdraw;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -928,7 +971,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.WithdrawFromForkEscrow;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -984,7 +1027,7 @@ export class _NounsDAO {
 	 * 	reason: "Really good reason."
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

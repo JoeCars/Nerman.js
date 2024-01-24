@@ -2,6 +2,22 @@ import { ethers } from "ethers-v6";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsForkABI } from "../abis/NounsForkGovernance.json";
 
+interface SUPPORTED_EVENT_MAP {
+	NewAdmin: EventData.NewAdmin;
+	NewImplementation: EventData.NewImplementation;
+	NewPendingAdmin: EventData.NewPendingAdmin;
+	ProposalCanceled: EventData.ProposalCanceled;
+	ProposalCreated: EventData.ProposalCreated;
+	ProposalCreatedWithRequirements: EventData.ProposalCreatedWithRequirements;
+	ProposalExecuted: EventData.ProposalExecuted;
+	ProposalQueued: EventData.ProposalQueued;
+	ProposalThresholdBPSSet: EventData.ProposalThresholdBPSSet;
+	Quit: EventData.Quit;
+	QuorumVotesBPSSet: EventData.QuorumVotesBPSSet;
+	VoteCast: EventData.VoteCast;
+	VotingDelaySet: EventData.VotingDelaySet;
+	VotingPeriodSet: EventData.VotingPeriodSet;
+}
 const SUPPORTED_NOUNS_FORK_EVENTS = [
 	"NewAdmin",
 	"NewImplementation",
@@ -18,7 +34,7 @@ const SUPPORTED_NOUNS_FORK_EVENTS = [
 	"VotingDelaySet",
 	"VotingPeriodSet"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_EVENTS)[number];
+export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
 
 /**
  * A wrapper around the NounsFork governance contract.
@@ -65,7 +81,7 @@ export class _NounsForkLogic {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
 		switch (eventName) {
 			// **********************************************************
 			//
@@ -81,7 +97,7 @@ export class _NounsForkLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -102,7 +118,7 @@ export class _NounsForkLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -122,7 +138,7 @@ export class _NounsForkLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 
 				this.registeredListeners.set(eventName, listener);
@@ -142,7 +158,7 @@ export class _NounsForkLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -183,7 +199,7 @@ export class _NounsForkLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -228,7 +244,7 @@ export class _NounsForkLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -241,7 +257,7 @@ export class _NounsForkLogic {
 						id: id,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -261,7 +277,7 @@ export class _NounsForkLogic {
 						eta: eta,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -282,7 +298,7 @@ export class _NounsForkLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -297,7 +313,7 @@ export class _NounsForkLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -318,7 +334,7 @@ export class _NounsForkLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -346,7 +362,7 @@ export class _NounsForkLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -366,7 +382,7 @@ export class _NounsForkLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -385,7 +401,7 @@ export class _NounsForkLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -423,7 +439,7 @@ export class _NounsForkLogic {
 	 * 	reason: "Really good reason.",
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

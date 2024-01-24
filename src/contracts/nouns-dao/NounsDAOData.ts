@@ -3,6 +3,22 @@ import { ethers } from "ethers-v6";
 import { default as NounsDAODataABI } from "../abis/NounsDAOData.json";
 import { Account, EventData } from "../../types";
 
+interface SUPPORTED_EVENT_MAP {
+	AdminChanged: EventData.AdminChanged;
+	BeaconUpgraded: EventData.BeaconUpgraded;
+	CandidateFeedbackSent: EventData.CandidateFeedbackSent;
+	CreateCandidateCostSet: EventData.CreateCandidateCostSet;
+	ETHWithdrawn: EventData.ETHWithdrawn;
+	FeeRecipientSet: EventData.FeeRecipientSet;
+	FeedbackSent: EventData.FeedbackSent;
+	OwnershipTransferred: EventData.OwnershipTransferred;
+	ProposalCandidateCanceled: EventData.ProposalCandidateCanceled;
+	ProposalCandidateCreated: EventData.ProposalCandidateCreated;
+	ProposalCandidateUpdated: EventData.ProposalCandidateUpdated;
+	SignatureAdded: EventData.SignatureAdded;
+	UpdateCandidateCostSet: EventData.UpdateCandidateCostSet;
+	Upgraded: EventData.Upgraded;
+}
 const SUPPORTED_NOUNS_DAO_DATA_EVENTS = [
 	"AdminChanged",
 	"BeaconUpgraded",
@@ -19,7 +35,7 @@ const SUPPORTED_NOUNS_DAO_DATA_EVENTS = [
 	"UpdateCandidateCostSet",
 	"Upgraded"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_DATA_EVENTS)[number];
+export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
 
 /**
  * A wrapper class around the NounsDAOData contract.
@@ -51,7 +67,7 @@ export class _NounsDAOData {
 	 * 	console.log(data.slug);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: ethers.Listener) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
 		switch (eventName) {
 			case "AdminChanged":
 				this.Contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
@@ -61,7 +77,7 @@ export class _NounsDAOData {
 						event: event
 					} as EventData.AdminChanged;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -73,7 +89,7 @@ export class _NounsDAOData {
 						event: event
 					} as EventData.BeaconUpgraded;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -81,14 +97,7 @@ export class _NounsDAOData {
 			case "CandidateFeedbackSent":
 				this.Contract.on(
 					eventName,
-					(
-						msgSender: string,
-						proposer: string,
-						slug: string,
-						support: number,
-						reason: string,
-						event: ethers.Log
-					) => {
+					(msgSender: string, proposer: string, slug: string, support: number, reason: string, event: ethers.Log) => {
 						const data = {
 							msgSender: { id: msgSender } as Account,
 							proposer: { id: proposer } as Account,
@@ -98,7 +107,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.CandidateFeedbackSent;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -114,7 +123,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.CreateCandidateCostSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				break;
@@ -127,7 +136,7 @@ export class _NounsDAOData {
 						event: event
 					} as EventData.ETHWithdrawn;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -140,7 +149,7 @@ export class _NounsDAOData {
 						event: event
 					} as EventData.FeeRecipientSet;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -157,7 +166,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.FeedbackSent;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -171,7 +180,7 @@ export class _NounsDAOData {
 						event: event
 					} as EventData.OwnershipTransferred;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -184,7 +193,7 @@ export class _NounsDAOData {
 						event: event
 					} as EventData.ProposalCandidateCanceled;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -217,7 +226,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.ProposalCandidateCreated;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -253,7 +262,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.ProposalCandidateUpdated;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -287,7 +296,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.SignatureAdded;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -303,7 +312,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.UpdateCandidateCostSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -316,7 +325,7 @@ export class _NounsDAOData {
 						event: event
 					} as EventData.Upgraded;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -353,7 +362,7 @@ export class _NounsDAOData {
 	 * 	reason: ''
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

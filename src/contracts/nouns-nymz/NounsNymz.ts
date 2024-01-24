@@ -2,8 +2,11 @@ import * as cron from "node-cron";
 import fetch from "node-fetch";
 import { EventData } from "../../types";
 
+interface SUPPORTED_EVENT_MAP {
+	NewPost: EventData.NounsNymz.NewPost;
+}
 const SUPPORTED_NOUNS_NYMZ_EVENTS = ["NewPost"] as const;
-export type SupportedEventsType = (typeof SUPPORTED_NOUNS_NYMZ_EVENTS)[number];
+export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
 
 /**
  * A wrapper class for NounsNymz events.
@@ -27,7 +30,7 @@ export class NounsNymz {
 	 * 	console.log(data.body);
 	 * });
 	 */
-	public on(eventName: SupportedEventsType, listener: (post: EventData.NounsNymz.NewPost) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
 		this.registeredListeners.set(eventName, listener);
 
 		if (eventName !== "NewPost") {
@@ -76,7 +79,7 @@ export class NounsNymz {
 	 * 	parentId: null
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

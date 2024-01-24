@@ -2,6 +2,18 @@ import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as LilNounsAuctionHouseABI } from "../abis/lil-nouns/NounsAuctionHouse.json";
 
+interface SUPPORTED_EVENT_MAP {
+	AuctionCreated: EventData.AuctionCreated;
+	AuctionBid: EventData.AuctionBid;
+	AuctionExtended: EventData.AuctionExtended;
+	AuctionSettled: EventData.AuctionSettled;
+	AuctionTimeBufferUpdated: EventData.AuctionTimeBufferUpdated;
+	AuctionReservePriceUpdated: EventData.AuctionReservePriceUpdated;
+	AuctionMinBidIncrementPercentageUpdated: EventData.AuctionMinBidIncrementPercentageUpdated;
+	OwnershipTransferred: EventData.OwnershipTransferred;
+	Paused: EventData.Paused;
+	Unpaused: EventData.Unpaused;
+}
 const SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS = [
 	"AuctionCreated",
 	"AuctionBid",
@@ -14,7 +26,6 @@ const SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS = [
 	"Paused",
 	"Unpaused"
 ] as const;
-
 export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS)[number];
 
 /**
@@ -51,7 +62,7 @@ export class LilNounsAuctionHouse {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
 		switch (eventName) {
 			case "AuctionBid":
 				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Log) => {
@@ -63,25 +74,22 @@ export class LilNounsAuctionHouse {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionCreated":
-				this.Contract.on(
-					"AuctionCreated",
-					(nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
-						const data: EventData.AuctionCreated = {
-							id: nounId,
-							startTime: startTime,
-							endTime: endTime,
-							event: event
-						};
+				this.Contract.on("AuctionCreated", (nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
+					const data: EventData.AuctionCreated = {
+						id: nounId,
+						startTime: startTime,
+						endTime: endTime,
+						event: event
+					};
 
-						listener(data);
-					}
-				);
+					listener(data as any);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
@@ -93,7 +101,7 @@ export class LilNounsAuctionHouse {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -107,7 +115,7 @@ export class LilNounsAuctionHouse {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -120,7 +128,7 @@ export class LilNounsAuctionHouse {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -134,7 +142,7 @@ export class LilNounsAuctionHouse {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -146,7 +154,7 @@ export class LilNounsAuctionHouse {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -159,7 +167,7 @@ export class LilNounsAuctionHouse {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -171,7 +179,7 @@ export class LilNounsAuctionHouse {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -183,7 +191,7 @@ export class LilNounsAuctionHouse {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -218,7 +226,7 @@ export class LilNounsAuctionHouse {
 	 * 	endTime: 1689763583
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

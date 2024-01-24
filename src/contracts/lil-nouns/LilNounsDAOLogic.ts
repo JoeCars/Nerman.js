@@ -2,6 +2,23 @@ import { ethers } from "ethers-v6";
 import { Account, EventData, VoteDirection } from "../../types";
 import { default as LilNounsDAOLogicV1ABI } from "../abis/lil-nouns/NounsDAOLogicV1.json";
 
+interface SUPPORTED_EVENT_MAP {
+	NewAdmin: EventData.NewAdmin;
+	NewImplementation: EventData.NewImplementation;
+	NewPendingAdmin: EventData.NewPendingAdmin;
+	NewVetoer: EventData.NewVetoer;
+	ProposalCanceled: EventData.ProposalCanceled;
+	ProposalCreated: EventData.ProposalCreated;
+	ProposalCreatedWithRequirements: EventData.ProposalCreatedWithRequirements;
+	ProposalExecuted: EventData.ProposalExecuted;
+	ProposalQueued: EventData.ProposalQueued;
+	ProposalThresholdBPSSet: EventData.ProposalThresholdBPSSet;
+	ProposalVetoed: EventData.ProposalVetoed;
+	QuorumVotesBPSSet: EventData.QuorumVotesBPSSet;
+	VoteCast: EventData.VoteCast;
+	VotingDelaySet: EventData.VotingDelaySet;
+	VotingPeriodSet: EventData.VotingPeriodSet;
+}
 const SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS = [
 	"NewAdmin",
 	"NewImplementation",
@@ -19,7 +36,7 @@ const SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS = [
 	"VotingDelaySet",
 	"VotingPeriodSet"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS)[number];
+export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
 
 /**
  * A wrapper class around the LilNounsAuctionHouse contract.
@@ -51,7 +68,7 @@ export class LilNounsDAOLogic {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
 		switch (eventName) {
 			case "NewAdmin":
 				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
@@ -61,7 +78,7 @@ export class LilNounsDAOLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -76,7 +93,7 @@ export class LilNounsDAOLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -90,7 +107,7 @@ export class LilNounsDAOLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -103,7 +120,7 @@ export class LilNounsDAOLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -115,7 +132,7 @@ export class LilNounsDAOLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -148,7 +165,7 @@ export class LilNounsDAOLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -186,7 +203,7 @@ export class LilNounsDAOLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -198,7 +215,7 @@ export class LilNounsDAOLogic {
 						id: id,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -210,7 +227,7 @@ export class LilNounsDAOLogic {
 						eta: eta,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -225,7 +242,7 @@ export class LilNounsDAOLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -237,7 +254,7 @@ export class LilNounsDAOLogic {
 						id: id,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -252,7 +269,7 @@ export class LilNounsDAOLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -273,7 +290,7 @@ export class LilNounsDAOLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -287,7 +304,7 @@ export class LilNounsDAOLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -300,7 +317,7 @@ export class LilNounsDAOLogic {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -337,7 +354,7 @@ export class LilNounsDAOLogic {
 	 * 	reason: "Really good reason."
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
