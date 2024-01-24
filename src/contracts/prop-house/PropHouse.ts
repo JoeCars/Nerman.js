@@ -14,7 +14,7 @@ export class PropHouse {
 	public provider: ethers.providers.JsonRpcProvider;
 	public prophouse: PropHouseSDK;
 	public registeredListeners: Map<SupportedEventsType, Function>;
-	public readonly supportedEvents = SUPPORTED_PROP_HOUSE_EVENTS;
+	public static readonly supportedEvents = SUPPORTED_PROP_HOUSE_EVENTS;
 	private proposalSubmittedLastTime: number;
 	private voteCastLastTime: number;
 
