@@ -1,5 +1,5 @@
 import { LilNouns } from "../../../src/contracts/lil-nouns/LilNouns";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("LilNouns tests", () => {
 	test("should construct with string", () => {

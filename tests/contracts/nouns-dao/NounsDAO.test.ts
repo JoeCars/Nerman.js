@@ -1,5 +1,5 @@
 import { _NounsDAO } from "../../../src/contracts/nouns-dao/NounsDAO";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("NounsDAO tests", () => {
 	test("should construct with string", () => {

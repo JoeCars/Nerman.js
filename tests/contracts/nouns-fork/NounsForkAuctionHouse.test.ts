@@ -1,5 +1,5 @@
 import { _NounsForkAuctionHouse } from "../../../src/contracts/nouns-fork/NounsForkAuctionHouse";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("NounsForkAuctionHouse tests", () => {
 	test("should construct with string", () => {

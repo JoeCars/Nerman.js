@@ -66,7 +66,7 @@ export class PropHouse {
 							kind,
 							title,
 							description,
-							event
+							event: event as any
 						};
 
 						listener(data);
@@ -80,7 +80,7 @@ export class PropHouse {
 						creator: { id: creator },
 						house: { id: house },
 						kind,
-						event
+						event: event as any
 					};
 
 					listener(data);

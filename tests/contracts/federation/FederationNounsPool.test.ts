@@ -1,5 +1,5 @@
 import { FederationNounsPool } from "../../../src/contracts/federation/FederationNounsPool";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("FederationNounsPool tests", () => {
 	test("should construct with string", () => {

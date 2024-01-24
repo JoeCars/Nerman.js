@@ -1,5 +1,5 @@
 import { Nouns } from "../../../src/contracts/nouns-dao/Nouns";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("Nouns tests", () => {
 	test("should construct with string", () => {

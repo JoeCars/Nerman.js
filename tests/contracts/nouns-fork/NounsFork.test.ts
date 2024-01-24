@@ -1,5 +1,5 @@
 import { NounsFork } from "../../../src/contracts/nouns-fork/NounsFork";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("NounsFork tests", () => {
 	test("should construct with string", () => {

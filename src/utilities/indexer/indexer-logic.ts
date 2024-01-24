@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 import { writeFile, readFile, mkdir } from "fs/promises";
 import { dirname } from "path";
 import { NOUNS_STARTING_BLOCK } from "../../constants";

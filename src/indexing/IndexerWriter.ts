@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 import * as indexer from "../utilities/indexer/indexer-logic";
 import * as parsers from "../utilities/indexer/index-parsers";

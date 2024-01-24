@@ -1,5 +1,5 @@
 import { _NounsAuctionHouse } from "../../../src/contracts/nouns-dao/NounsAuctionHouse";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("NounsAuctionHouse tests", () => {
 	test("should construct with string", () => {

@@ -1,5 +1,5 @@
 import { _Propdates } from "../../../src/contracts/propdates/Propdates";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("Propdates tests", () => {
 	test("should construct with string", () => {

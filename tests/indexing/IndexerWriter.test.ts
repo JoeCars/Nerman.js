@@ -1,5 +1,5 @@
 import { IndexerWriter } from "../../src/indexing/IndexerWriter";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("IndexerWriter tests", () => {
 	test("should construct with string", () => {

@@ -1,5 +1,5 @@
 import { LilNounsDAOLogic } from "../../../src/contracts/lil-nouns/LilNounsDAOLogic";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("LilNounsDAOLogic tests", () => {
 	test("should construct with string", () => {

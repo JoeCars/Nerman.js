@@ -1,5 +1,5 @@
 import { Indexer } from "../../src/indexing/Indexer";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("Indexer tests", () => {
 	test("should construct with string", () => {
