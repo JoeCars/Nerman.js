@@ -2,7 +2,7 @@ import { ethers } from "ethers-v6";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as NounsTokenABI } from "../abis/NounsToken.json";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	DelegateChanged: EventData.DelegateChanged;
 	DelegateVotesChanged: EventData.DelegateVotesChanged;
 	Transfer: EventData.Transfer;
@@ -36,7 +36,7 @@ const SUPPORTED_NOUNS_TOKEN_EVENTS = [
 	"SeederLocked",
 	"SeederUpdated"
 ] as const;
-export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper around the NounsToken governance contract.
@@ -68,7 +68,7 @@ export class _NounsToken {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "DelegateChanged": // WORKING
 				this.Contract.on(
@@ -368,7 +368,7 @@ export class _NounsToken {
 	 * 	}
 	 * });
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

@@ -2,7 +2,7 @@ import { ethers } from "ethers-v6";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsForkABI } from "../abis/NounsForkGovernance.json";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	NewAdmin: EventData.NewAdmin;
 	NewImplementation: EventData.NewImplementation;
 	NewPendingAdmin: EventData.NewPendingAdmin;
@@ -34,7 +34,7 @@ const SUPPORTED_NOUNS_FORK_EVENTS = [
 	"VotingDelaySet",
 	"VotingPeriodSet"
 ] as const;
-export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper around the NounsFork governance contract.
@@ -81,7 +81,7 @@ export class _NounsForkLogic {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			// **********************************************************
 			//
@@ -439,7 +439,7 @@ export class _NounsForkLogic {
 	 * 	reason: "Really good reason.",
 	 * });
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

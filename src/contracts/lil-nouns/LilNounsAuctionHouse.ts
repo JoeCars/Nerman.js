@@ -2,7 +2,7 @@ import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as LilNounsAuctionHouseABI } from "../abis/lil-nouns/NounsAuctionHouse.json";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	AuctionCreated: EventData.AuctionCreated;
 	AuctionBid: EventData.AuctionBid;
 	AuctionExtended: EventData.AuctionExtended;
@@ -62,7 +62,7 @@ export class LilNounsAuctionHouse {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AuctionBid":
 				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Log) => {
@@ -226,7 +226,7 @@ export class LilNounsAuctionHouse {
 	 * 	endTime: 1689763583
 	 * });
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

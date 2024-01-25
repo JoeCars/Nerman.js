@@ -2,7 +2,7 @@ import { ethers } from "ethers-v6";
 import { Account, EventData, VoteDirection } from "../../types";
 import { default as LilNounsDAOLogicV1ABI } from "../abis/lil-nouns/NounsDAOLogicV1.json";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	NewAdmin: EventData.NewAdmin;
 	NewImplementation: EventData.NewImplementation;
 	NewPendingAdmin: EventData.NewPendingAdmin;
@@ -36,7 +36,7 @@ const SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS = [
 	"VotingDelaySet",
 	"VotingPeriodSet"
 ] as const;
-export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class around the LilNounsAuctionHouse contract.
@@ -68,7 +68,7 @@ export class LilNounsDAOLogic {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "NewAdmin":
 				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
@@ -354,7 +354,7 @@ export class LilNounsDAOLogic {
 	 * 	reason: "Really good reason."
 	 * });
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

@@ -1,9 +1,22 @@
 import { ethers } from "ethers-v6";
 
-import { LilNounsAuctionHouse, SupportedEventsType as LilNounsAuctionHouseSupportedEventsType } from "./LilNounsAuctionHouse";
-import { LilNounsDAOLogic, SupportedEventsType as LilNounsDAOLogicSupportedEventsType } from "./LilNounsDAOLogic";
-import { LilNounsToken, SupportedEventsType as LilNounsTokenSupportedEventsType } from "./LilNounsToken";
+import {
+	LilNounsAuctionHouse,
+	SupportedEventsType as LilNounsAuctionHouseSupportedEventsType,
+	SupportedEventMap as AuctionSupportedEventMap
+} from "./LilNounsAuctionHouse";
+import {
+	LilNounsDAOLogic,
+	SupportedEventsType as LilNounsDAOLogicSupportedEventsType,
+	SupportedEventMap as LogicSupportedEventMap
+} from "./LilNounsDAOLogic";
+import {
+	LilNounsToken,
+	SupportedEventsType as LilNounsTokenSupportedEventsType,
+	SupportedEventMap as TokenSupportedEventMap
+} from "./LilNounsToken";
 
+export interface SupportedEventMap extends AuctionSupportedEventMap, LogicSupportedEventMap, TokenSupportedEventMap {}
 export type SupportedEventsType =
 	| LilNounsAuctionHouseSupportedEventsType
 	| LilNounsDAOLogicSupportedEventsType
@@ -47,13 +60,13 @@ export class LilNouns {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		if (LilNounsAuctionHouse.supportedEvents.includes(eventName as LilNounsAuctionHouseSupportedEventsType)) {
-			this.lilNounsAuctionHouse.on(eventName as LilNounsAuctionHouseSupportedEventsType, listener);
+			this.lilNounsAuctionHouse.on(eventName as LilNounsAuctionHouseSupportedEventsType, listener as any);
 		} else if (LilNounsDAOLogic.supportedEvents.includes(eventName as LilNounsDAOLogicSupportedEventsType)) {
-			this.lilNounsDAOLogic.on(eventName as LilNounsDAOLogicSupportedEventsType, listener);
+			this.lilNounsDAOLogic.on(eventName as LilNounsDAOLogicSupportedEventsType, listener as any);
 		} else if (LilNounsToken.supportedEvents.includes(eventName as LilNounsTokenSupportedEventsType)) {
-			this.lilNounsToken.on(eventName as LilNounsTokenSupportedEventsType, listener);
+			this.lilNounsToken.on(eventName as LilNounsTokenSupportedEventsType, listener as any);
 		} else {
 			throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
@@ -67,13 +80,13 @@ export class LilNouns {
 	 * @example
 	 * lilNouns.trigger('ProposalExecuted', {id: 420});
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		if (LilNounsAuctionHouse.supportedEvents.includes(eventName as LilNounsAuctionHouseSupportedEventsType)) {
-			this.lilNounsAuctionHouse.trigger(eventName as LilNounsAuctionHouseSupportedEventsType, data);
+			this.lilNounsAuctionHouse.trigger(eventName as LilNounsAuctionHouseSupportedEventsType, data as any);
 		} else if (LilNounsDAOLogic.supportedEvents.includes(eventName as LilNounsDAOLogicSupportedEventsType)) {
-			this.lilNounsDAOLogic.trigger(eventName as LilNounsDAOLogicSupportedEventsType, data);
+			this.lilNounsDAOLogic.trigger(eventName as LilNounsDAOLogicSupportedEventsType, data as any);
 		} else if (LilNounsToken.supportedEvents.includes(eventName as LilNounsTokenSupportedEventsType)) {
-			this.lilNounsToken.trigger(eventName as LilNounsTokenSupportedEventsType, data);
+			this.lilNounsToken.trigger(eventName as LilNounsTokenSupportedEventsType, data as any);
 		} else {
 			throw new Error(`${eventName} does not have a listener.`);
 		}

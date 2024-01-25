@@ -2,7 +2,7 @@ import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as NounsAuctionHouseABI } from "../abis/NounsAuctionHouse.json";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	AuctionCreated: EventData.AuctionCreated;
 	AuctionBid: EventData.AuctionBid;
 	AuctionExtended: EventData.AuctionExtended;
@@ -26,7 +26,7 @@ const SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS = [
 	"Paused",
 	"Unpaused"
 ] as const;
-export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class around the NounsAuctionHouse contract.
@@ -58,7 +58,7 @@ export class _NounsAuctionHouse {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
 				this.Contract.on("AuctionCreated", (nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
@@ -242,7 +242,7 @@ export class _NounsAuctionHouse {
 	 * 	endTime: 1689763583
 	 * });
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

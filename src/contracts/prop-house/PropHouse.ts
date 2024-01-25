@@ -4,14 +4,14 @@ import { OrderByProposalFields, OrderByVoteFields } from "@prophouse/sdk/dist/gq
 import { schedule, ScheduledTask } from "node-cron";
 import { Account, EventData } from "../../types";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	RoundCreated: EventData.PropHouse.RoundCreated;
 	HouseCreated: EventData.PropHouse.HouseCreated;
 	ProposalSubmitted: EventData.PropHouse.ProposalSubmitted;
 	VoteCast: EventData.PropHouse.VoteCast;
 }
 const SUPPORTED_PROP_HOUSE_EVENTS = ["RoundCreated", "HouseCreated", "ProposalSubmitted", "VoteCast"] as const;
-export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class for PropHouse.
@@ -51,7 +51,7 @@ export class PropHouse {
 	 * 	console.log(data.creator);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "RoundCreated":
 				this.prophouse.contract.on(
@@ -133,7 +133,7 @@ export class PropHouse {
 	 * @param eventName The event to be triggered.
 	 * @param data The data being passed to the listener.
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

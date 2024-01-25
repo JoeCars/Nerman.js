@@ -2,7 +2,7 @@ import { ethers } from "ethers-v6";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsDAOLogicV3ABI } from "../abis/NounsDAOLogicV3.json";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	DAOWithdrawNounsFromEscrow: EventData.DAOWithdrawNounsFromEscrow;
 	ERC20TokensToIncludeInForkSet: EventData.ERC20TokensToIncludeInForkSet;
 	EscrowedToFork: EventData.EscrowedToFork;
@@ -88,7 +88,7 @@ const SUPPORTED_NOUNS_DAO_EVENTS = [
 	"Withdraw",
 	"WithdrawFromForkEscrow"
 ] as const;
-export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class around the NounsDAO contract.
@@ -121,7 +121,7 @@ export class _NounsDAO {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "DAOWithdrawNounsFromEscrow":
 				this.Contract.on("DAOWithdrawNounsFromEscrow", (tokenIds: number[], to: string, event: ethers.Log) => {
@@ -1027,7 +1027,7 @@ export class _NounsDAO {
 	 * 	reason: "Really good reason."
 	 * });
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

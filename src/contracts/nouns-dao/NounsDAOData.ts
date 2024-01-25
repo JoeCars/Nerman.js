@@ -3,7 +3,7 @@ import { ethers } from "ethers-v6";
 import { default as NounsDAODataABI } from "../abis/NounsDAOData.json";
 import { Account, EventData } from "../../types";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	AdminChanged: EventData.AdminChanged;
 	BeaconUpgraded: EventData.BeaconUpgraded;
 	CandidateFeedbackSent: EventData.CandidateFeedbackSent;
@@ -35,7 +35,7 @@ const SUPPORTED_NOUNS_DAO_DATA_EVENTS = [
 	"UpdateCandidateCostSet",
 	"Upgraded"
 ] as const;
-export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class around the NounsDAOData contract.
@@ -67,7 +67,7 @@ export class _NounsDAOData {
 	 * 	console.log(data.slug);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AdminChanged":
 				this.Contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
@@ -362,7 +362,7 @@ export class _NounsDAOData {
 	 * 	reason: ''
 	 * });
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

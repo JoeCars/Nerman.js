@@ -1,12 +1,35 @@
 import { ethers } from "ethers-v6";
 
-import { _NounsAuctionHouse, SupportedEventsType as NounsAuctionHouseSupportedEventsType } from "./NounsAuctionHouse";
-import { _NounsToken, SupportedEventsType as NounsTokenSupportedEventsType } from "./NounsToken";
-import { _NounsDAO, SupportedEventsType as NounsDAOSupportedEventsType } from "./NounsDAO";
-import { _NounsDAOData, SupportedEventsType as NounsDAODataSupportedEventsType } from "./NounsDAOData";
+import {
+	_NounsAuctionHouse,
+	SupportedEventsType as NounsAuctionHouseSupportedEventsType,
+	SupportedEventMap as AuctionSupportedEventMap
+} from "./NounsAuctionHouse";
+import {
+	_NounsToken,
+	SupportedEventsType as NounsTokenSupportedEventsType,
+	SupportedEventMap as TokenSupportedEventMap
+} from "./NounsToken";
+import {
+	_NounsDAO,
+	SupportedEventsType as NounsDAOSupportedEventsType,
+	SupportedEventMap as LogicSupportedEventMap
+} from "./NounsDAO";
+import {
+	_NounsDAOData,
+	SupportedEventsType as NounsDAODataSupportedEventsType,
+	SupportedEventMap as DataSupportedEventMap
+} from "./NounsDAOData";
 import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
 
+export interface SupportedEventMap
+	extends AuctionSupportedEventMap,
+		LogicSupportedEventMap,
+		TokenSupportedEventMap,
+		DataSupportedEventMap {
+	AuctionEnd: EventData.AuctionComplete;
+}
 type SupportedEventsType =
 	| NounsAuctionHouseSupportedEventsType
 	| NounsTokenSupportedEventsType
@@ -126,7 +149,7 @@ export class Nouns {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		console.log("StateOfNouns.ts on(" + eventName + ") created");
 		this.registeredListeners.set(eventName, listener);
 		let errorCount = 0;
@@ -134,7 +157,7 @@ export class Nouns {
 		//@todo use ABI to look up function signatures instead, try-catch feel ugly
 		try {
 			await this.NounsDAO.on(eventName as NounsDAOSupportedEventsType, (data: unknown) => {
-				listener(data);
+				listener(data as any);
 			});
 			return;
 		} catch (error) {
@@ -143,7 +166,7 @@ export class Nouns {
 
 		try {
 			await this.NounsAuctionHouse.on(eventName as NounsAuctionHouseSupportedEventsType, (data: unknown) => {
-				listener(data);
+				listener(data as any);
 			});
 			return;
 		} catch (error) {
@@ -152,7 +175,7 @@ export class Nouns {
 
 		try {
 			await this.NounsToken.on(eventName as NounsTokenSupportedEventsType, (data: unknown) => {
-				listener(data);
+				listener(data as any);
 			});
 			return;
 		} catch (error) {
@@ -161,7 +184,7 @@ export class Nouns {
 
 		try {
 			await this.NounsDAOData.on(eventName as NounsDAODataSupportedEventsType, (data: unknown) => {
-				listener(data);
+				listener(data as any);
 			});
 			return;
 		} catch (error) {
@@ -253,7 +276,7 @@ export class Nouns {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			listener(data);

@@ -2,7 +2,7 @@ import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesV2.json";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	Initialized: EventData.Propdates.Initialized;
 	OwnershipTransferStarted: EventData.Propdates.OwnershipTransferStarted;
 	OwnershipTransferred: EventData.Propdates.OwnershipTransferred;
@@ -24,7 +24,7 @@ const SUPPORTED_PROPDATES_EVENTS = [
 	"SuperAdminTransferred",
 	"Upgraded"
 ] as const;
-export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class around the Propdates contract.
@@ -55,7 +55,7 @@ export class _Propdates {
 	 * 	console.log(data.propId);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "Initialized":
 				this.Contract.on("Initialized", (version: number, event: ethers.Log) => {
@@ -209,7 +209,7 @@ export class _Propdates {
 	 * 	update: "It's done!"
 	 * });
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

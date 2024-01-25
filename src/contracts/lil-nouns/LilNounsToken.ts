@@ -2,7 +2,7 @@ import { ethers } from "ethers-v6";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as LilNounsTokenABI } from "../abis/lil-nouns/NounsToken.json";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	Approval: EventData.Approval;
 	ApprovalForAll: EventData.ApprovalForAll;
 	DelegateChanged: EventData.DelegateChanged;
@@ -38,7 +38,7 @@ const SUPPORTED_LIL_NOUNS_TOKEN_EVENTS = [
 	"SeederUpdated",
 	"Transfer"
 ] as const;
-export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper around the LilNounsToken governance contract.
@@ -70,7 +70,7 @@ export class LilNounsToken {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "Approval":
 				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Log) => {
@@ -330,7 +330,7 @@ export class LilNounsToken {
 	 * 	}
 	 * });
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

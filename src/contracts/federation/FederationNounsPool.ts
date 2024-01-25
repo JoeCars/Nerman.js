@@ -3,12 +3,12 @@ import NounsPool from "../abis/federation/NounsPool";
 import NounsPoolV2 from "../abis/federation/NounsPoolV2";
 import { EventData } from "../../types";
 
-interface SUPPORTED_EVENT_MAP {
+export interface SupportedEventMap {
 	BidPlaced: EventData.Federation.GovPool.BidPlaced;
 	VoteCast: EventData.Federation.GovPool.VoteCast;
 }
 const SUPPORTED_FEDERATION_EVENTS = ["BidPlaced", "VoteCast"] as const;
-export type SupportedEventsType = keyof SUPPORTED_EVENT_MAP;
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class that supports Federation NounsPool events.
@@ -45,7 +45,7 @@ export class FederationNounsPool {
 	 * 	console.log(data.propId);
 	 * });
 	 */
-	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SUPPORTED_EVENT_MAP[T]) => void) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		if (eventName === "BidPlaced") {
 			this.nounsPoolContractV1.on(eventName, (dao, propId, support, amount, bidder) => {
 				listener({ dao, propId, support, amount, bidder });
@@ -97,7 +97,7 @@ export class FederationNounsPool {
 	 *		reason: ""
 	 * });
 	 */
-	public trigger<T extends SupportedEventsType>(eventName: T, data: SUPPORTED_EVENT_MAP[T]) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
