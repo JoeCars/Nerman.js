@@ -342,7 +342,7 @@ export class Nouns {
 		}
 	}
 
-	public async queryIndex(eventName: string, queryOptions: object) {
+	public async queryIndex(eventName: string, queryOptions?: object) {
 		this.Indexer.query(eventName, queryOptions);
 	}
 }

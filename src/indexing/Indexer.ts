@@ -23,7 +23,7 @@ export class Indexer {
 	 * @param queryOptions Object with filter options for the indexed events.
 	 * @returns List of filtered indexed events.
 	 */
-	public async query(eventName: string, queryOptions: object) {
+	public async query(eventName: string, queryOptions?: object) {
 		return this.reader.query(eventName, queryOptions);
 	}
 
