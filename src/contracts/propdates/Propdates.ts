@@ -1,7 +1,18 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesV2.json";
 
+export interface SupportedEventMap {
+	Initialized: EventData.Propdates.Initialized;
+	OwnershipTransferStarted: EventData.Propdates.OwnershipTransferStarted;
+	OwnershipTransferred: EventData.Propdates.OwnershipTransferred;
+	PostUpdate: EventData.Propdates.PostUpdate;
+	PropUpdateAdminMigrated: EventData.Propdates.PropUpdateAdminMigrated;
+	PropUpdateAdminRecovered: EventData.Propdates.PropUpdateAdminRecovered;
+	PropUpdateAdminTransferred: EventData.Propdates.PropUpdateAdminTransferred;
+	SuperAdminTransferred: EventData.Propdates.SuperAdminTransferred;
+	Upgraded: EventData.Propdates.Upgraded;
+}
 const SUPPORTED_PROPDATES_EVENTS = [
 	"Initialized",
 	"OwnershipTransferStarted",
@@ -13,20 +24,20 @@ const SUPPORTED_PROPDATES_EVENTS = [
 	"SuperAdminTransferred",
 	"Upgraded"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_PROPDATES_EVENTS)[number];
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class around the Propdates contract.
  */
 export class _Propdates {
-	private provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_PROPDATES_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -44,52 +55,52 @@ export class _Propdates {
 	 * 	console.log(data.propId);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "Initialized":
-				this.Contract.on("Initialized", (version: number, event: ethers.Event) => {
+				this.Contract.on("Initialized", (version: number, event: ethers.Log) => {
 					const data: EventData.Propdates.Initialized = {
 						version: Number(version),
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferStarted":
-				this.Contract.on("OwnershipTransferStarted", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on("OwnershipTransferStarted", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.Propdates.OwnershipTransferStarted = {
 						previousOwner: { id: previousOwner },
 						newOwner: { id: newOwner },
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.Propdates.OwnershipTransferred = {
 						previousOwner: { id: previousOwner },
 						newOwner: { id: newOwner },
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "PostUpdate":
-				this.Contract.on("PostUpdate", (propId: number, isCompleted: boolean, update: string, event: ethers.Event) => {
+				this.Contract.on("PostUpdate", (propId: number, isCompleted: boolean, update: string, event: ethers.Log) => {
 					const data: EventData.Propdates.PostUpdate = {
 						propId: Number(propId),
 						isCompleted: isCompleted,
 						update: update,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -97,14 +108,14 @@ export class _Propdates {
 			case "PropUpdateAdminMigrated":
 				this.Contract.on(
 					"PropUpdateAdminMigrated",
-					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 						const data: EventData.Propdates.PropUpdateAdminMigrated = {
 							propId: Number(propId),
 							oldAdmin: { id: oldAdmin } as Account,
 							newAdmin: { id: newAdmin } as Account,
 							event: event
 						};
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -113,14 +124,14 @@ export class _Propdates {
 			case "PropUpdateAdminRecovered":
 				this.Contract.on(
 					"PropUpdateAdminRecovered",
-					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 						const data: EventData.Propdates.PropUpdateAdminRecovered = {
 							propId: Number(propId),
 							oldAdmin: { id: oldAdmin } as Account,
 							newAdmin: { id: newAdmin } as Account,
 							event: event
 						};
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -129,7 +140,7 @@ export class _Propdates {
 			case "PropUpdateAdminTransferred":
 				this.Contract.on(
 					"PropUpdateAdminTransferred",
-					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 						const data: EventData.Propdates.PropUpdateAdminTransferred = {
 							propId: propId,
 							oldAdmin: { id: oldAdmin } as Account,
@@ -137,36 +148,33 @@ export class _Propdates {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "SuperAdminTransferred":
-				this.Contract.on(
-					"SuperAdminTransferred",
-					(oldSuperAdmin: string, newSuperAdmin: string, event: ethers.Event) => {
-						const data: EventData.Propdates.SuperAdminTransferred = {
-							oldSuperAdmin: { id: oldSuperAdmin } as Account,
-							newSuperAdmin: { id: newSuperAdmin } as Account,
-							event: event
-						};
+				this.Contract.on("SuperAdminTransferred", (oldSuperAdmin: string, newSuperAdmin: string, event: ethers.Log) => {
+					const data: EventData.Propdates.SuperAdminTransferred = {
+						oldSuperAdmin: { id: oldSuperAdmin } as Account,
+						newSuperAdmin: { id: newSuperAdmin } as Account,
+						event: event
+					};
 
-						listener(data);
-					}
-				);
+					listener(data as any);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Upgraded":
-				this.Contract.on("Upgraded", (implementation: string, event: ethers.Event) => {
+				this.Contract.on("Upgraded", (implementation: string, event: ethers.Log) => {
 					const data: EventData.Propdates.Upgraded = {
 						implementation: { id: implementation } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -185,7 +193,7 @@ export class _Propdates {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -201,7 +209,7 @@ export class _Propdates {
 	 * 	update: "It's done!"
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

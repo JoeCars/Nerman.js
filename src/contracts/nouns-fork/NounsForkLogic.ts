@@ -1,7 +1,23 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers-v6";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsForkABI } from "../abis/NounsForkGovernance.json";
 
+export interface SupportedEventMap {
+	NewAdmin: EventData.NewAdmin;
+	NewImplementation: EventData.NewImplementation;
+	NewPendingAdmin: EventData.NewPendingAdmin;
+	ProposalCanceled: EventData.ProposalCanceled;
+	ProposalCreated: EventData.ProposalCreated;
+	ProposalCreatedWithRequirements: EventData.ProposalCreatedWithRequirements;
+	ProposalExecuted: EventData.ProposalExecuted;
+	ProposalQueued: EventData.ProposalQueued;
+	ProposalThresholdBPSSet: EventData.ProposalThresholdBPSSet;
+	Quit: EventData.Quit;
+	QuorumVotesBPSSet: EventData.QuorumVotesBPSSet;
+	VoteCast: EventData.VoteCast;
+	VotingDelaySet: EventData.VotingDelaySet;
+	VotingPeriodSet: EventData.VotingPeriodSet;
+}
 const SUPPORTED_NOUNS_FORK_EVENTS = [
 	"NewAdmin",
 	"NewImplementation",
@@ -18,14 +34,14 @@ const SUPPORTED_NOUNS_FORK_EVENTS = [
 	"VotingDelaySet",
 	"VotingPeriodSet"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_EVENTS)[number];
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper around the NounsFork governance contract.
  */
 export class _NounsForkLogic {
 	private _forkId: number;
-	private provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_EVENTS;
@@ -35,9 +51,9 @@ export class _NounsForkLogic {
 		"0xcf8b3ce9e92990a689fbdc886585a84ea0e4aece"
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -65,7 +81,7 @@ export class _NounsForkLogic {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			// **********************************************************
 			//
@@ -74,14 +90,14 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "NewAdmin":
 				/// @notice Emitted when pendingAdmin is accepted, which means admin is updated
-				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						oldAdmin: { id: oldAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -95,14 +111,14 @@ export class _NounsForkLogic {
 				/// @notice Emitted when implementation is changed
 				this.Contract.on(
 					"NewImplementation",
-					(oldImplementation: string, newImplementation: string, event: ethers.Event) => {
+					(oldImplementation: string, newImplementation: string, event: ethers.Log) => {
 						const data: EventData.NewImplementation = {
 							oldImplementation: { id: oldImplementation } as Account,
 							newImplementation: { id: newImplementation } as Account,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -115,14 +131,14 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "NewPendingAdmin":
 				/// @notice Emitted when pendingAdmin is changed
-				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						oldPendingAdmin: { id: oldPendingAdmin } as Account,
 						newPendingAdmin: { id: newPendingAdmin } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 
 				this.registeredListeners.set(eventName, listener);
@@ -136,13 +152,13 @@ export class _NounsForkLogic {
 
 			case "ProposalCanceled":
 				// @notice An event emitted when a proposal has been canceled
-				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
 						id: id,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -159,31 +175,31 @@ export class _NounsForkLogic {
 				this.Contract.on(
 					"ProposalCreated",
 					(
-						id: BigNumber,
+						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // type is bytes[]
-						startBlock: BigNumber,
-						endBlock: BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreated = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas, // type is bytes[]
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
 							description: description,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -200,35 +216,35 @@ export class _NounsForkLogic {
 				this.Contract.on(
 					"ProposalCreatedWithRequirements",
 					(
-						id: BigNumber,
+						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // bytes
-						startBlock: BigNumber,
-						endBlock: BigNumber,
-						proposalThreshold: BigNumber,
-						quorumVotes: BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
+						proposalThreshold: BigInt,
+						quorumVotes: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas,
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
-							proposalThreshold: proposalThreshold.toNumber(),
-							quorumVotes: quorumVotes.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
+							proposalThreshold: proposalThreshold,
+							quorumVotes: quorumVotes,
 							description: description,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -236,12 +252,12 @@ export class _NounsForkLogic {
 
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
 				// An event emitted when a proposal has been executed in the NounsDAOExecutor
-				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
 						id: id,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -255,13 +271,13 @@ export class _NounsForkLogic {
 			case "ProposalQueued":
 				/// @notice An event emitted when a proposal has been queued in the NounsDAOExecutor
 				/// @param eta The timestamp that the proposal will be available for execution, set once the vote succeeds
-				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Event) => {
+				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
 						id: id,
 						eta: eta,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -275,14 +291,14 @@ export class _NounsForkLogic {
 				/// @notice Emitted when proposal threshold basis points is set
 				this.Contract.on(
 					"ProposalThresholdBPSSet",
-					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Event) => {
+					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
 							oldProposalThresholdBPS: oldProposalThresholdBPS,
 							newProposalThresholdBPS: newProposalThresholdBPS,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -290,14 +306,14 @@ export class _NounsForkLogic {
 
 			case "Quit":
 				/// @notice Emitted when quorum votes basis points is set
-				this.Contract.on("Quit", (msgSender: string, tokenIds: number[], event: ethers.Event) => {
+				this.Contract.on("Quit", (msgSender: string, tokenIds: number[], event: ethers.Log) => {
 					const data: EventData.Quit = {
 						msgSender: { id: msgSender } as Account,
 						tokenIds: tokenIds,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -311,14 +327,14 @@ export class _NounsForkLogic {
 				/// @notice Emitted when quorum votes basis points is set
 				this.Contract.on(
 					"QuorumVotesBPSSet",
-					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Event) => {
+					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Log) => {
 						const data: EventData.QuorumVotesBPSSet = {
 							oldQuorumVotesBPS: oldQuorumVotesBPS,
 							newQuorumVotesBPS: newQuorumVotesBPS,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -334,14 +350,7 @@ export class _NounsForkLogic {
 
 				this.Contract.on(
 					"VoteCast",
-					(
-						voter: string,
-						proposalId: number,
-						support: number,
-						votes: number,
-						reason: string,
-						event: ethers.Event
-					) => {
+					(voter: string, proposalId: number, support: number, votes: number, reason: string, event: ethers.Log) => {
 						const supportDetailed: VoteDirection = support;
 
 						const data: EventData.VoteCast = {
@@ -353,7 +362,7 @@ export class _NounsForkLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -366,14 +375,14 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "VotingDelaySet":
 				/// @notice An event emitted when the voting delay is set
-				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Event) => {
+				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -385,14 +394,14 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "VotingPeriodSet":
 				/// @notice An event emitted when the voting period is set
-				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Event) => {
+				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -411,7 +420,7 @@ export class _NounsForkLogic {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -430,7 +439,7 @@ export class _NounsForkLogic {
 	 * 	reason: "Really good reason.",
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

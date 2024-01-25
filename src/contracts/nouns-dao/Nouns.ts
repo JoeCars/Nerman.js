@@ -1,11 +1,35 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
-import { _NounsAuctionHouse, SupportedEventsType as NounsAuctionHouseSupportedEventsType } from "./NounsAuctionHouse";
-import { _NounsToken, SupportedEventsType as NounsTokenSupportedEventsType } from "./NounsToken";
-import { _NounsDAO, SupportedEventsType as NounsDAOSupportedEventsType } from "./NounsDAO";
-import { _NounsDAOData, SupportedEventsType as NounsDAODataSupportedEventsType } from "./NounsDAOData";
+import {
+	_NounsAuctionHouse,
+	SupportedEventsType as NounsAuctionHouseSupportedEventsType,
+	SupportedEventMap as AuctionSupportedEventMap
+} from "./NounsAuctionHouse";
+import {
+	_NounsToken,
+	SupportedEventsType as NounsTokenSupportedEventsType,
+	SupportedEventMap as TokenSupportedEventMap
+} from "./NounsToken";
+import {
+	_NounsDAO,
+	SupportedEventsType as NounsDAOSupportedEventsType,
+	SupportedEventMap as LogicSupportedEventMap
+} from "./NounsDAO";
+import {
+	_NounsDAOData,
+	SupportedEventsType as NounsDAODataSupportedEventsType,
+	SupportedEventMap as DataSupportedEventMap
+} from "./NounsDAOData";
+import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
 
+export interface SupportedEventMap
+	extends AuctionSupportedEventMap,
+		LogicSupportedEventMap,
+		TokenSupportedEventMap,
+		DataSupportedEventMap {
+	AuctionEnd: EventData.AuctionComplete;
+}
 type SupportedEventsType =
 	| NounsAuctionHouseSupportedEventsType
 	| NounsTokenSupportedEventsType
@@ -17,12 +41,13 @@ type SupportedEventsType =
  * A wrapper for all Nouns DAO contracts, allowing you to access them from a single place without worrying about which contract has the information you need.
  */
 export class Nouns {
-	public provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 
 	public NounsAuctionHouse: _NounsAuctionHouse; // @TODO refactor into NounishContract?
 	public NounsToken: _NounsToken;
 	public NounsDAO: _NounsDAO;
 	public NounsDAOData: _NounsDAOData;
+	public Indexer: Indexer;
 	public static readonly supportedEvents = [
 		..._NounsAuctionHouse.supportedEvents,
 		..._NounsToken.supportedEvents,
@@ -40,9 +65,9 @@ export class Nouns {
 	 * @param provider The JSON_RPC_URL needed to establish a connection to the Ethereum network. Typically retrieved through a provider like Alchemy.
 	 * @param options An options object to configure the Nouns wrappers.
 	 */
-	constructor(provider: string | ethers.providers.JsonRpcProvider, options?: NounsOptions) {
+	constructor(provider: string | ethers.JsonRpcProvider, options?: NounsOptions) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -56,6 +81,12 @@ export class Nouns {
 		this.NounsToken = new _NounsToken(this.provider);
 		this.NounsDAO = new _NounsDAO(this.provider);
 		this.NounsDAOData = new _NounsDAOData(this.provider);
+
+		let indexerDirectoryPath = "./_nounsjs/data";
+		if (options?.indexerDirectoryPath) {
+			indexerDirectoryPath = options.indexerDirectoryPath;
+		}
+		this.Indexer = new Indexer(this.provider, indexerDirectoryPath);
 
 		this.cache = {};
 		if (!options?.shouldIgnoreCacheInit) {
@@ -118,7 +149,7 @@ export class Nouns {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		console.log("StateOfNouns.ts on(" + eventName + ") created");
 		this.registeredListeners.set(eventName, listener);
 		let errorCount = 0;
@@ -126,7 +157,7 @@ export class Nouns {
 		//@todo use ABI to look up function signatures instead, try-catch feel ugly
 		try {
 			await this.NounsDAO.on(eventName as NounsDAOSupportedEventsType, (data: unknown) => {
-				listener(data);
+				listener(data as any);
 			});
 			return;
 		} catch (error) {
@@ -135,7 +166,7 @@ export class Nouns {
 
 		try {
 			await this.NounsAuctionHouse.on(eventName as NounsAuctionHouseSupportedEventsType, (data: unknown) => {
-				listener(data);
+				listener(data as any);
 			});
 			return;
 		} catch (error) {
@@ -144,7 +175,7 @@ export class Nouns {
 
 		try {
 			await this.NounsToken.on(eventName as NounsTokenSupportedEventsType, (data: unknown) => {
-				listener(data);
+				listener(data as any);
 			});
 			return;
 		} catch (error) {
@@ -153,7 +184,7 @@ export class Nouns {
 
 		try {
 			await this.NounsDAOData.on(eventName as NounsDAODataSupportedEventsType, (data: unknown) => {
-				listener(data);
+				listener(data as any);
 			});
 			return;
 		} catch (error) {
@@ -194,7 +225,7 @@ export class Nouns {
 		if (this.cache.auction && (this.cache.auction.state == "ACTIVE" || this.cache.auction.state == "EXTENDED")) {
 			const blockNumber = await this.provider.getBlockNumber();
 			const block = await this.provider.getBlock(blockNumber);
-			const timestamp = block.timestamp;
+			const timestamp = block!.timestamp;
 
 			if (timestamp > (this.cache.auction.endTime as number)) {
 				this.cache.auction.state = "COMPLETE";
@@ -245,7 +276,7 @@ export class Nouns {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			listener(data);
@@ -287,7 +318,7 @@ export class Nouns {
 
 	public async getAddress(address: string) {
 		// is this a proper address
-		if (ethers.utils.isAddress(address)) {
+		if (ethers.isAddress(address)) {
 			return address;
 		}
 
@@ -299,6 +330,20 @@ export class Nouns {
 		}
 
 		return null;
+	}
+
+	public async index(...eventNames: string[]) {
+		if (eventNames.length === 0) {
+			return this.Indexer.updateAll();
+		}
+
+		for (const eventName of eventNames) {
+			this.Indexer.update(eventName);
+		}
+	}
+
+	public async queryIndex(eventName: string, queryOptions?: object) {
+		this.Indexer.query(eventName, queryOptions);
 	}
 }
 
@@ -315,10 +360,10 @@ export class Nouns {
 //   "event": "AuctionBid",
 //   "eventSignature": "AuctionBid(uint256,address,uint256,bool)",
 //   "args": [{
-//     "type": "BigNumber",
+//     "type": "BigInt",
 //     "hex": "0x17"
 //   }, "0x4ea324A72848F8A689110E41f891A512eF7BDA7b", {
-//     "type": "BigNumber",
+//     "type": "BigInt",
 //     "hex": "0x2386f26fc10000"
 //   }, false]
 // }

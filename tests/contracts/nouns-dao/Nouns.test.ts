@@ -1,5 +1,5 @@
 import { Nouns } from "../../../src/contracts/nouns-dao/Nouns";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("Nouns tests", () => {
 	test("should construct with string", () => {
@@ -10,7 +10,7 @@ describe("Nouns tests", () => {
 		expect(typeof nouns.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
-		const provider = new ethers.providers.JsonRpcProvider("JSON_RPC_URL");
+		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const nouns = new Nouns(provider, { shouldIgnoreCacheInit: true });
 
 		expect(nouns).toBeDefined();

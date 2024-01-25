@@ -1,12 +1,22 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 import {
 	_NounsForkAuctionHouse as NounsForkAuctionHouse,
-	SupportedEventsType as ForkAuctionHouseEventTypes
+	SupportedEventsType as ForkAuctionHouseEventTypes,
+	SupportedEventMap as AuctionSupportedEventMap
 } from "./NounsForkAuctionHouse";
-import { _NounsForkLogic as NounsForkLogic, SupportedEventsType as ForkLogicEventTypes } from "./NounsForkLogic";
-import { _NounsForkToken as NounsForkToken, SupportedEventsType as ForkTokenEventTypes } from "./NounsForkToken";
+import {
+	_NounsForkLogic as NounsForkLogic,
+	SupportedEventsType as ForkLogicEventTypes,
+	SupportedEventMap as LogicSupportedEventMap
+} from "./NounsForkLogic";
+import {
+	_NounsForkToken as NounsForkToken,
+	SupportedEventsType as ForkTokenEventTypes,
+	SupportedEventMap as TokenSupportedEventMap
+} from "./NounsForkToken";
 
+export interface SupportedEventMap extends AuctionSupportedEventMap, LogicSupportedEventMap, TokenSupportedEventMap {}
 export type SupportedEventsType = ForkAuctionHouseEventTypes | ForkLogicEventTypes | ForkTokenEventTypes;
 
 /**
@@ -15,7 +25,7 @@ export type SupportedEventsType = ForkAuctionHouseEventTypes | ForkLogicEventTyp
  */
 export class NounsFork {
 	private _forkId: number;
-	public provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public nounsForkAuctionHouse: NounsForkAuctionHouse;
 	public nounsForkLogic: NounsForkLogic;
 	public nounsForkToken: NounsForkToken;
@@ -26,9 +36,9 @@ export class NounsFork {
 		...NounsForkToken.supportedEvents
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -53,13 +63,13 @@ export class NounsFork {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		if (NounsForkAuctionHouse.supportedEvents.includes(eventName as ForkAuctionHouseEventTypes)) {
-			this.nounsForkAuctionHouse.on(eventName as ForkAuctionHouseEventTypes, listener);
+			this.nounsForkAuctionHouse.on(eventName as ForkAuctionHouseEventTypes, listener as any);
 		} else if (NounsForkLogic.supportedEvents.includes(eventName as ForkLogicEventTypes)) {
-			this.nounsForkLogic.on(eventName as ForkLogicEventTypes, listener);
+			this.nounsForkLogic.on(eventName as ForkLogicEventTypes, listener as any);
 		} else if (NounsForkToken.supportedEvents.includes(eventName as ForkTokenEventTypes)) {
-			this.nounsForkToken.on(eventName as ForkTokenEventTypes, listener);
+			this.nounsForkToken.on(eventName as ForkTokenEventTypes, listener as any);
 		} else {
 			throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
@@ -73,13 +83,13 @@ export class NounsFork {
 	 * @example
 	 * lilNouns.trigger('ProposalExecuted', {id: 420});
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		if (NounsForkAuctionHouse.supportedEvents.includes(eventName as ForkAuctionHouseEventTypes)) {
-			this.nounsForkAuctionHouse.trigger(eventName as ForkAuctionHouseEventTypes, data);
+			this.nounsForkAuctionHouse.trigger(eventName as ForkAuctionHouseEventTypes, data as any);
 		} else if (NounsForkLogic.supportedEvents.includes(eventName as ForkLogicEventTypes)) {
-			this.nounsForkLogic.trigger(eventName as ForkLogicEventTypes, data);
+			this.nounsForkLogic.trigger(eventName as ForkLogicEventTypes, data as any);
 		} else if (NounsForkToken.supportedEvents.includes(eventName as ForkTokenEventTypes)) {
-			this.nounsForkToken.trigger(eventName as ForkTokenEventTypes, data);
+			this.nounsForkToken.trigger(eventName as ForkTokenEventTypes, data as any);
 		} else {
 			throw new Error(`${eventName} does not have a listener.`);
 		}

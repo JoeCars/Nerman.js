@@ -1,10 +1,20 @@
-import { ethers } from "ethers";
-import { writeFile, readFile } from "fs/promises";
+import { ethers } from "ethers-v6";
+import { writeFile, readFile, mkdir } from "fs/promises";
+import { dirname } from "path";
 import { NOUNS_STARTING_BLOCK } from "../../constants";
 
 //===================================
 // Indexers.
 //===================================
+
+export async function checkDirectory(filePath: string) {
+	try {
+		const directoryPath = dirname(filePath);
+		await mkdir(directoryPath, { recursive: true });
+	} catch (error) {
+		console.error(error);
+	}
+}
 
 /**
  * Finds every instance of the event triggering on the blockchain until the present block, and saves the result to a file.
@@ -17,6 +27,7 @@ import { NOUNS_STARTING_BLOCK } from "../../constants";
  */
 export async function indexEvent(
 	contract: ethers.Contract,
+	provider: ethers.JsonRpcProvider,
 	eventName: string,
 	parser: Function,
 	directoryPath: string,
@@ -24,10 +35,11 @@ export async function indexEvent(
 	isUpdating = false
 ) {
 	const BLOCK_BATCH_SIZE = 1000;
-	const endBlock = await contract.provider.getBlockNumber();
+	const endBlock = await provider.getBlockNumber();
 	const filePath = `${directoryPath}/${eventName}.json`;
+	await checkDirectory(filePath);
 
-	let allEvents: ethers.Event[] = [];
+	let allEvents: ethers.EventLog[] = [];
 	if (isUpdating) {
 		try {
 			const file = await readFile(filePath);
@@ -37,7 +49,11 @@ export async function indexEvent(
 		}
 	}
 	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE) {
-		let events = await contract.queryFilter(eventName, currentBlock, Math.min(currentBlock + BLOCK_BATCH_SIZE, endBlock));
+		let events = (await contract.queryFilter(
+			eventName,
+			currentBlock,
+			Math.min(currentBlock + BLOCK_BATCH_SIZE, endBlock)
+		)) as ethers.EventLog[];
 
 		events = events.map((event) => {
 			return parser(event);
@@ -63,8 +79,8 @@ export async function indexEvent(
  * @param parser a formatter function.
  * @param directoryPath the path to the indexer directory.
  */
-async function parseData(data: { event: ethers.Event }, parser: Function, directoryPath: string) {
-	const filePath = `${directoryPath}/${data.event.event}.json`;
+async function parseData(data: { event: ethers.EventLog }, parser: Function, directoryPath: string) {
+	const filePath = `${directoryPath}/${data.event.eventName}.json`;
 	const formattedData = parser(data);
 	const file = await readFile(filePath);
 	const events = JSON.parse(file.toString()).events;
@@ -122,7 +138,13 @@ async function retrieveLatestBlock(event: string, directoryPath: string) {
  * @param formatter the event formatter
  * @param directoryPath the directory path to the indexed data
  */
-export async function updateIndexedEvent(contract: ethers.Contract, event: string, formatter: Function, directoryPath: string) {
+export async function updateIndexedEvent(
+	contract: ethers.Contract,
+	provider: ethers.JsonRpcProvider,
+	event: string,
+	formatter: Function,
+	directoryPath: string
+) {
 	const latestBlockNumber = await retrieveLatestBlock(event, directoryPath);
-	await indexEvent(contract, event, formatter, directoryPath, latestBlockNumber, true);
+	await indexEvent(contract, provider, event, formatter, directoryPath, latestBlockNumber, true);
 }

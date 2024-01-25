@@ -1,7 +1,24 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as NounsTokenABI } from "../abis/NounsToken.json";
 
+export interface SupportedEventMap {
+	DelegateChanged: EventData.DelegateChanged;
+	DelegateVotesChanged: EventData.DelegateVotesChanged;
+	Transfer: EventData.Transfer;
+	Approval: EventData.Approval;
+	ApprovalForAll: EventData.ApprovalForAll;
+	NounCreated: EventData.NounCreated;
+	DescriptorLocked: EventData.DescriptorLocked;
+	DescriptorUpdated: EventData.DescriptorUpdated;
+	MinterLocked: EventData.MinterLocked;
+	MinterUpdated: EventData.MinterUpdated;
+	NounBurned: EventData.NounBurned;
+	NoundersDAOUpdated: EventData.NoundersDAOUpdated;
+	OwnershipTransferred: EventData.OwnershipTransferred;
+	SeederLocked: EventData.SeederLocked;
+	SeederUpdated: EventData.SeederUpdated;
+}
 const SUPPORTED_NOUNS_FORK_TOKEN_EVENTS = [
 	"DelegateChanged",
 	"DelegateVotesChanged",
@@ -19,14 +36,14 @@ const SUPPORTED_NOUNS_FORK_TOKEN_EVENTS = [
 	"SeederLocked",
 	"SeederUpdated"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_NOUNS_FORK_TOKEN_EVENTS)[number];
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper around the NounsForkToken governance contract.
  */
 export class _NounsForkToken {
 	private _forkId: number;
-	private provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_FORK_TOKEN_EVENTS;
@@ -36,9 +53,9 @@ export class _NounsForkToken {
 		"0xd7bf9e2c54d07582004782004ed20d0336d52669"
 	];
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string, forkId = 0) {
+	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -66,12 +83,12 @@ export class _NounsForkToken {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "DelegateChanged": // WORKING
 				this.Contract.on(
 					"DelegateChanged",
-					async (delegator: string, fromDelegate: string, toDelegate: string, event: ethers.Event) => {
+					async (delegator: string, fromDelegate: string, toDelegate: string, event: ethers.Log) => {
 						let numOfVotesChanged = 0;
 						try {
 							const receipt = await event.getTransactionReceipt();
@@ -97,7 +114,7 @@ export class _NounsForkToken {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -106,7 +123,7 @@ export class _NounsForkToken {
 			case "DelegateVotesChanged": // WORKING
 				this.Contract.on(
 					"DelegateVotesChanged",
-					(delegate: string, previousBalance: number, newBalance: number, event: ethers.Event) => {
+					(delegate: string, previousBalance: number, newBalance: number, event: ethers.Log) => {
 						const data: EventData.DelegateVotesChanged = {
 							delegate: { id: delegate } as Account,
 							previousBalance: previousBalance,
@@ -114,14 +131,14 @@ export class _NounsForkToken {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Transfer": // WORKING
-				this.Contract.on("Transfer", (from: string, to: string, tokenId: number, event: ethers.Event) => {
+				this.Contract.on("Transfer", (from: string, to: string, tokenId: number, event: ethers.Log) => {
 					const data: EventData.Transfer = {
 						from: { id: from } as Account,
 						to: { id: to } as Account,
@@ -129,13 +146,13 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Approval": // WORKING
-				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Event) => {
+				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Log) => {
 					const data: EventData.Approval = {
 						owner: { id: owner } as Account,
 						approved: { id: approved } as Account,
@@ -143,7 +160,7 @@ export class _NounsForkToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -154,31 +171,28 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "ApprovalForAll":
-				this.Contract.on(
-					"ApprovalForAll",
-					(owner: string, operator: string, approved: boolean, event: ethers.Event) => {
-						const data: EventData.ApprovalForAll = {
-							owner: { id: owner } as Account,
-							operator: { id: operator } as Account,
-							approved: approved,
-							event: event
-						};
+				this.Contract.on("ApprovalForAll", (owner: string, operator: string, approved: boolean, event: ethers.Log) => {
+					const data: EventData.ApprovalForAll = {
+						owner: { id: owner } as Account,
+						operator: { id: operator } as Account,
+						approved: approved,
+						event: event
+					};
 
-						listener(data);
-					}
-				);
+					listener(data as any);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NounCreated": // WORKING
-				this.Contract.on("NounCreated", (tokenId: number, seed: NounsTokenSeed, event: ethers.Event) => {
+				this.Contract.on("NounCreated", (tokenId: number, seed: NounsTokenSeed, event: ethers.Log) => {
 					const data: EventData.NounCreated = {
 						id: tokenId,
 						seed: seed,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -189,12 +203,12 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "DescriptorLocked":
-				this.Contract.on("DescriptorLocked", (event: ethers.Event) => {
+				this.Contract.on("DescriptorLocked", (event: ethers.Log) => {
 					const data: EventData.DescriptorLocked = {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -205,13 +219,13 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "DescriptorUpdated":
-				this.Contract.on("DescriptorUpdated", (_descriptor: string, event: ethers.Event) => {
+				this.Contract.on("DescriptorUpdated", (_descriptor: string, event: ethers.Log) => {
 					const data: EventData.DescriptorUpdated = {
 						descriptor: { id: _descriptor } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -222,12 +236,12 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "MinterLocked":
-				this.Contract.on("MinterLocked", (event: ethers.Event) => {
+				this.Contract.on("MinterLocked", (event: ethers.Log) => {
 					const data: EventData.MinterLocked = {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -238,13 +252,13 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "MinterUpdated":
-				this.Contract.on("MinterUpdated", (_minter: string, event: ethers.Event) => {
+				this.Contract.on("MinterUpdated", (_minter: string, event: ethers.Log) => {
 					const data: EventData.MinterUpdated = {
 						minter: { id: _minter } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -255,13 +269,13 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "NounBurned":
-				this.Contract.on("NounBurned", (nounId: number, event: ethers.Event) => {
+				this.Contract.on("NounBurned", (nounId: number, event: ethers.Log) => {
 					const data: EventData.NounBurned = {
 						id: nounId,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -272,13 +286,13 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "NoundersDAOUpdated":
-				this.Contract.on("NoundersDAOUpdated", (_noundersDAO: string, event: ethers.Event) => {
+				this.Contract.on("NoundersDAOUpdated", (_noundersDAO: string, event: ethers.Log) => {
 					const data: EventData.NoundersDAOUpdated = {
 						noundersDAO: { id: _noundersDAO } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -289,14 +303,14 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "OwnershipTransferred":
-				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.OwnershipTransferred = {
 						previousOwner: { id: previousOwner } as Account,
 						newOwner: { id: newOwner } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -307,12 +321,12 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "SeederLocked":
-				this.Contract.on("SeederLocked", (event: ethers.Event) => {
+				this.Contract.on("SeederLocked", (event: ethers.Log) => {
 					const data: EventData.SeederLocked = {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -323,13 +337,13 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "SeederUpdated":
-				this.Contract.on("SeederUpdated", (_seeder: string, event: ethers.Event) => {
+				this.Contract.on("SeederUpdated", (_seeder: string, event: ethers.Log) => {
 					const data: EventData.SeederUpdated = {
 						seeder: { id: _seeder } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -348,7 +362,7 @@ export class _NounsForkToken {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -370,7 +384,7 @@ export class _NounsForkToken {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

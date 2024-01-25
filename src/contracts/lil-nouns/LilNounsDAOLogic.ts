@@ -1,7 +1,24 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 import { Account, EventData, VoteDirection } from "../../types";
 import { default as LilNounsDAOLogicV1ABI } from "../abis/lil-nouns/NounsDAOLogicV1.json";
 
+export interface SupportedEventMap {
+	NewAdmin: EventData.NewAdmin;
+	NewImplementation: EventData.NewImplementation;
+	NewPendingAdmin: EventData.NewPendingAdmin;
+	NewVetoer: EventData.NewVetoer;
+	ProposalCanceled: EventData.ProposalCanceled;
+	ProposalCreated: EventData.ProposalCreated;
+	ProposalCreatedWithRequirements: EventData.ProposalCreatedWithRequirements;
+	ProposalExecuted: EventData.ProposalExecuted;
+	ProposalQueued: EventData.ProposalQueued;
+	ProposalThresholdBPSSet: EventData.ProposalThresholdBPSSet;
+	ProposalVetoed: EventData.ProposalVetoed;
+	QuorumVotesBPSSet: EventData.QuorumVotesBPSSet;
+	VoteCast: EventData.VoteCast;
+	VotingDelaySet: EventData.VotingDelaySet;
+	VotingPeriodSet: EventData.VotingPeriodSet;
+}
 const SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS = [
 	"NewAdmin",
 	"NewImplementation",
@@ -19,20 +36,20 @@ const SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS = [
 	"VotingDelaySet",
 	"VotingPeriodSet"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS)[number];
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class around the LilNounsAuctionHouse contract.
  */
 export class LilNounsDAOLogic {
-	private provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_DAO_LOGIC_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -51,17 +68,17 @@ export class LilNounsDAOLogic {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "NewAdmin":
-				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						oldAdmin: { id: oldAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -69,53 +86,53 @@ export class LilNounsDAOLogic {
 			case "NewImplementation":
 				this.Contract.on(
 					"NewImplementation",
-					(oldImplementation: string, newImplementation: string, event: ethers.Event) => {
+					(oldImplementation: string, newImplementation: string, event: ethers.Log) => {
 						const data: EventData.NewImplementation = {
 							oldImplementation: { id: oldImplementation } as Account,
 							newImplementation: { id: newImplementation } as Account,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewPendingAdmin":
-				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						oldPendingAdmin: { id: oldPendingAdmin } as Account,
 						newPendingAdmin: { id: newPendingAdmin } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewVetoer":
-				this.Contract.on("NewVetoer", (oldVetoer: string, newVetoer: string, event: ethers.Event) => {
+				this.Contract.on("NewVetoer", (oldVetoer: string, newVetoer: string, event: ethers.Log) => {
 					const data: EventData.NewVetoer = {
 						oldVetoer: { id: oldVetoer },
 						newVetoer: { id: newVetoer },
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCanceled":
-				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
 						id: id,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -124,31 +141,31 @@ export class LilNounsDAOLogic {
 				this.Contract.on(
 					"ProposalCreated",
 					(
-						id: ethers.BigNumber,
+						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: ethers.BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // type is bytes[]
-						startBlock: ethers.BigNumber,
-						endBlock: ethers.BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreated = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas, // type is bytes[]
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
 							description: description,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -158,59 +175,59 @@ export class LilNounsDAOLogic {
 				this.Contract.on(
 					"ProposalCreatedWithRequirements",
 					(
-						id: ethers.BigNumber,
+						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: ethers.BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // bytes
-						startBlock: ethers.BigNumber,
-						endBlock: ethers.BigNumber,
-						proposalThreshold: ethers.BigNumber,
-						quorumVotes: ethers.BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
+						proposalThreshold: BigInt,
+						quorumVotes: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas,
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
-							proposalThreshold: proposalThreshold.toNumber(),
-							quorumVotes: quorumVotes.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
+							proposalThreshold: proposalThreshold,
+							quorumVotes: quorumVotes,
 							description: description,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalExecuted":
-				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
 						id: id,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalQueued":
-				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Event) => {
+				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
 						id: id,
 						eta: eta,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -218,26 +235,26 @@ export class LilNounsDAOLogic {
 			case "ProposalThresholdBPSSet":
 				this.Contract.on(
 					"ProposalThresholdBPSSet",
-					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Event) => {
+					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
 							oldProposalThresholdBPS: oldProposalThresholdBPS,
 							newProposalThresholdBPS: newProposalThresholdBPS,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalVetoed":
-				this.Contract.on("ProposalVetoed", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalVetoed", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalVetoed = {
 						id: id,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -245,14 +262,14 @@ export class LilNounsDAOLogic {
 			case "QuorumVotesBPSSet":
 				this.Contract.on(
 					"QuorumVotesBPSSet",
-					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Event) => {
+					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Log) => {
 						const data: EventData.QuorumVotesBPSSet = {
 							oldQuorumVotesBPS: oldQuorumVotesBPS,
 							newQuorumVotesBPS: newQuorumVotesBPS,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -261,14 +278,7 @@ export class LilNounsDAOLogic {
 			case "VoteCast":
 				this.Contract.on(
 					"VoteCast",
-					(
-						voter: string,
-						proposalId: number,
-						support: number,
-						votes: number,
-						reason: string,
-						event: ethers.Event
-					) => {
+					(voter: string, proposalId: number, support: number, votes: number, reason: string, event: ethers.Log) => {
 						const supportDetailed: VoteDirection = support;
 
 						const data: EventData.VoteCast = {
@@ -280,34 +290,34 @@ export class LilNounsDAOLogic {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "VotingDelaySet":
-				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Event) => {
+				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "VotingPeriodSet":
-				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Event) => {
+				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -326,7 +336,7 @@ export class LilNounsDAOLogic {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -344,7 +354,7 @@ export class LilNounsDAOLogic {
 	 * 	reason: "Really good reason."
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

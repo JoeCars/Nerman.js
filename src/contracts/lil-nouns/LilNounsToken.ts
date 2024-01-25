@@ -1,7 +1,25 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as LilNounsTokenABI } from "../abis/lil-nouns/NounsToken.json";
 
+export interface SupportedEventMap {
+	Approval: EventData.Approval;
+	ApprovalForAll: EventData.ApprovalForAll;
+	DelegateChanged: EventData.DelegateChanged;
+	DelegateVotesChanged: EventData.DelegateVotesChanged;
+	DescriptorLocked: EventData.DescriptorLocked;
+	DescriptorUpdated: EventData.DescriptorUpdated;
+	LilNoundersDAOUpdated: EventData.LilNouns.LilNoundersDAOUpdated;
+	MinterLocked: EventData.MinterLocked;
+	MinterUpdated: EventData.MinterUpdated;
+	NounBurned: EventData.NounBurned;
+	NounCreated: EventData.NounCreated;
+	NounsDAOUpdated: EventData.LilNouns.NounsDAOUpdated;
+	OwnershipTransferred: EventData.OwnershipTransferred;
+	SeederLocked: EventData.SeederLocked;
+	SeederUpdated: EventData.SeederUpdated;
+	Transfer: EventData.Transfer;
+}
 const SUPPORTED_LIL_NOUNS_TOKEN_EVENTS = [
 	"Approval",
 	"ApprovalForAll",
@@ -20,20 +38,20 @@ const SUPPORTED_LIL_NOUNS_TOKEN_EVENTS = [
 	"SeederUpdated",
 	"Transfer"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_TOKEN_EVENTS)[number];
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper around the LilNounsToken governance contract.
  */
 export class LilNounsToken {
-	private provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_TOKEN_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -52,43 +70,39 @@ export class LilNounsToken {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "Approval":
-				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Event) => {
+				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Log) => {
 					const data: EventData.Approval = {
 						owner: { id: owner } as Account,
 						approved: { id: approved } as Account,
 						tokenId: tokenId,
 						event: event
 					};
-
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ApprovalForAll":
-				this.Contract.on(
-					"ApprovalForAll",
-					(owner: string, operator: string, approved: boolean, event: ethers.Event) => {
-						const data: EventData.ApprovalForAll = {
-							owner: { id: owner } as Account,
-							operator: { id: operator } as Account,
-							approved: approved,
-							event: event
-						};
+				this.Contract.on("ApprovalForAll", (owner: string, operator: string, approved: boolean, event: ethers.Log) => {
+					const data: EventData.ApprovalForAll = {
+						owner: { id: owner } as Account,
+						operator: { id: operator } as Account,
+						approved: approved,
+						event: event
+					};
 
-						listener(data);
-					}
-				);
+					listener(data as any);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "DelegateChanged":
 				this.Contract.on(
 					"DelegateChanged",
-					async (delegator: string, fromDelegate: string, toDelegate: string, event: ethers.Event) => {
+					async (delegator: string, fromDelegate: string, toDelegate: string, event: ethers.Log) => {
 						let numOfVotesChanged = 0;
 						try {
 							const receipt = await event.getTransactionReceipt();
@@ -113,7 +127,7 @@ export class LilNounsToken {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -122,7 +136,7 @@ export class LilNounsToken {
 			case "DelegateVotesChanged":
 				this.Contract.on(
 					"DelegateVotesChanged",
-					(delegate: string, previousBalance: number, newBalance: number, event: ethers.Event) => {
+					(delegate: string, previousBalance: number, newBalance: number, event: ethers.Log) => {
 						const data: EventData.DelegateVotesChanged = {
 							delegate: { id: delegate } as Account,
 							previousBalance: previousBalance,
@@ -130,145 +144,145 @@ export class LilNounsToken {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "DescriptorLocked":
-				this.Contract.on("DescriptorLocked", (event: ethers.Event) => {
+				this.Contract.on("DescriptorLocked", (event: ethers.Log) => {
 					const data: EventData.DescriptorLocked = {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "DescriptorUpdated":
-				this.Contract.on("DescriptorUpdated", (_descriptor: string, event: ethers.Event) => {
+				this.Contract.on("DescriptorUpdated", (_descriptor: string, event: ethers.Log) => {
 					const data: EventData.DescriptorUpdated = {
 						descriptor: { id: _descriptor } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "LilNoundersDAOUpdated":
-				this.Contract.on("LilNoundersDAOUpdated", (lilnoundersDAO: string, event: ethers.Event) => {
+				this.Contract.on("LilNoundersDAOUpdated", (lilnoundersDAO: string, event: ethers.Log) => {
 					const data: EventData.LilNouns.LilNoundersDAOUpdated = {
 						lilnoundersDAO: { id: lilnoundersDAO } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "MinterLocked":
-				this.Contract.on("MinterLocked", (event: ethers.Event) => {
+				this.Contract.on("MinterLocked", (event: ethers.Log) => {
 					const data: EventData.MinterLocked = {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "MinterUpdated":
-				this.Contract.on("MinterUpdated", (_minter: string, event: ethers.Event) => {
+				this.Contract.on("MinterUpdated", (_minter: string, event: ethers.Log) => {
 					const data: EventData.MinterUpdated = {
 						minter: { id: _minter } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NounBurned":
-				this.Contract.on("NounBurned", (nounId: number, event: ethers.Event) => {
+				this.Contract.on("NounBurned", (nounId: number, event: ethers.Log) => {
 					const data: EventData.NounBurned = {
 						id: nounId,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NounCreated":
-				this.Contract.on("NounCreated", (tokenId: number, seed: NounsTokenSeed, event: ethers.Event) => {
+				this.Contract.on("NounCreated", (tokenId: number, seed: NounsTokenSeed, event: ethers.Log) => {
 					const data: EventData.NounCreated = {
 						id: tokenId,
 						seed: seed,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NounsDAOUpdated":
-				this.Contract.on("NounsDAOUpdated", (nounsDAO: string, event: ethers.Event) => {
+				this.Contract.on("NounsDAOUpdated", (nounsDAO: string, event: ethers.Log) => {
 					const data: EventData.LilNouns.NounsDAOUpdated = {
 						nounsDAO: { id: nounsDAO } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.OwnershipTransferred = {
 						previousOwner: { id: previousOwner } as Account,
 						newOwner: { id: newOwner } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "SeederLocked":
-				this.Contract.on("SeederLocked", (event: ethers.Event) => {
+				this.Contract.on("SeederLocked", (event: ethers.Log) => {
 					const data: EventData.SeederLocked = {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "SeederUpdated":
-				this.Contract.on("SeederUpdated", (_seeder: string, event: ethers.Event) => {
+				this.Contract.on("SeederUpdated", (_seeder: string, event: ethers.Log) => {
 					const data: EventData.SeederUpdated = {
 						seeder: { id: _seeder } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Transfer":
-				this.Contract.on("Transfer", (from: string, to: string, tokenId: number, event: ethers.Event) => {
+				this.Contract.on("Transfer", (from: string, to: string, tokenId: number, event: ethers.Log) => {
 					const data: EventData.Transfer = {
 						from: { id: from } as Account,
 						to: { id: to } as Account,
@@ -276,7 +290,7 @@ export class LilNounsToken {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -295,7 +309,7 @@ export class LilNounsToken {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -316,7 +330,7 @@ export class LilNounsToken {
 	 * 	}
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

@@ -57,11 +57,27 @@ describe("_fetchNewCasts tests", () => {
 		const fetchMock = jest.fn(() => {
 			return data[i++];
 		});
+		const fetchAuthorMock = jest.fn(() => {
+			return "r.f. kuang";
+		});
 
-		const response = await _fetchNewCasts(0, fetchMock as any);
+		const response = await _fetchNewCasts(0, fetchMock as any, fetchAuthorMock as any);
 
 		expect(response.newestTimestamp).toEqual(100);
 		expect(response.casts.length).toEqual(1);
+		expect(fetchMock).toHaveBeenCalledTimes(1);
+		expect(fetchAuthorMock).toHaveBeenCalledTimes(1);
+	});
+
+	test("handles 502 error", async () => {
+		const fetchMock = jest.fn(() => {
+			throw new Error("Unable to fetch casts. 502 Bad Gateway");
+		});
+
+		const response = await _fetchNewCasts(0, fetchMock as any);
+
+		expect(response.newestTimestamp).toEqual(0);
+		expect(response.casts.length).toEqual(0);
 		expect(fetchMock).toHaveBeenCalledTimes(1);
 	});
 });

@@ -1,7 +1,50 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers-v6";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsDAOLogicV3ABI } from "../abis/NounsDAOLogicV3.json";
 
+export interface SupportedEventMap {
+	DAOWithdrawNounsFromEscrow: EventData.DAOWithdrawNounsFromEscrow;
+	ERC20TokensToIncludeInForkSet: EventData.ERC20TokensToIncludeInForkSet;
+	EscrowedToFork: EventData.EscrowedToFork;
+	ExecuteFork: EventData.ExecuteFork;
+	ForkDAODeployerSet: EventData.ForkDAODeployerSet;
+	ForkPeriodSet: EventData.ForkPeriodSet;
+	ForkThresholdSet: EventData.ForkThresholdSet;
+	JoinFork: EventData.JoinFork;
+	LastMinuteWindowSet: EventData.LastMinuteWindowSet;
+	MaxQuorumVotesBPSSet: EventData.MaxQuorumVotesBPSSet;
+	MinQuorumVotesBPSSet: EventData.MinQuorumVotesBPSSet;
+	NewAdmin: EventData.NewAdmin;
+	NewImplementation: EventData.NewImplementation;
+	NewPendingAdmin: EventData.NewPendingAdmin;
+	NewPendingVetoer: EventData.NewPendingVetoer;
+	NewVetoer: EventData.NewVetoer;
+	ObjectionPeriodDurationSet: EventData.ObjectionPeriodDurationSet;
+	ProposalCanceled: EventData.ProposalCanceled;
+	ProposalCreated: EventData.ProposalCreated;
+	ProposalCreatedOnTimelockV1: EventData.ProposalCreatedOnTimelockV1;
+	ProposalCreatedWithRequirements: EventData.ProposalCreatedWithRequirements;
+	ProposalDescriptionUpdated: EventData.ProposalDescriptionUpdated;
+	ProposalExecuted: EventData.ProposalExecuted;
+	ProposalObjectionPeriodSet: EventData.ProposalObjectionPeriodSet;
+	ProposalQueued: EventData.ProposalQueued;
+	ProposalThresholdBPSSet: EventData.ProposalThresholdBPSSet;
+	ProposalTransactionsUpdated: EventData.ProposalTransactionsUpdated;
+	ProposalUpdatablePeriodSet: EventData.ProposalUpdatablePeriodSet;
+	ProposalUpdated: EventData.ProposalUpdated;
+	ProposalVetoed: EventData.ProposalVetoed;
+	QuorumCoefficientSet: EventData.QuorumCoefficientSet;
+	QuorumVotesBPSSet: EventData.QuorumVotesBPSSet;
+	RefundableVote: EventData.RefundableVote;
+	SignatureCancelled: EventData.SignatureCancelled;
+	TimelocksAndAdminSet: EventData.TimelocksAndAdminSet;
+	VoteCast: EventData.VoteCast;
+	VoteSnapshotBlockSwitchProposalIdSet: EventData.VoteSnapshotBlockSwitchProposalIdSet;
+	VotingDelaySet: EventData.VotingDelaySet;
+	VotingPeriodSet: EventData.VotingPeriodSet;
+	Withdraw: EventData.Withdraw;
+	WithdrawFromForkEscrow: EventData.WithdrawFromForkEscrow;
+}
 const SUPPORTED_NOUNS_DAO_EVENTS = [
 	"DAOWithdrawNounsFromEscrow",
 	"ERC20TokensToIncludeInForkSet",
@@ -45,20 +88,20 @@ const SUPPORTED_NOUNS_DAO_EVENTS = [
 	"Withdraw",
 	"WithdrawFromForkEscrow"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_EVENTS)[number];
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class around the NounsDAO contract.
  */
 export class _NounsDAO {
-	private provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -78,17 +121,17 @@ export class _NounsDAO {
 	 * 	console.log(data.proposalId);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "DAOWithdrawNounsFromEscrow":
-				this.Contract.on("DAOWithdrawNounsFromEscrow", (tokenIds: number[], to: string, event: ethers.Event) => {
+				this.Contract.on("DAOWithdrawNounsFromEscrow", (tokenIds: number[], to: string, event: ethers.Log) => {
 					const data = {
 						tokenIds: tokenIds,
 						to: { id: to } as Account,
 						event: event
 					} as EventData.DAOWithdrawNounsFromEscrow;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -96,14 +139,14 @@ export class _NounsDAO {
 			case "ERC20TokensToIncludeInForkSet":
 				this.Contract.on(
 					"ERC20TokensToIncludeInForkSet",
-					(oldErc20Tokens: string[], newErc20tokens: string[], event: ethers.Event) => {
+					(oldErc20Tokens: string[], newErc20tokens: string[], event: ethers.Log) => {
 						const data = {
 							oldErc20Tokens: oldErc20Tokens,
 							newErc20tokens: newErc20tokens,
 							event: event
 						} as EventData.ERC20TokensToIncludeInForkSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -115,10 +158,10 @@ export class _NounsDAO {
 					(
 						forkId: number,
 						owner: string,
-						tokenIds: number[],
-						proposalIds: number[],
+						tokenIds: BigInt[],
+						proposalIds: BigInt[],
 						reason: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							forkId: forkId,
@@ -129,7 +172,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.EscrowedToFork;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -142,9 +185,9 @@ export class _NounsDAO {
 						forkId: number,
 						forkTreasury: string,
 						forkToken: string,
-						forkEndTimestamp: number,
-						tokensInEscrow: number,
-						event: ethers.Event
+						forkEndTimestamp: BigInt,
+						tokensInEscrow: BigInt,
+						event: ethers.Log
 					) => {
 						const data = {
 							forkId: forkId,
@@ -155,7 +198,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ExecuteFork;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -164,28 +207,28 @@ export class _NounsDAO {
 			case "ForkDAODeployerSet":
 				this.Contract.on(
 					"ForkDAODeployerSet",
-					(oldForkDAODeployer: string, newForkDAODeployer: string, event: ethers.Event) => {
+					(oldForkDAODeployer: string, newForkDAODeployer: string, event: ethers.Log) => {
 						const data = {
 							oldForkDAODeployer: { id: oldForkDAODeployer } as Account,
 							newForkDAODeployer: { id: newForkDAODeployer } as Account,
 							event: event
 						} as EventData.ForkDAODeployerSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ForkPeriodSet":
-				this.Contract.on("ForkPeriodSet", (oldForkPeriod: number, newForkPeriod: number, event: ethers.Event) => {
+				this.Contract.on("ForkPeriodSet", (oldForkPeriod: BigInt, newForkPeriod: BigInt, event: ethers.Log) => {
 					const data = {
 						oldForkPeriod: oldForkPeriod,
 						newForkPeriod: newForkPeriod,
 						event: event
 					} as EventData.ForkPeriodSet;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -193,14 +236,14 @@ export class _NounsDAO {
 			case "ForkThresholdSet":
 				this.Contract.on(
 					"ForkThresholdSet",
-					(oldForkThreshold: number, newForkThreshold: number, event: ethers.Event) => {
+					(oldForkThreshold: BigInt, newForkThreshold: BigInt, event: ethers.Log) => {
 						const data = {
 							oldForkThreshold: oldForkThreshold,
 							newForkThreshold: newForkThreshold,
 							event: event
 						} as EventData.ForkThresholdSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -212,10 +255,10 @@ export class _NounsDAO {
 					(
 						forkId: number,
 						owner: string,
-						tokenIds: number[],
-						proposalIds: number[],
+						tokenIds: BigInt[],
+						proposalIds: BigInt[],
 						reason: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							forkId: forkId,
@@ -226,7 +269,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.JoinFork;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -235,14 +278,14 @@ export class _NounsDAO {
 			case "LastMinuteWindowSet":
 				this.Contract.on(
 					"LastMinuteWindowSet",
-					(oldLastMinuteWindowInBlocks: number, newLastMinuteWindowInBlocks: number, event: ethers.Event) => {
+					(oldLastMinuteWindowInBlocks: number, newLastMinuteWindowInBlocks: number, event: ethers.Log) => {
 						const data = {
 							oldLastMinuteWindowInBlocks: oldLastMinuteWindowInBlocks,
 							newLastMinuteWindowInBlocks: newLastMinuteWindowInBlocks,
 							event: event
 						} as EventData.LastMinuteWindowSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -251,14 +294,14 @@ export class _NounsDAO {
 			case "MaxQuorumVotesBPSSet":
 				this.Contract.on(
 					"MaxQuorumVotesBPSSet",
-					(oldMaxQuorumVotesBPS: number, newMaxQuorumVotesBPS: number, event: ethers.Event) => {
+					(oldMaxQuorumVotesBPS: number, newMaxQuorumVotesBPS: number, event: ethers.Log) => {
 						const data = {
 							oldMaxQuorumVotesBPS: oldMaxQuorumVotesBPS,
 							newMaxQuorumVotesBPS: newMaxQuorumVotesBPS,
 							event: event
 						} as EventData.MaxQuorumVotesBPSSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -267,14 +310,14 @@ export class _NounsDAO {
 			case "MinQuorumVotesBPSSet":
 				this.Contract.on(
 					"MinQuorumVotesBPSSet",
-					(oldMinQuorumVotesBPS: number, newMinQuorumVotesBPS: number, event: ethers.Event) => {
+					(oldMinQuorumVotesBPS: number, newMinQuorumVotesBPS: number, event: ethers.Log) => {
 						const data = {
 							oldMinQuorumVotesBPS: oldMinQuorumVotesBPS,
 							newMinQuorumVotesBPS: newMinQuorumVotesBPS,
 							event: event
 						} as EventData.MinQuorumVotesBPSSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -287,14 +330,14 @@ export class _NounsDAO {
 			// **********************************************************
 			case "NewAdmin":
 				/// @notice Emitted when pendingAdmin is accepted, which means admin is updated
-				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewAdmin", (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						oldAdmin: { id: oldAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -308,14 +351,14 @@ export class _NounsDAO {
 				/// @notice Emitted when implementation is changed
 				this.Contract.on(
 					"NewImplementation",
-					(oldImplementation: string, newImplementation: string, event: ethers.Event) => {
+					(oldImplementation: string, newImplementation: string, event: ethers.Log) => {
 						const data: EventData.NewImplementation = {
 							oldImplementation: { id: oldImplementation } as Account,
 							newImplementation: { id: newImplementation } as Account,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -328,14 +371,14 @@ export class _NounsDAO {
 			// **********************************************************
 			case "NewPendingAdmin":
 				/// @notice Emitted when pendingAdmin is changed
-				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Event) => {
+				this.Contract.on("NewPendingAdmin", (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						oldPendingAdmin: { id: oldPendingAdmin } as Account,
 						newPendingAdmin: { id: newPendingAdmin } as Account,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -343,28 +386,28 @@ export class _NounsDAO {
 			case "NewPendingVetoer":
 				this.Contract.on(
 					"NewPendingVetoer",
-					(oldPendingVetoer: string, newPendingVetoer: string, event: ethers.Event) => {
+					(oldPendingVetoer: string, newPendingVetoer: string, event: ethers.Log) => {
 						const data = {
 							oldPendingVetoer: { id: oldPendingVetoer } as Account,
 							newPendingVetoer: { id: newPendingVetoer } as Account,
 							event: event
 						} as EventData.NewPendingVetoer;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewVetoer":
-				this.Contract.on("NewVetoer", (oldVetoer: string, newVetoer: string, event: ethers.Event) => {
+				this.Contract.on("NewVetoer", (oldVetoer: string, newVetoer: string, event: ethers.Log) => {
 					const data: EventData.NewVetoer = {
 						oldVetoer: { id: oldVetoer },
 						newVetoer: { id: newVetoer },
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -375,7 +418,7 @@ export class _NounsDAO {
 					(
 						oldObjectionPeriodDurationInBlocks: number,
 						newObjectionPeriodDurationInBlocks: number,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							oldObjectionPeriodDurationInBlocks: oldObjectionPeriodDurationInBlocks,
@@ -383,7 +426,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ObjectionPeriodDurationSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -397,13 +440,13 @@ export class _NounsDAO {
 
 			case "ProposalCanceled":
 				// @notice An event emitted when a proposal has been canceled
-				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
 						id: id,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -420,44 +463,44 @@ export class _NounsDAO {
 				this.Contract.on(
 					"ProposalCreated",
 					(
-						id: BigNumber,
+						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // type is bytes[]
-						startBlock: BigNumber,
-						endBlock: BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreated = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas, // type is bytes[]
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
 							description: description,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCreatedOnTimelockV1":
-				this.Contract.on("ProposalCreatedOnTimelockV1", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalCreatedOnTimelockV1", (id: number, event: ethers.Log) => {
 					const data = {
 						id: id,
 						event: event
 					} as EventData.ProposalCreatedOnTimelockV1;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -474,73 +517,73 @@ export class _NounsDAO {
 				this.Contract.on(
 					"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
 					(
-						id: BigNumber,
+						id: BigInt,
 						proposer: string,
 						signers: string[],
 						targets: string[],
-						values: BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // bytes
-						startBlock: BigNumber,
-						endBlock: BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
 						updatePeriodEndBlock: number,
-						proposalThreshold: BigNumber,
-						quorumVotes: BigNumber,
+						proposalThreshold: BigInt,
+						quorumVotes: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							signers: signers,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas,
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
 							updatePeriodEndBlock: updatePeriodEndBlock,
-							proposalThreshold: proposalThreshold.toNumber(),
-							quorumVotes: quorumVotes.toNumber(),
+							proposalThreshold: proposalThreshold,
+							quorumVotes: quorumVotes,
 							description: description,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.Contract.on(
 					"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
 					(
-						id: BigNumber,
+						id: BigInt,
 						proposer: string,
 						targets: string[],
-						values: BigNumber[],
+						values: BigInt[],
 						signatures: string[],
 						calldatas: any[], // bytes
-						startBlock: BigNumber,
-						endBlock: BigNumber,
-						proposalThreshold: BigNumber,
-						quorumVotes: BigNumber,
+						startBlock: BigInt,
+						endBlock: BigInt,
+						proposalThreshold: BigInt,
+						quorumVotes: BigInt,
 						description: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
-							id: id.toNumber(),
+							id: id,
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
 							signatures: signatures,
 							calldatas: calldatas,
-							startBlock: startBlock.toNumber(),
-							endBlock: endBlock.toNumber(),
-							proposalThreshold: proposalThreshold.toNumber(),
-							quorumVotes: quorumVotes.toNumber(),
+							startBlock: startBlock,
+							endBlock: endBlock,
+							proposalThreshold: proposalThreshold,
+							quorumVotes: quorumVotes,
 							description: description,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -549,7 +592,7 @@ export class _NounsDAO {
 			case "ProposalDescriptionUpdated":
 				this.Contract.on(
 					"ProposalDescriptionUpdated",
-					(id: number, proposer: string, description: string, updatedMessage: string, event: ethers.Event) => {
+					(id: number, proposer: string, description: string, updatedMessage: string, event: ethers.Log) => {
 						const data = {
 							id: id,
 							proposer: { id: proposer } as Account,
@@ -558,7 +601,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ProposalDescriptionUpdated;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -566,12 +609,12 @@ export class _NounsDAO {
 
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
 				// An event emitted when a proposal has been executed in the NounsDAOExecutor
-				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
 						id: id,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -579,14 +622,14 @@ export class _NounsDAO {
 			case "ProposalObjectionPeriodSet":
 				this.Contract.on(
 					"ProposalObjectionPeriodSet",
-					(id: number, objectionPeriodEndBlock: number, event: ethers.Event) => {
+					(id: number, objectionPeriodEndBlock: number, event: ethers.Log) => {
 						const data = {
 							id: id,
 							objectionPeriodEndBlock: objectionPeriodEndBlock,
 							event: event
 						} as EventData.ProposalObjectionPeriodSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -601,13 +644,13 @@ export class _NounsDAO {
 			case "ProposalQueued":
 				/// @notice An event emitted when a proposal has been queued in the NounsDAOExecutor
 				/// @param eta The timestamp that the proposal will be available for execution, set once the vote succeeds
-				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Event) => {
+				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
 						id: id,
 						eta: eta,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -621,14 +664,14 @@ export class _NounsDAO {
 				/// @notice Emitted when proposal threshold basis points is set
 				this.Contract.on(
 					"ProposalThresholdBPSSet",
-					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Event) => {
+					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
 							oldProposalThresholdBPS: oldProposalThresholdBPS,
 							newProposalThresholdBPS: newProposalThresholdBPS,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -645,7 +688,7 @@ export class _NounsDAO {
 						signatures: string[],
 						calldatas: any[],
 						updateMessage: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							id: id,
@@ -658,7 +701,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ProposalTransactionsUpdated;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -670,7 +713,7 @@ export class _NounsDAO {
 					(
 						oldProposalUpdatablePeriodInBlocks: number,
 						newProposalUpdatablePeriodInBlocks: number,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							oldProposalUpdatablePeriodInBlocks: oldProposalUpdatablePeriodInBlocks,
@@ -678,7 +721,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ProposalUpdatablePeriodSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -696,7 +739,7 @@ export class _NounsDAO {
 						calldatas: any[],
 						description: string,
 						updateMessage: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							id: id,
@@ -710,7 +753,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.ProposalUpdated;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -723,12 +766,12 @@ export class _NounsDAO {
 			// **********************************************************
 			case "ProposalVetoed":
 				/// @notice An event emitted when a proposal has been vetoed by vetoAddress
-				this.Contract.on("ProposalVetoed", (id: number, event: ethers.Event) => {
+				this.Contract.on("ProposalVetoed", (id: number, event: ethers.Log) => {
 					const data: EventData.ProposalVetoed = {
 						id: id,
 						event: event
 					};
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -736,14 +779,14 @@ export class _NounsDAO {
 			case "QuorumCoefficientSet":
 				this.Contract.on(
 					"QuorumCoefficientSet",
-					(oldQuorumCoefficient: number, newQuorumCoefficient: number, event: ethers.Event) => {
+					(oldQuorumCoefficient: number, newQuorumCoefficient: number, event: ethers.Log) => {
 						const data = {
 							oldQuorumCoefficient: oldQuorumCoefficient,
 							newQuorumCoefficient: newQuorumCoefficient,
 							event: event
 						} as EventData.QuorumCoefficientSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -758,14 +801,14 @@ export class _NounsDAO {
 				/// @notice Emitted when quorum votes basis points is set
 				this.Contract.on(
 					"QuorumVotesBPSSet",
-					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Event) => {
+					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Log) => {
 						const data: EventData.QuorumVotesBPSSet = {
 							oldQuorumVotesBPS: oldQuorumVotesBPS,
 							newQuorumVotesBPS: newQuorumVotesBPS,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -774,7 +817,7 @@ export class _NounsDAO {
 			case "RefundableVote":
 				this.Contract.on(
 					"RefundableVote",
-					(voter: string, refundAmount: number, refundSent: boolean, event: ethers.Event) => {
+					(voter: string, refundAmount: number, refundSent: boolean, event: ethers.Log) => {
 						const data = {
 							voter: { id: voter } as Account,
 							refundAmount: refundAmount,
@@ -782,21 +825,21 @@ export class _NounsDAO {
 							event: event
 						} as EventData.RefundableVote;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "SignatureCancelled":
-				this.Contract.on("SignatureCancelled", (signer: string, sig: any, event: ethers.Event) => {
+				this.Contract.on("SignatureCancelled", (signer: string, sig: any, event: ethers.Log) => {
 					const data = {
 						signer: { id: signer } as Account,
 						sig: sig,
 						event: event
 					} as EventData.SignatureCancelled;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -804,7 +847,7 @@ export class _NounsDAO {
 			case "TimelocksAndAdminSet":
 				this.Contract.on(
 					"TimelocksAndAdminSet",
-					(timelock: string, timelockV1: string, admin: string, event: ethers.Event) => {
+					(timelock: string, timelockV1: string, admin: string, event: ethers.Log) => {
 						const data = {
 							timelock: { id: timelock } as Account,
 							timelockV1: { id: timelockV1 } as Account,
@@ -812,7 +855,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.TimelocksAndAdminSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -828,14 +871,7 @@ export class _NounsDAO {
 
 				this.Contract.on(
 					"VoteCast",
-					(
-						voter: string,
-						proposalId: number,
-						support: number,
-						votes: number,
-						reason: string,
-						event: ethers.Event
-					) => {
+					(voter: string, proposalId: number, support: number, votes: number, reason: string, event: ethers.Log) => {
 						const supportDetailed: VoteDirection = support;
 
 						const data: EventData.VoteCast = {
@@ -847,7 +883,7 @@ export class _NounsDAO {
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -859,7 +895,7 @@ export class _NounsDAO {
 					(
 						oldVoteSnapshotBlockSwitchProposalId: number,
 						newVoteSnapshotBlockSwitchProposalId: number,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							oldVoteSnapshotBlockSwitchProposalId: oldVoteSnapshotBlockSwitchProposalId,
@@ -867,7 +903,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.VoteSnapshotBlockSwitchProposalIdSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -880,14 +916,14 @@ export class _NounsDAO {
 			// **********************************************************
 			case "VotingDelaySet":
 				/// @notice An event emitted when the voting delay is set
-				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Event) => {
+				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -899,27 +935,27 @@ export class _NounsDAO {
 			// **********************************************************
 			case "VotingPeriodSet":
 				/// @notice An event emitted when the voting period is set
-				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Event) => {
+				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Withdraw":
-				this.Contract.on("Withdraw", (amount: number, sent: boolean, event: ethers.Event) => {
+				this.Contract.on("Withdraw", (amount: number, sent: boolean, event: ethers.Log) => {
 					const data = {
 						amount: amount,
 						sent: sent,
 						event: event
 					} as EventData.Withdraw;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -927,7 +963,7 @@ export class _NounsDAO {
 			case "WithdrawFromForkEscrow":
 				this.Contract.on(
 					"WithdrawFromForkEscrow",
-					(forkId: number, owner: string, tokenIds: number[], event: ethers.Event) => {
+					(forkId: number, owner: string, tokenIds: BigInt[], event: ethers.Log) => {
 						const data = {
 							forkId: forkId,
 							owner: { id: owner } as Account,
@@ -935,7 +971,7 @@ export class _NounsDAO {
 							event: event
 						} as EventData.WithdrawFromForkEscrow;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -965,14 +1001,14 @@ export class _NounsDAO {
 			if (eventName === "ProposalCreatedWithRequirements") {
 				this.Contract.off(
 					"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
-					listener as ethers.providers.Listener
+					listener as ethers.Listener
 				);
 				this.Contract.off(
 					"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
-					listener as ethers.providers.Listener
+					listener as ethers.Listener
 				);
 			} else {
-				this.Contract.off(eventName, listener as ethers.providers.Listener);
+				this.Contract.off(eventName, listener as ethers.Listener);
 			}
 		}
 		this.registeredListeners.delete(eventName);
@@ -991,7 +1027,7 @@ export class _NounsDAO {
 	 * 	reason: "Really good reason."
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

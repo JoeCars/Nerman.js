@@ -74,7 +74,7 @@ export async function _fetchNounsCasts(pageSize = 5, pageToken = "") {
 		throw new Error(`Unable to fetch casts. ${res.status} ${res.statusText}`);
 	}
 
-	const body: CastResponse = await res.json();
+	const body = (await res.json()) as CastResponse;
 	return body;
 }
 
@@ -109,25 +109,33 @@ export function _formatCastData(message: AugmentedMessage): EventData.Farcaster.
  * @param previousTimestamp Previous timestamp.
  * @returns All Nouns Casts and the newest timestamp.
  */
-export async function _fetchNewCasts(previousTimestamp: number, fetchCasts = _fetchNounsCasts) {
+export async function _fetchNewCasts(previousTimestamp: number, fetchCasts = _fetchNounsCasts, _fetchAuthor = _fetchUsername) {
 	let nextPageToken = "";
 	let newestTimestamp = previousTimestamp;
 	const casts: EventData.Farcaster.NounsCast[] = [];
 	let isDone = false;
 
 	while (!isDone) {
-		const response = await fetchCasts(5, nextPageToken);
-		for (const message of response.messages) {
-			if (message.data.timestamp <= previousTimestamp) {
-				isDone = true;
-				break;
+		try {
+			const response = await fetchCasts(5, nextPageToken);
+			for (const message of response.messages) {
+				if (message.data.timestamp <= previousTimestamp) {
+					isDone = true;
+					break;
+				}
+				message.author = await _fetchAuthor(message.data.fid);
+				newestTimestamp = Math.max(newestTimestamp, message.data.timestamp);
+				casts.unshift(_formatCastData(message));
 			}
-			message.author = await _fetchUsername(message.data.fid);
-			newestTimestamp = Math.max(newestTimestamp, message.data.timestamp);
-			casts.unshift(_formatCastData(message));
+			nextPageToken = response.nextPageToken;
+			isDone = isDone || nextPageToken === "";
+		} catch (error: any) {
+			if (error.message === "Unable to fetch casts. 502 Bad Gateway") {
+				isDone = true;
+			} else {
+				throw error;
+			}
 		}
-		nextPageToken = response.nextPageToken;
-		isDone = isDone || nextPageToken === "";
 	}
 
 	return {
@@ -157,7 +165,7 @@ export async function _fetchUsername(fid: number) {
 		throw new Error(`Unable to fetch usernames. ${res.status} ${res.statusText}`);
 	}
 
-	const body: { proofs: { name: string }[] } = await res.json();
+	const body = (await res.json()) as { proofs: { name: string }[] };
 	const proofs = body.proofs;
 	const names = proofs.map((proof) => proof.name);
 

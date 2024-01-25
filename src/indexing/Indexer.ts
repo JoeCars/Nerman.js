@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 import { IndexerReader } from "./IndexerReader";
 import { IndexerWriter } from "./IndexerWriter";
@@ -12,7 +12,7 @@ export class Indexer {
 	 * @param provider The blockchain network connection needed to store data.
 	 * @param directoryPath The indexer directory for storing events.
 	 */
-	public constructor(provider: ethers.providers.JsonRpcProvider | string, directoryPath: string) {
+	public constructor(provider: ethers.JsonRpcProvider | string, directoryPath: string) {
 		this.reader = new IndexerReader(directoryPath);
 		this.writer = new IndexerWriter(provider, directoryPath);
 	}
@@ -23,7 +23,7 @@ export class Indexer {
 	 * @param queryOptions Object with filter options for the indexed events.
 	 * @returns List of filtered indexed events.
 	 */
-	public async query(eventName: string, queryOptions: object) {
+	public async query(eventName: string, queryOptions?: object) {
 		return this.reader.query(eventName, queryOptions);
 	}
 

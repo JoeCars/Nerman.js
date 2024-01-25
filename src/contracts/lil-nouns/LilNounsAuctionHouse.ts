@@ -1,7 +1,19 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as LilNounsAuctionHouseABI } from "../abis/lil-nouns/NounsAuctionHouse.json";
 
+export interface SupportedEventMap {
+	AuctionCreated: EventData.AuctionCreated;
+	AuctionBid: EventData.AuctionBid;
+	AuctionExtended: EventData.AuctionExtended;
+	AuctionSettled: EventData.AuctionSettled;
+	AuctionTimeBufferUpdated: EventData.AuctionTimeBufferUpdated;
+	AuctionReservePriceUpdated: EventData.AuctionReservePriceUpdated;
+	AuctionMinBidIncrementPercentageUpdated: EventData.AuctionMinBidIncrementPercentageUpdated;
+	OwnershipTransferred: EventData.OwnershipTransferred;
+	Paused: EventData.Paused;
+	Unpaused: EventData.Unpaused;
+}
 const SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS = [
 	"AuctionCreated",
 	"AuctionBid",
@@ -14,21 +26,20 @@ const SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS = [
 	"Paused",
 	"Unpaused"
 ] as const;
-
 export type SupportedEventsType = (typeof SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS)[number];
 
 /**
  * A wrapper class around the LilNounsAuctionHouse contract.
  */
 export class LilNounsAuctionHouse {
-	private provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_LIL_NOUNS_AUCTION_HOUSE_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -51,10 +62,10 @@ export class LilNounsAuctionHouse {
 	 * 	console.log(data.id);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AuctionBid":
-				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Event) => {
+				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Log) => {
 					const data: EventData.AuctionBid = {
 						id: nounId,
 						amount: value,
@@ -63,37 +74,34 @@ export class LilNounsAuctionHouse {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionCreated":
-				this.Contract.on(
-					"AuctionCreated",
-					(nounId: number, startTime: number, endTime: number, event: ethers.Event) => {
-						const data: EventData.AuctionCreated = {
-							id: nounId,
-							startTime: startTime,
-							endTime: endTime,
-							event: event
-						};
+				this.Contract.on("AuctionCreated", (nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
+					const data: EventData.AuctionCreated = {
+						id: nounId,
+						startTime: startTime,
+						endTime: endTime,
+						event: event
+					};
 
-						listener(data);
-					}
-				);
+					listener(data as any);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionExtended":
-				this.Contract.on("AuctionExtended", (nounId: number, endTime: number, event: ethers.Event) => {
+				this.Contract.on("AuctionExtended", (nounId: number, endTime: number, event: ethers.Log) => {
 					const data: EventData.AuctionExtended = {
 						id: nounId,
 						endTime: endTime,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -101,32 +109,32 @@ export class LilNounsAuctionHouse {
 			case "AuctionMinBidIncrementPercentageUpdated":
 				this.Contract.on(
 					"AuctionMinBidIncrementPercentageUpdated",
-					(minBidIncrementPercentage: number, event: ethers.Event) => {
+					(minBidIncrementPercentage: number, event: ethers.Log) => {
 						const data: EventData.AuctionMinBidIncrementPercentageUpdated = {
 							minBidIncrementPercentage: minBidIncrementPercentage,
 							event: event
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionReservePriceUpdated":
-				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: number, event: ethers.Event) => {
+				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: number, event: ethers.Log) => {
 					const data: EventData.AuctionReservePriceUpdated = {
 						reservePrice: reservePrice,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionSettled":
-				this.Contract.on("AuctionSettled", (nounId: number, winner: string, amount: number, event: ethers.Event) => {
+				this.Contract.on("AuctionSettled", (nounId: number, winner: string, amount: number, event: ethers.Log) => {
 					const data: EventData.AuctionSettled = {
 						id: nounId,
 						winner: { id: winner } as Account,
@@ -134,56 +142,56 @@ export class LilNounsAuctionHouse {
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionTimeBufferUpdated":
-				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: number, event: ethers.Event) => {
+				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: number, event: ethers.Log) => {
 					const data: EventData.AuctionTimeBufferUpdated = {
 						timeBuffer: timeBuffer,
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.OwnershipTransferred = {
 						previousOwner: { id: previousOwner },
 						newOwner: { id: newOwner },
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Paused":
-				this.Contract.on("Paused", (address: string, event: ethers.Event) => {
+				this.Contract.on("Paused", (address: string, event: ethers.Log) => {
 					const data: EventData.Paused = {
 						address: { id: address },
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Unpaused":
-				this.Contract.on("Unpaused", (address: string, event: ethers.Event) => {
+				this.Contract.on("Unpaused", (address: string, event: ethers.Log) => {
 					const data: EventData.Unpaused = {
 						address: { id: address },
 						event: event
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -202,7 +210,7 @@ export class LilNounsAuctionHouse {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -218,7 +226,7 @@ export class LilNounsAuctionHouse {
 	 * 	endTime: 1689763583
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

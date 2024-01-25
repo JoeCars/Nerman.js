@@ -1,5 +1,5 @@
 import { NounsFork } from "../../../src/contracts/nouns-fork/NounsFork";
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 describe("NounsFork tests", () => {
 	test("should construct with string", () => {
@@ -10,7 +10,7 @@ describe("NounsFork tests", () => {
 		expect(typeof nounsFork.provider).toBe("object");
 	});
 	test("should construct with provider", () => {
-		const provider = new ethers.providers.JsonRpcProvider("JSON_RPC_URL");
+		const provider = new ethers.JsonRpcProvider("JSON_RPC_URL");
 		const nounsFork = new NounsFork(provider);
 
 		expect(nounsFork).toBeDefined();

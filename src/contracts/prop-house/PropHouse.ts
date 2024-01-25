@@ -1,22 +1,30 @@
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers";
 import { ChainId, OrderDirection, PropHouse as PropHouseSDK } from "@prophouse/sdk";
 import { OrderByProposalFields, OrderByVoteFields } from "@prophouse/sdk/dist/gql/starknet/graphql";
-import { schedule } from "node-cron";
+import { schedule, ScheduledTask } from "node-cron";
 import { Account, EventData } from "../../types";
 
+export interface SupportedEventMap {
+	RoundCreated: EventData.PropHouse.RoundCreated;
+	HouseCreated: EventData.PropHouse.HouseCreated;
+	ProposalSubmitted: EventData.PropHouse.ProposalSubmitted;
+	VoteCast: EventData.PropHouse.VoteCast;
+}
 const SUPPORTED_PROP_HOUSE_EVENTS = ["RoundCreated", "HouseCreated", "ProposalSubmitted", "VoteCast"] as const;
-export type SupportedEventsType = (typeof SUPPORTED_PROP_HOUSE_EVENTS)[number];
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class for PropHouse.
  */
 export class PropHouse {
-	private provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.providers.JsonRpcProvider;
 	public prophouse: PropHouseSDK;
 	public registeredListeners: Map<SupportedEventsType, Function>;
-	public readonly supportedEvents = SUPPORTED_PROP_HOUSE_EVENTS;
+	public static readonly supportedEvents = SUPPORTED_PROP_HOUSE_EVENTS;
 	private proposalSubmittedLastTime: number;
 	private voteCastLastTime: number;
+	private proposalSubmittedTask?: ScheduledTask;
+	private voteCastTask?: ScheduledTask;
 
 	constructor(provider: ethers.providers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
@@ -43,7 +51,7 @@ export class PropHouse {
 	 * 	console.log(data.creator);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "RoundCreated":
 				this.prophouse.contract.on(
@@ -66,10 +74,10 @@ export class PropHouse {
 							kind,
 							title,
 							description,
-							event
+							event: event as any
 						};
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -80,19 +88,19 @@ export class PropHouse {
 						creator: { id: creator },
 						house: { id: house },
 						kind,
-						event
+						event: event as any
 					};
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 			case "ProposalSubmitted":
-				this.listenToProposalSubmittedEvent(listener as () => {});
+				this.proposalSubmittedTask = this.listenToProposalSubmittedEvent(listener as () => {});
 				this.registeredListeners.set(eventName, listener);
 				break;
 			case "VoteCast":
-				this.listenToVoteCastEvent(listener as () => {});
+				this.voteCastTask = this.listenToVoteCastEvent(listener as () => {});
 				this.registeredListeners.set(eventName, listener);
 				break;
 			default:
@@ -109,7 +117,13 @@ export class PropHouse {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.prophouse.contract.off(eventName, listener as ethers.providers.Listener);
+			if (eventName === "HouseCreated" || eventName === "RoundCreated") {
+				this.prophouse.contract.off(eventName, listener as ethers.providers.Listener);
+			} else if (eventName === "ProposalSubmitted") {
+				this.proposalSubmittedTask?.stop();
+			} else if (eventName === "VoteCast") {
+				this.voteCastTask?.stop();
+			}
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -119,7 +133,7 @@ export class PropHouse {
 	 * @param eventName The event to be triggered.
 	 * @param data The data being passed to the listener.
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
@@ -135,8 +149,8 @@ export class PropHouse {
 		return "PropHouse";
 	}
 
-	private listenToProposalSubmittedEvent(listener: (arg: unknown) => void) {
-		schedule("*/1 * * * *", async () => {
+	private listenToProposalSubmittedEvent(listener: (arg: EventData.PropHouse.ProposalSubmitted) => void) {
+		return schedule("*/1 * * * *", async () => {
 			const proposals = await this.prophouse.query.getProposals({
 				where: {
 					receivedAt_gt: this.proposalSubmittedLastTime
@@ -173,8 +187,8 @@ export class PropHouse {
 		});
 	}
 
-	private listenToVoteCastEvent(listener: (arg: unknown) => void) {
-		schedule("*/1 * * * *", async () => {
+	private listenToVoteCastEvent(listener: (arg: EventData.PropHouse.VoteCast) => void) {
+		return schedule("*/1 * * * *", async () => {
 			const votes = await this.prophouse.query.getVotes({
 				where: {
 					receivedAt_gt: this.voteCastLastTime

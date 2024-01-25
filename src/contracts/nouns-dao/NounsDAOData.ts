@@ -1,8 +1,24 @@
-import { ethers } from "ethers";
+import { ethers } from "ethers-v6";
 
 import { default as NounsDAODataABI } from "../abis/NounsDAOData.json";
 import { Account, EventData } from "../../types";
 
+export interface SupportedEventMap {
+	AdminChanged: EventData.AdminChanged;
+	BeaconUpgraded: EventData.BeaconUpgraded;
+	CandidateFeedbackSent: EventData.CandidateFeedbackSent;
+	CreateCandidateCostSet: EventData.CreateCandidateCostSet;
+	ETHWithdrawn: EventData.ETHWithdrawn;
+	FeeRecipientSet: EventData.FeeRecipientSet;
+	FeedbackSent: EventData.FeedbackSent;
+	OwnershipTransferred: EventData.OwnershipTransferred;
+	ProposalCandidateCanceled: EventData.ProposalCandidateCanceled;
+	ProposalCandidateCreated: EventData.ProposalCandidateCreated;
+	ProposalCandidateUpdated: EventData.ProposalCandidateUpdated;
+	SignatureAdded: EventData.SignatureAdded;
+	UpdateCandidateCostSet: EventData.UpdateCandidateCostSet;
+	Upgraded: EventData.Upgraded;
+}
 const SUPPORTED_NOUNS_DAO_DATA_EVENTS = [
 	"AdminChanged",
 	"BeaconUpgraded",
@@ -19,20 +35,20 @@ const SUPPORTED_NOUNS_DAO_DATA_EVENTS = [
 	"UpdateCandidateCostSet",
 	"Upgraded"
 ] as const;
-export type SupportedEventsType = (typeof SUPPORTED_NOUNS_DAO_DATA_EVENTS)[number];
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class around the NounsDAOData contract.
  */
 export class _NounsDAOData {
-	private provider: ethers.providers.JsonRpcProvider;
+	public provider: ethers.JsonRpcProvider;
 	public Contract: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 
-	constructor(provider: ethers.providers.JsonRpcProvider | string) {
+	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.providers.JsonRpcProvider(provider);
+			this.provider = new ethers.JsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -51,29 +67,29 @@ export class _NounsDAOData {
 	 * 	console.log(data.slug);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: ethers.providers.Listener) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AdminChanged":
-				this.Contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data = {
 						previousAdmin: { id: previousAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
 						event: event
 					} as EventData.AdminChanged;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "BeaconUpgraded":
-				this.Contract.on(eventName, (beacon: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (beacon: string, event: ethers.Log) => {
 					const data = {
 						beacon: { id: beacon } as Account,
 						event: event
 					} as EventData.BeaconUpgraded;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -81,14 +97,7 @@ export class _NounsDAOData {
 			case "CandidateFeedbackSent":
 				this.Contract.on(
 					eventName,
-					(
-						msgSender: string,
-						proposer: string,
-						slug: string,
-						support: number,
-						reason: string,
-						event: ethers.Event
-					) => {
+					(msgSender: string, proposer: string, slug: string, support: number, reason: string, event: ethers.Log) => {
 						const data = {
 							msgSender: { id: msgSender } as Account,
 							proposer: { id: proposer } as Account,
@@ -98,7 +107,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.CandidateFeedbackSent;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -107,40 +116,40 @@ export class _NounsDAOData {
 			case "CreateCandidateCostSet":
 				this.Contract.on(
 					eventName,
-					(oldCreateCandidateCost: number, newCreateCandidateCost: number, event: ethers.Event) => {
+					(oldCreateCandidateCost: number, newCreateCandidateCost: number, event: ethers.Log) => {
 						const data = {
 							oldCreateCandidateCost: oldCreateCandidateCost,
 							newCreateCandidateCost: newCreateCandidateCost,
 							event: event
 						} as EventData.CreateCandidateCostSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				break;
 
 			case "ETHWithdrawn":
-				this.Contract.on(eventName, (to: string, amount: number, event: ethers.Event) => {
+				this.Contract.on(eventName, (to: string, amount: number, event: ethers.Log) => {
 					const data = {
 						to: { id: to } as Account,
 						amount: amount,
 						event: event
 					} as EventData.ETHWithdrawn;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "FeeRecipientSet":
-				this.Contract.on(eventName, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Log) => {
 					const data = {
 						oldFeeRecipient: { id: oldFeeRecipient } as Account,
 						newFeeRecipient: { id: newFeeRecipient } as Account,
 						event: event
 					} as EventData.FeeRecipientSet;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -148,7 +157,7 @@ export class _NounsDAOData {
 			case "FeedbackSent":
 				this.Contract.on(
 					eventName,
-					(msgSender: string, proposalId: number, support: number, reason: string, event: ethers.Event) => {
+					(msgSender: string, proposalId: number, support: number, reason: string, event: ethers.Log) => {
 						const data = {
 							msgSender: { id: msgSender } as Account,
 							proposalId: proposalId,
@@ -157,34 +166,34 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.FeedbackSent;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data = {
 						previousOwner: { id: previousOwner } as Account,
 						newOwner: { id: newOwner } as Account,
 						event: event
 					} as EventData.OwnershipTransferred;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCandidateCanceled":
-				this.Contract.on(eventName, (msgSender: string, slug: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (msgSender: string, slug: string, event: ethers.Log) => {
 					const data = {
 						msgSender: { id: msgSender } as Account,
 						slug: slug,
 						event: event
 					} as EventData.ProposalCandidateCanceled;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -202,7 +211,7 @@ export class _NounsDAOData {
 						slug: string,
 						proposalIdToUpdate: number,
 						encodedProposalHash: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							msgSender: { id: msgSender } as Account,
@@ -217,7 +226,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.ProposalCandidateCreated;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -237,7 +246,7 @@ export class _NounsDAOData {
 						proposalIdToUpdate: number,
 						encodedProposalHash: string,
 						reason: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							msgSender: { id: msgSender } as Account,
@@ -253,7 +262,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.ProposalCandidateUpdated;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -272,7 +281,7 @@ export class _NounsDAOData {
 						encodedPropHash: string,
 						sigDigest: string,
 						reason: string,
-						event: ethers.Event
+						event: ethers.Log
 					) => {
 						const data = {
 							signer: { id: signer } as Account,
@@ -287,7 +296,7 @@ export class _NounsDAOData {
 							event: event
 						} as EventData.SignatureAdded;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
@@ -296,27 +305,27 @@ export class _NounsDAOData {
 			case "UpdateCandidateCostSet":
 				this.Contract.on(
 					eventName,
-					(oldUpdateCandidateCost: number, newUpdateCandidateCost: number, event: ethers.Event) => {
+					(oldUpdateCandidateCost: number, newUpdateCandidateCost: number, event: ethers.Log) => {
 						const data = {
 							oldUpdateCandidateCost: oldUpdateCandidateCost,
 							newUpdateCandidateCost: newUpdateCandidateCost,
 							event: event
 						} as EventData.UpdateCandidateCostSet;
 
-						listener(data);
+						listener(data as any);
 					}
 				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "Upgraded":
-				this.Contract.on(eventName, (implementation: string, event: ethers.Event) => {
+				this.Contract.on(eventName, (implementation: string, event: ethers.Log) => {
 					const data = {
 						implementation: { id: implementation } as Account,
 						event: event
 					} as EventData.Upgraded;
 
-					listener(data);
+					listener(data as any);
 				});
 				this.registeredListeners.set(eventName, listener);
 				break;
@@ -335,7 +344,7 @@ export class _NounsDAOData {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.providers.Listener);
+			this.Contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -353,7 +362,7 @@ export class _NounsDAOData {
 	 * 	reason: ''
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);

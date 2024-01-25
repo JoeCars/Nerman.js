@@ -1,9 +1,13 @@
 import { _fetchNewestTimestamp, _fetchNewCasts } from "../../utilities/farcaster/rest-api";
+import { EventData } from "../../types";
 
 const POLL_TIME = 30_000;
 
+export interface SupportedEventMap {
+	NounsCast: EventData.Farcaster.NounsCast;
+}
 const SUPPORTED_FARCASTER_EVENTS = ["NounsCast"] as const;
-export type SupportedEventsType = (typeof SUPPORTED_FARCASTER_EVENTS)[number];
+export type SupportedEventsType = keyof SupportedEventMap;
 
 /**
  * A wrapper class for the Nouns Warpcast channel.
@@ -27,7 +31,7 @@ export class Farcaster {
 	 * 	console.log(data.text);
 	 * });
 	 */
-	public async on(eventName: SupportedEventsType, listener: Function) {
+	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "NounsCast":
 				this.previousCastTimestamp = await _fetchNewestTimestamp();
@@ -69,7 +73,7 @@ export class Farcaster {
 	 * 	text: 'Nouns are cool!'
 	 * });
 	 */
-	public trigger(eventName: SupportedEventsType, data: unknown) {
+	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
 		const listener = this.registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
