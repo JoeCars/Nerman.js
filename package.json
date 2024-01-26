@@ -1,6 +1,6 @@
 {
 	"name": "nerman",
-	"version": "0.0.35",
+	"version": "0.0.36",
 	"description": "",
 	"main": "./lib/index.js",
 	"types": "./lib/index.d.ts",
