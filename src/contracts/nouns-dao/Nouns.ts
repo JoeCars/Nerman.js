@@ -54,7 +54,7 @@ export class Nouns {
 		..._NounsDAO.supportedEvents,
 		..._NounsDAOData.supportedEvents,
 		"AuctionEnd"
-	];
+	] as const;
 
 	public registeredListeners: Map<string, Function>;
 
@@ -112,9 +112,9 @@ export class Nouns {
 		this.cache.auction.state = "";
 
 		if (latestAuction && latestAuction.args) {
-			this.cache.auction.startTime = latestAuction.args.startTime.toNumber();
-			this.cache.auction.endTime = latestAuction.args.endTime.toNumber();
-			this.cache.auction.nounId = latestAuction.args.nounId.toNumber();
+			this.cache.auction.startTime = Number(latestAuction.args.startTime);
+			this.cache.auction.endTime = Number(latestAuction.args.endTime);
+			this.cache.auction.nounId = Number(latestAuction.args.nounId);
 			this.cache.auction.state = "ACTIVE";
 		}
 
@@ -131,8 +131,8 @@ export class Nouns {
 			this.cache.auction.state = "EXTENDED";
 		}
 
-		this.cache.auction.duration = (await this.NounsAuctionHouse.Contract.duration()).toNumber();
-		this.cache.auction.timeBuffer = (await this.NounsAuctionHouse.Contract.timeBuffer()).toNumber();
+		this.cache.auction.duration = Number(await this.NounsAuctionHouse.Contract.duration());
+		this.cache.auction.timeBuffer = Number(await this.NounsAuctionHouse.Contract.timeBuffer());
 
 		console.log("CACHE");
 		console.log(this.cache);

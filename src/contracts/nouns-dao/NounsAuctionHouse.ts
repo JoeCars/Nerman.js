@@ -320,7 +320,7 @@ export class _NounsAuctionHouse {
 			const block = await this.getBlock(bid.blockNumber);
 			const date = new Date(block!.timestamp * 1000);
 			const bidPrice = ethers.formatEther(bid.args[2]);
-			console.log("Bid on " + bid.args[0].toNumber() + " for " + bidPrice + " on " + date.toLocaleDateString());
+			console.log("Bid on " + Number(bid.args[0]) + " for " + bidPrice + " on " + date.toLocaleDateString());
 		}
 	}
 
