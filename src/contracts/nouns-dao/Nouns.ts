@@ -54,7 +54,7 @@ export class Nouns {
 		..._NounsDAO.supportedEvents,
 		..._NounsDAOData.supportedEvents,
 		"AuctionEnd"
-	];
+	] as const;
 
 	public registeredListeners: Map<string, Function>;
 
