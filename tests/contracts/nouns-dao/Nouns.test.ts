@@ -24,4 +24,24 @@ describe("Nouns tests", () => {
 		expect(nouns1.provider.pollingInterval).toBe(1);
 		expect(nouns2.provider.pollingInterval).toBe(10_000);
 	});
+	test("should listen to all supported events", async () => {
+		const nouns = new Nouns(process.env.ALCHEMY_URL as string);
+		const mockListener = jest.fn();
+
+		try {
+			for (const eventName of Nouns.supportedEvents) {
+				await nouns.on(eventName, mockListener);
+				nouns.off(eventName); // Prevents alchemy error.
+			}
+			nouns.provider.pause(); // Terminate provider so the tests can end.
+		} catch (error) {
+			expect(error).not.toThrow();
+		}
+	});
+
+	test("should instantiate with cache", () => {
+		const nouns = new Nouns(process.env.ALCHEMY_URL!);
+
+		expect(nouns.cache).toBeDefined();
+	});
 });
