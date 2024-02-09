@@ -1221,6 +1221,8 @@ export namespace EventData {
 	export namespace NounsNymz {
 		/** NewPost event data. */
 		export interface NewPost {
+			/** User's real address if true. */
+			doxed: boolean;
 			/** Post id. */
 			id: string;
 			/** Post title. Empty if it is a reply. */
