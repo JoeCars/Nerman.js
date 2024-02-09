@@ -4,7 +4,7 @@ The contract wrappers provided by Nerman.js currently support basic event listen
 
 ### `constructor()`
 
-- **provider**: `string | ethers.JsonRpcProvider`. Our wrappers can handle providers behind the scene, so you only need to provide a JSON RPC URL from your preferred provider (like Alchemy) to make them work. We also offer the ability to pass in your own provider, giving you flexibility when needed.
+-   **provider**: `string | ethers.JsonRpcProvider`. Our wrappers can handle providers behind the scene, so you only need to provide a JSON RPC URL from your preferred provider (like Alchemy) to make them work. We also offer the ability to pass in your own provider, giving you flexibility when needed.
 
 ```js
 import * as nerman from "nerman";
@@ -156,4 +156,31 @@ There do not appear to be any auction proxies at the moment, and there are no tr
 		<td> <a href="https://etherscan.io/address/0x4e2d32da6ea31cbdd96e14c34bf8141c15902e06"> 0x4e2d32da6ea31cbdd96e14c34bf8141c15902e06</a> </td>
 	</tr>
 
+</table>
+
+# Federation
+
+Federation Nouns Pool contracts. V1 is no longer in use.
+
+<table>
+	<tr>
+		<th> Version </th>
+		<th> Address </th>
+	</tr>
+	<tr>
+		<td> V1 </td>
+		<td> 
+			<a href="https://etherscan.io/address/0xBE5E6De0d0Ac82b087bAaA1d53F145a52EfE1642">
+				0xBE5E6De0d0Ac82b087bAaA1d53F145a52EfE1642
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td> V2 </td>
+		<td> 
+			<a href="https://etherscan.io/address/0x0f722d69B3D8C292E85F2b1E5D9F4439edd58F1e">
+				0x0f722d69B3D8C292E85F2b1E5D9F4439edd58F1e
+			</a>
+		</td>
+	</tr>
 </table>
