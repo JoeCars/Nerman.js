@@ -15,7 +15,6 @@ export type SupportedEventsType = keyof SupportedEventMap;
  */
 export class FederationNounsPool {
 	public provider: ethers.JsonRpcProvider;
-	public nounsPoolContractV1: ethers.Contract;
 	public nounsPoolContractV2: ethers.Contract;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_FEDERATION_EVENTS;
@@ -27,7 +26,6 @@ export class FederationNounsPool {
 			this.provider = provider;
 		}
 
-		this.nounsPoolContractV1 = new ethers.Contract("0xBE5E6De0d0Ac82b087bAaA1d53F145a52EfE1642", NounsPool, this.provider);
 		this.nounsPoolContractV2 = new ethers.Contract(
 			"0x0f722d69B3D8C292E85F2b1E5D9F4439edd58F1e",
 			NounsPoolV2,
@@ -47,17 +45,11 @@ export class FederationNounsPool {
 	 */
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		if (eventName === "BidPlaced") {
-			this.nounsPoolContractV1.on(eventName, (dao, propId, support, amount, bidder) => {
-				listener({ dao, propId, support, amount, bidder });
-			});
 			this.nounsPoolContractV2.on(eventName, (dao, propId, support, amount, bidder, reason?) => {
 				listener({ dao, propId, support, amount, bidder, reason });
 			});
 			this.registeredListeners.set(eventName, listener);
 		} else if (eventName === "VoteCast") {
-			this.nounsPoolContractV1.on(eventName, (dao, propId, support, amount, bidder) => {
-				listener({ dao, propId, support, amount, bidder });
-			});
 			this.nounsPoolContractV2.on(eventName, (dao, propId, support, amount, bidder) => {
 				listener({ dao, propId, support, amount, bidder });
 			});
@@ -76,7 +68,6 @@ export class FederationNounsPool {
 	public off(eventName: SupportedEventsType) {
 		const listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.nounsPoolContractV1.off(eventName, listener as ethers.Listener);
 			this.nounsPoolContractV2.off(eventName, listener as ethers.Listener);
 		}
 
