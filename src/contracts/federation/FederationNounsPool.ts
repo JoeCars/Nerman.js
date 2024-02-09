@@ -4,8 +4,8 @@ import NounsPoolV2 from "../abis/federation/NounsPoolV2";
 import { EventData } from "../../types";
 
 export interface SupportedEventMap {
-	BidPlaced: EventData.Federation.GovPool.BidPlaced;
-	VoteCast: EventData.Federation.GovPool.VoteCast;
+	BidPlaced: EventData.Federation.BidPlaced;
+	VoteCast: EventData.Federation.VoteCast;
 }
 const SUPPORTED_FEDERATION_EVENTS = ["BidPlaced", "VoteCast"] as const;
 export type SupportedEventsType = keyof SupportedEventMap;
@@ -45,14 +45,37 @@ export class FederationNounsPool {
 	 */
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		if (eventName === "BidPlaced") {
-			this.nounsPoolContractV2.on(eventName, (dao, propId, support, amount, bidder, reason?) => {
-				listener({ dao, propId, support, amount, bidder, reason });
-			});
+			this.nounsPoolContractV2.on(
+				eventName,
+				(dao: string, propId: BigInt, support: BigInt, amount: BigInt, bidder: string, reason?: string) => {
+					const data: EventData.Federation.BidPlaced = {
+						dao: { id: dao },
+						propId: Number(propId),
+						support: Number(support),
+						amount,
+						bidder: { id: bidder },
+						reason
+					};
+
+					listener(data);
+				}
+			);
 			this.registeredListeners.set(eventName, listener);
 		} else if (eventName === "VoteCast") {
-			this.nounsPoolContractV2.on(eventName, (dao, propId, support, amount, bidder) => {
-				listener({ dao, propId, support, amount, bidder });
-			});
+			this.nounsPoolContractV2.on(
+				eventName,
+				(dao: string, propId: BigInt, support: BigInt, amount: BigInt, bidder: string) => {
+					const data: EventData.Federation.VoteCast = {
+						dao: { id: dao },
+						propId: Number(propId),
+						support: Number(support),
+						amount,
+						bidder: { id: bidder }
+					};
+
+					listener(data);
+				}
+			);
 			this.registeredListeners.set(eventName, listener);
 		} else {
 			throw new Error(`${eventName} is not supported. Please use a different event.`);

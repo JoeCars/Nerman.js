@@ -1332,41 +1332,38 @@ export namespace EventData {
 
 	/** Federation event data. */
 	export namespace Federation {
-		/** GovPool event data. */
-		export namespace GovPool {
-			/** BidPlaced event data.
-			 * {@link https://github.com/nounish/federation/blob/6360984278f017f182290facb0dc665c2b7108ad/contracts/src/experimental/delegate-bid.sol#L138 | Github}
-			 */
-			export interface BidPlaced {
-				/** The address of the DAO. */
-				dao: string;
-				/** Proposal being bid on. */
-				propId: number;
-				/** The bidder's stance on the proposal. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
-				support: number;
-				/** The amount bid, in wei. */
-				amount: number;
-				/** The bidder account address. */
-				bidder: string;
-				/** The reason for the bid. */
-				reason?: string;
-			}
+		/** BidPlaced event data.
+		 * {@link https://github.com/nounish/federation/blob/6360984278f017f182290facb0dc665c2b7108ad/contracts/src/experimental/delegate-bid.sol#L138 | Github}
+		 */
+		export interface BidPlaced {
+			/** The address of the DAO. */
+			dao: Account;
+			/** Proposal being bid on. */
+			propId: number;
+			/** The bidder's stance on the proposal. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
+			support: number;
+			/** The amount bid, in wei. */
+			amount: BigInt;
+			/** The bidder account address. */
+			bidder: Account;
+			/** The reason for the bid. */
+			reason?: string;
+		}
 
-			/** VoteCast event data.
-			 * {@link https://github.com/nounish/federation/blob/6360984278f017f182290facb0dc665c2b7108ad/contracts/src/experimental/delegate-bid.sol#L188C1-L188C1 | Github}
-			 */
-			export interface VoteCast {
-				/** The address of the DAO. */
-				dao: string;
-				/** Proposal that Federation is voting on. */
-				propId: number;
-				/** The direction of the vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
-				support: number;
-				/** The winning bid amount, in wei. */
-				amount: number;
-				/** The winning bidder account address. */
-				bidder: string;
-			}
+		/** VoteCast event data.
+		 * {@link https://github.com/nounish/federation/blob/6360984278f017f182290facb0dc665c2b7108ad/contracts/src/experimental/delegate-bid.sol#L188C1-L188C1 | Github}
+		 */
+		export interface VoteCast {
+			/** The address of the DAO. */
+			dao: Account;
+			/** Proposal that Federation is voting on. */
+			propId: number;
+			/** The direction of the vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
+			support: number;
+			/** The winning bid amount, in wei. */
+			amount: BigInt;
+			/** The winning bidder account address. */
+			bidder: Account;
 		}
 	}
 
