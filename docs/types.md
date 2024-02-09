@@ -1240,22 +1240,22 @@ Event types for the Federation GovPool.
 
 BidPlaced event data. [Github](https://github.com/nounish/federation/blob/6360984278f017f182290facb0dc665c2b7108ad/contracts/src/experimental/delegate-bid.sol#L138)
 
--   **dao**: `string`. The address of the DAO.
+-   **dao**: `Account`. The address of the DAO.
 -   **propId**: `number`. Proposal being bid on.
 -   **support**: `number`. The bidder's stance on the proposal. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively).
--   **amount**: `number`. The amount bid, in wei.
--   **bidder**: `string`. The bidder account address.
+-   **amount**: `BigInt`. The amount bid, in wei.
+-   **bidder**: `Account`. The bidder account address.
 -   **reason**: `string`. The reason for the bid.
 
 ## `VoteCast`
 
 VoteCast event data. [Github](https://github.com/nounish/federation/blob/6360984278f017f182290facb0dc665c2b7108ad/contracts/src/experimental/delegate-bid.sol#L188C1-L188C1)
 
--   **dao**: `string`. The address of the DAO.
+-   **dao**: `Account`. The address of the DAO.
 -   **propId**: `number`. Proposal that Federation is voting on.
 -   **support**: `number`. The direction of the vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively).
--   **amount**: `number`. The winning bid amount, in wei.
--   **bidder**: `string`. The winning bidder account address.
+-   **amount**: `BigInt`. The winning bid amount, in wei.
+-   **bidder**: `Account`. The winning bidder account address.
 
 # Propdates Types
 
