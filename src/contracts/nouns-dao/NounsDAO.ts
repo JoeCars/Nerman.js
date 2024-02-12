@@ -552,40 +552,6 @@ export class _NounsDAO {
 						listener(data as any);
 					}
 				);
-				this.Contract.on(
-					"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
-					(
-						id: BigInt,
-						proposer: string,
-						targets: string[],
-						values: BigInt[],
-						signatures: string[],
-						calldatas: any[], // bytes
-						startBlock: BigInt,
-						endBlock: BigInt,
-						proposalThreshold: BigInt,
-						quorumVotes: BigInt,
-						description: string,
-						event: ethers.Log
-					) => {
-						const data: EventData.ProposalCreatedWithRequirements = {
-							id: Number(id),
-							proposer: { id: proposer } as Account,
-							targets: targets,
-							values: values,
-							signatures: signatures,
-							calldatas: calldatas,
-							startBlock: startBlock,
-							endBlock: endBlock,
-							proposalThreshold: Number(proposalThreshold),
-							quorumVotes: Number(quorumVotes),
-							description: description,
-							event: event
-						};
-
-						listener(data as any);
-					}
-				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
@@ -1001,10 +967,6 @@ export class _NounsDAO {
 			if (eventName === "ProposalCreatedWithRequirements") {
 				this.Contract.off(
 					"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
-					listener as ethers.Listener
-				);
-				this.Contract.off(
-					"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
 					listener as ethers.Listener
 				);
 			} else {
