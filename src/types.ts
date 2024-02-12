@@ -192,9 +192,9 @@ export namespace EventData {
 	 */
 	export interface LastMinuteWindowSet {
 		/** Old objection period last minute window. */
-		oldLastMinuteWindowInBlocks: number;
+		oldLastMinuteWindowInBlocks: BigInt;
 		/** New objection period last minute window. */
-		newLastMinuteWindowInBlocks: number;
+		newLastMinuteWindowInBlocks: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -288,9 +288,9 @@ export namespace EventData {
 	 */
 	export interface ObjectionPeriodDurationSet {
 		/** Old objection period in blocks. */
-		oldObjectionPeriodDurationInBlocks: number;
+		oldObjectionPeriodDurationInBlocks: BigInt;
 		/** New objection period in blocks. */
-		newObjectionPeriodDurationInBlocks: number;
+		newObjectionPeriodDurationInBlocks: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -310,7 +310,7 @@ export namespace EventData {
 	 */
 	export interface ProposalCreated {
 		/** id of the proposal being created. */
-		id: BigInt;
+		id: number;
 		/** Account of the proposer. */
 		proposer: Account;
 		/** Target addresses for proposal calls. */
@@ -353,7 +353,7 @@ export namespace EventData {
 	 */
 	export interface ProposalCreatedWithRequirements {
 		/** id of the proposal created. */
-		id: BigInt;
+		id: number;
 		/** Account of the proposer. */
 		proposer: Account;
 		/** List of signers. In V3. */
@@ -371,11 +371,11 @@ export namespace EventData {
 		/** The block voting ends. */
 		endBlock: BigInt;
 		/** Period where the proposal is updatable. In V3. */
-		updatePeriodEndBlock?: number;
+		updatePeriodEndBlock?: BigInt;
 		/** The proposal threshold. In V1. */
-		proposalThreshold: BigInt;
+		proposalThreshold: number;
 		/** The quorum votes. In V1. Renamed to minQuorumVotes in V2.*/
-		quorumVotes: BigInt;
+		quorumVotes: number;
 		/**
 		 * Proposal description.
 		 * @example
@@ -422,7 +422,7 @@ export namespace EventData {
 		/** id of the proposal. */
 		id: number;
 		/** Objection end block. */
-		objectionPeriodEndBlock: number;
+		objectionPeriodEndBlock: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -434,7 +434,7 @@ export namespace EventData {
 		/** id of the proposal. */
 		id: number;
 		/** Block number signifying end of the queued period. The proposal is executed once this is over. */
-		eta: number;
+		eta: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -462,7 +462,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: number[];
+		values: BigInt[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -478,9 +478,9 @@ export namespace EventData {
 	 */
 	export interface ProposalUpdatablePeriodSet {
 		/** The old proposal updatable period in blocks. */
-		oldProposalUpdatablePeriodInBlocks: number;
+		oldProposalUpdatablePeriodInBlocks: BigInt;
 		/** The new proposal updatable period in blocks. */
-		newProposalUpdatablePeriodInBlocks: number;
+		newProposalUpdatablePeriodInBlocks: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -496,7 +496,7 @@ export namespace EventData {
 		/** Updated target addresses for proposal calls. */
 		targets: string[];
 		/** Updated eth values for proposal calls. */
-		values: number[];
+		values: BigInt[];
 		/** Updated function signatures for proposal calls. */
 		signatures: string[];
 		/** Updated calldatas for proposal calls. */
@@ -562,7 +562,7 @@ export namespace EventData {
 		/** The voter account. */
 		voter: Account;
 		/** The refund amount. */
-		refundAmount: number;
+		refundAmount: BigInt;
 		/** Whether the refund was sent or not. */
 		refundSent: boolean;
 		/** Event meta data. */
@@ -630,9 +630,9 @@ export namespace EventData {
 	 */
 	export interface VotingDelaySet {
 		/** The old voting delay in blocks. */
-		oldVotingDelay: number;
+		oldVotingDelay: BigInt;
 		/** The new voting delay in blocks. */
-		newVotingDelay: number;
+		newVotingDelay: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -642,9 +642,9 @@ export namespace EventData {
 	 */
 	export interface VotingPeriodSet {
 		/** The old voting period in blocks. */
-		oldVotingPeriod: number;
+		oldVotingPeriod: BigInt;
 		/** The new voting period in blocks. */
-		newVotingPeriod: number;
+		newVotingPeriod: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -654,7 +654,7 @@ export namespace EventData {
 	 */
 	export interface Withdraw {
 		/** The amount withdrawn. */
-		amount: number;
+		amount: BigInt;
 		/** Whether the withdrawn amount was sent. */
 		sent: boolean;
 		/** Event meta data. */
@@ -670,7 +670,7 @@ export namespace EventData {
 		/** The account withdrawing. */
 		owner: Account;
 		/** The tokens withdrawing. */
-		tokenIds: BigInt[];
+		tokenIds: number[];
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -699,7 +699,7 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** The bid amount in wei. */
-		amount: number;
+		amount: BigInt;
 		/** Bidder account. */
 		bidder: Account;
 		/** Whether the bid was received within the end time buffer, thus extending the auction. */
@@ -715,9 +715,9 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** Auction starting time as seconds since unix epoch. */
-		startTime: number;
+		startTime: BigInt;
 		/** Auction ending time as seconds since unix epoch. */
-		endTime: number;
+		endTime: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -729,7 +729,7 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** New auction end time as seconds since unix epoch. */
-		endTime: number;
+		endTime: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -743,7 +743,7 @@ export namespace EventData {
 		/** The winning bidder's account. */
 		winner: Account;
 		/** Winning bid amount in wei. */
-		amount: number;
+		amount: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -753,7 +753,7 @@ export namespace EventData {
 	 */
 	export interface AuctionTimeBufferUpdated {
 		/** New time buffer. */
-		timeBuffer: number;
+		timeBuffer: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -763,7 +763,7 @@ export namespace EventData {
 	 */
 	export interface AuctionReservePriceUpdated {
 		/** New auction reserve price. */
-		reservePrice: number;
+		reservePrice: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -840,9 +840,9 @@ export namespace EventData {
 		/** Delegate account. */
 		delegate: Account;
 		/** Previous voting power. */
-		previousBalance: number;
+		previousBalance: BigInt;
 		/** New voting power. */
-		newBalance: number;
+		newBalance: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -1038,9 +1038,9 @@ export namespace EventData {
 	 */
 	export interface CreateCandidateCostSet {
 		/** Old cost of creating candidate proposal. */
-		oldCreateCandidateCost: number;
+		oldCreateCandidateCost: BigInt;
 		/** New cost of creating candidate proposal. */
-		newCreateCandidateCost: number;
+		newCreateCandidateCost: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -1052,7 +1052,7 @@ export namespace EventData {
 		/** Amount recipient. */
 		to: Account;
 		/** Amount of eth withdrawn in wei. */
-		amount: number;
+		amount: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
@@ -1118,7 +1118,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: number[];
+		values: BigInt[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -1144,7 +1144,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: number[];
+		values: BigInt[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -1172,7 +1172,7 @@ export namespace EventData {
 		/** The signature bytes. */
 		sig: string;
 		/** The signature's expiration timestamp. As milliseconds since Unix epoch. */
-		expirationTimestamp: number;
+		expirationTimestamp: BigInt;
 		/** Proposal candidate creator account. */
 		proposer: Account;
 		/** Proposal candidate unique identifier. */
@@ -1194,9 +1194,9 @@ export namespace EventData {
 	 */
 	export interface UpdateCandidateCostSet {
 		/** Old update cost. */
-		oldUpdateCandidateCost: number;
+		oldUpdateCandidateCost: BigInt;
 		/** New update cost. */
-		newUpdateCandidateCost: number;
+		newUpdateCandidateCost: BigInt;
 		/** Event meta data. */
 		event: ethers.Log;
 	}
