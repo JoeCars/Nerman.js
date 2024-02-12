@@ -200,7 +200,7 @@ export class Nouns {
 				this.cache.auction.state = "EXTENDED";
 				console.log("Auction Extended for Noun " + data.id + " - endTime: " + data.endTime);
 				// check if nounId is correct - if not re-populate cache
-				this.cache.auction.endTime = data.endTime;
+				this.cache.auction.endTime = Number(data.endTime);
 			});
 
 			await this.NounsAuctionHouse.on("AuctionSettled", (data: EventData.AuctionSettled) => {

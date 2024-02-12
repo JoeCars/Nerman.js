@@ -76,9 +76,9 @@ export class _NounsForkAuctionHouse {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
-				this.Contract.on("AuctionCreated", (nounId: number, startTime: number, endTime: number, event: ethers.Log) => {
+				this.Contract.on("AuctionCreated", (nounId: BigInt, startTime: BigInt, endTime: BigInt, event: ethers.Log) => {
 					const data: EventData.AuctionCreated = {
-						id: nounId,
+						id: Number(nounId),
 						startTime: startTime,
 						endTime: endTime,
 						event: event
@@ -90,17 +90,20 @@ export class _NounsForkAuctionHouse {
 				break;
 
 			case "AuctionBid": // FUNCTIONING CORRECTLY
-				this.Contract.on("AuctionBid", (nounId, sender: string, value, extended: boolean, event: ethers.Log) => {
-					const data: EventData.AuctionBid = {
-						id: nounId,
-						amount: value,
-						bidder: { id: sender } as Account,
-						extended: extended,
-						event: event
-					};
+				this.Contract.on(
+					"AuctionBid",
+					(nounId: BigInt, sender: string, value: BigInt, extended: boolean, event: ethers.Log) => {
+						const data: EventData.AuctionBid = {
+							id: Number(nounId),
+							amount: value,
+							bidder: { id: sender } as Account,
+							extended: extended,
+							event: event
+						};
 
-					listener(data as any);
-				});
+						listener(data as any);
+					}
+				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
@@ -110,9 +113,9 @@ export class _NounsForkAuctionHouse {
 			//
 			// **********************************************************
 			case "AuctionExtended":
-				this.Contract.on("AuctionExtended", (nounId: number, endTime: number, event: ethers.Log) => {
+				this.Contract.on("AuctionExtended", (nounId: BigInt, endTime: BigInt, event: ethers.Log) => {
 					const data: EventData.AuctionExtended = {
-						id: nounId,
+						id: Number(nounId),
 						endTime: endTime,
 						event: event
 					};
@@ -123,9 +126,9 @@ export class _NounsForkAuctionHouse {
 				break;
 
 			case "AuctionSettled": // FUNCTIONING CORRECTLY
-				this.Contract.on("AuctionSettled", (nounId: number, winner: string, amount: number, event: ethers.Log) => {
+				this.Contract.on("AuctionSettled", (nounId: BigInt, winner: string, amount: BigInt, event: ethers.Log) => {
 					const data: EventData.AuctionSettled = {
-						id: nounId,
+						id: Number(nounId),
 						winner: { id: winner } as Account,
 						amount: amount,
 						event: event
@@ -142,7 +145,7 @@ export class _NounsForkAuctionHouse {
 			//
 			// **********************************************************
 			case "AuctionTimeBufferUpdated":
-				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: number, event: ethers.Log) => {
+				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: BigInt, event: ethers.Log) => {
 					const data: EventData.AuctionTimeBufferUpdated = {
 						timeBuffer: timeBuffer,
 						event: event
@@ -159,7 +162,7 @@ export class _NounsForkAuctionHouse {
 			//
 			// **********************************************************
 			case "AuctionReservePriceUpdated":
-				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: number, event: ethers.Log) => {
+				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: BigInt, event: ethers.Log) => {
 					const data: EventData.AuctionReservePriceUpdated = {
 						reservePrice: reservePrice,
 						event: event
@@ -178,9 +181,9 @@ export class _NounsForkAuctionHouse {
 			case "AuctionMinBidIncrementPercentageUpdated":
 				this.Contract.on(
 					"AuctionMinBidIncrementPercentageUpdated",
-					(minBidIncrementPercentage: number, event: ethers.Log) => {
+					(minBidIncrementPercentage: BigInt, event: ethers.Log) => {
 						const data: EventData.AuctionMinBidIncrementPercentageUpdated = {
-							minBidIncrementPercentage: minBidIncrementPercentage,
+							minBidIncrementPercentage: Number(minBidIncrementPercentage),
 							event: event
 						};
 

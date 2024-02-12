@@ -58,7 +58,7 @@ export class _Propdates {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "Initialized":
-				this.Contract.on("Initialized", (version: number, event: ethers.Log) => {
+				this.Contract.on("Initialized", (version: BigInt, event: ethers.Log) => {
 					const data: EventData.Propdates.Initialized = {
 						version: Number(version),
 						event: event
@@ -93,7 +93,7 @@ export class _Propdates {
 				break;
 
 			case "PostUpdate":
-				this.Contract.on("PostUpdate", (propId: number, isCompleted: boolean, update: string, event: ethers.Log) => {
+				this.Contract.on("PostUpdate", (propId: BigInt, isCompleted: boolean, update: string, event: ethers.Log) => {
 					const data: EventData.Propdates.PostUpdate = {
 						propId: Number(propId),
 						isCompleted: isCompleted,
@@ -108,7 +108,7 @@ export class _Propdates {
 			case "PropUpdateAdminMigrated":
 				this.Contract.on(
 					"PropUpdateAdminMigrated",
-					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
+					(propId: BigInt, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 						const data: EventData.Propdates.PropUpdateAdminMigrated = {
 							propId: Number(propId),
 							oldAdmin: { id: oldAdmin } as Account,
@@ -124,7 +124,7 @@ export class _Propdates {
 			case "PropUpdateAdminRecovered":
 				this.Contract.on(
 					"PropUpdateAdminRecovered",
-					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
+					(propId: BigInt, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 						const data: EventData.Propdates.PropUpdateAdminRecovered = {
 							propId: Number(propId),
 							oldAdmin: { id: oldAdmin } as Account,
@@ -140,9 +140,9 @@ export class _Propdates {
 			case "PropUpdateAdminTransferred":
 				this.Contract.on(
 					"PropUpdateAdminTransferred",
-					(propId: number, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
+					(propId: BigInt, oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 						const data: EventData.Propdates.PropUpdateAdminTransferred = {
-							propId: propId,
+							propId: Number(propId),
 							oldAdmin: { id: oldAdmin } as Account,
 							newAdmin: { id: newAdmin } as Account,
 							event: event

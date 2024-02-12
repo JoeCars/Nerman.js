@@ -152,9 +152,9 @@ export class _NounsForkLogic {
 
 			case "ProposalCanceled":
 				// @notice An event emitted when a proposal has been canceled
-				this.Contract.on("ProposalCanceled", (id: number, event: ethers.Log) => {
+				this.Contract.on("ProposalCanceled", (id: BigInt, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
-						id: id,
+						id: Number(id),
 						event: event
 					};
 
@@ -187,7 +187,7 @@ export class _NounsForkLogic {
 						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreated = {
-							id: id,
+							id: Number(id),
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
@@ -230,7 +230,7 @@ export class _NounsForkLogic {
 						event: ethers.Log
 					) => {
 						const data: EventData.ProposalCreatedWithRequirements = {
-							id: id,
+							id: Number(id),
 							proposer: { id: proposer } as Account,
 							targets: targets,
 							values: values,
@@ -238,8 +238,8 @@ export class _NounsForkLogic {
 							calldatas: calldatas,
 							startBlock: startBlock,
 							endBlock: endBlock,
-							proposalThreshold: proposalThreshold,
-							quorumVotes: quorumVotes,
+							proposalThreshold: Number(proposalThreshold),
+							quorumVotes: Number(quorumVotes),
 							description: description,
 							event: event
 						};
@@ -252,9 +252,9 @@ export class _NounsForkLogic {
 
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
 				// An event emitted when a proposal has been executed in the NounsDAOExecutor
-				this.Contract.on("ProposalExecuted", (id: number, event: ethers.Log) => {
+				this.Contract.on("ProposalExecuted", (id: BigInt, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
-						id: id,
+						id: Number(id),
 						event: event
 					};
 					listener(data as any);
@@ -271,9 +271,9 @@ export class _NounsForkLogic {
 			case "ProposalQueued":
 				/// @notice An event emitted when a proposal has been queued in the NounsDAOExecutor
 				/// @param eta The timestamp that the proposal will be available for execution, set once the vote succeeds
-				this.Contract.on("ProposalQueued", (id: number, eta: number, event: ethers.Log) => {
+				this.Contract.on("ProposalQueued", (id: BigInt, eta: BigInt, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
-						id: id,
+						id: Number(id),
 						eta: eta,
 						event: event
 					};
@@ -291,10 +291,10 @@ export class _NounsForkLogic {
 				/// @notice Emitted when proposal threshold basis points is set
 				this.Contract.on(
 					"ProposalThresholdBPSSet",
-					(oldProposalThresholdBPS: number, newProposalThresholdBPS: number, event: ethers.Log) => {
+					(oldProposalThresholdBPS: BigInt, newProposalThresholdBPS: BigInt, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
-							oldProposalThresholdBPS: oldProposalThresholdBPS,
-							newProposalThresholdBPS: newProposalThresholdBPS,
+							oldProposalThresholdBPS: Number(oldProposalThresholdBPS),
+							newProposalThresholdBPS: Number(newProposalThresholdBPS),
 							event: event
 						};
 
@@ -306,10 +306,10 @@ export class _NounsForkLogic {
 
 			case "Quit":
 				/// @notice Emitted when quorum votes basis points is set
-				this.Contract.on("Quit", (msgSender: string, tokenIds: number[], event: ethers.Log) => {
+				this.Contract.on("Quit", (msgSender: string, tokenIds: BigInt[], event: ethers.Log) => {
 					const data: EventData.Quit = {
 						msgSender: { id: msgSender } as Account,
-						tokenIds: tokenIds,
+						tokenIds: tokenIds.map((tokenId) => Number(tokenId)),
 						event: event
 					};
 
@@ -327,10 +327,10 @@ export class _NounsForkLogic {
 				/// @notice Emitted when quorum votes basis points is set
 				this.Contract.on(
 					"QuorumVotesBPSSet",
-					(oldQuorumVotesBPS: number, newQuorumVotesBPS: number, event: ethers.Log) => {
+					(oldQuorumVotesBPS: BigInt, newQuorumVotesBPS: BigInt, event: ethers.Log) => {
 						const data: EventData.QuorumVotesBPSSet = {
-							oldQuorumVotesBPS: oldQuorumVotesBPS,
-							newQuorumVotesBPS: newQuorumVotesBPS,
+							oldQuorumVotesBPS: Number(oldQuorumVotesBPS),
+							newQuorumVotesBPS: Number(newQuorumVotesBPS),
 							event: event
 						};
 
@@ -350,14 +350,14 @@ export class _NounsForkLogic {
 
 				this.Contract.on(
 					"VoteCast",
-					(voter: string, proposalId: number, support: number, votes: number, reason: string, event: ethers.Log) => {
-						const supportDetailed: VoteDirection = support;
+					(voter: string, proposalId: BigInt, support: BigInt, votes: BigInt, reason: string, event: ethers.Log) => {
+						const supportDetailed: VoteDirection = Number(support);
 
 						const data: EventData.VoteCast = {
 							voter: { id: voter } as Account,
-							proposalId: proposalId,
+							proposalId: Number(proposalId),
 							supportDetailed: supportDetailed,
-							votes: votes,
+							votes: Number(votes),
 							reason: reason,
 							event: event
 						};
@@ -375,7 +375,7 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "VotingDelaySet":
 				/// @notice An event emitted when the voting delay is set
-				this.Contract.on("VotingDelaySet", (oldVotingDelay: number, newVotingDelay: number, event: ethers.Log) => {
+				this.Contract.on("VotingDelaySet", (oldVotingDelay: BigInt, newVotingDelay: BigInt, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
@@ -394,7 +394,7 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "VotingPeriodSet":
 				/// @notice An event emitted when the voting period is set
-				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: number, newVotingPeriod: number, event: ethers.Log) => {
+				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: BigInt, newVotingPeriod: BigInt, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,

@@ -108,7 +108,7 @@ export class _NounsToken {
 			case "DelegateVotesChanged": // WORKING
 				this.Contract.on(
 					"DelegateVotesChanged",
-					(delegate: string, previousBalance: number, newBalance: number, event: ethers.Log) => {
+					(delegate: string, previousBalance: BigInt, newBalance: BigInt, event: ethers.Log) => {
 						const data: EventData.DelegateVotesChanged = {
 							delegate: { id: delegate } as Account,
 							previousBalance: previousBalance,
@@ -123,11 +123,11 @@ export class _NounsToken {
 				break;
 
 			case "Transfer": // WORKING
-				this.Contract.on("Transfer", (from: string, to: string, tokenId: number, event: ethers.Log) => {
+				this.Contract.on("Transfer", (from: string, to: string, tokenId: BigInt, event: ethers.Log) => {
 					const data: EventData.Transfer = {
 						from: { id: from } as Account,
 						to: { id: to } as Account,
-						tokenId: tokenId,
+						tokenId: Number(tokenId),
 						event: event
 					};
 
@@ -137,11 +137,11 @@ export class _NounsToken {
 				break;
 
 			case "Approval": // WORKING
-				this.Contract.on("Approval", (owner: string, approved: string, tokenId: number, event: ethers.Log) => {
+				this.Contract.on("Approval", (owner: string, approved: string, tokenId: BigInt, event: ethers.Log) => {
 					const data: EventData.Approval = {
 						owner: { id: owner } as Account,
 						approved: { id: approved } as Account,
-						tokenId: tokenId,
+						tokenId: Number(tokenId),
 						event: event
 					};
 
@@ -170,15 +170,28 @@ export class _NounsToken {
 				break;
 
 			case "NounCreated": // WORKING
-				this.Contract.on("NounCreated", (tokenId: number, seed: NounsTokenSeed, event: ethers.Log) => {
-					const data: EventData.NounCreated = {
-						id: tokenId,
-						seed: seed,
-						event: event
-					};
+				this.Contract.on(
+					"NounCreated",
+					(
+						tokenId: BigInt,
+						seed: { accessory: BigInt; background: BigInt; body: BigInt; glasses: BigInt; head: BigInt },
+						event: ethers.Log
+					) => {
+						const data: EventData.NounCreated = {
+							id: Number(tokenId),
+							seed: {
+								accessory: Number(seed.accessory),
+								background: Number(seed.background),
+								body: Number(seed.body),
+								glasses: Number(seed.glasses),
+								head: Number(seed.head)
+							},
+							event: event
+						};
 
-					listener(data as any);
-				});
+						listener(data as any);
+					}
+				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
@@ -254,9 +267,9 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "NounBurned":
-				this.Contract.on("NounBurned", (nounId: number, event: ethers.Log) => {
+				this.Contract.on("NounBurned", (nounId: BigInt, event: ethers.Log) => {
 					const data: EventData.NounBurned = {
-						id: nounId,
+						id: Number(nounId),
 						event: event
 					};
 
