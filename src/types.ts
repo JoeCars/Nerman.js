@@ -1670,6 +1670,88 @@ export namespace EventData {
 			};
 		}
 	}
+
+	// ******************************************
+	//
+	// Snapshot
+	//
+	// ******************************************
+	export namespace Snapshot {
+		/** Snapshot Proposal object. */
+		export interface Proposal {
+			/** The unique ID for the proposal. */
+			id: string;
+			/** Proposal's title. */
+			title: string;
+			/** Proposal's body. */
+			body: string;
+			/** Voting choices available in proposal. */
+			choices: string[];
+			/** Proposal voting start time, in seconds since unix epoch. */
+			startTime: number;
+			/** Proposal voting end time, in seconds since unix epoch. */
+			endTime: number;
+			/** The time at which the proposal was created, in seconds since unix epoch. */
+			createdTime: number;
+			/** Ethereum block number when the voting power snapshot was taken. */
+			snapshot: string;
+			/** Proposal's current state. */
+			state: "pending" | "active" | "closed";
+			/** Proposer's wallet. */
+			author: Account;
+			/** Proposal's quorum. */
+			quorum: number;
+			/** Proposal's scores for each choice. */
+			scores: number[];
+			/** Total number of votes cast (different from the total score). The number of unique voters. */
+			votes: number;
+			/** The Snapshot space the proposal is a part of. */
+			space: {
+				/** The space id. An ENS. */
+				id: string;
+				/** The space name. */
+				name: string;
+			};
+		}
+
+		/** Snapshot Vote object. */
+		export interface Vote {
+			/** Unique vote ID. */
+			id: string;
+			/** Voter wallet address. */
+			voter: Account;
+			/** Voter voting power. Is based on the voting strategy used. */
+			votingPower: number;
+			/** The time the vote was cast, in seconds since unix epoch. */
+			created: number;
+			/** Which proposal choice was selected. This is the associated index number. 0 based. */
+			choice: number;
+			/** Reason for the vote. */
+			reason: string;
+			/** The Snapshot space the proposal voted on is a part of. */
+			space: {
+				/** The space id. An ENS. */
+				id: string;
+				/** The space name. */
+				name: string;
+			};
+			/** The proposal being voted on. */
+			proposal: {
+				/** The unique ID for the proposal. */
+				id: string;
+				/** Proposal's title. */
+				title: string;
+				/** Voting choices available in proposal. */
+				choices: string[];
+				/** Proposal's quorum. */
+				quorum: number;
+				/** Proposal's scores for each choice. */
+				scores: number[];
+				/** Total number of votes cast (different from the total score). The number of unique voters. */
+				votes: number;
+			};
+		}
+	}
 }
 
 //=========================================
