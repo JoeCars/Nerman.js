@@ -1455,3 +1455,47 @@ Data used in the NounsCast event.
 
 -   **url**: `string`. Embed URL.
 -   **castId**: `CastId | undefined`. Cast id embedded.
+
+# Snapshot Types
+
+## `Proposal`
+
+Snapshot Proposal object.
+
+-   **id**: `string`. The unique ID for the proposal.
+-   **title**: `string`. Proposal's title.
+-   **body**: `string`. Proposal's body.
+-   **choices**: `string[]`. Voting choices available in proposal.
+-   **startTime**: `number`. Proposal voting start time, in seconds since unix epoch.
+-   **endTime**: `number`. Proposal voting end time, in seconds since unix epoch.
+-   **createdTime**: `number`. The time at which the proposal was created, in seconds since unix epoch.
+-   **snapshot**: `string`. Ethereum block number when the voting power snapshot was taken.
+-   **state**: `"pending" | "active" | "closed"`. Proposal's current state.
+-   **author**: `Account`. Proposer's wallet.
+-   **quorum**: `number`. Proposal's quorum.
+-   **scores**: `number[]`. Proposal's scores for each choice.
+-   **votes**: `number`. Total number of votes cast (different from the total score). The number of unique voters.
+-   **space**: The Snapshot space the proposal is a part of.
+    -   **id**: `string`. The space id. An ENS.
+    -   **name**: `string`. The space name.
+
+## `Vote`
+
+Snapshot Vote object.
+
+-   **id**: `string`. Unique vote ID.
+-   **voter**: `Account`. Voter wallet address.
+-   **votingPower**: `number`. Voter voting power. Is based on the voting strategy used.
+-   **created**: `number`. The time the vote was cast, in seconds since unix epoch.
+-   **choice**: `number`. Which proposal choice was selected. This is the associated index number. 0 based.
+-   **reason**: `string`. Reason for the vote.
+-   **space**: The Snapshot space the proposal voted on is a part of.
+    -   **id**: `string`. The space id. An ENS.
+    -   **name**: `string`. The space name.
+-   **proposal**: The proposal being voted on.
+    -   **id**: `string`. The unique ID for the proposal.
+    -   **title**: `string`. Proposal's title.
+    -   **choices**: `string[]`. Voting choices available in proposal.
+    -   **quorum**: `number`. Proposal's quorum.
+    -   **scores**: `number[]`. Proposal's scores for each choice.
+    -   **votes**: `number`. Total number of votes cast (different from the total score). The number of unique voters.
