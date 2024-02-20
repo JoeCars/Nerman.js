@@ -130,7 +130,10 @@ export async function _fetchNewCasts(previousTimestamp: number, fetchCasts = _fe
 			nextPageToken = response.nextPageToken;
 			isDone = isDone || nextPageToken === "";
 		} catch (error: any) {
-			if (error.message === "Unable to fetch casts. 502 Bad Gateway") {
+			if (
+				error.message === "Unable to fetch casts. 502 Bad Gateway" ||
+				error.message === "Unable to fetch casts. 504 Gateway Time-out"
+			) {
 				isDone = true;
 			} else {
 				throw error;

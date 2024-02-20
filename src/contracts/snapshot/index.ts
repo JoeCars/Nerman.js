@@ -24,6 +24,8 @@ export default class Snapshot {
 
 	private _registeredListeners: Map<string, (data: any) => void>;
 
+	public isUnfiltered: boolean;
+
 	/** Spaces listening to. */
 	public spaceIds: string[];
 
@@ -38,6 +40,8 @@ export default class Snapshot {
 		this._voteCastInterval = undefined;
 
 		this._registeredListeners = new Map();
+
+		this.isUnfiltered = false;
 
 		this.spaceIds = spaceIds;
 	}
@@ -149,7 +153,7 @@ export default class Snapshot {
 	}
 
 	private async _listenToProposalCreated(listener: (data: EventData.Snapshot.Proposal) => void) {
-		const query = createProposalCreatedQuery(this.spaceIds);
+		const query = createProposalCreatedQuery(this.spaceIds, this.isUnfiltered);
 		const proposals = await _fetchProposals(query);
 		if (proposals.length <= 0) {
 			return;
@@ -176,7 +180,7 @@ export default class Snapshot {
 	}
 
 	private async _listenToProposalCompleted(listener: (data: EventData.Snapshot.Proposal) => void) {
-		const query = createProposalCompletedQuery(this.spaceIds);
+		const query = createProposalCompletedQuery(this.spaceIds, this.isUnfiltered);
 		const proposals = await _fetchProposals(query);
 		if (proposals.length <= 0) {
 			return;
@@ -285,8 +289,9 @@ type VotesResponse = {
 	};
 };
 
-export function createProposalCreatedQuery(spaceIds: string[]) {
+export function createProposalCreatedQuery(spaceIds: string[], isUnfiltered = false) {
 	const formattedSpaceIds = spaceIds.map((spaceId) => `\"${spaceId}\"`).join(",");
+	const spaceInFilter = isUnfiltered ? "" : `space_in: [${formattedSpaceIds}]`;
 
 	const query = `
 		query Proposals {
@@ -295,7 +300,7 @@ export function createProposalCreatedQuery(spaceIds: string[]) {
 			skip: 0,
 			where: {
 				state: "pending"
-				space_in: [${formattedSpaceIds}]
+				${spaceInFilter} 
 			},
 			orderBy: "created",
 			orderDirection: desc
@@ -323,8 +328,9 @@ export function createProposalCreatedQuery(spaceIds: string[]) {
 	return query;
 }
 
-export function createProposalCompletedQuery(spaceIds: string[]) {
+export function createProposalCompletedQuery(spaceIds: string[], isUnfiltered = false) {
 	const formattedSpaceIds = spaceIds.map((spaceId) => `\"${spaceId}\"`).join(",");
+	const spaceInFilter = isUnfiltered ? "" : `space_in: [${formattedSpaceIds}]`;
 
 	const query = `
 		query Proposals {
@@ -333,7 +339,7 @@ export function createProposalCompletedQuery(spaceIds: string[]) {
 			skip: 0,
 			where: {
 				state: "closed"
-				space_in: [${formattedSpaceIds}]
+				${spaceInFilter} 
 			},
 			orderBy: "end",
 			orderDirection: desc
