@@ -22,7 +22,7 @@ describe("Snapshot tests", () => {
 		expect(snapshot.spaceIds).toEqual(["1", "22", "333"]);
 	});
 	test("should not add duplicate spaceIds", () => {
-		const snapshot = new Snapshot("1","22","333");
+		const snapshot = new Snapshot("1", "22", "333");
 		snapshot.addSpace("1", "22", "4444");
 
 		expect(snapshot.spaceIds).toEqual(["1", "22", "333", "4444"]);
@@ -42,7 +42,7 @@ describe("Snapshot tests", () => {
 			skip: 0,
 			where: {
 				state: "pending"
-				space_in: ["1","22","333"]
+				space_in: ["1","22","333"] 
 			},
 			orderBy: "created",
 			orderDirection: desc
@@ -70,6 +70,43 @@ describe("Snapshot tests", () => {
 
 		expect(createProposalCreatedQuery(["1", "22", "333"])).toEqual(expectedQuery);
 	});
+	test("should not add spaceIds to createProposalCreatedQuery when unfiltered", () => {
+		// Don't change indentation of query. Breaks test.
+		const expectedQuery = `
+		query Proposals {
+			proposals(
+			first: 10,
+			skip: 0,
+			where: {
+				state: "pending"
+				 
+			},
+			orderBy: "created",
+			orderDirection: desc
+			) {
+			id
+			title
+			body
+			choices
+			start
+			end
+			created
+			snapshot
+			state
+			author
+			quorum
+			scores
+			votes
+			space {
+				id
+				name
+			}
+			}
+		}
+	`;
+
+		expect(createProposalCreatedQuery(["1", "22", "333"], true)).toEqual(expectedQuery);
+	});
 	test("should add spaceIds to createProposalCompletedQuery", () => {
 		// Don't change indentation of query. Breaks test.
 		const expectedQuery = `
@@ -79,7 +116,7 @@ describe("Snapshot tests", () => {
 			skip: 0,
 			where: {
 				state: "closed"
-				space_in: ["1","22","333"]
+				space_in: ["1","22","333"] 
 			},
 			orderBy: "end",
 			orderDirection: desc
@@ -106,6 +143,43 @@ describe("Snapshot tests", () => {
 	`;
 
 		expect(createProposalCompletedQuery(["1", "22", "333"])).toEqual(expectedQuery);
+	});
+	test("should not add spaceIds to createProposalCompletedQuery when unfiltered", () => {
+		// Don't change indentation of query. Breaks test.
+		const expectedQuery = `
+		query Proposals {
+			proposals(
+			first: 20,
+			skip: 0,
+			where: {
+				state: "closed"
+				 
+			},
+			orderBy: "end",
+			orderDirection: desc
+			) {
+			id
+			title
+			body
+			choices
+			start
+			end
+			created
+			snapshot
+			state
+			author
+			quorum
+			scores
+			votes
+			space {
+				id
+				name
+			}
+			}
+		}
+	`;
+
+		expect(createProposalCompletedQuery(["1", "22", "333"], true)).toEqual(expectedQuery);
 	});
 	test("should add spaceIds to createVoteCastQuery", () => {
 		const snapshot = new Snapshot("1", "22", "333");
