@@ -34,6 +34,7 @@
 		"@prophouse/sdk": "^1.0.11",
 		"ethers": "^5.7.0",
 		"ethers-v6": "npm:ethers@^6.10.0",
+		"mongoose": "^8.2.1",
 		"node-cron": "^3.0.2",
 		"node-fetch": "^2.7.0"
 	}
