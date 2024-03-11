@@ -1,6 +1,6 @@
 import { ethers } from "ethers-v6";
 
-import { Indexer } from "../../types";
+import { EventData } from "../../types";
 
 //=======================================
 // NounsDAO
@@ -11,20 +11,18 @@ import { Indexer } from "../../types";
  * @param event The blockchain DAOWithdrawNounsFromEscrow event.
  * @returns Formatted DAOWithdrawNounsFromEscrow event.
  */
-export function parseDAOWithdrawNounsFromEscrowEvent(event: ethers.EventLog) {
+export function parseDAOWithdrawNounsFromEscrowEvent(event: ethers.EventLog): EventData.DAOWithdrawNounsFromEscrow {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		tokenIds: event.args!.tokenIds.map((tokenId: BigInt) => {
 			return Number(tokenId);
 		}),
-		to: event.args!.to
-	} as Indexer.NounsDAO.DAOWithdrawNounsFromEscrow;
+		to: { id: event.args!.to },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -32,18 +30,16 @@ export function parseDAOWithdrawNounsFromEscrowEvent(event: ethers.EventLog) {
  * @param event The blockchain ERC20TokensToIncludeInForkSet event.
  * @returns Formatted ERC20TokensToIncludeInForkSet event.
  */
-export function parseERC20TokensToIncludeInForkSetEvent(event: ethers.EventLog) {
+export function parseERC20TokensToIncludeInForkSetEvent(event: ethers.EventLog): EventData.ERC20TokensToIncludeInForkSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		oldErc20Tokens: event.args!.oldErc20Tokens,
-		newErc20tokens: event.args!.newErc20tokens
-	} as Indexer.NounsDAO.ERC20TokensToIncludeInForkSet;
+		newErc20tokens: event.args!.newErc20tokens,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -51,25 +47,23 @@ export function parseERC20TokensToIncludeInForkSetEvent(event: ethers.EventLog) 
  * @param event The blockchain EscrowedToFork event.
  * @returns Formatted EscrowedToFork event.
  */
-export function parseEscrowedToForkEvent(event: ethers.EventLog) {
+export function parseEscrowedToForkEvent(event: ethers.EventLog): EventData.EscrowedToFork {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		forkId: Number(event.args!.forkId),
-		owner: event.args!.owner,
+		owner: { id: event.args!.owner },
 		tokenIds: event.args!.tokenIds.map((tokenId: BigInt) => {
 			return Number(tokenId);
 		}),
 		proposalIds: event.args!.proposalIds.map((proposalId: BigInt) => {
 			return Number(proposalId);
 		}),
-		reason: event.args!.reason
-	} as Indexer.NounsDAO.EscrowedToFork;
+		reason: event.args!.reason,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -77,21 +71,19 @@ export function parseEscrowedToForkEvent(event: ethers.EventLog) {
  * @param event The blockchain ExecuteFork event.
  * @returns Formatted ExecuteFork event.
  */
-export function parseExecuteForkEvent(event: ethers.EventLog) {
+export function parseExecuteForkEvent(event: ethers.EventLog): EventData.ExecuteFork {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		forkId: Number(event.args!.forkId),
-		forkTreasury: event.args!.forkTreasury,
-		forkToken: event.args!.forkToken,
-		forkEndTimestamp: Number(event.args!.forkEndTimestamp),
-		tokensInEscrow: Number(event.args!.tokensInEscrow)
-	} as Indexer.NounsDAO.ExecuteFork;
+		forkTreasury: { id: event.args!.forkTreasury },
+		forkToken: { id: event.args!.forkToken },
+		forkEndTimestamp: event.args!.forkEndTimestamp,
+		tokensInEscrow: event.args!.tokensInEscrow,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -99,18 +91,16 @@ export function parseExecuteForkEvent(event: ethers.EventLog) {
  * @param event The blockchain ForkDAODeployerSet event.
  * @returns Formatted ForkDAODeployerSet event.
  */
-export function parseForkDAODeployerSetEvent(event: ethers.EventLog) {
+export function parseForkDAODeployerSetEvent(event: ethers.EventLog): EventData.ForkDAODeployerSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldForkDAODeployer: event.args!.oldForkDAODeployer,
-		newForkDAODeployer: event.args!.newForkDAODeployer
-	} as Indexer.NounsDAO.ForkDAODeployerSet;
+		oldForkDAODeployer: { id: event.args!.oldForkDAODeployer },
+		newForkDAODeployer: { id: event.args!.newForkDAODeployer },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -118,18 +108,16 @@ export function parseForkDAODeployerSetEvent(event: ethers.EventLog) {
  * @param event The blockchain ForkPeriodSet event.
  * @returns Formatted ForkPeriodSet event.
  */
-export function parseForkPeriodSetEvent(event: ethers.EventLog) {
+export function parseForkPeriodSetEvent(event: ethers.EventLog): EventData.ForkPeriodSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldForkPeriod: Number(event.args!.oldForkPeriod),
-		newForkPeriod: Number(event.args!.newForkPeriod)
-	} as Indexer.NounsDAO.ForkPeriodSet;
+		oldForkPeriod: event.args!.oldForkPeriod,
+		newForkPeriod: event.args!.newForkPeriod,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -137,18 +125,16 @@ export function parseForkPeriodSetEvent(event: ethers.EventLog) {
  * @param event The blockchain ForkThresholdSet event.
  * @returns Formatted ForkThresholdSet event.
  */
-export function parseForkThresholdSetEvent(event: ethers.EventLog) {
+export function parseForkThresholdSetEvent(event: ethers.EventLog): EventData.ForkThresholdSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldForkThreshold: Number(event.args!.oldForkThreshold),
-		newForkThreshold: Number(event.args!.newForkThreshold)
-	} as Indexer.NounsDAO.ForkThresholdSet;
+		oldForkThreshold: event.args!.oldForkThreshold,
+		newForkThreshold: event.args!.newForkThreshold,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -156,25 +142,23 @@ export function parseForkThresholdSetEvent(event: ethers.EventLog) {
  * @param event The blockchain JoinFork event.
  * @returns Formatted JoinFork event.
  */
-export function parseJoinForkEvent(event: ethers.EventLog) {
+export function parseJoinForkEvent(event: ethers.EventLog): EventData.JoinFork {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		forkId: Number(event.args!.forkId),
-		owner: event.args!.owner,
+		owner: { id: event.args!.owner },
 		tokenIds: event.args!.tokenIds.map((tokenId: BigInt) => {
 			return Number(tokenId);
 		}),
 		proposalIds: event.args!.proposalIds.map((proposalId: BigInt) => {
 			return Number(proposalId);
 		}),
-		reason: event.args!.reason
-	} as Indexer.NounsDAO.JoinFork;
+		reason: event.args!.reason,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -182,18 +166,16 @@ export function parseJoinForkEvent(event: ethers.EventLog) {
  * @param event The blockchain LastMinuteWindowSet event.
  * @returns Formatted LastMinuteWindowSet event.
  */
-export function parseLastMinuteWindowSetEvent(event: ethers.EventLog) {
+export function parseLastMinuteWindowSetEvent(event: ethers.EventLog): EventData.LastMinuteWindowSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldLastMinuteWindowInBlocks: Number(event.args!.oldLastMinuteWindowInBlocks),
-		newLastMinuteWindowInBlocks: Number(event.args!.newLastMinuteWindowInBlocks)
-	} as Indexer.NounsDAO.LastMinuteWindowSet;
+		oldLastMinuteWindowInBlocks: event.args!.oldLastMinuteWindowInBlocks,
+		newLastMinuteWindowInBlocks: event.args!.newLastMinuteWindowInBlocks,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -201,18 +183,16 @@ export function parseLastMinuteWindowSetEvent(event: ethers.EventLog) {
  * @param event The blockchain MaxQuorumVotesBPSSet event.
  * @returns Formatted MaxQuorumVotesBPSSet event.
  */
-export function parseMaxQuorumVotesBPSSetEvent(event: ethers.EventLog) {
+export function parseMaxQuorumVotesBPSSetEvent(event: ethers.EventLog): EventData.MaxQuorumVotesBPSSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		oldMaxQuorumVotesBPS: Number(event.args!.oldMaxQuorumVotesBPS),
-		newMaxQuorumVotesBPS: Number(event.args!.newMaxQuorumVotesBPS)
-	} as Indexer.NounsDAO.MaxQuorumVotesBPSSet;
+		newMaxQuorumVotesBPS: Number(event.args!.newMaxQuorumVotesBPS),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -220,18 +200,16 @@ export function parseMaxQuorumVotesBPSSetEvent(event: ethers.EventLog) {
  * @param event The blockchain MinQuorumVotesBPSSet event.
  * @returns Formatted MinQuorumVotesBPSSet event.
  */
-export function parseMinQuorumVotesBPSSetEvent(event: ethers.EventLog) {
+export function parseMinQuorumVotesBPSSetEvent(event: ethers.EventLog): EventData.MinQuorumVotesBPSSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		oldMinQuorumVotesBPS: Number(event.args!.oldMinQuorumVotesBPS),
-		newMinQuorumVotesBPS: Number(event.args!.newMinQuorumVotesBPS)
-	} as Indexer.NounsDAO.MinQuorumVotesBPSSet;
+		newMinQuorumVotesBPS: Number(event.args!.newMinQuorumVotesBPS),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -239,18 +217,16 @@ export function parseMinQuorumVotesBPSSetEvent(event: ethers.EventLog) {
  * @param event The blockchain NewAdmin event.
  * @returns Formatted NewAdmin event.
  */
-export function parseNewAdminEvent(event: ethers.EventLog) {
+export function parseNewAdminEvent(event: ethers.EventLog): EventData.NewAdmin {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldAdmin: event.args!.oldAdmin,
-		newAdmin: event.args!.newAdmin
-	} as Indexer.NounsDAO.NewAdmin;
+		oldAdmin: { id: event.args!.oldAdmin },
+		newAdmin: { id: event.args!.newAdmin },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -258,18 +234,16 @@ export function parseNewAdminEvent(event: ethers.EventLog) {
  * @param event The blockchain NewImplementation event.
  * @returns Formatted NewImplementation event.
  */
-export function parseNewImplementationEvent(event: ethers.EventLog) {
+export function parseNewImplementationEvent(event: ethers.EventLog): EventData.NewImplementation {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldImplementation: event.args!.oldImplementation,
-		newImplementation: event.args!.newImplementation
-	} as Indexer.NounsDAO.NewImplementation;
+		oldImplementation: { id: event.args!.oldImplementation },
+		newImplementation: { id: event.args!.newImplementation },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -277,18 +251,16 @@ export function parseNewImplementationEvent(event: ethers.EventLog) {
  * @param event The blockchain NewPendingAdmin event.
  * @returns Formatted NewPendingAdmin event.
  */
-export function parseNewPendingAdminEvent(event: ethers.EventLog) {
+export function parseNewPendingAdminEvent(event: ethers.EventLog): EventData.NewPendingAdmin {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldPendingAdmin: event.args!.oldPendingAdmin,
-		newPendingAdmin: event.args!.newPendingAdmin
-	} as Indexer.NounsDAO.NewPendingAdmin;
+		oldPendingAdmin: { id: event.args!.oldPendingAdmin },
+		newPendingAdmin: { id: event.args!.newPendingAdmin },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -296,18 +268,16 @@ export function parseNewPendingAdminEvent(event: ethers.EventLog) {
  * @param event The blockchain NewPendingVetoer event.
  * @returns Formatted NewPendingVetoer event.
  */
-export function parseNewPendingVetoerEvent(event: ethers.EventLog) {
+export function parseNewPendingVetoerEvent(event: ethers.EventLog): EventData.NewPendingVetoer {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldPendingVetoer: event.args!.oldPendingVetoer,
-		newPendingVetoer: event.args!.newPendingVetoer
-	} as Indexer.NounsDAO.NewPendingVetoer;
+		oldPendingVetoer: { id: event.args!.oldPendingVetoer },
+		newPendingVetoer: { id: event.args!.newPendingVetoer },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -315,18 +285,16 @@ export function parseNewPendingVetoerEvent(event: ethers.EventLog) {
  * @param event The blockchain NewVetoer event.
  * @returns Formatted NewVetoer event.
  */
-export function parseNewVetoerEvent(event: ethers.EventLog) {
+export function parseNewVetoerEvent(event: ethers.EventLog): EventData.NewVetoer {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldVetoer: event.args!.oldVetoer,
-		newVetoer: event.args!.newVetoer
-	} as Indexer.NounsDAO.NewVetoer;
+		oldVetoer: { id: event.args!.oldVetoer },
+		newVetoer: { id: event.args!.newVetoer },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -334,18 +302,16 @@ export function parseNewVetoerEvent(event: ethers.EventLog) {
  * @param event The blockchain ObjectionPeriodDurationSet event.
  * @returns Formatted ObjectionPeriodDurationSet event.
  */
-export function parseObjectionPeriodDurationSetEvent(event: ethers.EventLog) {
+export function parseObjectionPeriodDurationSetEvent(event: ethers.EventLog): EventData.ObjectionPeriodDurationSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldObjectionPeriodDurationInBlocks: Number(event.args!.oldObjectionPeriodDurationInBlocks),
-		newObjectionPeriodDurationInBlocks: Number(event.args!.newObjectionPeriodDurationInBlocks)
-	} as Indexer.NounsDAO.ObjectionPeriodDurationSet;
+		oldObjectionPeriodDurationInBlocks: event.args!.oldObjectionPeriodDurationInBlocks,
+		newObjectionPeriodDurationInBlocks: event.args!.newObjectionPeriodDurationInBlocks,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -353,18 +319,15 @@ export function parseObjectionPeriodDurationSetEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalCanceled event.
  * @returns Formatted ProposalCanceled event.
  */
-export function parseProposalCanceledEvent(event: ethers.EventLog) {
+export function parseProposalCanceledEvent(event: ethers.EventLog): EventData.ProposalCanceled {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		proposalId: Number(event.args!.id),
-		status: "Cancelled"
-	} as Indexer.NounsDAO.ProposalCanceled;
+		id: Number(event.args!.id),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -372,24 +335,23 @@ export function parseProposalCanceledEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalCreated event.
  * @returns Formatted ProposalCreated event.
  */
-export function parseProposalCreatedEvent(event: ethers.EventLog) {
+export function parseProposalCreatedEvent(event: ethers.EventLog): EventData.ProposalCreated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		id: Number(event.args!.id),
-		proposer: event.args!.proposer,
+		proposer: { id: event.args!.proposer },
 		targets: event.args!.targets,
+		values: event.args.at(3),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
-		startBlock: Number(event.args!.startBlock),
-		endBlock: Number(event.args!.endBlock),
-		description: event.args!.description
-	} as Indexer.NounsDAO.ProposalCreated;
+		startBlock: event.args!.startBlock,
+		endBlock: event.args!.endBlock,
+		description: event.args!.description,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -397,17 +359,15 @@ export function parseProposalCreatedEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalCreatedOnTimelockV1 event.
  * @returns Formatted ProposalCreatedOnTimelockV1 event.
  */
-export function parseProposalCreatedOnTimelockV1Event(event: ethers.EventLog) {
+export function parseProposalCreatedOnTimelockV1Event(event: ethers.EventLog): EventData.ProposalCreatedOnTimelockV1 {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		id: Number(event.args!.id)
-	} as Indexer.NounsDAO.ProposalCreatedOnTimelockV1;
+		id: Number(event.args!.id),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -415,28 +375,27 @@ export function parseProposalCreatedOnTimelockV1Event(event: ethers.EventLog) {
  * @param event The blockchain ProposalCreatedWithRequirements event.
  * @returns Formatted ProposalCreatedWithRequirements event.
  */
-export function parseProposalCreatedWithRequirementsEvent(event: ethers.EventLog) {
+export function parseProposalCreatedWithRequirementsEvent(event: ethers.EventLog): EventData.ProposalCreatedWithRequirements {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		id: Number(event.args!.id),
-		proposer: event.args!.proposer,
+		proposer: { id: event.args!.proposer },
 		signers: event.args!.signers,
 		targets: event.args!.targets,
+		values: event.args!.at(4), // Verify this with examples.
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
-		startBlock: Number(event.args!.startBlock),
-		endBlock: Number(event.args!.endBlock),
-		updatePeriodEndBlock: Number(event.args!.updatePeriodEndBlock),
+		startBlock: event.args!.startBlock,
+		endBlock: event.args!.endBlock,
+		updatePeriodEndBlock: event.args!.updatePeriodEndBlock,
 		proposalThreshold: Number(event.args!.proposalThreshold),
 		quorumVotes: Number(event.args!.quorumVotes),
-		description: event.args!.description
-	} as Indexer.NounsDAO.ProposalCreatedWithRequirements;
+		description: event.args!.description,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -444,20 +403,18 @@ export function parseProposalCreatedWithRequirementsEvent(event: ethers.EventLog
  * @param event The blockchain ProposalDescriptionUpdated event.
  * @returns Formatted ProposalDescriptionUpdated event.
  */
-export function parseProposalDescriptionUpdatedEvent(event: ethers.EventLog) {
+export function parseProposalDescriptionUpdatedEvent(event: ethers.EventLog): EventData.ProposalDescriptionUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		id: Number(event.args!.id),
-		proposer: event.args!.proposer,
+		proposer: { id: event.args!.proposer },
 		description: event.args!.description,
-		updatedMessage: event.args!.updatedMessage
-	} as Indexer.NounsDAO.ProposalDescriptionUpdated;
+		updatedMessage: event.args!.updatedMessage,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -465,18 +422,15 @@ export function parseProposalDescriptionUpdatedEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalExecuted event.
  * @returns Formatted ProposalExecuted event.
  */
-export function parseProposalExecutedEvent(event: ethers.EventLog) {
+export function parseProposalExecutedEvent(event: ethers.EventLog): EventData.ProposalExecuted {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		proposalId: Number(event.args!.id),
-		status: "Executed"
-	} as Indexer.NounsDAO.ProposalExecuted;
+		id: Number(event.args!.id),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -484,18 +438,16 @@ export function parseProposalExecutedEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalObjectionPeriodSet event.
  * @returns Formatted ProposalObjectionPeriodSet event.
  */
-export function parseProposalObjectionPeriodSetEvent(event: ethers.EventLog) {
+export function parseProposalObjectionPeriodSetEvent(event: ethers.EventLog): EventData.ProposalObjectionPeriodSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		proposalId: Number(event.args!.id),
-		objectionPeriodEndBlock: event.args!.objectionPeriodEndBlock
-	} as Indexer.NounsDAO.ProposalObjectionPeriodSet;
+		id: Number(event.args!.id),
+		objectionPeriodEndBlock: event.args!.objectionPeriodEndBlock,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -503,19 +455,16 @@ export function parseProposalObjectionPeriodSetEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalQueued event.
  * @returns Formatted ProposalQueued event.
  */
-export function parseProposalQueuedEvent(event: ethers.EventLog) {
+export function parseProposalQueuedEvent(event: ethers.EventLog): EventData.ProposalQueued {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		proposalId: Number(event.args!.id),
-		eta: Number(event.args!.eta),
-		status: "Queued"
-	} as Indexer.NounsDAO.ProposalQueued;
+		id: Number(event.args!.id),
+		eta: event.args!.eta,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -523,18 +472,16 @@ export function parseProposalQueuedEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalThresholdBPSSet event.
  * @returns Formatted ProposalThresholdBPSSet event.
  */
-export function parseProposalThresholdBPSSetEvent(event: ethers.EventLog) {
+export function parseProposalThresholdBPSSetEvent(event: ethers.EventLog): EventData.ProposalThresholdBPSSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		oldProposalThresholdBPS: Number(event.args!.oldProposalThresholdBPS),
-		newProposalThresholdBPS: Number(event.args!.newProposalThresholdBPS)
-	} as Indexer.NounsDAO.ProposalThresholdBPSSet;
+		newProposalThresholdBPS: Number(event.args!.newProposalThresholdBPS),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -542,22 +489,21 @@ export function parseProposalThresholdBPSSetEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalTransactionsUpdated event.
  * @returns Formatted ProposalTransactionsUpdated event.
  */
-export function parseProposalTransactionsUpdatedEvent(event: ethers.EventLog) {
+export function parseProposalTransactionsUpdatedEvent(event: ethers.EventLog): EventData.ProposalTransactionsUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		id: Number(event.args!.id),
-		proposer: event.args!.proposer,
+		proposer: { id: event.args!.proposer },
 		targets: event.args!.targets,
+		values: event.args!.at(3),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
-		updateMessage: event.args!.updateMessage
-	} as Indexer.NounsDAO.ProposalTransactionsUpdated;
+		updateMessage: event.args!.updateMessage,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -565,18 +511,16 @@ export function parseProposalTransactionsUpdatedEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalUpdatablePeriodSet event.
  * @returns Formatted ProposalUpdatablePeriodSet event.
  */
-export function parseProposalUpdatablePeriodSetEvent(event: ethers.EventLog) {
+export function parseProposalUpdatablePeriodSetEvent(event: ethers.EventLog): EventData.ProposalUpdatablePeriodSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldProposalUpdatablePeriodInBlocks: Number(event.args!.oldProposalUpdatablePeriodInBlocks),
-		newProposalUpdatablePeriodInBlocks: Number(event.args!.newProposalUpdatablePeriodInBlocks)
-	} as Indexer.NounsDAO.ProposalUpdatablePeriodSet;
+		oldProposalUpdatablePeriodInBlocks: event.args!.oldProposalUpdatablePeriodInBlocks,
+		newProposalUpdatablePeriodInBlocks: event.args!.newProposalUpdatablePeriodInBlocks,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -584,23 +528,22 @@ export function parseProposalUpdatablePeriodSetEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalUpdated event.
  * @returns Formatted ProposalUpdated event.
  */
-export function parseProposalUpdatedEvent(event: ethers.EventLog) {
+export function parseProposalUpdatedEvent(event: ethers.EventLog): EventData.ProposalUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		id: Number(event.args!.id),
-		proposer: event.args!.proposer,
+		proposer: { id: event.args!.proposer },
 		targets: event.args!.targets,
+		values: event.args!.at(3),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		description: event.args!.description,
-		updateMessage: event.args!.updateMessage
-	} as Indexer.NounsDAO.ProposalUpdated;
+		updateMessage: event.args!.updateMessage,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -608,18 +551,15 @@ export function parseProposalUpdatedEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalVetoed event.
  * @returns Formatted ProposalVetoed event.
  */
-export function parseProposalVetoedEvent(event: ethers.EventLog) {
+export function parseProposalVetoedEvent(event: ethers.EventLog): EventData.ProposalVetoed {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		proposalId: Number(event.args!.id),
-		status: "Vetoed"
-	} as Indexer.NounsDAO.ProposalVetoed;
+		id: Number(event.args!.id),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -627,18 +567,16 @@ export function parseProposalVetoedEvent(event: ethers.EventLog) {
  * @param event The blockchain QuorumCoefficientSet event.
  * @returns Formatted QuorumCoefficientSet event.
  */
-export function parseQuorumCoefficientSetEvent(event: ethers.EventLog) {
+export function parseQuorumCoefficientSetEvent(event: ethers.EventLog): EventData.QuorumCoefficientSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		oldQuorumCoefficient: Number(event.args!.oldQuorumCoefficient),
-		newQuorumCoefficient: Number(event.args!.newQuorumCoefficient)
-	} as Indexer.NounsDAO.QuorumCoefficientSet;
+		newQuorumCoefficient: Number(event.args!.newQuorumCoefficient),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -646,18 +584,16 @@ export function parseQuorumCoefficientSetEvent(event: ethers.EventLog) {
  * @param event The blockchain QuorumVotesBPSSet event.
  * @returns Formatted QuorumVotesBPSSet event.
  */
-export function parseQuorumVotesBPSSetEvent(event: ethers.EventLog) {
+export function parseQuorumVotesBPSSetEvent(event: ethers.EventLog): EventData.QuorumVotesBPSSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		oldQuorumVotesBPS: Number(event.args!.oldQuorumVotesBPS),
-		newQuorumVotesBPS: Number(event.args!.newQuorumVotesBPS)
-	} as Indexer.NounsDAO.QuorumVotesBPSSet;
+		newQuorumVotesBPS: Number(event.args!.newQuorumVotesBPS),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -665,19 +601,17 @@ export function parseQuorumVotesBPSSetEvent(event: ethers.EventLog) {
  * @param event The blockchain RefundableVote event.
  * @returns Formatted RefundableVote event.
  */
-export function parseRefundableVoteEvent(event: ethers.EventLog) {
+export function parseRefundableVoteEvent(event: ethers.EventLog): EventData.RefundableVote {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		voter: event.args!.voter,
-		refundAmount: Number(event.args!.refundAmount),
-		refundSent: event.args!.refundSent
-	} as Indexer.NounsDAO.RefundableVote;
+		voter: { id: event.args!.voter },
+		refundAmount: event.args!.refundAmount,
+		refundSent: event.args!.refundSent,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -685,18 +619,16 @@ export function parseRefundableVoteEvent(event: ethers.EventLog) {
  * @param event The blockchain SignatureCancelled event.
  * @returns Formatted SignatureCancelled event.
  */
-export function parseSignatureCancelledEvent(event: ethers.EventLog) {
+export function parseSignatureCancelledEvent(event: ethers.EventLog): EventData.SignatureCancelled {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		signer: event.args!.signer,
-		sig: event.args!.sig
-	} as Indexer.NounsDAO.SignatureCancelled;
+		signer: { id: event.args!.signer },
+		sig: event.args!.sig,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -704,19 +636,17 @@ export function parseSignatureCancelledEvent(event: ethers.EventLog) {
  * @param event The blockchain TimelocksAndAdminSet event.
  * @returns Formatted TimelocksAndAdminSet event.
  */
-export function parseTimelocksAndAdminSetEvent(event: ethers.EventLog) {
+export function parseTimelocksAndAdminSetEvent(event: ethers.EventLog): EventData.TimelocksAndAdminSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		timelock: event.args!.timelock,
-		timelockV1: event.args!.timelockV1,
-		admin: event.args!.admin
-	} as Indexer.NounsDAO.TimelocksAndAdminSet;
+		timelock: { id: event.args!.timelock },
+		timelockV1: { id: event.args!.timelockV1 },
+		admin: { id: event.args!.admin },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -724,22 +654,19 @@ export function parseTimelocksAndAdminSetEvent(event: ethers.EventLog) {
  * @param event The blockchain VoteCast event.
  * @returns Formatted VoteCast event.
  */
-export function parseVoteCastEvent(event: ethers.EventLog) {
+export function parseVoteCastEvent(event: ethers.EventLog): EventData.VoteCast {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		voterAddress: event.args!.voter,
+		voter: { id: event.args!.voter },
 		proposalId: Number(event.args!.proposalId),
-		support: Number(event.args!.support),
-		supportChoice: ["AGAINST", "FOR", "ABSTAIN"][event.args!.support],
+		supportDetailed: Number(event.args!.support),
 		votes: Number(event.args!.votes),
-		reason: event.args!.reason
-	} as Indexer.NounsDAO.VoteCast;
+		reason: event.args!.reason,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -747,18 +674,18 @@ export function parseVoteCastEvent(event: ethers.EventLog) {
  * @param event The blockchain VoteSnapshotBlockSwitchProposalIdSet event.
  * @returns Formatted VoteSnapshotBlockSwitchProposalIdSet event.
  */
-export function parseVoteSnapshotBlockSwitchProposalIdSetEvent(event: ethers.EventLog) {
+export function parseVoteSnapshotBlockSwitchProposalIdSetEvent(
+	event: ethers.EventLog
+): EventData.VoteSnapshotBlockSwitchProposalIdSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		oldVoteSnapshotBlockSwitchProposalId: Number(event.args!.oldVoteSnapshotBlockSwitchProposalId),
-		newVoteSnapshotBlockSwitchProposalId: Number(event.args!.newVoteSnapshotBlockSwitchProposalId)
-	} as Indexer.NounsDAO.VoteSnapshotBlockSwitchProposalIdSet;
+		newVoteSnapshotBlockSwitchProposalId: Number(event.args!.newVoteSnapshotBlockSwitchProposalId),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -766,18 +693,16 @@ export function parseVoteSnapshotBlockSwitchProposalIdSetEvent(event: ethers.Eve
  * @param event The blockchain VotingDelaySet event.
  * @returns Formatted VotingDelaySet event.
  */
-export function parseVotingDelaySetEvent(event: ethers.EventLog) {
+export function parseVotingDelaySetEvent(event: ethers.EventLog): EventData.VotingDelaySet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldVotingDelay: Number(event.args!.oldVotingDelay),
-		newVotingDelay: Number(event.args!.newVotingDelay)
-	} as Indexer.NounsDAO.VotingDelaySet;
+		oldVotingDelay: event.args!.oldVotingDelay,
+		newVotingDelay: event.args!.newVotingDelay,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -785,18 +710,16 @@ export function parseVotingDelaySetEvent(event: ethers.EventLog) {
  * @param event The blockchain VotingPeriodSet event.
  * @returns Formatted VotingPeriodSet event.
  */
-export function parseVotingPeriodSetEvent(event: ethers.EventLog) {
+export function parseVotingPeriodSetEvent(event: ethers.EventLog): EventData.VotingPeriodSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldVotingPeriod: Number(event.args!.oldVotingPeriod),
-		newVotingPeriod: Number(event.args!.newVotingPeriod)
-	} as Indexer.NounsDAO.VotingPeriodSet;
+		oldVotingPeriod: event.args!.oldVotingPeriod,
+		newVotingPeriod: event.args!.newVotingPeriod,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -804,18 +727,16 @@ export function parseVotingPeriodSetEvent(event: ethers.EventLog) {
  * @param event The blockchain Withdraw event.
  * @returns Formatted Withdraw event.
  */
-export function parseWithdrawEvent(event: ethers.EventLog) {
+export function parseWithdrawEvent(event: ethers.EventLog): EventData.Withdraw {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		amount: Number(event.args!.amount),
-		sent: event.args!.sent
-	} as Indexer.NounsDAO.Withdraw;
+		amount: event.args!.amount,
+		sent: event.args!.sent,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -823,19 +744,17 @@ export function parseWithdrawEvent(event: ethers.EventLog) {
  * @param event The blockchain WithdrawFromForkEscrow event.
  * @returns Formatted WithdrawFromForkEscrow event.
  */
-export function parseWithdrawFromForkEscrowEvent(event: ethers.EventLog) {
+export function parseWithdrawFromForkEscrowEvent(event: ethers.EventLog): EventData.WithdrawFromForkEscrow {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
 		forkId: Number(event.args!.forkId),
-		owner: event.args!.owner,
-		tokenIds: event.args!.tokenIds
-	} as Indexer.NounsDAO.WithdrawFromForkEscrow;
+		owner: { id: event.args!.owner },
+		tokenIds: event.args!.tokenIds,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -900,19 +819,17 @@ NOUNS_DAO_PARSERS.set("WithdrawFromForkEscrow", parseWithdrawFromForkEscrowEvent
  * @param event The blockchain AuctionCreated event.
  * @returns Formatted AuctionCreated event.
  */
-export function parseAuctionCreatedEvent(event: ethers.EventLog) {
+export function parseAuctionCreatedEvent(event: ethers.EventLog): EventData.AuctionCreated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		nounId: Number(event.args!.nounId),
-		startTime: Number(event.args!.startTime),
-		endTime: Number(event.args!.endTime)
-	} as Indexer.NounsAuctionHouse.AuctionCreated;
+		id: Number(event.args!.nounId),
+		startTime: event.args!.startTime,
+		endTime: event.args!.endTime,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -920,20 +837,18 @@ export function parseAuctionCreatedEvent(event: ethers.EventLog) {
  * @param event The blockchain AuctionBid event.
  * @returns Formatted AuctionBid event.
  */
-export function parseAuctionBidEvent(event: ethers.EventLog) {
+export function parseAuctionBidEvent(event: ethers.EventLog): EventData.AuctionBid {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		nounId: Number(event.args!.nounId),
-		bidderAddress: event.args!.sender,
-		bidAmount: Number(event.args!.value),
-		extended: event.args!.extended
-	} as Indexer.NounsAuctionHouse.AuctionBid;
+		id: Number(event.args!.nounId),
+		bidder: { id: event.args!.sender },
+		amount: event.args!.value,
+		extended: event.args!.extended,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -941,18 +856,16 @@ export function parseAuctionBidEvent(event: ethers.EventLog) {
  * @param event The blockchain AuctionExtended event.
  * @returns Formatted AuctionExtended event.
  */
-export function parseAuctionExtendedEvent(event: ethers.EventLog) {
+export function parseAuctionExtendedEvent(event: ethers.EventLog): EventData.AuctionExtended {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		nounId: Number(event.args!.nounId),
-		endTime: Number(event.args!.endTime)
-	} as Indexer.NounsAuctionHouse.AuctionExtended;
+		id: Number(event.args!.nounId),
+		endTime: event.args!.endTime,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -960,19 +873,17 @@ export function parseAuctionExtendedEvent(event: ethers.EventLog) {
  * @param event The blockchain AuctionSettled event.
  * @returns Formatted AuctionSettled event.
  */
-export function parseAuctionSettledEvent(event: ethers.EventLog) {
+export function parseAuctionSettledEvent(event: ethers.EventLog): EventData.AuctionSettled {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		nounId: Number(event.args!.nounId),
-		winnerAddress: event.args!.winner,
-		bidAmount: Number(event.args!.amount)
-	} as Indexer.NounsAuctionHouse.AuctionSettled;
+		id: Number(event.args!.nounId),
+		winner: { id: event.args!.winner },
+		amount: event.args!.amount,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -980,17 +891,15 @@ export function parseAuctionSettledEvent(event: ethers.EventLog) {
  * @param event The blockchain AuctionTimeBufferUpdated event.
  * @returns Formatted AuctionTimeBufferUpdated event.
  */
-export function parseAuctionTimeBufferUpdatedEvent(event: ethers.EventLog) {
+export function parseAuctionTimeBufferUpdatedEvent(event: ethers.EventLog): EventData.AuctionTimeBufferUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		timeBuffer: Number(event.args!.timeBuffer)
-	} as Indexer.NounsAuctionHouse.AuctionTimeBufferUpdated;
+		timeBuffer: event.args!.timeBuffer,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -998,17 +907,15 @@ export function parseAuctionTimeBufferUpdatedEvent(event: ethers.EventLog) {
  * @param event The blockchain AuctionReservePriceUpdated event.
  * @returns Formatted AuctionReservePriceUpdated event.
  */
-export function parseAuctionReservePriceUpdatedEvent(event: ethers.EventLog) {
+export function parseAuctionReservePriceUpdatedEvent(event: ethers.EventLog): EventData.AuctionReservePriceUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		reservePrice: Number(event.args!.reservePrice)
-	} as Indexer.NounsAuctionHouse.AuctionReservePriceUpdated;
+		reservePrice: event.args!.reservePrice,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1016,17 +923,17 @@ export function parseAuctionReservePriceUpdatedEvent(event: ethers.EventLog) {
  * @param event The blockchain AuctionMinBidIncrementPercentageUpdated event.
  * @returns Formatted AuctionMinBidIncrementPercentageUpdated event.
  */
-export function parseAuctionMinBidIncrementPercentageUpdatedEvent(event: ethers.EventLog) {
+export function parseAuctionMinBidIncrementPercentageUpdatedEvent(
+	event: ethers.EventLog
+): EventData.AuctionMinBidIncrementPercentageUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		minBidIncrementPercentage: Number(event.args!.minBidIncrementPercentage)
-	} as Indexer.NounsAuctionHouse.AuctionMinBidIncrementPercentageUpdated;
+		minBidIncrementPercentage: Number(event.args!.minBidIncrementPercentage),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1034,18 +941,16 @@ export function parseAuctionMinBidIncrementPercentageUpdatedEvent(event: ethers.
  * @param event The blockchain OwnershipTransferred event.
  * @returns Formatted OwnershipTransferred event.
  */
-export function parseOwnershipTransferredEvent(event: ethers.EventLog) {
+export function parseOwnershipTransferredEvent(event: ethers.EventLog): EventData.OwnershipTransferred {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		previousOwner: event.args!.previousOwner,
-		newOwner: event.args!.newOwner
-	} as Indexer.NounsAuctionHouse.OwnershipTransferred;
+		previousOwner: { id: event.args!.previousOwner },
+		newOwner: { id: event.args!.newOwner },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1053,17 +958,15 @@ export function parseOwnershipTransferredEvent(event: ethers.EventLog) {
  * @param event The blockchain Paused event.
  * @returns Formatted Paused event.
  */
-export function parsePausedEvent(event: ethers.EventLog) {
+export function parsePausedEvent(event: ethers.EventLog): EventData.Paused {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		pauseAddress: event.args!.address
-	} as Indexer.NounsAuctionHouse.Paused;
+		address: { id: event.args!.address },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1071,17 +974,15 @@ export function parsePausedEvent(event: ethers.EventLog) {
  * @param event The blockchain Unpaused event.
  * @returns Formatted Unpaused event.
  */
-export function parseUnpausedEvent(event: ethers.EventLog) {
+export function parseUnpausedEvent(event: ethers.EventLog): EventData.Unpaused {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		unpauseAddress: event.args!.address
-	} as Indexer.NounsAuctionHouse.Unpaused;
+		address: { id: event.args!.address },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1108,19 +1009,17 @@ NOUNS_AUCTION_PARSERS.set("Unpaused", parseUnpausedEvent);
  * @param event The blockchain DelegateChanged event.
  * @returns Formatted DelegateChanged event.
  */
-export function parseDelegateChangedEvent(event: ethers.EventLog) {
+export function parseDelegateChangedEvent(event: ethers.EventLog): EventData.DelegateChanged {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		delegator: event.args!.delegator,
-		fromDelegate: event.args!.fromDelegate,
-		toDelegate: event.args!.toDelegate
-	} as Indexer.NounsToken.DelegateChanged;
+		delegator: { id: event.args!.delegator },
+		fromDelegate: { id: event.args!.fromDelegate },
+		toDelegate: { id: event.args!.toDelegate },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1128,19 +1027,17 @@ export function parseDelegateChangedEvent(event: ethers.EventLog) {
  * @param event The blockchain DelegateVotesChanged event.
  * @returns Formatted DelegateVotesChanged event.
  */
-export function parseDelegateVotesChangedEvent(event: ethers.EventLog) {
+export function parseDelegateVotesChangedEvent(event: ethers.EventLog): EventData.DelegateVotesChanged {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		delegate: event.args!.delegate,
-		previousBalance: Number(event.args!.previousBalance),
-		newBalance: Number(event.args!.newBalance)
-	} as Indexer.NounsToken.DelegateVotesChanged;
+		delegate: { id: event.args!.delegate },
+		previousBalance: event.args!.previousBalance,
+		newBalance: event.args!.newBalance,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1148,19 +1045,17 @@ export function parseDelegateVotesChangedEvent(event: ethers.EventLog) {
  * @param event The blockchain Transfer event.
  * @returns Formatted Transfer event.
  */
-export function parseTransferEvent(event: ethers.EventLog) {
+export function parseTransferEvent(event: ethers.EventLog): EventData.Transfer {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		from: event.args!.from,
-		to: event.args!.to,
-		tokenId: Number(event.args!.tokenId)
-	} as Indexer.NounsToken.Transfer;
+		from: { id: event.args!.from },
+		to: { id: event.args!.to },
+		tokenId: Number(event.args!.tokenId),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1168,19 +1063,17 @@ export function parseTransferEvent(event: ethers.EventLog) {
  * @param event The blockchain Approval event.
  * @returns Formatted Approval event.
  */
-export function parseApprovalEvent(event: ethers.EventLog) {
+export function parseApprovalEvent(event: ethers.EventLog): EventData.Approval {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		owner: event.args!.owner,
-		approved: event.args!.approved,
-		tokenId: Number(event.args!.tokenId)
-	} as Indexer.NounsToken.Approval;
+		owner: { id: event.args!.owner },
+		approved: { id: event.args!.approved },
+		tokenId: Number(event.args!.tokenId),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1188,19 +1081,17 @@ export function parseApprovalEvent(event: ethers.EventLog) {
  * @param event The blockchain ApprovalForAll event.
  * @returns Formatted ApprovalForAll event.
  */
-export function parseApprovalForAllEvent(event: ethers.EventLog) {
+export function parseApprovalForAllEvent(event: ethers.EventLog): EventData.ApprovalForAll {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		owner: event.args!.owner,
-		operator: event.args!.operator,
-		approved: event.args!.approved
-	} as Indexer.NounsToken.ApprovalForAll;
+		owner: { id: event.args!.owner },
+		operator: { id: event.args!.operator },
+		approved: event.args!.approved,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1208,24 +1099,22 @@ export function parseApprovalForAllEvent(event: ethers.EventLog) {
  * @param event The blockchain NounCreated event.
  * @returns Formatted NounCreated event.
  */
-export function parseNounCreatedEvent(event: ethers.EventLog) {
+export function parseNounCreatedEvent(event: ethers.EventLog): EventData.NounCreated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		tokenId: Number(event.args!.tokenId),
+		id: Number(event.args!.tokenId),
 		seed: {
 			background: Number(event.args!.seed.background),
 			body: Number(event.args!.seed.body),
 			accessory: Number(event.args!.seed.accessory),
 			head: Number(event.args!.seed.head),
 			glasses: Number(event.args!.seed.glasses)
+		},
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
 		}
-	} as Indexer.NounsToken.NounCreated;
+	};
 }
 
 /**
@@ -1233,16 +1122,14 @@ export function parseNounCreatedEvent(event: ethers.EventLog) {
  * @param event The blockchain DescriptorLocked event.
  * @returns Formatted DescriptorLocked event.
  */
-export function parseDescriptorLockedEvent(event: ethers.EventLog) {
+export function parseDescriptorLockedEvent(event: ethers.EventLog): EventData.DescriptorLocked {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature
-	} as Indexer.NounsToken.DescriptorLocked;
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1250,17 +1137,15 @@ export function parseDescriptorLockedEvent(event: ethers.EventLog) {
  * @param event The blockchain DescriptorUpdated event.
  * @returns Formatted DescriptorUpdated event.
  */
-export function parseDescriptorUpdatedEvent(event: ethers.EventLog) {
+export function parseDescriptorUpdatedEvent(event: ethers.EventLog): EventData.DescriptorUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		descriptor: event.args!._descriptor
-	} as Indexer.NounsToken.DescriptorUpdated;
+		descriptor: { id: event.args!._descriptor },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1268,16 +1153,14 @@ export function parseDescriptorUpdatedEvent(event: ethers.EventLog) {
  * @param event The blockchain MinterLocked event.
  * @returns Formatted MinterLocked event.
  */
-export function parseMinterLockedEvent(event: ethers.EventLog) {
+export function parseMinterLockedEvent(event: ethers.EventLog): EventData.MinterLocked {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature
-	} as Indexer.NounsToken.MinterLocked;
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1285,17 +1168,15 @@ export function parseMinterLockedEvent(event: ethers.EventLog) {
  * @param event The blockchain MinterUpdated event.
  * @returns Formatted MinterUpdated event.
  */
-export function parseMinterUpdatedEvent(event: ethers.EventLog) {
+export function parseMinterUpdatedEvent(event: ethers.EventLog): EventData.MinterUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		minter: event.args!._minter
-	} as Indexer.NounsToken.MinterUpdated;
+		minter: { id: event.args!._minter },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1303,17 +1184,15 @@ export function parseMinterUpdatedEvent(event: ethers.EventLog) {
  * @param event The blockchain NounBurned event.
  * @returns Formatted NounBurned event.
  */
-export function parseNounBurnedEvent(event: ethers.EventLog) {
+export function parseNounBurnedEvent(event: ethers.EventLog): EventData.NounBurned {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		nounId: Number(event.args!.nounId)
-	} as Indexer.NounsToken.NounBurned;
+		id: Number(event.args!.nounId),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1321,17 +1200,15 @@ export function parseNounBurnedEvent(event: ethers.EventLog) {
  * @param event The blockchain NoundersDAOUpdated event.
  * @returns Formatted NoundersDAOUpdated event.
  */
-export function parseNoundersDAOUpdatedEvent(event: ethers.EventLog) {
+export function parseNoundersDAOUpdatedEvent(event: ethers.EventLog): EventData.NoundersDAOUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		noundersDAO: event.args!._noundersDAO
-	} as Indexer.NounsToken.NoundersDAOUpdated;
+		noundersDAO: { id: event.args!._noundersDAO },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1339,18 +1216,16 @@ export function parseNoundersDAOUpdatedEvent(event: ethers.EventLog) {
  * @param event The blockchain OwnershipTransferred event.
  * @returns Formatted OwnershipTransferred event.
  */
-export function parseOwnershipTransferredEvent2(event: ethers.EventLog) {
+export function parseOwnershipTransferredEvent2(event: ethers.EventLog): EventData.OwnershipTransferred {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		previousOwner: event.args!.previousOwner,
-		newOwner: event.args!.newOwner
-	} as Indexer.NounsAuctionHouse.OwnershipTransferred;
+		previousOwner: { id: event.args!.previousOwner },
+		newOwner: { id: event.args!.newOwner },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1358,16 +1233,14 @@ export function parseOwnershipTransferredEvent2(event: ethers.EventLog) {
  * @param event The blockchain SeederLocked event.
  * @returns Formatted SeederLocked event.
  */
-export function parseSeederLockedEvent(event: ethers.EventLog) {
+export function parseSeederLockedEvent(event: ethers.EventLog): EventData.SeederLocked {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature
-	} as Indexer.NounsToken.SeederLocked;
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1375,17 +1248,15 @@ export function parseSeederLockedEvent(event: ethers.EventLog) {
  * @param event The blockchain SeederUpdated event.
  * @returns Formatted SeederUpdated event.
  */
-export function parseSeederUpdatedEvent(event: ethers.EventLog) {
+export function parseSeederUpdatedEvent(event: ethers.EventLog): EventData.SeederUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		seeder: event.args!._seeder
-	} as Indexer.NounsToken.SeederUpdated;
+		seeder: { id: event.args!._seeder },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1417,18 +1288,16 @@ NOUNS_TOKEN_PARSERS.set("SeederUpdated", parseSeederUpdatedEvent);
  * @param event The blockchain AdminChanged event.
  * @returns Formatted AdminChanged event.
  */
-export function parseAdminChangedEvent(event: ethers.EventLog) {
+export function parseAdminChangedEvent(event: ethers.EventLog): EventData.AdminChanged {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		previousAdmin: event.args!.previousAdmin,
-		newAdmin: event.args!.newAdmin
-	} as Indexer.NounsDAOData.AdminChanged;
+		previousAdmin: { id: event.args!.previousAdmin },
+		newAdmin: { id: event.args!.newAdmin },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1436,17 +1305,15 @@ export function parseAdminChangedEvent(event: ethers.EventLog) {
  * @param event The blockchain BeaconUpgraded event.
  * @returns Formatted BeaconUpgraded event.
  */
-export function parseBeaconUpgradedEvent(event: ethers.EventLog) {
+export function parseBeaconUpgradedEvent(event: ethers.EventLog): EventData.BeaconUpgraded {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		beacon: event.args!.beacon
-	} as Indexer.NounsDAOData.BeaconUpgraded;
+		beacon: { id: event.args!.beacon },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1454,22 +1321,19 @@ export function parseBeaconUpgradedEvent(event: ethers.EventLog) {
  * @param event The blockchain CandidateFeedbackSent event.
  * @returns Formatted CandidateFeedbackSent event.
  */
-export function parseCandidateFeedbackSentEvent(event: ethers.EventLog) {
+export function parseCandidateFeedbackSentEvent(event: ethers.EventLog): EventData.CandidateFeedbackSent {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		msgSender: event.args!.msgSender,
-		proposer: event.args!.proposer,
+		msgSender: { id: event.args!.msgSender },
+		proposer: { id: event.args!.proposer },
 		slug: event.args!.slug,
 		support: Number(event.args!.support),
-		supportChoice: ["AGAINST", "FOR", "ABSTAIN"][event.args!.support],
-		reason: event.args!.reason
-	} as Indexer.NounsDAOData.CandidateFeedbackSent;
+		reason: event.args!.reason,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1477,18 +1341,16 @@ export function parseCandidateFeedbackSentEvent(event: ethers.EventLog) {
  * @param event The blockchain CreateCandidateCostSet event.
  * @returns Formatted CreateCandidateCostSet event.
  */
-export function parseCreateCandidateCostSetEvent(event: ethers.EventLog) {
+export function parseCreateCandidateCostSetEvent(event: ethers.EventLog): EventData.CreateCandidateCostSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldCreateCandidateCost: Number(event.args!.oldCreateCandidateCost),
-		newCreateCandidateCost: Number(event.args!.newCreateCandidateCost)
-	} as Indexer.NounsDAOData.CreateCandidateCostSet;
+		oldCreateCandidateCost: event.args!.oldCreateCandidateCost,
+		newCreateCandidateCost: event.args!.newCreateCandidateCost,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1496,18 +1358,16 @@ export function parseCreateCandidateCostSetEvent(event: ethers.EventLog) {
  * @param event The blockchain ETHWithdrawn event.
  * @returns Formatted ETHWithdrawn event.
  */
-export function parseETHWithdrawnEvent(event: ethers.EventLog) {
+export function parseETHWithdrawnEvent(event: ethers.EventLog): EventData.ETHWithdrawn {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		to: event.args!.to,
-		amount: Number(event.args!.amount)
-	} as Indexer.NounsDAOData.ETHWithdrawn;
+		to: { id: event.args!.to },
+		amount: event.args!.amount,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1515,18 +1375,16 @@ export function parseETHWithdrawnEvent(event: ethers.EventLog) {
  * @param event The blockchain FeeRecipientSet event.
  * @returns Formatted FeeRecipientSet event.
  */
-export function parseFeeRecipientSetEvent(event: ethers.EventLog) {
+export function parseFeeRecipientSetEvent(event: ethers.EventLog): EventData.FeeRecipientSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldFeeRecipient: event.args!.oldFeeRecipient,
-		newFeeRecipient: event.args!.newFeeRecipient
-	} as Indexer.NounsDAOData.FeeRecipientSet;
+		oldFeeRecipient: { id: event.args!.oldFeeRecipient },
+		newFeeRecipient: { id: event.args!.newFeeRecipient },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1534,21 +1392,18 @@ export function parseFeeRecipientSetEvent(event: ethers.EventLog) {
  * @param event The blockchain FeedbackSent event.
  * @returns Formatted FeedbackSent event.
  */
-export function parseFeedbackSentEvent(event: ethers.EventLog) {
+export function parseFeedbackSentEvent(event: ethers.EventLog): EventData.FeedbackSent {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		msgSender: event.args!.msgSender,
+		msgSender: { id: event.args!.msgSender },
 		proposalId: Number(event.args!.proposalId),
 		support: Number(event.args!.support),
-		supportChoice: ["AGAINST", "FOR", "ABSTAIN"][event.args!.support],
-		reason: event.args!.reason
-	} as Indexer.NounsDAOData.FeedbackSent;
+		reason: event.args!.reason,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1556,18 +1411,16 @@ export function parseFeedbackSentEvent(event: ethers.EventLog) {
  * @param event The blockchain OwnershipTransferred event.
  * @returns Formatted OwnershipTransferred event.
  */
-export function parseOwnershipTransferredEvent3(event: ethers.EventLog) {
+export function parseOwnershipTransferredEvent3(event: ethers.EventLog): EventData.OwnershipTransferred {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		previousOwner: event.args!.previousOwner,
-		newOwner: event.args!.newOwner
-	} as Indexer.NounsDAOData.OwnershipTransferred;
+		previousOwner: { id: event.args!.previousOwner },
+		newOwner: { id: event.args!.newOwner },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1575,18 +1428,16 @@ export function parseOwnershipTransferredEvent3(event: ethers.EventLog) {
  * @param event The blockchain ProposalCandidateCanceled event.
  * @returns Formatted ProposalCandidateCanceled event.
  */
-export function parseProposalCandidateCanceledEvent(event: ethers.EventLog) {
+export function parseProposalCandidateCanceledEvent(event: ethers.EventLog): EventData.ProposalCandidateCanceled {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		msgSender: event.args!.msgSender,
-		slug: event.args!.slug
-	} as Indexer.NounsDAOData.ProposalCandidateCanceled;
+		msgSender: { id: event.args!.msgSender },
+		slug: event.args!.slug,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1594,24 +1445,23 @@ export function parseProposalCandidateCanceledEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalCandidateCreated event.
  * @returns Formatted ProposalCandidateCreated event.
  */
-export function parseProposalCandidateCreatedEvent(event: ethers.EventLog) {
+export function parseProposalCandidateCreatedEvent(event: ethers.EventLog): EventData.ProposalCandidateCreated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		msgSender: event.args!.msgSender,
+		msgSender: { id: event.args!.msgSender },
 		targets: event.args!.targets,
+		values: event.args!.at(2),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		description: event.args!.description,
 		slug: event.args!.slug,
 		proposalIdToUpdate: Number(event.args!.proposalIdToUpdate),
-		encodedProposalHash: event.args!.encodedProposalHash
-	} as Indexer.NounsDAOData.ProposalCandidateCreated;
+		encodedProposalHash: event.args!.encodedProposalHash,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1619,25 +1469,24 @@ export function parseProposalCandidateCreatedEvent(event: ethers.EventLog) {
  * @param event The blockchain ProposalCandidateUpdated event.
  * @returns Formatted ProposalCandidateUpdated event.
  */
-export function parseProposalCandidateUpdatedEvent(event: ethers.EventLog) {
+export function parseProposalCandidateUpdatedEvent(event: ethers.EventLog): EventData.ProposalCandidateUpdated {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		msgSender: event.args!.msgSender,
+		msgSender: { id: event.args!.msgSender },
 		targets: event.args!.targets,
+		values: event.args!.at(2),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		description: event.args!.description,
 		slug: event.args!.slug,
 		proposalIdToUpdate: Number(event.args!.proposalIdToUpdate),
 		encodedProposalHash: event.args!.encodedProposalHash,
-		reason: event.args!.reason
-	} as Indexer.NounsDAOData.ProposalCandidateUpdated;
+		reason: event.args!.reason,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1645,25 +1494,23 @@ export function parseProposalCandidateUpdatedEvent(event: ethers.EventLog) {
  * @param event The blockchain SignatureAdded event.
  * @returns Formatted SignatureAdded event.
  */
-export function parseSignatureAddedEvent(event: ethers.EventLog) {
+export function parseSignatureAddedEvent(event: ethers.EventLog): EventData.SignatureAdded {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		signer: event.args!.signer,
+		signer: { id: event.args!.signer },
 		sig: event.args!.sig,
-		expirationTimestamp: Number(event.args!.expirationTimestamp),
-		proposer: event.args!.proposer,
+		expirationTimestamp: event.args!.expirationTimestamp,
+		proposer: { id: event.args!.proposer },
 		slug: event.args!.slug,
 		proposalIdToUpdate: Number(event.args!.proposalIdToUpdate),
 		encodedPropHash: event.args!.encodedPropHash,
 		sigDigest: event.args!.sigDigest,
-		reason: event.args!.reason
-	} as Indexer.NounsDAOData.SignatureAdded;
+		reason: event.args!.reason,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1671,18 +1518,16 @@ export function parseSignatureAddedEvent(event: ethers.EventLog) {
  * @param event The blockchain UpdateCandidateCostSet event.
  * @returns Formatted UpdateCandidateCostSet event.
  */
-export function parseUpdateCandidateCostSetEvent(event: ethers.EventLog) {
+export function parseUpdateCandidateCostSetEvent(event: ethers.EventLog): EventData.UpdateCandidateCostSet {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		oldUpdateCandidateCost: Number(event.args!.oldUpdateCandidateCost),
-		newUpdateCandidateCost: Number(event.args!.newUpdateCandidateCost)
-	} as Indexer.NounsDAOData.UpdateCandidateCostSet;
+		oldUpdateCandidateCost: event.args!.oldUpdateCandidateCost,
+		newUpdateCandidateCost: event.args!.newUpdateCandidateCost,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
@@ -1690,17 +1535,15 @@ export function parseUpdateCandidateCostSetEvent(event: ethers.EventLog) {
  * @param event The blockchain Upgraded event.
  * @returns Formatted Upgraded event.
  */
-export function parseUpgradedEvent(event: ethers.EventLog) {
+export function parseUpgradedEvent(event: ethers.EventLog): EventData.Upgraded {
 	return {
-		blockNumber: event.blockNumber,
-		blockHash: event.blockHash,
-		transactionIndex: event.transactionIndex,
-		address: event.address,
-		transactionHash: event.transactionHash,
-		eventName: event.eventName,
-		eventSignature: event.eventSignature,
-		implementation: event.args!.implementation
-	} as Indexer.NounsDAOData.Upgraded;
+		implementation: { id: event.args!.implementation },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
 }
 
 /**
