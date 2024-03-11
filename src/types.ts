@@ -37,6 +37,12 @@ export interface NounsTokenSeed {
 	glasses: number;
 }
 
+export interface Event {
+	blockNumber: number;
+	blockHash: string;
+	transactionHash: string;
+}
+
 /**
  * Vote options and their associated numbers.
  * @example
@@ -82,7 +88,7 @@ export namespace EventData {
 		/** Address withdrawing the tokens. */
 		to: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ERC20TokensToIncludeInForkSet event data.
@@ -94,7 +100,7 @@ export namespace EventData {
 		/** New ERC20 tokens for splitting funds. */
 		newErc20tokens: string[];
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** EscrowedToFork event data.
@@ -112,7 +118,7 @@ export namespace EventData {
 		/** Optional reason. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ExecuteFork event data. The fork escrow is closed.
@@ -130,7 +136,7 @@ export namespace EventData {
 		/** Tokens in escrow at the moment of the escrow. These are lost from the main treasury. */
 		tokensInEscrow: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ForkDAODeployerSet event data.
@@ -142,7 +148,7 @@ export namespace EventData {
 		/** New fork DAO deployer contract. */
 		newForkDAODeployer: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ForkPeriodSet event data. Sets how much time a fork has to rejoin the DAO after it has been executed.
@@ -154,7 +160,7 @@ export namespace EventData {
 		/** New fork period in seconds. */
 		newForkPeriod: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ForkThresholdSet event data. Sets the threshold of Nouns in escrow needed to execute a fork.
@@ -166,7 +172,7 @@ export namespace EventData {
 		/** The new token amount needed to successfully fork the DAO. A percentage of the token supply. */
 		newForkThreshold: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** JoinFork event data. Joins contract after the contract has been executed, but before the time to rejoin has ended.
@@ -184,7 +190,7 @@ export namespace EventData {
 		/** Optional reason. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** LastMinuteWindowSet event data.
@@ -196,7 +202,7 @@ export namespace EventData {
 		/** New objection period last minute window. */
 		newLastMinuteWindowInBlocks: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** MaxQuorumVotesBPSSet event data.
@@ -208,7 +214,7 @@ export namespace EventData {
 		/** New maximum quorum votes BPS. */
 		newMaxQuorumVotesBPS: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** MinQuorumVotesBPSSet event data.
@@ -220,7 +226,7 @@ export namespace EventData {
 		/** New minimum quorum votes BPS. */
 		newMinQuorumVotesBPS: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NewAdmin event data. Transfers admin rights.
@@ -232,7 +238,7 @@ export namespace EventData {
 		/** New admin address. */
 		newAdmin: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NewImplementation event data. Updates implementation of the delegator.
@@ -244,7 +250,7 @@ export namespace EventData {
 		/** New delegator implementation. */
 		newImplementation: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NewPendingAdmin event data. Offers the admin position to a new address. The new address must accept it to become an admin.
@@ -256,7 +262,7 @@ export namespace EventData {
 		/** New pending admin address. */
 		newPendingAdmin: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NewPendingVetoer event data. Offers the vetoer position to a new address. The new address must accept it to become a vetoer.
@@ -268,7 +274,7 @@ export namespace EventData {
 		/** New pending vetoer. */
 		newPendingVetoer: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NewVetoer event data. Transfers vetoer rights.
@@ -280,7 +286,7 @@ export namespace EventData {
 		/** New vetoer. */
 		newVetoer: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ObjectionPeriodDurationSet event data.
@@ -292,7 +298,7 @@ export namespace EventData {
 		/** New objection period in blocks. */
 		newObjectionPeriodDurationInBlocks: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCanceled event data.
@@ -302,7 +308,7 @@ export namespace EventData {
 		/** id of the proposal being cancelled. */
 		id: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCreated event data.
@@ -335,7 +341,7 @@ export namespace EventData {
 		 */
 		description: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCreatedOnTimelockV1 event data.
@@ -345,7 +351,7 @@ export namespace EventData {
 		/** id of the proposal created. */
 		id: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCreatedWithRequirements event data.
@@ -386,7 +392,7 @@ export namespace EventData {
 		 */
 		description: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalDescriptionUpdated event data. The proposal description was updated during the updateable period.
@@ -402,7 +408,7 @@ export namespace EventData {
 		/** A message explaining the update. */
 		updatedMessage: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalExecuted event data. Executes a fork that is currently queued. Not possible during forking period.
@@ -412,7 +418,7 @@ export namespace EventData {
 		/** id of the proposal executed. */
 		id: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalObjectionPeriodSet event data. A last minute FOR vote that changes the proposal from defeated to succeeded will trigger this event. Extends voting time.
@@ -424,7 +430,7 @@ export namespace EventData {
 		/** Objection end block. */
 		objectionPeriodEndBlock: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalQueued event data. A proposal that was successful during the voting period is queued.
@@ -436,7 +442,7 @@ export namespace EventData {
 		/** Block number signifying end of the queued period. The proposal is executed once this is over. */
 		eta: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalThresholdBPSSet event data.
@@ -448,7 +454,7 @@ export namespace EventData {
 		/** New proposal threshold basis points. */
 		newProposalThresholdBPS: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalTransactionsUpdated event data. Updates list of proposal transactions during the updateable period.
@@ -470,7 +476,7 @@ export namespace EventData {
 		/** The reason for the update. */
 		updateMessage: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalUpdatablePeriodSet event data.
@@ -482,7 +488,7 @@ export namespace EventData {
 		/** The new proposal updatable period in blocks. */
 		newProposalUpdatablePeriodInBlocks: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalUpdated event data. Updates both the description and transaction.
@@ -506,7 +512,7 @@ export namespace EventData {
 		/** Message explaining the update. */
 		updateMessage: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalVetoed event data. Vetoes a proposal that has not been executed.
@@ -516,7 +522,7 @@ export namespace EventData {
 		/** id of the proposal. */
 		id: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Quit event data. Token holders return their tokens in exchange for eth.
@@ -528,7 +534,7 @@ export namespace EventData {
 		/** The tokens returned in exchange for eth. */
 		tokenIds: number[];
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** QuorumCoefficientSet event data. Sets a new fixed point integer with 6 decimals.
@@ -540,7 +546,7 @@ export namespace EventData {
 		/** The new quorum coefficient. */
 		newQuorumCoefficient: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** QuorumVotesBPSSet event data. (Old)
@@ -552,7 +558,7 @@ export namespace EventData {
 		/** The new quorum votes basis points. */
 		newQuorumVotesBPS: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** RefundableVote event data.
@@ -566,7 +572,7 @@ export namespace EventData {
 		/** Whether the refund was sent or not. */
 		refundSent: boolean;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** SignatureCancelled event data. Invalidates a signature for signing a proposal.
@@ -578,7 +584,7 @@ export namespace EventData {
 		/** The signature to cancel. */
 		sig: any;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** TimelocksAndAdminSet event data.
@@ -592,7 +598,7 @@ export namespace EventData {
 		/** The new admin address. */
 		admin: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** VoteCast event data.
@@ -610,7 +616,7 @@ export namespace EventData {
 		/** An optional reason explaining their decision. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** VoteSnapshotBlockSwitchProposalIdSet event data. The proposal id after which the snapshot was taken the day voting started.
@@ -622,7 +628,7 @@ export namespace EventData {
 		/** The proposal id from which the snapshot became the starting day. */
 		newVoteSnapshotBlockSwitchProposalId: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** VotingDelaySet event data. Voting delay is the time before voting begins, in blocks.
@@ -634,7 +640,7 @@ export namespace EventData {
 		/** The new voting delay in blocks. */
 		newVotingDelay: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** VotingPeriodSet event data. Voting period is how long voting lasts, in blocks.
@@ -646,7 +652,7 @@ export namespace EventData {
 		/** The new voting period in blocks. */
 		newVotingPeriod: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Withdraw event data. Withdraws all the eth in the contract.
@@ -658,7 +664,7 @@ export namespace EventData {
 		/** Whether the withdrawn amount was sent. */
 		sent: boolean;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** WithdrawFromForkEscrow event data. Withdraws nouns from the escrow if the fork has not been executed yet.
@@ -672,7 +678,7 @@ export namespace EventData {
 		/** The tokens withdrawing. */
 		tokenIds: number[];
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	// ******************************************
@@ -705,7 +711,7 @@ export namespace EventData {
 		/** Whether the bid was received within the end time buffer, thus extending the auction. */
 		extended: boolean;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionCreated event data.
@@ -719,7 +725,7 @@ export namespace EventData {
 		/** Auction ending time as seconds since unix epoch. */
 		endTime: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionExtended event data. Happens whenever a bid comes in within the end buffer of the auction.
@@ -731,7 +737,7 @@ export namespace EventData {
 		/** New auction end time as seconds since unix epoch. */
 		endTime: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionSettled event data. Triggers when the next auction begins.
@@ -745,7 +751,7 @@ export namespace EventData {
 		/** Winning bid amount in wei. */
 		amount: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionTimeBufferUpdated event data. The time buffer that extends an auction.
@@ -755,7 +761,7 @@ export namespace EventData {
 		/** New time buffer. */
 		timeBuffer: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionReservePriceUpdated event data.
@@ -765,7 +771,7 @@ export namespace EventData {
 		/** New auction reserve price. */
 		reservePrice: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionMinBidIncrementPercentageUpdated event data.
@@ -775,7 +781,7 @@ export namespace EventData {
 		/** New auction minimum bid increment percentage. */
 		minBidIncrementPercentage: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** OwnershipTransferred event data.
@@ -787,7 +793,7 @@ export namespace EventData {
 		/** New owner. */
 		newOwner: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Paused event data.
@@ -797,7 +803,7 @@ export namespace EventData {
 		/** Address paused. */
 		address: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Unpaused event data.
@@ -807,7 +813,7 @@ export namespace EventData {
 		/** Address unpaused. */
 		address: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	// ******************************************
@@ -830,7 +836,7 @@ export namespace EventData {
 		/** Number of votes delegated. */
 		numOfVotesChanged?: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** DelegateVotesChanged event data.
@@ -844,7 +850,7 @@ export namespace EventData {
 		/** New voting power. */
 		newBalance: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Transfer event data.
@@ -858,7 +864,7 @@ export namespace EventData {
 		/** Nouns token id. */
 		tokenId: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Approval event data.
@@ -872,7 +878,7 @@ export namespace EventData {
 		/** Nouns token id. */
 		tokenId: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ApprovalForAll event data.
@@ -886,7 +892,7 @@ export namespace EventData {
 		/** Whether the operator has permission for the token. */
 		approved: boolean;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** DescriptorLocked event data.
@@ -894,7 +900,7 @@ export namespace EventData {
 	 */
 	export interface DescriptorLocked {
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** DescriptorUpdated event data.
@@ -904,7 +910,7 @@ export namespace EventData {
 		/** New token URI descriptor. */
 		descriptor: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** MinterLocked event data.
@@ -912,7 +918,7 @@ export namespace EventData {
 	 */
 	export interface MinterLocked {
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** MinterUpdated event data.
@@ -922,7 +928,7 @@ export namespace EventData {
 		/** Token minter. */
 		minter: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NounBurned event data. Burns a noun. Happens when an auction has no bids.
@@ -932,7 +938,7 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NounCreated event data.
@@ -944,7 +950,7 @@ export namespace EventData {
 		/** Noun token seed. */
 		seed: NounsTokenSeed;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NoundersDAOUpdated event data.
@@ -954,7 +960,7 @@ export namespace EventData {
 		/** Nounders DAO. */
 		noundersDAO: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** OwnershipTransferred event data.
@@ -966,7 +972,7 @@ export namespace EventData {
 		/** New owner. */
 		newOwner: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** SeederLocked event data.
@@ -974,7 +980,7 @@ export namespace EventData {
 	 */
 	export interface SeederLocked {
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** SeederUpdated event data.
@@ -984,7 +990,7 @@ export namespace EventData {
 		/** Token seeder. */
 		seeder: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	// ******************************************
@@ -1002,7 +1008,7 @@ export namespace EventData {
 		/** New admin. */
 		newAdmin: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** BeaconUpgraded event data.
@@ -1012,7 +1018,7 @@ export namespace EventData {
 		/** Beacon. */
 		beacon: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** CandidateFeedbackSent event data.
@@ -1030,7 +1036,7 @@ export namespace EventData {
 		/** Optional reason left by the feedbacker. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** CreateCandidateCostSet event data.
@@ -1042,7 +1048,7 @@ export namespace EventData {
 		/** New cost of creating candidate proposal. */
 		newCreateCandidateCost: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ETHWithdrawn event data.
@@ -1054,7 +1060,7 @@ export namespace EventData {
 		/** Amount of eth withdrawn in wei. */
 		amount: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** FeeRecipientSet event data.
@@ -1066,7 +1072,7 @@ export namespace EventData {
 		/** New fee recipient. */
 		newFeeRecipient: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** FeedbackSent event data.
@@ -1082,7 +1088,7 @@ export namespace EventData {
 		/** Optional reason left by the feedbacker. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** OwnershipTransferred event data.
@@ -1094,7 +1100,7 @@ export namespace EventData {
 		/** New owner. */
 		newOwner: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCandidateCanceled event data.
@@ -1106,7 +1112,7 @@ export namespace EventData {
 		/** Proposal candidate unique identifier. */
 		slug: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCandidateCreated event data.
@@ -1132,7 +1138,7 @@ export namespace EventData {
 		/** Hash of the proposal that this is an update for. */
 		encodedProposalHash: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCandidateUpdated event data.
@@ -1160,7 +1166,7 @@ export namespace EventData {
 		/** Optional reason for explaining the update. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** SignatureAdded event data. Token holders can sign proposal candidates to convert them into DAO proposals.
@@ -1186,7 +1192,7 @@ export namespace EventData {
 		/** Optional reason for signing proposal candidate. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** UpdateCandidateCostSet event data.
@@ -1198,7 +1204,7 @@ export namespace EventData {
 		/** New update cost. */
 		newUpdateCandidateCost: BigInt;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Upgraded event data.
@@ -1208,7 +1214,7 @@ export namespace EventData {
 		/** Implementation. */
 		implementation: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	// ******************************************
@@ -1382,7 +1388,7 @@ export namespace EventData {
 			/** The version number. */
 			version: number;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** OwnershipTransferStarted event data. */
@@ -1392,7 +1398,7 @@ export namespace EventData {
 			/** New owner. */
 			newOwner: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** OwnershipTransferred event data. */
@@ -1402,7 +1408,7 @@ export namespace EventData {
 			/** New owner. */
 			newOwner: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** PostUpdate event data. */
@@ -1414,7 +1420,7 @@ export namespace EventData {
 			/** Update description. */
 			update: string;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** PropUpdateAdminMigrated event data. */
@@ -1426,7 +1432,7 @@ export namespace EventData {
 			/** New admin. */
 			newAdmin: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** PropUpdateAdminRecovered event data. */
@@ -1438,7 +1444,7 @@ export namespace EventData {
 			/** New admin. */
 			newAdmin: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** PropUpdateAdminTransferred event data. */
@@ -1450,7 +1456,7 @@ export namespace EventData {
 			/** New admin. */
 			newAdmin: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** SuperAdminTransferred event data. */
@@ -1460,7 +1466,7 @@ export namespace EventData {
 			/** New super admin. */
 			newSuperAdmin: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** Upgraded event data. */
@@ -1468,7 +1474,7 @@ export namespace EventData {
 			/** Upgraded implementation address. */
 			implementation: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 	}
 
@@ -1484,7 +1490,7 @@ export namespace EventData {
 			/** LilNounders DAO. */
 			lilnoundersDAO: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** NounsDAOUpdated event data. */
@@ -1492,7 +1498,7 @@ export namespace EventData {
 			/** Nouns DAO. */
 			nounsDAO: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 	}
 
@@ -1523,7 +1529,7 @@ export namespace EventData {
 			/** Round description. */
 			description: string;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** HouseCreated event data. */
@@ -1535,7 +1541,7 @@ export namespace EventData {
 			/** ??? */
 			kind: any;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** VoteCast event data. */
