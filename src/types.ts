@@ -106,9 +106,9 @@ export namespace EventData {
 		/** Token owner who is escrowing to fork. */
 		owner: Account;
 		/** List of tokens being escrowed. */
-		tokenIds: BigInt[];
+		tokenIds: number[];
 		/** Proposal IDs which are the reason for wanting to fork. */
-		proposalIds: BigInt[];
+		proposalIds: number[];
 		/** Optional reason. */
 		reason: string;
 		/** Event meta data. */
@@ -178,9 +178,9 @@ export namespace EventData {
 		/** Token owner who is escrowing to fork. */
 		owner: Account;
 		/** List of tokens being escrowed. */
-		tokenIds: BigInt[];
+		tokenIds: number[];
 		/** Owner's currently active proposals being transferred to the fork. */
-		proposalIds: BigInt[];
+		proposalIds: number[];
 		/** Optional reason. */
 		reason: string;
 		/** Event meta data. */

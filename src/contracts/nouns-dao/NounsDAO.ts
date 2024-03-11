@@ -166,8 +166,12 @@ export class _NounsDAO {
 						const data = {
 							forkId: Number(forkId),
 							owner: { id: owner } as Account,
-							tokenIds: tokenIds,
-							proposalIds: proposalIds,
+							tokenIds: tokenIds.map((tokenId) => {
+								return Number(tokenId);
+							}),
+							proposalIds: proposalIds.map((proposalId) => {
+								return Number(proposalId);
+							}),
 							reason: reason,
 							event: event
 						} as EventData.EscrowedToFork;
@@ -263,8 +267,12 @@ export class _NounsDAO {
 						const data = {
 							forkId: Number(forkId),
 							owner: { id: owner } as Account,
-							tokenIds: tokenIds,
-							proposalIds: proposalIds,
+							tokenIds: tokenIds.map((tokenId) => {
+								return Number(tokenId);
+							}),
+							proposalIds: proposalIds.map((proposalId) => {
+								return Number(proposalId);
+							}),
 							reason: reason,
 							event: event
 						} as EventData.JoinFork;
