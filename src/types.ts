@@ -1356,6 +1356,8 @@ export namespace EventData {
 			bidder: Account;
 			/** The reason for the bid. */
 			reason?: string;
+			/** Event meta data. */
+			event: Event;
 		}
 
 		/** VoteCast event data.
@@ -1372,6 +1374,8 @@ export namespace EventData {
 			amount: BigInt;
 			/** The winning bidder account address. */
 			bidder: Account;
+			/** Event meta data. */
+			event: Event;
 		}
 	}
 
