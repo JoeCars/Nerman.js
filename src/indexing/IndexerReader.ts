@@ -1,5 +1,5 @@
 import { NounsAuctionHouse, NounsDAOData, NounsDAO, NounsToken } from "../utilities/indexer/indexer-queries";
-import { Indexer } from "../types";
+import { Indexer, FormattedEvent } from "../types";
 
 /** A class that manages reading and querying indexed events in the file system. */
 export class IndexerReader {
@@ -18,7 +18,7 @@ export class IndexerReader {
 	 * @param queryOptions Object with filter options for the indexed events.
 	 * @returns List of filtered indexed events.
 	 */
-	public async query(eventName: string, queryOptions?: object): Promise<Indexer.FormattedEvent[]> {
+	public async query(eventName: string, queryOptions?: object): Promise<FormattedEvent[]> {
 		switch (eventName) {
 			// Nouns Auction House.
 			case "AuctionCreated":

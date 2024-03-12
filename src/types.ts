@@ -43,6 +43,10 @@ export interface Event {
 	transactionHash: string;
 }
 
+export interface FormattedEvent {
+	event: Event;
+}
+
 /**
  * Vote options and their associated numbers.
  * @example
