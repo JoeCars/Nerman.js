@@ -12,14 +12,6 @@ const EventSchema = new Schema({
 	blockNumber: {
 		type: Schema.Types.String,
 		required: true
-	},
-	eventName: {
-		type: Schema.Types.String,
-		required: true
-	},
-	eventSignature: {
-		type: Schema.Types.String,
-		required: true
 	}
 });
 
