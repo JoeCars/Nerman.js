@@ -17,7 +17,6 @@ const EventSchema = new Schema({
 
 const AdminChangedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		previousAdmin: {
 			id: {
 				type: Schema.Types.String,
@@ -41,7 +40,6 @@ export const AdminChanged = model("AdminChanged", AdminChangedSchema);
 
 const ApprovalSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		owner: {
 			id: {
 				type: Schema.Types.String,
@@ -69,7 +67,6 @@ export const Approval = model("Approval", ApprovalSchema);
 
 const ApprovalForAllSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		owner: {
 			id: {
 				type: Schema.Types.String,
@@ -97,7 +94,6 @@ export const ApprovalForAll = model("ApprovalForAll", ApprovalForAllSchema);
 
 const OwnershipTransferredSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		previousOwner: {
 			id: {
 				type: Schema.Types.String,
@@ -121,7 +117,6 @@ export const OwnershipTransferred = model("OwnershipTransferred", OwnershipTrans
 
 const AuctionCreatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -145,7 +140,6 @@ export const AuctionCreated = model("AuctionCreated", AuctionCreatedSchema);
 
 const AuctionExtendedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -165,7 +159,6 @@ export const AuctionExtended = model("AuctionExtended", AuctionExtendedSchema);
 
 const AuctionMinBidIncrementPercentageUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		minBidIncrementPercentage: {
 			type: Schema.Types.Number,
 			required: true
@@ -184,7 +177,6 @@ export const AuctionMinBidIncrementPercentageUpdated = model(
 
 const AuctionReservePriceUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		reservePrice: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -200,7 +192,6 @@ export const AuctionReservePriceUpdated = model("AuctionReservePriceUpdated", Au
 
 const AuctionSettledSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -226,7 +217,6 @@ export const AuctionSettled = model("AuctionSettled", AuctionSettledSchema);
 
 const AuctionTimeBufferUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		timeBuffer: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -242,7 +232,6 @@ export const AuctionTimeBufferUpdated = model("AuctionTimeBufferUpdated", Auctio
 
 const BeaconUpgradedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		beacon: {
 			id: {
 				type: Schema.Types.String,
@@ -260,7 +249,6 @@ export const BeaconUpgraded = model("BeaconUpgraded", BeaconUpgradedSchema);
 
 const CandidateFeedbackSentSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		msgSender: {
 			id: {
 				type: Schema.Types.String,
@@ -296,7 +284,6 @@ export const CandidateFeedbackSent = model("CandidateFeedbackSent", CandidateFee
 
 const CreateCandidateCostSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldCreateCandidateCost: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -316,7 +303,6 @@ export const CreateCandidateCostSet = model("CreateCandidateCostSet", CreateCand
 
 const DAOWithdrawNounsFromEscrowSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		tokenIds: {
 			type: [Schema.Types.Number],
 			required: true
@@ -338,7 +324,6 @@ export const DAOWithdrawNounsFromEscrow = model("DAOWithdrawNounsFromEscrow", DA
 
 const DelegateChangedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		delegator: {
 			id: {
 				type: Schema.Types.String,
@@ -372,7 +357,6 @@ export const DelegateChanged = model("DelegateChanged", DelegateChangedSchema);
 
 const DelegateVotesChangedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		delegate: {
 			id: {
 				type: Schema.Types.String,
@@ -398,7 +382,6 @@ export const DelegateVotesChanged = model("DelegateVotesChanged", DelegateVotesC
 
 const DescriptorLockedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		event: EventSchema
 	},
 	{
@@ -410,7 +393,6 @@ export const DescriptorLocked = model("DescriptorLocked", DescriptorLockedSchema
 
 const DescriptorUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		descriptor: {
 			id: {
 				type: Schema.Types.String,
@@ -428,7 +410,6 @@ export const DescriptorUpdated = model("DescriptorUpdated", DescriptorUpdatedSch
 
 const ERC20TokensToIncludeInForkSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldErc20Tokens: {
 			type: [Schema.Types.String],
 			required: true
@@ -448,7 +429,6 @@ export const ERC20TokensToIncludeInForkSet = model("ERC20TokensToIncludeInForkSe
 
 const EscrowedToForkSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		forkId: {
 			type: Schema.Types.Number,
 			required: true
@@ -482,7 +462,6 @@ export const EscrowedToFork = model("EscrowedToFork", EscrowedToForkSchema);
 
 const ETHWithdrawnSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		to: {
 			id: {
 				type: Schema.Types.String,
@@ -504,7 +483,6 @@ export const ETHWithdrawn = model("ETHWithdrawn", ETHWithdrawnSchema);
 
 const ExecuteForkSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		forkId: {
 			type: Schema.Types.Number,
 			required: true
@@ -540,7 +518,6 @@ export const ExecuteFork = model("ExecuteFork", ExecuteForkSchema);
 
 const FeedbackSentSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		msgSender: {
 			id: {
 				type: Schema.Types.String,
@@ -570,7 +547,6 @@ export const FeedbackSent = model("FeedbackSent", FeedbackSentSchema);
 
 const FeeRecipientSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldFeeRecipient: {
 			id: {
 				type: Schema.Types.String,
@@ -594,7 +570,6 @@ export const FeeRecipientSet = model("FeeRecipientSet", FeeRecipientSetSchema);
 
 const ForkDAODeployerSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldForkDAODeployer: {
 			id: {
 				type: Schema.Types.String,
@@ -618,7 +593,6 @@ export const ForkDAODeployerSet = model("ForkDAODeployerSet", ForkDAODeployerSet
 
 const ForkPeriodSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldForkPeriod: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -638,7 +612,6 @@ export const ForkPeriodSet = model("ForkPeriodSet", ForkPeriodSetSchema);
 
 const ForkThresholdSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldForkThreshold: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -658,7 +631,6 @@ export const ForkThresholdSet = model("ForkThresholdSet", ForkThresholdSetSchema
 
 const JoinForkSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		forkId: {
 			type: Schema.Types.Number,
 			required: true
@@ -692,7 +664,6 @@ export const JoinFork = model("JoinFork", JoinForkSchema);
 
 const LastMinuteWindowSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldLastMinuteWindowInBlocks: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -712,7 +683,6 @@ export const LastMinuteWindowSet = model("LastMinuteWindowSet", LastMinuteWindow
 
 const MaxQuorumVotesBPSSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldMaxQuorumVotesBPS: {
 			type: Schema.Types.Number,
 			required: true
@@ -732,7 +702,6 @@ export const MaxQuorumVotesBPSSet = model("MaxQuorumVotesBPSSet", MaxQuorumVotes
 
 const MinQuorumVotesBPSSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldMinQuorumVotesBPS: {
 			type: Schema.Types.Number,
 			required: true
@@ -752,7 +721,6 @@ export const MinQuorumVotesBPSSet = model("MinQuorumVotesBPSSet", MinQuorumVotes
 
 const MinterLockedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		event: EventSchema
 	},
 	{
@@ -764,7 +732,6 @@ export const MinterLocked = model("MinterLocked", MinterLockedSchema);
 
 const MinterUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		minter: {
 			id: {
 				type: Schema.Types.String,
@@ -782,7 +749,6 @@ export const MinterUpdated = model("MinterUpdated", MinterUpdatedSchema);
 
 const NewAdminSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldAdmin: {
 			id: {
 				type: Schema.Types.String,
@@ -806,7 +772,6 @@ export const NewAdmin = model("NewAdmin", NewAdminSchema);
 
 const NewImplementationSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldImplementation: {
 			id: {
 				type: Schema.Types.String,
@@ -830,7 +795,6 @@ export const NewImplementation = model("NewImplementation", NewImplementationSch
 
 const NewPendingAdminSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldPendingAdmin: {
 			id: {
 				type: Schema.Types.String,
@@ -854,7 +818,6 @@ export const NewPendingAdmin = model("NewPendingAdmin", NewPendingAdminSchema);
 
 const NewPendingVetoerSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldPendingVetoer: {
 			id: {
 				type: Schema.Types.String,
@@ -878,7 +841,6 @@ export const NewPendingVetoer = model("NewPendingVetoer", NewPendingVetoerSchema
 
 const NewVetoerSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldVetoer: {
 			id: {
 				type: Schema.Types.String,
@@ -902,7 +864,6 @@ export const NewVetoer = model("NewVetoer", NewVetoerSchema);
 
 const NounBurnedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -918,7 +879,6 @@ export const NounBurned = model("NounBurned", NounBurnedSchema);
 
 const NounCreatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -956,7 +916,6 @@ export const NounCreated = model("NounCreated", NounCreatedSchema);
 
 const NoundersDAOUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		noundersDAO: {
 			id: {
 				type: Schema.Types.String,
@@ -974,7 +933,6 @@ export const NoundersDAOUpdated = model("NoundersDAOUpdated", NoundersDAOUpdated
 
 const ObjectionPeriodDurationSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldObjectionPeriodDurationInBlocks: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -994,7 +952,6 @@ export const ObjectionPeriodDurationSet = model("ObjectionPeriodDurationSet", Ob
 
 const AuctionBidSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1024,7 +981,6 @@ export const AuctionBid = model("AuctionBid", AuctionBidSchema);
 
 const PausedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		address: {
 			id: {
 				type: Schema.Types.String,
@@ -1042,7 +998,6 @@ export const Paused = model("Paused", PausedSchema);
 
 const ProposalCanceledSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1058,7 +1013,6 @@ export const ProposalCanceled = model("ProposalCanceled", ProposalCanceledSchema
 
 const ProposalCandidateCanceledSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		msgSender: {
 			id: {
 				type: Schema.Types.String,
@@ -1080,7 +1034,6 @@ export const ProposalCandidateCanceled = model("ProposalCandidateCanceled", Prop
 
 const ProposalCandidateCreatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		msgSender: {
 			id: {
 				type: Schema.Types.String,
@@ -1130,7 +1083,6 @@ export const ProposalCandidateCreated = model("ProposalCandidateCreated", Propos
 
 const ProposalCandidateUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		msgSender: {
 			id: {
 				type: Schema.Types.String,
@@ -1184,7 +1136,6 @@ export const ProposalCandidateUpdated = model("ProposalCandidateUpdated", Propos
 
 const ProposalCreatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1234,7 +1185,6 @@ export const ProposalCreated = model("ProposalCreated", ProposalCreatedSchema);
 
 const ProposalCreatedOnTimelockV1Schema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1250,7 +1200,6 @@ export const ProposalCreatedOnTimelockV1 = model("ProposalCreatedOnTimelockV1", 
 
 const ProposalCreatedWithRequirementsSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1316,7 +1265,6 @@ export const ProposalCreatedWithRequirements = model("ProposalCreatedWithRequire
 
 const ProposalDescriptionUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1346,7 +1294,6 @@ export const ProposalDescriptionUpdated = model("ProposalDescriptionUpdated", Pr
 
 const ProposalExecutedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1362,7 +1309,6 @@ export const ProposalExecuted = model("ProposalExecuted", ProposalExecutedSchema
 
 const ProposalObjectionPeriodSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1382,7 +1328,6 @@ export const ProposalObjectionPeriodSet = model("ProposalObjectionPeriodSet", Pr
 
 const ProposalQueuedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1402,7 +1347,6 @@ export const ProposalQueued = model("ProposalQueued", ProposalQueuedSchema);
 
 const ProposalThresholdBPSSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldProposalThresholdBPS: {
 			type: Schema.Types.Number,
 			required: true
@@ -1422,7 +1366,6 @@ export const ProposalThresholdBPSSet = model("ProposalThresholdBPSSet", Proposal
 
 const ProposalTransactionsUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1464,7 +1407,6 @@ export const ProposalTransactionsUpdated = model("ProposalTransactionsUpdated", 
 
 const ProposalUpdatablePeriodSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldProposalUpdatablePeriodInBlocks: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -1484,7 +1426,6 @@ export const ProposalUpdatablePeriodSet = model("ProposalUpdatablePeriodSet", Pr
 
 const ProposalUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1530,7 +1471,6 @@ export const ProposalUpdated = model("ProposalUpdated", ProposalUpdatedSchema);
 
 const ProposalVetoedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		id: {
 			type: Schema.Types.Number,
 			required: true
@@ -1546,7 +1486,6 @@ export const ProposalVetoed = model("ProposalVetoed", ProposalVetoedSchema);
 
 const QuitSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		msgSender: {
 			id: {
 				type: Schema.Types.String,
@@ -1568,7 +1507,6 @@ export const Quit = model("Quit", QuitSchema);
 
 const QuorumCoefficientSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldQuorumCoefficient: {
 			type: Schema.Types.Number,
 			required: true
@@ -1588,7 +1526,6 @@ export const QuorumCoefficientSet = model("QuorumCoefficientSet", QuorumCoeffici
 
 const QuorumVotesBPSSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldQuorumVotesBPS: {
 			type: Schema.Types.Number,
 			required: true
@@ -1608,7 +1545,6 @@ export const QuorumVotesBPSSet = model("QuorumVotesBPSSet", QuorumVotesBPSSetSch
 
 const RefundableVoteSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		voter: {
 			id: {
 				type: Schema.Types.String,
@@ -1634,7 +1570,6 @@ export const RefundableVote = model("RefundableVote", RefundableVoteSchema);
 
 const SeederLockedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		event: EventSchema
 	},
 	{
@@ -1646,7 +1581,6 @@ export const SeederLocked = model("SeederLocked", SeederLockedSchema);
 
 const SeederUpdatedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		seeder: {
 			id: {
 				type: Schema.Types.String,
@@ -1664,7 +1598,6 @@ export const SeederUpdated = model("SeederUpdated", SeederUpdatedSchema);
 
 const SignatureAddedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		signer: {
 			id: {
 				type: Schema.Types.String,
@@ -1716,7 +1649,6 @@ export const SignatureAdded = model("SignatureAdded", SignatureAddedSchema);
 
 const SignatureCancelledSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		signer: {
 			id: {
 				type: Schema.Types.String,
@@ -1738,7 +1670,6 @@ export const SignatureCancelled = model("SignatureCancelled", SignatureCancelled
 
 const TimelocksAndAdminSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		timelock: {
 			id: {
 				type: Schema.Types.String,
@@ -1768,7 +1699,6 @@ export const TimelocksAndAdminSet = model("TimelocksAndAdminSet", TimelocksAndAd
 
 const TransferSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		from: {
 			id: {
 				type: Schema.Types.String,
@@ -1796,7 +1726,6 @@ export const Transfer = model("Transfer", TransferSchema);
 
 const UnpausedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		address: {
 			id: {
 				type: Schema.Types.String,
@@ -1814,7 +1743,6 @@ export const Unpaused = model("Unpaused", UnpausedSchema);
 
 const UpdateCandidateCostSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldUpdateCandidateCost: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -1834,7 +1762,6 @@ export const UpdateCandidateCostSet = model("UpdateCandidateCostSet", UpdateCand
 
 const UpgradedSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		implementation: {
 			id: {
 				type: Schema.Types.String,
@@ -1852,7 +1779,6 @@ export const Upgraded = model("Upgraded", UpgradedSchema);
 
 const VoteCastSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		voter: {
 			id: {
 				type: Schema.Types.String,
@@ -1886,7 +1812,6 @@ export const VoteCast = model("VoteCast", VoteCastSchema);
 
 const VoteSnapshotBlockSwitchProposalIdSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldVoteSnapshotBlockSwitchProposalId: {
 			type: Schema.Types.Number,
 			required: true
@@ -1909,7 +1834,6 @@ export const VoteSnapshotBlockSwitchProposalIdSet = model(
 
 const VotingDelaySetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldVotingDelay: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -1929,7 +1853,6 @@ export const VotingDelaySet = model("VotingDelaySet", VotingDelaySetSchema);
 
 const VotingPeriodSetSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		oldVotingPeriod: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -1949,7 +1872,6 @@ export const VotingPeriodSet = model("VotingPeriodSet", VotingPeriodSetSchema);
 
 const WithdrawSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		amount: {
 			type: Schema.Types.BigInt,
 			required: true
@@ -1969,7 +1891,6 @@ export const Withdraw = model("Withdraw", WithdrawSchema);
 
 const WithdrawFromForkEscrowSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
 		forkId: {
 			type: Schema.Types.Number,
 			required: true
