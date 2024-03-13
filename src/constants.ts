@@ -6,3 +6,4 @@ export const STATUS_QUEUED = "QUEUED";
 export const STATUS_ACTIVE = "ACTIVE";
 
 export const NOUNS_STARTING_BLOCK = 12985392;
+export const BLOCK_BATCH_SIZE = 1000;
