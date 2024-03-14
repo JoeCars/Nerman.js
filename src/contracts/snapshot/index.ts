@@ -9,10 +9,13 @@ export interface SupportedEventMap {
 	ProposalCompleted: EventData.Snapshot.Proposal;
 	VoteCast: EventData.Snapshot.Vote;
 }
+const SUPPORTED_SNAPSHOT_EVENTS = ["ProposalCreated", "ProposalCompleted", "VoteCast"] as const;
 export type SupportedEventsType = keyof SupportedEventMap;
 
 /** Snapshot wrapper class. */
 export default class Snapshot {
+	public static readonly supportedEvents = SUPPORTED_SNAPSHOT_EVENTS;
+
 	private _previousProposalCreatedTime: number;
 	private _proposalCreatedInterval: NodeJS.Timeout | undefined;
 
@@ -231,6 +234,15 @@ export default class Snapshot {
 		for (const vote of votesToListenTo) {
 			listener(vote);
 		}
+	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return Snapshot.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }
 

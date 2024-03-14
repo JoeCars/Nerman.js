@@ -360,4 +360,13 @@ export class LilNounsToken {
 	public name() {
 		return "LilNounsToken";
 	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return LilNounsToken.supportedEvents.includes(eventName as SupportedEventsType);
+	}
 }

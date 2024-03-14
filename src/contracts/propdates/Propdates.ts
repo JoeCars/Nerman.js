@@ -224,4 +224,13 @@ export class _Propdates {
 	public name() {
 		return "Propdates";
 	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return _Propdates.supportedEvents.includes(eventName as SupportedEventsType);
+	}
 }

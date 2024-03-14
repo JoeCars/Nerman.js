@@ -75,17 +75,20 @@ export class _NounsAuctionHouse {
 				break;
 
 			case "AuctionBid": // FUNCTIONING CORRECTLY
-				this.Contract.on("AuctionBid", (nounId: BigInt, sender: string, value: BigInt, extended: boolean, event: ethers.Log) => {
-					const data: EventData.AuctionBid = {
-						id: Number(nounId),
-						amount: value,
-						bidder: { id: sender } as Account,
-						extended: extended,
-						event: event
-					};
+				this.Contract.on(
+					"AuctionBid",
+					(nounId: BigInt, sender: string, value: BigInt, extended: boolean, event: ethers.Log) => {
+						const data: EventData.AuctionBid = {
+							id: Number(nounId),
+							amount: value,
+							bidder: { id: sender } as Account,
+							extended: extended,
+							event: event
+						};
 
-					listener(data as any);
-				});
+						listener(data as any);
+					}
+				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
@@ -361,6 +364,15 @@ export class _NounsAuctionHouse {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return _NounsAuctionHouse.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 
 	// IF ITS A NOUNDERS NOUNS, OR NO BIDS, NEED TO CHECK WHO IT WAS TRANSFERRED TO
