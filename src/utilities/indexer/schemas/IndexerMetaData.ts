@@ -2,18 +2,13 @@ import { Schema, model } from "mongoose";
 
 const indexerMetaDataSchema = new Schema(
 	{
-		_id: Schema.ObjectId,
-		eventSignature: {
-			unique: true,
-			type: String,
-			required: true
-		},
 		eventName: {
 			type: String,
-			required: true
+			required: true,
+			unique: true
 		},
 		recentBlock: {
-			type: Schema.Types.BigInt,
+			type: Schema.Types.Number,
 			required: true
 		}
 	},
