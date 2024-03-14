@@ -1,7 +1,7 @@
 import { ethers } from "ethers-v6";
 
 import * as indexer from "../utilities/indexer/indexer-logic";
-import * as parsers from "../utilities/indexer/index-parsers";
+import * as parsers from "../utilities/indexer/event-formatters";
 import { _NounsAuctionHouse } from "../contracts/nouns-dao/NounsAuctionHouse";
 import { _NounsDAO } from "../contracts/nouns-dao/NounsDAO";
 import { _NounsDAOData } from "../contracts/nouns-dao/NounsDAOData";
@@ -39,17 +39,17 @@ export class IndexerWriter {
 	 * @param event the event name.
 	 */
 	public async index(event: string) {
-		if (parsers.NOUNS_AUCTION_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_AUCTION_PARSERS.get(event) as Function;
+		if (parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event) as Function;
 			await indexer.indexEvent(this.nounsAuctionHouse.Contract, this.provider, event, parser, this.path);
-		} else if (parsers.NOUNS_DAO_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_DAO_PARSERS.get(event) as Function;
+		} else if (parsers.NOUNS_DAO_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_DAO_FORMATTERS.get(event) as Function;
 			await indexer.indexEvent(this.nounsDao.Contract, this.provider, event, parser, this.path);
-		} else if (parsers.NOUNS_DATA_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_DATA_PARSERS.get(event) as Function;
+		} else if (parsers.NOUNS_DAO_DATA_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_DAO_DATA_FORMATTERS.get(event) as Function;
 			await indexer.indexEvent(this.nounsDaoData.Contract, this.provider, event, parser, this.path);
-		} else if (parsers.NOUNS_TOKEN_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_TOKEN_PARSERS.get(event) as Function;
+		} else if (parsers.NOUNS_TOKEN_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_TOKEN_FORMATTERS.get(event) as Function;
 			await indexer.indexEvent(this.nounsToken.Contract, this.provider, event, parser, this.path);
 		} else {
 			throw new Error(`${event} is not supported and cannot be indexed.`);
@@ -61,17 +61,17 @@ export class IndexerWriter {
 	 * @param event the event name.
 	 */
 	public async listen(event: string) {
-		if (parsers.NOUNS_AUCTION_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_AUCTION_PARSERS.get(event) as Function;
+		if (parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event) as Function;
 			indexer.listenForEvent(this.nounsAuctionHouse.Contract, event, parser, this.path);
-		} else if (parsers.NOUNS_DAO_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_DAO_PARSERS.get(event) as Function;
+		} else if (parsers.NOUNS_DAO_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_DAO_FORMATTERS.get(event) as Function;
 			indexer.listenForEvent(this.nounsDao.Contract, event, parser, this.path);
-		} else if (parsers.NOUNS_DATA_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_DATA_PARSERS.get(event) as Function;
+		} else if (parsers.NOUNS_DAO_DATA_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_DAO_DATA_FORMATTERS.get(event) as Function;
 			indexer.listenForEvent(this.nounsDaoData.Contract, event, parser, this.path);
-		} else if (parsers.NOUNS_TOKEN_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_TOKEN_PARSERS.get(event) as Function;
+		} else if (parsers.NOUNS_TOKEN_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_TOKEN_FORMATTERS.get(event) as Function;
 			indexer.listenForEvent(this.nounsToken.Contract, event, parser, this.path);
 		} else {
 			throw new Error(`${event} is not supported and cannot be indexed.`);
@@ -83,17 +83,17 @@ export class IndexerWriter {
 	 * @param event the event name.
 	 */
 	public async update(event: string) {
-		if (parsers.NOUNS_AUCTION_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_AUCTION_PARSERS.get(event) as Function;
+		if (parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event) as Function;
 			await indexer.updateIndexedEvent(this.nounsAuctionHouse.Contract, this.provider, event, parser, this.path);
-		} else if (parsers.NOUNS_DAO_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_DAO_PARSERS.get(event) as Function;
+		} else if (parsers.NOUNS_DAO_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_DAO_FORMATTERS.get(event) as Function;
 			await indexer.updateIndexedEvent(this.nounsDao.Contract, this.provider, event, parser, this.path);
-		} else if (parsers.NOUNS_DATA_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_DATA_PARSERS.get(event) as Function;
+		} else if (parsers.NOUNS_DAO_DATA_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_DAO_DATA_FORMATTERS.get(event) as Function;
 			await indexer.updateIndexedEvent(this.nounsDaoData.Contract, this.provider, event, parser, this.path);
-		} else if (parsers.NOUNS_TOKEN_PARSERS.get(event)) {
-			const parser = parsers.NOUNS_TOKEN_PARSERS.get(event) as Function;
+		} else if (parsers.NOUNS_TOKEN_FORMATTERS.get(event)) {
+			const parser = parsers.NOUNS_TOKEN_FORMATTERS.get(event) as Function;
 			await indexer.updateIndexedEvent(this.nounsToken.Contract, this.provider, event, parser, this.path);
 		} else {
 			throw new Error(`${event} is not supported and cannot be indexed.`);
@@ -102,19 +102,19 @@ export class IndexerWriter {
 
 	/** Stores all event data from the starting block for nouns to the present. Does this for all events. */
 	public async indexAll() {
-		let nounsParsers = [...parsers.NOUNS_AUCTION_PARSERS.entries()];
+		let nounsParsers = [...parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.entries()];
 		for (let [event, parser] of nounsParsers) {
 			await this.index(event);
 		}
-		nounsParsers = [...parsers.NOUNS_DAO_PARSERS.entries()];
+		nounsParsers = [...parsers.NOUNS_DAO_FORMATTERS.entries()];
 		for (let [event, parser] of nounsParsers) {
 			await this.index(event);
 		}
-		nounsParsers = [...parsers.NOUNS_DATA_PARSERS.entries()];
+		nounsParsers = [...parsers.NOUNS_DAO_DATA_FORMATTERS.entries()];
 		for (let [event, parser] of nounsParsers) {
 			await this.index(event);
 		}
-		nounsParsers = [...parsers.NOUNS_TOKEN_PARSERS.entries()];
+		nounsParsers = [...parsers.NOUNS_TOKEN_FORMATTERS.entries()];
 		for (let [event, parser] of nounsParsers) {
 			await this.index(event);
 		}
@@ -122,16 +122,16 @@ export class IndexerWriter {
 
 	/** Assigns a listener to all contract events, updating the index whenever the event is triggered on-chain. */
 	public listenAll() {
-		parsers.NOUNS_AUCTION_PARSERS.forEach((parser, event) => {
+		parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.forEach((parser, event) => {
 			this.listen(event);
 		});
-		parsers.NOUNS_DAO_PARSERS.forEach((parser, event) => {
+		parsers.NOUNS_DAO_FORMATTERS.forEach((parser, event) => {
 			this.listen(event);
 		});
-		parsers.NOUNS_DATA_PARSERS.forEach((parser, event) => {
+		parsers.NOUNS_DAO_DATA_FORMATTERS.forEach((parser, event) => {
 			this.listen(event);
 		});
-		parsers.NOUNS_TOKEN_PARSERS.forEach((parser, event) => {
+		parsers.NOUNS_TOKEN_FORMATTERS.forEach((parser, event) => {
 			this.listen(event);
 		});
 	}
@@ -140,16 +140,16 @@ export class IndexerWriter {
 	 * Does this for all events.
 	 */
 	public async updateAll() {
-		for (let event of parsers.NOUNS_AUCTION_PARSERS.keys()) {
+		for (let event of parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.keys()) {
 			await this.update(event);
 		}
-		for (let event of parsers.NOUNS_DAO_PARSERS.keys()) {
+		for (let event of parsers.NOUNS_DAO_FORMATTERS.keys()) {
 			await this.update(event);
 		}
-		for (let event of parsers.NOUNS_DATA_PARSERS.keys()) {
+		for (let event of parsers.NOUNS_DAO_DATA_FORMATTERS.keys()) {
 			await this.update(event);
 		}
-		for (let event of parsers.NOUNS_TOKEN_PARSERS.keys()) {
+		for (let event of parsers.NOUNS_TOKEN_FORMATTERS.keys()) {
 			await this.update(event);
 		}
 	}
