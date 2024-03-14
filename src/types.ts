@@ -47,6 +47,8 @@ export interface FormattedEvent {
 	event: Event;
 }
 
+export type EventFormatter = (event: ethers.EventLog) => FormattedEvent;
+
 /**
  * Vote options and their associated numbers.
  * @example

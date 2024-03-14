@@ -1,6 +1,6 @@
 import { ethers } from "ethers-v6";
 
-import { EventData } from "../../types";
+import { EventData, EventFormatter } from "../../types";
 
 //=======================================
 // NounsDAO
@@ -760,7 +760,7 @@ export function parseWithdrawFromForkEscrowEvent(event: ethers.EventLog): EventD
 /**
  * A map of supported events and their associated parsers.
  */
-export const NOUNS_DAO_PARSERS = new Map<string, Function>();
+export const NOUNS_DAO_PARSERS = new Map<string, EventFormatter>();
 NOUNS_DAO_PARSERS.set("DAOWithdrawNounsFromEscrow", parseDAOWithdrawNounsFromEscrowEvent);
 NOUNS_DAO_PARSERS.set("ERC20TokensToIncludeInForkSet", parseERC20TokensToIncludeInForkSetEvent);
 NOUNS_DAO_PARSERS.set("EscrowedToFork", parseEscrowedToForkEvent);
@@ -988,7 +988,7 @@ export function parseUnpausedEvent(event: ethers.EventLog): EventData.Unpaused {
 /**
  * A map of supported events and their associated parsers.
  */
-export const NOUNS_AUCTION_PARSERS = new Map<string, Function>();
+export const NOUNS_AUCTION_PARSERS = new Map<string, EventFormatter>();
 NOUNS_AUCTION_PARSERS.set("AuctionCreated", parseAuctionCreatedEvent);
 NOUNS_AUCTION_PARSERS.set("AuctionBid", parseAuctionBidEvent);
 NOUNS_AUCTION_PARSERS.set("AuctionExtended", parseAuctionExtendedEvent);
@@ -1262,7 +1262,7 @@ export function parseSeederUpdatedEvent(event: ethers.EventLog): EventData.Seede
 /**
  * A map of supported events and their associated parsers.
  */
-export const NOUNS_TOKEN_PARSERS = new Map<string, Function>();
+export const NOUNS_TOKEN_PARSERS = new Map<string, EventFormatter>();
 NOUNS_TOKEN_PARSERS.set("DelegateChanged", parseDelegateChangedEvent);
 NOUNS_TOKEN_PARSERS.set("DelegateVotesChanged", parseDelegateVotesChangedEvent);
 NOUNS_TOKEN_PARSERS.set("Transfer", parseTransferEvent);
@@ -1549,7 +1549,7 @@ export function parseUpgradedEvent(event: ethers.EventLog): EventData.Upgraded {
 /**
  * A map of supported events and their associated parsers.
  */
-export const NOUNS_DATA_PARSERS = new Map<string, Function>();
+export const NOUNS_DATA_PARSERS = new Map<string, EventFormatter>();
 NOUNS_DATA_PARSERS.set("AdminChanged", parseAdminChangedEvent);
 NOUNS_DATA_PARSERS.set("BeaconUpgraded", parseBeaconUpgradedEvent);
 NOUNS_DATA_PARSERS.set("CandidateFeedbackSent", parseCandidateFeedbackSentEvent);
