@@ -27,9 +27,10 @@ export async function indexEvent(
 	eventName: string,
 	formatter: EventFormatter,
 	endBlock: number,
-	startBlock = NOUNS_STARTING_BLOCK,
-	indexedEvents: FormattedEvent[] = []
+	startBlock = NOUNS_STARTING_BLOCK
 ) {
+	const indexedEvents: FormattedEvent[] = [];
+
 	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE) {
 		const progress = ((currentBlock - startBlock) / (endBlock - startBlock)) * 100;
 		console.log("\rindexing block", currentBlock, "of", endBlock, `(${progress.toFixed(2)} %)`);
@@ -80,15 +81,20 @@ export class Indexer {
 		const contract = this.getContract(eventName);
 		let formatter = this.getFormatter(eventName);
 
+		const previousMetaData = await this.fetchPreviousMetaData(eventName);
 		const endBlock = await contract.provider.getBlockNumber();
 
-		const indexedEvents = await indexEvent(contract.Contract, eventName, formatter, endBlock);
+		let indexedEvents: FormattedEvent[] = [];
+		if (previousMetaData.hasBlockNumber) {
+			const startBlock = previousMetaData.recentBlock! + 1;
+			indexedEvents = await indexEvent(contract.Contract, eventName, formatter, endBlock, startBlock);
+		} else {
+			indexedEvents = await indexEvent(contract.Contract, eventName, formatter, endBlock);
+		}
 
 		await this.writeToDatabase(eventName, indexedEvents);
 		await this.updateMetaData(eventName, endBlock);
 
-		// TODO: Figure out the start block. Worry about update later.
-		// TODO: Figure out the indexed data. Worry about update later.
 		// TODO: Figure out special proposal created with requirements later.
 	}
 
@@ -303,5 +309,24 @@ export class Indexer {
 		} else {
 			await IndexerMetaData.create({ eventName: eventName, recentBlock: blockNumber });
 		}
+	}
+
+	/**
+	 * @param eventName
+	 * @returns The block number if it was previously indexed. Must be incremented before indexing.
+	 */
+	private async fetchPreviousMetaData(eventName: string) {
+		const metaData = await IndexerMetaData.findOne({ eventName: eventName }).exec();
+
+		if (!metaData) {
+			return {
+				hasBlockNumber: false
+			};
+		}
+
+		return {
+			hasBlockNumber: true,
+			recentBlock: metaData.recentBlock
+		};
 	}
 }
