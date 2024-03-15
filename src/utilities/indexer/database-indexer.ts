@@ -81,16 +81,11 @@ export class Indexer {
 		const contract = this.getContract(eventName);
 		let formatter = this.getFormatter(eventName);
 
-		const previousMetaData = await this.fetchPreviousMetaData(eventName);
+		const { hasBlockNumber, recentBlock } = await this.fetchPreviousMetaData(eventName);
 		const endBlock = await contract.provider.getBlockNumber();
+		const startBlock = hasBlockNumber ? recentBlock! + 1 : NOUNS_STARTING_BLOCK;
 
-		let indexedEvents: FormattedEvent[] = [];
-		if (previousMetaData.hasBlockNumber) {
-			const startBlock = previousMetaData.recentBlock! + 1;
-			indexedEvents = await indexEvent(contract.Contract, eventName, formatter, endBlock, startBlock);
-		} else {
-			indexedEvents = await indexEvent(contract.Contract, eventName, formatter, endBlock);
-		}
+		const indexedEvents = await indexEvent(contract.Contract, eventName, formatter, endBlock, startBlock);
 
 		await this.writeToDatabase(eventName, indexedEvents);
 		await this.updateMetaData(eventName, endBlock);
