@@ -328,7 +328,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigInt[];
+		values: BigInt[] | string[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -373,7 +373,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigInt[];
+		values: BigInt[] | string[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -474,7 +474,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigInt[];
+		values: BigInt[] | string[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -508,7 +508,7 @@ export namespace EventData {
 		/** Updated target addresses for proposal calls. */
 		targets: string[];
 		/** Updated eth values for proposal calls. */
-		values: BigInt[];
+		values: BigInt[] | string[];
 		/** Updated function signatures for proposal calls. */
 		signatures: string[];
 		/** Updated calldatas for proposal calls. */
@@ -1130,7 +1130,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigInt[];
+		values: BigInt[] | string[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -1156,7 +1156,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigInt[];
+		values: BigInt[] | string[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */

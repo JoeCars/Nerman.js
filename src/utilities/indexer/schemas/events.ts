@@ -1045,7 +1045,7 @@ const ProposalCandidateCreatedSchema = new Schema(
 			required: true
 		},
 		values: {
-			type: [Schema.Types.BigInt],
+			type: [Schema.Types.String],
 			required: true
 		},
 		signatures: {
@@ -1094,7 +1094,7 @@ const ProposalCandidateUpdatedSchema = new Schema(
 			required: true
 		},
 		values: {
-			type: [Schema.Types.BigInt],
+			type: [Schema.Types.String],
 			required: true
 		},
 		signatures: {
@@ -1151,7 +1151,7 @@ const ProposalCreatedSchema = new Schema(
 			required: true
 		},
 		values: {
-			type: [Schema.Types.BigInt],
+			type: [Schema.Types.String],
 			required: true
 		},
 		signatures: {
@@ -1219,7 +1219,7 @@ const ProposalCreatedWithRequirementsSchema = new Schema(
 			required: true
 		},
 		values: {
-			type: [Schema.Types.BigInt],
+			type: [Schema.Types.String],
 			required: true
 		},
 		signatures: {
@@ -1381,7 +1381,7 @@ const ProposalTransactionsUpdatedSchema = new Schema(
 			required: true
 		},
 		values: {
-			type: [Schema.Types.BigInt],
+			type: [Schema.Types.String],
 			required: true
 		},
 		signatures: {
@@ -1441,7 +1441,7 @@ const ProposalUpdatedSchema = new Schema(
 			required: true
 		},
 		values: {
-			type: [Schema.Types.BigInt],
+			type: [Schema.Types.String],
 			required: true
 		},
 		signatures: {
