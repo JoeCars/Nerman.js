@@ -1,7 +1,13 @@
 import { ethers } from "ethers-v6";
 import mongoose from "mongoose";
 
-import { NOUNS_STARTING_BLOCK, BLOCK_BATCH_SIZE } from "../../constants";
+import {
+	NOUNS_STARTING_BLOCK,
+	BLOCK_BATCH_SIZE,
+	NEW_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE,
+	OLD_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE,
+	PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK
+} from "../../constants";
 import * as eventSchemas from "./schemas/events";
 import { _NounsAuctionHouse } from "../../contracts/nouns-dao/NounsAuctionHouse";
 import {
@@ -83,9 +89,29 @@ export class Indexer {
 
 		const { hasBlockNumber, recentBlock } = await this.fetchPreviousMetaData(eventName);
 		const endBlock = await contract.provider.getBlockNumber();
-		const startBlock = hasBlockNumber ? recentBlock! + 1 : NOUNS_STARTING_BLOCK;
+		let startBlock = hasBlockNumber ? recentBlock! + 1 : NOUNS_STARTING_BLOCK;
+		let eventSignature = eventName;
 
-		const indexedEvents = await indexEvent(contract.Contract, eventName, formatter, endBlock, startBlock);
+		// Different signatures need to be indexed independently, but stored together.
+		if (eventName === "ProposalCreatedWithRequirements") {
+			if (startBlock < PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK) {
+				eventSignature = OLD_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE;
+				const proposalEvents = await indexEvent(
+					contract.Contract,
+					eventSignature,
+					formatter,
+					PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK,
+					startBlock
+				);
+
+				await this.writeToDatabase(eventName, proposalEvents);
+				startBlock = PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK + 1;
+			}
+
+			eventSignature = NEW_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE;
+		}
+
+		const indexedEvents = await indexEvent(contract.Contract, eventSignature, formatter, endBlock, startBlock);
 
 		await this.writeToDatabase(eventName, indexedEvents);
 		await this.updateMetaData(eventName, endBlock);
