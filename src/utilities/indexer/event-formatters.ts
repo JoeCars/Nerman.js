@@ -340,7 +340,7 @@ export function formatProposalCreated(event: ethers.EventLog): EventData.Proposa
 		id: Number(event.args!.id),
 		proposer: { id: event.args!.proposer },
 		targets: event.args!.targets,
-		values: event.args.at(3),
+		values: event.args.at(3).map((val: BigInt) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		startBlock: event.args!.startBlock,
@@ -381,7 +381,9 @@ export function formatProposalCreatedWithRequirements(event: ethers.EventLog): E
 		proposer: { id: event.args!.proposer },
 		signers: event.args!.signers,
 		targets: event.args!.targets,
-		values: event.args!.at(4), // Verify this with examples.
+		values: event.args!.signers
+			? event.args!.at(4).map((val: BigInt) => val.toString())
+			: event.args!.at(3).map((val: BigInt) => val.toString()), // Verify this with examples.
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		startBlock: event.args!.startBlock,
@@ -494,7 +496,7 @@ export function formatProposalTransactionsUpdated(event: ethers.EventLog): Event
 		id: Number(event.args!.id),
 		proposer: { id: event.args!.proposer },
 		targets: event.args!.targets,
-		values: event.args!.at(3),
+		values: event.args!.at(3).map((val: BigInt) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		updateMessage: event.args!.updateMessage,
@@ -533,7 +535,7 @@ export function formatProposalUpdated(event: ethers.EventLog): EventData.Proposa
 		id: Number(event.args!.id),
 		proposer: { id: event.args!.proposer },
 		targets: event.args!.targets,
-		values: event.args!.at(3),
+		values: event.args!.at(3).map((val: BigInt) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		description: event.args!.description,
@@ -781,14 +783,7 @@ NOUNS_DAO_FORMATTERS.set("ObjectionPeriodDurationSet", formatObjectionPeriodDura
 NOUNS_DAO_FORMATTERS.set("ProposalCanceled", formatProposalCanceled);
 NOUNS_DAO_FORMATTERS.set("ProposalCreated", formatProposalCreated);
 NOUNS_DAO_FORMATTERS.set("ProposalCreatedOnTimelockV1", formatProposalCreatedOnTimelockV1);
-NOUNS_DAO_FORMATTERS.set(
-	"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
-	formatProposalCreatedWithRequirements
-);
-NOUNS_DAO_FORMATTERS.set(
-	"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)",
-	formatProposalCreatedWithRequirements
-);
+NOUNS_DAO_FORMATTERS.set("ProposalCreatedWithRequirements", formatProposalCreatedWithRequirements);
 NOUNS_DAO_FORMATTERS.set("ProposalDescriptionUpdated", formatProposalDescriptionUpdated);
 NOUNS_DAO_FORMATTERS.set("ProposalExecuted", formatProposalExecuted);
 NOUNS_DAO_FORMATTERS.set("ProposalObjectionPeriodSet", formatProposalObjectionPeriodSet);
@@ -1415,7 +1410,7 @@ export function formatProposalCandidateCreated(event: ethers.EventLog): EventDat
 	return {
 		msgSender: { id: event.args!.msgSender },
 		targets: event.args!.targets,
-		values: event.args!.at(2),
+		values: event.args!.at(2).map((val: BigInt) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		description: event.args!.description,
@@ -1439,7 +1434,7 @@ export function formatProposalCandidateUpdated(event: ethers.EventLog): EventDat
 	return {
 		msgSender: { id: event.args!.msgSender },
 		targets: event.args!.targets,
-		values: event.args!.at(2),
+		values: event.args!.at(2).map((val: BigInt) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		description: event.args!.description,
