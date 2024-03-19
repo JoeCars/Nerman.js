@@ -955,7 +955,7 @@ export function formatOwnershipTransferred(event: ethers.EventLog): EventData.Ow
  */
 export function formatPaused(event: ethers.EventLog): EventData.Paused {
 	return {
-		address: { id: event.args!.address },
+		address: { id: event.args!.account },
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -971,7 +971,7 @@ export function formatPaused(event: ethers.EventLog): EventData.Paused {
  */
 export function formatUnpaused(event: ethers.EventLog): EventData.Unpaused {
 	return {
-		address: { id: event.args!.address },
+		address: { id: event.args!.account },
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
