@@ -39,7 +39,7 @@ export async function indexEvent(
 
 	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE) {
 		const progress = ((currentBlock - startBlock) / (endBlock - startBlock)) * 100;
-		console.log("\rindexing block", currentBlock, "of", endBlock, `(${progress.toFixed(2)} %)`);
+		console.log(eventName, "indexing block", currentBlock, "of", endBlock, `(${progress.toFixed(2)} %)`);
 
 		let events = (await contract.queryFilter(
 			eventName,
