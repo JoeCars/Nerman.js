@@ -15,6 +15,13 @@ const EventSchema = new Schema({
 	}
 });
 
+const AccountSchema = new Schema({
+	id: {
+		type: Schema.Types.String,
+		required: true
+	}
+});
+
 // ================================
 // Nouns DAO
 // ================================
@@ -26,10 +33,8 @@ const DAOWithdrawNounsFromEscrowSchema = new Schema(
 			required: true
 		},
 		to: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -64,10 +69,8 @@ const EscrowedToForkSchema = new Schema(
 			required: true
 		},
 		owner: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		tokenIds: {
 			type: [Schema.Types.String],
@@ -96,16 +99,12 @@ const ExecuteForkSchema = new Schema(
 			required: true
 		},
 		forkTreasury: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		forkToken: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		forkEndTimestamp: {
 			type: Schema.Types.String,
@@ -126,16 +125,12 @@ export const ExecuteFork = model("ExecuteFork", ExecuteForkSchema);
 const ForkDAODeployerSetSchema = new Schema(
 	{
 		oldForkDAODeployer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		newForkDAODeployer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -188,10 +183,8 @@ const JoinForkSchema = new Schema(
 			required: true
 		},
 		owner: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		tokenIds: {
 			type: [Schema.Types.Number],
@@ -270,16 +263,12 @@ export const MinQuorumVotesBPSSet = model("MinQuorumVotesBPSSet", MinQuorumVotes
 const NewAdminSchema = new Schema(
 	{
 		oldAdmin: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		newAdmin: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -292,16 +281,12 @@ export const NewAdmin = model("NewAdmin", NewAdminSchema);
 const NewImplementationSchema = new Schema(
 	{
 		oldImplementation: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		newImplementation: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -314,16 +299,12 @@ export const NewImplementation = model("NewImplementation", NewImplementationSch
 const NewPendingAdminSchema = new Schema(
 	{
 		oldPendingAdmin: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		newPendingAdmin: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -336,16 +317,12 @@ export const NewPendingAdmin = model("NewPendingAdmin", NewPendingAdminSchema);
 const NewPendingVetoerSchema = new Schema(
 	{
 		oldPendingVetoer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		newPendingVetoer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -358,16 +335,12 @@ export const NewPendingVetoer = model("NewPendingVetoer", NewPendingVetoerSchema
 const NewVetoerSchema = new Schema(
 	{
 		oldVetoer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		newVetoer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -416,10 +389,8 @@ const ProposalCreatedSchema = new Schema(
 			required: true
 		},
 		proposer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		targets: {
 			type: [Schema.Types.String],
@@ -478,10 +449,8 @@ const ProposalCreatedWithRequirementsSchema = new Schema(
 			required: true
 		},
 		proposer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		signers: {
 			type: [Schema.Types.String],
@@ -542,10 +511,8 @@ const ProposalDescriptionUpdatedSchema = new Schema(
 			required: true
 		},
 		proposer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		description: {
 			type: Schema.Types.String,
@@ -638,10 +605,8 @@ const ProposalTransactionsUpdatedSchema = new Schema(
 			required: true
 		},
 		proposer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		targets: {
 			type: [Schema.Types.String],
@@ -696,10 +661,8 @@ const ProposalUpdatedSchema = new Schema(
 			required: true
 		},
 		proposer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		targets: {
 			type: [Schema.Types.String],
@@ -750,10 +713,8 @@ export const ProposalVetoed = model("ProposalVetoed", ProposalVetoedSchema);
 const QuitSchema = new Schema(
 	{
 		msgSender: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		tokenIds: {
 			type: [Schema.Types.Number],
@@ -806,10 +767,8 @@ export const QuorumVotesBPSSet = model("QuorumVotesBPSSet", QuorumVotesBPSSetSch
 const RefundableVoteSchema = new Schema(
 	{
 		voter: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		refundAmount: {
 			type: Schema.Types.String,
@@ -830,10 +789,8 @@ export const RefundableVote = model("RefundableVote", RefundableVoteSchema);
 const SignatureCancelledSchema = new Schema(
 	{
 		signer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		sig: {
 			type: Schema.Types.Mixed,
@@ -850,22 +807,16 @@ export const SignatureCancelled = model("SignatureCancelled", SignatureCancelled
 const TimelocksAndAdminSetSchema = new Schema(
 	{
 		timelock: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		timelockV1: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		admin: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -878,10 +829,8 @@ export const TimelocksAndAdminSet = model("TimelocksAndAdminSet", TimelocksAndAd
 const VoteCastSchema = new Schema(
 	{
 		voter: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		proposalId: {
 			type: Schema.Types.Number,
@@ -989,10 +938,8 @@ const WithdrawFromForkEscrowSchema = new Schema(
 			required: true
 		},
 		owner: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		sent: {
 			type: [Schema.Types.Number],
@@ -1021,10 +968,8 @@ const AuctionBidSchema = new Schema(
 			required: true
 		},
 		bidder: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		extended: {
 			type: Schema.Types.Boolean,
@@ -1085,10 +1030,8 @@ const AuctionSettledSchema = new Schema(
 			required: true
 		},
 		winner: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		amount: {
 			type: Schema.Types.String,
@@ -1150,16 +1093,12 @@ export const AuctionMinBidIncrementPercentageUpdated = model(
 const OwnershipTransferredSchema = new Schema(
 	{
 		previousOwner: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		newOwner: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -1172,10 +1111,8 @@ export const OwnershipTransferred = model("OwnershipTransferred", OwnershipTrans
 const PausedSchema = new Schema(
 	{
 		address: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -1188,10 +1125,8 @@ export const Paused = model("Paused", PausedSchema);
 const UnpausedSchema = new Schema(
 	{
 		address: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -1208,22 +1143,16 @@ export const Unpaused = model("Unpaused", UnpausedSchema);
 const DelegateChangedSchema = new Schema(
 	{
 		delegator: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		fromDelegate: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		toDelegate: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		numOfVotesChanged: {
 			type: Schema.Types.Number,
@@ -1240,10 +1169,8 @@ export const DelegateChanged = model("DelegateChanged", DelegateChangedSchema);
 const DelegateVotesChangedSchema = new Schema(
 	{
 		delegate: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		previousBalance: {
 			type: Schema.Types.String,
@@ -1264,16 +1191,12 @@ export const DelegateVotesChanged = model("DelegateVotesChanged", DelegateVotesC
 const TransferSchema = new Schema(
 	{
 		from: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		to: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		tokenId: {
 			type: Schema.Types.Number,
@@ -1290,16 +1213,12 @@ export const Transfer = model("Transfer", TransferSchema);
 const ApprovalSchema = new Schema(
 	{
 		owner: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		approved: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		tokenId: {
 			type: Schema.Types.Number,
@@ -1316,16 +1235,12 @@ export const Approval = model("Approval", ApprovalSchema);
 const ApprovalForAllSchema = new Schema(
 	{
 		owner: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		operator: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		approved: {
 			type: Schema.Types.Boolean,
@@ -1352,10 +1267,8 @@ export const DescriptorLocked = model("DescriptorLocked", DescriptorLockedSchema
 const DescriptorUpdatedSchema = new Schema(
 	{
 		descriptor: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -1378,10 +1291,8 @@ export const MinterLocked = model("MinterLocked", MinterLockedSchema);
 const MinterUpdatedSchema = new Schema(
 	{
 		minter: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -1444,10 +1355,8 @@ export const NounCreated = model("NounCreated", NounCreatedSchema);
 const NoundersDAOUpdatedSchema = new Schema(
 	{
 		noundersDAO: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -1470,10 +1379,8 @@ export const SeederLocked = model("SeederLocked", SeederLockedSchema);
 const SeederUpdatedSchema = new Schema(
 	{
 		seeder: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -1508,16 +1415,12 @@ export const CreateCandidateCostSet = model("CreateCandidateCostSet", CreateCand
 const AdminChangedSchema = new Schema(
 	{
 		previousAdmin: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		newAdmin: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -1530,10 +1433,8 @@ export const AdminChanged = model("AdminChanged", AdminChangedSchema);
 const BeaconUpgradedSchema = new Schema(
 	{
 		beacon: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -1546,16 +1447,12 @@ export const BeaconUpgraded = model("BeaconUpgraded", BeaconUpgradedSchema);
 const CandidateFeedbackSentSchema = new Schema(
 	{
 		msgSender: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		proposer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		slug: {
 			type: Schema.Types.String,
@@ -1580,10 +1477,8 @@ export const CandidateFeedbackSent = model("CandidateFeedbackSent", CandidateFee
 const ETHWithdrawnSchema = new Schema(
 	{
 		to: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		amount: {
 			type: Schema.Types.String,
@@ -1600,16 +1495,12 @@ export const ETHWithdrawn = model("ETHWithdrawn", ETHWithdrawnSchema);
 const FeeRecipientSetSchema = new Schema(
 	{
 		oldFeeRecipient: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		newFeeRecipient: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
@@ -1622,10 +1513,8 @@ export const FeeRecipientSet = model("FeeRecipientSet", FeeRecipientSetSchema);
 const FeedbackSentSchema = new Schema(
 	{
 		msgSender: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		proposalId: {
 			type: Schema.Types.Number,
@@ -1650,10 +1539,8 @@ export const FeedbackSent = model("FeedbackSent", FeedbackSentSchema);
 const ProposalCandidateCanceledSchema = new Schema(
 	{
 		msgSender: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		slug: {
 			type: Schema.Types.String,
@@ -1670,10 +1557,8 @@ export const ProposalCandidateCanceled = model("ProposalCandidateCanceled", Prop
 const ProposalCandidateCreatedSchema = new Schema(
 	{
 		msgSender: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		targets: {
 			type: [Schema.Types.String],
@@ -1718,10 +1603,8 @@ export const ProposalCandidateCreated = model("ProposalCandidateCreated", Propos
 const ProposalCandidateUpdatedSchema = new Schema(
 	{
 		msgSender: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		targets: {
 			type: [Schema.Types.String],
@@ -1770,10 +1653,8 @@ export const ProposalCandidateUpdated = model("ProposalCandidateUpdated", Propos
 const SignatureAddedSchema = new Schema(
 	{
 		signer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		sig: {
 			type: Schema.Types.String,
@@ -1784,10 +1665,8 @@ const SignatureAddedSchema = new Schema(
 			required: true
 		},
 		proposer: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		slug: {
 			type: Schema.Types.String,
@@ -1838,10 +1717,8 @@ export const UpdateCandidateCostSet = model("UpdateCandidateCostSet", UpdateCand
 const UpgradedSchema = new Schema(
 	{
 		implementation: {
-			id: {
-				type: Schema.Types.String,
-				required: true
-			}
+			type: AccountSchema,
+			required: true
 		},
 		event: EventSchema
 	},
