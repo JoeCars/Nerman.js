@@ -76,8 +76,8 @@ export function formatExecuteFork(event: ethers.EventLog): EventData.ExecuteFork
 		forkId: Number(event.args!.forkId),
 		forkTreasury: { id: event.args!.forkTreasury },
 		forkToken: { id: event.args!.forkToken },
-		forkEndTimestamp: event.args!.forkEndTimestamp,
-		tokensInEscrow: event.args!.tokensInEscrow,
+		forkEndTimestamp: event.args!.forkEndTimestamp.toString(),
+		tokensInEscrow: event.args!.tokensInEscrow.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -110,8 +110,8 @@ export function formatForkDAODeployerSet(event: ethers.EventLog): EventData.Fork
  */
 export function formatForkPeriodSet(event: ethers.EventLog): EventData.ForkPeriodSet {
 	return {
-		oldForkPeriod: event.args!.oldForkPeriod,
-		newForkPeriod: event.args!.newForkPeriod,
+		oldForkPeriod: event.args!.oldForkPeriod.toString(),
+		newForkPeriod: event.args!.newForkPeriod.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -127,8 +127,8 @@ export function formatForkPeriodSet(event: ethers.EventLog): EventData.ForkPerio
  */
 export function formatForkThresholdSet(event: ethers.EventLog): EventData.ForkThresholdSet {
 	return {
-		oldForkThreshold: event.args!.oldForkThreshold,
-		newForkThreshold: event.args!.newForkThreshold,
+		oldForkThreshold: event.args!.oldForkThreshold.toString(),
+		newForkThreshold: event.args!.newForkThreshold.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -168,8 +168,8 @@ export function formatJoinFork(event: ethers.EventLog): EventData.JoinFork {
  */
 export function formatLastMinuteWindowSet(event: ethers.EventLog): EventData.LastMinuteWindowSet {
 	return {
-		oldLastMinuteWindowInBlocks: event.args!.oldLastMinuteWindowInBlocks,
-		newLastMinuteWindowInBlocks: event.args!.newLastMinuteWindowInBlocks,
+		oldLastMinuteWindowInBlocks: event.args!.oldLastMinuteWindowInBlocks.toString(),
+		newLastMinuteWindowInBlocks: event.args!.newLastMinuteWindowInBlocks.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -304,8 +304,8 @@ export function formatNewVetoer(event: ethers.EventLog): EventData.NewVetoer {
  */
 export function formatObjectionPeriodDurationSet(event: ethers.EventLog): EventData.ObjectionPeriodDurationSet {
 	return {
-		oldObjectionPeriodDurationInBlocks: event.args!.oldObjectionPeriodDurationInBlocks,
-		newObjectionPeriodDurationInBlocks: event.args!.newObjectionPeriodDurationInBlocks,
+		oldObjectionPeriodDurationInBlocks: event.args!.oldObjectionPeriodDurationInBlocks.toString(),
+		newObjectionPeriodDurationInBlocks: event.args!.newObjectionPeriodDurationInBlocks.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -343,8 +343,8 @@ export function formatProposalCreated(event: ethers.EventLog): EventData.Proposa
 		values: event.args.at(3).map((val: BigInt) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
-		startBlock: event.args!.startBlock,
-		endBlock: event.args!.endBlock,
+		startBlock: event.args!.startBlock.toString(),
+		endBlock: event.args!.endBlock.toString(),
 		description: event.args!.description,
 		event: {
 			blockNumber: event.blockNumber,
@@ -386,9 +386,9 @@ export function formatProposalCreatedWithRequirements(event: ethers.EventLog): E
 			: event.args!.at(3).map((val: BigInt) => val.toString()), // Verify this with examples.
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
-		startBlock: event.args!.startBlock,
-		endBlock: event.args!.endBlock,
-		updatePeriodEndBlock: event.args!.updatePeriodEndBlock,
+		startBlock: event.args!.startBlock.toString(),
+		endBlock: event.args!.endBlock.toString(),
+		updatePeriodEndBlock: event.args!.updatePeriodEndBlock.toString(),
 		proposalThreshold: Number(event.args!.proposalThreshold),
 		quorumVotes: Number(event.args!.quorumVotes),
 		description: event.args!.description,
@@ -443,7 +443,7 @@ export function formatProposalExecuted(event: ethers.EventLog): EventData.Propos
 export function formatProposalObjectionPeriodSet(event: ethers.EventLog): EventData.ProposalObjectionPeriodSet {
 	return {
 		id: Number(event.args!.id),
-		objectionPeriodEndBlock: event.args!.objectionPeriodEndBlock,
+		objectionPeriodEndBlock: event.args!.objectionPeriodEndBlock.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -460,7 +460,7 @@ export function formatProposalObjectionPeriodSet(event: ethers.EventLog): EventD
 export function formatProposalQueued(event: ethers.EventLog): EventData.ProposalQueued {
 	return {
 		id: Number(event.args!.id),
-		eta: event.args!.eta,
+		eta: event.args!.eta.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -515,8 +515,8 @@ export function formatProposalTransactionsUpdated(event: ethers.EventLog): Event
  */
 export function formatProposalUpdatablePeriodSet(event: ethers.EventLog): EventData.ProposalUpdatablePeriodSet {
 	return {
-		oldProposalUpdatablePeriodInBlocks: event.args!.oldProposalUpdatablePeriodInBlocks,
-		newProposalUpdatablePeriodInBlocks: event.args!.newProposalUpdatablePeriodInBlocks,
+		oldProposalUpdatablePeriodInBlocks: event.args!.oldProposalUpdatablePeriodInBlocks.toString(),
+		newProposalUpdatablePeriodInBlocks: event.args!.newProposalUpdatablePeriodInBlocks.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -606,7 +606,7 @@ export function formatQuorumVotesBPSSet(event: ethers.EventLog): EventData.Quoru
 export function formatRefundableVote(event: ethers.EventLog): EventData.RefundableVote {
 	return {
 		voter: { id: event.args!.voter },
-		refundAmount: event.args!.refundAmount,
+		refundAmount: event.args!.refundAmount.toString(),
 		refundSent: event.args!.refundSent,
 		event: {
 			blockNumber: event.blockNumber,
@@ -697,8 +697,8 @@ export function formatVoteSnapshotBlockSwitchProposalIdSet(
  */
 export function formatVotingDelaySet(event: ethers.EventLog): EventData.VotingDelaySet {
 	return {
-		oldVotingDelay: event.args!.oldVotingDelay,
-		newVotingDelay: event.args!.newVotingDelay,
+		oldVotingDelay: event.args!.oldVotingDelay.toString(),
+		newVotingDelay: event.args!.newVotingDelay.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -714,8 +714,8 @@ export function formatVotingDelaySet(event: ethers.EventLog): EventData.VotingDe
  */
 export function formatVotingPeriodSet(event: ethers.EventLog): EventData.VotingPeriodSet {
 	return {
-		oldVotingPeriod: event.args!.oldVotingPeriod,
-		newVotingPeriod: event.args!.newVotingPeriod,
+		oldVotingPeriod: event.args!.oldVotingPeriod.toString(),
+		newVotingPeriod: event.args!.newVotingPeriod.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -731,7 +731,7 @@ export function formatVotingPeriodSet(event: ethers.EventLog): EventData.VotingP
  */
 export function formatWithdraw(event: ethers.EventLog): EventData.Withdraw {
 	return {
-		amount: event.args!.amount,
+		amount: event.args!.amount.toString(),
 		sent: event.args!.sent,
 		event: {
 			blockNumber: event.blockNumber,
@@ -817,8 +817,8 @@ NOUNS_DAO_FORMATTERS.set("WithdrawFromForkEscrow", formatWithdrawFromForkEscrow)
 export function formatAuctionCreated(event: ethers.EventLog): EventData.AuctionCreated {
 	return {
 		id: Number(event.args!.nounId),
-		startTime: event.args!.startTime,
-		endTime: event.args!.endTime,
+		startTime: event.args!.startTime.toString(),
+		endTime: event.args!.endTime.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -836,7 +836,7 @@ export function formatAuctionBid(event: ethers.EventLog): EventData.AuctionBid {
 	return {
 		id: Number(event.args!.nounId),
 		bidder: { id: event.args!.sender },
-		amount: event.args!.value,
+		amount: event.args!.value.toString(),
 		extended: event.args!.extended,
 		event: {
 			blockNumber: event.blockNumber,
@@ -854,7 +854,7 @@ export function formatAuctionBid(event: ethers.EventLog): EventData.AuctionBid {
 export function formatAuctionExtended(event: ethers.EventLog): EventData.AuctionExtended {
 	return {
 		id: Number(event.args!.nounId),
-		endTime: event.args!.endTime,
+		endTime: event.args!.endTime.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -872,7 +872,7 @@ export function formatAuctionSettled(event: ethers.EventLog): EventData.AuctionS
 	return {
 		id: Number(event.args!.nounId),
 		winner: { id: event.args!.winner },
-		amount: event.args!.amount,
+		amount: event.args!.amount.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -888,7 +888,7 @@ export function formatAuctionSettled(event: ethers.EventLog): EventData.AuctionS
  */
 export function formatAuctionTimeBufferUpdated(event: ethers.EventLog): EventData.AuctionTimeBufferUpdated {
 	return {
-		timeBuffer: event.args!.timeBuffer,
+		timeBuffer: event.args!.timeBuffer.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -904,7 +904,7 @@ export function formatAuctionTimeBufferUpdated(event: ethers.EventLog): EventDat
  */
 export function formatAuctionReservePriceUpdated(event: ethers.EventLog): EventData.AuctionReservePriceUpdated {
 	return {
-		reservePrice: event.args!.reservePrice,
+		reservePrice: event.args!.reservePrice.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -1025,8 +1025,8 @@ export function formatDelegateChanged(event: ethers.EventLog): EventData.Delegat
 export function formatDelegateVotesChanged(event: ethers.EventLog): EventData.DelegateVotesChanged {
 	return {
 		delegate: { id: event.args!.delegate },
-		previousBalance: event.args!.previousBalance,
-		newBalance: event.args!.newBalance,
+		previousBalance: event.args!.previousBalance.toString(),
+		newBalance: event.args!.newBalance.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -1321,8 +1321,8 @@ export function formatCandidateFeedbackSent(event: ethers.EventLog): EventData.C
  */
 export function formatCreateCandidateCostSet(event: ethers.EventLog): EventData.CreateCandidateCostSet {
 	return {
-		oldCreateCandidateCost: event.args!.oldCreateCandidateCost,
-		newCreateCandidateCost: event.args!.newCreateCandidateCost,
+		oldCreateCandidateCost: event.args!.oldCreateCandidateCost.toString(),
+		newCreateCandidateCost: event.args!.newCreateCandidateCost.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -1339,7 +1339,7 @@ export function formatCreateCandidateCostSet(event: ethers.EventLog): EventData.
 export function formatETHWithdrawn(event: ethers.EventLog): EventData.ETHWithdrawn {
 	return {
 		to: { id: event.args!.to },
-		amount: event.args!.amount,
+		amount: event.args!.amount.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -1459,7 +1459,7 @@ export function formatSignatureAdded(event: ethers.EventLog): EventData.Signatur
 	return {
 		signer: { id: event.args!.signer },
 		sig: event.args!.sig,
-		expirationTimestamp: event.args!.expirationTimestamp,
+		expirationTimestamp: event.args!.expirationTimestamp.toString(),
 		proposer: { id: event.args!.proposer },
 		slug: event.args!.slug,
 		proposalIdToUpdate: Number(event.args!.proposalIdToUpdate),
@@ -1481,8 +1481,8 @@ export function formatSignatureAdded(event: ethers.EventLog): EventData.Signatur
  */
 export function formatUpdateCandidateCostSet(event: ethers.EventLog): EventData.UpdateCandidateCostSet {
 	return {
-		oldUpdateCandidateCost: event.args!.oldUpdateCandidateCost,
-		newUpdateCandidateCost: event.args!.newUpdateCandidateCost,
+		oldUpdateCandidateCost: event.args!.oldUpdateCandidateCost.toString(),
+		newUpdateCandidateCost: event.args!.newUpdateCandidateCost.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
