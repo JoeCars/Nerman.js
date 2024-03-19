@@ -115,9 +115,54 @@ export class Indexer {
 
 		await this.writeToDatabase(eventName, indexedEvents);
 		await this.updateMetaData(eventName, endBlock);
-
-		// TODO: Figure out special proposal created with requirements later.
 	}
+
+	// Create index all.
+	public async indexAll() {
+		for (const eventName of _NounsAuctionHouse.supportedEvents) {
+			try {
+				await this.index(eventName);
+			} catch (error) {
+				await this.index(eventName); // retry on failure.
+			}
+		}
+
+		for (const eventName of _NounsDAO.supportedEvents) {
+			try {
+				await this.index(eventName);
+			} catch (error) {
+				await this.index(eventName); // retry on failure.
+			}
+		}
+
+		for (const eventName of _NounsDAOData.supportedEvents) {
+			try {
+				await this.index(eventName);
+			} catch (error) {
+				await this.index(eventName); // retry on failure.
+			}
+		}
+
+		for (const eventName of _NounsToken.supportedEvents) {
+			try {
+				await this.index(eventName);
+			} catch (error) {
+				await this.index(eventName); // retry on failure.
+			}
+		}
+	}
+
+	public async indexSeveral(...eventNames: string[]) {
+		for (const eventName of eventNames) {
+			try {
+				await this.index(eventName);
+			} catch (error) {
+				await this.index(eventName); // retry on failure.
+			}
+		}
+	}
+
+	// Create index varargs
 
 	private getContract(eventName: string): _NounsAuctionHouse | _NounsDAO | _NounsDAOData | _NounsToken {
 		if (this.nounsDao.hasEvent(eventName)) {
