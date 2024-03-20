@@ -196,7 +196,7 @@ const JoinForkSchema = new Schema(
 		},
 		reason: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		event: EventSchema
 	},
