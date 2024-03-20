@@ -73,7 +73,7 @@ export class LilNounsToken {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "Approval":
-				this.Contract.on("Approval", (owner: string, approved: string, tokenId: BigInt, event: ethers.Log) => {
+				this.Contract.on("Approval", (owner: string, approved: string, tokenId: bigint, event: ethers.Log) => {
 					const data: EventData.Approval = {
 						owner: { id: owner } as Account,
 						approved: { id: approved } as Account,
@@ -136,7 +136,7 @@ export class LilNounsToken {
 			case "DelegateVotesChanged":
 				this.Contract.on(
 					"DelegateVotesChanged",
-					(delegate: string, previousBalance: BigInt, newBalance: BigInt, event: ethers.Log) => {
+					(delegate: string, previousBalance: bigint, newBalance: bigint, event: ethers.Log) => {
 						const data: EventData.DelegateVotesChanged = {
 							delegate: { id: delegate } as Account,
 							previousBalance: previousBalance,
@@ -209,7 +209,7 @@ export class LilNounsToken {
 				break;
 
 			case "NounBurned":
-				this.Contract.on("NounBurned", (nounId: BigInt, event: ethers.Log) => {
+				this.Contract.on("NounBurned", (nounId: bigint, event: ethers.Log) => {
 					const data: EventData.NounBurned = {
 						id: Number(nounId),
 						event: event
@@ -224,8 +224,8 @@ export class LilNounsToken {
 				this.Contract.on(
 					"NounCreated",
 					(
-						tokenId: BigInt,
-						seed: { accessory: BigInt; background: BigInt; body: BigInt; glasses: BigInt; head: BigInt },
+						tokenId: bigint,
+						seed: { accessory: bigint; background: bigint; body: bigint; glasses: bigint; head: bigint },
 						event: ethers.Log
 					) => {
 						const convertedSeed: NounsTokenSeed = {
@@ -297,7 +297,7 @@ export class LilNounsToken {
 				break;
 
 			case "Transfer":
-				this.Contract.on("Transfer", (from: string, to: string, tokenId: BigInt, event: ethers.Log) => {
+				this.Contract.on("Transfer", (from: string, to: string, tokenId: bigint, event: ethers.Log) => {
 					const data: EventData.Transfer = {
 						from: { id: from } as Account,
 						to: { id: to } as Account,
@@ -307,6 +307,7 @@ export class LilNounsToken {
 
 					listener(data as any);
 				});
+
 				this.registeredListeners.set(eventName, listener);
 				break;
 

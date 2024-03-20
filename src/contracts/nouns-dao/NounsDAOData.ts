@@ -97,7 +97,7 @@ export class _NounsDAOData {
 			case "CandidateFeedbackSent":
 				this.Contract.on(
 					eventName,
-					(msgSender: string, proposer: string, slug: string, support: BigInt, reason: string, event: ethers.Log) => {
+					(msgSender: string, proposer: string, slug: string, support: bigint, reason: string, event: ethers.Log) => {
 						const data = {
 							msgSender: { id: msgSender } as Account,
 							proposer: { id: proposer } as Account,
@@ -116,7 +116,7 @@ export class _NounsDAOData {
 			case "CreateCandidateCostSet":
 				this.Contract.on(
 					eventName,
-					(oldCreateCandidateCost: BigInt, newCreateCandidateCost: BigInt, event: ethers.Log) => {
+					(oldCreateCandidateCost: bigint, newCreateCandidateCost: bigint, event: ethers.Log) => {
 						const data = {
 							oldCreateCandidateCost: oldCreateCandidateCost,
 							newCreateCandidateCost: newCreateCandidateCost,
@@ -129,7 +129,7 @@ export class _NounsDAOData {
 				break;
 
 			case "ETHWithdrawn":
-				this.Contract.on(eventName, (to: string, amount: BigInt, event: ethers.Log) => {
+				this.Contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
 					const data = {
 						to: { id: to } as Account,
 						amount: amount,
@@ -157,7 +157,7 @@ export class _NounsDAOData {
 			case "FeedbackSent":
 				this.Contract.on(
 					eventName,
-					(msgSender: string, proposalId: BigInt, support: BigInt, reason: string, event: ethers.Log) => {
+					(msgSender: string, proposalId: bigint, support: bigint, reason: string, event: ethers.Log) => {
 						const data = {
 							msgSender: { id: msgSender } as Account,
 							proposalId: Number(proposalId),
@@ -204,12 +204,12 @@ export class _NounsDAOData {
 					(
 						msgSender: string,
 						targets: string[],
-						values: BigInt[],
+						values: bigint[],
 						signatures: string[],
 						calldatas: any[],
 						description: string,
 						slug: string,
-						proposalIdToUpdate: BigInt,
+						proposalIdToUpdate: bigint,
 						encodedProposalHash: string,
 						event: ethers.Log
 					) => {
@@ -238,12 +238,12 @@ export class _NounsDAOData {
 					(
 						msgSender: string,
 						targets: string[],
-						values: BigInt[],
+						values: bigint[],
 						signatures: string[],
 						calldatas: any[],
 						description: string,
 						slug: string,
-						proposalIdToUpdate: BigInt,
+						proposalIdToUpdate: bigint,
 						encodedProposalHash: string,
 						reason: string,
 						event: ethers.Log
@@ -274,10 +274,10 @@ export class _NounsDAOData {
 					(
 						signer: string,
 						sig: string,
-						expirationTimestamp: BigInt,
+						expirationTimestamp: bigint,
 						proposer: string,
 						slug: string,
-						proposalIdToUpdate: BigInt,
+						proposalIdToUpdate: bigint,
 						encodedPropHash: string,
 						sigDigest: string,
 						reason: string,
@@ -305,7 +305,7 @@ export class _NounsDAOData {
 			case "UpdateCandidateCostSet":
 				this.Contract.on(
 					eventName,
-					(oldUpdateCandidateCost: BigInt, newUpdateCandidateCost: BigInt, event: ethers.Log) => {
+					(oldUpdateCandidateCost: bigint, newUpdateCandidateCost: bigint, event: ethers.Log) => {
 						const data = {
 							oldUpdateCandidateCost: oldUpdateCandidateCost,
 							newUpdateCandidateCost: newUpdateCandidateCost,

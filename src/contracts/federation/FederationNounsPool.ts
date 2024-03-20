@@ -49,9 +49,9 @@ export class FederationNounsPool {
 				eventName,
 				(
 					dao: string,
-					propId: BigInt,
-					support: BigInt,
-					amount: BigInt,
+					propId: bigint,
+					support: bigint,
+					amount: bigint,
 					bidder: string,
 					reason: string,
 					event: ethers.EventLog
@@ -73,7 +73,7 @@ export class FederationNounsPool {
 		} else if (eventName === "VoteCast") {
 			this.nounsPoolContractV2.on(
 				eventName,
-				(dao: string, propId: BigInt, support: BigInt, amount: BigInt, bidder: string, event: ethers.EventLog) => {
+				(dao: string, propId: bigint, support: bigint, amount: bigint, bidder: string, event: ethers.EventLog) => {
 					const data: EventData.Federation.VoteCast = {
 						dao: { id: dao },
 						propId: Number(propId),

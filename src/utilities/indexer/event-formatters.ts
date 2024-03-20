@@ -13,7 +13,7 @@ import { EventData, EventFormatter } from "../../types";
  */
 export function formatDAOWithdrawNounsFromEscrow(event: ethers.EventLog): EventData.DAOWithdrawNounsFromEscrow {
 	return {
-		tokenIds: event.args!.tokenIds.map((tokenId: BigInt) => {
+		tokenIds: event.args!.tokenIds.map((tokenId: bigint) => {
 			return Number(tokenId);
 		}),
 		to: { id: event.args!.to },
@@ -51,10 +51,10 @@ export function formatEscrowedToFork(event: ethers.EventLog): EventData.Escrowed
 	return {
 		forkId: Number(event.args!.forkId),
 		owner: { id: event.args!.owner },
-		tokenIds: event.args!.tokenIds.map((tokenId: BigInt) => {
+		tokenIds: event.args!.tokenIds.map((tokenId: bigint) => {
 			return Number(tokenId);
 		}),
-		proposalIds: event.args!.proposalIds.map((proposalId: BigInt) => {
+		proposalIds: event.args!.proposalIds.map((proposalId: bigint) => {
 			return Number(proposalId);
 		}),
 		reason: event.args!.reason,
@@ -146,10 +146,10 @@ export function formatJoinFork(event: ethers.EventLog): EventData.JoinFork {
 	return {
 		forkId: Number(event.args!.forkId),
 		owner: { id: event.args!.owner },
-		tokenIds: event.args!.tokenIds.map((tokenId: BigInt) => {
+		tokenIds: event.args!.tokenIds.map((tokenId: bigint) => {
 			return Number(tokenId);
 		}),
-		proposalIds: event.args!.proposalIds.map((proposalId: BigInt) => {
+		proposalIds: event.args!.proposalIds.map((proposalId: bigint) => {
 			return Number(proposalId);
 		}),
 		reason: event.args!.reason,
@@ -340,7 +340,7 @@ export function formatProposalCreated(event: ethers.EventLog): EventData.Proposa
 		id: Number(event.args!.id),
 		proposer: { id: event.args!.proposer },
 		targets: event.args!.targets,
-		values: event.args.at(3).map((val: BigInt) => val.toString()),
+		values: event.args.at(3).map((val: bigint) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		startBlock: event.args!.startBlock.toString(),
@@ -382,8 +382,8 @@ export function formatProposalCreatedWithRequirements(event: ethers.EventLog): E
 		signers: event.args!.signers,
 		targets: event.args!.targets,
 		values: event.args!.signers
-			? event.args!.at(4).map((val: BigInt) => val.toString())
-			: event.args!.at(3).map((val: BigInt) => val.toString()), // Verify this with examples.
+			? event.args!.at(4).map((val: bigint) => val.toString())
+			: event.args!.at(3).map((val: bigint) => val.toString()), // Verify this with examples.
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		startBlock: event.args!.startBlock.toString(),
@@ -496,7 +496,7 @@ export function formatProposalTransactionsUpdated(event: ethers.EventLog): Event
 		id: Number(event.args!.id),
 		proposer: { id: event.args!.proposer },
 		targets: event.args!.targets,
-		values: event.args!.at(3).map((val: BigInt) => val.toString()),
+		values: event.args!.at(3).map((val: bigint) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		updateMessage: event.args!.updateMessage,
@@ -535,7 +535,7 @@ export function formatProposalUpdated(event: ethers.EventLog): EventData.Proposa
 		id: Number(event.args!.id),
 		proposer: { id: event.args!.proposer },
 		targets: event.args!.targets,
-		values: event.args!.at(3).map((val: BigInt) => val.toString()),
+		values: event.args!.at(3).map((val: bigint) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		description: event.args!.description,
@@ -1410,7 +1410,7 @@ export function formatProposalCandidateCreated(event: ethers.EventLog): EventDat
 	return {
 		msgSender: { id: event.args!.msgSender },
 		targets: event.args!.targets,
-		values: event.args!.at(2).map((val: BigInt) => val.toString()),
+		values: event.args!.at(2).map((val: bigint) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		description: event.args!.description,
@@ -1434,7 +1434,7 @@ export function formatProposalCandidateUpdated(event: ethers.EventLog): EventDat
 	return {
 		msgSender: { id: event.args!.msgSender },
 		targets: event.args!.targets,
-		values: event.args!.at(2).map((val: BigInt) => val.toString()),
+		values: event.args!.at(2).map((val: bigint) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		description: event.args!.description,

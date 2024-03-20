@@ -126,7 +126,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "ProposalCanceled":
-				this.Contract.on("ProposalCanceled", (id: BigInt, event: ethers.Log) => {
+				this.Contract.on("ProposalCanceled", (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
 						id: Number(id),
 						event: event
@@ -141,14 +141,14 @@ export class LilNounsDAOLogic {
 				this.Contract.on(
 					"ProposalCreated",
 					(
-						id: BigInt,
+						id: bigint,
 						proposer: string,
 						targets: string[],
-						values: BigInt[],
+						values: bigint[],
 						signatures: string[],
 						calldatas: any[], // type is bytes[]
-						startBlock: BigInt,
-						endBlock: BigInt,
+						startBlock: bigint,
+						endBlock: bigint,
 						description: string,
 						event: ethers.Log
 					) => {
@@ -175,16 +175,16 @@ export class LilNounsDAOLogic {
 				this.Contract.on(
 					"ProposalCreatedWithRequirements",
 					(
-						id: BigInt,
+						id: bigint,
 						proposer: string,
 						targets: string[],
-						values: BigInt[],
+						values: bigint[],
 						signatures: string[],
 						calldatas: any[], // bytes
-						startBlock: BigInt,
-						endBlock: BigInt,
-						proposalThreshold: BigInt,
-						quorumVotes: BigInt,
+						startBlock: bigint,
+						endBlock: bigint,
+						proposalThreshold: bigint,
+						quorumVotes: bigint,
 						description: string,
 						event: ethers.Log
 					) => {
@@ -210,7 +210,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "ProposalExecuted":
-				this.Contract.on("ProposalExecuted", (id: BigInt, event: ethers.Log) => {
+				this.Contract.on("ProposalExecuted", (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
 						id: Number(id),
 						event: event
@@ -221,7 +221,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "ProposalQueued":
-				this.Contract.on("ProposalQueued", (id: BigInt, eta: BigInt, event: ethers.Log) => {
+				this.Contract.on("ProposalQueued", (id: bigint, eta: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
 						id: Number(id),
 						eta: eta,
@@ -235,7 +235,7 @@ export class LilNounsDAOLogic {
 			case "ProposalThresholdBPSSet":
 				this.Contract.on(
 					"ProposalThresholdBPSSet",
-					(oldProposalThresholdBPS: BigInt, newProposalThresholdBPS: BigInt, event: ethers.Log) => {
+					(oldProposalThresholdBPS: bigint, newProposalThresholdBPS: bigint, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
 							oldProposalThresholdBPS: Number(oldProposalThresholdBPS),
 							newProposalThresholdBPS: Number(newProposalThresholdBPS),
@@ -249,7 +249,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "ProposalVetoed":
-				this.Contract.on("ProposalVetoed", (id: BigInt, event: ethers.Log) => {
+				this.Contract.on("ProposalVetoed", (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalVetoed = {
 						id: Number(id),
 						event: event
@@ -262,7 +262,7 @@ export class LilNounsDAOLogic {
 			case "QuorumVotesBPSSet":
 				this.Contract.on(
 					"QuorumVotesBPSSet",
-					(oldQuorumVotesBPS: BigInt, newQuorumVotesBPS: BigInt, event: ethers.Log) => {
+					(oldQuorumVotesBPS: bigint, newQuorumVotesBPS: bigint, event: ethers.Log) => {
 						const data: EventData.QuorumVotesBPSSet = {
 							oldQuorumVotesBPS: Number(oldQuorumVotesBPS),
 							newQuorumVotesBPS: Number(newQuorumVotesBPS),
@@ -278,7 +278,7 @@ export class LilNounsDAOLogic {
 			case "VoteCast":
 				this.Contract.on(
 					"VoteCast",
-					(voter: string, proposalId: BigInt, support: BigInt, votes: BigInt, reason: string, event: ethers.Log) => {
+					(voter: string, proposalId: bigint, support: bigint, votes: bigint, reason: string, event: ethers.Log) => {
 						const supportDetailed: VoteDirection = Number(support);
 
 						const data: EventData.VoteCast = {
@@ -297,7 +297,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "VotingDelaySet":
-				this.Contract.on("VotingDelaySet", (oldVotingDelay: BigInt, newVotingDelay: BigInt, event: ethers.Log) => {
+				this.Contract.on("VotingDelaySet", (oldVotingDelay: bigint, newVotingDelay: bigint, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
@@ -310,7 +310,7 @@ export class LilNounsDAOLogic {
 				break;
 
 			case "VotingPeriodSet":
-				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: BigInt, newVotingPeriod: BigInt, event: ethers.Log) => {
+				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: bigint, newVotingPeriod: bigint, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,

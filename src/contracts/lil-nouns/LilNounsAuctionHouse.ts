@@ -67,7 +67,7 @@ export class LilNounsAuctionHouse {
 			case "AuctionBid":
 				this.Contract.on(
 					"AuctionBid",
-					(nounId: BigInt, sender: string, value: BigInt, extended: boolean, event: ethers.Log) => {
+					(nounId: bigint, sender: string, value: bigint, extended: boolean, event: ethers.Log) => {
 						const data: EventData.AuctionBid = {
 							id: Number(nounId),
 							amount: value,
@@ -83,7 +83,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "AuctionCreated":
-				this.Contract.on("AuctionCreated", (nounId: BigInt, startTime: BigInt, endTime: BigInt, event: ethers.Log) => {
+				this.Contract.on("AuctionCreated", (nounId: bigint, startTime: bigint, endTime: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionCreated = {
 						id: Number(nounId),
 						startTime: startTime,
@@ -97,7 +97,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "AuctionExtended":
-				this.Contract.on("AuctionExtended", (nounId: BigInt, endTime: BigInt, event: ethers.Log) => {
+				this.Contract.on("AuctionExtended", (nounId: bigint, endTime: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionExtended = {
 						id: Number(nounId),
 						endTime: endTime,
@@ -112,7 +112,7 @@ export class LilNounsAuctionHouse {
 			case "AuctionMinBidIncrementPercentageUpdated":
 				this.Contract.on(
 					"AuctionMinBidIncrementPercentageUpdated",
-					(minBidIncrementPercentage: BigInt, event: ethers.Log) => {
+					(minBidIncrementPercentage: bigint, event: ethers.Log) => {
 						const data: EventData.AuctionMinBidIncrementPercentageUpdated = {
 							minBidIncrementPercentage: Number(minBidIncrementPercentage),
 							event: event
@@ -125,7 +125,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "AuctionReservePriceUpdated":
-				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: BigInt, event: ethers.Log) => {
+				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionReservePriceUpdated = {
 						reservePrice: reservePrice,
 						event: event
@@ -137,7 +137,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "AuctionSettled":
-				this.Contract.on("AuctionSettled", (nounId: BigInt, winner: string, amount: BigInt, event: ethers.Log) => {
+				this.Contract.on("AuctionSettled", (nounId: bigint, winner: string, amount: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionSettled = {
 						id: Number(nounId),
 						winner: { id: winner } as Account,
@@ -151,7 +151,7 @@ export class LilNounsAuctionHouse {
 				break;
 
 			case "AuctionTimeBufferUpdated":
-				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: BigInt, event: ethers.Log) => {
+				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionTimeBufferUpdated = {
 						timeBuffer: timeBuffer,
 						event: event

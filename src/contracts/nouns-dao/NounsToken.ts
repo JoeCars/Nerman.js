@@ -108,7 +108,7 @@ export class _NounsToken {
 			case "DelegateVotesChanged": // WORKING
 				this.Contract.on(
 					"DelegateVotesChanged",
-					(delegate: string, previousBalance: BigInt, newBalance: BigInt, event: ethers.Log) => {
+					(delegate: string, previousBalance: bigint, newBalance: bigint, event: ethers.Log) => {
 						const data: EventData.DelegateVotesChanged = {
 							delegate: { id: delegate } as Account,
 							previousBalance: previousBalance,
@@ -123,7 +123,7 @@ export class _NounsToken {
 				break;
 
 			case "Transfer": // WORKING
-				this.Contract.on("Transfer", (from: string, to: string, tokenId: BigInt, event: ethers.Log) => {
+				this.Contract.on("Transfer", (from: string, to: string, tokenId: bigint, event: ethers.Log) => {
 					const data: EventData.Transfer = {
 						from: { id: from } as Account,
 						to: { id: to } as Account,
@@ -137,7 +137,7 @@ export class _NounsToken {
 				break;
 
 			case "Approval": // WORKING
-				this.Contract.on("Approval", (owner: string, approved: string, tokenId: BigInt, event: ethers.Log) => {
+				this.Contract.on("Approval", (owner: string, approved: string, tokenId: bigint, event: ethers.Log) => {
 					const data: EventData.Approval = {
 						owner: { id: owner } as Account,
 						approved: { id: approved } as Account,
@@ -173,8 +173,8 @@ export class _NounsToken {
 				this.Contract.on(
 					"NounCreated",
 					(
-						tokenId: BigInt,
-						seed: { accessory: BigInt; background: BigInt; body: BigInt; glasses: BigInt; head: BigInt },
+						tokenId: bigint,
+						seed: { accessory: bigint; background: bigint; body: bigint; glasses: bigint; head: bigint },
 						event: ethers.Log
 					) => {
 						const data: EventData.NounCreated = {
@@ -267,7 +267,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "NounBurned":
-				this.Contract.on("NounBurned", (nounId: BigInt, event: ethers.Log) => {
+				this.Contract.on("NounBurned", (nounId: bigint, event: ethers.Log) => {
 					const data: EventData.NounBurned = {
 						id: Number(nounId),
 						event: event
@@ -435,10 +435,10 @@ export class _NounsToken {
 				return await this.Contract.getApproved(fArgs[0]); // returns string
 				break;
 			case "getCurrentVotes":
-				return await this.Contract.getCurrentVotes(fArgs[0]); // returns BigInt
+				return await this.Contract.getCurrentVotes(fArgs[0]); // returns bigint
 				break;
 			case "getPriorVotes":
-				return await this.Contract.getPriorVotes(fArgs[0], fArgs[1]); // returns BigInt
+				return await this.Contract.getPriorVotes(fArgs[0], fArgs[1]); // returns bigint
 				break;
 			case "isApprovedForAll":
 				// {
