@@ -1,6 +1,7 @@
 import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as LilNounsAuctionHouseABI } from "../abis/lil-nouns/NounsAuctionHouse.json";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	AuctionCreated: EventData.AuctionCreated;
@@ -39,7 +40,7 @@ export class LilNounsAuctionHouse {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}

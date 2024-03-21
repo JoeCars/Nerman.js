@@ -22,6 +22,7 @@ import {
 } from "./NounsDAOData";
 import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap
 	extends AuctionSupportedEventMap,
@@ -67,7 +68,7 @@ export class Nouns {
 	 */
 	constructor(provider: string | ethers.JsonRpcProvider, options?: NounsOptions) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}

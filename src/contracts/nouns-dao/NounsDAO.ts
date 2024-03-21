@@ -1,6 +1,7 @@
 import { ethers } from "ethers-v6";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsDAOLogicV3ABI } from "../abis/NounsDAOLogicV3.json";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	DAOWithdrawNounsFromEscrow: EventData.DAOWithdrawNounsFromEscrow;
@@ -101,7 +102,7 @@ export class _NounsDAO {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}

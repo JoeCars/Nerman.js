@@ -2,6 +2,7 @@ import { ethers } from "ethers-v6";
 
 import { default as NounsDAODataABI } from "../abis/NounsDAOData.json";
 import { Account, EventData } from "../../types";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	AdminChanged: EventData.AdminChanged;
@@ -48,7 +49,7 @@ export class _NounsDAOData {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}

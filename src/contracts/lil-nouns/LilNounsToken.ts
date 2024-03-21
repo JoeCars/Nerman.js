@@ -1,6 +1,7 @@
 import { N, ethers } from "ethers-v6";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as LilNounsTokenABI } from "../abis/lil-nouns/NounsToken.json";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	Approval: EventData.Approval;
@@ -51,7 +52,7 @@ export class LilNounsToken {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}

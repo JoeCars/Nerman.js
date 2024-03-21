@@ -1,6 +1,7 @@
 import { ethers } from "ethers-v6";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsForkABI } from "../abis/NounsForkGovernance.json";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	NewAdmin: EventData.NewAdmin;
@@ -53,7 +54,7 @@ export class _NounsForkLogic {
 
 	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}

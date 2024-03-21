@@ -1,6 +1,7 @@
 import { ethers } from "ethers-v6";
 import { Account, EventData, VoteDirection } from "../../types";
 import { default as LilNounsDAOLogicV1ABI } from "../abis/lil-nouns/NounsDAOLogicV1.json";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	NewAdmin: EventData.NewAdmin;
@@ -49,7 +50,7 @@ export class LilNounsDAOLogic {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}

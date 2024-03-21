@@ -15,6 +15,7 @@ import {
 	SupportedEventsType as ForkTokenEventTypes,
 	SupportedEventMap as TokenSupportedEventMap
 } from "./NounsForkToken";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap extends AuctionSupportedEventMap, LogicSupportedEventMap, TokenSupportedEventMap {}
 export type SupportedEventsType = ForkAuctionHouseEventTypes | ForkLogicEventTypes | ForkTokenEventTypes;
@@ -38,7 +39,7 @@ export class NounsFork {
 
 	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}

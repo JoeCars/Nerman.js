@@ -2,6 +2,7 @@ import { ethers } from "ethers-v6";
 import NounsPool from "../abis/federation/NounsPool";
 import NounsPoolV2 from "../abis/federation/NounsPoolV2";
 import { EventData } from "../../types";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	BidPlaced: EventData.Federation.BidPlaced;
@@ -21,7 +22,7 @@ export class FederationNounsPool {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}
