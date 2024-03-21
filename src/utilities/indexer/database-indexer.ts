@@ -130,7 +130,8 @@ export class Indexer {
 			try {
 				await this.index(eventName);
 			} catch (error) {
-				await this.index(eventName); // retry on failure.
+				console.error("error", error);
+				return;
 			}
 		}
 
@@ -138,7 +139,8 @@ export class Indexer {
 			try {
 				await this.index(eventName);
 			} catch (error) {
-				await this.index(eventName); // retry on failure.
+				console.error("error", error);
+				return;
 			}
 		}
 
@@ -146,7 +148,8 @@ export class Indexer {
 			try {
 				await this.index(eventName);
 			} catch (error) {
-				await this.index(eventName); // retry on failure.
+				console.error("error", error);
+				return;
 			}
 		}
 
@@ -154,7 +157,8 @@ export class Indexer {
 			try {
 				await this.index(eventName);
 			} catch (error) {
-				await this.index(eventName); // retry on failure.
+				console.error("error", error);
+				return;
 			}
 		}
 	}
@@ -164,7 +168,8 @@ export class Indexer {
 			try {
 				await this.index(eventName);
 			} catch (error) {
-				await this.index(eventName); // retry on failure.
+				console.error("error", error);
+				return;
 			}
 		}
 	}
