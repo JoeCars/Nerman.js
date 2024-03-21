@@ -1,6 +1,7 @@
-import * as cron from "node-cron";
 import fetch from "node-fetch";
 import { EventData } from "../../types";
+
+const POLL_TIME = 60_000;
 
 export interface SupportedEventMap {
 	NewPost: EventData.NounsNymz.NewPost;
@@ -13,6 +14,7 @@ export type SupportedEventsType = keyof SupportedEventMap;
  */
 export class NounsNymz {
 	private lastTime: Date;
+	private interval: NodeJS.Timeout | undefined;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_NYMZ_EVENTS;
 
@@ -38,7 +40,7 @@ export class NounsNymz {
 		}
 
 		// Runs the task every 1 minute.
-		cron.schedule("*/1 * * * *", async () => {
+		this.interval = setInterval(async () => {
 			let response = await fetch(
 				`https://nouns.nymz.xyz/api/v1/posts?startTime=${this.lastTime.getTime()}&sort=timestamp&includeReplies=true`
 			);
@@ -52,7 +54,7 @@ export class NounsNymz {
 			this.processPosts(posts, listener);
 
 			this.lastTime = updatedTime;
-		});
+		}, POLL_TIME);
 	}
 
 	/**
@@ -63,6 +65,9 @@ export class NounsNymz {
 	 */
 	public off(eventName: SupportedEventsType) {
 		this.registeredListeners.delete(eventName);
+		if (eventName === "NewPost") {
+			clearInterval(this.interval);
+		}
 	}
 
 	/**
