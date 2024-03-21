@@ -626,7 +626,7 @@ const ProposalTransactionsUpdatedSchema = new Schema(
 		},
 		updateMessage: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		event: EventSchema
 	},
@@ -686,7 +686,7 @@ const ProposalUpdatedSchema = new Schema(
 		},
 		updateMessage: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		event: EventSchema
 	},
@@ -846,7 +846,7 @@ const VoteCastSchema = new Schema(
 		},
 		reason: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		event: EventSchema
 	},
@@ -1464,7 +1464,7 @@ const CandidateFeedbackSentSchema = new Schema(
 		},
 		reason: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		event: EventSchema
 	},
@@ -1526,7 +1526,7 @@ const FeedbackSentSchema = new Schema(
 		},
 		reason: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		event: EventSchema
 	},
@@ -1640,7 +1640,7 @@ const ProposalCandidateUpdatedSchema = new Schema(
 		},
 		reason: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		event: EventSchema
 	},
@@ -1686,7 +1686,7 @@ const SignatureAddedSchema = new Schema(
 		},
 		reason: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		event: EventSchema
 	},
