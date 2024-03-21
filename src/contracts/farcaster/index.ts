@@ -1,7 +1,7 @@
 import { _fetchNewestTimestamp, _fetchNewCasts } from "../../utilities/farcaster/rest-api";
 import { EventData } from "../../types";
 
-const POLL_TIME = 30_000;
+const POLL_TIME = 60_000;
 
 export interface SupportedEventMap {
 	NounsCast: EventData.Farcaster.NounsCast;
