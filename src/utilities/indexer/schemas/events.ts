@@ -520,7 +520,7 @@ const ProposalDescriptionUpdatedSchema = new Schema(
 		},
 		updatedMessage: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		event: EventSchema
 	},
