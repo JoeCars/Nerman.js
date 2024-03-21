@@ -113,8 +113,15 @@ export class Indexer {
 
 		const indexedEvents = await indexEvent(contract.Contract, eventSignature, formatter, endBlock, startBlock);
 
-		await this.writeToDatabase(eventName, indexedEvents);
-		await this.updateMetaData(eventName, endBlock);
+		this.writeToDatabase(eventName, indexedEvents)
+			.then(() => {
+				console.log(new Date(), eventName, "written to database");
+				return this.updateMetaData(eventName, endBlock);
+			})
+			.then(() => {
+				console.log(new Date(), eventName, "meta-data updated");
+			})
+			.catch(console.error);
 	}
 
 	// Create index all.
