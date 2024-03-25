@@ -18,7 +18,7 @@ const EventSchema = new Schema({
 const AccountSchema = new Schema({
 	id: {
 		type: Schema.Types.String,
-		required: true
+		default: ""
 	}
 });
 
@@ -1268,7 +1268,7 @@ const DescriptorUpdatedSchema = new Schema(
 	{
 		descriptor: {
 			type: AccountSchema,
-			required: true
+			required: false
 		},
 		event: EventSchema
 	},
@@ -1456,7 +1456,7 @@ const CandidateFeedbackSentSchema = new Schema(
 		},
 		slug: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		support: {
 			type: Schema.Types.Number,
@@ -1544,7 +1544,7 @@ const ProposalCandidateCanceledSchema = new Schema(
 		},
 		slug: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		event: EventSchema
 	},
@@ -1582,7 +1582,7 @@ const ProposalCandidateCreatedSchema = new Schema(
 		},
 		slug: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		proposalIdToUpdate: {
 			type: Schema.Types.Number,
@@ -1628,7 +1628,7 @@ const ProposalCandidateUpdatedSchema = new Schema(
 		},
 		slug: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		proposalIdToUpdate: {
 			type: Schema.Types.Number,
@@ -1670,7 +1670,7 @@ const SignatureAddedSchema = new Schema(
 		},
 		slug: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		proposalIdToUpdate: {
 			type: Schema.Types.Number,
