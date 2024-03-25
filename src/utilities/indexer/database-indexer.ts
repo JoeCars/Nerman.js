@@ -521,5 +521,13 @@ export class IndexerReader {
 		return ethPerWallet;
 	}
 
+	static async ethToUsd(ethAmount: number, date = new Date()) {
+		const formattedDate = Indexer.formatDate(date);
+		const conversionRate = await ETHConversionRate.findOne({ date: new Date(formattedDate) }).exec();
+		if (!conversionRate) {
+			throw new Error(`Unable to find conversion rate for ${date}`);
+		}
+		return conversionRate.usdPerEth * ethAmount;
+	}
 }
 
