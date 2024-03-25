@@ -494,3 +494,32 @@ export class Indexer {
 	}
 }
 
+export class IndexerReader {
+	static async totalEthSpentOnBids() {
+		let total = 0n;
+		for await (const bid of eventSchemas.AuctionBid.find()) {
+			total = total + BigInt(bid.amount);
+		}
+		return total;
+	}
+
+	static async totalBids() {
+		return eventSchemas.AuctionBid.countDocuments().exec();
+	}
+
+	static async totalUniqueBidders() {
+		return (await eventSchemas.AuctionBid.distinct("bidder.id")).length;
+	}
+
+	static async totalETHBidPerWalletAddress() {
+		const ethPerWallet = new Map<string, bigint>();
+		for await (const bid of eventSchemas.AuctionBid.find()) {
+			const prevBidTotal = ethPerWallet.get(bid.bidder.id) || 0n;
+			const bidAmount = BigInt(bid.amount);
+			ethPerWallet.set(bid.bidder.id, prevBidTotal + bidAmount);
+		}
+		return ethPerWallet;
+	}
+
+}
+
