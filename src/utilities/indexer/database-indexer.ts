@@ -113,15 +113,10 @@ export class Indexer {
 
 		const indexedEvents = await indexEvent(contract.Contract, eventSignature, formatter, endBlock, startBlock);
 
-		this.writeToDatabase(eventName, indexedEvents)
-			.then(() => {
-				console.log(new Date(), eventName, "written to database");
-				return this.updateMetaData(eventName, endBlock);
-			})
-			.then(() => {
-				console.log(new Date(), eventName, "meta-data updated");
-			})
-			.catch(console.error);
+		await this.writeToDatabase(eventName, indexedEvents);
+		console.log(new Date(), eventName, "written to database");
+		await this.updateMetaData(eventName, endBlock);
+		console.log(new Date(), eventName, "meta-data updated");
 	}
 
 	// Create index all.
@@ -208,171 +203,171 @@ export class Indexer {
 		switch (eventName) {
 			// Nouns DAO Logic
 			case "DAOWithdrawNounsFromEscrow":
-				return eventSchemas.DAOWithdrawNounsFromEscrow.create(indexedEvents);
+				return eventSchemas.DAOWithdrawNounsFromEscrow.insertMany(indexedEvents);
 			case "ERC20TokensToIncludeInForkSet":
-				return eventSchemas.ERC20TokensToIncludeInForkSet.create(indexedEvents);
+				return eventSchemas.ERC20TokensToIncludeInForkSet.insertMany(indexedEvents);
 			case "EscrowedToFork":
-				return eventSchemas.EscrowedToFork.create(indexedEvents);
+				return eventSchemas.EscrowedToFork.insertMany(indexedEvents);
 			case "ExecuteFork":
-				return eventSchemas.ExecuteFork.create(indexedEvents);
+				return eventSchemas.ExecuteFork.insertMany(indexedEvents);
 			case "ForkDAODeployerSet":
-				return eventSchemas.ForkDAODeployerSet.create(indexedEvents);
+				return eventSchemas.ForkDAODeployerSet.insertMany(indexedEvents);
 			case "ForkPeriodSet":
-				return eventSchemas.ForkPeriodSet.create(indexedEvents);
+				return eventSchemas.ForkPeriodSet.insertMany(indexedEvents);
 			case "ForkThresholdSet":
-				return eventSchemas.ForkThresholdSet.create(indexedEvents);
+				return eventSchemas.ForkThresholdSet.insertMany(indexedEvents);
 			case "JoinFork":
-				return eventSchemas.JoinFork.create(indexedEvents);
+				return eventSchemas.JoinFork.insertMany(indexedEvents);
 			case "LastMinuteWindowSet":
-				return eventSchemas.LastMinuteWindowSet.create(indexedEvents);
+				return eventSchemas.LastMinuteWindowSet.insertMany(indexedEvents);
 			case "MaxQuorumVotesBPSSet":
-				return eventSchemas.MaxQuorumVotesBPSSet.create(indexedEvents);
+				return eventSchemas.MaxQuorumVotesBPSSet.insertMany(indexedEvents);
 			case "MinQuorumVotesBPSSet":
-				return eventSchemas.MinQuorumVotesBPSSet.create(indexedEvents);
+				return eventSchemas.MinQuorumVotesBPSSet.insertMany(indexedEvents);
 			case "NewAdmin":
-				return eventSchemas.NewAdmin.create(indexedEvents);
+				return eventSchemas.NewAdmin.insertMany(indexedEvents);
 			case "NewImplementation":
-				return eventSchemas.NewImplementation.create(indexedEvents);
+				return eventSchemas.NewImplementation.insertMany(indexedEvents);
 			case "NewPendingAdmin":
-				return eventSchemas.NewPendingAdmin.create(indexedEvents);
+				return eventSchemas.NewPendingAdmin.insertMany(indexedEvents);
 			case "NewPendingVetoer":
-				return eventSchemas.NewPendingVetoer.create(indexedEvents);
+				return eventSchemas.NewPendingVetoer.insertMany(indexedEvents);
 			case "NewVetoer":
-				return eventSchemas.NewVetoer.create(indexedEvents);
+				return eventSchemas.NewVetoer.insertMany(indexedEvents);
 			case "ObjectionPeriodDurationSet":
-				return eventSchemas.ObjectionPeriodDurationSet.create(indexedEvents);
+				return eventSchemas.ObjectionPeriodDurationSet.insertMany(indexedEvents);
 			case "ProposalCanceled":
-				return eventSchemas.ProposalCanceled.create(indexedEvents);
+				return eventSchemas.ProposalCanceled.insertMany(indexedEvents);
 			case "ProposalCreated":
-				return eventSchemas.ProposalCreated.create(indexedEvents);
+				return eventSchemas.ProposalCreated.insertMany(indexedEvents);
 			case "ProposalCreatedOnTimelockV1":
-				return eventSchemas.ProposalCreatedOnTimelockV1.create(indexedEvents);
+				return eventSchemas.ProposalCreatedOnTimelockV1.insertMany(indexedEvents);
 			case "ProposalCreatedWithRequirements":
-				return eventSchemas.ProposalCreatedWithRequirements.create(indexedEvents);
+				return eventSchemas.ProposalCreatedWithRequirements.insertMany(indexedEvents);
 			case "ProposalDescriptionUpdated":
-				return eventSchemas.ProposalDescriptionUpdated.create(indexedEvents);
+				return eventSchemas.ProposalDescriptionUpdated.insertMany(indexedEvents);
 			case "ProposalExecuted":
-				return eventSchemas.ProposalExecuted.create(indexedEvents);
+				return eventSchemas.ProposalExecuted.insertMany(indexedEvents);
 			case "ProposalObjectionPeriodSet":
-				return eventSchemas.ProposalObjectionPeriodSet.create(indexedEvents);
+				return eventSchemas.ProposalObjectionPeriodSet.insertMany(indexedEvents);
 			case "ProposalQueued":
-				return eventSchemas.ProposalQueued.create(indexedEvents);
+				return eventSchemas.ProposalQueued.insertMany(indexedEvents);
 			case "ProposalThresholdBPSSet":
-				return eventSchemas.ProposalThresholdBPSSet.create(indexedEvents);
+				return eventSchemas.ProposalThresholdBPSSet.insertMany(indexedEvents);
 			case "ProposalTransactionsUpdated":
-				return eventSchemas.ProposalTransactionsUpdated.create(indexedEvents);
+				return eventSchemas.ProposalTransactionsUpdated.insertMany(indexedEvents);
 			case "ProposalUpdatablePeriodSet":
-				return eventSchemas.ProposalUpdatablePeriodSet.create(indexedEvents);
+				return eventSchemas.ProposalUpdatablePeriodSet.insertMany(indexedEvents);
 			case "ProposalUpdated":
-				return eventSchemas.ProposalUpdated.create(indexedEvents);
+				return eventSchemas.ProposalUpdated.insertMany(indexedEvents);
 			case "ProposalVetoed":
-				return eventSchemas.ProposalVetoed.create(indexedEvents);
+				return eventSchemas.ProposalVetoed.insertMany(indexedEvents);
 			case "QuorumCoefficientSet":
-				return eventSchemas.QuorumCoefficientSet.create(indexedEvents);
+				return eventSchemas.QuorumCoefficientSet.insertMany(indexedEvents);
 			case "QuorumVotesBPSSet":
-				return eventSchemas.QuorumVotesBPSSet.create(indexedEvents);
+				return eventSchemas.QuorumVotesBPSSet.insertMany(indexedEvents);
 			case "RefundableVote":
-				return eventSchemas.RefundableVote.create(indexedEvents);
+				return eventSchemas.RefundableVote.insertMany(indexedEvents);
 			case "SignatureCancelled":
-				return eventSchemas.SignatureCancelled.create(indexedEvents);
+				return eventSchemas.SignatureCancelled.insertMany(indexedEvents);
 			case "TimelocksAndAdminSet":
-				return eventSchemas.TimelocksAndAdminSet.create(indexedEvents);
+				return eventSchemas.TimelocksAndAdminSet.insertMany(indexedEvents);
 			case "VoteCast":
-				return eventSchemas.VoteCast.create(indexedEvents);
+				return eventSchemas.VoteCast.insertMany(indexedEvents);
 			case "VoteSnapshotBlockSwitchProposalIdSet":
-				return eventSchemas.VoteSnapshotBlockSwitchProposalIdSet.create(indexedEvents);
+				return eventSchemas.VoteSnapshotBlockSwitchProposalIdSet.insertMany(indexedEvents);
 			case "VotingDelaySet":
-				return eventSchemas.VotingDelaySet.create(indexedEvents);
+				return eventSchemas.VotingDelaySet.insertMany(indexedEvents);
 			case "VotingPeriodSet":
-				return eventSchemas.VotingPeriodSet.create(indexedEvents);
+				return eventSchemas.VotingPeriodSet.insertMany(indexedEvents);
 			case "Withdraw":
-				return eventSchemas.Withdraw.create(indexedEvents);
+				return eventSchemas.Withdraw.insertMany(indexedEvents);
 			case "WithdrawFromForkEscrow":
-				return eventSchemas.WithdrawFromForkEscrow.create(indexedEvents);
+				return eventSchemas.WithdrawFromForkEscrow.insertMany(indexedEvents);
 
 			// Nouns Auction House
 			case "AuctionCreated":
-				return eventSchemas.AuctionCreated.create(indexedEvents);
+				return eventSchemas.AuctionCreated.insertMany(indexedEvents);
 			case "AuctionBid":
-				return eventSchemas.AuctionBid.create(indexedEvents);
+				return eventSchemas.AuctionBid.insertMany(indexedEvents);
 			case "AuctionExtended":
-				return eventSchemas.AuctionExtended.create(indexedEvents);
+				return eventSchemas.AuctionExtended.insertMany(indexedEvents);
 			case "AuctionSettled":
-				return eventSchemas.AuctionSettled.create(indexedEvents);
+				return eventSchemas.AuctionSettled.insertMany(indexedEvents);
 			case "AuctionTimeBufferUpdated":
-				return eventSchemas.AuctionTimeBufferUpdated.create(indexedEvents);
+				return eventSchemas.AuctionTimeBufferUpdated.insertMany(indexedEvents);
 			case "AuctionReservePriceUpdated":
-				return eventSchemas.AuctionReservePriceUpdated.create(indexedEvents);
+				return eventSchemas.AuctionReservePriceUpdated.insertMany(indexedEvents);
 			case "AuctionMinBidIncrementPercentageUpdated":
-				return eventSchemas.AuctionMinBidIncrementPercentageUpdated.create(indexedEvents);
+				return eventSchemas.AuctionMinBidIncrementPercentageUpdated.insertMany(indexedEvents);
 			case "OwnershipTransferred":
-				return eventSchemas.OwnershipTransferred.create(indexedEvents);
+				return eventSchemas.OwnershipTransferred.insertMany(indexedEvents);
 			case "Paused":
-				return eventSchemas.Paused.create(indexedEvents);
+				return eventSchemas.Paused.insertMany(indexedEvents);
 			case "Unpaused":
-				return eventSchemas.Unpaused.create(indexedEvents);
+				return eventSchemas.Unpaused.insertMany(indexedEvents);
 
 			// Nouns Token
 			case "DelegateChanged":
-				return eventSchemas.DelegateChanged.create(indexedEvents);
+				return eventSchemas.DelegateChanged.insertMany(indexedEvents);
 			case "DelegateVotesChanged":
-				return eventSchemas.DelegateVotesChanged.create(indexedEvents);
+				return eventSchemas.DelegateVotesChanged.insertMany(indexedEvents);
 			case "Transfer":
-				return eventSchemas.Transfer.create(indexedEvents);
+				return eventSchemas.Transfer.insertMany(indexedEvents);
 			case "Approval":
-				return eventSchemas.Approval.create(indexedEvents);
+				return eventSchemas.Approval.insertMany(indexedEvents);
 			case "ApprovalForAll":
-				return eventSchemas.ApprovalForAll.create(indexedEvents);
+				return eventSchemas.ApprovalForAll.insertMany(indexedEvents);
 			case "NounCreated":
-				return eventSchemas.NounCreated.create(indexedEvents);
+				return eventSchemas.NounCreated.insertMany(indexedEvents);
 			case "DescriptorLocked":
-				return eventSchemas.DescriptorLocked.create(indexedEvents);
+				return eventSchemas.DescriptorLocked.insertMany(indexedEvents);
 			case "DescriptorUpdated":
-				return eventSchemas.DescriptorUpdated.create(indexedEvents);
+				return eventSchemas.DescriptorUpdated.insertMany(indexedEvents);
 			case "MinterLocked":
-				return eventSchemas.MinterLocked.create(indexedEvents);
+				return eventSchemas.MinterLocked.insertMany(indexedEvents);
 			case "MinterUpdated":
-				return eventSchemas.MinterUpdated.create(indexedEvents);
+				return eventSchemas.MinterUpdated.insertMany(indexedEvents);
 			case "NounBurned":
-				return eventSchemas.NounBurned.create(indexedEvents);
+				return eventSchemas.NounBurned.insertMany(indexedEvents);
 			case "NoundersDAOUpdated":
-				return eventSchemas.NoundersDAOUpdated.create(indexedEvents);
+				return eventSchemas.NoundersDAOUpdated.insertMany(indexedEvents);
 			case "OwnershipTransferred":
-				return eventSchemas.OwnershipTransferred.create(indexedEvents);
+				return eventSchemas.OwnershipTransferred.insertMany(indexedEvents);
 			case "SeederLocked":
-				return eventSchemas.SeederLocked.create(indexedEvents);
+				return eventSchemas.SeederLocked.insertMany(indexedEvents);
 			case "SeederUpdated":
-				return eventSchemas.SeederUpdated.create(indexedEvents);
+				return eventSchemas.SeederUpdated.insertMany(indexedEvents);
 
 			// Nouns DAO Data
 			case "AdminChanged":
-				return eventSchemas.AdminChanged.create(indexedEvents);
+				return eventSchemas.AdminChanged.insertMany(indexedEvents);
 			case "BeaconUpgraded":
-				return eventSchemas.BeaconUpgraded.create(indexedEvents);
+				return eventSchemas.BeaconUpgraded.insertMany(indexedEvents);
 			case "CandidateFeedbackSent":
-				return eventSchemas.CandidateFeedbackSent.create(indexedEvents);
+				return eventSchemas.CandidateFeedbackSent.insertMany(indexedEvents);
 			case "CreateCandidateCostSet":
-				return eventSchemas.CreateCandidateCostSet.create(indexedEvents);
+				return eventSchemas.CreateCandidateCostSet.insertMany(indexedEvents);
 			case "ETHWithdrawn":
-				return eventSchemas.ETHWithdrawn.create(indexedEvents);
+				return eventSchemas.ETHWithdrawn.insertMany(indexedEvents);
 			case "FeeRecipientSet":
-				return eventSchemas.FeeRecipientSet.create(indexedEvents);
+				return eventSchemas.FeeRecipientSet.insertMany(indexedEvents);
 			case "FeedbackSent":
-				return eventSchemas.FeedbackSent.create(indexedEvents);
+				return eventSchemas.FeedbackSent.insertMany(indexedEvents);
 			case "OwnershipTransferred":
-				return eventSchemas.OwnershipTransferred.create(indexedEvents);
+				return eventSchemas.OwnershipTransferred.insertMany(indexedEvents);
 			case "ProposalCandidateCanceled":
-				return eventSchemas.ProposalCandidateCanceled.create(indexedEvents);
+				return eventSchemas.ProposalCandidateCanceled.insertMany(indexedEvents);
 			case "ProposalCandidateCreated":
-				return eventSchemas.ProposalCandidateCreated.create(indexedEvents);
+				return eventSchemas.ProposalCandidateCreated.insertMany(indexedEvents);
 			case "ProposalCandidateUpdated":
-				return eventSchemas.ProposalCandidateUpdated.create(indexedEvents);
+				return eventSchemas.ProposalCandidateUpdated.insertMany(indexedEvents);
 			case "SignatureAdded":
-				return eventSchemas.SignatureAdded.create(indexedEvents);
+				return eventSchemas.SignatureAdded.insertMany(indexedEvents);
 			case "UpdateCandidateCostSet":
-				return eventSchemas.UpdateCandidateCostSet.create(indexedEvents);
+				return eventSchemas.UpdateCandidateCostSet.insertMany(indexedEvents);
 			case "Upgraded":
-				return eventSchemas.Upgraded.create(indexedEvents);
+				return eventSchemas.Upgraded.insertMany(indexedEvents);
 
 			default:
 				throw new Error(`${eventName} is not supported.`);
