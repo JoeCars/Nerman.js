@@ -181,8 +181,6 @@ export class Indexer {
 		}
 	}
 
-	// Create index varargs
-
 	private getContract(eventName: string): _NounsAuctionHouse | _NounsDAO | _NounsDAOData | _NounsToken {
 		if (this.nounsDao.hasEvent(eventName)) {
 			return this.nounsDao;
