@@ -413,13 +413,13 @@ export class Indexer {
 		};
 	}
 
-	private async fetchBlockTimestamp(blockNum: number | string | bigint) {
+	async fetchBlockTimestamp(blockNum: number | string | bigint) {
 		const block = await this.nounsDao.provider.getBlock(blockNum);
 		console.log("block", block);
 		return block ? block.timestamp : 0;
 	}
 
-	private formatDate(timestamp: number | Date) {
+	static formatDate(timestamp: number | Date) {
 		let date: Date;
 		if (typeof timestamp === "number") {
 			date = new Date(timestamp * MILLISECONDS_PER_SECOND);
@@ -437,14 +437,14 @@ export class Indexer {
 		return formattedDate;
 	}
 
-	private async fetchDate(blockNum: number | string | bigint) {
+	async fetchDate(blockNum: number | string | bigint) {
 		const timestamp = await this.fetchBlockTimestamp(blockNum);
 		console.log("timestamp", timestamp);
-		const date = this.formatDate(timestamp);
+		const date = Indexer.formatDate(timestamp);
 		return date;
 	}
 
-	private async fetchConversionRate(date: string) {
+	static async fetchConversionRate(date: string) {
 		try {
 			const response = await fetch(`https://api.coinbase.com/v2/prices/ETH-USD/spot?date=${date}`);
 			if (!response.ok) {
@@ -458,7 +458,7 @@ export class Indexer {
 		}
 	}
 
-	private incrementDate(date: string) {
+	static incrementDate(date: string) {
 		const oldDate = new Date(date);
 		const newDate = new Date(oldDate);
 		console.log("oldDate", oldDate);
@@ -474,7 +474,7 @@ export class Indexer {
 		const DELAY_IN_MS = 500;
 
 		const interval = setInterval(async () => {
-			const conversionRate = await this.fetchConversionRate(date);
+			const conversionRate = await Indexer.fetchConversionRate(date);
 			if (!conversionRate) {
 				console.error("unable to fetch conversion rate", date);
 				return;
@@ -484,7 +484,7 @@ export class Indexer {
 				date: date
 			});
 
-			date = this.incrementDate(date);
+			date = Indexer.incrementDate(date);
 
 			if (new Date(date) > new Date()) {
 				clearInterval(interval);
