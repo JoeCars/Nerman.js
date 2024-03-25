@@ -21,6 +21,16 @@ import { _NounsDAOData } from "../../contracts/nouns-dao/NounsDAOData";
 import { _NounsToken } from "../../contracts/nouns-dao/NounsToken";
 import { EventFormatter, FormattedEvent } from "../../types";
 import IndexerMetaData from "./schemas/IndexerMetaData";
+import ETHConversionRate from "./schemas/ETHConversionRate";
+import fetch from "node-fetch";
+
+type CoinbaseConversionResult = {
+	data: {
+		amount: string;
+		base: string;
+		currency: string;
+	};
+};
 
 /**
  * Finds every instance of the event triggering on the blockchain until the present block, and saves the result to a database.
@@ -55,6 +65,8 @@ export async function indexEvent(
 
 	return indexedEvents;
 }
+
+const MILLISECONDS_PER_SECOND = 1_000;
 
 export class Indexer {
 	private provider: ethers.JsonRpcProvider;
@@ -402,4 +414,85 @@ export class Indexer {
 			recentBlock: metaData.recentBlock
 		};
 	}
+
+	private async fetchBlockTimestamp(blockNum: number | string | bigint) {
+		const block = await this.nounsDao.provider.getBlock(blockNum);
+		console.log("block", block);
+		return block ? block.timestamp : 0;
+	}
+
+	private formatDate(timestamp: number | Date) {
+		let date: Date;
+		if (typeof timestamp === "number") {
+			date = new Date(timestamp * MILLISECONDS_PER_SECOND);
+			console.log("date number", date);
+		} else {
+			date = timestamp;
+			console.log("date date", date);
+		}
+
+		const year = date.getUTCFullYear();
+		const month = date.getUTCMonth() + 1; // getUTCMonth is 0 indexed.
+		const day = date.getUTCDate();
+
+		const formattedDate = `${year}-${month >= 10 ? month : `0${month}`}-${day >= 10 ? day : `0${day}`}`;
+		return formattedDate;
+	}
+
+	private async fetchDate(blockNum: number | string | bigint) {
+		const timestamp = await this.fetchBlockTimestamp(blockNum);
+		console.log("timestamp", timestamp);
+		const date = this.formatDate(timestamp);
+		return date;
+	}
+
+	private async fetchConversionRate(date: string) {
+		try {
+			const response = await fetch(`https://api.coinbase.com/v2/prices/ETH-USD/spot?date=${date}`);
+			if (!response.ok) {
+				throw new Error(`unable to fetch conversion rate ${response.status} ${response.statusText}`);
+			}
+			const result: CoinbaseConversionResult = await response.json();
+			return result;
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
+	}
+
+	private incrementDate(date: string) {
+		const oldDate = new Date(date);
+		const newDate = new Date(oldDate);
+		console.log("oldDate", oldDate);
+		newDate.setUTCDate(oldDate.getUTCDate() + 1);
+		console.log("newDate", newDate);
+		const formattedDate = this.formatDate(newDate);
+		return formattedDate;
+	}
+
+	public async indexConversionRates() {
+		let date = await this.fetchDate(NOUNS_STARTING_BLOCK);
+		console.log("date", date);
+		const DELAY_IN_MS = 500;
+
+		const interval = setInterval(async () => {
+			const conversionRate = await this.fetchConversionRate(date);
+			if (!conversionRate) {
+				console.error("unable to fetch conversion rate", date);
+				return;
+			}
+			await ETHConversionRate.create({
+				usdPerEth: Number(conversionRate.data.amount),
+				date: date
+			});
+
+			date = this.incrementDate(date);
+
+			if (new Date(date) > new Date()) {
+				clearInterval(interval);
+				console.log("done");
+			}
+		}, DELAY_IN_MS);
+	}
 }
+
