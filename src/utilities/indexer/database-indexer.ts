@@ -418,6 +418,10 @@ export class Indexer {
 		return block ? block.timestamp : 0;
 	}
 
+	/**
+	 * @param timestamp either the seconds since unix time, or a date object
+	 * @returns a date string formatted as "yyyy-mm-dd"
+	 */
 	static formatDate(timestamp: number | Date) {
 		let date: Date;
 		if (typeof timestamp === "number") {
