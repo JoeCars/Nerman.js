@@ -415,7 +415,6 @@ export class Indexer {
 
 	async fetchBlockTimestamp(blockNum: number | string | bigint) {
 		const block = await this.nounsDao.provider.getBlock(blockNum);
-		console.log("block", block);
 		return block ? block.timestamp : 0;
 	}
 
@@ -423,10 +422,8 @@ export class Indexer {
 		let date: Date;
 		if (typeof timestamp === "number") {
 			date = new Date(timestamp * MILLISECONDS_PER_SECOND);
-			console.log("date number", date);
 		} else {
 			date = timestamp;
-			console.log("date date", date);
 		}
 
 		const year = date.getUTCFullYear();
@@ -439,7 +436,6 @@ export class Indexer {
 
 	async fetchDate(blockNum: number | string | bigint) {
 		const timestamp = await this.fetchBlockTimestamp(blockNum);
-		console.log("timestamp", timestamp);
 		const date = Indexer.formatDate(timestamp);
 		return date;
 	}
@@ -461,16 +457,13 @@ export class Indexer {
 	static incrementDate(date: string) {
 		const oldDate = new Date(date);
 		const newDate = new Date(oldDate);
-		console.log("oldDate", oldDate);
 		newDate.setUTCDate(oldDate.getUTCDate() + 1);
-		console.log("newDate", newDate);
 		const formattedDate = this.formatDate(newDate);
 		return formattedDate;
 	}
 
 	public async indexConversionRates() {
 		let date = await this.fetchDate(NOUNS_STARTING_BLOCK);
-		console.log("date", date);
 		const DELAY_IN_MS = 500;
 
 		const interval = setInterval(async () => {
@@ -488,7 +481,7 @@ export class Indexer {
 
 			if (new Date(date) > new Date()) {
 				clearInterval(interval);
-				console.log("done");
+				console.log("finished indexing conversion rates");
 			}
 		}, DELAY_IN_MS);
 	}
