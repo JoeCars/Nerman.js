@@ -90,7 +90,7 @@ export class Indexer {
 		this.nounsToken = new _NounsToken(this.provider);
 	}
 
-	public async index(eventName: string) {
+	private async indexToDatabase(eventName: string) {
 		const contract = this.getContract(eventName);
 		let formatter = this.getFormatter(eventName);
 
@@ -126,10 +126,10 @@ export class Indexer {
 		console.log(new Date(), eventName, "meta-data updated");
 	}
 
-	public async indexAll() {
+	private async indexAll() {
 		for (const eventName of _NounsAuctionHouse.supportedEvents) {
 			try {
-				await this.index(eventName);
+				await this.indexToDatabase(eventName);
 			} catch (error) {
 				console.error("error", error);
 				return;
@@ -138,7 +138,7 @@ export class Indexer {
 
 		for (const eventName of _NounsDAO.supportedEvents) {
 			try {
-				await this.index(eventName);
+				await this.indexToDatabase(eventName);
 			} catch (error) {
 				console.error("error", error);
 				return;
@@ -147,7 +147,7 @@ export class Indexer {
 
 		for (const eventName of _NounsDAOData.supportedEvents) {
 			try {
-				await this.index(eventName);
+				await this.indexToDatabase(eventName);
 			} catch (error) {
 				console.error("error", error);
 				return;
@@ -156,7 +156,7 @@ export class Indexer {
 
 		for (const eventName of _NounsToken.supportedEvents) {
 			try {
-				await this.index(eventName);
+				await this.indexToDatabase(eventName);
 			} catch (error) {
 				console.error("error", error);
 				return;
@@ -164,10 +164,14 @@ export class Indexer {
 		}
 	}
 
-	public async indexSeveral(...eventNames: string[]) {
+	public async index(...eventNames: string[]) {
+		if (eventNames.length === 0) {
+			return this.indexAll();
+		}
+
 		for (const eventName of eventNames) {
 			try {
-				await this.index(eventName);
+				await this.indexToDatabase(eventName);
 			} catch (error) {
 				console.error("error", error);
 				return;
