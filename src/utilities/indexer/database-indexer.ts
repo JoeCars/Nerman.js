@@ -77,7 +77,7 @@ export class Indexer {
 	private nounsAuctionHouse: _NounsAuctionHouse;
 	private nounsToken: _NounsToken;
 
-	constructor(jsonRpcUrl: string) {
+	public constructor(jsonRpcUrl: string) {
 		this.provider = createProvider(jsonRpcUrl);
 
 		this.nounsDao = new _NounsDAO(this.provider);
@@ -406,17 +406,64 @@ export class Indexer {
 			recentBlock: metaData.recentBlock
 		};
 	}
+}
 
-	async fetchBlockTimestamp(blockNum: number | string | bigint) {
+export class ConversionRateManager {
+	private nounsDao: _NounsDAO;
+
+	public constructor(nounsDao: _NounsDAO) {
+		this.nounsDao = nounsDao;
+	}
+
+	private async fetchInitialDate() {
+		const newestConversionRate = await ETHConversionRate.findOne().sort({ date: -1 }).exec();
+		if (newestConversionRate) {
+			let date = ConversionRateManager.formatDate(newestConversionRate.date);
+			return ConversionRateManager.incrementDate(date);
+		} else {
+			return this.fetchDate(NOUNS_STARTING_BLOCK);
+		}
+	}
+
+	public async fetchBlockTimestamp(blockNum: number | string | bigint) {
 		const block = await this.nounsDao.provider.getBlock(blockNum);
 		return block ? block.timestamp : 0;
+	}
+
+	public async fetchDate(blockNum: number | string | bigint) {
+		const timestamp = await this.fetchBlockTimestamp(blockNum);
+		const date = ConversionRateManager.formatDate(timestamp);
+		return date;
+	}
+
+	public async indexConversionRates() {
+		let date = await this.fetchInitialDate();
+
+		const interval = setInterval(async () => {
+			const conversionRate = await ConversionRateManager.fetchConversionRate(date);
+			if (!conversionRate) {
+				console.error("unable to fetch conversion rate", date);
+				return;
+			}
+			await ETHConversionRate.create({
+				usdPerEth: Number(conversionRate.data.amount),
+				date: date
+			});
+
+			date = ConversionRateManager.incrementDate(date);
+
+			if (new Date(date) > new Date()) {
+				clearInterval(interval);
+				console.log("finished indexing conversion rates");
+			}
+		}, DELAY_IN_MS);
 	}
 
 	/**
 	 * @param timestamp either the seconds since unix time, or a date object
 	 * @returns a date string formatted as "yyyy-mm-dd"
 	 */
-	static formatDate(timestamp: number | Date) {
+	public static formatDate(timestamp: number | Date) {
 		let date: Date;
 		if (typeof timestamp === "number") {
 			date = new Date(timestamp * MILLISECONDS_PER_SECOND);
@@ -432,13 +479,15 @@ export class Indexer {
 		return formattedDate;
 	}
 
-	async fetchDate(blockNum: number | string | bigint) {
-		const timestamp = await this.fetchBlockTimestamp(blockNum);
-		const date = Indexer.formatDate(timestamp);
-		return date;
+	public static incrementDate(date: string) {
+		const oldDate = new Date(date);
+		const newDate = new Date(oldDate);
+		newDate.setUTCDate(oldDate.getUTCDate() + 1);
+		const formattedDate = this.formatDate(newDate);
+		return formattedDate;
 	}
 
-	static async fetchConversionRate(date: string) {
+	public static async fetchConversionRate(date: string) {
 		try {
 			const response = await fetch(`https://api.coinbase.com/v2/prices/ETH-USD/spot?date=${date}`);
 			if (!response.ok) {
@@ -450,47 +499,6 @@ export class Indexer {
 			console.error(error);
 			return null;
 		}
-	}
-
-	static incrementDate(date: string) {
-		const oldDate = new Date(date);
-		const newDate = new Date(oldDate);
-		newDate.setUTCDate(oldDate.getUTCDate() + 1);
-		const formattedDate = this.formatDate(newDate);
-		return formattedDate;
-	}
-
-	private async fetchInitialDate() {
-		const newestConversionRate = await ETHConversionRate.findOne().sort({ date: -1 }).exec();
-		if (newestConversionRate) {
-			let date = Indexer.formatDate(newestConversionRate.date);
-			return Indexer.incrementDate(date);
-		} else {
-			return this.fetchDate(NOUNS_STARTING_BLOCK);
-		}
-	}
-
-	public async indexConversionRates() {
-		let date = await this.fetchInitialDate();
-
-		const interval = setInterval(async () => {
-			const conversionRate = await Indexer.fetchConversionRate(date);
-			if (!conversionRate) {
-				console.error("unable to fetch conversion rate", date);
-				return;
-			}
-			await ETHConversionRate.create({
-				usdPerEth: Number(conversionRate.data.amount),
-				date: date
-			});
-
-			date = Indexer.incrementDate(date);
-
-			if (new Date(date) > new Date()) {
-				clearInterval(interval);
-				console.log("finished indexing conversion rates");
-			}
-		}, DELAY_IN_MS);
 	}
 }
 
@@ -522,7 +530,7 @@ export class IndexerReader {
 	}
 
 	static async ethToUsd(ethAmount: number, date = new Date()) {
-		const formattedDate = Indexer.formatDate(date);
+		const formattedDate = ConversionRateManager.formatDate(date);
 		const conversionRate = await ETHConversionRate.findOne({ date: new Date(formattedDate) }).exec();
 		if (!conversionRate) {
 			throw new Error(`Unable to find conversion rate for ${date}`);
