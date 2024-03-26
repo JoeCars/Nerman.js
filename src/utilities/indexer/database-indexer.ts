@@ -70,6 +70,10 @@ export async function indexEvent(
 	return indexedEvents;
 }
 
+export async function connectToDatabase(mongoDBUrl: string) {
+	return mongoose.connect(mongoDBUrl);
+}
+
 export class Indexer {
 	private provider: ethers.JsonRpcProvider;
 	private nounsDao: _NounsDAO;
@@ -84,10 +88,6 @@ export class Indexer {
 		this.nounsDaoData = new _NounsDAOData(this.provider);
 		this.nounsAuctionHouse = new _NounsAuctionHouse(this.provider);
 		this.nounsToken = new _NounsToken(this.provider);
-	}
-
-	public async connectToDB(mongoDBUrl: string) {
-		return mongoose.connect(mongoDBUrl);
 	}
 
 	public async index(eventName: string) {
