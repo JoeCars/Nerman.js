@@ -462,8 +462,19 @@ export class Indexer {
 		return formattedDate;
 	}
 
+	private async fetchInitialDate() {
+		const newestConversionRate = await ETHConversionRate.findOne().sort({ date: -1 }).exec();
+		if (newestConversionRate) {
+			let date = Indexer.formatDate(newestConversionRate.date);
+			return Indexer.incrementDate(date);
+		} else {
+			return this.fetchDate(NOUNS_STARTING_BLOCK);
+		}
+	}
+
 	public async indexConversionRates() {
-		let date = await this.fetchDate(NOUNS_STARTING_BLOCK);
+		let date = await this.fetchInitialDate();
+
 		const DELAY_IN_MS = 500;
 
 		const interval = setInterval(async () => {
