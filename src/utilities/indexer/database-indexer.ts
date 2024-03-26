@@ -74,7 +74,7 @@ export async function connectToDatabase(mongoDBUrl: string) {
 	return mongoose.connect(mongoDBUrl);
 }
 
-export class Indexer {
+export class DatabaseIndexer {
 	private provider: ethers.JsonRpcProvider;
 	private nounsDao: _NounsDAO;
 	private nounsDaoData: _NounsDAOData;
