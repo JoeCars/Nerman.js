@@ -23,6 +23,7 @@ import { EventFormatter, FormattedEvent } from "../../types";
 import IndexerMetaData from "./schemas/IndexerMetaData";
 import ETHConversionRate from "./schemas/ETHConversionRate";
 import fetch from "node-fetch";
+import { createProvider } from "../providers";
 
 type CoinbaseConversionResult = {
 	data: {
@@ -76,14 +77,7 @@ export class Indexer {
 	private nounsToken: _NounsToken;
 
 	constructor(jsonRpcUrl: string) {
-		if (jsonRpcUrl.toLowerCase().includes("alchemy")) {
-			const lastSlashIndex = jsonRpcUrl.lastIndexOf("/");
-			const alchemyToken = jsonRpcUrl.substring(lastSlashIndex + 1);
-
-			this.provider = new ethers.AlchemyProvider(undefined, alchemyToken);
-		} else {
-			this.provider = new ethers.JsonRpcProvider(jsonRpcUrl);
-		}
+		this.provider = createProvider(jsonRpcUrl);
 
 		this.nounsDao = new _NounsDAO(this.provider);
 		this.nounsDaoData = new _NounsDAOData(this.provider);
