@@ -25,6 +25,9 @@ import ETHConversionRate from "./schemas/ETHConversionRate";
 import fetch from "node-fetch";
 import { createProvider } from "../providers";
 
+const MILLISECONDS_PER_SECOND = 1_000;
+const DELAY_IN_MS = 500;
+
 type CoinbaseConversionResult = {
 	data: {
 		amount: string;
@@ -66,8 +69,6 @@ export async function indexEvent(
 
 	return indexedEvents;
 }
-
-const MILLISECONDS_PER_SECOND = 1_000;
 
 export class Indexer {
 	private provider: ethers.JsonRpcProvider;
@@ -125,7 +126,6 @@ export class Indexer {
 		console.log(new Date(), eventName, "meta-data updated");
 	}
 
-	// Create index all.
 	public async indexAll() {
 		for (const eventName of _NounsAuctionHouse.supportedEvents) {
 			try {
@@ -472,8 +472,6 @@ export class Indexer {
 
 	public async indexConversionRates() {
 		let date = await this.fetchInitialDate();
-
-		const DELAY_IN_MS = 500;
 
 		const interval = setInterval(async () => {
 			const conversionRate = await Indexer.fetchConversionRate(date);
