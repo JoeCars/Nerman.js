@@ -528,6 +528,58 @@ export class ConversionRateManager {
 	}
 }
 
+export async function calculateAuctionsSummary() {
+	let totalWeiSpent = 0n;
+	let totalBids = 0;
+	const weiPerBidder = new Map<string, bigint>();
+
+	for await (const bid of eventSchemas.AuctionBid.find()) {
+		totalBids++;
+		totalWeiSpent += BigInt(bid.amount);
+
+		const prevBidTotal = weiPerBidder.get(bid.bidder.id) || 0n;
+		const bidAmount = BigInt(bid.amount);
+		weiPerBidder.set(bid.bidder.id, prevBidTotal + bidAmount);
+	}
+
+	const usdPerEth = await ConversionRateManager.fetchUsdPerEth();
+
+	return formatAuctionSummary(totalWeiSpent, totalBids, weiPerBidder, usdPerEth);
+}
+
+export function formatAuctionSummary(
+	totalWeiSpent: bigint,
+	totalBids: number,
+	weiPerBidder: Map<string, bigint>,
+	usdPerEth: number
+) {
+	let totalEthSpent = Number(totalWeiSpent) / Number(WeiPerEther);
+	let totalUniqueBidders = 0;
+	const totalBidPerBidder: { eth: number; usd: number; bidder: string }[] = [];
+	weiPerBidder.forEach((weiBid, bidder) => {
+		totalUniqueBidders++;
+
+		const ethBid = Number(weiBid) / Number(WeiPerEther);
+
+		totalBidPerBidder.push({
+			eth: ethBid,
+			usd: ethBid * usdPerEth,
+			bidder: bidder
+		});
+	});
+
+	return {
+		totalSpent: {
+			eth: totalEthSpent,
+			usd: totalEthSpent * usdPerEth
+		},
+		totalBids,
+		totalUniqueBidders,
+		totalBidPerBidder,
+		usdPerEth
+	};
+}
+
 export class IndexerReader {
 	static async totalEthSpentOnBids() {
 		let total = 0n;
