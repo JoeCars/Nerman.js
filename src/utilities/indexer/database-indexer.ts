@@ -520,7 +520,9 @@ export class ConversionRateManager {
 		const formattedDate = formatDate(date);
 		const conversionRate = await ETHConversionRate.findOne({ date: new Date(formattedDate) }).exec();
 		if (!conversionRate) {
-			throw new Error(`Unable to find conversion rate for ${date}`);
+			throw new Error(
+				`Unable to find conversion rate for ${date}. Please ensure the conversion rate is properly indexed.`
+			);
 		}
 		return conversionRate.usdPerEth;
 	}
