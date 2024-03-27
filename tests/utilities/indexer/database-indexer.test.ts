@@ -1,10 +1,12 @@
+import { WeiPerEther } from "ethers-v6";
 import {
 	indexEvent,
 	ConversionRateManager,
 	formatDate,
 	incrementDate,
 	fetchBlockTimestamp,
-	fetchDate
+	fetchDate,
+	formatAuctionSummary
 } from "../../../src/utilities/indexer/database-indexer";
 
 describe("indexEvent tests", () => {
@@ -110,5 +112,53 @@ describe("fetchDate tests", () => {
 		};
 		const result = await fetchDate(providerMock as any, 99);
 		expect(result).toEqual("2024-03-27");
+	});
+});
+
+describe("formatAuctionSummary tests", () => {
+	it("should return correctly formatted output", async () => {
+		const weiPerBidder = new Map();
+		weiPerBidder.set("0x00", 100n * WeiPerEther);
+		weiPerBidder.set("0x01", 50n * WeiPerEther);
+
+		const output = formatAuctionSummary(150n * WeiPerEther, 7, weiPerBidder, 1000);
+		const expectedOutput = {
+			totalSpent: {
+				eth: 150,
+				usd: 150_000
+			},
+			totalBids: 7,
+			totalUniqueBidders: 2,
+			totalBidPerBidder: [
+				{ eth: 100, usd: 100_000, bidder: "0x00" },
+				{ eth: 50, usd: 50_000, bidder: "0x01" }
+			],
+			usdPerEth: 1000
+		};
+
+		expect(output).toEqual(expectedOutput);
+	});
+
+	it("should handle fractional eth values", async () => {
+		const weiPerBidder = new Map();
+		weiPerBidder.set("0x00", 100n * WeiPerEther);
+		weiPerBidder.set("0x01", 10000000000000000n);
+
+		const output = formatAuctionSummary(100010000000000000000n, 7, weiPerBidder, 1000);
+		const expectedOutput = {
+			totalSpent: {
+				eth: 100.01,
+				usd: 100_010
+			},
+			totalBids: 7,
+			totalUniqueBidders: 2,
+			totalBidPerBidder: [
+				{ eth: 100, usd: 100_000, bidder: "0x00" },
+				{ eth: 0.01, usd: 10, bidder: "0x01" }
+			],
+			usdPerEth: 1000
+		};
+
+		expect(output).toEqual(expectedOutput);
 	});
 });
