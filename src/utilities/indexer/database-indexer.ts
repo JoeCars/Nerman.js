@@ -1,4 +1,4 @@
-import { ethers } from "ethers-v6";
+import { ethers, JsonRpcProvider, WeiPerEther } from "ethers-v6";
 import mongoose from "mongoose";
 
 import {
@@ -454,10 +454,10 @@ export function incrementDate(date: string) {
 }
 
 export class ConversionRateManager {
-	private nounsDao: _NounsDAO;
+	private provider: JsonRpcProvider;
 
-	public constructor(nounsDao: _NounsDAO) {
-		this.nounsDao = nounsDao;
+	public constructor(provider: JsonRpcProvider) {
+		this.provider = provider;
 	}
 
 	private async fetchConversionRate(date: string) {
@@ -480,7 +480,7 @@ export class ConversionRateManager {
 			let date = formatDate(newestConversionRate.date);
 			return incrementDate(date);
 		} else {
-			return fetchDate(this.nounsDao.provider, NOUNS_STARTING_BLOCK);
+			return fetchDate(this.provider, NOUNS_STARTING_BLOCK);
 		}
 	}
 
