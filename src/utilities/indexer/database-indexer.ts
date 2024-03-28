@@ -456,8 +456,12 @@ export function incrementDate(date: string) {
 export class ConversionRateManager {
 	private provider: JsonRpcProvider;
 
-	public constructor(provider: JsonRpcProvider) {
-		this.provider = provider;
+	public constructor(provider: JsonRpcProvider | string) {
+		if (typeof provider === "string") {
+			this.provider = createProvider(provider);
+		} else {
+			this.provider = provider;
+		}
 	}
 
 	private async fetchConversionRate(date: string) {
@@ -488,9 +492,16 @@ export class ConversionRateManager {
 		let date = await this.fetchInitialDate();
 
 		const interval = setInterval(async () => {
+			if (new Date(date) > new Date()) {
+				clearInterval(interval);
+				console.log("finished indexing conversion rates");
+				return;
+			}
+
 			const conversionRate = await this.fetchConversionRate(date);
 			if (!conversionRate) {
 				console.error("unable to fetch conversion rate", date);
+				clearInterval(interval);
 				return;
 			}
 			await ETHConversionRate.create({
@@ -499,11 +510,6 @@ export class ConversionRateManager {
 			});
 
 			date = incrementDate(date);
-
-			if (new Date(date) > new Date()) {
-				clearInterval(interval);
-				console.log("finished indexing conversion rates");
-			}
 		}, DELAY_IN_MS);
 	}
 
