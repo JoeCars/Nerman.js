@@ -1,7 +1,7 @@
 import { _fetchNewestTimestamp, _fetchNewCasts } from "../../utilities/farcaster/rest-api";
 import { EventData } from "../../types";
 
-const POLL_TIME = 30_000;
+const POLL_TIME = 60_000;
 
 export interface SupportedEventMap {
 	NounsCast: EventData.Farcaster.NounsCast;
@@ -16,6 +16,7 @@ export class Farcaster {
 	private interval: NodeJS.Timeout | undefined;
 	public registeredListeners: Map<SupportedEventsType, Function>;
 	public previousCastTimestamp: number | undefined;
+	public static readonly supportedEvents = SUPPORTED_FARCASTER_EVENTS;
 
 	constructor() {
 		this.registeredListeners = new Map();
@@ -87,5 +88,14 @@ export class Farcaster {
 	 */
 	public name() {
 		return "Farcaster";
+	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return Farcaster.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }

@@ -37,6 +37,18 @@ export interface NounsTokenSeed {
 	glasses: number;
 }
 
+export interface Event {
+	blockNumber: number;
+	blockHash: string;
+	transactionHash: string;
+}
+
+export interface FormattedEvent {
+	event: Event;
+}
+
+export type EventFormatter = (event: ethers.EventLog) => FormattedEvent;
+
 /**
  * Vote options and their associated numbers.
  * @example
@@ -82,7 +94,7 @@ export namespace EventData {
 		/** Address withdrawing the tokens. */
 		to: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ERC20TokensToIncludeInForkSet event data.
@@ -94,7 +106,7 @@ export namespace EventData {
 		/** New ERC20 tokens for splitting funds. */
 		newErc20tokens: string[];
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** EscrowedToFork event data.
@@ -106,13 +118,13 @@ export namespace EventData {
 		/** Token owner who is escrowing to fork. */
 		owner: Account;
 		/** List of tokens being escrowed. */
-		tokenIds: BigInt[];
+		tokenIds: number[];
 		/** Proposal IDs which are the reason for wanting to fork. */
-		proposalIds: BigInt[];
+		proposalIds: number[];
 		/** Optional reason. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ExecuteFork event data. The fork escrow is closed.
@@ -126,11 +138,11 @@ export namespace EventData {
 		/** New fork token address. */
 		forkToken: Account;
 		/** The unix timestamp in seconds until which the fork can rejoin the DAO. */
-		forkEndTimestamp: BigInt;
+		forkEndTimestamp: bigint | string;
 		/** Tokens in escrow at the moment of the escrow. These are lost from the main treasury. */
-		tokensInEscrow: BigInt;
+		tokensInEscrow: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ForkDAODeployerSet event data.
@@ -142,7 +154,7 @@ export namespace EventData {
 		/** New fork DAO deployer contract. */
 		newForkDAODeployer: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ForkPeriodSet event data. Sets how much time a fork has to rejoin the DAO after it has been executed.
@@ -150,11 +162,11 @@ export namespace EventData {
 	 */
 	export interface ForkPeriodSet {
 		/** Old fork period in seconds.*/
-		oldForkPeriod: BigInt;
+		oldForkPeriod: bigint | string;
 		/** New fork period in seconds. */
-		newForkPeriod: BigInt;
+		newForkPeriod: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ForkThresholdSet event data. Sets the threshold of Nouns in escrow needed to execute a fork.
@@ -162,11 +174,11 @@ export namespace EventData {
 	 */
 	export interface ForkThresholdSet {
 		/** The old token amount needed to successfully fork the DAO. A percentage of the token supply. */
-		oldForkThreshold: BigInt;
+		oldForkThreshold: bigint | string;
 		/** The new token amount needed to successfully fork the DAO. A percentage of the token supply. */
-		newForkThreshold: BigInt;
+		newForkThreshold: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** JoinFork event data. Joins contract after the contract has been executed, but before the time to rejoin has ended.
@@ -178,13 +190,13 @@ export namespace EventData {
 		/** Token owner who is escrowing to fork. */
 		owner: Account;
 		/** List of tokens being escrowed. */
-		tokenIds: BigInt[];
+		tokenIds: number[];
 		/** Owner's currently active proposals being transferred to the fork. */
-		proposalIds: BigInt[];
+		proposalIds: number[];
 		/** Optional reason. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** LastMinuteWindowSet event data.
@@ -192,11 +204,11 @@ export namespace EventData {
 	 */
 	export interface LastMinuteWindowSet {
 		/** Old objection period last minute window. */
-		oldLastMinuteWindowInBlocks: BigInt;
+		oldLastMinuteWindowInBlocks: bigint | string;
 		/** New objection period last minute window. */
-		newLastMinuteWindowInBlocks: BigInt;
+		newLastMinuteWindowInBlocks: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** MaxQuorumVotesBPSSet event data.
@@ -208,7 +220,7 @@ export namespace EventData {
 		/** New maximum quorum votes BPS. */
 		newMaxQuorumVotesBPS: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** MinQuorumVotesBPSSet event data.
@@ -220,7 +232,7 @@ export namespace EventData {
 		/** New minimum quorum votes BPS. */
 		newMinQuorumVotesBPS: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NewAdmin event data. Transfers admin rights.
@@ -232,7 +244,7 @@ export namespace EventData {
 		/** New admin address. */
 		newAdmin: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NewImplementation event data. Updates implementation of the delegator.
@@ -244,7 +256,7 @@ export namespace EventData {
 		/** New delegator implementation. */
 		newImplementation: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NewPendingAdmin event data. Offers the admin position to a new address. The new address must accept it to become an admin.
@@ -256,7 +268,7 @@ export namespace EventData {
 		/** New pending admin address. */
 		newPendingAdmin: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NewPendingVetoer event data. Offers the vetoer position to a new address. The new address must accept it to become a vetoer.
@@ -268,7 +280,7 @@ export namespace EventData {
 		/** New pending vetoer. */
 		newPendingVetoer: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NewVetoer event data. Transfers vetoer rights.
@@ -280,7 +292,7 @@ export namespace EventData {
 		/** New vetoer. */
 		newVetoer: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ObjectionPeriodDurationSet event data.
@@ -288,11 +300,11 @@ export namespace EventData {
 	 */
 	export interface ObjectionPeriodDurationSet {
 		/** Old objection period in blocks. */
-		oldObjectionPeriodDurationInBlocks: BigInt;
+		oldObjectionPeriodDurationInBlocks: bigint | string;
 		/** New objection period in blocks. */
-		newObjectionPeriodDurationInBlocks: BigInt;
+		newObjectionPeriodDurationInBlocks: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCanceled event data.
@@ -302,7 +314,7 @@ export namespace EventData {
 		/** id of the proposal being cancelled. */
 		id: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCreated event data.
@@ -316,15 +328,15 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigInt[];
+		values: bigint[] | string[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
 		calldatas: any[]; // type is bytes[]
 		/** The block voting starts. */
-		startBlock: BigInt;
+		startBlock: bigint | string;
 		/** The block voting ends. */
-		endBlock: BigInt;
+		endBlock: bigint | string;
 		/**
 		 * Proposal description.
 		 * @example
@@ -335,7 +347,7 @@ export namespace EventData {
 		 */
 		description: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCreatedOnTimelockV1 event data.
@@ -345,7 +357,7 @@ export namespace EventData {
 		/** id of the proposal created. */
 		id: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCreatedWithRequirements event data.
@@ -361,17 +373,17 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigInt[];
+		values: bigint[] | string[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
 		calldatas: any[];
 		/** The block voting starts. */
-		startBlock: BigInt;
+		startBlock: bigint | string;
 		/** The block voting ends. */
-		endBlock: BigInt;
+		endBlock: bigint | string;
 		/** Period where the proposal is updatable. In V3. */
-		updatePeriodEndBlock?: BigInt;
+		updatePeriodEndBlock?: bigint | string;
 		/** The proposal threshold. In V1. */
 		proposalThreshold: number;
 		/** The quorum votes. In V1. Renamed to minQuorumVotes in V2.*/
@@ -386,7 +398,7 @@ export namespace EventData {
 		 */
 		description: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalDescriptionUpdated event data. The proposal description was updated during the updateable period.
@@ -402,7 +414,7 @@ export namespace EventData {
 		/** A message explaining the update. */
 		updatedMessage: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalExecuted event data. Executes a fork that is currently queued. Not possible during forking period.
@@ -412,7 +424,7 @@ export namespace EventData {
 		/** id of the proposal executed. */
 		id: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalObjectionPeriodSet event data. A last minute FOR vote that changes the proposal from defeated to succeeded will trigger this event. Extends voting time.
@@ -422,9 +434,9 @@ export namespace EventData {
 		/** id of the proposal. */
 		id: number;
 		/** Objection end block. */
-		objectionPeriodEndBlock: BigInt;
+		objectionPeriodEndBlock: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalQueued event data. A proposal that was successful during the voting period is queued.
@@ -434,9 +446,9 @@ export namespace EventData {
 		/** id of the proposal. */
 		id: number;
 		/** Block number signifying end of the queued period. The proposal is executed once this is over. */
-		eta: BigInt;
+		eta: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalThresholdBPSSet event data.
@@ -448,7 +460,7 @@ export namespace EventData {
 		/** New proposal threshold basis points. */
 		newProposalThresholdBPS: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalTransactionsUpdated event data. Updates list of proposal transactions during the updateable period.
@@ -462,7 +474,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigInt[];
+		values: bigint[] | string[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -470,7 +482,7 @@ export namespace EventData {
 		/** The reason for the update. */
 		updateMessage: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalUpdatablePeriodSet event data.
@@ -478,11 +490,11 @@ export namespace EventData {
 	 */
 	export interface ProposalUpdatablePeriodSet {
 		/** The old proposal updatable period in blocks. */
-		oldProposalUpdatablePeriodInBlocks: BigInt;
+		oldProposalUpdatablePeriodInBlocks: bigint | string;
 		/** The new proposal updatable period in blocks. */
-		newProposalUpdatablePeriodInBlocks: BigInt;
+		newProposalUpdatablePeriodInBlocks: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalUpdated event data. Updates both the description and transaction.
@@ -496,7 +508,7 @@ export namespace EventData {
 		/** Updated target addresses for proposal calls. */
 		targets: string[];
 		/** Updated eth values for proposal calls. */
-		values: BigInt[];
+		values: bigint[] | string[];
 		/** Updated function signatures for proposal calls. */
 		signatures: string[];
 		/** Updated calldatas for proposal calls. */
@@ -506,7 +518,7 @@ export namespace EventData {
 		/** Message explaining the update. */
 		updateMessage: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalVetoed event data. Vetoes a proposal that has not been executed.
@@ -516,7 +528,7 @@ export namespace EventData {
 		/** id of the proposal. */
 		id: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Quit event data. Token holders return their tokens in exchange for eth.
@@ -528,7 +540,7 @@ export namespace EventData {
 		/** The tokens returned in exchange for eth. */
 		tokenIds: number[];
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** QuorumCoefficientSet event data. Sets a new fixed point integer with 6 decimals.
@@ -540,7 +552,7 @@ export namespace EventData {
 		/** The new quorum coefficient. */
 		newQuorumCoefficient: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** QuorumVotesBPSSet event data. (Old)
@@ -552,7 +564,7 @@ export namespace EventData {
 		/** The new quorum votes basis points. */
 		newQuorumVotesBPS: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** RefundableVote event data.
@@ -562,11 +574,11 @@ export namespace EventData {
 		/** The voter account. */
 		voter: Account;
 		/** The refund amount. */
-		refundAmount: BigInt;
+		refundAmount: bigint | string;
 		/** Whether the refund was sent or not. */
 		refundSent: boolean;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** SignatureCancelled event data. Invalidates a signature for signing a proposal.
@@ -578,7 +590,7 @@ export namespace EventData {
 		/** The signature to cancel. */
 		sig: any;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** TimelocksAndAdminSet event data.
@@ -592,7 +604,7 @@ export namespace EventData {
 		/** The new admin address. */
 		admin: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** VoteCast event data.
@@ -610,7 +622,7 @@ export namespace EventData {
 		/** An optional reason explaining their decision. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** VoteSnapshotBlockSwitchProposalIdSet event data. The proposal id after which the snapshot was taken the day voting started.
@@ -622,7 +634,7 @@ export namespace EventData {
 		/** The proposal id from which the snapshot became the starting day. */
 		newVoteSnapshotBlockSwitchProposalId: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** VotingDelaySet event data. Voting delay is the time before voting begins, in blocks.
@@ -630,11 +642,11 @@ export namespace EventData {
 	 */
 	export interface VotingDelaySet {
 		/** The old voting delay in blocks. */
-		oldVotingDelay: BigInt;
+		oldVotingDelay: bigint | string;
 		/** The new voting delay in blocks. */
-		newVotingDelay: BigInt;
+		newVotingDelay: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** VotingPeriodSet event data. Voting period is how long voting lasts, in blocks.
@@ -642,11 +654,11 @@ export namespace EventData {
 	 */
 	export interface VotingPeriodSet {
 		/** The old voting period in blocks. */
-		oldVotingPeriod: BigInt;
+		oldVotingPeriod: bigint | string;
 		/** The new voting period in blocks. */
-		newVotingPeriod: BigInt;
+		newVotingPeriod: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Withdraw event data. Withdraws all the eth in the contract.
@@ -654,11 +666,11 @@ export namespace EventData {
 	 */
 	export interface Withdraw {
 		/** The amount withdrawn. */
-		amount: BigInt;
+		amount: bigint | string;
 		/** Whether the withdrawn amount was sent. */
 		sent: boolean;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** WithdrawFromForkEscrow event data. Withdraws nouns from the escrow if the fork has not been executed yet.
@@ -672,7 +684,7 @@ export namespace EventData {
 		/** The tokens withdrawing. */
 		tokenIds: number[];
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	// ******************************************
@@ -699,13 +711,13 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** The bid amount in wei. */
-		amount: BigInt;
+		amount: bigint | string;
 		/** Bidder account. */
 		bidder: Account;
 		/** Whether the bid was received within the end time buffer, thus extending the auction. */
 		extended: boolean;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionCreated event data.
@@ -715,11 +727,11 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** Auction starting time as seconds since unix epoch. */
-		startTime: BigInt;
+		startTime: bigint | string;
 		/** Auction ending time as seconds since unix epoch. */
-		endTime: BigInt;
+		endTime: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionExtended event data. Happens whenever a bid comes in within the end buffer of the auction.
@@ -729,9 +741,9 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** New auction end time as seconds since unix epoch. */
-		endTime: BigInt;
+		endTime: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionSettled event data. Triggers when the next auction begins.
@@ -743,9 +755,9 @@ export namespace EventData {
 		/** The winning bidder's account. */
 		winner: Account;
 		/** Winning bid amount in wei. */
-		amount: BigInt;
+		amount: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionTimeBufferUpdated event data. The time buffer that extends an auction.
@@ -753,9 +765,9 @@ export namespace EventData {
 	 */
 	export interface AuctionTimeBufferUpdated {
 		/** New time buffer. */
-		timeBuffer: BigInt;
+		timeBuffer: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionReservePriceUpdated event data.
@@ -763,9 +775,9 @@ export namespace EventData {
 	 */
 	export interface AuctionReservePriceUpdated {
 		/** New auction reserve price. */
-		reservePrice: BigInt;
+		reservePrice: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** AuctionMinBidIncrementPercentageUpdated event data.
@@ -775,7 +787,7 @@ export namespace EventData {
 		/** New auction minimum bid increment percentage. */
 		minBidIncrementPercentage: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** OwnershipTransferred event data.
@@ -787,7 +799,7 @@ export namespace EventData {
 		/** New owner. */
 		newOwner: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Paused event data.
@@ -797,7 +809,7 @@ export namespace EventData {
 		/** Address paused. */
 		address: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Unpaused event data.
@@ -807,7 +819,7 @@ export namespace EventData {
 		/** Address unpaused. */
 		address: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	// ******************************************
@@ -830,7 +842,7 @@ export namespace EventData {
 		/** Number of votes delegated. */
 		numOfVotesChanged?: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** DelegateVotesChanged event data.
@@ -840,11 +852,11 @@ export namespace EventData {
 		/** Delegate account. */
 		delegate: Account;
 		/** Previous voting power. */
-		previousBalance: BigInt;
+		previousBalance: bigint | string;
 		/** New voting power. */
-		newBalance: BigInt;
+		newBalance: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Transfer event data.
@@ -858,7 +870,7 @@ export namespace EventData {
 		/** Nouns token id. */
 		tokenId: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Approval event data.
@@ -872,7 +884,7 @@ export namespace EventData {
 		/** Nouns token id. */
 		tokenId: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ApprovalForAll event data.
@@ -886,7 +898,7 @@ export namespace EventData {
 		/** Whether the operator has permission for the token. */
 		approved: boolean;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** DescriptorLocked event data.
@@ -894,7 +906,7 @@ export namespace EventData {
 	 */
 	export interface DescriptorLocked {
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** DescriptorUpdated event data.
@@ -904,7 +916,7 @@ export namespace EventData {
 		/** New token URI descriptor. */
 		descriptor: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** MinterLocked event data.
@@ -912,7 +924,7 @@ export namespace EventData {
 	 */
 	export interface MinterLocked {
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** MinterUpdated event data.
@@ -922,7 +934,7 @@ export namespace EventData {
 		/** Token minter. */
 		minter: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NounBurned event data. Burns a noun. Happens when an auction has no bids.
@@ -932,7 +944,7 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NounCreated event data.
@@ -944,7 +956,7 @@ export namespace EventData {
 		/** Noun token seed. */
 		seed: NounsTokenSeed;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** NoundersDAOUpdated event data.
@@ -954,7 +966,7 @@ export namespace EventData {
 		/** Nounders DAO. */
 		noundersDAO: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** OwnershipTransferred event data.
@@ -966,7 +978,7 @@ export namespace EventData {
 		/** New owner. */
 		newOwner: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** SeederLocked event data.
@@ -974,7 +986,7 @@ export namespace EventData {
 	 */
 	export interface SeederLocked {
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** SeederUpdated event data.
@@ -984,7 +996,7 @@ export namespace EventData {
 		/** Token seeder. */
 		seeder: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	// ******************************************
@@ -1002,7 +1014,7 @@ export namespace EventData {
 		/** New admin. */
 		newAdmin: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** BeaconUpgraded event data.
@@ -1012,7 +1024,7 @@ export namespace EventData {
 		/** Beacon. */
 		beacon: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** CandidateFeedbackSent event data.
@@ -1030,7 +1042,7 @@ export namespace EventData {
 		/** Optional reason left by the feedbacker. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** CreateCandidateCostSet event data.
@@ -1038,11 +1050,11 @@ export namespace EventData {
 	 */
 	export interface CreateCandidateCostSet {
 		/** Old cost of creating candidate proposal. */
-		oldCreateCandidateCost: BigInt;
+		oldCreateCandidateCost: bigint | string;
 		/** New cost of creating candidate proposal. */
-		newCreateCandidateCost: BigInt;
+		newCreateCandidateCost: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ETHWithdrawn event data.
@@ -1052,9 +1064,9 @@ export namespace EventData {
 		/** Amount recipient. */
 		to: Account;
 		/** Amount of eth withdrawn in wei. */
-		amount: BigInt;
+		amount: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** FeeRecipientSet event data.
@@ -1066,7 +1078,7 @@ export namespace EventData {
 		/** New fee recipient. */
 		newFeeRecipient: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** FeedbackSent event data.
@@ -1082,7 +1094,7 @@ export namespace EventData {
 		/** Optional reason left by the feedbacker. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** OwnershipTransferred event data.
@@ -1094,7 +1106,7 @@ export namespace EventData {
 		/** New owner. */
 		newOwner: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCandidateCanceled event data.
@@ -1106,7 +1118,7 @@ export namespace EventData {
 		/** Proposal candidate unique identifier. */
 		slug: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCandidateCreated event data.
@@ -1118,7 +1130,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigInt[];
+		values: bigint[] | string[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -1132,7 +1144,7 @@ export namespace EventData {
 		/** Hash of the proposal that this is an update for. */
 		encodedProposalHash: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** ProposalCandidateUpdated event data.
@@ -1144,7 +1156,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: BigInt[];
+		values: bigint[] | string[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -1160,7 +1172,7 @@ export namespace EventData {
 		/** Optional reason for explaining the update. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** SignatureAdded event data. Token holders can sign proposal candidates to convert them into DAO proposals.
@@ -1172,7 +1184,7 @@ export namespace EventData {
 		/** The signature bytes. */
 		sig: string;
 		/** The signature's expiration timestamp. As milliseconds since Unix epoch. */
-		expirationTimestamp: BigInt;
+		expirationTimestamp: bigint | string;
 		/** Proposal candidate creator account. */
 		proposer: Account;
 		/** Proposal candidate unique identifier. */
@@ -1186,7 +1198,7 @@ export namespace EventData {
 		/** Optional reason for signing proposal candidate. */
 		reason: string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** UpdateCandidateCostSet event data.
@@ -1194,11 +1206,11 @@ export namespace EventData {
 	 */
 	export interface UpdateCandidateCostSet {
 		/** Old update cost. */
-		oldUpdateCandidateCost: BigInt;
+		oldUpdateCandidateCost: bigint | string;
 		/** New update cost. */
-		newUpdateCandidateCost: BigInt;
+		newUpdateCandidateCost: bigint | string;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	/** Upgraded event data.
@@ -1208,7 +1220,7 @@ export namespace EventData {
 		/** Implementation. */
 		implementation: Account;
 		/** Event meta data. */
-		event: ethers.Log;
+		event: Event;
 	}
 
 	// ******************************************
@@ -1345,11 +1357,13 @@ export namespace EventData {
 			/** The bidder's stance on the proposal. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
 			support: number;
 			/** The amount bid, in wei. */
-			amount: BigInt;
+			amount: bigint;
 			/** The bidder account address. */
 			bidder: Account;
 			/** The reason for the bid. */
 			reason?: string;
+			/** Event meta data. */
+			event: Event;
 		}
 
 		/** VoteCast event data.
@@ -1363,9 +1377,11 @@ export namespace EventData {
 			/** The direction of the vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively). */
 			support: number;
 			/** The winning bid amount, in wei. */
-			amount: BigInt;
+			amount: bigint;
 			/** The winning bidder account address. */
 			bidder: Account;
+			/** Event meta data. */
+			event: Event;
 		}
 	}
 
@@ -1382,7 +1398,7 @@ export namespace EventData {
 			/** The version number. */
 			version: number;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** OwnershipTransferStarted event data. */
@@ -1392,7 +1408,7 @@ export namespace EventData {
 			/** New owner. */
 			newOwner: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** OwnershipTransferred event data. */
@@ -1402,7 +1418,7 @@ export namespace EventData {
 			/** New owner. */
 			newOwner: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** PostUpdate event data. */
@@ -1414,7 +1430,7 @@ export namespace EventData {
 			/** Update description. */
 			update: string;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** PropUpdateAdminMigrated event data. */
@@ -1426,7 +1442,7 @@ export namespace EventData {
 			/** New admin. */
 			newAdmin: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** PropUpdateAdminRecovered event data. */
@@ -1438,7 +1454,7 @@ export namespace EventData {
 			/** New admin. */
 			newAdmin: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** PropUpdateAdminTransferred event data. */
@@ -1450,7 +1466,7 @@ export namespace EventData {
 			/** New admin. */
 			newAdmin: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** SuperAdminTransferred event data. */
@@ -1460,7 +1476,7 @@ export namespace EventData {
 			/** New super admin. */
 			newSuperAdmin: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** Upgraded event data. */
@@ -1468,7 +1484,7 @@ export namespace EventData {
 			/** Upgraded implementation address. */
 			implementation: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 	}
 
@@ -1484,7 +1500,7 @@ export namespace EventData {
 			/** LilNounders DAO. */
 			lilnoundersDAO: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** NounsDAOUpdated event data. */
@@ -1492,7 +1508,7 @@ export namespace EventData {
 			/** Nouns DAO. */
 			nounsDAO: Account;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 	}
 
@@ -1523,7 +1539,7 @@ export namespace EventData {
 			/** Round description. */
 			description: string;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** HouseCreated event data. */
@@ -1535,7 +1551,7 @@ export namespace EventData {
 			/** ??? */
 			kind: any;
 			/** Event meta data. */
-			event: ethers.Log;
+			event: Event;
 		}
 
 		/** VoteCast event data. */
@@ -1760,264 +1776,8 @@ export namespace EventData {
 
 /** Types related to the indexer. Including events and queries. */
 export namespace Indexer {
-	/** Basic event details. */
-	export interface FormattedEvent {
-		blockNumber: number;
-		blockHash: string;
-		transactionIndex: number;
-		address: string;
-		transactionHash: string;
-		eventName: string;
-		eventSignature: string;
-	}
-
 	/** NounsDAO Indexer types. */
 	export namespace NounsDAO {
-		export interface DAOWithdrawNounsFromEscrow extends FormattedEvent {
-			tokenIds: number[];
-			to: string;
-		}
-
-		export interface ERC20TokensToIncludeInForkSet extends FormattedEvent {
-			oldErc20Tokens: string[];
-			newErc20tokens: string[];
-		}
-
-		export interface EscrowedToFork extends FormattedEvent {
-			forkId: number;
-			owner: string;
-			tokenIds: number[];
-			proposalIds: number[];
-			reason: string;
-		}
-
-		export interface ExecuteFork extends FormattedEvent {
-			forkId: number;
-			forkTreasury: string;
-			forkToken: string;
-			forkEndTimestamp: number;
-			tokensInEscrow: number;
-		}
-
-		export interface ForkDAODeployerSet extends FormattedEvent {
-			oldForkDAODeployer: string;
-			newForkDAODeployer: string;
-		}
-
-		export interface ForkPeriodSet extends FormattedEvent {
-			oldForkPeriod: number;
-			newForkPeriod: number;
-		}
-
-		export interface ForkThresholdSet extends FormattedEvent {
-			oldForkThreshold: number;
-			newForkThreshold: number;
-		}
-
-		export interface JoinFork extends FormattedEvent {
-			forkId: number;
-			owner: string;
-			tokenIds: number[];
-			proposalIds: number[];
-			reason: string;
-		}
-
-		export interface LastMinuteWindowSet extends FormattedEvent {
-			oldLastMinuteWindowInBlocks: number;
-			newLastMinuteWindowInBlocks: number;
-		}
-
-		export interface MaxQuorumVotesBPSSet extends FormattedEvent {
-			oldMaxQuorumVotesBPS: number;
-			newMaxQuorumVotesBPS: number;
-		}
-
-		export interface MinQuorumVotesBPSSet extends FormattedEvent {
-			oldMinQuorumVotesBPS: number;
-			newMinQuorumVotesBPS: number;
-		}
-
-		export interface NewAdmin extends FormattedEvent {
-			oldAdmin: string;
-			newAdmin: string;
-		}
-
-		export interface NewImplementation extends FormattedEvent {
-			oldImplementation: string;
-			newImplementation: string;
-		}
-
-		export interface NewPendingAdmin extends FormattedEvent {
-			oldPendingAdmin: string;
-			newPendingAdmin: string;
-		}
-
-		export interface NewPendingVetoer extends FormattedEvent {
-			oldPendingVetoer: string;
-			newPendingVetoer: string;
-		}
-
-		export interface NewVetoer extends FormattedEvent {
-			oldVetoer: string;
-			newVetoer: string;
-		}
-
-		export interface ObjectionPeriodDurationSet extends FormattedEvent {
-			oldObjectionPeriodDurationInBlocks: number;
-			newObjectionPeriodDurationInBlocks: number;
-		}
-
-		export interface ProposalCanceled extends FormattedEvent {
-			proposalId: number;
-			status: string;
-		}
-
-		export interface ProposalCreated extends FormattedEvent {
-			id: number;
-			proposer: string;
-			targets: string[];
-			// values: BigInt[]; Values is a function, not a variable.
-			signatures: string[];
-			calldatas: any[];
-			startBlock: number;
-			endBlock: number;
-			description: string;
-		}
-
-		export interface ProposalCreatedOnTimelockV1 extends FormattedEvent {
-			id: number;
-		}
-
-		export interface ProposalCreatedWithRequirements extends ProposalCreated {
-			signers: string[];
-			updatePeriodEndBlock: number;
-			proposalThreshold: number;
-			quorumVotes: number;
-		}
-
-		export interface ProposalDescriptionUpdated extends FormattedEvent {
-			id: number;
-			proposer: string;
-			description: string;
-			updatedMessage: string;
-		}
-
-		export interface ProposalExecuted extends FormattedEvent {
-			proposalId: number;
-			status: string;
-		}
-
-		export interface ProposalObjectionPeriodSet extends FormattedEvent {
-			proposalId: number;
-			objectionPeriodEndBlock: number;
-		}
-
-		export interface ProposalQueued extends FormattedEvent {
-			proposalId: number;
-			eta: number;
-			status: string;
-		}
-
-		export interface ProposalThresholdBPSSet extends FormattedEvent {
-			oldProposalThresholdBPS: number;
-			newProposalThresholdBPS: number;
-		}
-
-		export interface ProposalTransactionsUpdated extends FormattedEvent {
-			id: number;
-			proposer: string;
-			targets: string[];
-			values: number[];
-			signatures: string[];
-			calldatas: any[];
-			updateMessage: string;
-		}
-
-		export interface ProposalUpdatablePeriodSet extends FormattedEvent {
-			oldProposalUpdatablePeriodInBlocks: number;
-			newProposalUpdatablePeriodInBlocks: number;
-		}
-
-		export interface ProposalUpdated extends FormattedEvent {
-			id: number;
-			proposer: string;
-			targets: string[];
-			values: number[];
-			signatures: string[];
-			calldatas: any[];
-			description: string;
-			updateMessage: string;
-		}
-
-		export interface ProposalVetoed extends FormattedEvent {
-			proposalId: number;
-			status: string;
-		}
-
-		export interface QuorumCoefficientSet extends FormattedEvent {
-			oldQuorumCoefficient: number;
-			newQuorumCoefficient: number;
-		}
-
-		export interface QuorumVotesBPSSet extends FormattedEvent {
-			oldQuorumVotesBPS: number;
-			newQuorumVotesBPS: number;
-		}
-
-		export interface RefundableVote extends FormattedEvent {
-			voter: string;
-			refundAmount: number;
-			refundSent: boolean;
-		}
-
-		export interface SignatureCancelled extends FormattedEvent {
-			signer: string;
-			sig: any;
-		}
-
-		export interface TimelocksAndAdminSet extends FormattedEvent {
-			timelock: string;
-			timelockV1: string;
-			admin: string;
-		}
-
-		export interface VoteCast extends FormattedEvent {
-			voterAddress: string;
-			proposalId: number;
-			support: number;
-			supportChoice: string;
-			votes: number;
-			reason: string;
-		}
-
-		export interface VoteSnapshotBlockSwitchProposalIdSet extends FormattedEvent {
-			oldVoteSnapshotBlockSwitchProposalId: number;
-			newVoteSnapshotBlockSwitchProposalId: number;
-		}
-
-		export interface VotingDelaySet extends FormattedEvent {
-			oldVotingDelay: number;
-			newVotingDelay: number;
-		}
-
-		export interface VotingPeriodSet extends FormattedEvent {
-			oldVotingPeriod: number;
-			newVotingPeriod: number;
-		}
-
-		export interface Withdraw extends FormattedEvent {
-			amount: number;
-			sent: boolean;
-		}
-
-		export interface WithdrawFromForkEscrow extends FormattedEvent {
-			forkId: number;
-			owner: string;
-			tokenIds: number[];
-		}
-
-		// Queries.
-
 		export interface DAOWithdrawNounsFromEscrowQuery {
 			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
@@ -2402,57 +2162,6 @@ export namespace Indexer {
 	}
 
 	export namespace NounsAuctionHouse {
-		export interface AuctionCreated extends FormattedEvent {
-			nounId: number;
-			startTime: number;
-			endTime: number;
-		}
-
-		export interface AuctionBid extends FormattedEvent {
-			nounId: number;
-			bidderAddress: string;
-			bidAmount: number;
-			extended: boolean;
-		}
-
-		export interface AuctionExtended extends FormattedEvent {
-			nounId: number;
-			endTime: number;
-		}
-
-		export interface AuctionSettled extends FormattedEvent {
-			nounId: number;
-			winnerAddress: string;
-			bidAmount: number;
-		}
-
-		export interface AuctionTimeBufferUpdated extends FormattedEvent {
-			timeBuffer: number;
-		}
-
-		export interface AuctionReservePriceUpdated extends FormattedEvent {
-			reservePrice: number;
-		}
-
-		export interface AuctionMinBidIncrementPercentageUpdated extends FormattedEvent {
-			minBidIncrementPercentage: number;
-		}
-
-		export interface OwnershipTransferred extends FormattedEvent {
-			previousOwner: string;
-			newOwner: string;
-		}
-
-		export interface Paused extends FormattedEvent {
-			pauseAddress: string;
-		}
-
-		export interface Unpaused extends FormattedEvent {
-			unpauseAddress: string;
-		}
-
-		// Queries.
-
 		export interface AuctionCreatedQuery {
 			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
@@ -2551,74 +2260,6 @@ export namespace Indexer {
 	}
 
 	export namespace NounsToken {
-		export interface DelegateChanged extends FormattedEvent {
-			delegator: string;
-			fromDelegate: string;
-			toDelegate: string;
-		}
-
-		export interface DelegateVotesChanged extends FormattedEvent {
-			delegate: string;
-			previousBalance: number;
-			newBalance: number;
-		}
-
-		export interface Transfer extends FormattedEvent {
-			from: string;
-			to: string;
-			tokenId: number;
-		}
-
-		export interface Approval extends FormattedEvent {
-			owner: string;
-			approved: string;
-			tokenId: number;
-		}
-
-		export interface ApprovalForAll extends FormattedEvent {
-			owner: string;
-			operator: string;
-			approved: boolean;
-		}
-
-		export interface NounCreated extends FormattedEvent {
-			tokenId: number;
-			seed: NounsTokenSeed;
-		}
-
-		export interface DescriptorLocked extends FormattedEvent {}
-
-		export interface DescriptorUpdated extends FormattedEvent {
-			descriptor: string;
-		}
-
-		export interface MinterLocked extends FormattedEvent {}
-
-		export interface MinterUpdated extends FormattedEvent {
-			minter: string;
-		}
-
-		export interface NounBurned extends FormattedEvent {
-			nounId: number;
-		}
-
-		export interface NoundersDAOUpdated extends FormattedEvent {
-			noundersDAO: string;
-		}
-
-		export interface OwnershipTransferred extends FormattedEvent {
-			previousOwner: string;
-			newOwner: string;
-		}
-
-		export interface SeederLocked extends FormattedEvent {}
-
-		export interface SeederUpdated extends FormattedEvent {
-			seeder: string;
-		}
-
-		// Queries.
-
 		export interface DelegateChangedQuery {
 			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;
@@ -2770,103 +2411,6 @@ export namespace Indexer {
 	}
 
 	export namespace NounsDAOData {
-		export interface AdminChanged extends FormattedEvent {
-			previousAdmin: string;
-			newAdmin: string;
-		}
-
-		export interface BeaconUpgraded extends FormattedEvent {
-			beacon: string;
-		}
-
-		export interface CandidateFeedbackSent extends FormattedEvent {
-			msgSender: string;
-			proposer: string;
-			slug: string;
-			support: number;
-			supportChoice: string;
-			reason: string;
-		}
-
-		export interface CreateCandidateCostSet extends FormattedEvent {
-			oldCreateCandidateCost: number;
-			newCreateCandidateCost: number;
-		}
-
-		export interface ETHWithdrawn extends FormattedEvent {
-			to: string;
-			amount: number;
-		}
-
-		export interface FeeRecipientSet extends FormattedEvent {
-			oldFeeRecipient: string;
-			newFeeRecipient: string;
-		}
-
-		export interface FeedbackSent extends FormattedEvent {
-			msgSender: string;
-			proposalId: number;
-			support: number;
-			supportChoice: string;
-			reason: string;
-		}
-
-		export interface OwnershipTransferred extends FormattedEvent {
-			previousOwner: string;
-			newOwner: string;
-		}
-
-		export interface ProposalCandidateCanceled extends FormattedEvent {
-			msgSender: string;
-			slug: string;
-		}
-
-		export interface ProposalCandidateCreated extends FormattedEvent {
-			msgSender: string;
-			targets: string[];
-			signatures: string[];
-			calldatas: any[];
-			description: string;
-			slug: string;
-			proposalIdToUpdate: number;
-			encodedProposalHash: string;
-		}
-
-		export interface ProposalCandidateUpdated extends FormattedEvent {
-			msgSender: string;
-			targets: string[];
-			signatures: string[];
-			calldatas: any[];
-			description: string;
-			slug: string;
-			proposalIdToUpdate: number;
-			encodedProposalHash: string;
-			reason: string;
-		}
-
-		export interface SignatureAdded extends FormattedEvent {
-			signer: string;
-			sig: string;
-			expirationTimestamp: number;
-			proposer: string;
-			slug: string;
-			proposalIdToUpdate: number;
-			encodedPropHash: string;
-			sigDigest: string;
-			reason: string;
-		}
-
-		export interface UpdateCandidateCostSet extends FormattedEvent {
-			oldUpdateCandidateCost: number;
-			newUpdateCandidateCost: number;
-		}
-
-		export interface Upgraded extends FormattedEvent {
-			implementation: string;
-		}
-
-		// Queries.
-
 		export interface AdminChangedQuery {
 			/** Oldest block to return. Nouns starting block by default. */
 			startBlock?: number;

@@ -1,6 +1,7 @@
 import { ethers } from "ethers-v6";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as NounsTokenABI } from "../abis/NounsToken.json";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	DelegateChanged: EventData.DelegateChanged;
@@ -55,7 +56,7 @@ export class _NounsForkToken {
 
 	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -123,7 +124,7 @@ export class _NounsForkToken {
 			case "DelegateVotesChanged": // WORKING
 				this.Contract.on(
 					"DelegateVotesChanged",
-					(delegate: string, previousBalance: BigInt, newBalance: BigInt, event: ethers.Log) => {
+					(delegate: string, previousBalance: bigint, newBalance: bigint, event: ethers.Log) => {
 						const data: EventData.DelegateVotesChanged = {
 							delegate: { id: delegate } as Account,
 							previousBalance: previousBalance,
@@ -138,7 +139,7 @@ export class _NounsForkToken {
 				break;
 
 			case "Transfer": // WORKING
-				this.Contract.on("Transfer", (from: string, to: string, tokenId: BigInt, event: ethers.Log) => {
+				this.Contract.on("Transfer", (from: string, to: string, tokenId: bigint, event: ethers.Log) => {
 					const data: EventData.Transfer = {
 						from: { id: from } as Account,
 						to: { id: to } as Account,
@@ -152,7 +153,7 @@ export class _NounsForkToken {
 				break;
 
 			case "Approval": // WORKING
-				this.Contract.on("Approval", (owner: string, approved: string, tokenId: BigInt, event: ethers.Log) => {
+				this.Contract.on("Approval", (owner: string, approved: string, tokenId: bigint, event: ethers.Log) => {
 					const data: EventData.Approval = {
 						owner: { id: owner } as Account,
 						approved: { id: approved } as Account,
@@ -188,8 +189,8 @@ export class _NounsForkToken {
 				this.Contract.on(
 					"NounCreated",
 					(
-						tokenId: BigInt,
-						seed: { accessory: BigInt; background: BigInt; body: BigInt; glasses: BigInt; head: BigInt },
+						tokenId: bigint,
+						seed: { accessory: bigint; background: bigint; body: bigint; glasses: bigint; head: bigint },
 						event: ethers.Log
 					) => {
 						const data: EventData.NounCreated = {
@@ -282,7 +283,7 @@ export class _NounsForkToken {
 			//
 			// **********************************************************
 			case "NounBurned":
-				this.Contract.on("NounBurned", (nounId: BigInt, event: ethers.Log) => {
+				this.Contract.on("NounBurned", (nounId: bigint, event: ethers.Log) => {
 					const data: EventData.NounBurned = {
 						id: Number(nounId),
 						event: event
@@ -411,5 +412,14 @@ export class _NounsForkToken {
 	 */
 	public name() {
 		return "NounsForkToken";
+	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return _NounsForkToken.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }

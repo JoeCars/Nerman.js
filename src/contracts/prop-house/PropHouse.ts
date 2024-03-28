@@ -1,8 +1,9 @@
 import { ethers } from "ethers";
 import { ChainId, OrderDirection, PropHouse as PropHouseSDK } from "@prophouse/sdk";
 import { OrderByProposalFields, OrderByVoteFields } from "@prophouse/sdk/dist/gql/starknet/graphql";
-import { schedule, ScheduledTask } from "node-cron";
 import { Account, EventData } from "../../types";
+
+const POLL_TIME = 60_000;
 
 export interface SupportedEventMap {
 	RoundCreated: EventData.PropHouse.RoundCreated;
@@ -23,8 +24,8 @@ export class PropHouse {
 	public static readonly supportedEvents = SUPPORTED_PROP_HOUSE_EVENTS;
 	private proposalSubmittedLastTime: number;
 	private voteCastLastTime: number;
-	private proposalSubmittedTask?: ScheduledTask;
-	private voteCastTask?: ScheduledTask;
+	private proposalSubmittedTask?: NodeJS.Timeout | undefined;
+	private voteCastTask?: NodeJS.Timeout | undefined;
 
 	constructor(provider: ethers.providers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
@@ -120,9 +121,9 @@ export class PropHouse {
 			if (eventName === "HouseCreated" || eventName === "RoundCreated") {
 				this.prophouse.contract.off(eventName, listener as ethers.providers.Listener);
 			} else if (eventName === "ProposalSubmitted") {
-				this.proposalSubmittedTask?.stop();
+				clearInterval(this.proposalSubmittedTask);
 			} else if (eventName === "VoteCast") {
-				this.voteCastTask?.stop();
+				clearInterval(this.voteCastTask);
 			}
 		}
 		this.registeredListeners.delete(eventName);
@@ -150,7 +151,7 @@ export class PropHouse {
 	}
 
 	private listenToProposalSubmittedEvent(listener: (arg: EventData.PropHouse.ProposalSubmitted) => void) {
-		return schedule("*/1 * * * *", async () => {
+		return setInterval(async () => {
 			const proposals = await this.prophouse.query.getProposals({
 				where: {
 					receivedAt_gt: this.proposalSubmittedLastTime
@@ -184,11 +185,11 @@ export class PropHouse {
 				};
 				listener(proposal);
 			}
-		});
+		}, POLL_TIME);
 	}
 
 	private listenToVoteCastEvent(listener: (arg: EventData.PropHouse.VoteCast) => void) {
-		return schedule("*/1 * * * *", async () => {
+		return setInterval(async () => {
 			const votes = await this.prophouse.query.getVotes({
 				where: {
 					receivedAt_gt: this.voteCastLastTime
@@ -219,6 +220,15 @@ export class PropHouse {
 				};
 				listener(vote);
 			}
-		});
+		}, POLL_TIME);
+	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return PropHouse.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }

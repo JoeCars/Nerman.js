@@ -1,6 +1,7 @@
 import { ethers } from "ethers-v6";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsForkABI } from "../abis/NounsForkGovernance.json";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	NewAdmin: EventData.NewAdmin;
@@ -53,7 +54,7 @@ export class _NounsForkLogic {
 
 	constructor(provider: ethers.JsonRpcProvider | string, forkId = 0) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -152,7 +153,7 @@ export class _NounsForkLogic {
 
 			case "ProposalCanceled":
 				// @notice An event emitted when a proposal has been canceled
-				this.Contract.on("ProposalCanceled", (id: BigInt, event: ethers.Log) => {
+				this.Contract.on("ProposalCanceled", (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
 						id: Number(id),
 						event: event
@@ -175,14 +176,14 @@ export class _NounsForkLogic {
 				this.Contract.on(
 					"ProposalCreated",
 					(
-						id: BigInt,
+						id: bigint,
 						proposer: string,
 						targets: string[],
-						values: BigInt[],
+						values: bigint[],
 						signatures: string[],
 						calldatas: any[], // type is bytes[]
-						startBlock: BigInt,
-						endBlock: BigInt,
+						startBlock: bigint,
+						endBlock: bigint,
 						description: string,
 						event: ethers.Log
 					) => {
@@ -216,16 +217,16 @@ export class _NounsForkLogic {
 				this.Contract.on(
 					"ProposalCreatedWithRequirements",
 					(
-						id: BigInt,
+						id: bigint,
 						proposer: string,
 						targets: string[],
-						values: BigInt[],
+						values: bigint[],
 						signatures: string[],
 						calldatas: any[], // bytes
-						startBlock: BigInt,
-						endBlock: BigInt,
-						proposalThreshold: BigInt,
-						quorumVotes: BigInt,
+						startBlock: bigint,
+						endBlock: bigint,
+						proposalThreshold: bigint,
+						quorumVotes: bigint,
 						description: string,
 						event: ethers.Log
 					) => {
@@ -252,7 +253,7 @@ export class _NounsForkLogic {
 
 			case "ProposalExecuted": // FUNCTIONING CORRECTLY
 				// An event emitted when a proposal has been executed in the NounsDAOExecutor
-				this.Contract.on("ProposalExecuted", (id: BigInt, event: ethers.Log) => {
+				this.Contract.on("ProposalExecuted", (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
 						id: Number(id),
 						event: event
@@ -271,7 +272,7 @@ export class _NounsForkLogic {
 			case "ProposalQueued":
 				/// @notice An event emitted when a proposal has been queued in the NounsDAOExecutor
 				/// @param eta The timestamp that the proposal will be available for execution, set once the vote succeeds
-				this.Contract.on("ProposalQueued", (id: BigInt, eta: BigInt, event: ethers.Log) => {
+				this.Contract.on("ProposalQueued", (id: bigint, eta: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
 						id: Number(id),
 						eta: eta,
@@ -291,7 +292,7 @@ export class _NounsForkLogic {
 				/// @notice Emitted when proposal threshold basis points is set
 				this.Contract.on(
 					"ProposalThresholdBPSSet",
-					(oldProposalThresholdBPS: BigInt, newProposalThresholdBPS: BigInt, event: ethers.Log) => {
+					(oldProposalThresholdBPS: bigint, newProposalThresholdBPS: bigint, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
 							oldProposalThresholdBPS: Number(oldProposalThresholdBPS),
 							newProposalThresholdBPS: Number(newProposalThresholdBPS),
@@ -306,7 +307,7 @@ export class _NounsForkLogic {
 
 			case "Quit":
 				/// @notice Emitted when quorum votes basis points is set
-				this.Contract.on("Quit", (msgSender: string, tokenIds: BigInt[], event: ethers.Log) => {
+				this.Contract.on("Quit", (msgSender: string, tokenIds: bigint[], event: ethers.Log) => {
 					const data: EventData.Quit = {
 						msgSender: { id: msgSender } as Account,
 						tokenIds: tokenIds.map((tokenId) => Number(tokenId)),
@@ -327,7 +328,7 @@ export class _NounsForkLogic {
 				/// @notice Emitted when quorum votes basis points is set
 				this.Contract.on(
 					"QuorumVotesBPSSet",
-					(oldQuorumVotesBPS: BigInt, newQuorumVotesBPS: BigInt, event: ethers.Log) => {
+					(oldQuorumVotesBPS: bigint, newQuorumVotesBPS: bigint, event: ethers.Log) => {
 						const data: EventData.QuorumVotesBPSSet = {
 							oldQuorumVotesBPS: Number(oldQuorumVotesBPS),
 							newQuorumVotesBPS: Number(newQuorumVotesBPS),
@@ -350,7 +351,7 @@ export class _NounsForkLogic {
 
 				this.Contract.on(
 					"VoteCast",
-					(voter: string, proposalId: BigInt, support: BigInt, votes: BigInt, reason: string, event: ethers.Log) => {
+					(voter: string, proposalId: bigint, support: bigint, votes: bigint, reason: string, event: ethers.Log) => {
 						const supportDetailed: VoteDirection = Number(support);
 
 						const data: EventData.VoteCast = {
@@ -375,7 +376,7 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "VotingDelaySet":
 				/// @notice An event emitted when the voting delay is set
-				this.Contract.on("VotingDelaySet", (oldVotingDelay: BigInt, newVotingDelay: BigInt, event: ethers.Log) => {
+				this.Contract.on("VotingDelaySet", (oldVotingDelay: bigint, newVotingDelay: bigint, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
@@ -394,7 +395,7 @@ export class _NounsForkLogic {
 			// **********************************************************
 			case "VotingPeriodSet":
 				/// @notice An event emitted when the voting period is set
-				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: BigInt, newVotingPeriod: BigInt, event: ethers.Log) => {
+				this.Contract.on("VotingPeriodSet", (oldVotingPeriod: bigint, newVotingPeriod: bigint, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,
@@ -453,6 +454,15 @@ export class _NounsForkLogic {
 	 */
 	public name() {
 		return "NounsForkLogic";
+	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return _NounsForkLogic.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }
 

@@ -2,6 +2,7 @@ import { ethers } from "ethers-v6";
 
 import { default as NounsDAODataABI } from "../abis/NounsDAOData.json";
 import { Account, EventData } from "../../types";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	AdminChanged: EventData.AdminChanged;
@@ -48,7 +49,7 @@ export class _NounsDAOData {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -97,7 +98,7 @@ export class _NounsDAOData {
 			case "CandidateFeedbackSent":
 				this.Contract.on(
 					eventName,
-					(msgSender: string, proposer: string, slug: string, support: BigInt, reason: string, event: ethers.Log) => {
+					(msgSender: string, proposer: string, slug: string, support: bigint, reason: string, event: ethers.Log) => {
 						const data = {
 							msgSender: { id: msgSender } as Account,
 							proposer: { id: proposer } as Account,
@@ -116,7 +117,7 @@ export class _NounsDAOData {
 			case "CreateCandidateCostSet":
 				this.Contract.on(
 					eventName,
-					(oldCreateCandidateCost: BigInt, newCreateCandidateCost: BigInt, event: ethers.Log) => {
+					(oldCreateCandidateCost: bigint, newCreateCandidateCost: bigint, event: ethers.Log) => {
 						const data = {
 							oldCreateCandidateCost: oldCreateCandidateCost,
 							newCreateCandidateCost: newCreateCandidateCost,
@@ -129,7 +130,7 @@ export class _NounsDAOData {
 				break;
 
 			case "ETHWithdrawn":
-				this.Contract.on(eventName, (to: string, amount: BigInt, event: ethers.Log) => {
+				this.Contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
 					const data = {
 						to: { id: to } as Account,
 						amount: amount,
@@ -157,7 +158,7 @@ export class _NounsDAOData {
 			case "FeedbackSent":
 				this.Contract.on(
 					eventName,
-					(msgSender: string, proposalId: BigInt, support: BigInt, reason: string, event: ethers.Log) => {
+					(msgSender: string, proposalId: bigint, support: bigint, reason: string, event: ethers.Log) => {
 						const data = {
 							msgSender: { id: msgSender } as Account,
 							proposalId: Number(proposalId),
@@ -204,12 +205,12 @@ export class _NounsDAOData {
 					(
 						msgSender: string,
 						targets: string[],
-						values: BigInt[],
+						values: bigint[],
 						signatures: string[],
 						calldatas: any[],
 						description: string,
 						slug: string,
-						proposalIdToUpdate: BigInt,
+						proposalIdToUpdate: bigint,
 						encodedProposalHash: string,
 						event: ethers.Log
 					) => {
@@ -238,12 +239,12 @@ export class _NounsDAOData {
 					(
 						msgSender: string,
 						targets: string[],
-						values: BigInt[],
+						values: bigint[],
 						signatures: string[],
 						calldatas: any[],
 						description: string,
 						slug: string,
-						proposalIdToUpdate: BigInt,
+						proposalIdToUpdate: bigint,
 						encodedProposalHash: string,
 						reason: string,
 						event: ethers.Log
@@ -274,10 +275,10 @@ export class _NounsDAOData {
 					(
 						signer: string,
 						sig: string,
-						expirationTimestamp: BigInt,
+						expirationTimestamp: bigint,
 						proposer: string,
 						slug: string,
-						proposalIdToUpdate: BigInt,
+						proposalIdToUpdate: bigint,
 						encodedPropHash: string,
 						sigDigest: string,
 						reason: string,
@@ -305,7 +306,7 @@ export class _NounsDAOData {
 			case "UpdateCandidateCostSet":
 				this.Contract.on(
 					eventName,
-					(oldUpdateCandidateCost: BigInt, newUpdateCandidateCost: BigInt, event: ethers.Log) => {
+					(oldUpdateCandidateCost: bigint, newUpdateCandidateCost: bigint, event: ethers.Log) => {
 						const data = {
 							oldUpdateCandidateCost: oldUpdateCandidateCost,
 							newUpdateCandidateCost: newUpdateCandidateCost,
@@ -376,5 +377,14 @@ export class _NounsDAOData {
 	 */
 	public name() {
 		return "NounsDAOData";
+	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return _NounsDAOData.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }

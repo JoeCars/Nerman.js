@@ -2,6 +2,7 @@ import { ethers } from "ethers-v6";
 import NounsPool from "../abis/federation/NounsPool";
 import NounsPoolV2 from "../abis/federation/NounsPoolV2";
 import { EventData } from "../../types";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	BidPlaced: EventData.Federation.BidPlaced;
@@ -21,7 +22,7 @@ export class FederationNounsPool {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -47,14 +48,23 @@ export class FederationNounsPool {
 		if (eventName === "BidPlaced") {
 			this.nounsPoolContractV2.on(
 				eventName,
-				(dao: string, propId: BigInt, support: BigInt, amount: BigInt, bidder: string, reason?: string) => {
+				(
+					dao: string,
+					propId: bigint,
+					support: bigint,
+					amount: bigint,
+					bidder: string,
+					reason: string,
+					event: ethers.EventLog
+				) => {
 					const data: EventData.Federation.BidPlaced = {
 						dao: { id: dao },
 						propId: Number(propId),
 						support: Number(support),
 						amount,
 						bidder: { id: bidder },
-						reason
+						reason,
+						event
 					};
 
 					listener(data);
@@ -64,13 +74,14 @@ export class FederationNounsPool {
 		} else if (eventName === "VoteCast") {
 			this.nounsPoolContractV2.on(
 				eventName,
-				(dao: string, propId: BigInt, support: BigInt, amount: BigInt, bidder: string) => {
+				(dao: string, propId: bigint, support: bigint, amount: bigint, bidder: string, event: ethers.EventLog) => {
 					const data: EventData.Federation.VoteCast = {
 						dao: { id: dao },
 						propId: Number(propId),
 						support: Number(support),
 						amount,
-						bidder: { id: bidder }
+						bidder: { id: bidder },
+						event
 					};
 
 					listener(data);
@@ -125,5 +136,14 @@ export class FederationNounsPool {
 	 */
 	public name() {
 		return "FederationNounsPool";
+	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return FederationNounsPool.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }

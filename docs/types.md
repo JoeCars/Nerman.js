@@ -32,6 +32,14 @@ Possible proposal states.
 
 -   `string`. "ACTIVE", "CANCELLED", "EXECUTED", "PENDING", "QUEUED", or "VETOED".
 
+## `Event`
+
+Event meta data.
+
+-   **blockNumber**: `number`.
+-   **blockHash**: `string`.
+-   **transactionHash**: `string`.
+
 # Nouns DAO Types
 
 A list of types belonging to various Nouns DAO contract events.
@@ -42,7 +50,7 @@ DAOWithdrawNounsFromEscrow event data. [Github](https://github.com/nounsDAO/noun
 
 -   **tokenIds**: `number[]`. List of tokens being withdrawn.
 -   **to**: `Account`. Address withdrawing the tokens.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -57,7 +65,7 @@ ERC20TokensToIncludeInForkSet event data. [Github](https://github.com/nounsDAO/n
 
 -   **oldErc20Tokens**: `string[]`. Old ERC20 tokens for splitting funds.
 -   **newErc20tokens**: `string[]`. New ERC20 tokens for splitting funds.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -77,10 +85,10 @@ EscrowedToFork event data. [Github](https://github.com/nounsDAO/nouns-monorepo/b
 
 -   **forkId**: `number`. Fork number.
 -   **owner**: `Account`. Token owner who is escrowing to fork.
--   **tokenIds**: `BigInt[]`. List of tokens being escrowed.
--   **proposalIds**: `BigInt[]`. Proposal IDs which are the reason for wanting to fork.
+-   **tokenIds**: `number[]`. List of tokens being escrowed.
+-   **proposalIds**: `number[]`. Proposal IDs which are the reason for wanting to fork.
 -   **reason**: `string`. Optional reason.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -99,9 +107,9 @@ ExecuteFork event data. The fork escrow is closed. [Github](https://github.com/n
 -   **forkId**: `number`. Fork number.
 -   **forkTreasury**: `Account`. New fork treasury address.
 -   **forkToken**: `Account`. New fork token address.
--   **forkEndTimestamp**: `BigInt`. The unix timestamp in seconds until which the fork can rejoin the DAO.
--   **tokensInEscrow**: `BigInt`. Tokens in escrow at the moment of the escrow. These are lost from the main treasury.
--   **event**: `ethers.Log`. Event meta data.
+-   **forkEndTimestamp**: `bigint | string`. The unix timestamp in seconds until which the fork can rejoin the DAO.
+-   **tokensInEscrow**: `bigint | string`. Tokens in escrow at the moment of the escrow. These are lost from the main treasury.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -119,7 +127,7 @@ ForkDAODeployerSet event data. [Github](https://github.com/nounsDAO/nouns-monore
 
 -   **oldForkDAODeployer**: `Account`. Old fork DAO deployer contract.
 -   **newForkDAODeployer**: `Account`. New fork DAO deployer contract.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -132,9 +140,9 @@ ForkDAODeployerSet event data. [Github](https://github.com/nounsDAO/nouns-monore
 
 ForkPeriodSet event data. Sets how much time a fork has to rejoin the DAO after it has been executed. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L533)
 
--   **oldForkPeriod**: `BigInt`. Old fork period in seconds.
--   **newForkPeriod**: `BigInt`. New fork period in seconds.
--   **event**: `ethers.Log`. Event meta data.
+-   **oldForkPeriod**: `bigint | string`. Old fork period in seconds.
+-   **newForkPeriod**: `bigint | string`. New fork period in seconds.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -147,9 +155,9 @@ ForkPeriodSet event data. Sets how much time a fork has to rejoin the DAO after 
 
 ForkThresholdSet event data. Sets the threshold of Nouns in escrow needed to execute a fork. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L551)
 
--   **oldForkThreshold**: `BigInt`. The old token amount needed to successfully fork the DAO. A percentage of the token supply.
--   **newForkThreshold**: `BigInt`. The new token amount needed to successfully fork the DAO. A percentage of the token supply.
--   **event**: `ethers.Log`. Event meta data.
+-   **oldForkThreshold**: `bigint | string`. The old token amount needed to successfully fork the DAO. A percentage of the token supply.
+-   **newForkThreshold**: `bigint | string`. The new token amount needed to successfully fork the DAO. A percentage of the token supply.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -164,10 +172,10 @@ JoinFork event data. Joins contract after the contract has been executed, but be
 
 -   **forkId**: `number`. Fork number.
 -   **owner**: `Account`. Token owner who is escrowing to fork.
--   **tokenIds**: `BigInt[]`. List of tokens being escrowed.
--   **proposalIds**: `BigInt[]`. Owner's currently active proposals being transferred to the fork.
+-   **tokenIds**: `number[]`. List of tokens being escrowed.
+-   **proposalIds**: `number[]`. Owner's currently active proposals being transferred to the fork.
 -   **reason**: `string`. Optional reason.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -183,9 +191,9 @@ JoinFork event data. Joins contract after the contract has been executed, but be
 
 LastMinuteWindowSet event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L229)
 
--   **oldLastMinuteWindowInBlocks**: `BigInt`. Old objection period last minute window.
--   **newLastMinuteWindowInBlocks**: `BigInt`. New objection period last minute window.
--   **event**: `ethers.Log`. Event meta data.
+-   **oldLastMinuteWindowInBlocks**: `bigint | string`. Old objection period last minute window.
+-   **newLastMinuteWindowInBlocks**: `bigint | string`. New objection period last minute window.
+-   **event**: `Event`. Event meta data.
 
 ## `MaxQuorumVotesBPSSet`
 
@@ -193,7 +201,7 @@ MaxQuorumVotesBPSSet event data. [Github](https://github.com/nounsDAO/nouns-mono
 
 -   **oldMaxQuorumVotesBPS**: `number`. Old maximum quorum votes BPS.
 -   **newMaxQuorumVotesBPS**: `number`. New maximum quorum votes BPS.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -208,7 +216,7 @@ MinQuorumVotesBPSSet event data. [Github](https://github.com/nounsDAO/nouns-mono
 
 -   **oldMinQuorumVotesBPS**: `number`. Old minimum quorum votes BPS.
 -   **newMinQuorumVotesBPS**: `number`. New minimum quorum votes BPS.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -223,7 +231,7 @@ NewAdmin event data. Transfers admin rights. [Github](https://github.com/nounsDA
 
 -   **oldAdmin**: `Account`. Old admin address.
 -   **newAdmin**: `Account`. New admin address.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `NewImplementation`
 
@@ -231,7 +239,7 @@ NewImplementation event data. Updates implementation of the delegator. [Github](
 
 -   **oldImplementation**: `Account`. Old delegator implementation.
 -   **newImplementation**: `Account`. New delegator implementation.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -246,7 +254,7 @@ NewPendingAdmin event data. Offers the admin position to a new address. The new 
 
 -   **oldPendingAdmin**: `Account`. Old pending admin address.
 -   **newPendingAdmin**: `Account`. New pending admin address.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `NewPendingVetoer`
 
@@ -254,7 +262,7 @@ NewPendingVetoer event data. Offers the vetoer position to a new address. The ne
 
 -   **oldPendingVetoer**: `Account`. Old pending vetoer.
 -   **newPendingVetoer**: `Account`. New pending vetoer.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `NewVetoer`
 
@@ -262,7 +270,7 @@ NewVetoer event data. Transfers vetoer rights. [Github](https://github.com/nouns
 
 -   **oldVetoer**: `Account`. Old vetoer.
 -   **newVetoer**: `Account`. New vetoer.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -275,16 +283,16 @@ NewVetoer event data. Transfers vetoer rights. [Github](https://github.com/nouns
 
 ObjectionPeriodDurationSet event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L212)
 
--   **oldObjectionPeriodDurationInBlocks**: `BigInt`. Old objection period in blocks.
--   **newObjectionPeriodDurationInBlocks**: `BigInt`. New objection period in blocks.
--   **event**: `ethers.Log`. Event meta data.
+-   **oldObjectionPeriodDurationInBlocks**: `bigint | string`. Old objection period in blocks.
+-   **newObjectionPeriodDurationInBlocks**: `bigint | string`. New objection period in blocks.
+-   **event**: `Event`. Event meta data.
 
 ## `ProposalCanceled`
 
 ProposalCanceled event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L571)
 
 -   **id**: `number`. id of the proposal being cancelled.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -299,11 +307,11 @@ ProposalCreated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/
 -   **id**: `number`. id of the proposal being created.
 -   **proposer**: `Account`. Account of the proposer.
 -   **targets**: `string[]`. Target addresses for proposal calls.
--   **values**: `BigInt[]`. Eth values for proposal calls.
+-   **values**: `bigint[] | string[]`. Eth values for proposal calls.
 -   **signatures**: `string[]`. Function signatures for proposal calls.
 -   **calldatas**: `any[]`. Bytes. Calldatas for proposal calls.
--   **startBlock**: `BigInt`. The block voting starts.
--   **endBlock**: `BigInt`. The block voting ends.
+-   **startBlock**: `bigint | string`. The block voting starts.
+-   **endBlock**: `bigint | string`. The block voting ends.
 -   **description**: `string`. Proposal description. Typically formatted as:
 
 ```md
@@ -312,7 +320,7 @@ ProposalCreated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/
 Proposal content.
 ```
 
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -334,7 +342,7 @@ Proposal content.
 ProposalCreatedOnTimelockV1 event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L197)
 
 -   **id**: `number`. id of the proposal created.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -350,16 +358,16 @@ ProposalCreatedWithRequirements event data. [Github](https://github.com/nounsDAO
 -   **proposer**: `Account`. Account of the proposer.
 -   **signers**: `string[]`. List of signers. In V3.
 -   **targets**: `string[]`. Target addresses for proposal calls.
--   **values**: `BigInt[]`. Eth values for proposal calls.
+-   **values**: `bigint[] | string[]`. Eth values for proposal calls.
 -   **signatures**: `string[]`. Function signatures for proposal calls.
 -   **calldatas**: `any[]`. Calldatas for proposal calls.
--   **startBlock**: `BigInt`. The block voting starts.
--   **endBlock**: `BigInt`. The block voting ends.
--   **updatePeriodEndBlock**: `BigInt`. Period where the proposal is updatable. In V3.
+-   **startBlock**: `bigint | string`. The block voting starts.
+-   **endBlock**: `bigint | string`. The block voting ends.
+-   **updatePeriodEndBlock**: `bigint | string`. Period where the proposal is updatable. In V3.
 -   **proposalThreshold**: `number`. The proposal threshold. In V1.
 -   **quorumVotes**: `number`. The quorum votes. In V1. Renamed to minQuorumVotes in V2.
 -   **description**: `string`. Proposal description.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -388,7 +396,7 @@ ProposalDescriptionUpdated event data. The proposal description was updated duri
 -   **proposer**: `Account`. Account of the proposer.
 -   **description**: `string`. Updated proposal description.
 -   **updatedMessage**: `string`. A message explaining the update.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -403,7 +411,7 @@ ProposalDescriptionUpdated event data. The proposal description was updated duri
 ProposalExecuted event data. Executes a fork that is currently queued. Not possible during forking period. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L495)
 
 -   **id**: `number`. id of the proposal executed.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -416,16 +424,16 @@ ProposalExecuted event data. Executes a fork that is currently queued. Not possi
 ProposalObjectionPeriodSet event data. A last minute FOR vote that changes the proposal from defeated to succeeded will trigger this event. Extends voting time. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Votes.sol#L210)
 
 -   **id**: `number`. id of the proposal.
--   **objectionPeriodEndBlock**: `BigInt`. Objection end block.
--   **event**: `ethers.Log`. Event meta data.
+-   **objectionPeriodEndBlock**: `bigint | string`. Objection end block.
+-   **event**: `Event`. Event meta data.
 
 ## `ProposalQueued`
 
 ProposalQueued event data. A proposal that was successful during the voting period is queued. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L438)
 
 -   **id**: `number`. id of the proposal.
--   **eta**: `BigInt`. Block number signifying end of the queued period. The proposal is executed once this is over.
--   **event**: `ethers.Log`. Event meta data.
+-   **eta**: `bigint | string`. Block number signifying end of the queued period. The proposal is executed once this is over.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -440,7 +448,7 @@ ProposalThresholdBPSSet event data. [Github](https://github.com/nounsDAO/nouns-m
 
 -   **oldProposalThresholdBPS**: `number`. Old proposal threshold basis points.
 -   **newProposalThresholdBPS**: `number`. New proposal threshold basis points.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -456,11 +464,11 @@ ProposalTransactionsUpdated event data. Updates list of proposal transactions du
 -   **id**: `number`. id of the proposal.
 -   **proposer**: `Account`. Account of the proposer.
 -   **targets**: `string[]`. Target addresses for proposal calls.
--   **values**: `BigInt[]`. Eth values for proposal calls.
+-   **values**: `bigint[] | string[]`. Eth values for proposal calls.
 -   **signatures**: `string[]`. Function signatures for proposal calls.
 -   **calldatas**: `any[]`. Calldatas for proposal calls.
 -   **updateMessage**: `string`. The reason for the update.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -489,9 +497,9 @@ ProposalTransactionsUpdated event data. Updates list of proposal transactions du
 
 ProposalUpdatablePeriodSet event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L243)
 
--   **oldProposalUpdatablePeriodInBlocks**: `BigInt`. The old proposal updatable period in blocks.
--   **newProposalUpdatablePeriodInBlocks**: `BigInt`. The new proposal updatable period in blocks.
--   **event**: `ethers.Log`. Event meta data.
+-   **oldProposalUpdatablePeriodInBlocks**: `bigint | string`. The old proposal updatable period in blocks.
+-   **newProposalUpdatablePeriodInBlocks**: `bigint | string`. The new proposal updatable period in blocks.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -507,12 +515,12 @@ ProposalUpdated event data. Updates both the description and transaction. [Githu
 -   **id**: `number`. id of the proposal.
 -   **proposer**: `Account`. Account of the proposer.
 -   **targets**: `string[]`. Updated target addresses for proposal calls.
--   **values**: `BigInt[]`. Updated eth values for proposal calls.
+-   **values**: `bigint[] | string[]`. Updated eth values for proposal calls.
 -   **signatures**: `string[]`. Updated function signatures for proposal calls.
 -   **calldatas**: `any[]`. Updated calldatas for proposal calls.
 -   **description**: `string`. Updated proposal description.
 -   **updateMessage**: `string`. Message explaining the update.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -534,7 +542,7 @@ ProposalUpdated event data. Updates both the description and transaction. [Githu
 ProposalVetoed event data. Vetoes a proposal that has not been executed. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L536)
 
 -   **id**: `number`. id of the proposal.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -548,7 +556,7 @@ Quit event data. Token holders return their tokens in exchange for eth. [Github]
 
 -   **msgSender**: `Account`. The account quitting the Nouns DAO.
 -   **tokenIds**: `number[]`. The tokens returned in exchange for eth.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `QuorumCoefficientSet`
 
@@ -556,7 +564,7 @@ QuorumCoefficientSet event data. Sets a new fixed point integer with 6 decimals.
 
 -   **oldQuorumCoefficient**: `number`. The old quorum coefficient.
 -   **newQuorumCoefficient**: `number`. The new quorum coefficient.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -571,7 +579,7 @@ QuorumVotesBPSSet event data. (Old). [Github](https://github.com/nounsDAO/nouns-
 
 -   **oldQuorumVotesBPS**: `number`. The old quorum votes basis points.
 -   **newQuorumVotesBPS**: `number`. The new quorum votes basis points.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -585,9 +593,9 @@ QuorumVotesBPSSet event data. (Old). [Github](https://github.com/nounsDAO/nouns-
 RefundableVote event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Votes.sol#L295)
 
 -   **voter**: `Account`. The voter account.
--   **refundAmount**: `BigInt`. The refund amount.
+-   **refundAmount**: `bigint | string`. The refund amount.
 -   **refundSent**: `boolean`. Whether the refund was sent or not.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -603,7 +611,7 @@ SignatureCancelled event data. Invalidates a signature for signing a proposal. [
 
 -   **signer**: `Account`. The account cancelling the signature.
 -   **sig**: `any`. The signature to cancel.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -619,7 +627,7 @@ TimelocksAndAdminSet event data. [Github](https://github.com/nounsDAO/nouns-mono
 -   **timelock**: `Account`. The new timelock contract.
 -   **timelockV1**: `Account`. The new timelockV1 contract.
 -   **admin**: `Account`. The new admin address.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -638,7 +646,7 @@ VoteCast event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31
 -   **supportDetailed**: `VoteDirection`. The side they are voting for.
 -   **votes**: `number`. The number of votes they are using.
 -   **reason**: `string`. An optional reason explaining their decision.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -656,7 +664,7 @@ VoteSnapshotBlockSwitchProposalIdSet event data. The proposal id after which the
 
 -   **oldVoteSnapshotBlockSwitchProposalId**: `number`. 0. This event was only intended to ever be executed once.
 -   **newVoteSnapshotBlockSwitchProposalId**: `number`. The proposal id from which the snapshot became the starting day.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -669,9 +677,9 @@ VoteSnapshotBlockSwitchProposalIdSet event data. The proposal id after which the
 
 VotingDelaySet event data. Voting delay is the time before voting begins, in blocks. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L162)
 
--   **oldVotingDelay**: `BigInt`. The old voting delay in blocks.
--   **newVotingDelay**: `BigInt`. The new voting delay in blocks.
--   **event**: `ethers.Log`. Event meta data.
+-   **oldVotingDelay**: `bigint | string`. The old voting delay in blocks.
+-   **newVotingDelay**: `bigint | string`. The new voting delay in blocks.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -684,9 +692,9 @@ VotingDelaySet event data. Voting delay is the time before voting begins, in blo
 
 VotingPeriodSet event data. Voting period is how long voting lasts, in blocks. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L177)
 
--   **oldVotingPeriod**: `BigInt`. The old voting period in blocks.
--   **newVotingPeriod**: `BigInt`. The new voting period in blocks.
--   **event**: `ethers.Log`. Event meta data.
+-   **oldVotingPeriod**: `bigint | string`. The old voting period in blocks.
+-   **newVotingPeriod**: `bigint | string`. The new voting period in blocks.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -699,9 +707,9 @@ VotingPeriodSet event data. Voting period is how long voting lasts, in blocks. [
 
 Withdraw event data. Withdraws all the eth in the contract. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L468)
 
--   **amount**: `BigInt`. The amount withdrawn.
+-   **amount**: `bigint | string`. The amount withdrawn.
 -   **sent**: `boolean`. Whether the withdrawn amount was sent.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `WithdrawFromForkEscrow`
 
@@ -710,7 +718,7 @@ WithdrawFromForkEscrow event data. Withdraws nouns from the escrow if the fork h
 -   **forkId**: `number`. The fork escrow withdrawing from.
 -   **owner**: `Account`. The account withdrawing.
 -   **tokenIds**: `number[]`. The tokens withdrawing.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `AuctionComplete`
 
@@ -724,10 +732,10 @@ AuctionComplete event data. Custom type.
 AuctionBid event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L104)
 
 -   **id**: `number`. Noun token id.
--   **amount**: `BigInt`. The bid amount in wei.
+-   **amount**: `bigint | string`. The bid amount in wei.
 -   **bidder**: `Account`. Bidder account.
 -   **extended**: `boolean`. Whether the bid was received within the end time buffer, thus extending the auction.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -743,9 +751,9 @@ AuctionBid event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/
 AuctionCreated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L197)
 
 -   **id**: `number`. Noun token id.
--   **startTime**: `BigInt`. Auction starting time as seconds since unix epoch.
--   **endTime**: `BigInt`. Auction ending time as seconds since unix epoch.
--   **event**: `ethers.Log`. Event meta data.
+-   **startTime**: `bigint | string`. Auction starting time as seconds since unix epoch.
+-   **endTime**: `bigint | string`. Auction ending time as seconds since unix epoch.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -760,8 +768,8 @@ AuctionCreated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/b
 AuctionExtended event data. Happens whenever a bid comes in within the end buffer of the auction. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L104)
 
 -   **id**: `number`. Noun token id.
--   **endTime**: `BigInt`. New auction end time as seconds since unix epoch.
--   **event**: `ethers.Log`. Event meta data.
+-   **endTime**: `bigint | string`. New auction end time as seconds since unix epoch.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -776,8 +784,8 @@ AuctionSettled event data. Triggers when the next auction begins. [Github](https
 
 -   **id**: `number`. Noun token id.
 -   **winner**: `Account`. The winning bidder's account.
--   **amount**: `BigInt`. Winning bid amount in wei.
--   **event**: `ethers.Log`. Event meta data.
+-   **amount**: `bigint | string`. Winning bid amount in wei.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -791,22 +799,22 @@ AuctionSettled event data. Triggers when the next auction begins. [Github](https
 
 AuctionTimeBufferUpdated event data. The time buffer that extends an auction. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L165)
 
--   **timeBuffer**: `BigInt`. New time buffer.
--   **event**: `ethers.Log`. Event meta data.
+-   **timeBuffer**: `bigint | string`. New time buffer.
+-   **event**: `Event`. Event meta data.
 
 ## `AuctionReservePriceUpdated`
 
 AuctionReservePriceUpdated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L175)
 
--   **reservePrice**: `BigInt`. New auction reserve price.
--   **event**: `ethers.Log`. Event meta data.
+-   **reservePrice**: `bigint | string`. New auction reserve price.
+-   **event**: `Event`. Event meta data.
 
 ## `AuctionMinBidIncrementPercentageUpdated`
 
 AuctionMinBidIncrementPercentageUpdated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L185)
 
 -   **minBidIncrementPercentage**: `number`. New auction minimum bid increment percentage.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `OwnershipTransferred`
 
@@ -814,7 +822,7 @@ OwnershipTransferred event data. In ABI but not in contract.
 
 -   **previousOwner**: `Account`. Previous owner.
 -   **newOwner**: `Account`. New owner.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -828,7 +836,7 @@ OwnershipTransferred event data. In ABI but not in contract.
 Paused event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L144)
 
 -   **address**: `Account`. Address paused.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -843,7 +851,7 @@ Paused event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2
 Unpaused event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L153)
 
 -   **address**: `Account`. Address unpaused.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -861,7 +869,7 @@ DelegateChanged event data. [Github](https://github.com/nounsDAO/nouns-monorepo/
 -   **fromDelegate**: `Account`. Old delegate account.
 -   **toDelegate**: `Account`. New delegate account.
 -   **numOfVotesChanged**: `number | undefined`. Number of votes delegated.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -876,9 +884,9 @@ DelegateChanged event data. [Github](https://github.com/nounsDAO/nouns-monorepo/
 DelegateVotesChanged event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/base/ERC721Checkpointable.sol#L232)
 
 -   **delegate**: `Account`. Delegate account.
--   **previousBalance**: `BigInt`. Previous voting power.
--   **newBalance**: `BigInt`. New voting power.
--   **event**: `ethers.Log`. Event meta data.
+-   **previousBalance**: `bigint | string`. Previous voting power.
+-   **newBalance**: `bigint | string`. New voting power.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -895,7 +903,7 @@ Transfer event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31
 -   **from**: `Account`. Old token owner.
 -   **to**: `Account`. New token owner.
 -   **tokenId**: `number`. Nouns token id.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -912,7 +920,7 @@ Approval event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31
 -   **owner**: `Account`. Owner of the token.
 -   **approved**: `Account`. The person given permission to operate on the token.
 -   **tokenId**: `number`. Nouns token id.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -929,7 +937,7 @@ ApprovalForAll event data. [Github](https://github.com/nounsDAO/nouns-monorepo/b
 -   **owner**: `Account`. The token owner.
 -   **operator**: `Account`. The person given permission to operate on the token.
 -   **approved**: `boolean`. Whether the operator has permission for the token.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -943,34 +951,34 @@ ApprovalForAll event data. [Github](https://github.com/nounsDAO/nouns-monorepo/b
 
 DescriptorLocked event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L226)
 
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `DescriptorUpdated`
 
 DescriptorUpdated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L216)
 
 -   **descriptor**: `Account`. New token URI descriptor.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `MinterLocked`
 
 MinterLocked event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L206)
 
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `MinterUpdated`
 
 MinterUpdated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L196)
 
 -   **minter**: `Account`. Token minter.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `NounBurned`
 
 NounBurned event data. Burns a noun. Happens when an auction has no bids. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L159)
 
 -   **id**: `number`. Noun token id.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `NounCreated`
 
@@ -978,7 +986,7 @@ NounCreated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob
 
 -   **id**: `number`. Noun token id.
 -   **seed**: `NounsTokenSeed`. Noun token seed.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -992,20 +1000,20 @@ NounCreated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob
 NoundersDAOUpdated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L186)
 
 -   **noundersDAO**: `Account`. Nounders DAO.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `SeederLocked`
 
 SeederLocked event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L246)
 
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `SeederUpdated`
 
 SeederUpdated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsToken.sol#L236)
 
 -   **seeder**: `Account`. Token seeder.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `AdminChanged`
 
@@ -1013,14 +1021,14 @@ AdminChanged event data. In ABI but not in contract.
 
 -   **previousAdmin**: `Account`. Previous admin.
 -   **newAdmin**: `Account`. New admin.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `BeaconUpgraded`
 
 BeaconUpgraded event data. In ABI but not in contract.
 
 -   **beacon**: `Account`. Beacon.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `CandidateFeedbackSent`
 
@@ -1031,7 +1039,7 @@ CandidateFeedbackSent event data. [Github](https://github.com/nounsDAO/nouns-mon
 -   **slug**: `string`. Candidate proposal unique identifier.
 -   **support**: `number`. Feedback vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively).
 -   **reason**: `string`. Optional reason left by the feedbacker.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -1047,17 +1055,17 @@ CandidateFeedbackSent event data. [Github](https://github.com/nounsDAO/nouns-mon
 
 CreateCandidateCostSet event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L297)
 
--   **oldCreateCandidateCost**: `BigInt`. Old cost of creating candidate proposal.
--   **newCreateCandidateCost**: `BigInt`. New cost of creating candidate proposal.
--   **event**: `ethers.Log`. Event meta data.
+-   **oldCreateCandidateCost**: `bigint | string`. Old cost of creating candidate proposal.
+-   **newCreateCandidateCost**: `bigint | string`. New cost of creating candidate proposal.
+-   **event**: `Event`. Event meta data.
 
 ## `ETHWithdrawn`
 
 ETHWithdrawn event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L323C9-L323C9)
 
 -   **to**: `Account`. Amount recipient.
--   **amount**: `BigInt`. Amount of eth withdrawn in wei.
--   **event**: `ethers.Log`. Event meta data.
+-   **amount**: `bigint | string`. Amount of eth withdrawn in wei.
+-   **event**: `Event`. Event meta data.
 
 ## `FeeRecipientSet`
 
@@ -1065,7 +1073,7 @@ FeeRecipientSet event data. [Github](https://github.com/nounsDAO/nouns-monorepo/
 
 -   **oldFeeRecipient**: `Account`. Old fee recipient.
 -   **newFeeRecipient**: `Account`. New fee recipient.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `FeedbackSent`
 
@@ -1075,7 +1083,7 @@ FeedbackSent event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blo
 -   **proposalId**: `number`. Proposal receiving feedback.
 -   **support**: `number`. Feedback vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively).
 -   **reason**: `string`. Optional reason left by the feedbacker.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -1092,7 +1100,7 @@ ProposalCandidateCanceled event data. [Github](https://github.com/nounsDAO/nouns
 
 -   **msgSender**: `Account`. Proposal candidate creator account.
 -   **slug**: `string`. Proposal candidate unique identifier.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -1107,14 +1115,14 @@ ProposalCandidateCreated event data. [Github](https://github.com/nounsDAO/nouns-
 
 -   **msgSender**: `Account`. Proposal candidate creator account.
 -   **targets**: `string[]`. Target addresses for proposal calls.
--   **values**: `BigInt[]`. Eth values for proposal calls.
+-   **values**: `bigint[] | string[]`. Eth values for proposal calls.
 -   **signatures**: `string[]`. Function signatures for proposal calls.
 -   **calldatas**: `any[]`. Calldatas for proposal calls.
 -   **description**: `string`. Proposal candidate's description.
 -   **slug**: `string`. Proposal candidate unique identifier.
 -   **proposalIdToUpdate**: `number`. The id of the proposal to update if this is an update to an existing proposal.
 -   **encodedProposalHash**: `string`. Hash of the proposal that this is an update for.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -1135,7 +1143,7 @@ ProposalCandidateUpdated event data. [Github](https://github.com/nounsDAO/nouns-
 
 -   **msgSender**: `Account`. Proposal candidate creator account.
 -   **targets**: `string[]`. Target addresses for proposal calls.
--   **values**: `BigInt[]`. Eth values for proposal calls.
+-   **values**: `bigint[] | string[]`. Eth values for proposal calls.
 -   **signatures**: `string[]`. Function signatures for proposal calls.
 -   **calldatas**: `any[]`. Calldatas for proposal calls.
 -   **description**: `string`. Proposal candidate's description.
@@ -1143,7 +1151,7 @@ ProposalCandidateUpdated event data. [Github](https://github.com/nounsDAO/nouns-
 -   **proposalIdToUpdate**: `number`. The id of the proposal to update if this is an update to an existing proposal.
 -   **encodedProposalHash**: `string`. Hash of the proposal that this is an update for.
 -   **reason**: `string`. Optional reason for explaining the update.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -1167,14 +1175,14 @@ SignatureAdded event data. Token holders can sign proposal candidates to convert
 
 -   **signer**: `Account`. Signer account.
 -   **sig**: `string`. The signature bytes.
--   **expirationTimestamp**: `BigInt`. The signature's expiration timestamp. As milliseconds since Unix epoch.
+-   **expirationTimestamp**: `bigint | string`. The signature's expiration timestamp. As milliseconds since Unix epoch.
 -   **proposer**: `Account`. Proposal candidate creator account.
 -   **slug**: `string`. Proposal candidate unique identifier.
 -   **proposalIdToUpdate**: `number`. The id of the proposal to update if this is an update to an existing proposal.
 -   **encodedPropHash**: `string`. Hash of the proposal that this is an update for.
 -   **sigDigest**: `string`. The abi encoding of the candidate version signed.
 -   **reason**: `string`. Optional reason for signing proposal candidate.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -1194,16 +1202,16 @@ SignatureAdded event data. Token holders can sign proposal candidates to convert
 
 UpdateCandidateCostSet event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/data/NounsDAOData.sol#L304)
 
--   **oldUpdateCandidateCost**: `BigInt`. Old update cost.
--   **newUpdateCandidateCost**: `BigInt`. New update cost.
--   **event**: `ethers.Log`. Event meta data.
+-   **oldUpdateCandidateCost**: `bigint | string`. Old update cost.
+-   **newUpdateCandidateCost**: `bigint | string`. New update cost.
+-   **event**: `Event`. Event meta data.
 
 ## `Upgraded`
 
 Upgraded event data. In ABI but not in contract.
 
 -   **implementation**: `Account`. Implementation.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ```js
 {
@@ -1243,7 +1251,7 @@ BidPlaced event data. [Github](https://github.com/nounish/federation/blob/636098
 -   **dao**: `Account`. The address of the DAO.
 -   **propId**: `number`. Proposal being bid on.
 -   **support**: `number`. The bidder's stance on the proposal. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively).
--   **amount**: `BigInt`. The amount bid, in wei.
+-   **amount**: `bigint`. The amount bid, in wei.
 -   **bidder**: `Account`. The bidder account address.
 -   **reason**: `string`. The reason for the bid.
 
@@ -1254,7 +1262,7 @@ VoteCast event data. [Github](https://github.com/nounish/federation/blob/6360984
 -   **dao**: `Account`. The address of the DAO.
 -   **propId**: `number`. Proposal that Federation is voting on.
 -   **support**: `number`. The direction of the vote. 0, 1, or 2 (AGAINST, FOR, or ABSTAIN respectively).
--   **amount**: `BigInt`. The winning bid amount, in wei.
+-   **amount**: `bigint`. The winning bid amount, in wei.
 -   **bidder**: `Account`. The winning bidder account address.
 
 # Propdates Types
@@ -1266,7 +1274,7 @@ Event types for Propdates contracts.
 Initialized event data.
 
 -   **version**: `number`. The version number.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `OwnershipTransferStarted`
 
@@ -1274,7 +1282,7 @@ OwnershipTransferStarted event data.
 
 -   **previousOwner**: `Account`. Old owner.
 -   **newOwner**: `Account`. New owner.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `OwnershipTransferred`
 
@@ -1282,7 +1290,7 @@ OwnershipTransferred event data.
 
 -   **previousOwner**: `Account`. Old owner.
 -   **newOwner**: `Account`. New owner.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `PostUpdate`
 
@@ -1291,7 +1299,7 @@ PostUpdate event data.
 -   **propId**: `number`. Proposal being updated.
 -   **isCompleted**: `boolean`. Whether the proposal is complete.
 -   **update**: `string`. Update description.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `PropUpdateAdminMigrated`
 
@@ -1300,7 +1308,7 @@ PropUpdateAdminMigrated event data.
 -   **propId**: `number`. Proposal.
 -   **oldAdmin**: `Account`. Old admin.
 -   **newAdmin**: `Account`. New admin.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `PropUpdateAdminRecovered`
 
@@ -1309,7 +1317,7 @@ PropUpdateAdminRecovered event data.
 -   **propId**: `number`. Proposal.
 -   **oldAdmin**: `Account`. Old admin.
 -   **newAdmin**: `Account`. New admin.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `PropUpdateAdminTransferred`
 
@@ -1318,7 +1326,7 @@ PropUpdateAdminTransferred event data.
 -   **propId**: `number`. Proposal.
 -   **oldAdmin**: `Account`. Old admin.
 -   **newAdmin**: `Account`. New admin.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `SuperAdminTransferred`
 
@@ -1326,14 +1334,14 @@ SuperAdminTransferred event data.
 
 -   **oldSuperAdmin**: `Account`. Old super admin.
 -   **newSuperAdmin**: `Account`. New super admin.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `Upgraded`
 
 Upgraded event data.
 
 -   **implementation**: `Account`. Upgraded implementation address.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 # LilNouns Types
 
@@ -1344,14 +1352,14 @@ Events exclusive to LilNouns contracts.
 LilNoundersDAOUpdated event data.
 
 -   **lilnoundersDAO**: `Account`. LilNounders DAO.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `NounsDAOUpdated`
 
 NounsDAOUpdated event data.
 
 -   **nounsDAO**: `Account`. Nouns DAO.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 # PropHouse Types
 
@@ -1369,7 +1377,7 @@ RoundCreated event data.
 -   **kind**: `any`.
 -   **title**: `string`. Round title.
 -   **description**: `string`. Round description.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `HouseCreated`
 
@@ -1378,7 +1386,7 @@ HouseCreated event data.
 -   **creator**: `Account`. House created address.
 -   **house**: `Account`. House address.
 -   **kind**: `any`.
--   **event**: `ethers.Log`. Event meta data.
+-   **event**: `Event`. Event meta data.
 
 ## `VoteCast`
 

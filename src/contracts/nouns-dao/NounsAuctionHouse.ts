@@ -1,6 +1,7 @@
 import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as NounsAuctionHouseABI } from "../abis/NounsAuctionHouse.json";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	AuctionCreated: EventData.AuctionCreated;
@@ -39,7 +40,7 @@ export class _NounsAuctionHouse {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -61,7 +62,7 @@ export class _NounsAuctionHouse {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AuctionCreated": // FUNCTIONING CORRECTLY
-				this.Contract.on("AuctionCreated", (nounId: BigInt, startTime: BigInt, endTime: BigInt, event: ethers.Log) => {
+				this.Contract.on("AuctionCreated", (nounId: bigint, startTime: bigint, endTime: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionCreated = {
 						id: Number(nounId),
 						startTime: startTime,
@@ -75,17 +76,20 @@ export class _NounsAuctionHouse {
 				break;
 
 			case "AuctionBid": // FUNCTIONING CORRECTLY
-				this.Contract.on("AuctionBid", (nounId: BigInt, sender: string, value: BigInt, extended: boolean, event: ethers.Log) => {
-					const data: EventData.AuctionBid = {
-						id: Number(nounId),
-						amount: value,
-						bidder: { id: sender } as Account,
-						extended: extended,
-						event: event
-					};
+				this.Contract.on(
+					"AuctionBid",
+					(nounId: bigint, sender: string, value: bigint, extended: boolean, event: ethers.Log) => {
+						const data: EventData.AuctionBid = {
+							id: Number(nounId),
+							amount: value,
+							bidder: { id: sender } as Account,
+							extended: extended,
+							event: event
+						};
 
-					listener(data as any);
-				});
+						listener(data as any);
+					}
+				);
 				this.registeredListeners.set(eventName, listener);
 				break;
 
@@ -95,7 +99,7 @@ export class _NounsAuctionHouse {
 			//
 			// **********************************************************
 			case "AuctionExtended":
-				this.Contract.on("AuctionExtended", (nounId: BigInt, endTime: BigInt, event: ethers.Log) => {
+				this.Contract.on("AuctionExtended", (nounId: bigint, endTime: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionExtended = {
 						id: Number(nounId),
 						endTime: endTime,
@@ -108,7 +112,7 @@ export class _NounsAuctionHouse {
 				break;
 
 			case "AuctionSettled": // FUNCTIONING CORRECTLY
-				this.Contract.on("AuctionSettled", (nounId: BigInt, winner: string, amount: BigInt, event: ethers.Log) => {
+				this.Contract.on("AuctionSettled", (nounId: bigint, winner: string, amount: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionSettled = {
 						id: Number(nounId),
 						winner: { id: winner } as Account,
@@ -127,7 +131,7 @@ export class _NounsAuctionHouse {
 			//
 			// **********************************************************
 			case "AuctionTimeBufferUpdated":
-				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: BigInt, event: ethers.Log) => {
+				this.Contract.on("AuctionTimeBufferUpdated", (timeBuffer: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionTimeBufferUpdated = {
 						timeBuffer: timeBuffer,
 						event: event
@@ -144,7 +148,7 @@ export class _NounsAuctionHouse {
 			//
 			// **********************************************************
 			case "AuctionReservePriceUpdated":
-				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: BigInt, event: ethers.Log) => {
+				this.Contract.on("AuctionReservePriceUpdated", (reservePrice: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionReservePriceUpdated = {
 						reservePrice: reservePrice,
 						event: event
@@ -163,7 +167,7 @@ export class _NounsAuctionHouse {
 			case "AuctionMinBidIncrementPercentageUpdated":
 				this.Contract.on(
 					"AuctionMinBidIncrementPercentageUpdated",
-					(minBidIncrementPercentage: BigInt, event: ethers.Log) => {
+					(minBidIncrementPercentage: bigint, event: ethers.Log) => {
 						const data: EventData.AuctionMinBidIncrementPercentageUpdated = {
 							minBidIncrementPercentage: Number(minBidIncrementPercentage),
 							event: event
@@ -361,6 +365,15 @@ export class _NounsAuctionHouse {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return _NounsAuctionHouse.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 
 	// IF ITS A NOUNDERS NOUNS, OR NO BIDS, NEED TO CHECK WHO IT WAS TRANSFERRED TO

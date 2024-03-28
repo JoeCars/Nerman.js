@@ -14,3 +14,9 @@ export { default as Snapshot } from "./contracts/snapshot";
 export { IndexerWriter } from "./indexing/IndexerWriter";
 export { IndexerReader } from "./indexing/IndexerReader";
 export { Indexer } from "./indexing/Indexer";
+export {
+	DatabaseIndexer,
+	connectToDatabase,
+	ConversionRateManager,
+	calculateAuctionsSummary
+} from "./utilities/indexer/database-indexer";

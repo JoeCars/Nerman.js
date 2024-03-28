@@ -22,6 +22,7 @@ import {
 } from "./NounsDAOData";
 import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
+import { createProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap
 	extends AuctionSupportedEventMap,
@@ -67,7 +68,7 @@ export class Nouns {
 	 */
 	constructor(provider: string | ethers.JsonRpcProvider, options?: NounsOptions) {
 		if (typeof provider === "string") {
-			this.provider = new ethers.JsonRpcProvider(provider);
+			this.provider = createProvider(provider);
 		} else {
 			this.provider = provider;
 		}
@@ -344,6 +345,15 @@ export class Nouns {
 
 	public async queryIndex(eventName: string, queryOptions?: object) {
 		this.Indexer.query(eventName, queryOptions);
+	}
+
+	/**
+	 * Checks if the contract wrapper supports a given event.
+	 * @param eventName The event you are looking for.
+	 * @returns True if the event is supported. False otherwise.
+	 */
+	public hasEvent(eventName: string) {
+		return Nouns.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }
 
