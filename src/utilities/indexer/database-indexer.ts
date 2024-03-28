@@ -456,8 +456,12 @@ export function incrementDate(date: string) {
 export class ConversionRateManager {
 	private provider: JsonRpcProvider;
 
-	public constructor(provider: JsonRpcProvider) {
-		this.provider = provider;
+	public constructor(provider: JsonRpcProvider | string) {
+		if (typeof provider === "string") {
+			this.provider = createProvider(provider);
+		} else {
+			this.provider = provider;
+		}
 	}
 
 	private async fetchConversionRate(date: string) {
