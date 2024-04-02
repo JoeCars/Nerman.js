@@ -55,6 +55,25 @@ nouns.trigger("NounCreated", {
 });
 ```
 
+# Nouns
+
+<table>
+	<tr>
+		<th> Contract </th>
+		<th> Address </th>
+	</tr>
+	<tr>
+		<td> Treasury / Executor </td>
+		<td> 
+			<a href="https://etherscan.io/address/0xb1a32FC9F9D8b2cf86C068Cae13108809547ef71">
+				0xb1a32FC9F9D8b2cf86C068Cae13108809547ef71
+			</a>
+		</td>
+	</tr>
+</table>
+
+For more details, check out our [contracts page](https://nouns.biz/nouns-dao-contracts/) and the [Nouns Contracts Readme](https://github.com/nounsDAO/nouns-monorepo/blob/master/packages/nouns-contracts/README.md).
+
 # Propdates
 
 A contract that handles posting updates.
