@@ -240,7 +240,7 @@ export namespace EventData {
 	 */
 	export interface NewAdmin {
 		/** Old admin address. */
-		oldAdmin: Account;
+		oldAdmin?: Account;
 		/** New admin address. */
 		newAdmin: Account;
 		/** Event meta data. */
@@ -264,7 +264,7 @@ export namespace EventData {
 	 */
 	export interface NewPendingAdmin {
 		/** Old pending admin address. */
-		oldPendingAdmin: Account;
+		oldPendingAdmin?: Account;
 		/** New pending admin address. */
 		newPendingAdmin: Account;
 		/** Event meta data. */
@@ -1219,6 +1219,102 @@ export namespace EventData {
 	export interface Upgraded {
 		/** Implementation. */
 		implementation: Account;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	// ******************************************
+	//
+	// Contract - NounsDaoExecutor
+	//
+	// ******************************************
+
+	/**
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L164 | Github}
+	 */
+	export interface CancelTransaction {
+		/** Transaction hash. */
+		txHash: string;
+		/** Transaction target. */
+		target: Account;
+		/** Transaction value. */
+		value: bigint;
+		/** Transaction signature. */
+		signature: string;
+		/** Transaction data. */
+		data: string;
+		/** Transaction eta. */
+		eta: bigint;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L232 | Github} */
+	export interface ERC20Sent {
+		/** Token recipient. */
+		to: Account;
+		/** Contract address of token being sent. */
+		erc20Token: Account;
+		/** Amount of tokens sent. */
+		amount: bigint;
+		/** Whether the transfer was successful or not. */
+		success: boolean;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L220 | Github} */
+	export interface ETHSent {
+		/** Eth recipient. */
+		to: Account;
+		/** Eth amount. */
+		amount: bigint;
+		/** Whether the transfer was successful or not. */
+		success: boolean;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L201 | Github} */
+	export interface ExecuteTransaction {
+		/** Transaction hash. */
+		txHash: string;
+		/** Transaction target. */
+		target: Account;
+		/** Transaction value. */
+		value: bigint;
+		/** Transaction signature. */
+		signature: string;
+		/** Transaction data. */
+		data: string;
+		/** Transaction eta. */
+		eta: bigint;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L111 | Github} */
+	export interface NewDelay {
+		/** Delay as a timestamp between 2 to 30 days, indicating when a queued transaction will be executed. */
+		newDelay: bigint;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L148 | Github} */
+	export interface QueueTransaction {
+		/** Transaction hash. */
+		txHash: string;
+		/** Transaction target. */
+		target: Account;
+		/** Transaction value. */
+		value: bigint;
+		/** Transaction signature. */
+		signature: string;
+		/** Transaction data. */
+		data: string;
+		/** Transaction eta. */
+		eta: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
