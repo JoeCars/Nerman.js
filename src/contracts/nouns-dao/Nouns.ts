@@ -157,9 +157,7 @@ export class Nouns {
 	 * });
 	 */
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
-		console.log("StateOfNouns.ts on(" + eventName + ") created");
 		this.registeredListeners.set(eventName, listener);
-		let errorCount = 0;
 
 		if (this.NounsDAO.hasEvent(eventName)) {
 			this.NounsDAO.on(eventName as NounsDAOSupportedEventsType, (data: unknown) => {
