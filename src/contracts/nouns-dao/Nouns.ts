@@ -20,6 +20,11 @@ import {
 	SupportedEventsType as NounsDAODataSupportedEventsType,
 	SupportedEventMap as DataSupportedEventMap
 } from "./NounsDAOData";
+import {
+	NounsDaoExecutor,
+	SupportedEventsType as NounsDaoExecutorSupportedEventsType,
+	SupportedEventMap as ExecutorSupportedEventMap
+} from "./NounsDAOExecutor";
 import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
 import { createProvider } from "../../utilities/providers";
@@ -28,7 +33,8 @@ export interface SupportedEventMap
 	extends AuctionSupportedEventMap,
 		LogicSupportedEventMap,
 		TokenSupportedEventMap,
-		DataSupportedEventMap {
+		DataSupportedEventMap,
+		ExecutorSupportedEventMap {
 	AuctionEnd: EventData.AuctionComplete;
 }
 type SupportedEventsType =
@@ -36,6 +42,7 @@ type SupportedEventsType =
 	| NounsTokenSupportedEventsType
 	| NounsDAOSupportedEventsType
 	| NounsDAODataSupportedEventsType
+	| NounsDaoExecutorSupportedEventsType
 	| "AuctionEnd";
 
 /**
@@ -48,12 +55,15 @@ export class Nouns {
 	public NounsToken: _NounsToken;
 	public NounsDAO: _NounsDAO;
 	public NounsDAOData: _NounsDAOData;
+	public NounsDaoExecutor: NounsDaoExecutor;
+
 	public Indexer: Indexer;
 	public static readonly supportedEvents = [
 		..._NounsAuctionHouse.supportedEvents,
 		..._NounsToken.supportedEvents,
 		..._NounsDAO.supportedEvents,
 		..._NounsDAOData.supportedEvents,
+		...NounsDaoExecutor.supportedEvents,
 		"AuctionEnd"
 	] as const;
 
@@ -82,6 +92,7 @@ export class Nouns {
 		this.NounsToken = new _NounsToken(this.provider);
 		this.NounsDAO = new _NounsDAO(this.provider);
 		this.NounsDAOData = new _NounsDAOData(this.provider);
+		this.NounsDaoExecutor = new NounsDaoExecutor(this.provider);
 
 		let indexerDirectoryPath = "./_nounsjs/data";
 		if (options?.indexerDirectoryPath) {
@@ -164,6 +175,10 @@ export class Nouns {
 			});
 		} else if (this.NounsDAOData.hasEvent(eventName)) {
 			this.NounsDAOData.on(eventName as NounsDAODataSupportedEventsType, (data: unknown) => {
+				listener(data as any);
+			});
+		} else if (this.NounsDaoExecutor.hasEvent(eventName)) {
+			this.NounsDaoExecutor.on(eventName as NounsDaoExecutorSupportedEventsType, (data: unknown) => {
 				listener(data as any);
 			});
 		} else if (eventName == "AuctionEnd") {
