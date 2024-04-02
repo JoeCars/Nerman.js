@@ -155,44 +155,23 @@ export class Nouns {
 		this.registeredListeners.set(eventName, listener);
 		let errorCount = 0;
 
-		//@todo use ABI to look up function signatures instead, try-catch feel ugly
-		try {
-			await this.NounsDAO.on(eventName as NounsDAOSupportedEventsType, (data: unknown) => {
+		if (this.NounsDAO.hasEvent(eventName)) {
+			this.NounsDAO.on(eventName as NounsDAOSupportedEventsType, (data: unknown) => {
 				listener(data as any);
 			});
-			return;
-		} catch (error) {
-			//console.error(error);
-		}
-
-		try {
-			await this.NounsAuctionHouse.on(eventName as NounsAuctionHouseSupportedEventsType, (data: unknown) => {
+		} else if (this.NounsAuctionHouse.hasEvent(eventName)) {
+			this.NounsAuctionHouse.on(eventName as NounsAuctionHouseSupportedEventsType, (data: unknown) => {
 				listener(data as any);
 			});
-			return;
-		} catch (error) {
-			//console.error(error);
-		}
-
-		try {
-			await this.NounsToken.on(eventName as NounsTokenSupportedEventsType, (data: unknown) => {
+		} else if (this.NounsToken.hasEvent(eventName)) {
+			this.NounsToken.on(eventName as NounsTokenSupportedEventsType, (data: unknown) => {
 				listener(data as any);
 			});
-			return;
-		} catch (error) {
-			//console.error(error);
-		}
-
-		try {
-			await this.NounsDAOData.on(eventName as NounsDAODataSupportedEventsType, (data: unknown) => {
+		} else if (this.NounsDAOData.hasEvent(eventName)) {
+			this.NounsDAOData.on(eventName as NounsDAODataSupportedEventsType, (data: unknown) => {
 				listener(data as any);
 			});
-			return;
-		} catch (error) {
-			//console.error(error);
-		}
-
-		if (eventName == "AuctionEnd") {
+		} else if (eventName == "AuctionEnd") {
 			console.log("Listening for AuctionEnd");
 
 			this.pollForAuctionEnd(listener);
@@ -215,9 +194,9 @@ export class Nouns {
 			});
 
 			return;
+		} else {
+			throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
-
-		console.log("event name not found: " + eventName);
 	}
 
 	public async pollForAuctionEnd(listener: Function) {
