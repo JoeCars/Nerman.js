@@ -46,7 +46,7 @@ export class WEth extends Erc20 {
 		super(providerOrRpcUrl, "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2");
 	}
 }
-export class Usdc extends Erc20 {
+export class USDC extends Erc20 {
 	public static smallestDenominationRate = 1_000_000;
 
 	public constructor(providerOrRpcUrl: string | ethers.JsonRpcProvider) {
