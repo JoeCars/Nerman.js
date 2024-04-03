@@ -1,4 +1,4 @@
-import { ethers } from "ethers-v6";
+import { Contract, ethers } from "ethers-v6";
 
 import {
 	_NounsAuctionHouse,
@@ -341,5 +341,25 @@ export class Nouns {
 	 */
 	public hasEvent(eventName: string) {
 		return Nouns.supportedEvents.includes(eventName as SupportedEventsType);
+	}
+
+	public async calculateBookValue() {
+		const treasuryContents = await this.NounsDaoExecutor.fetchTreasuryContents();
+		const totalNouns = Number(await this.NounsDAO.Contract.adjustedTotalSupply());
+
+		let ethSum = 0;
+		for (const tokenContent of treasuryContents) {
+			// Simplifying problem by taking book value as eth / total nouns.
+			// Treating all eth wrappers as equal to eth.
+			// Should change this behaviour in the future.
+
+			if (tokenContent.tokenName === "USDC") {
+				continue;
+			}
+
+			ethSum += tokenContent.balance.mainDenomination;
+		}
+
+		return ethSum / totalNouns;
 	}
 }
