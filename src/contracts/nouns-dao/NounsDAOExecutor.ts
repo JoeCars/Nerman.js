@@ -3,6 +3,7 @@ import { ethers } from "ethers-v6";
 import { default as NounsDAOExecutorABI } from "../abis/NounsDAOExecutorV2.json";
 import { Account, EventData } from "../../types";
 import { createProvider } from "../../utilities/providers";
+import { WalletTokenFinder } from "../../utilities/tokens";
 
 export interface SupportedEventMap {
 	AdminChanged: EventData.AdminChanged;
@@ -305,5 +306,11 @@ export class NounsDaoExecutor {
 	 */
 	public hasEvent(eventName: string) {
 		return NounsDaoExecutor.supportedEvents.includes(eventName as SupportedEventsType);
+	}
+
+	public async fetchTreasuryContents() {
+		const address = await this.Contract.getAddress();
+		const walletTokenFinder = new WalletTokenFinder(this.provider);
+		return walletTokenFinder.fetchWalletTokens(address);
 	}
 }
