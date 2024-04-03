@@ -7,8 +7,8 @@ import { WEI_PER_ETH } from "../constants";
  * Erc20 wrapper contract that abstracts away ABI details for a cleaner api.
  */
 export class Erc20 {
-	public provider: ethers.JsonRpcProvider;
-	public contract: ethers.Contract;
+	private provider: ethers.JsonRpcProvider;
+	private contract: ethers.Contract;
 
 	public constructor(providerOrRpcUrl: string | ethers.JsonRpcProvider, tokenAddress: string) {
 		if (typeof providerOrRpcUrl === "string") {
