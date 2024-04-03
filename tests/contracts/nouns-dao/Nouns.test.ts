@@ -11,7 +11,7 @@ describe("Nouns tests", () => {
 			};
 			const contractMock = {
 				adjustedTotalSupply() {
-					return 5;
+					return 5n;
 				}
 			};
 
