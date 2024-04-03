@@ -12,3 +12,4 @@ export const NEW_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE =
 	"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)";
 export const OLD_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE =
 	"ProposalCreatedWithRequirements(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,string)";
+export const WEI_PER_ETH = 1_000_000_000_000_000_000;
