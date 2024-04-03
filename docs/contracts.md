@@ -55,6 +55,55 @@ nouns.trigger("NounCreated", {
 });
 ```
 
+# ERC20
+
+<table>
+	<tr>
+		<th> Contract </th>
+		<th> Address </th>
+	</tr>
+	<tr>
+		<td> stETH </td>
+		<td> 
+			<a href="https://etherscan.io/token/0xae7ab96520de3a18e5e111b5eaab095312d7fe84">
+				0xae7ab96520de3a18e5e111b5eaab095312d7fe84
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td> rETH </td>
+		<td> 
+			<a href="https://etherscan.io/token/0xae78736cd615f374d3085123a210448e74fc6393">
+				0xae78736cd615f374d3085123a210448e74fc6393
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td> WETH </td>
+		<td> 
+			<a href="https://etherscan.io/token/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2">
+				0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td> USDC </td>
+		<td> 
+			<a href="https://etherscan.io/token/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48">
+				0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td> wstETH </td>
+		<td> 
+			<a href="https://etherscan.io/token/0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0">
+				0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0
+			</a>
+		</td>
+	</tr>
+</table>
+
 # Nouns
 
 <table>
