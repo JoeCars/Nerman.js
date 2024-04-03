@@ -64,3 +64,20 @@ export class WstEth extends Erc20Contract {
 		super(providerOrRpcUrl, "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0");
 	}
 }
+
+export class Eth implements Erc20 {
+	public static smallestDenominationRate = WEI_PER_ETH;
+	private provider: ethers.JsonRpcProvider;
+	public constructor(providerOrRpcUrl: string | ethers.JsonRpcProvider) {
+		if (typeof providerOrRpcUrl === "string") {
+			this.provider = createProvider(providerOrRpcUrl);
+		} else {
+			this.provider = providerOrRpcUrl;
+		}
+	}
+
+	public async balanceOf(address: string) {
+		return this.provider.getBalance(address);
+	}
+}
+
