@@ -81,3 +81,57 @@ export class Eth implements Erc20 {
 	}
 }
 
+type Token = {
+	name: string;
+	contract: Erc20;
+	conversionRate: number;
+};
+
+type WalletToken = {
+	tokenName: string;
+	balance: {
+		mainDenomination: number;
+		smallestDenomination: bigint;
+	};
+};
+
+export class WalletTokenFinder {
+	private tokens: Token[];
+	private provider: ethers.JsonRpcProvider;
+
+	constructor(providerOrRpcUrl: string | ethers.JsonRpcProvider) {
+		if (typeof providerOrRpcUrl === "string") {
+			this.provider = createProvider(providerOrRpcUrl);
+		} else {
+			this.provider = providerOrRpcUrl;
+		}
+
+		this.tokens = [];
+		this.tokens.push({
+			name: "Eth",
+			contract: new Eth(this.provider),
+			conversionRate: Eth.smallestDenominationRate
+		});
+		this.tokens.push({ name: "StEth", contract: new StEth(this.provider), conversionRate: StEth.smallestDenominationRate });
+		this.tokens.push({ name: "REth", contract: new REth(this.provider), conversionRate: REth.smallestDenominationRate });
+		this.tokens.push({ name: "WEth", contract: new WEth(this.provider), conversionRate: WEth.smallestDenominationRate });
+		this.tokens.push({ name: "USDC", contract: new USDC(this.provider), conversionRate: USDC.smallestDenominationRate });
+		this.tokens.push({
+			name: "WstEth",
+			contract: new WstEth(this.provider),
+			conversionRate: WstEth.smallestDenominationRate
+		});
+	}
+
+	public async fetchWalletTokens(address: string) {
+		const walletContents: WalletToken[] = [];
+
+		for (const { name, contract, conversionRate } of this.tokens) {
+			const smallestDenomination = await contract.balanceOf(address);
+			const mainDenomination = Number(smallestDenomination) / conversionRate;
+			walletContents.push({ tokenName: name, balance: { smallestDenomination, mainDenomination } });
+		}
+
+		return walletContents;
+	}
+}
