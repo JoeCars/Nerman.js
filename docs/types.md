@@ -229,7 +229,7 @@ MinQuorumVotesBPSSet event data. [Github](https://github.com/nounsDAO/nouns-mono
 
 NewAdmin event data. Transfers admin rights. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L276)
 
--   **oldAdmin**: `Account`. Old admin address.
+-   **oldAdmin**: `Account | undefined`. Old admin address.
 -   **newAdmin**: `Account`. New admin address.
 -   **event**: `Event`. Event meta data.
 
@@ -252,7 +252,7 @@ NewImplementation event data. Updates implementation of the delegator. [Github](
 
 NewPendingAdmin event data. Offers the admin position to a new address. The new address must accept it to become an admin. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L261)
 
--   **oldPendingAdmin**: `Account`. Old pending admin address.
+-   **oldPendingAdmin**: `Account | undefined`. Old pending admin address.
 -   **newPendingAdmin**: `Account`. New pending admin address.
 -   **event**: `Event`. Event meta data.
 
@@ -1220,6 +1220,68 @@ Upgraded event data. In ABI but not in contract.
 	}
 }
 ```
+
+## `CancelTransaction`
+
+[Github](https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L164)
+
+-   **txHash**: `string`. Transaction hash.
+-   **target**: `Account`. Transaction target.
+-   **value**: `bigint`. Transaction value.
+-   **signature**: `string`. Transaction signature.
+-   **data**: `string`. Transaction data.
+-   **eta**: `bigint`. Transaction eta.
+-   **event**: `Event`. Event meta data.
+
+## `ERC20Sent`
+
+[Github](https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L232)
+
+-   **to**: `Account`. Token recipient.
+-   **erc20Token**: `Account`. Contract address of token being sent.
+-   **amount**: `bigint`. Amount of tokens sent.
+-   **success**: `boolean`. Whether the transfer was successful or not.
+-   **event**: `Event`. Event meta data.
+
+## `ETHSent`
+
+[Github](https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L220)
+
+-   **to**: `Account`. Eth recipient.
+-   **amount**: `bigint`. Eth amount.
+-   **success**: `boolean`. Whether the transfer was successful or not.
+-   **event**: `Event`. Event meta data.
+
+## `ExecuteTransaction`
+
+[Github](https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L201)
+
+-   **txHash**: `string`. Transaction hash.
+-   **target**: `Account`. Transaction target.
+-   **value**: `bigint`. Transaction value.
+-   **signature**: `string`. Transaction signature.
+-   **data**: `string`. Transaction data.
+-   **eta**: `bigint`. Transaction eta.
+-   **event**: `Event`. Event meta data.
+
+## `NewDelay`
+
+[Github](https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L111)
+
+-   **newDelay**: `bigint`. Delay as a timestamp between 2 to 30 days, indicating when a queued transaction will be executed.
+-   **event**: `Event`. Event meta data.
+
+## `QueueTransaction`
+
+[Github](https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L148)
+
+-   **txHash**: `string`. Transaction hash.
+-   **target**: `Account`. Transaction target.
+-   **value**: `bigint`. Transaction value.
+-   **signature**: `string`. Transaction signature.
+-   **data**: `string`. Transaction data.
+-   **eta**: `bigint`. Transaction eta.
+-   **event**: `Event`. Event meta data.
 
 # NounsNymz Types
 

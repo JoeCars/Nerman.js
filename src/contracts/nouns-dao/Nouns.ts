@@ -1,4 +1,4 @@
-import { ethers } from "ethers-v6";
+import { Contract, ethers } from "ethers-v6";
 
 import {
 	_NounsAuctionHouse,
@@ -20,6 +20,11 @@ import {
 	SupportedEventsType as NounsDAODataSupportedEventsType,
 	SupportedEventMap as DataSupportedEventMap
 } from "./NounsDAOData";
+import {
+	NounsDaoExecutor,
+	SupportedEventsType as NounsDaoExecutorSupportedEventsType,
+	SupportedEventMap as ExecutorSupportedEventMap
+} from "./NounsDAOExecutor";
 import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
 import { createProvider } from "../../utilities/providers";
@@ -28,7 +33,8 @@ export interface SupportedEventMap
 	extends AuctionSupportedEventMap,
 		LogicSupportedEventMap,
 		TokenSupportedEventMap,
-		DataSupportedEventMap {
+		DataSupportedEventMap,
+		ExecutorSupportedEventMap {
 	AuctionEnd: EventData.AuctionComplete;
 }
 type SupportedEventsType =
@@ -36,6 +42,7 @@ type SupportedEventsType =
 	| NounsTokenSupportedEventsType
 	| NounsDAOSupportedEventsType
 	| NounsDAODataSupportedEventsType
+	| NounsDaoExecutorSupportedEventsType
 	| "AuctionEnd";
 
 /**
@@ -48,12 +55,15 @@ export class Nouns {
 	public NounsToken: _NounsToken;
 	public NounsDAO: _NounsDAO;
 	public NounsDAOData: _NounsDAOData;
+	public NounsDaoExecutor: NounsDaoExecutor;
+
 	public Indexer: Indexer;
 	public static readonly supportedEvents = [
 		..._NounsAuctionHouse.supportedEvents,
 		..._NounsToken.supportedEvents,
 		..._NounsDAO.supportedEvents,
 		..._NounsDAOData.supportedEvents,
+		...NounsDaoExecutor.supportedEvents,
 		"AuctionEnd"
 	] as const;
 
@@ -82,6 +92,7 @@ export class Nouns {
 		this.NounsToken = new _NounsToken(this.provider);
 		this.NounsDAO = new _NounsDAO(this.provider);
 		this.NounsDAOData = new _NounsDAOData(this.provider);
+		this.NounsDaoExecutor = new NounsDaoExecutor(this.provider);
 
 		let indexerDirectoryPath = "./_nounsjs/data";
 		if (options?.indexerDirectoryPath) {
@@ -99,11 +110,6 @@ export class Nouns {
 
 		this.registeredListeners = new Map();
 	}
-
-	// ACTIVE
-	// EXTENDED
-	// COMPLETE
-	// SETTLED
 
 	private async cacheInit() {
 		console.log("calling cacheInit");
@@ -151,48 +157,29 @@ export class Nouns {
 	 * });
 	 */
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
-		console.log("StateOfNouns.ts on(" + eventName + ") created");
 		this.registeredListeners.set(eventName, listener);
-		let errorCount = 0;
 
-		//@todo use ABI to look up function signatures instead, try-catch feel ugly
-		try {
-			await this.NounsDAO.on(eventName as NounsDAOSupportedEventsType, (data: unknown) => {
+		if (this.NounsDAO.hasEvent(eventName)) {
+			this.NounsDAO.on(eventName as NounsDAOSupportedEventsType, (data: unknown) => {
 				listener(data as any);
 			});
-			return;
-		} catch (error) {
-			//console.error(error);
-		}
-
-		try {
-			await this.NounsAuctionHouse.on(eventName as NounsAuctionHouseSupportedEventsType, (data: unknown) => {
+		} else if (this.NounsAuctionHouse.hasEvent(eventName)) {
+			this.NounsAuctionHouse.on(eventName as NounsAuctionHouseSupportedEventsType, (data: unknown) => {
 				listener(data as any);
 			});
-			return;
-		} catch (error) {
-			//console.error(error);
-		}
-
-		try {
-			await this.NounsToken.on(eventName as NounsTokenSupportedEventsType, (data: unknown) => {
+		} else if (this.NounsToken.hasEvent(eventName)) {
+			this.NounsToken.on(eventName as NounsTokenSupportedEventsType, (data: unknown) => {
 				listener(data as any);
 			});
-			return;
-		} catch (error) {
-			//console.error(error);
-		}
-
-		try {
-			await this.NounsDAOData.on(eventName as NounsDAODataSupportedEventsType, (data: unknown) => {
+		} else if (this.NounsDAOData.hasEvent(eventName)) {
+			this.NounsDAOData.on(eventName as NounsDAODataSupportedEventsType, (data: unknown) => {
 				listener(data as any);
 			});
-			return;
-		} catch (error) {
-			//console.error(error);
-		}
-
-		if (eventName == "AuctionEnd") {
+		} else if (this.NounsDaoExecutor.hasEvent(eventName)) {
+			this.NounsDaoExecutor.on(eventName as NounsDaoExecutorSupportedEventsType, (data: unknown) => {
+				listener(data as any);
+			});
+		} else if (eventName == "AuctionEnd") {
 			console.log("Listening for AuctionEnd");
 
 			this.pollForAuctionEnd(listener);
@@ -215,9 +202,9 @@ export class Nouns {
 			});
 
 			return;
+		} else {
+			throw new Error(`${eventName} is not supported. Please use a different event.`);
 		}
-
-		console.log("event name not found: " + eventName);
 	}
 
 	public async pollForAuctionEnd(listener: Function) {
@@ -355,25 +342,24 @@ export class Nouns {
 	public hasEvent(eventName: string) {
 		return Nouns.supportedEvents.includes(eventName as SupportedEventsType);
 	}
-}
 
-// {
-//   "blockNumber": 13116621,
-//   "blockHash": "0x6897277f125153466684dbd27ac7fb845deb5cfd3d3c09c5fd850c980483c888",
-//   "transactionIndex": 395,
-//   "removed": false,
-//   "address": "0x830BD73E4184ceF73443C15111a1DF14e495C706",
-//   "data": "0x0000000000000000000000004ea324a72848f8a689110e41f891a512ef7bda7b000000000000000000000000000000000000000000000000002386f26fc100000000000000000000000000000000000000000000000000000000000000000000",
-//   "topics": ["0x1159164c56f277e6fc99c11731bd380e0347deb969b75523398734c252706ea3", "0x0000000000000000000000000000000000000000000000000000000000000017"],
-//   "transactionHash": "0x9da291f2b183cfd7e53fcd324a1e468449b8dcdd74c68731c952e471c12a771c",
-//   "logIndex": 584,
-//   "event": "AuctionBid",
-//   "eventSignature": "AuctionBid(uint256,address,uint256,bool)",
-//   "args": [{
-//     "type": "BigInt",
-//     "hex": "0x17"
-//   }, "0x4ea324A72848F8A689110E41f891A512eF7BDA7b", {
-//     "type": "BigInt",
-//     "hex": "0x2386f26fc10000"
-//   }, false]
-// }
+	public async calculateBookValue() {
+		const treasuryContents = await this.NounsDaoExecutor.fetchTreasuryContents();
+		const totalNouns = Number(await this.NounsDAO.Contract.adjustedTotalSupply());
+
+		let ethSum = 0;
+		for (const tokenContent of treasuryContents) {
+			// Simplifying problem by taking book value as eth / total nouns.
+			// Treating all eth wrappers as equal to eth.
+			// Should change this behaviour in the future.
+
+			if (tokenContent.tokenName === "USDC") {
+				continue;
+			}
+
+			ethSum += tokenContent.balance.mainDenomination;
+		}
+
+		return ethSum / totalNouns;
+	}
+}

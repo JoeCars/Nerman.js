@@ -127,6 +127,7 @@ export class _NounsDAOData {
 						listener(data as any);
 					}
 				);
+				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ETHWithdrawn":
