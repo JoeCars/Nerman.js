@@ -73,11 +73,11 @@ const EscrowedToForkSchema = new Schema(
 			required: true
 		},
 		tokenIds: {
-			type: [Schema.Types.String],
+			type: [Schema.Types.Number],
 			required: true
 		},
 		proposalIds: {
-			type: [Schema.Types.String],
+			type: [Schema.Types.Number],
 			required: true
 		},
 		reason: {
