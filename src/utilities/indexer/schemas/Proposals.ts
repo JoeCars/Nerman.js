@@ -66,7 +66,7 @@ const proposalSchema = new Schema(
 			]
 		}
 	},
-	{ collection: "proposals", versionKey: false }
+	{ collection: "proposals", versionKey: false, _id: false }
 );
 
 ProposalCreatedWithRequirements.db.createCollection("proposals", {
