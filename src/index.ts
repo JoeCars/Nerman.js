@@ -22,3 +22,4 @@ export {
 } from "./utilities/indexer/database-indexer";
 export * as DbEventModels from "./utilities/indexer/schemas/events";
 export * as DbNounsModel from "./utilities/indexer/schemas/Nouns";
+export * as DbProposalsModel from "./utilities/indexer/schemas/Proposals";
