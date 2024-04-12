@@ -383,12 +383,12 @@ export function formatProposalCreatedWithRequirements(event: ethers.EventLog): E
 		targets: event.args!.targets,
 		values: event.args!.signers
 			? event.args!.at(4).map((val: bigint) => val.toString())
-			: event.args!.at(3).map((val: bigint) => val.toString()), // Verify this with examples.
+			: event.args!.at(3).map((val: bigint) => val.toString()),
 		signatures: event.args!.signatures,
 		calldatas: event.args!.calldatas,
 		startBlock: event.args!.startBlock.toString(),
 		endBlock: event.args!.endBlock.toString(),
-		updatePeriodEndBlock: event.args!.updatePeriodEndBlock.toString(),
+		updatePeriodEndBlock: event.args!.updatePeriodEndBlock?.toString(),
 		proposalThreshold: Number(event.args!.proposalThreshold),
 		quorumVotes: Number(event.args!.quorumVotes),
 		description: event.args!.description,
