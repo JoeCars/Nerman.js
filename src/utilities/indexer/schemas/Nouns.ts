@@ -336,12 +336,20 @@ NounCreated.db.createCollection("nouns", {
 		{
 			$lookup: {
 				from: "joinforks",
-				localField: "nounId",
-				foreignField: "tokenIds",
-				as: "joinForks",
+				let: {
+					nounId: "$nounId"
+				},
 				pipeline: [
 					{
+						$match: {
+							$expr: {
+								$in: ["$$nounId", "$tokenIds"]
+							}
+						}
+					},
+					{
 						$project: {
+							_id: 0,
 							eventName: "JoinFork",
 							blockNumber: "$event.blockNumber",
 							forkId: "$forkId",
@@ -349,18 +357,27 @@ NounCreated.db.createCollection("nouns", {
 							reason: "$reason"
 						}
 					}
-				]
+				],
+				as: "joinForks"
 			}
 		},
 		{
 			$lookup: {
 				from: "escrowedtoforks",
-				localField: "nounId",
-				foreignField: "tokenIds",
-				as: "escrowedToForks",
+				let: {
+					nounId: "$nounId"
+				},
 				pipeline: [
 					{
+						$match: {
+							$expr: {
+								$in: ["$$nounId", "$tokenIds"]
+							}
+						}
+					},
+					{
 						$project: {
+							_id: 0,
 							eventName: "EscrowedToFork",
 							blockNumber: "$event.blockNumber",
 							forkId: "$forkId",
@@ -368,25 +385,35 @@ NounCreated.db.createCollection("nouns", {
 							reason: "$reason"
 						}
 					}
-				]
+				],
+				as: "escrowedToForks"
 			}
 		},
 		{
 			$lookup: {
 				from: "withdrawfromforkescrows",
-				localField: "nounId",
-				foreignField: "tokenIds",
-				as: "withdrawFromForkEscrows",
+				let: {
+					nounId: "$nounId"
+				},
 				pipeline: [
 					{
+						$match: {
+							$expr: {
+								$in: ["$$nounId", "$tokenIds"]
+							}
+						}
+					},
+					{
 						$project: {
+							_id: 0,
 							eventName: "WithdrawFromForkEscrow",
 							blockNumber: "$event.blockNumber",
 							forkId: "$forkId",
 							owner: "$owner.id"
 						}
 					}
-				]
+				],
+				as: "withdrawFromForkEscrows"
 			}
 		},
 		{
