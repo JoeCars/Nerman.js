@@ -61,7 +61,7 @@ const nounSchema = new Schema(
 			]
 		}
 	},
-	{ collection: "nouns", versionKey: false }
+	{ collection: "nouns", versionKey: false, _id: false }
 );
 
 NounCreated.db.createCollection("nouns", {
@@ -69,6 +69,7 @@ NounCreated.db.createCollection("nouns", {
 	pipeline: [
 		{
 			$project: {
+				_id: 0,
 				nounId: "$id",
 				seed: "$seed",
 				image: {
@@ -107,25 +108,17 @@ NounCreated.db.createCollection("nouns", {
 				from: "auctionbids",
 				localField: "nounId",
 				foreignField: "id",
-				as: "bids"
-			}
-		},
-		{
-			$project: {
-				nounId: 1,
-				seed: 1,
-				image: 1,
-				bids: {
-					$map: {
-						input: "$bids",
-						as: "bid",
-						in: {
-							bidder: "$$bid.bidder.id",
-							bidAmount: "$$bid.amount",
-							bidBlock: "$$bid.event.blockNumber"
+				as: "bids",
+				pipeline: [
+					{
+						$project: {
+							bidder: "$bidder.id",
+							bidAmount: "$amount",
+							bidBlock: "$event.blockNumber",
+							_id: 0
 						}
 					}
-				}
+				]
 			}
 		},
 		{
@@ -215,6 +208,7 @@ NounCreated.db.createCollection("nouns", {
 				pipeline: [
 					{
 						$project: {
+							_id: 0,
 							winner: "$winner.id",
 							id: 1,
 							winningBidAmount: "$amount"
@@ -251,6 +245,7 @@ NounCreated.db.createCollection("nouns", {
 				pipeline: [
 					{
 						$project: {
+							_id: 0,
 							from: "$from.id",
 							to: "$to.id",
 							blockNumber: "$event.blockNumber"
