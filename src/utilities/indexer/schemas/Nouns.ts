@@ -47,7 +47,7 @@ const nounSchema = new Schema(
 			detail: Schema.Types.String
 		},
 		fork: {
-			forkParticipationArray: [
+			forkParticipation: [
 				{
 					eventName: Schema.Types.String,
 					blockNumber: Schema.Types.String,
