@@ -94,7 +94,8 @@ export class DatabaseIndexer {
 		let formatter = this.getFormatter(eventName);
 
 		const { hasBlockNumber, recentBlock } = await this.fetchPreviousMetaData(eventName);
-		const endBlock = await contract.provider.getBlockNumber();
+		// -1 because the newest block can sometimes be unprocessed by the node provider.
+		const endBlock = (await contract.provider.getBlockNumber()) - 1;
 		let startBlock = hasBlockNumber ? recentBlock! + 1 : NOUNS_STARTING_BLOCK;
 		let eventSignature = eventName;
 
