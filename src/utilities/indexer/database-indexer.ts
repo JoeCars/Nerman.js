@@ -51,10 +51,9 @@ export async function indexEvent(
 ) {
 	const indexedEvents: FormattedEvent[] = [];
 
-	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE) {
-		const progress = ((currentBlock - startBlock) / (endBlock - startBlock)) * 100;
-		console.log(eventName, "indexing block", currentBlock, "of", endBlock, `(${progress.toFixed(2)} %)`);
-
+	// Adding BLOCK_BATCH_SIZE + 1 to currentBlock because contract.queryFilter() is inclusive.
+	// This prevents duplicate indexes of events happening on multiples of BLOCK_BATCH_SIZE.
+	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE + 1) {
 		let events = (await contract.queryFilter(
 			eventName,
 			currentBlock,
@@ -95,7 +94,8 @@ export class DatabaseIndexer {
 		let formatter = this.getFormatter(eventName);
 
 		const { hasBlockNumber, recentBlock } = await this.fetchPreviousMetaData(eventName);
-		const endBlock = await contract.provider.getBlockNumber();
+		// -1 because the newest block can sometimes be unprocessed by the node provider.
+		const endBlock = (await contract.provider.getBlockNumber()) - 1;
 		let startBlock = hasBlockNumber ? recentBlock! + 1 : NOUNS_STARTING_BLOCK;
 		let eventSignature = eventName;
 
@@ -103,15 +103,11 @@ export class DatabaseIndexer {
 		if (eventName === "ProposalCreatedWithRequirements") {
 			if (startBlock < PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK) {
 				eventSignature = OLD_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE;
-				const proposalEvents = await indexEvent(
-					contract.Contract,
-					eventSignature,
-					formatter,
-					PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK,
-					startBlock
-				);
+				let oldEndBlock = PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK;
+				const proposalEvents = await indexEvent(contract.Contract, eventSignature, formatter, oldEndBlock, startBlock);
 
 				await this.writeToDatabase(eventName, proposalEvents);
+				await this.updateMetaData(eventName, oldEndBlock);
 				startBlock = PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK + 1;
 			}
 
