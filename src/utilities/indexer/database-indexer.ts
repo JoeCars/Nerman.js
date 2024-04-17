@@ -102,15 +102,11 @@ export class DatabaseIndexer {
 		if (eventName === "ProposalCreatedWithRequirements") {
 			if (startBlock < PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK) {
 				eventSignature = OLD_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE;
-				const proposalEvents = await indexEvent(
-					contract.Contract,
-					eventSignature,
-					formatter,
-					PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK,
-					startBlock
-				);
+				let oldEndBlock = PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK;
+				const proposalEvents = await indexEvent(contract.Contract, eventSignature, formatter, oldEndBlock, startBlock);
 
 				await this.writeToDatabase(eventName, proposalEvents);
+				await this.updateMetaData(eventName, oldEndBlock);
 				startBlock = PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK + 1;
 			}
 
