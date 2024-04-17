@@ -51,7 +51,9 @@ export async function indexEvent(
 ) {
 	const indexedEvents: FormattedEvent[] = [];
 
-	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE) {
+	// Adding BLOCK_BATCH_SIZE + 1 to currentBlock because contract.queryFilter() is inclusive.
+	// This prevents duplicate indexes of events happening on multiples of BLOCK_BATCH_SIZE.
+	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE + 1) {
 		const progress = ((currentBlock - startBlock) / (endBlock - startBlock)) * 100;
 		console.log(eventName, "indexing block", currentBlock, "of", endBlock, `(${progress.toFixed(2)} %)`);
 
