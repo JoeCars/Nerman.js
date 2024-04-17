@@ -9,7 +9,8 @@
 	],
 	"scripts": {
 		"test": "npx jest",
-		"build": "tsc"
+		"build": "tsc",
+		"publish-alpha": "rm -rf ./lib && tsc && npm publish --tag alpha"
 	},
 	"repository": {
 		"type": "git",
