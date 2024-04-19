@@ -1,7 +1,7 @@
 import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesV2.json";
-import { createProvider } from "../../utilities/providers";
+import { createOrReturnProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	Initialized: EventData.Propdates.Initialized;
@@ -37,11 +37,7 @@ export class _Propdates {
 	public static readonly supportedEvents = SUPPORTED_PROPDATES_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		if (typeof provider === "string") {
-			this.provider = createProvider(provider);
-		} else {
-			this.provider = provider;
-		}
+		this.provider = createOrReturnProvider(provider);
 
 		this.Contract = new ethers.Contract("0xa5Bf9A9b8f60CFD98b1cCB592f2F9F37Bb0033a4", PropdatesABI, this.provider);
 		this.registeredListeners = new Map();

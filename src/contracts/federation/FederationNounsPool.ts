@@ -2,7 +2,7 @@ import { ethers } from "ethers-v6";
 import NounsPool from "../abis/federation/NounsPool";
 import NounsPoolV2 from "../abis/federation/NounsPoolV2";
 import { EventData } from "../../types";
-import { createProvider } from "../../utilities/providers";
+import { createOrReturnProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	BidPlaced: EventData.Federation.BidPlaced;
@@ -21,12 +21,7 @@ export class FederationNounsPool {
 	public static readonly supportedEvents = SUPPORTED_FEDERATION_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		if (typeof provider === "string") {
-			this.provider = createProvider(provider);
-		} else {
-			this.provider = provider;
-		}
-
+		this.provider = createOrReturnProvider(provider);
 		this.nounsPoolContractV2 = new ethers.Contract(
 			"0x0f722d69B3D8C292E85F2b1E5D9F4439edd58F1e",
 			NounsPoolV2,

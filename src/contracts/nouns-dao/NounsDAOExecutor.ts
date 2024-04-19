@@ -2,7 +2,7 @@ import { ethers } from "ethers-v6";
 
 import { default as NounsDAOExecutorABI } from "../abis/NounsDAOExecutorV2.json";
 import { Account, EventData } from "../../types";
-import { createProvider } from "../../utilities/providers";
+import { createOrReturnProvider } from "../../utilities/providers";
 import { WalletTokenFinder } from "../../utilities/tokens";
 
 export interface SupportedEventMap {
@@ -43,11 +43,7 @@ export class NounsDaoExecutor {
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EXECUTOR_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		if (typeof provider === "string") {
-			this.provider = createProvider(provider);
-		} else {
-			this.provider = provider;
-		}
+		this.provider = createOrReturnProvider(provider);
 
 		this.Contract = new ethers.Contract("0xb1a32FC9F9D8b2cf86C068Cae13108809547ef71", NounsDAOExecutorABI, this.provider);
 		this.registeredListeners = new Map();
