@@ -119,6 +119,14 @@ nouns.trigger("NounCreated", {
 			</a>
 		</td>
 	</tr>
+	<tr>
+		<td> Payer </td>
+		<td> 
+			<a href="https://etherscan.io/address/0xd97Bcd9f47cEe35c0a9ec1dc40C1269afc9E8E1D">
+				0xd97Bcd9f47cEe35c0a9ec1dc40C1269afc9E8E1D
+			</a>
+		</td>
+	</tr>
 </table>
 
 For more details, check out our [contracts page](https://nouns.biz/nouns-dao-contracts/) and the [Nouns Contracts Readme](https://github.com/nounsDAO/nouns-monorepo/blob/master/packages/nouns-contracts/README.md).

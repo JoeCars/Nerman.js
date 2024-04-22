@@ -1283,6 +1283,31 @@ Upgraded event data. In ABI but not in contract.
 -   **eta**: `bigint`. Transaction eta.
 -   **event**: `Event`. Event meta data.
 
+## `PaidBackDebt`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/Payer.sol#L139)
+
+-   **account**: `Account`. Account owed debt.
+-   **amount**: `bigint`. Amount of debt paid.
+-   **remainingDebt**: `bigint`. Remaining debt amount.
+-   **event**: `Event`. Event meta data.
+
+## `RegisteredDebt`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/Payer.sol#L233)
+
+-   **account**: `Account`. Account owed debt.
+-   **amount**: `bigint`. Amount of debt paid.
+-   **event**: `Event`. Event meta data.
+
+## `TokensWithdrawn`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/Payer.sol#L122)
+
+-   **account**: `Account`. Payer contract owner address.
+-   **amount**: `bigint`. Total amount of tokens withdrawn to the owner.
+-   **event**: `Event`. Event meta data.
+
 # NounsNymz Types
 
 Events from the NounsNymz api.
