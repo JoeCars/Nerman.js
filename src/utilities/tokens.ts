@@ -1,6 +1,6 @@
 import { default as Erc20Abi } from "../contracts/abis/ERC20.json";
 import { ethers } from "ethers-v6";
-import { createProvider } from "./providers";
+import { createOrReturnProvider } from "./providers";
 import { WEI_PER_ETH } from "../constants";
 
 interface Erc20 {
@@ -15,11 +15,7 @@ export class Erc20Contract implements Erc20 {
 	private contract: ethers.Contract;
 
 	public constructor(providerOrRpcUrl: string | ethers.JsonRpcProvider, tokenAddress: string) {
-		if (typeof providerOrRpcUrl === "string") {
-			this.provider = createProvider(providerOrRpcUrl);
-		} else {
-			this.provider = providerOrRpcUrl;
-		}
+		this.provider = createOrReturnProvider(providerOrRpcUrl);
 
 		this.contract = new ethers.Contract(tokenAddress, Erc20Abi, this.provider);
 	}
@@ -69,11 +65,7 @@ export class Eth implements Erc20 {
 	public static smallestDenominationRate = WEI_PER_ETH;
 	private provider: ethers.JsonRpcProvider;
 	public constructor(providerOrRpcUrl: string | ethers.JsonRpcProvider) {
-		if (typeof providerOrRpcUrl === "string") {
-			this.provider = createProvider(providerOrRpcUrl);
-		} else {
-			this.provider = providerOrRpcUrl;
-		}
+		this.provider = createOrReturnProvider(providerOrRpcUrl);
 	}
 
 	public async balanceOf(address: string) {
@@ -100,11 +92,7 @@ export class WalletTokenFinder {
 	private provider: ethers.JsonRpcProvider;
 
 	constructor(providerOrRpcUrl: string | ethers.JsonRpcProvider) {
-		if (typeof providerOrRpcUrl === "string") {
-			this.provider = createProvider(providerOrRpcUrl);
-		} else {
-			this.provider = providerOrRpcUrl;
-		}
+		this.provider = createOrReturnProvider(providerOrRpcUrl);
 
 		this.tokens = [];
 		this.tokens.push({

@@ -27,7 +27,7 @@ import {
 } from "./NounsDAOExecutor";
 import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
-import { createProvider } from "../../utilities/providers";
+import { createOrReturnProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap
 	extends AuctionSupportedEventMap,
@@ -77,11 +77,7 @@ export class Nouns {
 	 * @param options An options object to configure the Nouns wrappers.
 	 */
 	constructor(provider: string | ethers.JsonRpcProvider, options?: NounsOptions) {
-		if (typeof provider === "string") {
-			this.provider = createProvider(provider);
-		} else {
-			this.provider = provider;
-		}
+		this.provider = createOrReturnProvider(provider);
 
 		this.provider.pollingInterval = 10000;
 		if (options && options.pollingTime) {

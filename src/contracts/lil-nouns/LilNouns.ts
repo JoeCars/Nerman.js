@@ -15,7 +15,7 @@ import {
 	SupportedEventsType as LilNounsTokenSupportedEventsType,
 	SupportedEventMap as TokenSupportedEventMap
 } from "./LilNounsToken";
-import { createProvider } from "../../utilities/providers";
+import { createOrReturnProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap extends AuctionSupportedEventMap, LogicSupportedEventMap, TokenSupportedEventMap {}
 export type SupportedEventsType =
@@ -40,11 +40,7 @@ export class LilNouns {
 	];
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		if (typeof provider === "string") {
-			this.provider = createProvider(provider);
-		} else {
-			this.provider = provider;
-		}
+		this.provider = createOrReturnProvider(provider);
 
 		this.lilNounsAuctionHouse = new LilNounsAuctionHouse(this.provider);
 		this.lilNounsDAOLogic = new LilNounsDAOLogic(this.provider);

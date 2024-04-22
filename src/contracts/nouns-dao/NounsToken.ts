@@ -1,7 +1,7 @@
 import { ethers } from "ethers-v6";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as NounsTokenABI } from "../abis/NounsToken.json";
-import { createProvider } from "../../utilities/providers";
+import { createOrReturnProvider } from "../../utilities/providers";
 
 export interface SupportedEventMap {
 	DelegateChanged: EventData.DelegateChanged;
@@ -49,12 +49,7 @@ export class _NounsToken {
 	public static readonly supportedEvents = SUPPORTED_NOUNS_TOKEN_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		if (typeof provider === "string") {
-			this.provider = createProvider(provider);
-		} else {
-			this.provider = provider;
-		}
-
+		this.provider = createOrReturnProvider(provider);
 		this.Contract = new ethers.Contract("0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03", NounsTokenABI, this.provider);
 		this.registeredListeners = new Map();
 	}

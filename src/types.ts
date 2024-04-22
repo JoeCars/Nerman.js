@@ -1321,6 +1321,44 @@ export namespace EventData {
 
 	// ******************************************
 	//
+	// Contract - Payer
+	//
+	// ******************************************
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/Payer.sol#L139 | Github} */
+	export interface PaidBackDebt {
+		/** Account owed debt. */
+		account: Account;
+		/** Amount of debt paid. */
+		amount: bigint;
+		/** Remaining debt amount. */
+		remainingDebt: bigint;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/Payer.sol#L233 | Github} */
+	export interface RegisteredDebt {
+		/** Account owed debt. */
+		account: Account;
+		/** Amount of debt owed. */
+		amount: bigint;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/Payer.sol#L122 | Github} */
+	export interface TokensWithdrawn {
+		/** Payer contract owner address. */
+		account: Account;
+		/** Total amount of tokens withdrawn to the owner. */
+		amount: bigint;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	// ******************************************
+	//
 	// NounsNymz
 	//
 	// ******************************************

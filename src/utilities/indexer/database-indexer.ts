@@ -23,7 +23,7 @@ import { EventFormatter, FormattedEvent } from "../../types";
 import IndexerMetaData from "./schemas/IndexerMetaData";
 import ETHConversionRate from "./schemas/ETHConversionRate";
 import fetch from "node-fetch";
-import { createProvider } from "../providers";
+import { createAlchemyOrJsonRpcProvider } from "../providers";
 
 const MILLISECONDS_PER_SECOND = 1_000;
 const DELAY_IN_MS = 500;
@@ -81,7 +81,7 @@ export class DatabaseIndexer {
 	private nounsToken: _NounsToken;
 
 	public constructor(jsonRpcUrl: string) {
-		this.provider = createProvider(jsonRpcUrl);
+		this.provider = createAlchemyOrJsonRpcProvider(jsonRpcUrl);
 
 		this.nounsDao = new _NounsDAO(this.provider);
 		this.nounsDaoData = new _NounsDAOData(this.provider);
@@ -454,7 +454,7 @@ export class ConversionRateManager {
 
 	public constructor(provider: JsonRpcProvider | string) {
 		if (typeof provider === "string") {
-			this.provider = createProvider(provider);
+			this.provider = createAlchemyOrJsonRpcProvider(provider);
 		} else {
 			this.provider = provider;
 		}
