@@ -1308,6 +1308,87 @@ Upgraded event data. In ABI but not in contract.
 -   **amount**: `bigint`. Total amount of tokens withdrawn to the owner.
 -   **event**: `Event`. Event meta data.
 
+## `AdminSet`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L393)
+
+-   **oldAdmin**: `Account`. Old admin.
+-   **newAdmin**: `Account`. New admin.
+-   **event**: `Event`. Event meta data.
+
+## `BaselinePaymentTokenAmountSet`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L354)
+
+-   **oldAmount**: `bigint`. Old token baseline in token decimals.
+-   **newAmount**: `bigint`. New token baseline in token decimals.
+-   **event**: `Event`. Event meta data.
+
+## `BotDiscountBPsSet`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L338)
+
+-   **oldBPs**: `number`. Old bot discount bps.
+-   **newBPs**: `number`. New bot discount bps.
+-   **event**: `Event`. Event meta data.
+
+## `MaxAdminBaselinePaymentTokenAmountSet`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L430)
+
+-   **oldAmount**: `bigint`. Old maximum permitted token baseline.
+-   **newAmount**: `bigint`. New maximum permitted token baseline.
+-   **event**: `Event`. Event meta data.
+
+## `MaxAdminBotDiscountBPsSet`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L413)
+
+-   **oldBPs**: `number`. Old maximum bot discount bps.
+-   **newBPs**: `number`. New maximum bot discount bps.
+-   **event**: `Event`. Event meta data.
+
+## `MinAdminBaselinePaymentTokenAmountSet`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L420)
+
+-   **oldAmount**: `bigint`. Old minimum permitted token baseline.
+-   **newAmount**: `bigint`. New minimum permitted token baseline.
+-   **event**: `Event`. Event meta data.
+
+## `MinAdminBotDiscountBPsSet`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L406)
+
+-   **oldBPs**: `number`. Old minimum bot discount bps.
+-   **newBPs**: `number`. New minimum bot discount bps.
+-   **event**: `Event`. Event meta data.
+
+## `PayerSet`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L447)
+
+-   **oldPayer**: `Account`. Old payer contract address.
+-   **newPayer**: `Account`. New payer contract address.
+-   **event**: `Event`. Event meta data.
+
+## `PriceFeedSet`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L440)
+
+-   **oldFeed**: `Account`. Old price feed address.
+-   **newFeed**: `Account`. New price feed address.
+-   **event**: `Event`. Event meta data.
+
+## `SoldETH`
+
+[Github](https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L186)
+
+-   **to**: `Account`. Eth recipient.
+-   **ethOut**: `bigint`. Amount of eth being sent to the recipients.
+-   **tokenIn**: `bigint`. The amount of ERC20 tokens being sold to the token buyer contract.
+-   **event**: `Event`. Event meta data.
+
 # NounsNymz Types
 
 Events from the NounsNymz api.

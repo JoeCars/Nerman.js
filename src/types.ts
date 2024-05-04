@@ -1357,6 +1357,108 @@ export namespace EventData {
 		event: Event;
 	}
 
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L393 | Github} */
+	export interface AdminSet {
+		/** Old admin. */
+		oldAdmin: Account;
+		/** New admin. */
+		newAdmin: Account;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L354 | Github} */
+	export interface BaselinePaymentTokenAmountSet {
+		/** Old token baseline in token decimals. */
+		oldAmount: bigint;
+		/** New token baseline in token decimals. */
+		newAmount: bigint;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L338 | Github} */
+	export interface BotDiscountBPsSet {
+		/** Old bot discount bps. */
+		oldBPs: number;
+		/** New bot discount bps. */
+		newBPs: number;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L430 | Github} */
+	export interface MaxAdminBaselinePaymentTokenAmountSet {
+		/** Old maximum permitted token baseline. */
+		oldAmount: bigint;
+		/** New maximum permitted token baseline. */
+		newAmount: bigint;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L413 | Github} */
+	export interface MaxAdminBotDiscountBPsSet {
+		/** Old maximum bot discount bps. */
+		oldBPs: number;
+		/** New maximum bot discount bps. */
+		newBPs: number;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L420 | Github} */
+	export interface MinAdminBaselinePaymentTokenAmountSet {
+		/** Old minimum permitted token baseline. */
+		oldAmount: bigint;
+		/** New minimum permitted token baseline. */
+		newAmount: bigint;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L406 | Github} */
+	export interface MinAdminBotDiscountBPsSet {
+		/** Old minimum bot discount bps. */
+		oldBPs: number;
+		/** New minimum bot discount bps. */
+		newBPs: number;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L447 | Github} */
+	export interface PayerSet {
+		/** Old payer contract address. */
+		oldPayer: Account;
+		/** New payer contract address. */
+		newPayer: Account;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L440 | Github} */
+	export interface PriceFeedSet {
+		/** Old price feed address. */
+		oldFeed: Account;
+		/** New price feed address. */
+		newFeed: Account;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/token-buyer/blob/1d9cf7a8615084d744ee7112a99846690eec1efa/src/TokenBuyer.sol#L186 | Github} */
+	export interface SoldETH {
+		/** Eth recipient. */
+		to: Account;
+		/** Amount of eth being sent to the recipients. */
+		ethOut: bigint;
+		/** The amount of ERC20 tokens being sold to the token buyer contract. */
+		tokenIn: bigint;
+		/** Event meta data. */
+		event: Event;
+	}
+
 	// ******************************************
 	//
 	// NounsNymz
