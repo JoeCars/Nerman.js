@@ -7,6 +7,8 @@ export { _NounsForkToken as NounsForkToken } from "./contracts/nouns-fork/NounsF
 export { _NounsForkAuctionHouse as NounsForkAuctionHouse } from "./contracts/nouns-fork/NounsForkAuctionHouse";
 export { _NounsForkLogic as NounsForkLogic } from "./contracts/nouns-fork/NounsForkLogic";
 export { _Propdates as Propdates } from "./contracts/propdates/Propdates";
+export { default as Payer } from "./contracts/nouns-dao/Payer";
+export { default as TokenBuyer } from "./contracts/nouns-dao/TokenBuyer";
 export { LilNouns } from "./contracts/lil-nouns/LilNouns";
 export { PropHouse } from "./contracts/prop-house/PropHouse";
 export { Farcaster } from "./contracts/farcaster";
