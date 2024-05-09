@@ -85,6 +85,18 @@ export namespace EventData {
 	//
 	// ******************************************
 
+	/** Emitted when withdrawing nouns from escrow increases adjusted total supply.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/2b17f53606878330ada2a4fddd06e94b02ea3a0c/packages/nouns-contracts/contracts/governance/fork/NounsDAOFork.sol#L186 | Github}
+	 */
+	export interface DAONounsSupplyIncreasedFromEscrow {
+		/** The number of tokens withdrawn from Escrow and moved to another address. */
+		numTokens: number;
+		/** The address receiving the tokens. */
+		to: Account;
+		/** Event meta data. */
+		event: Event;
+	}
+
 	/** DAOWithdrawNounsFromEscrow event data.
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L191C9-L191C9 | Github}
 	 */
@@ -235,7 +247,7 @@ export namespace EventData {
 		event: Event;
 	}
 
-	/** NewAdmin event data. Transfers admin rights.
+	/** NewAdmin event data. Transfers admin rights. Emitted when pendingAdmin is accepted, which means admin is updated
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L276 | Github}
 	 */
 	export interface NewAdmin {
@@ -259,7 +271,7 @@ export namespace EventData {
 		event: Event;
 	}
 
-	/** NewPendingAdmin event data. Offers the admin position to a new address. The new address must accept it to become an admin.
+	/** NewPendingAdmin event data. Offers the admin position to a new address. The new address must accept it to become an admin. Emitted when pendingAdmin is changed
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L261 | Github}
 	 */
 	export interface NewPendingAdmin {
@@ -363,13 +375,11 @@ export namespace EventData {
 	/** ProposalCreatedWithRequirements event data.
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L917 | Github}
 	 */
-	export interface ProposalCreatedWithRequirements {
+	export interface OldProposalCreatedWithRequirements {
 		/** id of the proposal created. */
 		id: number;
 		/** Account of the proposer. */
 		proposer: Account;
-		/** List of signers. In V3. */
-		signers?: string[];
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
@@ -382,8 +392,6 @@ export namespace EventData {
 		startBlock: bigint | string;
 		/** The block voting ends. */
 		endBlock: bigint | string;
-		/** Period where the proposal is updatable. In V3. */
-		updatePeriodEndBlock?: bigint | string;
 		/** The proposal threshold. In V1. */
 		proposalThreshold: number;
 		/** The quorum votes. In V1. Renamed to minQuorumVotes in V2.*/
@@ -397,6 +405,26 @@ export namespace EventData {
 		 * `
 		 */
 		description: string;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/**
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/2b17f53606878330ada2a4fddd06e94b02ea3a0c/packages/nouns-contracts/contracts/governance/NounsDAOProposals.sol#L952 | Github}
+	 */
+	export interface ProposalCreatedWithRequirements {
+		/** id of the proposal created. */
+		id: number;
+		/** List of signers. */
+		signers: string[];
+		/** Period where the proposal is updatable. */
+		updatePeriodEndBlock: bigint | string;
+		/** The proposal threshold. */
+		proposalThreshold: number;
+		/** The quorum votes.*/
+		quorumVotes: number;
+		/** The client id. */
+		clientId: number;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -439,13 +467,13 @@ export namespace EventData {
 		event: Event;
 	}
 
-	/** ProposalQueued event data. A proposal that was successful during the voting period is queued.
+	/** ProposalQueued event data. A proposal that was successful during the voting period is queued. An event emitted when a proposal has been queued in the NounsDAOExecutor.
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L438 | Github }
 	 */
 	export interface ProposalQueued {
 		/** id of the proposal. */
 		id: number;
-		/** Block number signifying end of the queued period. The proposal is executed once this is over. */
+		/** Block number signifying end of the queued period. The proposal can be executed once this is over. */
 		eta: bigint | string;
 		/** Event meta data. */
 		event: Event;
@@ -625,6 +653,20 @@ export namespace EventData {
 		event: Event;
 	}
 
+	/**
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/2b17f53606878330ada2a4fddd06e94b02ea3a0c/packages/nouns-contracts/contracts/governance/NounsDAOVotes.sol#L133 | Github}
+	 */
+	export interface VoteCastWithClientId {
+		/** Voter address. */
+		voter: Account;
+		/** Proposal voted on. */
+		proposalId: number;
+		/** Client id voted from. */
+		clientId: number;
+		/** Event meta data. */
+		event: Event;
+	}
+
 	/** VoteSnapshotBlockSwitchProposalIdSet event data. The proposal id after which the snapshot was taken the day voting started.
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L482 | Github}
 	 */
@@ -720,6 +762,20 @@ export namespace EventData {
 		event: Event;
 	}
 
+	/**
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/2b17f53606878330ada2a4fddd06e94b02ea3a0c/packages/nouns-contracts/contracts/NounsAuctionHouseV2.sol#L154 | Github}
+	 */
+	export interface AuctionBidWithClientId {
+		/** Noun token id. */
+		id: number;
+		/** The bid amount in wei. */
+		amount: bigint | string;
+		/** The client id. */
+		clientId: number;
+		/** Event meta data. */
+		event: Event;
+	}
+
 	/** AuctionCreated event data.
 	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L197 | Github}
 	 */
@@ -746,26 +802,12 @@ export namespace EventData {
 		event: Event;
 	}
 
-	/** AuctionSettled event data. Triggers when the next auction begins.
-	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L221 | Github}
+	/** AuctionMinBidIncrementPercentageUpdated event data.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L185 | Github}
 	 */
-	export interface AuctionSettled {
-		/** Noun token id. */
-		id: number;
-		/** The winning bidder's account. */
-		winner: Account;
-		/** Winning bid amount in wei. */
-		amount: bigint | string;
-		/** Event meta data. */
-		event: Event;
-	}
-
-	/** AuctionTimeBufferUpdated event data. The time buffer that extends an auction.
-	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L165 | Github}
-	 */
-	export interface AuctionTimeBufferUpdated {
-		/** New time buffer. */
-		timeBuffer: bigint | string;
+	export interface AuctionMinBidIncrementPercentageUpdated {
+		/** New auction minimum bid increment percentage. */
+		minBidIncrementPercentage: number;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -780,12 +822,36 @@ export namespace EventData {
 		event: Event;
 	}
 
-	/** AuctionMinBidIncrementPercentageUpdated event data.
-	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L185 | Github}
+	/** AuctionSettled event data. Triggers when the next auction begins.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L221 | Github}
 	 */
-	export interface AuctionMinBidIncrementPercentageUpdated {
-		/** New auction minimum bid increment percentage. */
-		minBidIncrementPercentage: number;
+	export interface AuctionSettled {
+		/** Noun token id. */
+		id: number;
+		/** The winning bidder's account. */
+		winner: Account;
+		/** Winning bid amount in wei. */
+		amount: bigint | string;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** {@link https://github.com/nounsDAO/nouns-monorepo/blob/2b17f53606878330ada2a4fddd06e94b02ea3a0c/packages/nouns-contracts/contracts/NounsAuctionHouseV2.sol#L298 | Github} */
+	export interface AuctionSettledWithClientId {
+		/** Noun token id. */
+		id: number;
+		/** Client id. */
+		clientId: number;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	/** AuctionTimeBufferUpdated event data. The time buffer that extends an auction.
+	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L165 | Github}
+	 */
+	export interface AuctionTimeBufferUpdated {
+		/** New time buffer. */
+		timeBuffer: bigint | string;
 		/** Event meta data. */
 		event: Event;
 	}
