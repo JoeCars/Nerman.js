@@ -827,14 +827,28 @@ NOUNS_DAO_FORMATTERS.set("WithdrawFromForkEscrow", formatWithdrawFromForkEscrow)
 
 /**
  * Formats blockchain event data into an object.
- * @param event The blockchain AuctionCreated event.
- * @returns Formatted AuctionCreated event.
+ * @param event The blockchain AuctionBid event.
+ * @returns Formatted AuctionBid event.
  */
-export function formatAuctionCreated(event: EventLog): EventData.AuctionCreated {
+export function formatAuctionBid(event: EventLog): EventData.AuctionBid {
 	return {
 		id: Number(event.args!.nounId),
-		startTime: event.args!.startTime.toString(),
-		endTime: event.args!.endTime.toString(),
+		bidder: { id: event.args!.sender },
+		amount: event.args!.value.toString(),
+		extended: event.args!.extended,
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
+}
+
+export function formatAuctionBidWithClientId(event: EventLog): EventData.AuctionBidWithClientId {
+	return {
+		id: Number(event.args!.nounId),
+		amount: event.args!.value.toString(),
+		clientId: Number(event.args!.clientId),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -845,15 +859,14 @@ export function formatAuctionCreated(event: EventLog): EventData.AuctionCreated 
 
 /**
  * Formats blockchain event data into an object.
- * @param event The blockchain AuctionBid event.
- * @returns Formatted AuctionBid event.
+ * @param event The blockchain AuctionCreated event.
+ * @returns Formatted AuctionCreated event.
  */
-export function formatAuctionBid(event: EventLog): EventData.AuctionBid {
+export function formatAuctionCreated(event: EventLog): EventData.AuctionCreated {
 	return {
 		id: Number(event.args!.nounId),
-		bidder: { id: event.args!.sender },
-		amount: event.args!.value.toString(),
-		extended: event.args!.extended,
+		startTime: event.args!.startTime.toString(),
+		endTime: event.args!.endTime.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -881,30 +894,14 @@ export function formatAuctionExtended(event: EventLog): EventData.AuctionExtende
 
 /**
  * Formats blockchain event data into an object.
- * @param event The blockchain AuctionSettled event.
- * @returns Formatted AuctionSettled event.
+ * @param event The blockchain AuctionMinBidIncrementPercentageUpdated event.
+ * @returns Formatted AuctionMinBidIncrementPercentageUpdated event.
  */
-export function formatAuctionSettled(event: EventLog): EventData.AuctionSettled {
+export function formatAuctionMinBidIncrementPercentageUpdated(
+	event: EventLog
+): EventData.AuctionMinBidIncrementPercentageUpdated {
 	return {
-		id: Number(event.args!.nounId),
-		winner: { id: event.args!.winner },
-		amount: event.args!.amount.toString(),
-		event: {
-			blockNumber: event.blockNumber,
-			blockHash: event.blockHash,
-			transactionHash: event.transactionHash
-		}
-	};
-}
-
-/**
- * Formats blockchain event data into an object.
- * @param event The blockchain AuctionTimeBufferUpdated event.
- * @returns Formatted AuctionTimeBufferUpdated event.
- */
-export function formatAuctionTimeBufferUpdated(event: EventLog): EventData.AuctionTimeBufferUpdated {
-	return {
-		timeBuffer: event.args!.timeBuffer.toString(),
+		minBidIncrementPercentage: Number(event.args!.minBidIncrementPercentage),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -931,14 +928,42 @@ export function formatAuctionReservePriceUpdated(event: EventLog): EventData.Auc
 
 /**
  * Formats blockchain event data into an object.
- * @param event The blockchain AuctionMinBidIncrementPercentageUpdated event.
- * @returns Formatted AuctionMinBidIncrementPercentageUpdated event.
+ * @param event The blockchain AuctionSettled event.
+ * @returns Formatted AuctionSettled event.
  */
-export function formatAuctionMinBidIncrementPercentageUpdated(
-	event: EventLog
-): EventData.AuctionMinBidIncrementPercentageUpdated {
+export function formatAuctionSettled(event: EventLog): EventData.AuctionSettled {
 	return {
-		minBidIncrementPercentage: Number(event.args!.minBidIncrementPercentage),
+		id: Number(event.args!.nounId),
+		winner: { id: event.args!.winner },
+		amount: event.args!.amount.toString(),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
+}
+
+export function formatAuctionSettledWithClientId(event: EventLog): EventData.AuctionSettledWithClientId {
+	return {
+		id: Number(event.args!.nounId),
+		clientId: Number(event.args!.clientId),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
+}
+
+/**
+ * Formats blockchain event data into an object.
+ * @param event The blockchain AuctionTimeBufferUpdated event.
+ * @returns Formatted AuctionTimeBufferUpdated event.
+ */
+export function formatAuctionTimeBufferUpdated(event: EventLog): EventData.AuctionTimeBufferUpdated {
+	return {
+		timeBuffer: event.args!.timeBuffer.toString(),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -1000,13 +1025,15 @@ export function formatUnpaused(event: EventLog): EventData.Unpaused {
  * A map of supported events and their associated formatters.
  */
 export const NOUNS_AUCTION_HOUSE_FORMATTERS = new Map<string, EventFormatter>();
-NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionCreated", formatAuctionCreated);
 NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionBid", formatAuctionBid);
+NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionBidWithClientId", formatAuctionBidWithClientId);
+NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionCreated", formatAuctionCreated);
 NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionExtended", formatAuctionExtended);
-NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionSettled", formatAuctionSettled);
-NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionTimeBufferUpdated", formatAuctionTimeBufferUpdated);
-NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionReservePriceUpdated", formatAuctionReservePriceUpdated);
 NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionMinBidIncrementPercentageUpdated", formatAuctionMinBidIncrementPercentageUpdated);
+NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionReservePriceUpdated", formatAuctionReservePriceUpdated);
+NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionSettled", formatAuctionSettled);
+NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionSettledWithClientId", formatAuctionSettledWithClientId);
+NOUNS_AUCTION_HOUSE_FORMATTERS.set("AuctionTimeBufferUpdated", formatAuctionTimeBufferUpdated);
 NOUNS_AUCTION_HOUSE_FORMATTERS.set("OwnershipTransferred", formatOwnershipTransferred);
 NOUNS_AUCTION_HOUSE_FORMATTERS.set("Paused", formatPaused);
 NOUNS_AUCTION_HOUSE_FORMATTERS.set("Unpaused", formatUnpaused);
