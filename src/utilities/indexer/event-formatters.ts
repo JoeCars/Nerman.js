@@ -6,6 +6,18 @@ import { EventData, EventFormatter } from "../../types";
 // NounsDAO
 //=======================================
 
+export function formatDAONounsSupplyIncreasedFromEscrow(event: EventLog): EventData.DAONounsSupplyIncreasedFromEscrow {
+	return {
+		numTokens: Number(event.args.numTokens),
+		to: { id: event.args.to },
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
+}
+
 /**
  * Formats blockchain event data into an object.
  * @param event The blockchain DAOWithdrawNounsFromEscrow event.
@@ -378,20 +390,11 @@ export function formatProposalCreatedOnTimelockV1(event: EventLog): EventData.Pr
 export function formatProposalCreatedWithRequirements(event: EventLog): EventData.ProposalCreatedWithRequirements {
 	return {
 		id: Number(event.args!.id),
-		proposer: { id: event.args!.proposer },
 		signers: event.args!.signers,
-		targets: event.args!.targets,
-		values: event.args!.signers
-			? event.args!.at(4).map((val: bigint) => val.toString())
-			: event.args!.at(3).map((val: bigint) => val.toString()),
-		signatures: event.args!.signatures,
-		calldatas: event.args!.calldatas,
-		startBlock: event.args!.startBlock.toString(),
-		endBlock: event.args!.endBlock.toString(),
 		updatePeriodEndBlock: event.args!.updatePeriodEndBlock?.toString(),
 		proposalThreshold: Number(event.args!.proposalThreshold),
 		quorumVotes: Number(event.args!.quorumVotes),
-		description: event.args!.description,
+		clientId: Number(event.args!.clientId),
 		event: {
 			blockNumber: event.blockNumber,
 			blockHash: event.blockHash,
@@ -671,6 +674,19 @@ export function formatVoteCast(event: EventLog): EventData.VoteCast {
 	};
 }
 
+export function formatVoteCastWithClientId(event: EventLog): EventData.VoteCastWithClientId {
+	return {
+		voter: { id: event.args!.voter },
+		proposalId: Number(event.args!.proposalId),
+		clientId: Number(event.args!.clientId),
+		event: {
+			blockNumber: event.blockNumber,
+			blockHash: event.blockHash,
+			transactionHash: event.transactionHash
+		}
+	};
+}
+
 /**
  * Formats blockchain event data into an object.
  * @param event The blockchain VoteSnapshotBlockSwitchProposalIdSet event.
@@ -761,6 +777,7 @@ export function formatWithdrawFromForkEscrow(event: EventLog): EventData.Withdra
  * A map of supported events and their associated formatters.
  */
 export const NOUNS_DAO_FORMATTERS = new Map<string, EventFormatter>();
+NOUNS_DAO_FORMATTERS.set("DAONounsSupplyIncreasedFromEscrow", formatDAONounsSupplyIncreasedFromEscrow);
 NOUNS_DAO_FORMATTERS.set("DAOWithdrawNounsFromEscrow", formatDAOWithdrawNounsFromEscrow);
 NOUNS_DAO_FORMATTERS.set("ERC20TokensToIncludeInForkSet", formatERC20TokensToIncludeInForkSet);
 NOUNS_DAO_FORMATTERS.set("EscrowedToFork", formatEscrowedToFork);
@@ -797,6 +814,7 @@ NOUNS_DAO_FORMATTERS.set("RefundableVote", formatRefundableVote);
 NOUNS_DAO_FORMATTERS.set("SignatureCancelled", formatSignatureCancelled);
 NOUNS_DAO_FORMATTERS.set("TimelocksAndAdminSet", formatTimelocksAndAdminSet);
 NOUNS_DAO_FORMATTERS.set("VoteCast", formatVoteCast);
+NOUNS_DAO_FORMATTERS.set("VoteCastWithClientId", formatVoteCastWithClientId);
 NOUNS_DAO_FORMATTERS.set("VoteSnapshotBlockSwitchProposalIdSet", formatVoteSnapshotBlockSwitchProposalIdSet);
 NOUNS_DAO_FORMATTERS.set("VotingDelaySet", formatVotingDelaySet);
 NOUNS_DAO_FORMATTERS.set("VotingPeriodSet", formatVotingPeriodSet);
