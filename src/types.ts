@@ -372,10 +372,7 @@ export namespace EventData {
 		event: Event;
 	}
 
-	/** ProposalCreatedWithRequirements event data.
-	 * {@link https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L917 | Github}
-	 */
-	export interface OldProposalCreatedWithRequirements {
+	export interface ProposalCreatedWithRequirementsV1 {
 		/** id of the proposal created. */
 		id: number;
 		/** Account of the proposer. */
@@ -392,9 +389,49 @@ export namespace EventData {
 		startBlock: bigint | string;
 		/** The block voting ends. */
 		endBlock: bigint | string;
-		/** The proposal threshold. In V1. */
+		/** The proposal threshold. */
 		proposalThreshold: number;
-		/** The quorum votes. In V1. Renamed to minQuorumVotes in V2.*/
+		/** The quorum votes.*/
+		quorumVotes: number;
+		/**
+		 * Proposal description.
+		 * @example
+		 * `
+		 * # Proposal Title \n
+		 * Proposal details go here.
+		 * `
+		 */
+		description: string;
+		/** Event meta data. */
+		event: Event;
+	}
+
+	export interface ProposalCreatedWithRequirementsV2 extends ProposalCreatedWithRequirementsV1 {}
+
+	export interface ProposalCreatedWithRequirementsV3 {
+		/** id of the proposal created. */
+		id: number;
+		/** Account of the proposer. */
+		proposer: Account;
+		/** List of signers. */
+		signers: string[];
+		/** Target addresses for proposal calls. */
+		targets: string[];
+		/** Eth values for proposal calls. */
+		values: bigint[] | string[];
+		/** Function signatures for proposal calls. */
+		signatures: string[];
+		/** Calldatas for proposal calls. */
+		calldatas: any[];
+		/** The block voting starts. */
+		startBlock: bigint | string;
+		/** The block voting ends. */
+		endBlock: bigint | string;
+		/** Period where the proposal is updatable. */
+		updatePeriodEndBlock: bigint | string;
+		/** The proposal threshold. */
+		proposalThreshold: number;
+		/** The quorum votes. */
 		quorumVotes: number;
 		/**
 		 * Proposal description.
