@@ -26,6 +26,27 @@ const AccountSchema = new Schema({
 // Nouns DAO
 // ================================
 
+const DAONounsSupplyIncreasedFromEscrowSchema = new Schema(
+	{
+		numTokens: {
+			type: Schema.Types.Number,
+			required: true
+		},
+		to: {
+			type: AccountSchema,
+			required: true
+		},
+		event: EventSchema
+	},
+	{
+		timestamps: true
+	}
+);
+export const DAONounsSupplyIncreasedFromEscrow = model(
+	"DAONounsSupplyIncreasedFromEscrow",
+	DAONounsSupplyIncreasedFromEscrowSchema
+);
+
 const DAOWithdrawNounsFromEscrowSchema = new Schema(
 	{
 		tokenIds: {
@@ -828,6 +849,28 @@ const VoteCastSchema = new Schema(
 );
 export const VoteCast = model("VoteCast", VoteCastSchema);
 
+const VoteCastWithClientIdSchema = new Schema(
+	{
+		voter: {
+			type: AccountSchema,
+			required: true
+		},
+		proposalId: {
+			type: Schema.Types.Number,
+			required: true
+		},
+		clientId: {
+			type: Schema.Types.Number,
+			required: true
+		},
+		event: EventSchema
+	},
+	{
+		timestamps: true
+	}
+);
+export const VoteCastWithClientId = model("VoteCastWithClientId", VoteCastWithClientIdSchema);
+
 const VoteSnapshotBlockSwitchProposalIdSetSchema = new Schema(
 	{
 		oldVoteSnapshotBlockSwitchProposalId: {
@@ -955,6 +998,28 @@ const AuctionBidSchema = new Schema(
 );
 export const AuctionBid = model("AuctionBid", AuctionBidSchema);
 
+const AuctionBidWithClientIdSchema = new Schema(
+	{
+		id: {
+			type: Schema.Types.Number,
+			required: true
+		},
+		amount: {
+			type: Schema.Types.String,
+			required: true
+		},
+		clientId: {
+			type: Schema.Types.Number,
+			required: true
+		},
+		event: EventSchema
+	},
+	{
+		timestamps: true
+	}
+);
+export const AuctionBidWithClientId = model("AuctionBidWithClientId", AuctionBidWithClientIdSchema);
+
 const AuctionCreatedSchema = new Schema(
 	{
 		id: {
@@ -995,6 +1060,37 @@ const AuctionExtendedSchema = new Schema(
 );
 export const AuctionExtended = model("AuctionExtended", AuctionExtendedSchema);
 
+const AuctionMinBidIncrementPercentageUpdatedSchema = new Schema(
+	{
+		minBidIncrementPercentage: {
+			type: Schema.Types.Number,
+			required: true
+		},
+		event: EventSchema
+	},
+	{
+		timestamps: true
+	}
+);
+export const AuctionMinBidIncrementPercentageUpdated = model(
+	"AuctionMinBidIncrementPercentageUpdated",
+	AuctionMinBidIncrementPercentageUpdatedSchema
+);
+
+const AuctionReservePriceUpdatedSchema = new Schema(
+	{
+		reservePrice: {
+			type: Schema.Types.String,
+			required: true
+		},
+		event: EventSchema
+	},
+	{
+		timestamps: true
+	}
+);
+export const AuctionReservePriceUpdated = model("AuctionReservePriceUpdated", AuctionReservePriceUpdatedSchema);
+
 const AuctionSettledSchema = new Schema(
 	{
 		id: {
@@ -1017,6 +1113,24 @@ const AuctionSettledSchema = new Schema(
 );
 export const AuctionSettled = model("AuctionSettled", AuctionSettledSchema);
 
+const AuctionSettledWithClientIdSchema = new Schema(
+	{
+		id: {
+			type: Schema.Types.Number,
+			required: true
+		},
+		clientId: {
+			type: Schema.Types.Number,
+			required: true
+		},
+		event: EventSchema
+	},
+	{
+		timestamps: true
+	}
+);
+export const AuctionSettledWithClientId = model("AuctionSettledWithClientId", AuctionSettledWithClientIdSchema);
+
 const AuctionTimeBufferUpdatedSchema = new Schema(
 	{
 		timeBuffer: {
@@ -1030,37 +1144,6 @@ const AuctionTimeBufferUpdatedSchema = new Schema(
 	}
 );
 export const AuctionTimeBufferUpdated = model("AuctionTimeBufferUpdated", AuctionTimeBufferUpdatedSchema);
-
-const AuctionReservePriceUpdatedSchema = new Schema(
-	{
-		reservePrice: {
-			type: Schema.Types.String,
-			required: true
-		},
-		event: EventSchema
-	},
-	{
-		timestamps: true
-	}
-);
-export const AuctionReservePriceUpdated = model("AuctionReservePriceUpdated", AuctionReservePriceUpdatedSchema);
-
-const AuctionMinBidIncrementPercentageUpdatedSchema = new Schema(
-	{
-		minBidIncrementPercentage: {
-			type: Schema.Types.Number,
-			required: true
-		},
-		event: EventSchema
-	},
-	{
-		timestamps: true
-	}
-);
-export const AuctionMinBidIncrementPercentageUpdated = model(
-	"AuctionMinBidIncrementPercentageUpdated",
-	AuctionMinBidIncrementPercentageUpdatedSchema
-);
 
 const OwnershipTransferredSchema = new Schema(
 	{
