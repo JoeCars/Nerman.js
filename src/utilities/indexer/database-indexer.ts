@@ -206,6 +206,8 @@ export class DatabaseIndexer {
 	private async writeToDatabase(eventName: string, indexedEvents: FormattedEvent[]) {
 		switch (eventName) {
 			// Nouns DAO Logic
+			case "DAONounsSupplyIncreasedFromEscrow":
+				return eventSchemas.DAONounsSupplyIncreasedFromEscrow.insertMany(indexedEvents);
 			case "DAOWithdrawNounsFromEscrow":
 				return eventSchemas.DAOWithdrawNounsFromEscrow.insertMany(indexedEvents);
 			case "ERC20TokensToIncludeInForkSet":
@@ -278,6 +280,8 @@ export class DatabaseIndexer {
 				return eventSchemas.TimelocksAndAdminSet.insertMany(indexedEvents);
 			case "VoteCast":
 				return eventSchemas.VoteCast.insertMany(indexedEvents);
+			case "VoteCastWithClientId":
+				return eventSchemas.VoteCastWithClientId.insertMany(indexedEvents);
 			case "VoteSnapshotBlockSwitchProposalIdSet":
 				return eventSchemas.VoteSnapshotBlockSwitchProposalIdSet.insertMany(indexedEvents);
 			case "VotingDelaySet":
@@ -294,16 +298,20 @@ export class DatabaseIndexer {
 				return eventSchemas.AuctionCreated.insertMany(indexedEvents);
 			case "AuctionBid":
 				return eventSchemas.AuctionBid.insertMany(indexedEvents);
+			case "AuctionBidWithClientId":
+				return eventSchemas.AuctionBidWithClientId.insertMany(indexedEvents);
 			case "AuctionExtended":
 				return eventSchemas.AuctionExtended.insertMany(indexedEvents);
-			case "AuctionSettled":
-				return eventSchemas.AuctionSettled.insertMany(indexedEvents);
-			case "AuctionTimeBufferUpdated":
-				return eventSchemas.AuctionTimeBufferUpdated.insertMany(indexedEvents);
-			case "AuctionReservePriceUpdated":
-				return eventSchemas.AuctionReservePriceUpdated.insertMany(indexedEvents);
 			case "AuctionMinBidIncrementPercentageUpdated":
 				return eventSchemas.AuctionMinBidIncrementPercentageUpdated.insertMany(indexedEvents);
+			case "AuctionReservePriceUpdated":
+				return eventSchemas.AuctionReservePriceUpdated.insertMany(indexedEvents);
+			case "AuctionSettled":
+				return eventSchemas.AuctionSettled.insertMany(indexedEvents);
+			case "AuctionSettledWithClientId":
+				return eventSchemas.AuctionSettledWithClientId.insertMany(indexedEvents);
+			case "AuctionTimeBufferUpdated":
+				return eventSchemas.AuctionTimeBufferUpdated.insertMany(indexedEvents);
 			case "OwnershipTransferred":
 				return eventSchemas.OwnershipTransferred.insertMany(indexedEvents);
 			case "Paused":
