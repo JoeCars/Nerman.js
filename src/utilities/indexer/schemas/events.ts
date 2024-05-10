@@ -448,42 +448,15 @@ const ProposalCreatedWithRequirementsSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		proposer: {
-			type: AccountSchema,
-			required: true
-		},
-		signers: {
-			type: [Schema.Types.String],
-			required: false
-		},
-		targets: {
-			type: [Schema.Types.String],
-			required: true
-		},
-		values: {
-			type: [Schema.Types.String],
-			required: true
-		},
-		signatures: {
-			type: [Schema.Types.String],
-			required: true
-		},
-		calldatas: {
-			type: [Schema.Types.Mixed],
-			required: true
-		},
-		startBlock: {
-			type: Schema.Types.String,
-			required: true
-		},
-		endBlock: {
-			type: Schema.Types.String,
-			required: true
-		},
-		updatePeriodEndBlock: {
-			type: Schema.Types.String,
-			required: false
-		},
+		proposer: AccountSchema,
+		signers: [Schema.Types.String],
+		targets: [Schema.Types.String],
+		values: [Schema.Types.String],
+		signatures: [Schema.Types.String],
+		calldatas: [Schema.Types.String],
+		startBlock: Schema.Types.String,
+		endBlock: Schema.Types.String,
+		updatePeriodEndBlock: Schema.Types.String,
 		proposalThreshold: {
 			type: Schema.Types.Number,
 			required: true
@@ -492,10 +465,9 @@ const ProposalCreatedWithRequirementsSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		description: {
-			type: Schema.Types.String,
-			required: true
-		},
+		description: Schema.Types.String,
+		clientId: Schema.Types.Number,
+		v: Schema.Types.Number,
 		event: EventSchema
 	},
 	{
