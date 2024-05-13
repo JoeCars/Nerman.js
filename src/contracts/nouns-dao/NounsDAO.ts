@@ -3,6 +3,8 @@ import { VoteDirection, Account, EventData } from "../../types";
 import { default as nounsDaoLogicAbi } from "../abis/NounsDAOLogicV4.json";
 import { createOrReturnProvider } from "../../utilities/providers";
 
+export const PROPOSAL_CREATED_WITH_REQUIREMENTS_V4_SIGNATURE =
+	"ProposalCreatedWithRequirements(uint256,address[],uint256,uint256,uint256,uint32)";
 export interface SupportedEventMap {
 	DAONounsSupplyIncreasedFromEscrow: EventData.DAONounsSupplyIncreasedFromEscrow;
 	DAOWithdrawNounsFromEscrow: EventData.DAOWithdrawNounsFromEscrow;
@@ -474,7 +476,7 @@ export class _NounsDAO {
 
 			case "ProposalCreatedWithRequirements":
 				this.Contract.on(
-					eventName,
+					PROPOSAL_CREATED_WITH_REQUIREMENTS_V4_SIGNATURE,
 					(
 						id: bigint,
 						signers: string[],
@@ -852,10 +854,7 @@ export class _NounsDAO {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			if (eventName === "ProposalCreatedWithRequirements") {
-				this.Contract.off(
-					"ProposalCreatedWithRequirements(uint256,address,address[],address[],uint256[],string[],bytes[],uint256,uint256,uint256,uint256,uint256,string)",
-					listener as ethers.Listener
-				);
+				this.Contract.off(PROPOSAL_CREATED_WITH_REQUIREMENTS_V4_SIGNATURE, listener as ethers.Listener);
 			} else {
 				this.Contract.off(eventName, listener as ethers.Listener);
 			}
