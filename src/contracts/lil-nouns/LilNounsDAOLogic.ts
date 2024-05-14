@@ -185,7 +185,7 @@ export class LilNounsDAOLogic {
 						description: string,
 						event: ethers.Log
 					) => {
-						const data: EventData.ProposalCreatedWithRequirements = {
+						const data: EventData.ProposalCreatedWithRequirementsV1 = {
 							id: Number(id),
 							proposer: { id: proposer } as Account,
 							targets: targets,
