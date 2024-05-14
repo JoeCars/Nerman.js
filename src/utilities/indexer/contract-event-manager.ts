@@ -53,7 +53,6 @@ export class NounsDaoEventManager implements ContractEventManager {
 
 	async fetchFormattedEvents(eventName: string, startBlock: number, endBlock: number) {
 		switch (eventName) {
-			case "DAONounsSupplyIncreasedFromEscrow":
 			case "DAOWithdrawNounsFromEscrow":
 			case "ERC20TokensToIncludeInForkSet":
 			case "EscrowedToFork":
@@ -89,13 +88,19 @@ export class NounsDaoEventManager implements ContractEventManager {
 			case "SignatureCancelled":
 			case "TimelocksAndAdminSet":
 			case "VoteCast":
-			case "VoteCastWithClientId":
 			case "VoteSnapshotBlockSwitchProposalIdSet":
 			case "VotingDelaySet":
 			case "VotingPeriodSet":
 			case "Withdraw":
 			case "WithdrawFromForkEscrow":
 				return this.v4fetchAndFormatter.fetchAndFormatEvent(eventName, startBlock, endBlock);
+			case "DAONounsSupplyIncreasedFromEscrow":
+			case "VoteCastWithClientId":
+				return this.v4fetchAndFormatter.fetchAndFormatEvent(
+					eventName,
+					Math.max(startBlock, NounsDaoEventManager.V4_START_BLOCK), // Optimization to save time when indexing from scratch.
+					endBlock
+				);
 			case "ProposalCreatedWithRequirements":
 				return this.fetchAndFormatProposalCreatedWithRequirements(startBlock, endBlock);
 			default:
@@ -172,6 +177,7 @@ export class NounsDaoEventManager implements ContractEventManager {
 
 export class NounsAuctionEventManager implements ContractEventManager {
 	private fetcherAndFormatter: ContractEventFetchAndFormatter;
+	private static readonly V2_START_BLOCK = 19_810_422;
 
 	constructor(eventFetcher: BlockchainEventFetcher, eventFormatter: NounsAuctionFormatter) {
 		this.fetcherAndFormatter = new ContractEventFetchAndFormatter(eventFetcher, eventFormatter);
@@ -186,18 +192,23 @@ export class NounsAuctionEventManager implements ContractEventManager {
 	async fetchFormattedEvents(eventName: string, startBlock: number, endBlock: number) {
 		switch (eventName) {
 			case "AuctionBid":
-			case "AuctionBidWithClientId":
 			case "AuctionCreated":
 			case "AuctionExtended":
 			case "AuctionMinBidIncrementPercentageUpdated":
 			case "AuctionReservePriceUpdated":
 			case "AuctionSettled":
-			case "AuctionSettledWithClientId":
 			case "AuctionTimeBufferUpdated":
 			case "OwnershipTransferred":
 			case "Paused":
 			case "Unpaused":
 				return this.fetcherAndFormatter.fetchAndFormatEvent(eventName, startBlock, endBlock);
+			case "AuctionSettledWithClientId":
+			case "AuctionBidWithClientId":
+				return this.fetcherAndFormatter.fetchAndFormatEvent(
+					eventName,
+					Math.max(startBlock, NounsAuctionEventManager.V2_START_BLOCK), // Optimization to save time when indexing from scratch.
+					endBlock
+				);
 			default:
 				throw new Error(`${eventName} is not supported.`);
 		}
