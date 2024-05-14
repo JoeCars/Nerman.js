@@ -1,8 +1,8 @@
 import { JsonRpcProvider, Contract, Log, Listener } from "ethers-v6";
 
-import { default as payerAbi } from "../abis/Payer.json";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { EventData } from "../../types";
+import { createPayerContract } from "../../utilities/contracts";
 
 export interface SupportedEventMap {
 	PaidBackDebt: EventData.PaidBackDebt;
@@ -20,7 +20,7 @@ export default class Payer {
 
 	constructor(provider: JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
-		this.contract = new Contract("0xd97Bcd9f47cEe35c0a9ec1dc40C1269afc9E8E1D", payerAbi, this.provider);
+		this.contract = createPayerContract(this.provider);
 		this.registeredListeners = new Map();
 	}
 

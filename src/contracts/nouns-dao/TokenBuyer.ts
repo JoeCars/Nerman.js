@@ -1,8 +1,8 @@
 import { JsonRpcProvider, Contract, Log, Listener } from "ethers-v6";
 
-import { default as tokenBuyer } from "../abis/TokenBuyer.json";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { EventData } from "../../types";
+import { createTokenBuyerContract } from "../../utilities/contracts";
 
 export interface SupportedEventMap {
 	AdminSet: EventData.AdminSet;
@@ -40,7 +40,7 @@ export default class TokenBuyer {
 
 	constructor(provider: JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
-		this.contract = new Contract("0x4f2aCdc74f6941390d9b1804faBc3E780388cfe5", tokenBuyer, this.provider);
+		this.contract = createTokenBuyerContract(this.provider);
 		this.registeredListeners = new Map();
 	}
 

@@ -1,7 +1,7 @@
 import { ethers } from "ethers-v6";
 import { Account, EventData } from "../../types";
-import { default as nounsAuctionHouseAbi } from "../abis/NounsAuctionHouseV2.json";
 import { createOrReturnProvider } from "../../utilities/providers";
+import { createNounsAuctionHouseV2Contract } from "../../utilities/contracts";
 
 export interface SupportedEventMap {
 	AuctionBid: EventData.AuctionBid;
@@ -44,8 +44,7 @@ export class _NounsAuctionHouse {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
-
-		this.Contract = new ethers.Contract("0x830BD73E4184ceF73443C15111a1DF14e495C706", nounsAuctionHouseAbi, this.provider);
+		this.Contract = createNounsAuctionHouseV2Contract(this.provider);
 		this.registeredListeners = new Map();
 	}
 

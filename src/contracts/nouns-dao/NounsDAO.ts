@@ -1,7 +1,7 @@
 import { ethers } from "ethers-v6";
 import { VoteDirection, Account, EventData } from "../../types";
-import { default as nounsDaoLogicAbi } from "../abis/NounsDAOLogicV4.json";
 import { createOrReturnProvider } from "../../utilities/providers";
+import { createNounsDaoLogicV4Contract } from "../../utilities/contracts";
 
 export const PROPOSAL_CREATED_WITH_REQUIREMENTS_V4_SIGNATURE =
 	"ProposalCreatedWithRequirements(uint256,address[],uint256,uint256,uint256,uint32)";
@@ -108,8 +108,7 @@ export class _NounsDAO {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
-
-		this.Contract = new ethers.Contract("0x6f3E6272A167e8AcCb32072d08E0957F9c79223d", nounsDaoLogicAbi, this.provider);
+		this.Contract = createNounsDaoLogicV4Contract(this.provider);
 		this.registeredListeners = new Map();
 	}
 

@@ -8,11 +8,13 @@ import {
 	NounsTokenFormatter
 } from "./contract-event-formatter";
 import { ContractEventFetchAndFormatter } from "./contract-fetch-and-formatter";
-import { default as nounsDaoV3Abi } from "../../contracts/abis/NounsDAOLogicV3.json";
-import { default as nounsDaoV4Abi } from "../../contracts/abis/NounsDAOLogicV4.json";
-import { default as nounsAuctionAbi } from "../../contracts/abis/NounsAuctionHouseV2.json";
-import { default as nounsTokenAbi } from "../../contracts/abis/NounsToken.json";
-import { default as nounsDaoDataAbi } from "../../contracts/abis/NounsDAOData.json";
+import {
+	createNounsAuctionHouseV2Contract,
+	createNounsDaoDataContract,
+	createNounsDaoLogicV3Contract,
+	createNounsDaoLogicV4Contract,
+	createNounsTokenContract
+} from "../contracts";
 
 export interface ContractEventManager {
 	fetchFormattedEvents: (eventName: string, startBlock: number, endBlock: number) => Promise<unknown>;
@@ -43,12 +45,8 @@ export class NounsDaoEventManager implements ContractEventManager {
 	}
 
 	public static create(provider: JsonRpcProvider) {
-		const v3EventFetcher = new BlockchainEventFetcher(
-			new Contract("0x6f3E6272A167e8AcCb32072d08E0957F9c79223d", nounsDaoV3Abi, provider)
-		);
-		const v4EventFetcher = new BlockchainEventFetcher(
-			new Contract("0x6f3E6272A167e8AcCb32072d08E0957F9c79223d", nounsDaoV4Abi, provider)
-		);
+		const v3EventFetcher = new BlockchainEventFetcher(createNounsDaoLogicV3Contract(provider));
+		const v4EventFetcher = new BlockchainEventFetcher(createNounsDaoLogicV4Contract(provider));
 		const nounsDaoEventFormatter = new NounsDaoFormatter();
 		return new NounsDaoEventManager(v3EventFetcher, v4EventFetcher, nounsDaoEventFormatter);
 	}
@@ -180,9 +178,7 @@ export class NounsAuctionEventManager implements ContractEventManager {
 	}
 
 	public static create(provider: JsonRpcProvider) {
-		const fetcher = new BlockchainEventFetcher(
-			new Contract("0x830BD73E4184ceF73443C15111a1DF14e495C706", nounsAuctionAbi, provider)
-		);
+		const fetcher = new BlockchainEventFetcher(createNounsAuctionHouseV2Contract(provider));
 		const formatter = new NounsAuctionFormatter();
 		return new NounsAuctionEventManager(fetcher, formatter);
 	}
@@ -216,9 +212,7 @@ export class NounsTokenEventManager implements ContractEventManager {
 	}
 
 	public static create(provider: JsonRpcProvider) {
-		const fetcher = new BlockchainEventFetcher(
-			new Contract("0x9C8fF314C9Bc7F6e59A9d9225Fb22946427eDC03", nounsTokenAbi, provider)
-		);
+		const fetcher = new BlockchainEventFetcher(createNounsTokenContract(provider));
 		const formatter = new NounsTokenFormatter();
 		return new NounsTokenEventManager(fetcher, formatter);
 	}
@@ -255,9 +249,7 @@ export class NounsDaoDataEventManager implements ContractEventManager {
 	}
 
 	public static create(provider: JsonRpcProvider) {
-		const fetcher = new BlockchainEventFetcher(
-			new Contract("0xf790A5f59678dd733fb3De93493A91f472ca1365", nounsDaoDataAbi, provider)
-		);
+		const fetcher = new BlockchainEventFetcher(createNounsDaoDataContract(provider));
 		const formatter = new NounsDaoDataFormatter();
 		return new NounsDaoDataEventManager(fetcher, formatter);
 	}

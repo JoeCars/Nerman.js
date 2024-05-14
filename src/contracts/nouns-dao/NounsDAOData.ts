@@ -3,6 +3,7 @@ import { ethers } from "ethers-v6";
 import { default as NounsDAODataABI } from "../abis/NounsDAOData.json";
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
+import { createNounsDaoDataContract } from "../../utilities/contracts";
 
 export interface SupportedEventMap {
 	AdminChanged: EventData.AdminChanged;
@@ -49,8 +50,7 @@ export class _NounsDAOData {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
-
-		this.Contract = new ethers.Contract("0xf790A5f59678dd733fb3De93493A91f472ca1365", NounsDAODataABI, this.provider);
+		this.Contract = createNounsDaoDataContract(this.provider);
 		this.registeredListeners = new Map();
 	}
 

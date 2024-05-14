@@ -1,9 +1,9 @@
 import { ethers } from "ethers-v6";
 
-import { default as NounsDAOExecutorABI } from "../abis/NounsDAOExecutorV2.json";
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { WalletTokenFinder } from "../../utilities/tokens";
+import { createNounsDaoExecutorContract } from "../../utilities/contracts";
 
 export interface SupportedEventMap {
 	AdminChanged: EventData.AdminChanged;
@@ -44,8 +44,7 @@ export class NounsDaoExecutor {
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
-
-		this.Contract = new ethers.Contract("0xb1a32FC9F9D8b2cf86C068Cae13108809547ef71", NounsDAOExecutorABI, this.provider);
+		this.Contract = createNounsDaoExecutorContract(this.provider);
 		this.registeredListeners = new Map();
 	}
 
