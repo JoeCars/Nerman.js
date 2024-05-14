@@ -488,7 +488,6 @@ const ProposalCreatedWithRequirementsSchema = new Schema(
 		},
 		description: Schema.Types.String,
 		clientId: Schema.Types.Number,
-		v: Schema.Types.Number,
 		event: EventSchema
 	},
 	{
