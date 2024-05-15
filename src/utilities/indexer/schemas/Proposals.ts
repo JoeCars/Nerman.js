@@ -4,66 +4,97 @@ import { connectToDatabase } from "../database-indexer";
 
 const proposalSchema = new Schema(
 	{
-		proposalId: Schema.Types.Number,
-		proposer: Schema.Types.String,
-		signers: [Schema.Types.String],
-		transactions: {
-			targets: [Schema.Types.String],
-			values: [Schema.Types.String],
-			signatures: [Schema.Types.String],
-			calldatas: [Schema.Types.String]
+		proposalId: {
+			type: Schema.Types.Number,
+			required: true
 		},
-		startBlock: Schema.Types.Number,
-		endBlock: Schema.Types.Number,
+		proposer: {
+			type: Schema.Types.String,
+			required: true
+		},
+		signers: { type: [Schema.Types.String], required: true },
+		transactions: {
+			type: {
+				targets: { type: [Schema.Types.String], required: true },
+				values: { type: [Schema.Types.String], required: true },
+				signatures: { type: [Schema.Types.String], required: true },
+				calldatas: { type: [Schema.Types.String], required: true }
+			},
+			required: true
+		},
+		startBlock: { type: Schema.Types.Number, required: true },
+		endBlock: { type: Schema.Types.Number, required: true },
 		updatePeriodEndBlock: Schema.Types.Number,
-		proposalThreshold: Schema.Types.Number,
-		quorumVotes: Schema.Types.Number,
-		description: Schema.Types.String,
-		feedback: [
-			{
-				feedbacker: Schema.Types.String,
-				support: Schema.Types.String,
-				reason: Schema.Types.String,
-				blockNumber: Schema.Types.String
-			}
-		],
-		votes: [
-			{
-				votes: Schema.Types.Number,
-				reason: Schema.Types.String,
-				voter: Schema.Types.String,
-				blockNumber: Schema.Types.String,
-				support: Schema.Types.String
-			}
-		],
-		status: {
-			wasCreatedOnTimelock: Schema.Types.Boolean,
-			hadObjectionPeriod: Schema.Types.Boolean,
-			previousStatuses: [
+		proposalThreshold: { type: Schema.Types.Number, required: true },
+		quorumVotes: { type: Schema.Types.Number, required: true },
+		clientId: Schema.Types.Number,
+		description: { type: Schema.Types.String, required: true },
+		feedback: {
+			type: [
 				{
-					eventName: Schema.Types.String,
-					blockNumber: Schema.Types.String
+					feedbacker: { type: Schema.Types.String, required: true },
+					support: { type: Schema.Types.String, required: true },
+					reason: { type: Schema.Types.String, required: true },
+					blockNumber: { type: Schema.Types.String, required: true }
 				}
 			],
-			currentStatus: Schema.Types.String,
-			wasUpdated: Schema.Types.Boolean,
-			updateMessages: [
+			required: true
+		},
+		votes: {
+			type: [
 				{
-					updateMessage: Schema.Types.String,
-					blockNumber: Schema.Types.String
+					votes: { type: Schema.Types.Number, required: true },
+					reason: { type: Schema.Types.String, required: true },
+					voter: { type: Schema.Types.String, required: true },
+					blockNumber: { type: Schema.Types.String, required: true },
+					support: { type: Schema.Types.String, required: true }
 				}
-			]
+			],
+			required: true
+		},
+		status: {
+			type: {
+				wasCreatedOnTimelock: { type: Schema.Types.Boolean, required: true },
+				hadObjectionPeriod: { type: Schema.Types.Boolean, required: true },
+				previousStatuses: {
+					type: [
+						{
+							eventName: { type: Schema.Types.String, required: true },
+							blockNumber: { type: Schema.Types.String, required: true },
+							eta: Schema.Types.String
+						}
+					],
+					required: true
+				},
+				wasUpdated: { type: Schema.Types.Boolean, required: true },
+				updateMessages: {
+					type: [
+						{
+							updateMessage: { type: Schema.Types.String, required: true },
+							blockNumber: { type: Schema.Types.String, required: true }
+						}
+					],
+					required: true
+				}
+			},
+			required: true
 		},
 		fork: {
-			blamedIn: [
-				{
-					forkId: Schema.Types.Number,
-					reason: Schema.Types.String,
-					blockNumber: Schema.Types.String,
-					forker: Schema.Types.String,
-					eventName: Schema.Types.String
+			type: {
+				blamedIn: {
+					type: [
+						{
+							forkId: { type: Schema.Types.Number, required: true },
+							reason: { type: Schema.Types.String, required: true },
+							blockNumber: { type: Schema.Types.String, required: true },
+							forker: { type: Schema.Types.String, required: true },
+							eventName: { type: Schema.Types.String, required: true }
+						}
+					],
+					required: true
 				}
-			]
+			},
+			required: true
 		}
 	},
 	{ collection: "proposals", versionKey: false, _id: false }
