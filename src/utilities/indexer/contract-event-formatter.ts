@@ -407,7 +407,7 @@ export class NounsDaoFormatter implements ContractEventFormatter {
 			endBlock: event.args.endBlock.toString(),
 			proposalThreshold: Number(event.args!.proposalThreshold),
 			quorumVotes: Number(event.args!.quorumVotes),
-			description: event.args.proposalThreshold,
+			description: event.args.description,
 			event: {
 				blockNumber: event.blockNumber,
 				blockHash: event.blockHash,
@@ -430,7 +430,7 @@ export class NounsDaoFormatter implements ContractEventFormatter {
 			updatePeriodEndBlock: event.args.updatePeriodEndBlock.toString(),
 			proposalThreshold: Number(event.args!.proposalThreshold),
 			quorumVotes: Number(event.args!.quorumVotes),
-			description: event.args.proposalThreshold,
+			description: event.args.description,
 			event: {
 				blockNumber: event.blockNumber,
 				blockHash: event.blockHash,
