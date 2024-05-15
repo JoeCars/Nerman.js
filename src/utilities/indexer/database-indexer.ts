@@ -1,13 +1,7 @@
-import { ethers, JsonRpcProvider, WeiPerEther } from "ethers-v6";
+import { Contract, ethers, JsonRpcProvider, WeiPerEther } from "ethers-v6";
 import mongoose from "mongoose";
 
-import {
-	NOUNS_STARTING_BLOCK,
-	BLOCK_BATCH_SIZE,
-	NEW_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE,
-	OLD_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE,
-	PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK
-} from "../../constants";
+import { NOUNS_STARTING_BLOCK } from "../../constants";
 import * as eventSchemas from "./schemas/events";
 import { _NounsAuctionHouse } from "../../contracts/nouns-dao/NounsAuctionHouse";
 import {
@@ -24,6 +18,21 @@ import IndexerMetaData from "./schemas/IndexerMetaData";
 import ETHConversionRate from "./schemas/ETHConversionRate";
 import fetch from "node-fetch";
 import { createAlchemyOrJsonRpcProvider } from "../providers";
+import {
+	ContractEventManager,
+	NounsAuctionEventManager,
+	NounsDaoDataEventManager,
+	NounsDaoEventManager,
+	NounsTokenEventManager
+} from "./contract-event-manager";
+import { BlockchainEventFetcher } from "./blockchain-event-fetcher";
+
+import {
+	NounsAuctionFormatter,
+	NounsDaoDataFormatter,
+	NounsDaoFormatter,
+	NounsTokenFormatter
+} from "./contract-event-formatter";
 
 const MILLISECONDS_PER_SECOND = 1_000;
 const DELAY_IN_MS = 500;
@@ -36,39 +45,6 @@ type CoinbaseConversionResult = {
 	};
 };
 
-/**
- * Finds every instance of the event triggering on the blockchain until the present block, and saves the result to a database.
- * @param contract the contract the event is in.
- * @param eventName the name of the event being indexed.
- * @param formatter a formatting function that takes the raw blockchain event object and formats it into the desired JavaScript object.
- */
-export async function indexEvent(
-	contract: ethers.Contract,
-	eventName: string,
-	formatter: EventFormatter,
-	endBlock: number,
-	startBlock = NOUNS_STARTING_BLOCK
-) {
-	const indexedEvents: FormattedEvent[] = [];
-
-	// Adding BLOCK_BATCH_SIZE + 1 to currentBlock because contract.queryFilter() is inclusive.
-	// This prevents duplicate indexes of events happening on multiples of BLOCK_BATCH_SIZE.
-	for (let currentBlock = startBlock; currentBlock <= endBlock; currentBlock += BLOCK_BATCH_SIZE + 1) {
-		let events = (await contract.queryFilter(
-			eventName,
-			currentBlock,
-			Math.min(currentBlock + BLOCK_BATCH_SIZE, endBlock)
-		)) as ethers.EventLog[];
-
-		events.forEach((event) => {
-			const formattedEvent = formatter(event);
-			indexedEvents.push(formattedEvent);
-		});
-	}
-
-	return indexedEvents;
-}
-
 export async function connectToDatabase(mongoDBUrl: string) {
 	return mongoose.connect(mongoDBUrl);
 }
@@ -79,6 +55,10 @@ export class DatabaseIndexer {
 	private nounsDaoData: _NounsDAOData;
 	private nounsAuctionHouse: _NounsAuctionHouse;
 	private nounsToken: _NounsToken;
+	private nounsDaoManager: NounsDaoEventManager;
+	private nounsDaoDataManager: NounsDaoDataEventManager;
+	private nounsAuctionManager: NounsAuctionEventManager;
+	private nounsTokenManager: NounsTokenEventManager;
 
 	public constructor(jsonRpcUrl: string) {
 		this.provider = createAlchemyOrJsonRpcProvider(jsonRpcUrl);
@@ -87,34 +67,22 @@ export class DatabaseIndexer {
 		this.nounsDaoData = new _NounsDAOData(this.provider);
 		this.nounsAuctionHouse = new _NounsAuctionHouse(this.provider);
 		this.nounsToken = new _NounsToken(this.provider);
+
+		this.nounsDaoManager = NounsDaoEventManager.create(this.provider);
+		this.nounsDaoDataManager = NounsDaoDataEventManager.create(this.provider);
+		this.nounsAuctionManager = NounsAuctionEventManager.create(this.provider);
+		this.nounsTokenManager = NounsTokenEventManager.create(this.provider);
 	}
 
 	private async indexToDatabase(eventName: string) {
-		const contract = this.getContract(eventName);
-		let formatter = this.getFormatter(eventName);
+		const contractManager = this.getContractManager(eventName);
 
 		const { hasBlockNumber, recentBlock } = await this.fetchPreviousMetaData(eventName);
 		// -1 because the newest block can sometimes be unprocessed by the node provider.
-		const endBlock = (await contract.provider.getBlockNumber()) - 1;
+		const endBlock = (await this.provider.getBlockNumber()) - 1;
 		let startBlock = hasBlockNumber ? recentBlock! + 1 : NOUNS_STARTING_BLOCK;
-		let eventSignature = eventName;
 
-		// Different signatures need to be indexed independently, but stored together.
-		if (eventName === "ProposalCreatedWithRequirements") {
-			if (startBlock < PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK) {
-				eventSignature = OLD_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE;
-				let oldEndBlock = PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK;
-				const proposalEvents = await indexEvent(contract.Contract, eventSignature, formatter, oldEndBlock, startBlock);
-
-				await this.writeToDatabase(eventName, proposalEvents);
-				await this.updateMetaData(eventName, oldEndBlock);
-				startBlock = PROPOSAL_WITH_REQUIREMENTS_UPGRADE_BLOCK + 1;
-			}
-
-			eventSignature = NEW_PROPOSAL_CREATED_WITH_REQUIREMENTS_SIGNATURE;
-		}
-
-		const indexedEvents = await indexEvent(contract.Contract, eventSignature, formatter, endBlock, startBlock);
+		const indexedEvents = (await contractManager.fetchFormattedEvents(eventName, startBlock, endBlock)) as FormattedEvent[];
 
 		await this.writeToDatabase(eventName, indexedEvents);
 		console.log(new Date(), eventName, "written to database");
@@ -175,15 +143,15 @@ export class DatabaseIndexer {
 		}
 	}
 
-	private getContract(eventName: string): _NounsAuctionHouse | _NounsDAO | _NounsDAOData | _NounsToken {
+	private getContractManager(eventName: string): ContractEventManager {
 		if (this.nounsDao.hasEvent(eventName)) {
-			return this.nounsDao;
+			return this.nounsDaoManager;
 		} else if (this.nounsDaoData.hasEvent(eventName)) {
-			return this.nounsDaoData;
+			return this.nounsDaoDataManager;
 		} else if (this.nounsAuctionHouse.hasEvent(eventName)) {
-			return this.nounsAuctionHouse;
+			return this.nounsAuctionManager;
 		} else if (this.nounsToken.hasEvent(eventName)) {
-			return this.nounsToken;
+			return this.nounsTokenManager;
 		} else {
 			throw new Error(`${eventName} is not supported.`);
 		}
@@ -206,6 +174,8 @@ export class DatabaseIndexer {
 	private async writeToDatabase(eventName: string, indexedEvents: FormattedEvent[]) {
 		switch (eventName) {
 			// Nouns DAO Logic
+			case "DAONounsSupplyIncreasedFromEscrow":
+				return eventSchemas.DAONounsSupplyIncreasedFromEscrow.insertMany(indexedEvents);
 			case "DAOWithdrawNounsFromEscrow":
 				return eventSchemas.DAOWithdrawNounsFromEscrow.insertMany(indexedEvents);
 			case "ERC20TokensToIncludeInForkSet":
@@ -278,6 +248,8 @@ export class DatabaseIndexer {
 				return eventSchemas.TimelocksAndAdminSet.insertMany(indexedEvents);
 			case "VoteCast":
 				return eventSchemas.VoteCast.insertMany(indexedEvents);
+			case "VoteCastWithClientId":
+				return eventSchemas.VoteCastWithClientId.insertMany(indexedEvents);
 			case "VoteSnapshotBlockSwitchProposalIdSet":
 				return eventSchemas.VoteSnapshotBlockSwitchProposalIdSet.insertMany(indexedEvents);
 			case "VotingDelaySet":
@@ -294,16 +266,20 @@ export class DatabaseIndexer {
 				return eventSchemas.AuctionCreated.insertMany(indexedEvents);
 			case "AuctionBid":
 				return eventSchemas.AuctionBid.insertMany(indexedEvents);
+			case "AuctionBidWithClientId":
+				return eventSchemas.AuctionBidWithClientId.insertMany(indexedEvents);
 			case "AuctionExtended":
 				return eventSchemas.AuctionExtended.insertMany(indexedEvents);
-			case "AuctionSettled":
-				return eventSchemas.AuctionSettled.insertMany(indexedEvents);
-			case "AuctionTimeBufferUpdated":
-				return eventSchemas.AuctionTimeBufferUpdated.insertMany(indexedEvents);
-			case "AuctionReservePriceUpdated":
-				return eventSchemas.AuctionReservePriceUpdated.insertMany(indexedEvents);
 			case "AuctionMinBidIncrementPercentageUpdated":
 				return eventSchemas.AuctionMinBidIncrementPercentageUpdated.insertMany(indexedEvents);
+			case "AuctionReservePriceUpdated":
+				return eventSchemas.AuctionReservePriceUpdated.insertMany(indexedEvents);
+			case "AuctionSettled":
+				return eventSchemas.AuctionSettled.insertMany(indexedEvents);
+			case "AuctionSettledWithClientId":
+				return eventSchemas.AuctionSettledWithClientId.insertMany(indexedEvents);
+			case "AuctionTimeBufferUpdated":
+				return eventSchemas.AuctionTimeBufferUpdated.insertMany(indexedEvents);
 			case "OwnershipTransferred":
 				return eventSchemas.OwnershipTransferred.insertMany(indexedEvents);
 			case "Paused":

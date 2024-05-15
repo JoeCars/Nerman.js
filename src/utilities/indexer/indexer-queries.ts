@@ -1681,9 +1681,9 @@ export namespace NounsDAO {
 			if (!query.endId) {
 				query.endId = Infinity;
 			}
-			events = _filterProposalsById(events, query.startId, query.endId);
+			events = _filterProposalsById(events, query.startId, query.endId) as EventData.ProposalCreated[];
 		} else if (query.id) {
-			events = _filterProposalsById(events, query.id);
+			events = _filterProposalsById(events, query.id) as EventData.ProposalCreated[];
 		}
 
 		if (query.proposer) {
@@ -1703,7 +1703,7 @@ export namespace NounsDAO {
 	 * @param startBlock The starting block. Inclusive.
 	 * @param endBlock The final block. Inclusive.
 	 */
-	function _filterProposalsByBlock(proposals: EventData.ProposalCreated[], startBlock: number, endBlock: number) {
+	function _filterProposalsByBlock(proposals: FormattedEvent[], startBlock: number, endBlock: number) {
 		let filteredProposals = proposals.filter((proposal) => {
 			return proposal.event.blockNumber >= startBlock && proposal.event.blockNumber <= endBlock;
 		});
@@ -1714,7 +1714,16 @@ export namespace NounsDAO {
 	 * @param startId The starting block. Inclusive.
 	 * @param endId The final block. Inclusive.
 	 */
-	function _filterProposalsById(proposals: EventData.ProposalCreated[], startId: number, endId?: number) {
+	function _filterProposalsById(
+		proposals: (
+			| EventData.ProposalCreated
+			| EventData.ProposalCreatedWithRequirementsV1
+			| EventData.ProposalCreatedWithRequirementsV3
+			| EventData.ProposalCreatedWithRequirements
+		)[],
+		startId: number,
+		endId?: number
+	) {
 		if (endId === undefined) {
 			endId = startId;
 		}
@@ -1891,15 +1900,18 @@ export namespace NounsDAO {
 		}
 
 		if (query.proposer) {
-			events = _filterProposalByProposer(events, query.proposer) as EventData.ProposalCreatedWithRequirements[];
+			events = _filterProposalByProposer(
+				events as unknown as EventData.ProposalCreated[],
+				query.proposer
+			) as unknown as EventData.ProposalCreatedWithRequirements[];
 		}
 
 		if (query.status) {
 			events = (await _filterProposalsByStatus(
-				events,
+				events as unknown as EventData.ProposalCreated[],
 				query.status,
 				directoryPath
-			)) as EventData.ProposalCreatedWithRequirements[];
+			)) as unknown as EventData.ProposalCreatedWithRequirements[];
 		}
 
 		return events;

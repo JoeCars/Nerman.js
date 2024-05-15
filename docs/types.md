@@ -44,6 +44,14 @@ Event meta data.
 
 A list of types belonging to various Nouns DAO contract events.
 
+## `DAONounsSupplyIncreasedFromEscrow`
+
+Emitted when withdrawing nouns from escrow increases adjusted total supply. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/2b17f53606878330ada2a4fddd06e94b02ea3a0c/packages/nouns-contracts/contracts/governance/fork/NounsDAOFork.sol#L186)
+
+-   **numTokens**: `number`. The number of tokens withdrawn from Escrow and moved to another address.
+-   **to**: `Account`. The address receiving the tokens.
+-   **event**: `Event`. Event meta data.
+
 ## `DAOWithdrawNounsFromEscrow`
 
 DAOWithdrawNounsFromEscrow event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/fork/NounsDAOV3Fork.sol#L191C9-L191C9)
@@ -227,7 +235,7 @@ MinQuorumVotesBPSSet event data. [Github](https://github.com/nounsDAO/nouns-mono
 
 ## `NewAdmin`
 
-NewAdmin event data. Transfers admin rights. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L276)
+NewAdmin event data. Transfers admin rights. Emitted when pendingAdmin is accepted, which means admin is updated [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L276)
 
 -   **oldAdmin**: `Account | undefined`. Old admin address.
 -   **newAdmin**: `Account`. New admin address.
@@ -250,7 +258,7 @@ NewImplementation event data. Updates implementation of the delegator. [Github](
 
 ## `NewPendingAdmin`
 
-NewPendingAdmin event data. Offers the admin position to a new address. The new address must accept it to become an admin. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L261)
+NewPendingAdmin event data. Offers the admin position to a new address. The new address must accept it to become an admin. Emitted when pendingAdmin is changed [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L261)
 
 -   **oldPendingAdmin**: `Account | undefined`. Old pending admin address.
 -   **newPendingAdmin**: `Account`. New pending admin address.
@@ -352,41 +360,15 @@ ProposalCreatedOnTimelockV1 event data. [Github](https://github.com/nounsDAO/nou
 
 ## `ProposalCreatedWithRequirements`
 
-ProposalCreatedWithRequirements event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L917)
+[Github](https://github.com/nounsDAO/nouns-monorepo/blob/2b17f53606878330ada2a4fddd06e94b02ea3a0c/packages/nouns-contracts/contracts/governance/NounsDAOProposals.sol#L952)
 
 -   **id**: `number`. id of the proposal created.
--   **proposer**: `Account`. Account of the proposer.
--   **signers**: `string[]`. List of signers. In V3.
--   **targets**: `string[]`. Target addresses for proposal calls.
--   **values**: `bigint[] | string[]`. Eth values for proposal calls.
--   **signatures**: `string[]`. Function signatures for proposal calls.
--   **calldatas**: `any[]`. Calldatas for proposal calls.
--   **startBlock**: `bigint | string`. The block voting starts.
--   **endBlock**: `bigint | string`. The block voting ends.
--   **updatePeriodEndBlock**: `bigint | string`. Period where the proposal is updatable. In V3.
--   **proposalThreshold**: `number`. The proposal threshold. In V1.
--   **quorumVotes**: `number`. The quorum votes. In V1. Renamed to minQuorumVotes in V2.
--   **description**: `string`. Proposal description.
+-   **signers**: `string[]`. List of signers.
+-   **updatePeriodEndBlock**: `bigint | string`. Period where the proposal is updatable.
+-   **proposalThreshold**: `number`. The proposal threshold.
+-   **quorumVotes**: `number`. The quorum votes.
+-   **clientId**: `number`. The client id.
 -   **event**: `Event`. Event meta data.
-
-```js
-{
-	id: 431,
-	proposer: { id: "0xb0dd496FffFa300df1EFf42702066aCa81834404" },
-	signers: [],
-	targets: ["0x49048044D57e1C92A77f79988d21Fa8fAF74E97e"],
-	signatures: ["depositTransaction(address,uint256,uint64,bool,bytes)"],
-	calldatas: [
-		"0x000000000000000000000000945da7ddb8d8ee64c11001c1a5ba80c1c026279e000000000000000000000000000000000000000000000000533b1db6dcd2c00000000000000000000000000000000000000000000000000000000000000493e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000064fc93ac2500000000000000000000000000000000000000000000000000000000000002bb000000000000000000000000804f6272a167e8accb32072d08e0957f9c79334e000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000"
-	],
-	startBlock: 18537673,
-	endBlock: 18566473,
-	updatePeriodEndBlock: 18534073,
-	proposalThreshold: 0,
-	quorumVotes: 37,
-	description: "# Nouns x BasePaint\n\n\n\n*tldr:\nCommit to minting 6 ETH of Nouns Themed BasePaint dailys for three consecutive days..."
-}
-```
 
 ## `ProposalDescriptionUpdated`
 
@@ -429,10 +411,10 @@ ProposalObjectionPeriodSet event data. A last minute FOR vote that changes the p
 
 ## `ProposalQueued`
 
-ProposalQueued event data. A proposal that was successful during the voting period is queued. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L438)
+ProposalQueued event data. A proposal that was successful during the voting period is queued. An event emitted when a proposal has been queued in the NounsDAOExecutor. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Proposals.sol#L438)
 
 -   **id**: `number`. id of the proposal.
--   **eta**: `bigint | string`. Block number signifying end of the queued period. The proposal is executed once this is over.
+-   **eta**: `bigint | string`. Block number signifying end of the queued period. The proposal can be executed once this is over.
 -   **event**: `Event`. Event meta data.
 
 ```js
@@ -658,6 +640,15 @@ VoteCast event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31
 }
 ```
 
+## `VoteCastWithClientId`
+
+[Github](https://github.com/nounsDAO/nouns-monorepo/blob/2b17f53606878330ada2a4fddd06e94b02ea3a0c/packages/nouns-contracts/contracts/governance/NounsDAOVotes.sol#L133)
+
+-   **voter**: `Account`. Voter address.
+-   **proposalId**: `number`. Proposal voted on.
+-   **clientId**: `number`. Client id voted from.
+-   **event**: `Event`. Event meta data.
+
 ## `VoteSnapshotBlockSwitchProposalIdSet`
 
 VoteSnapshotBlockSwitchProposalIdSet event data. The proposal id after which the snapshot was taken the day voting started. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/governance/NounsDAOV3Admin.sol#L482)
@@ -746,6 +737,15 @@ AuctionBid event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/
 }
 ```
 
+## `AuctionBidWithClientId`
+
+[Github](https://github.com/nounsDAO/nouns-monorepo/blob/2b17f53606878330ada2a4fddd06e94b02ea3a0c/packages/nouns-contracts/contracts/NounsAuctionHouseV2.sol#L154)
+
+-   **id**: `number`. Noun token id.
+-   **amount**: `bigint | string`. The bid amount in wei.
+-   **clientId**: `number`. The client id.
+-   **event**: `Event`. Event meta data.
+
 ## `AuctionCreated`
 
 AuctionCreated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L197)
@@ -778,6 +778,20 @@ AuctionExtended event data. Happens whenever a bid comes in within the end buffe
 }
 ```
 
+## `AuctionMinBidIncrementPercentageUpdated`
+
+AuctionMinBidIncrementPercentageUpdated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L185)
+
+-   **minBidIncrementPercentage**: `number`. New auction minimum bid increment percentage.
+-   **event**: `Event`. Event meta data.
+
+## `AuctionReservePriceUpdated`
+
+AuctionReservePriceUpdated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L175)
+
+-   **reservePrice**: `bigint | string`. New auction reserve price.
+-   **event**: `Event`. Event meta data.
+
 ## `AuctionSettled`
 
 AuctionSettled event data. Triggers when the next auction begins. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L221)
@@ -795,25 +809,19 @@ AuctionSettled event data. Triggers when the next auction begins. [Github](https
 }
 ```
 
+## `AuctionSettledWithClientId`
+
+[Github](https://github.com/nounsDAO/nouns-monorepo/blob/2b17f53606878330ada2a4fddd06e94b02ea3a0c/packages/nouns-contracts/contracts/NounsAuctionHouseV2.sol#L298)
+
+-   **id**: `number`. Noun token id.
+-   **clientId**: `number`. Client id.
+-   **event**: `Event`. Event meta data.
+
 ## `AuctionTimeBufferUpdated`
 
 AuctionTimeBufferUpdated event data. The time buffer that extends an auction. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L165)
 
 -   **timeBuffer**: `bigint | string`. New time buffer.
--   **event**: `Event`. Event meta data.
-
-## `AuctionReservePriceUpdated`
-
-AuctionReservePriceUpdated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L175)
-
--   **reservePrice**: `bigint | string`. New auction reserve price.
--   **event**: `Event`. Event meta data.
-
-## `AuctionMinBidIncrementPercentageUpdated`
-
-AuctionMinBidIncrementPercentageUpdated event data. [Github](https://github.com/nounsDAO/nouns-monorepo/blob/31b2a955a18ca50d95f6517d35c4f97d1261d775/packages/nouns-contracts/contracts/NounsAuctionHouse.sol#L185)
-
--   **minBidIncrementPercentage**: `number`. New auction minimum bid increment percentage.
 -   **event**: `Event`. Event meta data.
 
 ## `OwnershipTransferred`

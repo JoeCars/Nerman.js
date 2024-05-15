@@ -4,80 +4,110 @@ import { connectToDatabase } from "../database-indexer";
 
 const proposalSchema = new Schema(
 	{
-		proposalId: Schema.Types.Number,
-		proposer: Schema.Types.String,
-		signers: [Schema.Types.String],
-		transactions: {
-			targets: [Schema.Types.String],
-			values: [Schema.Types.String],
-			signatures: [Schema.Types.String],
-			calldatas: [Schema.Types.String]
+		proposalId: {
+			type: Schema.Types.Number,
+			required: true
 		},
-		startBlock: Schema.Types.Number,
-		endBlock: Schema.Types.Number,
+		proposer: {
+			type: Schema.Types.String,
+			required: true
+		},
+		signers: { type: [Schema.Types.String], required: true },
+		transactions: {
+			type: {
+				targets: { type: [Schema.Types.String], required: true },
+				values: { type: [Schema.Types.String], required: true },
+				signatures: { type: [Schema.Types.String], required: true },
+				calldatas: { type: [Schema.Types.String], required: true }
+			},
+			required: true
+		},
+		startBlock: { type: Schema.Types.Number, required: true },
+		endBlock: { type: Schema.Types.Number, required: true },
 		updatePeriodEndBlock: Schema.Types.Number,
-		proposalThreshold: Schema.Types.Number,
-		quorumVotes: Schema.Types.Number,
-		description: Schema.Types.String,
-		feedback: [
-			{
-				feedbacker: Schema.Types.String,
-				support: Schema.Types.String,
-				reason: Schema.Types.String,
-				blockNumber: Schema.Types.String
-			}
-		],
-		votes: [
-			{
-				votes: Schema.Types.Number,
-				reason: Schema.Types.String,
-				voter: Schema.Types.String,
-				blockNumber: Schema.Types.String,
-				support: Schema.Types.String
-			}
-		],
-		status: {
-			wasCreatedOnTimelock: Schema.Types.Boolean,
-			hadObjectionPeriod: Schema.Types.Boolean,
-			previousStatuses: [
+		proposalThreshold: { type: Schema.Types.Number, required: true },
+		quorumVotes: { type: Schema.Types.Number, required: true },
+		clientId: Schema.Types.Number,
+		description: { type: Schema.Types.String, required: true },
+		feedback: {
+			type: [
 				{
-					eventName: Schema.Types.String,
-					blockNumber: Schema.Types.String
+					feedbacker: { type: Schema.Types.String, required: true },
+					support: { type: Schema.Types.String, required: true },
+					reason: { type: Schema.Types.String, required: true },
+					blockNumber: { type: Schema.Types.String, required: true }
 				}
 			],
-			currentStatus: Schema.Types.String,
-			wasUpdated: Schema.Types.Boolean,
-			updateMessages: [
+			required: true
+		},
+		votes: {
+			type: [
 				{
-					updateMessage: Schema.Types.String,
-					blockNumber: Schema.Types.String
+					votes: { type: Schema.Types.Number, required: true },
+					reason: { type: Schema.Types.String, required: true },
+					voter: { type: Schema.Types.String, required: true },
+					blockNumber: { type: Schema.Types.String, required: true },
+					support: { type: Schema.Types.String, required: true }
 				}
-			]
+			],
+			required: true
+		},
+		status: {
+			type: {
+				wasCreatedOnTimelock: { type: Schema.Types.Boolean, required: true },
+				hadObjectionPeriod: { type: Schema.Types.Boolean, required: true },
+				previousStatuses: {
+					type: [
+						{
+							eventName: { type: Schema.Types.String, required: true },
+							blockNumber: { type: Schema.Types.String, required: true },
+							eta: Schema.Types.String
+						}
+					],
+					required: true
+				},
+				wasUpdated: { type: Schema.Types.Boolean, required: true },
+				updateMessages: {
+					type: [
+						{
+							updateMessage: { type: Schema.Types.String, required: true },
+							blockNumber: { type: Schema.Types.String, required: true }
+						}
+					],
+					required: true
+				}
+			},
+			required: true
 		},
 		fork: {
-			blamedIn: [
-				{
-					forkId: Schema.Types.Number,
-					reason: Schema.Types.String,
-					blockNumber: Schema.Types.String,
-					forker: Schema.Types.String,
-					eventName: Schema.Types.String
+			type: {
+				blamedIn: {
+					type: [
+						{
+							forkId: { type: Schema.Types.Number, required: true },
+							reason: { type: Schema.Types.String, required: true },
+							blockNumber: { type: Schema.Types.String, required: true },
+							forker: { type: Schema.Types.String, required: true },
+							eventName: { type: Schema.Types.String, required: true }
+						}
+					],
+					required: true
 				}
-			]
+			},
+			required: true
 		}
 	},
 	{ collection: "proposals", versionKey: false, _id: false }
 );
 
 ProposalCreatedWithRequirements.db.createCollection("proposals", {
-	viewOn: "proposalcreatedwithrequirements",
+	viewOn: "proposalcreateds",
 	pipeline: [
 		{
 			$project: {
 				proposalId: "$id",
 				_id: 0,
 				proposer: "$proposer.id",
-				signers: 1,
 				transactions: {
 					targets: "$targets",
 					values: "$values",
@@ -86,10 +116,77 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 				},
 				startBlock: 1,
 				endBlock: 1,
-				updatePeriodEndBlock: 1,
-				proposalThreshold: 1,
-				quorumVotes: 1,
 				description: 1
+			}
+		},
+		{
+			$lookup: {
+				from: "proposalcreatedwithrequirements",
+				localField: "proposalId",
+				foreignField: "id",
+				as: "proposalCreatedWithRequirements",
+				pipeline: [
+					{
+						$project: {
+							_id: 0,
+							signers: 1,
+							updatePeriodEndBlock: 1,
+							proposalThreshold: 1,
+							quorumVotes: 1,
+							clientId: 1
+						}
+					}
+				]
+			}
+		},
+		{
+			$project: {
+				startBlock: 1,
+				endBlock: 1,
+				description: 1,
+				proposalId: 1,
+				proposer: 1,
+				transactions: 1,
+				signers: {
+					$getField: {
+						field: "signers",
+						input: {
+							$first: "$proposalCreatedWithRequirements"
+						}
+					}
+				},
+				updatePeriodEndBlock: {
+					$getField: {
+						field: "updatePeriodEndBlock",
+						input: {
+							$first: "$proposalCreatedWithRequirements"
+						}
+					}
+				},
+				proposalThreshold: {
+					$getField: {
+						field: "proposalThreshold",
+						input: {
+							$first: "$proposalCreatedWithRequirements"
+						}
+					}
+				},
+				quorumVotes: {
+					$getField: {
+						field: "quorumVotes",
+						input: {
+							$first: "$proposalCreatedWithRequirements"
+						}
+					}
+				},
+				clientId: {
+					$getField: {
+						field: "clientId",
+						input: {
+							$first: "$proposalCreatedWithRequirements"
+						}
+					}
+				}
 			}
 		},
 		{
@@ -208,6 +305,7 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 				transactions: 1,
 				votes: 1,
 				feedback: 1,
+				clientId: 1,
 				status: {
 					wasCreatedOnTimelock: {
 						$toBool: {
@@ -298,7 +396,8 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 						$concatArrays: ["$escrows", "$joins"]
 					}
 				},
-				updatePeriodEndBlock: 1
+				updatePeriodEndBlock: 1,
+				clientId: 1
 			}
 		},
 		{
@@ -345,6 +444,7 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 						$project: {
 							_id: 0,
 							eventName: "Queued",
+							eta: 1,
 							blockNumber: "$event.blockNumber"
 						}
 					}
@@ -390,52 +490,8 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 					hadObjectionPeriod: 1
 				},
 				fork: 1,
-				updatePeriodEndBlock: 1
-			}
-		},
-		{
-			$project: {
-				signers: 1,
-				startBlock: 1,
-				endBlock: 1,
-				proposalThreshold: 1,
-				quorumVotes: 1,
-				description: 1,
-				proposalId: 1,
-				proposer: 1,
-				transactions: 1,
-				votes: 1,
-				feedback: 1,
-				status: {
-					previousStatuses: 1,
-					wasCreatedOnTimelock: 1,
-					hadObjectionPeriod: 1,
-					currentStatus: {
-						$cond: {
-							if: {
-								$size: "$status.previousStatuses"
-							},
-							then: {
-								$getField: {
-									field: "eventName",
-									input: {
-										$first: {
-											$sortArray: {
-												input: "$status.previousStatuses",
-												sortBy: {
-													blockNumber: -1
-												}
-											}
-										}
-									}
-								}
-							},
-							else: "Defeated"
-						}
-					}
-				},
-				fork: 1,
-				updatePeriodEndBlock: 1
+				updatePeriodEndBlock: 1,
+				clientId: 1
 			}
 		},
 		{
@@ -560,7 +616,6 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 					wasCreatedOnTimelock: 1,
 					hadObjectionPeriod: 1,
 					previousStatuses: 1,
-					currentStatus: 1,
 					wasUpdated: {
 						$toBool: {
 							$sum: [
@@ -593,7 +648,8 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 						}
 					}
 				},
-				updatePeriodEndBlock: 1
+				updatePeriodEndBlock: 1,
+				clientId: 1
 			}
 		}
 	]

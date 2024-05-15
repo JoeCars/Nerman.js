@@ -110,6 +110,7 @@ nouns.trigger("NounCreated", {
 	<tr>
 		<th> Contract </th>
 		<th> Address </th>
+		<th> Notes </th>
 	</tr>
 	<tr>
 		<td> Treasury / Executor </td>
@@ -132,6 +133,32 @@ nouns.trigger("NounCreated", {
 		<td> 
 			<a href="https://etherscan.io/address/0xd97Bcd9f47cEe35c0a9ec1dc40C1269afc9E8E1D">
 				0xd97Bcd9f47cEe35c0a9ec1dc40C1269afc9E8E1D
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td> AuctionHouseV2 </td>
+		<td> 
+			<a href="https://etherscan.io/address/0x830BD73E4184ceF73443C15111a1DF14e495C706">
+				0x830BD73E4184ceF73443C15111a1DF14e495C706
+			</a>
+		</td>
+		<td>
+			Change to V2 with Proposal 532, executed on block 
+			<a href = "https://etherscan.io/tx/0xd5ff1526564cf3713bcfa00f0462a3157a9a07f4b2446ec20c3f2d086943ad4c"> 			19810422 
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td> LogicV4 </td>
+		<td> 
+			<a href="https://etherscan.io/address/0x6f3E6272A167e8AcCb32072d08E0957F9c79223d">
+				0x6f3E6272A167e8AcCb32072d08E0957F9c79223d
+			</a>
+		</td>
+		<td>
+			Change to V4 with Proposal 532, executed on block
+			<a href = "https://etherscan.io/tx/0xd5ff1526564cf3713bcfa00f0462a3157a9a07f4b2446ec20c3f2d086943ad4c"> 			19810422 
 			</a>
 		</td>
 	</tr>
