@@ -70,14 +70,13 @@ const proposalSchema = new Schema(
 );
 
 ProposalCreatedWithRequirements.db.createCollection("proposals", {
-	viewOn: "proposalcreatedwithrequirements",
+	viewOn: "proposalcreateds",
 	pipeline: [
 		{
 			$project: {
 				proposalId: "$id",
 				_id: 0,
 				proposer: "$proposer.id",
-				signers: 1,
 				transactions: {
 					targets: "$targets",
 					values: "$values",
@@ -86,10 +85,77 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 				},
 				startBlock: 1,
 				endBlock: 1,
-				updatePeriodEndBlock: 1,
-				proposalThreshold: 1,
-				quorumVotes: 1,
 				description: 1
+			}
+		},
+		{
+			$lookup: {
+				from: "proposalcreatedwithrequirements",
+				localField: "proposalId",
+				foreignField: "id",
+				as: "proposalCreatedWithRequirements",
+				pipeline: [
+					{
+						$project: {
+							_id: 0,
+							signers: 1,
+							updatePeriodEndBlock: 1,
+							proposalThreshold: 1,
+							quorumVotes: 1,
+							clientId: 1
+						}
+					}
+				]
+			}
+		},
+		{
+			$project: {
+				startBlock: 1,
+				endBlock: 1,
+				description: 1,
+				proposalId: 1,
+				proposer: 1,
+				transactions: 1,
+				signers: {
+					$getField: {
+						field: "signers",
+						input: {
+							$first: "$proposalCreatedWithRequirements"
+						}
+					}
+				},
+				updatePeriodEndBlock: {
+					$getField: {
+						field: "updatePeriodEndBlock",
+						input: {
+							$first: "$proposalCreatedWithRequirements"
+						}
+					}
+				},
+				proposalThreshold: {
+					$getField: {
+						field: "proposalThreshold",
+						input: {
+							$first: "$proposalCreatedWithRequirements"
+						}
+					}
+				},
+				quorumVotes: {
+					$getField: {
+						field: "quorumVotes",
+						input: {
+							$first: "$proposalCreatedWithRequirements"
+						}
+					}
+				},
+				clientId: {
+					$getField: {
+						field: "clientId",
+						input: {
+							$first: "$proposalCreatedWithRequirements"
+						}
+					}
+				}
 			}
 		},
 		{
@@ -208,6 +274,7 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 				transactions: 1,
 				votes: 1,
 				feedback: 1,
+				clientId: 1,
 				status: {
 					wasCreatedOnTimelock: {
 						$toBool: {
@@ -298,7 +365,8 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 						$concatArrays: ["$escrows", "$joins"]
 					}
 				},
-				updatePeriodEndBlock: 1
+				updatePeriodEndBlock: 1,
+				clientId: 1
 			}
 		},
 		{
@@ -345,6 +413,7 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 						$project: {
 							_id: 0,
 							eventName: "Queued",
+							eta: 1,
 							blockNumber: "$event.blockNumber"
 						}
 					}
@@ -390,52 +459,8 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 					hadObjectionPeriod: 1
 				},
 				fork: 1,
-				updatePeriodEndBlock: 1
-			}
-		},
-		{
-			$project: {
-				signers: 1,
-				startBlock: 1,
-				endBlock: 1,
-				proposalThreshold: 1,
-				quorumVotes: 1,
-				description: 1,
-				proposalId: 1,
-				proposer: 1,
-				transactions: 1,
-				votes: 1,
-				feedback: 1,
-				status: {
-					previousStatuses: 1,
-					wasCreatedOnTimelock: 1,
-					hadObjectionPeriod: 1,
-					currentStatus: {
-						$cond: {
-							if: {
-								$size: "$status.previousStatuses"
-							},
-							then: {
-								$getField: {
-									field: "eventName",
-									input: {
-										$first: {
-											$sortArray: {
-												input: "$status.previousStatuses",
-												sortBy: {
-													blockNumber: -1
-												}
-											}
-										}
-									}
-								}
-							},
-							else: "Defeated"
-						}
-					}
-				},
-				fork: 1,
-				updatePeriodEndBlock: 1
+				updatePeriodEndBlock: 1,
+				clientId: 1
 			}
 		},
 		{
@@ -560,7 +585,6 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 					wasCreatedOnTimelock: 1,
 					hadObjectionPeriod: 1,
 					previousStatuses: 1,
-					currentStatus: 1,
 					wasUpdated: {
 						$toBool: {
 							$sum: [
@@ -593,7 +617,8 @@ ProposalCreatedWithRequirements.db.createCollection("proposals", {
 						}
 					}
 				},
-				updatePeriodEndBlock: 1
+				updatePeriodEndBlock: 1,
+				clientId: 1
 			}
 		}
 	]
