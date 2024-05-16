@@ -16,12 +16,7 @@ export { default as Snapshot } from "./contracts/snapshot";
 export { IndexerWriter } from "./indexing/IndexerWriter";
 export { IndexerReader } from "./indexing/IndexerReader";
 export { Indexer } from "./indexing/Indexer";
-export {
-	DatabaseIndexer,
-	connectToDatabase,
-	ConversionRateManager,
-	calculateAuctionsSummary
-} from "./utilities/indexer/database-indexer";
+export { DatabaseIndexer, ConversionRateManager } from "./utilities/indexer/database-indexer";
 export * as DbEventModels from "./utilities/indexer/schemas/events";
 export { default as DbNounsModel } from "./utilities/indexer/schemas/Nouns";
 export { default as DbProposalsModel } from "./utilities/indexer/schemas/Proposals";

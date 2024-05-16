@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { ProposalCreatedWithRequirements } from "./events";
-import { connectToDatabase } from "../database-indexer";
 
 const proposalSchema = new Schema(
 	{
