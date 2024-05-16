@@ -473,7 +473,7 @@ export class ConversionRateManager {
 		}, DELAY_IN_MS);
 	}
 
-	static async convertEthToUsd(ethAmount: number, date = new Date()) {
+	async convertEthToUsdByDate(ethAmount: number, date = new Date()) {
 		const formattedDate = formatDate(date);
 		const conversionRate = await ETHConversionRate.findOne({ date: new Date(formattedDate) }).exec();
 		if (!conversionRate) {
@@ -482,7 +482,12 @@ export class ConversionRateManager {
 		return conversionRate.usdPerEth * ethAmount;
 	}
 
-	static async fetchUsdPerEth(date = new Date()) {
+	async convertEthToUsdByBlockNumber(ethAmount: number, blockNumber: number) {
+		const date = await fetchDate(this.provider, blockNumber);
+		return this.convertEthToUsdByDate(ethAmount, new Date(date));
+	}
+
+	async fetchUsdPerEth(date = new Date()) {
 		const formattedDate = formatDate(date);
 		const conversionRate = await ETHConversionRate.findOne({ date: new Date(formattedDate) }).exec();
 		if (!conversionRate) {
