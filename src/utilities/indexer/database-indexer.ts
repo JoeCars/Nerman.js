@@ -25,14 +25,6 @@ import {
 	NounsDaoEventManager,
 	NounsTokenEventManager
 } from "./contract-event-manager";
-import { BlockchainEventFetcher } from "./blockchain-event-fetcher";
-
-import {
-	NounsAuctionFormatter,
-	NounsDaoDataFormatter,
-	NounsDaoFormatter,
-	NounsTokenFormatter
-} from "./contract-event-formatter";
 
 const MILLISECONDS_PER_SECOND = 1_000;
 const DELAY_IN_MS = 500;
