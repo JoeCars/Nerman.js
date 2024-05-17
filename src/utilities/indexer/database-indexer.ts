@@ -1,5 +1,4 @@
-import { Contract, ethers, JsonRpcProvider, WeiPerEther } from "ethers-v6";
-import mongoose from "mongoose";
+import { JsonRpcProvider } from "ethers-v6";
 
 import { NOUNS_STARTING_BLOCK } from "../../constants";
 import * as eventSchemas from "./schemas/events";
@@ -25,8 +24,8 @@ import {
 	NounsDaoEventManager,
 	NounsTokenEventManager
 } from "./contract-event-manager";
+import { BlockToDateConverter, DateFormatter } from "../dates";
 
-const MILLISECONDS_PER_SECOND = 1_000;
 const DELAY_IN_MS = 500;
 
 type CoinbaseConversionResult = {
@@ -38,7 +37,7 @@ type CoinbaseConversionResult = {
 };
 
 export class DatabaseIndexer {
-	private provider: ethers.JsonRpcProvider;
+	private provider: JsonRpcProvider;
 	private nounsDao: _NounsDAO;
 	private nounsDaoData: _NounsDAOData;
 	private nounsAuctionHouse: _NounsAuctionHouse;
@@ -372,49 +371,10 @@ export class DatabaseIndexer {
 	}
 }
 
-export async function fetchBlockTimestamp(provider: ethers.JsonRpcProvider, blockNum: number | string | bigint) {
-	const block = await provider.getBlock(blockNum);
-	return block ? block.timestamp : 0;
-}
-
-export async function fetchDate(provider: ethers.JsonRpcProvider, blockNum: number | string | bigint) {
-	const timestamp = await fetchBlockTimestamp(provider, blockNum);
-	const date = formatDate(timestamp);
-	return date;
-}
-
-/**
- * @param timestamp either the seconds since unix time, a string date, or a date object
- * @returns a date string formatted as "yyyy-mm-dd"
- */
-export function formatDate(timestamp: number | string | Date) {
-	let date: Date;
-	if (typeof timestamp === "number") {
-		date = new Date(timestamp * MILLISECONDS_PER_SECOND);
-	} else if (typeof timestamp === "string") {
-		date = new Date(timestamp);
-	} else {
-		date = timestamp;
-	}
-
-	const year = date.getUTCFullYear();
-	const month = date.getUTCMonth() + 1; // getUTCMonth is 0 indexed.
-	const day = date.getUTCDate();
-
-	const formattedDate = `${year}-${month >= 10 ? month : `0${month}`}-${day >= 10 ? day : `0${day}`}`;
-	return formattedDate;
-}
-
-export function incrementDate(date: string) {
-	const oldDate = new Date(date);
-	const newDate = new Date(oldDate);
-	newDate.setUTCDate(oldDate.getUTCDate() + 1);
-	const formattedDate = formatDate(newDate);
-	return formattedDate;
-}
-
 export class ConversionRateManager {
 	private provider: JsonRpcProvider;
+	private blockToDateConverter: BlockToDateConverter;
+	private dateFormatter: DateFormatter;
 
 	public constructor(provider: JsonRpcProvider | string) {
 		if (typeof provider === "string") {
@@ -422,6 +382,9 @@ export class ConversionRateManager {
 		} else {
 			this.provider = provider;
 		}
+
+		this.dateFormatter = new DateFormatter();
+		this.blockToDateConverter = new BlockToDateConverter(this.provider, this.dateFormatter);
 	}
 
 	private async fetchConversionRate(date: string) {
@@ -441,10 +404,10 @@ export class ConversionRateManager {
 	private async fetchInitialDate() {
 		const newestConversionRate = await ETHConversionRate.findOne().sort({ date: -1 }).exec();
 		if (newestConversionRate) {
-			let date = formatDate(newestConversionRate.date);
-			return incrementDate(date);
+			let date = this.dateFormatter.formatDate(newestConversionRate.date);
+			return this.dateFormatter.incrementDate(date);
 		} else {
-			return fetchDate(this.provider, NOUNS_STARTING_BLOCK);
+			return this.blockToDateConverter.fetchDate(NOUNS_STARTING_BLOCK);
 		}
 	}
 
@@ -469,12 +432,12 @@ export class ConversionRateManager {
 				date: date
 			});
 
-			date = incrementDate(date);
+			date = this.dateFormatter.incrementDate(date);
 		}, DELAY_IN_MS);
 	}
 
 	async convertEthToUsdByDate(ethAmount: number, date = new Date()) {
-		const formattedDate = formatDate(date);
+		const formattedDate = this.dateFormatter.formatDate(date);
 		const conversionRate = await ETHConversionRate.findOne({ date: new Date(formattedDate) }).exec();
 		if (!conversionRate) {
 			throw new Error(`Unable to find conversion rate for ${date}`);
@@ -483,12 +446,12 @@ export class ConversionRateManager {
 	}
 
 	async convertEthToUsdByBlockNumber(ethAmount: number, blockNumber: number) {
-		const date = await fetchDate(this.provider, blockNumber);
+		const date = await this.blockToDateConverter.fetchDate(blockNumber);
 		return this.convertEthToUsdByDate(ethAmount, new Date(date));
 	}
 
 	async fetchUsdPerEth(date = new Date()) {
-		const formattedDate = formatDate(date);
+		const formattedDate = this.dateFormatter.formatDate(date);
 		const conversionRate = await ETHConversionRate.findOne({ date: new Date(formattedDate) }).exec();
 		if (!conversionRate) {
 			throw new Error(
