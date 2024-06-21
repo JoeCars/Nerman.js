@@ -21,3 +21,4 @@ export * as DbEventModels from "./utilities/indexer/schemas/events";
 export { default as DbNounsModel } from "./utilities/indexer/schemas/Nouns";
 export { default as DbProposalsModel } from "./utilities/indexer/schemas/Proposals";
 export { BlockToDateConverter, DateFormatter } from "./utilities/dates";
+export { WalletTokenFinder } from "./utilities/tokens";
