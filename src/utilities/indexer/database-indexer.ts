@@ -1,4 +1,5 @@
 import { JsonRpcProvider } from "ethers-v6";
+import mongoose from "mongoose";
 
 import { NOUNS_STARTING_BLOCK } from "../../constants";
 import * as eventSchemas from "./schemas/events";
@@ -71,10 +72,7 @@ export class DatabaseIndexer {
 
 		const indexedEvents = (await contractManager.fetchFormattedEvents(eventName, startBlock, endBlock)) as FormattedEvent[];
 
-		await this.writeToDatabase(eventName, indexedEvents);
-		console.log(new Date(), eventName, "written to database");
-		await this.updateMetaData(eventName, endBlock);
-		console.log(new Date(), eventName, "meta-data updated");
+		await this.insertObjectsAndUpdateMetadata(eventName, endBlock, indexedEvents);
 	}
 
 	private async indexAll() {
@@ -156,6 +154,16 @@ export class DatabaseIndexer {
 		} else {
 			throw new Error(`${eventName} is not supported.`);
 		}
+	}
+
+	private async insertObjectsAndUpdateMetadata(eventName: string, endBlock: number, indexedEvents: FormattedEvent[]) {
+		const session = await mongoose.startSession();
+		await session.withTransaction(async () => {
+			await this.writeToDatabase(eventName, indexedEvents);
+			await this.updateMetaData(eventName, endBlock);
+		});
+		await session.endSession();
+		console.log(new Date(), eventName, "written to database");
 	}
 
 	private async writeToDatabase(eventName: string, indexedEvents: FormattedEvent[]) {
