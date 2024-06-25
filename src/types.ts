@@ -1341,13 +1341,13 @@ export namespace EventData {
 		/** Transaction target. */
 		target: Account;
 		/** Transaction value. */
-		value: bigint;
+		value: bigint | string;
 		/** Transaction signature. */
 		signature: string;
 		/** Transaction data. */
 		data: string;
 		/** Transaction eta. */
-		eta: bigint;
+		eta: bigint | string;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1359,7 +1359,7 @@ export namespace EventData {
 		/** Contract address of token being sent. */
 		erc20Token: Account;
 		/** Amount of tokens sent. */
-		amount: bigint;
+		amount: bigint | string;
 		/** Whether the transfer was successful or not. */
 		success: boolean;
 		/** Event meta data. */
@@ -1371,7 +1371,7 @@ export namespace EventData {
 		/** Eth recipient. */
 		to: Account;
 		/** Eth amount. */
-		amount: bigint;
+		amount: bigint | string;
 		/** Whether the transfer was successful or not. */
 		success: boolean;
 		/** Event meta data. */
@@ -1385,13 +1385,13 @@ export namespace EventData {
 		/** Transaction target. */
 		target: Account;
 		/** Transaction value. */
-		value: bigint;
+		value: bigint | string;
 		/** Transaction signature. */
 		signature: string;
 		/** Transaction data. */
 		data: string;
 		/** Transaction eta. */
-		eta: bigint;
+		eta: bigint | string;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1399,7 +1399,7 @@ export namespace EventData {
 	/** {@link https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L111 | Github} */
 	export interface NewDelay {
 		/** Delay as a timestamp between 2 to 30 days, indicating when a queued transaction will be executed. */
-		newDelay: bigint;
+		newDelay: bigint | string;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1411,13 +1411,13 @@ export namespace EventData {
 		/** Transaction target. */
 		target: Account;
 		/** Transaction value. */
-		value: bigint;
+		value: bigint | string;
 		/** Transaction signature. */
 		signature: string;
 		/** Transaction data. */
 		data: string;
 		/** Transaction eta. */
-		eta: bigint;
+		eta: bigint | string;
 		/** Event meta data. */
 		event: Event;
 	}
