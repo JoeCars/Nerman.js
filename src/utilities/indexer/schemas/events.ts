@@ -36,7 +36,10 @@ const DAONounsSupplyIncreasedFromEscrowSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -57,7 +60,10 @@ const DAOWithdrawNounsFromEscrowSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -75,7 +81,10 @@ const ERC20TokensToIncludeInForkSetSchema = new Schema(
 			type: [Schema.Types.String],
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -105,7 +114,10 @@ const EscrowedToForkSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -135,7 +147,10 @@ const ExecuteForkSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -153,7 +168,10 @@ const ForkDAODeployerSetSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -171,7 +189,10 @@ const ForkPeriodSetSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -189,7 +210,10 @@ const ForkThresholdSetSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -219,7 +243,10 @@ const JoinForkSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -237,7 +264,10 @@ const LastMinuteWindowSetSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -255,7 +285,10 @@ const MaxQuorumVotesBPSSetSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -273,7 +306,10 @@ const MinQuorumVotesBPSSetSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -291,7 +327,10 @@ const NewAdminSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -309,7 +348,10 @@ const NewImplementationSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -327,7 +369,10 @@ const NewPendingAdminSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -345,7 +390,10 @@ const NewPendingVetoerSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -363,7 +411,10 @@ const NewVetoerSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -381,7 +432,10 @@ const ObjectionPeriodDurationSetSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -395,7 +449,10 @@ const ProposalCanceledSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -441,7 +498,10 @@ const ProposalCreatedSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -455,7 +515,10 @@ const ProposalCreatedOnTimelockV1Schema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -488,7 +551,10 @@ const ProposalCreatedWithRequirementsSchema = new Schema(
 		},
 		description: Schema.Types.String,
 		clientId: Schema.Types.Number,
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -514,7 +580,10 @@ const ProposalDescriptionUpdatedSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -528,7 +597,10 @@ const ProposalExecutedSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -546,7 +618,10 @@ const ProposalObjectionPeriodSetSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -564,7 +639,10 @@ const ProposalQueuedSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -582,7 +660,10 @@ const ProposalThresholdBPSSetSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -620,7 +701,10 @@ const ProposalTransactionsUpdatedSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -638,7 +722,10 @@ const ProposalUpdatablePeriodSetSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -680,7 +767,10 @@ const ProposalUpdatedSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -694,7 +784,10 @@ const ProposalVetoedSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -712,7 +805,10 @@ const QuitSchema = new Schema(
 			type: [Schema.Types.Number],
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -730,7 +826,10 @@ const QuorumCoefficientSetSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -748,7 +847,10 @@ const QuorumVotesBPSSetSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -770,7 +872,10 @@ const RefundableVoteSchema = new Schema(
 			type: Schema.Types.Boolean,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -788,7 +893,10 @@ const SignatureCancelledSchema = new Schema(
 			type: Schema.Types.Mixed,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -810,7 +918,10 @@ const TimelocksAndAdminSetSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -840,7 +951,10 @@ const VoteCastSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -862,7 +976,10 @@ const VoteCastWithClientIdSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -880,7 +997,10 @@ const VoteSnapshotBlockSwitchProposalIdSetSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -901,7 +1021,10 @@ const VotingDelaySetSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -919,7 +1042,10 @@ const VotingPeriodSetSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -937,7 +1063,10 @@ const WithdrawSchema = new Schema(
 			type: Schema.Types.Boolean,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -959,7 +1088,10 @@ const WithdrawFromForkEscrowSchema = new Schema(
 			type: [Schema.Types.Number],
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -989,7 +1121,10 @@ const AuctionBidSchema = new Schema(
 			type: Schema.Types.Boolean,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1011,7 +1146,10 @@ const AuctionBidWithClientIdSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1033,7 +1171,10 @@ const AuctionCreatedSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1051,7 +1192,10 @@ const AuctionExtendedSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1065,7 +1209,10 @@ const AuctionMinBidIncrementPercentageUpdatedSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1082,7 +1229,10 @@ const AuctionReservePriceUpdatedSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1104,7 +1254,10 @@ const AuctionSettledSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1122,7 +1275,10 @@ const AuctionSettledWithClientIdSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1136,7 +1292,10 @@ const AuctionTimeBufferUpdatedSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1154,7 +1313,10 @@ const OwnershipTransferredSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1168,7 +1330,10 @@ const PausedSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1182,7 +1347,10 @@ const UnpausedSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1212,7 +1380,10 @@ const DelegateChangedSchema = new Schema(
 			type: Schema.Types.Number,
 			required: false
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1234,7 +1405,10 @@ const DelegateVotesChangedSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1256,7 +1430,10 @@ const TransferSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1278,7 +1455,10 @@ const ApprovalSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1300,7 +1480,10 @@ const ApprovalForAllSchema = new Schema(
 			type: Schema.Types.Boolean,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1310,7 +1493,10 @@ export const ApprovalForAll = model("ApprovalForAll", ApprovalForAllSchema);
 
 const DescriptorLockedSchema = new Schema(
 	{
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1324,7 +1510,10 @@ const DescriptorUpdatedSchema = new Schema(
 			type: AccountSchema,
 			required: false
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1334,7 +1523,10 @@ export const DescriptorUpdated = model("DescriptorUpdated", DescriptorUpdatedSch
 
 const MinterLockedSchema = new Schema(
 	{
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1348,7 +1540,10 @@ const MinterUpdatedSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1362,7 +1557,10 @@ const NounBurnedSchema = new Schema(
 			type: Schema.Types.Number,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1398,7 +1596,10 @@ const NounCreatedSchema = new Schema(
 				required: true
 			}
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1412,7 +1613,10 @@ const NoundersDAOUpdatedSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1422,7 +1626,10 @@ export const NoundersDAOUpdated = model("NoundersDAOUpdated", NoundersDAOUpdated
 
 const SeederLockedSchema = new Schema(
 	{
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1436,7 +1643,10 @@ const SeederUpdatedSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1454,7 +1664,10 @@ const CreateCandidateCostSetSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1476,7 +1689,10 @@ const AdminChangedSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1490,7 +1706,10 @@ const BeaconUpgradedSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1520,7 +1739,10 @@ const CandidateFeedbackSentSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1538,7 +1760,10 @@ const ETHWithdrawnSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1556,7 +1781,10 @@ const FeeRecipientSetSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1582,7 +1810,10 @@ const FeedbackSentSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1600,7 +1831,10 @@ const ProposalCandidateCanceledSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1646,7 +1880,10 @@ const ProposalCandidateCreatedSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1696,7 +1933,10 @@ const ProposalCandidateUpdatedSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1742,7 +1982,10 @@ const SignatureAddedSchema = new Schema(
 			type: Schema.Types.String,
 			default: ""
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1760,7 +2003,10 @@ const UpdateCandidateCostSetSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
@@ -1774,7 +2020,10 @@ const UpgradedSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		event: EventSchema
+		event: {
+			type: EventSchema,
+			required: true
+		}
 	},
 	{
 		timestamps: true
