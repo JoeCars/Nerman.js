@@ -5,12 +5,14 @@ import {
 	NounsAuctionFormatter,
 	NounsDaoDataFormatter,
 	NounsDaoFormatter,
+	NounsExecutorFormatter,
 	NounsTokenFormatter
 } from "./contract-event-formatter";
 import { ContractEventFetchAndFormatter } from "./contract-fetch-and-formatter";
 import {
 	createNounsAuctionHouseV2Contract,
 	createNounsDaoDataContract,
+	createNounsDaoExecutorContract,
 	createNounsDaoLogicV3Contract,
 	createNounsDaoLogicV4Contract,
 	createNounsTokenContract
@@ -280,6 +282,39 @@ export class NounsDaoDataEventManager implements ContractEventManager {
 			case "ProposalCandidateUpdated":
 			case "SignatureAdded":
 			case "UpdateCandidateCostSet":
+			case "Upgraded":
+				return this.fetcherAndFormatter.fetchAndFormatEvent(eventName, startBlock, endBlock);
+			default:
+				throw new Error(`${eventName} is not supported.`);
+		}
+	}
+}
+
+export class NounsExecutorEventManager implements ContractEventManager {
+	private fetcherAndFormatter: ContractEventFetchAndFormatter;
+
+	constructor(eventFetcher: BlockchainEventFetcher, eventFormatter: NounsExecutorFormatter) {
+		this.fetcherAndFormatter = new ContractEventFetchAndFormatter(eventFetcher, eventFormatter);
+	}
+
+	public static create(provider: JsonRpcProvider) {
+		const fetcher = new BlockchainEventFetcher(createNounsDaoExecutorContract(provider));
+		const formatter = new NounsExecutorFormatter();
+		return new NounsExecutorEventManager(fetcher, formatter);
+	}
+
+	async fetchFormattedEvents(eventName: string, startBlock: number, endBlock: number) {
+		switch (eventName) {
+			case "AdminChanged":
+			case "BeaconUpgraded":
+			case "CancelTransaction":
+			case "ERC20Sent":
+			case "ETHSent":
+			case "ExecuteTransaction":
+			case "NewAdmin":
+			case "NewDelay":
+			case "NewPendingAdmin":
+			case "QueueTransaction":
 			case "Upgraded":
 				return this.fetcherAndFormatter.fetchAndFormatEvent(eventName, startBlock, endBlock);
 			default:
