@@ -1781,3 +1781,159 @@ const UpgradedSchema = new Schema(
 	}
 );
 export const Upgraded = model("Upgraded", UpgradedSchema);
+
+// ================================
+// Nouns Executor
+// ================================
+
+const CancelTransactionSchema = new Schema({
+	txHash: {
+		type: Schema.Types.String,
+		required: true
+	},
+	target: {
+		type: AccountSchema,
+		required: true
+	},
+	value: {
+		type: Schema.Types.String,
+		required: true
+	},
+	signature: {
+		type: Schema.Types.String,
+		required: true
+	},
+	data: {
+		type: Schema.Types.String,
+		required: true
+	},
+	eta: {
+		type: Schema.Types.String,
+		required: true
+	},
+	event: {
+		type: EventSchema,
+		required: true
+	}
+});
+export const CancelTransaction = model("CancelTransaction", CancelTransactionSchema);
+
+const ERC20SentSchema = new Schema({
+	to: {
+		type: AccountSchema,
+		required: true
+	},
+	erc20Token: {
+		type: AccountSchema,
+		required: true
+	},
+	amount: {
+		type: Schema.Types.String,
+		required: true
+	},
+	success: {
+		type: Schema.Types.Boolean,
+		required: true
+	},
+	event: {
+		type: EventSchema,
+		required: true
+	}
+});
+export const ERC20Sent = model("ERC20Sent", ERC20SentSchema);
+
+const ETHSentSchema = new Schema({
+	to: {
+		type: AccountSchema,
+		required: true
+	},
+	amount: {
+		type: Schema.Types.String,
+		required: true
+	},
+	success: {
+		type: Schema.Types.Boolean,
+		required: true
+	},
+	event: {
+		type: EventSchema,
+		required: true
+	}
+});
+export const ETHSent = model("ETHSent", ETHSentSchema);
+
+const ExecuteTransactionSchema = new Schema({
+	txHash: {
+		type: Schema.Types.String,
+		required: true
+	},
+	target: {
+		type: AccountSchema,
+		required: true
+	},
+	value: {
+		type: Schema.Types.String,
+		required: true
+	},
+	signature: {
+		type: Schema.Types.String,
+		required: true
+	},
+	data: {
+		type: Schema.Types.String,
+		required: true
+	},
+	eta: {
+		type: Schema.Types.String,
+		required: true
+	},
+	event: {
+		type: EventSchema,
+		required: true
+	}
+});
+export const ExecuteTransaction = model("ExecuteTransaction", ExecuteTransactionSchema);
+
+const NewDelaySchema = new Schema({
+	newDelay: {
+		type: Schema.Types.String,
+		required: true
+	},
+	event: {
+		type: EventSchema,
+		required: true
+	}
+});
+export const NewDelay = model("NewDelay", NewDelaySchema);
+
+const QueueTransactionSchema = new Schema({
+	txHash: {
+		type: Schema.Types.String,
+		required: true
+	},
+	target: {
+		type: AccountSchema,
+		required: true
+	},
+	value: {
+		type: Schema.Types.String,
+		required: true
+	},
+	signature: {
+		type: Schema.Types.String,
+		required: true
+	},
+	data: {
+		type: Schema.Types.String,
+		required: true
+	},
+	eta: {
+		type: Schema.Types.String,
+		required: true
+	},
+	event: {
+		type: EventSchema,
+		required: true
+	}
+});
+export const QueueTransaction = model("QueueTransaction", QueueTransactionSchema);
