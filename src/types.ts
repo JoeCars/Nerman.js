@@ -1360,8 +1360,6 @@ export namespace EventData {
 		erc20Token: Account;
 		/** Amount of tokens sent. */
 		amount: bigint | string;
-		/** Whether the transfer was successful or not. */
-		success: boolean;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1372,8 +1370,6 @@ export namespace EventData {
 		to: Account;
 		/** Eth amount. */
 		amount: bigint | string;
-		/** Whether the transfer was successful or not. */
-		success: boolean;
 		/** Event meta data. */
 		event: Event;
 	}

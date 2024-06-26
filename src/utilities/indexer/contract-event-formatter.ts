@@ -1410,7 +1410,6 @@ export class NounsExecutorFormatter implements ContractEventFormatter {
 			to: { id: event.args!.to },
 			erc20Token: { id: event.args!.erc20Token },
 			amount: event.args!.amount.toString(),
-			success: event.args!.success,
 			event: {
 				blockNumber: event.blockNumber,
 				blockHash: event.blockHash,
@@ -1423,7 +1422,6 @@ export class NounsExecutorFormatter implements ContractEventFormatter {
 		return {
 			to: { id: event.args!.to },
 			amount: event.args!.amount.toString(),
-			success: event.args!.success,
 			event: {
 				blockNumber: event.blockNumber,
 				blockHash: event.blockHash,

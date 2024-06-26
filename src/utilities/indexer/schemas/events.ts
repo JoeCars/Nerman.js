@@ -2086,10 +2086,6 @@ const ERC20SentSchema = new Schema(
 			type: Schema.Types.String,
 			required: true
 		},
-		success: {
-			type: Schema.Types.Boolean,
-			required: true
-		},
 		event: {
 			type: EventSchema,
 			required: true
@@ -2109,10 +2105,6 @@ const ETHSentSchema = new Schema(
 		},
 		amount: {
 			type: Schema.Types.String,
-			required: true
-		},
-		success: {
-			type: Schema.Types.Boolean,
 			required: true
 		},
 		event: {
