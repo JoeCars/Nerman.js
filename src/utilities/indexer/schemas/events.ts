@@ -2051,7 +2051,7 @@ const CancelTransactionSchema = new Schema(
 		},
 		signature: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		data: {
 			type: Schema.Types.String,
@@ -2142,7 +2142,7 @@ const ExecuteTransactionSchema = new Schema(
 		},
 		signature: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		data: {
 			type: Schema.Types.String,
@@ -2196,7 +2196,7 @@ const QueueTransactionSchema = new Schema(
 		},
 		signature: {
 			type: Schema.Types.String,
-			required: true
+			default: ""
 		},
 		data: {
 			type: Schema.Types.String,
