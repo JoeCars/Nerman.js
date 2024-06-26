@@ -114,29 +114,24 @@ export class NounsDaoExecutor {
 				break;
 
 			case "ERC20Sent":
-				this.Contract.on(
-					eventName,
-					(to: string, erc20Token: string, amount: bigint, success: boolean, event: ethers.Log) => {
-						const data: EventData.ERC20Sent = {
-							to: { id: to },
-							erc20Token: { id: erc20Token },
-							amount,
-							success,
-							event
-						};
+				this.Contract.on(eventName, (to: string, erc20Token: string, amount: bigint, event: ethers.Log) => {
+					const data: EventData.ERC20Sent = {
+						to: { id: to },
+						erc20Token: { id: erc20Token },
+						amount,
+						event
+					};
 
-						listener(data as any);
-					}
-				);
+					listener(data as any);
+				});
 				this.registeredListeners.set(eventName, listener);
 				break;
 
 			case "ETHSent":
-				this.Contract.on(eventName, (to: string, amount: bigint, success: boolean, event: ethers.Log) => {
+				this.Contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
 					const data: EventData.ETHSent = {
 						to: { id: to },
 						amount,
-						success,
 						event
 					};
 

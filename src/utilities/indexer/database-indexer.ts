@@ -4,16 +4,10 @@ import mongoose from "mongoose";
 import { NOUNS_STARTING_BLOCK } from "../../constants";
 import * as eventSchemas from "./schemas/events";
 import { _NounsAuctionHouse } from "../../contracts/nouns-dao/NounsAuctionHouse";
-import {
-	NOUNS_AUCTION_HOUSE_FORMATTERS,
-	NOUNS_DAO_FORMATTERS,
-	NOUNS_DAO_DATA_FORMATTERS,
-	NOUNS_TOKEN_FORMATTERS
-} from "./event-formatters";
 import { _NounsDAO } from "../../contracts/nouns-dao/NounsDAO";
 import { _NounsDAOData } from "../../contracts/nouns-dao/NounsDAOData";
 import { _NounsToken } from "../../contracts/nouns-dao/NounsToken";
-import { EventFormatter, FormattedEvent } from "../../types";
+import { FormattedEvent } from "../../types";
 import IndexerMetaData from "./schemas/IndexerMetaData";
 import ETHConversionRate from "./schemas/ETHConversionRate";
 import fetch from "node-fetch";
@@ -23,9 +17,11 @@ import {
 	NounsAuctionEventManager,
 	NounsDaoDataEventManager,
 	NounsDaoEventManager,
+	NounsExecutorEventManager,
 	NounsTokenEventManager
 } from "./contract-event-manager";
 import { BlockToDateConverter, DateFormatter } from "../dates";
+import { NounsDaoExecutor } from "../../contracts/nouns-dao/NounsDAOExecutor";
 
 const DELAY_IN_MS = 500;
 
@@ -39,14 +35,18 @@ type CoinbaseConversionResult = {
 
 export class DatabaseIndexer {
 	private provider: JsonRpcProvider;
+
 	private nounsDao: _NounsDAO;
 	private nounsDaoData: _NounsDAOData;
 	private nounsAuctionHouse: _NounsAuctionHouse;
 	private nounsToken: _NounsToken;
+	private nounsExecutor: NounsDaoExecutor;
+
 	private nounsDaoManager: NounsDaoEventManager;
 	private nounsDaoDataManager: NounsDaoDataEventManager;
 	private nounsAuctionManager: NounsAuctionEventManager;
 	private nounsTokenManager: NounsTokenEventManager;
+	private nounsExecutorManager: NounsExecutorEventManager;
 
 	public constructor(jsonRpcUrl: string) {
 		this.provider = createAlchemyOrJsonRpcProvider(jsonRpcUrl);
@@ -55,11 +55,13 @@ export class DatabaseIndexer {
 		this.nounsDaoData = new _NounsDAOData(this.provider);
 		this.nounsAuctionHouse = new _NounsAuctionHouse(this.provider);
 		this.nounsToken = new _NounsToken(this.provider);
+		this.nounsExecutor = new NounsDaoExecutor(this.provider);
 
 		this.nounsDaoManager = NounsDaoEventManager.create(this.provider);
 		this.nounsDaoDataManager = NounsDaoDataEventManager.create(this.provider);
 		this.nounsAuctionManager = NounsAuctionEventManager.create(this.provider);
 		this.nounsTokenManager = NounsTokenEventManager.create(this.provider);
+		this.nounsExecutorManager = NounsExecutorEventManager.create(this.provider);
 	}
 
 	private async indexToDatabase(eventName: string) {
@@ -137,20 +139,8 @@ export class DatabaseIndexer {
 			return this.nounsAuctionManager;
 		} else if (this.nounsToken.hasEvent(eventName)) {
 			return this.nounsTokenManager;
-		} else {
-			throw new Error(`${eventName} is not supported.`);
-		}
-	}
-
-	private getFormatter(eventName: string): EventFormatter {
-		if (NOUNS_DAO_FORMATTERS.has(eventName)) {
-			return NOUNS_DAO_FORMATTERS.get(eventName)!;
-		} else if (NOUNS_DAO_DATA_FORMATTERS.has(eventName)) {
-			return NOUNS_DAO_DATA_FORMATTERS.get(eventName)!;
-		} else if (NOUNS_AUCTION_HOUSE_FORMATTERS.has(eventName)) {
-			return NOUNS_AUCTION_HOUSE_FORMATTERS.get(eventName)!;
-		} else if (NOUNS_TOKEN_FORMATTERS.has(eventName)) {
-			return NOUNS_TOKEN_FORMATTERS.get(eventName)!;
+		} else if (this.nounsExecutor.hasEvent(eventName)) {
+			return this.nounsExecutorManager;
 		} else {
 			throw new Error(`${eventName} is not supported.`);
 		}
@@ -341,6 +331,30 @@ export class DatabaseIndexer {
 				return eventSchemas.SignatureAdded.insertMany(indexedEvents);
 			case "UpdateCandidateCostSet":
 				return eventSchemas.UpdateCandidateCostSet.insertMany(indexedEvents);
+			case "Upgraded":
+				return eventSchemas.Upgraded.insertMany(indexedEvents);
+
+			// Nouns Executor
+			case "AdminChanged":
+				return eventSchemas.AdminChanged.insertMany(indexedEvents);
+			case "BeaconUpgraded":
+				return eventSchemas.BeaconUpgraded.insertMany(indexedEvents);
+			case "CancelTransaction":
+				return eventSchemas.CancelTransaction.insertMany(indexedEvents);
+			case "ERC20Sent":
+				return eventSchemas.ERC20Sent.insertMany(indexedEvents);
+			case "ETHSent":
+				return eventSchemas.ETHSent.insertMany(indexedEvents);
+			case "ExecuteTransaction":
+				return eventSchemas.ExecuteTransaction.insertMany(indexedEvents);
+			case "NewAdmin":
+				return eventSchemas.NewAdmin.insertMany(indexedEvents);
+			case "NewDelay":
+				return eventSchemas.NewDelay.insertMany(indexedEvents);
+			case "NewPendingAdmin":
+				return eventSchemas.NewPendingAdmin.insertMany(indexedEvents);
+			case "QueueTransaction":
+				return eventSchemas.QueueTransaction.insertMany(indexedEvents);
 			case "Upgraded":
 				return eventSchemas.Upgraded.insertMany(indexedEvents);
 

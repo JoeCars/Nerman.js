@@ -1335,3 +1335,174 @@ export class NounsDaoDataFormatter implements ContractEventFormatter {
 		};
 	}
 }
+
+export class NounsExecutorFormatter implements ContractEventFormatter {
+	formatEvent(eventName: string, event: EventLog) {
+		switch (eventName) {
+			case "AdminChanged":
+				return this.formatAdminChanged(event);
+			case "BeaconUpgraded":
+				return this.formatBeaconUpgraded(event);
+			case "CancelTransaction":
+				return this.formatCancelTransaction(event);
+			case "ERC20Sent":
+				return this.formatErc20Sent(event);
+			case "ETHSent":
+				return this.formatEthSent(event);
+			case "ExecuteTransaction":
+				return this.formatExecuteTransaction(event);
+			case "NewAdmin":
+				return this.formatNewAdmin(event);
+			case "NewDelay":
+				return this.formatNewDelay(event);
+			case "NewPendingAdmin":
+				return this.formatNewPendingAdmin(event);
+			case "QueueTransaction":
+				return this.formatQueueTransaction(event);
+			case "Upgraded":
+				return this.formatUpgraded(event);
+			default:
+				throw new Error(`${eventName} is not supported.`);
+		}
+	}
+
+	formatAdminChanged(event: EventLog): EventData.AdminChanged {
+		return {
+			previousAdmin: { id: event.args!.previousAdmin },
+			newAdmin: { id: event.args!.newAdmin },
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+
+	formatBeaconUpgraded(event: EventLog): EventData.BeaconUpgraded {
+		return {
+			beacon: { id: event.args!.beacon },
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+
+	formatCancelTransaction(event: EventLog): EventData.CancelTransaction {
+		return {
+			txHash: event.args!.txHash,
+			target: { id: event.args!.target },
+			value: event.args!.value.toString(),
+			signature: event.args!.signature,
+			data: event.args!.data,
+			eta: event.args!.eta.toString(),
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+
+	formatErc20Sent(event: EventLog): EventData.ERC20Sent {
+		return {
+			to: { id: event.args!.to },
+			erc20Token: { id: event.args!.erc20Token },
+			amount: event.args!.amount.toString(),
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+
+	formatEthSent(event: EventLog): EventData.ETHSent {
+		return {
+			to: { id: event.args!.to },
+			amount: event.args!.amount.toString(),
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+
+	formatExecuteTransaction(event: EventLog): EventData.ExecuteTransaction {
+		return {
+			txHash: event.args!.txHash,
+			target: { id: event.args!.target },
+			value: event.args!.value.toString(),
+			signature: event.args!.signature,
+			data: event.args!.data,
+			eta: event.args!.eta.toString(),
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+
+	formatNewAdmin(event: EventLog): EventData.NewAdmin {
+		return {
+			newAdmin: { id: event.args!.newAdmin },
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+
+	formatNewDelay(event: EventLog): EventData.NewDelay {
+		return {
+			newDelay: event.args!.newDelay,
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+
+	formatNewPendingAdmin(event: EventLog): EventData.NewPendingAdmin {
+		return {
+			newPendingAdmin: { id: event.args!.newPendingAdmin },
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+
+	formatQueueTransaction(event: EventLog): EventData.QueueTransaction {
+		return {
+			txHash: event.args!.txHash,
+			target: { id: event.args!.target },
+			value: event.args!.value.toString(),
+			signature: event.args!.signature,
+			data: event.args!.data,
+			eta: event.args!.eta.toString(),
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+
+	formatUpgraded(event: EventLog): EventData.Upgraded {
+		return {
+			implementation: { id: event.args!.implementation },
+			event: {
+				blockNumber: event.blockNumber,
+				blockHash: event.blockHash,
+				transactionHash: event.transactionHash
+			}
+		};
+	}
+}
