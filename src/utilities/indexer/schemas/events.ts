@@ -1084,7 +1084,7 @@ const WithdrawFromForkEscrowSchema = new Schema(
 			type: AccountSchema,
 			required: true
 		},
-		sent: {
+		tokenIds: {
 			type: [Schema.Types.Number],
 			required: true
 		},
