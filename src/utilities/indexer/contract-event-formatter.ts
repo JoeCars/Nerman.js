@@ -700,7 +700,9 @@ export class NounsDaoFormatter implements ContractEventFormatter {
 		return {
 			forkId: Number(event.args!.forkId),
 			owner: { id: event.args!.owner },
-			tokenIds: event.args!.tokenIds,
+			tokenIds: event.args!.tokenIds.map((tokenId: bigint) => {
+				return Number(tokenId);
+			}),
 			event: {
 				blockNumber: event.blockNumber,
 				blockHash: event.blockHash,
