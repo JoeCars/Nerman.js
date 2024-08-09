@@ -1,0 +1,649 @@
+[
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "nounsDAO_", "type": "address" },
+			{ "internalType": "address", "name": "auctionHouse_", "type": "address" }
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{ "inputs": [], "name": "LastNounIdMustBeHigher", "type": "error" },
+	{ "inputs": [], "name": "LastNounIdMustBeSettled", "type": "error" },
+	{ "inputs": [], "name": "OnlyNFTOwner", "type": "error" },
+	{ "inputs": [], "name": "OnlyOwnerOrAdmin", "type": "error" },
+	{ "inputs": [], "name": "RewardsDisabled", "type": "error" },
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": false, "internalType": "address", "name": "previousAdmin", "type": "address" },
+			{ "indexed": false, "internalType": "address", "name": "newAdmin", "type": "address" }
+		],
+		"name": "AdminChanged",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" },
+			{ "indexed": true, "internalType": "address", "name": "approved", "type": "address" },
+			{ "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "address", "name": "owner", "type": "address" },
+			{ "indexed": true, "internalType": "address", "name": "operator", "type": "address" },
+			{ "indexed": false, "internalType": "bool", "name": "approved", "type": "bool" }
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{ "anonymous": false, "inputs": [], "name": "AuctionRewardsDisabled", "type": "event" },
+	{
+		"anonymous": false,
+		"inputs": [{ "indexed": false, "internalType": "uint32", "name": "nextAuctionIdToReward", "type": "uint32" }],
+		"name": "AuctionRewardsEnabled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": false, "internalType": "uint256", "name": "firstAuctionId", "type": "uint256" },
+			{ "indexed": false, "internalType": "uint256", "name": "lastAuctionId", "type": "uint256" }
+		],
+		"name": "AuctionRewardsUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [{ "indexed": true, "internalType": "address", "name": "beacon", "type": "address" }],
+		"name": "BeaconUpgraded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "uint32", "name": "clientId", "type": "uint32" },
+			{ "indexed": false, "internalType": "bool", "name": "approved", "type": "bool" }
+		],
+		"name": "ClientApprovalSet",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "uint32", "name": "clientId", "type": "uint32" },
+			{ "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
+			{ "indexed": false, "internalType": "address", "name": "to", "type": "address" }
+		],
+		"name": "ClientBalanceWithdrawal",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "uint32", "name": "clientId", "type": "uint32" },
+			{ "indexed": false, "internalType": "string", "name": "name", "type": "string" },
+			{ "indexed": false, "internalType": "string", "name": "description", "type": "string" }
+		],
+		"name": "ClientRegistered",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "uint32", "name": "clientId", "type": "uint32" },
+			{ "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
+		],
+		"name": "ClientRewarded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "uint32", "name": "clientId", "type": "uint32" },
+			{ "indexed": false, "internalType": "string", "name": "name", "type": "string" },
+			{ "indexed": false, "internalType": "string", "name": "description", "type": "string" }
+		],
+		"name": "ClientUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" },
+			{ "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [{ "indexed": false, "internalType": "address", "name": "account", "type": "address" }],
+		"name": "Paused",
+		"type": "event"
+	},
+	{ "anonymous": false, "inputs": [], "name": "ProposalRewardsDisabled", "type": "event" },
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": false, "internalType": "uint32", "name": "nextProposalIdToReward", "type": "uint32" },
+			{ "indexed": false, "internalType": "uint32", "name": "nextProposalRewardFirstAuctionId", "type": "uint32" }
+		],
+		"name": "ProposalRewardsEnabled",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": false, "internalType": "uint32", "name": "firstProposalId", "type": "uint32" },
+			{ "indexed": false, "internalType": "uint32", "name": "lastProposalId", "type": "uint32" },
+			{ "indexed": false, "internalType": "uint256", "name": "firstAuctionIdForRevenue", "type": "uint256" },
+			{ "indexed": false, "internalType": "uint256", "name": "lastAuctionIdForRevenue", "type": "uint256" },
+			{ "indexed": false, "internalType": "uint256", "name": "auctionRevenue", "type": "uint256" },
+			{ "indexed": false, "internalType": "uint256", "name": "rewardPerProposal", "type": "uint256" },
+			{ "indexed": false, "internalType": "uint256", "name": "rewardPerVote", "type": "uint256" }
+		],
+		"name": "ProposalRewardsUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{ "indexed": true, "internalType": "address", "name": "from", "type": "address" },
+			{ "indexed": true, "internalType": "address", "name": "to", "type": "address" },
+			{ "indexed": true, "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [{ "indexed": false, "internalType": "address", "name": "account", "type": "address" }],
+		"name": "Unpaused",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [{ "indexed": true, "internalType": "address", "name": "implementation", "type": "address" }],
+		"name": "Upgraded",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "RewardsStorageLocation",
+		"outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "admin",
+		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "to", "type": "address" },
+			{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "auctionHouse",
+		"outputs": [{ "internalType": "contract INounsAuctionHouseV2", "name": "", "type": "address" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "auctionRewardsEnabled",
+		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "address", "name": "owner", "type": "address" }],
+		"name": "balanceOf",
+		"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "uint32", "name": "clientId", "type": "uint32" }],
+		"name": "clientBalance",
+		"outputs": [{ "internalType": "uint96", "name": "", "type": "uint96" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "uint32", "name": "tokenId", "type": "uint32" }],
+		"name": "clientMetadata",
+		"outputs": [
+			{
+				"components": [
+					{ "internalType": "bool", "name": "approved", "type": "bool" },
+					{ "internalType": "uint96", "name": "rewarded", "type": "uint96" },
+					{ "internalType": "uint96", "name": "withdrawn", "type": "uint96" },
+					{ "internalType": "uint56", "name": "__gap", "type": "uint56" },
+					{ "internalType": "string", "name": "name", "type": "string" },
+					{ "internalType": "string", "name": "description", "type": "string" }
+				],
+				"internalType": "struct INounsClientTokenTypes.ClientMetadata",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "descriptor",
+		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{ "inputs": [], "name": "disableAuctionRewards", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+	{ "inputs": [], "name": "disableProposalRewards", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+	{ "inputs": [], "name": "enableAuctionRewards", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+	{ "inputs": [], "name": "enableProposalRewards", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+	{
+		"inputs": [],
+		"name": "ethToken",
+		"outputs": [{ "internalType": "contract IERC20", "name": "", "type": "address" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }],
+		"name": "getApproved",
+		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "uint256", "name": "firstNounId", "type": "uint256" },
+			{ "internalType": "uint256", "name": "endTimestamp", "type": "uint256" }
+		],
+		"name": "getAuctionRevenue",
+		"outputs": [
+			{ "internalType": "uint256", "name": "sumRevenue", "type": "uint256" },
+			{ "internalType": "uint256", "name": "lastAuctionId", "type": "uint256" }
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAuctionRewardParams",
+		"outputs": [
+			{
+				"components": [
+					{ "internalType": "uint16", "name": "auctionRewardBps", "type": "uint16" },
+					{ "internalType": "uint8", "name": "minimumAuctionsBetweenUpdates", "type": "uint8" }
+				],
+				"internalType": "struct Rewards.AuctionRewardParams",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getProposalRewardParams",
+		"outputs": [
+			{
+				"components": [
+					{ "internalType": "uint32", "name": "minimumRewardPeriod", "type": "uint32" },
+					{ "internalType": "uint8", "name": "numProposalsEnoughForReward", "type": "uint8" },
+					{ "internalType": "uint16", "name": "proposalRewardBps", "type": "uint16" },
+					{ "internalType": "uint16", "name": "votingRewardBps", "type": "uint16" },
+					{ "internalType": "uint16", "name": "proposalEligibilityQuorumBps", "type": "uint16" }
+				],
+				"internalType": "struct Rewards.ProposalRewardParams",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "uint32", "name": "lastProposalId", "type": "uint32" }],
+		"name": "getVotingClientIds",
+		"outputs": [{ "internalType": "uint32[]", "name": "", "type": "uint32[]" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "owner", "type": "address" },
+			{ "internalType": "address", "name": "admin_", "type": "address" },
+			{ "internalType": "address", "name": "ethToken_", "type": "address" },
+			{ "internalType": "address", "name": "descriptor_", "type": "address" }
+		],
+		"name": "initialize",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "owner", "type": "address" },
+			{ "internalType": "address", "name": "operator", "type": "address" }
+		],
+		"name": "isApprovedForAll",
+		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "lastProposalRewardsUpdate",
+		"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nextAuctionIdToReward",
+		"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nextProposalIdToReward",
+		"outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nextProposalRewardFirstAuctionId",
+		"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nextTokenId",
+		"outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nounsDAO",
+		"outputs": [{ "internalType": "contract INounsDAOLogic", "name": "", "type": "address" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }],
+		"name": "ownerOf",
+		"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{ "inputs": [], "name": "pause", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+	{
+		"inputs": [],
+		"name": "paused",
+		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "proposalRewardsEnabled",
+		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "string", "name": "name", "type": "string" },
+			{ "internalType": "string", "name": "description", "type": "string" }
+		],
+		"name": "registerClient",
+		"outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{ "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "from", "type": "address" },
+			{ "internalType": "address", "name": "to", "type": "address" },
+			{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "from", "type": "address" },
+			{ "internalType": "address", "name": "to", "type": "address" },
+			{ "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+			{ "internalType": "bytes", "name": "_data", "type": "bytes" }
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "address", "name": "newAdmin", "type": "address" }],
+		"name": "setAdmin",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "operator", "type": "address" },
+			{ "internalType": "bool", "name": "approved", "type": "bool" }
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"components": [
+					{ "internalType": "uint16", "name": "auctionRewardBps", "type": "uint16" },
+					{ "internalType": "uint8", "name": "minimumAuctionsBetweenUpdates", "type": "uint8" }
+				],
+				"internalType": "struct Rewards.AuctionRewardParams",
+				"name": "newParams",
+				"type": "tuple"
+			}
+		],
+		"name": "setAuctionRewardParams",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "uint32", "name": "clientId", "type": "uint32" },
+			{ "internalType": "bool", "name": "approved", "type": "bool" }
+		],
+		"name": "setClientApproval",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "address", "name": "descriptor_", "type": "address" }],
+		"name": "setDescriptor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "address", "name": "newToken", "type": "address" }],
+		"name": "setETHToken",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"components": [
+					{ "internalType": "uint32", "name": "minimumRewardPeriod", "type": "uint32" },
+					{ "internalType": "uint8", "name": "numProposalsEnoughForReward", "type": "uint8" },
+					{ "internalType": "uint16", "name": "proposalRewardBps", "type": "uint16" },
+					{ "internalType": "uint16", "name": "votingRewardBps", "type": "uint16" },
+					{ "internalType": "uint16", "name": "proposalEligibilityQuorumBps", "type": "uint16" }
+				],
+				"internalType": "struct Rewards.ProposalRewardParams",
+				"name": "newParams",
+				"type": "tuple"
+			}
+		],
+		"name": "setProposalRewardParams",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }],
+		"name": "supportsInterface",
+		"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }],
+		"name": "tokenURI",
+		"outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "from", "type": "address" },
+			{ "internalType": "address", "name": "to", "type": "address" },
+			{ "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{ "inputs": [], "name": "unpause", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+	{
+		"inputs": [
+			{ "internalType": "uint32", "name": "tokenId", "type": "uint32" },
+			{ "internalType": "string", "name": "name", "type": "string" },
+			{ "internalType": "string", "name": "description", "type": "string" }
+		],
+		"name": "updateClientMetadata",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "uint32", "name": "lastNounId", "type": "uint32" }],
+		"name": "updateRewardsForAuctions",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "uint32", "name": "lastProposalId", "type": "uint32" },
+			{ "internalType": "uint32[]", "name": "votingClientIds", "type": "uint32[]" }
+		],
+		"name": "updateRewardsForProposalWritingAndVoting",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [{ "internalType": "address", "name": "newImplementation", "type": "address" }],
+		"name": "upgradeTo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "newImplementation", "type": "address" },
+			{ "internalType": "bytes", "name": "data", "type": "bytes" }
+		],
+		"name": "upgradeToAndCall",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "uint32", "name": "clientId", "type": "uint32" },
+			{ "internalType": "address", "name": "to", "type": "address" },
+			{ "internalType": "uint96", "name": "amount", "type": "uint96" }
+		],
+		"name": "withdrawClientBalance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{ "internalType": "address", "name": "token", "type": "address" },
+			{ "internalType": "address", "name": "to", "type": "address" },
+			{ "internalType": "uint256", "name": "amount", "type": "uint256" }
+		],
+		"name": "withdrawToken",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

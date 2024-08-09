@@ -8,6 +8,7 @@ import { default as nounsDaoExecutorAbi } from "../contracts/abis/NounsDAOExecut
 import { default as nounsTokenAbi } from "../contracts/abis/NounsToken.json";
 import { default as payerAbi } from "../contracts/abis/Payer.json";
 import { default as tokenBuyerAbi } from "../contracts/abis/TokenBuyer.json";
+import { default as rewardsAbi } from "../contracts/abis/Rewards.json";
 
 export const NOUNS_AUCTION_HOUSE_ADDRESS = "0x830BD73E4184ceF73443C15111a1DF14e495C706";
 export function createNounsAuctionHouseV1Contract(provider: JsonRpcProvider) {
@@ -48,4 +49,9 @@ export function createPayerContract(provider: JsonRpcProvider) {
 export const TOKEN_BUYER_ADDRESS = "0x4f2aCdc74f6941390d9b1804faBc3E780388cfe5";
 export function createTokenBuyerContract(provider: JsonRpcProvider) {
 	return new Contract(TOKEN_BUYER_ADDRESS, tokenBuyerAbi, provider);
+}
+
+export const REWARDS_PROXY_ADDRESS = "0x883860178f95d0c82413edc1d6de530cb4771d55";
+export function createRewardsProxyContract(provider: JsonRpcProvider) {
+	return new Contract(REWARDS_PROXY_ADDRESS, rewardsAbi, provider);
 }
