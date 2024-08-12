@@ -1560,6 +1560,81 @@ export namespace EventData {
 
 	// ******************************************
 	//
+	// Contract - Rewards
+	//
+	// ******************************************\
+
+	export interface ClientRegistered {
+		clientId: number;
+		name: string;
+		description: string;
+		event: Event;
+	}
+
+	export interface ClientUpdated {
+		clientId: number;
+		name: string;
+		description: string;
+		event: Event;
+	}
+
+	export interface ClientRewarded {
+		clientId: number;
+		amount: bigint;
+		event: Event;
+	}
+
+	export interface ClientBalanceWithdrawal {
+		clientId: number;
+		amount: bigint;
+		to: Account;
+		event: Event;
+	}
+
+	export interface AuctionRewardsUpdated {
+		firstAuctionId: number;
+		lastAuctionId: number;
+		event: Event;
+	}
+
+	export interface ProposalRewardsUpdated {
+		firstProposalId: number;
+		lastProposalId: number;
+		firstAuctionIdForRevenue: number;
+		lastAuctionIdForRevenue: number;
+		auctionRevenue: bigint;
+		rewardPerProposal: bigint;
+		rewardPerVote: bigint;
+		event: Event;
+	}
+
+	export interface ClientApprovalSet {
+		clientId: number;
+		approved: boolean;
+		event: Event;
+	}
+
+	export interface AuctionRewardsEnabled {
+		nextAuctionIdToReward: number;
+		event: Event;
+	}
+
+	export interface AuctionRewardsDisabled {
+		event: Event;
+	}
+
+	export interface ProposalRewardsEnabled {
+		nextProposalIdToReward: number;
+		nextProposalRewardFirstAuctionId: number;
+		event: Event;
+	}
+
+	export interface ProposalRewardsDisabled {
+		event: Event;
+	}
+
+	// ******************************************
+	//
 	// NounsNymz
 	//
 	// ******************************************
