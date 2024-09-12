@@ -1,4 +1,4 @@
-import { ethers } from "ethers-v6";
+import { ethers } from "ethers";
 import { VoteDirection, Account, EventData } from "../../types";
 import { default as NounsForkABI } from "../abis/NounsForkGovernance.json";
 import { createOrReturnProvider } from "../../utilities/providers";

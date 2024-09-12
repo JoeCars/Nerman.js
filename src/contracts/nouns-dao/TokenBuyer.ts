@@ -1,4 +1,4 @@
-import { JsonRpcProvider, Contract, Log, Listener } from "ethers-v6";
+import { JsonRpcProvider, Contract, Log, Listener } from "ethers";
 
 import { createOrReturnProvider } from "../../utilities/providers";
 import { EventData } from "../../types";

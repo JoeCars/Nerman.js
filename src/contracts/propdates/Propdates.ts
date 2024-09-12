@@ -1,4 +1,4 @@
-import { ethers } from "ethers-v6";
+import { ethers } from "ethers";
 import { Account, EventData } from "../../types";
 import { default as PropdatesABI } from "../abis/propdates/PropdatesV2.json";
 import { createOrReturnProvider } from "../../utilities/providers";

@@ -1,4 +1,4 @@
-import { N, ethers } from "ethers-v6";
+import { N, ethers } from "ethers";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { default as LilNounsTokenABI } from "../abis/lil-nouns/NounsToken.json";
 import { createOrReturnProvider } from "../../utilities/providers";

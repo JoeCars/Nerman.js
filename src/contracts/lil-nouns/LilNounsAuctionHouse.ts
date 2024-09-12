@@ -1,4 +1,4 @@
-import { ethers } from "ethers-v6";
+import { ethers } from "ethers";
 import { Account, EventData } from "../../types";
 import { default as LilNounsAuctionHouseABI } from "../abis/lil-nouns/NounsAuctionHouse.json";
 import { createOrReturnProvider } from "../../utilities/providers";

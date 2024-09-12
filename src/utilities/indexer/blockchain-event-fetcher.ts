@@ -1,4 +1,4 @@
-import { Contract, EventLog } from "ethers-v6";
+import { Contract, EventLog } from "ethers";
 import { NOUNS_STARTING_BLOCK, BLOCK_BATCH_SIZE } from "../../constants";
 
 export class BlockchainEventFetcher {

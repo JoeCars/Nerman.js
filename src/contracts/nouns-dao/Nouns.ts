@@ -1,4 +1,4 @@
-import { Contract, ethers } from "ethers-v6";
+import { Contract, ethers } from "ethers";
 
 import {
 	_NounsAuctionHouse,

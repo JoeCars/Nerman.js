@@ -1,4 +1,4 @@
-import { AlchemyProvider, JsonRpcProvider } from "ethers-v6";
+import { AlchemyProvider, JsonRpcProvider } from "ethers";
 
 function extractAlchemyToken(jsonRpcUrl: string) {
 	const lastSlashIndex = jsonRpcUrl.lastIndexOf("/");
