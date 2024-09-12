@@ -1,4 +1,4 @@
-import { EventLog } from "ethers-v6";
+import { EventLog } from "ethers";
 import { EventData } from "../../types";
 
 export interface ContractEventFormatter {

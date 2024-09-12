@@ -1,4 +1,4 @@
-import { ethers } from "ethers-v6";
+import { ethers } from "ethers";
 
 import { IndexerReader } from "./IndexerReader";
 import { IndexerWriter } from "./IndexerWriter";

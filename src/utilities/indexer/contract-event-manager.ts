@@ -1,4 +1,4 @@
-import { JsonRpcProvider, Contract } from "ethers-v6";
+import { JsonRpcProvider, Contract } from "ethers";
 import { EventData } from "../../types";
 import { BlockchainEventFetcher } from "./blockchain-event-fetcher";
 import {

@@ -32,8 +32,7 @@
 		"typescript": "^5.3.3"
 	},
 	"dependencies": {
-		"ethers": "^5.7.0",
-		"ethers-v6": "npm:ethers@^6.10.0",
+		"ethers": "^6.10.0",
 		"mongoose": "^8.2.1",
 		"node-fetch": "^2.7.0"
 	}

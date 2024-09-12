@@ -1,4 +1,4 @@
-import { JsonRpcProvider } from "ethers-v6";
+import { JsonRpcProvider } from "ethers";
 
 const MILLISECONDS_PER_SECOND = 1_000;
 

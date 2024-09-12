@@ -1,5 +1,5 @@
 import { default as Erc20Abi } from "../contracts/abis/ERC20.json";
-import { ethers } from "ethers-v6";
+import { ethers } from "ethers";
 import { createOrReturnProvider } from "./providers";
 import { WEI_PER_ETH } from "../constants";
 

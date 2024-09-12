@@ -1,4 +1,4 @@
-import { JsonRpcProvider } from "ethers-v6";
+import { JsonRpcProvider } from "ethers";
 import mongoose from "mongoose";
 
 import { NOUNS_STARTING_BLOCK } from "../../constants";

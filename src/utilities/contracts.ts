@@ -1,4 +1,4 @@
-import { Contract, JsonRpcProvider } from "ethers-v6";
+import { Contract, JsonRpcProvider } from "ethers";
 import { default as nounsAuctionHouseAbiV1 } from "../contracts/abis/NounsAuctionHouse.json";
 import { default as nounsAuctionHouseAbiV2 } from "../contracts/abis/NounsAuctionHouseV2.json";
 import { default as nounsDaoLogicAbiV3 } from "../contracts/abis/NounsDAOLogicV3.json";
