@@ -39,18 +39,31 @@ const SUPPORTED_NOUNS_TOKEN_EVENTS = [
 ] as const;
 export type SupportedEventsType = keyof SupportedEventMap;
 
+interface Checkpoint {
+	fromBlock: bigint;
+	votes: bigint;
+}
+
+interface Seed {
+	background: bigint;
+	body: bigint;
+	accessory: bigint;
+	head: bigint;
+	glasses: bigint;
+}
+
 /**
  * A wrapper around the NounsToken governance contract.
  */
 export class _NounsToken {
-	public provider: ethers.JsonRpcProvider;
-	public Contract: ethers.Contract;
-	public registeredListeners: Map<SupportedEventsType, Function>;
+	private provider: ethers.JsonRpcProvider;
+	private contract: ethers.Contract;
+	private registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_TOKEN_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
-		this.Contract = createNounsTokenContract(this.provider);
+		this.contract = createNounsTokenContract(this.provider);
 		this.registeredListeners = new Map();
 	}
 
@@ -67,7 +80,7 @@ export class _NounsToken {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "DelegateChanged": // WORKING
-				this.Contract.on(
+				this.contract.on(
 					"DelegateChanged",
 					async (delegator: string, fromDelegate: string, toDelegate: string, event: ethers.Log) => {
 						let numOfVotesChanged = 0;
@@ -102,7 +115,7 @@ export class _NounsToken {
 				break;
 
 			case "DelegateVotesChanged": // WORKING
-				this.Contract.on(
+				this.contract.on(
 					"DelegateVotesChanged",
 					(delegate: string, previousBalance: bigint, newBalance: bigint, event: ethers.Log) => {
 						const data: EventData.DelegateVotesChanged = {
@@ -119,7 +132,7 @@ export class _NounsToken {
 				break;
 
 			case "Transfer": // WORKING
-				this.Contract.on("Transfer", (from: string, to: string, tokenId: bigint, event: ethers.Log) => {
+				this.contract.on("Transfer", (from: string, to: string, tokenId: bigint, event: ethers.Log) => {
 					const data: EventData.Transfer = {
 						from: { id: from } as Account,
 						to: { id: to } as Account,
@@ -133,7 +146,7 @@ export class _NounsToken {
 				break;
 
 			case "Approval": // WORKING
-				this.Contract.on("Approval", (owner: string, approved: string, tokenId: bigint, event: ethers.Log) => {
+				this.contract.on("Approval", (owner: string, approved: string, tokenId: bigint, event: ethers.Log) => {
 					const data: EventData.Approval = {
 						owner: { id: owner } as Account,
 						approved: { id: approved } as Account,
@@ -152,7 +165,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "ApprovalForAll":
-				this.Contract.on("ApprovalForAll", (owner: string, operator: string, approved: boolean, event: ethers.Log) => {
+				this.contract.on("ApprovalForAll", (owner: string, operator: string, approved: boolean, event: ethers.Log) => {
 					const data: EventData.ApprovalForAll = {
 						owner: { id: owner } as Account,
 						operator: { id: operator } as Account,
@@ -166,7 +179,7 @@ export class _NounsToken {
 				break;
 
 			case "NounCreated": // WORKING
-				this.Contract.on(
+				this.contract.on(
 					"NounCreated",
 					(
 						tokenId: bigint,
@@ -197,7 +210,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "DescriptorLocked":
-				this.Contract.on("DescriptorLocked", (event: ethers.Log) => {
+				this.contract.on("DescriptorLocked", (event: ethers.Log) => {
 					const data: EventData.DescriptorLocked = {
 						event: event
 					};
@@ -213,7 +226,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "DescriptorUpdated":
-				this.Contract.on("DescriptorUpdated", (_descriptor: string, event: ethers.Log) => {
+				this.contract.on("DescriptorUpdated", (_descriptor: string, event: ethers.Log) => {
 					const data: EventData.DescriptorUpdated = {
 						descriptor: { id: _descriptor } as Account,
 						event: event
@@ -230,7 +243,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "MinterLocked":
-				this.Contract.on("MinterLocked", (event: ethers.Log) => {
+				this.contract.on("MinterLocked", (event: ethers.Log) => {
 					const data: EventData.MinterLocked = {
 						event: event
 					};
@@ -246,7 +259,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "MinterUpdated":
-				this.Contract.on("MinterUpdated", (_minter: string, event: ethers.Log) => {
+				this.contract.on("MinterUpdated", (_minter: string, event: ethers.Log) => {
 					const data: EventData.MinterUpdated = {
 						minter: { id: _minter } as Account,
 						event: event
@@ -263,7 +276,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "NounBurned":
-				this.Contract.on("NounBurned", (nounId: bigint, event: ethers.Log) => {
+				this.contract.on("NounBurned", (nounId: bigint, event: ethers.Log) => {
 					const data: EventData.NounBurned = {
 						id: Number(nounId),
 						event: event
@@ -280,7 +293,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "NoundersDAOUpdated":
-				this.Contract.on("NoundersDAOUpdated", (_noundersDAO: string, event: ethers.Log) => {
+				this.contract.on("NoundersDAOUpdated", (_noundersDAO: string, event: ethers.Log) => {
 					const data: EventData.NoundersDAOUpdated = {
 						noundersDAO: { id: _noundersDAO } as Account,
 						event: event
@@ -297,7 +310,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "OwnershipTransferred":
-				this.Contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
+				this.contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.OwnershipTransferred = {
 						previousOwner: { id: previousOwner } as Account,
 						newOwner: { id: newOwner } as Account,
@@ -315,7 +328,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "SeederLocked":
-				this.Contract.on("SeederLocked", (event: ethers.Log) => {
+				this.contract.on("SeederLocked", (event: ethers.Log) => {
 					const data: EventData.SeederLocked = {
 						event: event
 					};
@@ -331,7 +344,7 @@ export class _NounsToken {
 			//
 			// **********************************************************
 			case "SeederUpdated":
-				this.Contract.on("SeederUpdated", (_seeder: string, event: ethers.Log) => {
+				this.contract.on("SeederUpdated", (_seeder: string, event: ethers.Log) => {
 					const data: EventData.SeederUpdated = {
 						seeder: { id: _seeder } as Account,
 						event: event
@@ -356,7 +369,7 @@ export class _NounsToken {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.Listener);
+			this.contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -387,448 +400,6 @@ export class _NounsToken {
 	}
 
 	/**
-	 * A wrapper around contract read functions.
-	 * @param fName The function name.
-	 * @param fArgs The arguments required by the function.
-	 * @returns The output of the read function, if it has any.
-	 */
-	public async callView(fName: string, fArgs: any[]) {
-		switch (fName) {
-			case "DELEGATION_TYPEHASH":
-				return await this.Contract.DELEGATION_TYPEHASH(); // returns "bytes32", is it string in js?
-				break;
-
-			case "DOMAIN_TYPEHASH":
-				return await this.Contract.DOMAIN_TYPEHASH(); // returns "bytes32", is it string in js?
-				break;
-
-			case "balanceOf":
-				return await this.Contract.balanceOf(fArgs[0]); // returns uint256
-				break;
-			case "checkpoints":
-				// address, checkpoint id. ID starts at zero and increments when checkpoints change
-				return await this.Contract.checkpoints(fArgs[0], fArgs[1]);
-				// returns [number (fromblock), big number (votes)]
-				break;
-			case "contractURI":
-				return await this.Contract.contractURI(); // returns string
-				break;
-
-			case "dataURI":
-				// ARG is tokenID  - difficult one, fails on etherscan. Document how to consistently run
-				return await this.Contract.dataURI(fArgs[0]); // returns string
-				break;
-			case "decimals":
-				return await this.Contract.decimals(); // returns string
-				break;
-			case "delegates":
-				return await this.Contract.delegates(fArgs[0]); // returns string
-				break;
-			case "descriptor":
-				return await this.Contract.descriptor(); // returns string
-				break;
-			case "getApproved":
-				return await this.Contract.getApproved(fArgs[0]); // returns string
-				break;
-			case "getCurrentVotes":
-				return await this.Contract.getCurrentVotes(fArgs[0]); // returns bigint
-				break;
-			case "getPriorVotes":
-				return await this.Contract.getPriorVotes(fArgs[0], fArgs[1]); // returns bigint
-				break;
-			case "isApprovedForAll":
-				// {
-				//   "inputs": [
-				//     {
-				//       "internalType": "address",
-				//       "name": "owner",
-				//       "type": "address"
-				//     },
-				//     {
-				//       "internalType": "address",
-				//       "name": "operator",
-				//       "type": "address"
-				//     }
-				//   ],
-				//   "name": "isApprovedForAll",
-				//   "outputs": [
-				//     {
-				//       "internalType": "bool",
-				//       "name": "",
-				//       "type": "bool"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "isDescriptorLocked":
-				// {
-				//   "inputs": [],
-				//   "name": "isDescriptorLocked",
-				//   "outputs": [
-				//     {
-				//       "internalType": "bool",
-				//       "name": "",
-				//       "type": "bool"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "isMinterLocked":
-				// {
-				//   "inputs": [],
-				//   "name": "isMinterLocked",
-				//   "outputs": [
-				//     {
-				//       "internalType": "bool",
-				//       "name": "",
-				//       "type": "bool"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-
-				break;
-			case "isSeederlocked":
-				// {
-				//   "inputs": [],
-				//   "name": "isSeederLocked",
-				//   "outputs": [
-				//     {
-				//       "internalType": "bool",
-				//       "name": "",
-				//       "type": "bool"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "minter":
-				// {
-				//   "inputs": [],
-				//   "name": "minter",
-				//   "outputs": [
-				//     {
-				//       "internalType": "address",
-				//       "name": "",
-				//       "type": "address"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-
-				break;
-			case "name":
-				// {
-				//   "inputs": [],
-				//   "name": "name",
-				//   "outputs": [
-				//     {
-				//       "internalType": "string",
-				//       "name": "",
-				//       "type": "string"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "nonces":
-				// {
-				//   "inputs": [
-				//     {
-				//       "internalType": "address",
-				//       "name": "",
-				//       "type": "address"
-				//     }
-				//   ],
-				//   "name": "nonces",
-				//   "outputs": [
-				//     {
-				//       "internalType": "uint256",
-				//       "name": "",
-				//       "type": "uint256"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "noundersDAO":
-				// {
-				//   "inputs": [],
-				//   "name": "noundersDAO",
-				//   "outputs": [
-				//     {
-				//       "internalType": "address",
-				//       "name": "",
-				//       "type": "address"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "numCheckpoints":
-				// {
-				//   "inputs": [
-				//     {
-				//       "internalType": "address",
-				//       "name": "",
-				//       "type": "address"
-				//     }
-				//   ],
-				//   "name": "numCheckpoints",
-				//   "outputs": [
-				//     {
-				//       "internalType": "uint32",
-				//       "name": "",
-				//       "type": "uint32"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "owner":
-				// {
-				//   "inputs": [],
-				//   "name": "owner",
-				//   "outputs": [
-				//     {
-				//       "internalType": "address",
-				//       "name": "",
-				//       "type": "address"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "ownerOf":
-				return await this.Contract.ownerOf(fArgs[0]); // returns address string
-				break;
-			case "proxyRegistry":
-				// {
-				//   "inputs": [],
-				//   "name": "proxyRegistry",
-				//   "outputs": [
-				//     {
-				//       "internalType": "contract IProxyRegistry",
-				//       "name": "",
-				//       "type": "address"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "seeder":
-				// {
-				//   "inputs": [],
-				//   "name": "seeder",
-				//   "outputs": [
-				//     {
-				//       "internalType": "contract INounsSeeder",
-				//       "name": "",
-				//       "type": "address"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "seeds":
-				// {
-				//   "inputs": [
-				//     {
-				//       "internalType": "uint256",
-				//       "name": "",
-				//       "type": "uint256"
-				//     }
-				//   ],
-				//   "name": "seeds",
-				//   "outputs": [
-				//     {
-				//       "internalType": "uint48",
-				//       "name": "background",
-				//       "type": "uint48"
-				//     },
-				//     {
-				//       "internalType": "uint48",
-				//       "name": "body",
-				//       "type": "uint48"
-				//     },
-				//     {
-				//       "internalType": "uint48",
-				//       "name": "accessory",
-				//       "type": "uint48"
-				//     },
-				//     {
-				//       "internalType": "uint48",
-				//       "name": "head",
-				//       "type": "uint48"
-				//     },
-				//     {
-				//       "internalType": "uint48",
-				//       "name": "glasses",
-				//       "type": "uint48"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "supportsInterface":
-				// {
-				//   "inputs": [
-				//     {
-				//       "internalType": "bytes4",
-				//       "name": "interfaceId",
-				//       "type": "bytes4"
-				//     }
-				//   ],
-				//   "name": "supportsInterface",
-				//   "outputs": [
-				//     {
-				//       "internalType": "bool",
-				//       "name": "",
-				//       "type": "bool"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "symbol":
-				// {
-				//   "inputs": [],
-				//   "name": "symbol",
-				//   "outputs": [
-				//     {
-				//       "internalType": "string",
-				//       "name": "",
-				//       "type": "string"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "tokenByIndex":
-				// {
-				//   "inputs": [
-				//     {
-				//       "internalType": "uint256",
-				//       "name": "index",
-				//       "type": "uint256"
-				//     }
-				//   ],
-				//   "name": "tokenByIndex",
-				//   "outputs": [
-				//     {
-				//       "internalType": "uint256",
-				//       "name": "",
-				//       "type": "uint256"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "tokenOfOwnerByIndex":
-				// {
-				//   "inputs": [
-				//     {
-				//       "internalType": "address",
-				//       "name": "owner",
-				//       "type": "address"
-				//     },
-				//     {
-				//       "internalType": "uint256",
-				//       "name": "index",
-				//       "type": "uint256"
-				//     }
-				//   ],
-				//   "name": "tokenOfOwnerByIndex",
-				//   "outputs": [
-				//     {
-				//       "internalType": "uint256",
-				//       "name": "",
-				//       "type": "uint256"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "tokenURI":
-				// {
-				//   "inputs": [
-				//     {
-				//       "internalType": "uint256",
-				//       "name": "tokenId",
-				//       "type": "uint256"
-				//     }
-				//   ],
-				//   "name": "tokenURI",
-				//   "outputs": [
-				//     {
-				//       "internalType": "string",
-				//       "name": "",
-				//       "type": "string"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "totalSupply":
-				// {
-				//   "inputs": [],
-				//   "name": "totalSupply",
-				//   "outputs": [
-				//     {
-				//       "internalType": "uint256",
-				//       "name": "",
-				//       "type": "uint256"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// },
-				break;
-			case "votesToDelegate":
-				// {
-				//   "inputs": [
-				//     {
-				//       "internalType": "address",
-				//       "name": "delegator",
-				//       "type": "address"
-				//     }
-				//   ],
-				//   "name": "votesToDelegate",
-				//   "outputs": [
-				//     {
-				//       "internalType": "uint96",
-				//       "name": "",
-				//       "type": "uint96"
-				//     }
-				//   ],
-				//   "stateMutability": "view",
-				//   "type": "function"
-				// }
-				break;
-		}
-	}
-
-	/**
 	 * @returns The name of the contract. `NounsToken`.
 	 */
 	public name() {
@@ -842,5 +413,141 @@ export class _NounsToken {
 	 */
 	public hasEvent(eventName: string) {
 		return _NounsToken.supportedEvents.includes(eventName as SupportedEventsType);
+	}
+
+	//=====================================
+	// View / Pure functions.
+	//=====================================
+
+	public async DELEGATION_TYPEHASH(): Promise<string> {
+		return this.contract.DELEGATION_TYPEHASH();
+	}
+
+	public async DOMAIN_TYPEHASH(): Promise<string> {
+		return this.contract.DOMAIN_TYPEHASH();
+	}
+
+	public async balanceOf(owner: string): Promise<bigint> {
+		return this.contract.balanceOf(owner);
+	}
+
+	public async checkpoints(address: string, index: number): Promise<Checkpoint> {
+		return this.contract.checkpoints(address, index);
+	}
+
+	public async contractURI(): Promise<string> {
+		return this.contract.contractURI();
+	}
+
+	public async dataURI(tokenId: number): Promise<string> {
+		return this.contract.dataURI(tokenId);
+	}
+
+	public async decimals(): Promise<bigint> {
+		return this.contract.decimals();
+	}
+
+	public async delegates(delegator: string): Promise<string> {
+		return this.contract.delegates(delegator);
+	}
+
+	public async descriptor(): Promise<string> {
+		return this.contract.descriptor();
+	}
+
+	public async getApproved(tokenId: number): Promise<string> {
+		return this.contract.getApproved(tokenId);
+	}
+
+	public async getCurrentVotes(account: string): Promise<bigint> {
+		return this.contract.getCurrentVotes(account);
+	}
+
+	public async getPriorVotes(account: string, blockNumber: number): Promise<bigint> {
+		return this.contract.getPriorVotes(account, blockNumber);
+	}
+
+	public async isApprovedForAll(owner: string, operator: string): Promise<boolean> {
+		return this.contract.isApprovedForAll(owner, operator);
+	}
+
+	public async isDescriptorLocked(): Promise<boolean> {
+		return this.contract.isDescriptorLocked();
+	}
+
+	public async isMinterLocked(): Promise<boolean> {
+		return this.contract.isMinterLocked();
+	}
+
+	public async isSeederLocked(): Promise<boolean> {
+		return this.contract.isSeederLocked();
+	}
+
+	public async minter(): Promise<string> {
+		return this.contract.minter();
+	}
+
+	public async name(): Promise<string> {
+		return this.contract.name();
+	}
+
+	public async nonces(): Promise<bigint> {
+		return this.contract.nonces();
+	}
+
+	public async noundersDAO(): Promise<string> {
+		return this.contract.noundersDAO();
+	}
+
+	public async numCheckpoints(): Promise<bigint> {
+		return this.contract.numCheckpoints();
+	}
+
+	public async owner(): Promise<string> {
+		return this.contract.owner();
+	}
+
+	public async ownerOf(tokenId: number): Promise<string> {
+		return this.contract.ownerOf(tokenId);
+	}
+
+	public async proxyRegistry(tokenId: number): Promise<string> {
+		return this.contract.proxyRegistry(tokenId);
+	}
+
+	public async seeder(): Promise<string> {
+		return this.contract.seeder();
+	}
+
+	public async seeds(tokenId: number): Promise<Seed> {
+		return this.contract.seeds(tokenId);
+	}
+
+	public async supportsInterface(interfaceId: string): Promise<boolean> {
+		return this.contract.supportsInterface(interfaceId);
+	}
+
+	public async symbol(): Promise<string> {
+		return this.contract.symbol();
+	}
+
+	public async tokenByIndex(index: number): Promise<bigint> {
+		return this.contract.tokenByIndex(index);
+	}
+
+	public async tokenOfOwnerByIndex(owner: string, index: number): Promise<bigint> {
+		return this.contract.tokenOfOwnerByIndex(owner, index);
+	}
+
+	public async tokenURI(tokenId: number): Promise<string> {
+		return this.contract.tokenURI(tokenId);
+	}
+
+	public async totalSupply(): Promise<bigint> {
+		return this.contract.totalSupply();
+	}
+
+	public async votesToDelegate(delegator: string): Promise<bigint> {
+		return this.contract.votesToDelegate(delegator);
 	}
 }
