@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 
-import { default as NounsDAODataABI } from "../abis/NounsDAOData.json";
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { createNounsDaoDataContract } from "../../utilities/contracts";
@@ -43,14 +42,14 @@ export type SupportedEventsType = keyof SupportedEventMap;
  * A wrapper class around the NounsDAOData contract.
  */
 export class _NounsDAOData {
-	public provider: ethers.JsonRpcProvider;
-	public Contract: ethers.Contract;
-	public registeredListeners: Map<SupportedEventsType, Function>;
+	private provider: ethers.JsonRpcProvider;
+	private contract: ethers.Contract;
+	private registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
-		this.Contract = createNounsDaoDataContract(this.provider);
+		this.contract = createNounsDaoDataContract(this.provider);
 		this.registeredListeners = new Map();
 	}
 
@@ -67,7 +66,7 @@ export class _NounsDAOData {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AdminChanged":
-				this.Contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
+				this.contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data = {
 						previousAdmin: { id: previousAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
@@ -80,7 +79,7 @@ export class _NounsDAOData {
 				break;
 
 			case "BeaconUpgraded":
-				this.Contract.on(eventName, (beacon: string, event: ethers.Log) => {
+				this.contract.on(eventName, (beacon: string, event: ethers.Log) => {
 					const data = {
 						beacon: { id: beacon } as Account,
 						event: event
@@ -92,7 +91,7 @@ export class _NounsDAOData {
 				break;
 
 			case "CandidateFeedbackSent":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(msgSender: string, proposer: string, slug: string, support: bigint, reason: string, event: ethers.Log) => {
 						const data = {
@@ -111,7 +110,7 @@ export class _NounsDAOData {
 				break;
 
 			case "CreateCandidateCostSet":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(oldCreateCandidateCost: bigint, newCreateCandidateCost: bigint, event: ethers.Log) => {
 						const data = {
@@ -127,7 +126,7 @@ export class _NounsDAOData {
 				break;
 
 			case "ETHWithdrawn":
-				this.Contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
 					const data = {
 						to: { id: to } as Account,
 						amount: amount,
@@ -140,7 +139,7 @@ export class _NounsDAOData {
 				break;
 
 			case "FeeRecipientSet":
-				this.Contract.on(eventName, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Log) => {
+				this.contract.on(eventName, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Log) => {
 					const data = {
 						oldFeeRecipient: { id: oldFeeRecipient } as Account,
 						newFeeRecipient: { id: newFeeRecipient } as Account,
@@ -153,7 +152,7 @@ export class _NounsDAOData {
 				break;
 
 			case "FeedbackSent":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(msgSender: string, proposalId: bigint, support: bigint, reason: string, event: ethers.Log) => {
 						const data = {
@@ -171,7 +170,7 @@ export class _NounsDAOData {
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Log) => {
+				this.contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data = {
 						previousOwner: { id: previousOwner } as Account,
 						newOwner: { id: newOwner } as Account,
@@ -184,7 +183,7 @@ export class _NounsDAOData {
 				break;
 
 			case "ProposalCandidateCanceled":
-				this.Contract.on(eventName, (msgSender: string, slug: string, event: ethers.Log) => {
+				this.contract.on(eventName, (msgSender: string, slug: string, event: ethers.Log) => {
 					const data = {
 						msgSender: { id: msgSender } as Account,
 						slug: slug,
@@ -197,7 +196,7 @@ export class _NounsDAOData {
 				break;
 
 			case "ProposalCandidateCreated":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						msgSender: string,
@@ -231,7 +230,7 @@ export class _NounsDAOData {
 				break;
 
 			case "ProposalCandidateUpdated":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						msgSender: string,
@@ -267,7 +266,7 @@ export class _NounsDAOData {
 				break;
 
 			case "SignatureAdded":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						signer: string,
@@ -301,7 +300,7 @@ export class _NounsDAOData {
 				break;
 
 			case "UpdateCandidateCostSet":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(oldUpdateCandidateCost: bigint, newUpdateCandidateCost: bigint, event: ethers.Log) => {
 						const data = {
@@ -317,7 +316,7 @@ export class _NounsDAOData {
 				break;
 
 			case "Upgraded":
-				this.Contract.on(eventName, (implementation: string, event: ethers.Log) => {
+				this.contract.on(eventName, (implementation: string, event: ethers.Log) => {
 					const data = {
 						implementation: { id: implementation } as Account,
 						event: event
@@ -342,7 +341,7 @@ export class _NounsDAOData {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.Listener);
+			this.contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -383,5 +382,41 @@ export class _NounsDAOData {
 	 */
 	public hasEvent(eventName: string) {
 		return _NounsDAOData.supportedEvents.includes(eventName as SupportedEventsType);
+	}
+
+	//=====================================
+	// View / Pure functions.
+	//=====================================
+
+	public async PRIOR_VOTES_BLOCKS_AGO(): Promise<bigint> {
+		return this.contract.PRIOR_VOTES_BLOCKS_AGO();
+	}
+
+	public async createCandidateCost(): Promise<bigint> {
+		return this.contract.createCandidateCost();
+	}
+
+	public async feeRecipient(): Promise<string> {
+		return this.contract.feeRecipient();
+	}
+
+	public async nounsDao(): Promise<string> {
+		return this.contract.nounsDao();
+	}
+
+	public async nounsToken(): Promise<string> {
+		return this.contract.nounsToken();
+	}
+
+	public async owner(): Promise<string> {
+		return this.contract.owner();
+	}
+
+	public async propCandidates(address: string, bytes: string): Promise<boolean> {
+		return this.contract.propCandidates(address, bytes);
+	}
+
+	public async updateCandidateCost(): Promise<bigint> {
+		return this.contract.updateCandidateCost();
 	}
 }

@@ -37,14 +37,14 @@ export type SupportedEventsType = keyof SupportedEventMap;
  * A wrapper class around the NounsDaoExecutor contract.
  */
 export class NounsDaoExecutor {
-	public provider: ethers.JsonRpcProvider;
-	public Contract: ethers.Contract;
-	public registeredListeners: Map<SupportedEventsType, Function>;
+	private provider: ethers.JsonRpcProvider;
+	private contract: ethers.Contract;
+	private registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EXECUTOR_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
-		this.Contract = createNounsDaoExecutorContract(this.provider);
+		this.contract = createNounsDaoExecutorContract(this.provider);
 		this.registeredListeners = new Map();
 	}
 
@@ -61,7 +61,7 @@ export class NounsDaoExecutor {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AdminChanged":
-				this.Contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
+				this.contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.AdminChanged = {
 						previousAdmin: { id: previousAdmin },
 						newAdmin: { id: newAdmin },
@@ -74,7 +74,7 @@ export class NounsDaoExecutor {
 				break;
 
 			case "BeaconUpgraded":
-				this.Contract.on(eventName, (beacon: string, event: ethers.Log) => {
+				this.contract.on(eventName, (beacon: string, event: ethers.Log) => {
 					const data: EventData.BeaconUpgraded = {
 						beacon: { id: beacon },
 						event: event
@@ -86,7 +86,7 @@ export class NounsDaoExecutor {
 				break;
 
 			case "CancelTransaction":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						txHash: string,
@@ -114,7 +114,7 @@ export class NounsDaoExecutor {
 				break;
 
 			case "ERC20Sent":
-				this.Contract.on(eventName, (to: string, erc20Token: string, amount: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (to: string, erc20Token: string, amount: bigint, event: ethers.Log) => {
 					const data: EventData.ERC20Sent = {
 						to: { id: to },
 						erc20Token: { id: erc20Token },
@@ -128,7 +128,7 @@ export class NounsDaoExecutor {
 				break;
 
 			case "ETHSent":
-				this.Contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
 					const data: EventData.ETHSent = {
 						to: { id: to },
 						amount,
@@ -141,7 +141,7 @@ export class NounsDaoExecutor {
 				break;
 
 			case "ExecuteTransaction":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						txHash: string,
@@ -169,7 +169,7 @@ export class NounsDaoExecutor {
 				break;
 
 			case "NewAdmin":
-				this.Contract.on(eventName, (newAdmin: string, event: ethers.Log) => {
+				this.contract.on(eventName, (newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						newAdmin: { id: newAdmin },
 						event
@@ -181,7 +181,7 @@ export class NounsDaoExecutor {
 				break;
 
 			case "NewDelay":
-				this.Contract.on(eventName, (newDelay: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (newDelay: bigint, event: ethers.Log) => {
 					const data: EventData.NewDelay = {
 						newDelay,
 						event
@@ -193,7 +193,7 @@ export class NounsDaoExecutor {
 				break;
 
 			case "NewPendingAdmin":
-				this.Contract.on(eventName, (newPendingAdmin: string, event: ethers.Log) => {
+				this.contract.on(eventName, (newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						newPendingAdmin: { id: newPendingAdmin },
 						event
@@ -205,7 +205,7 @@ export class NounsDaoExecutor {
 				break;
 
 			case "QueueTransaction":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						txHash: string,
@@ -233,7 +233,7 @@ export class NounsDaoExecutor {
 				break;
 
 			case "Upgraded":
-				this.Contract.on(eventName, (implementation: string, event: ethers.Log) => {
+				this.contract.on(eventName, (implementation: string, event: ethers.Log) => {
 					const data: EventData.Upgraded = {
 						implementation: { id: implementation } as Account,
 						event: event
@@ -258,7 +258,7 @@ export class NounsDaoExecutor {
 	public off(eventName: SupportedEventsType) {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.Listener);
+			this.contract.off(eventName, listener as ethers.Listener);
 		}
 		this.registeredListeners.delete(eventName);
 	}
@@ -299,8 +299,44 @@ export class NounsDaoExecutor {
 	}
 
 	public async fetchTreasuryContents() {
-		const address = await this.Contract.getAddress();
+		const address = await this.contract.getAddress();
 		const walletTokenFinder = new WalletTokenFinder(this.provider);
 		return walletTokenFinder.fetchWalletTokens(address);
+	}
+
+	//=====================================
+	// View / Pure functions.
+	//=====================================
+
+	public async GRACE_PERIOD(): Promise<bigint> {
+		return this.contract.GRACE_PERIOD();
+	}
+
+	public async MAXIMUM_DELAY(): Promise<bigint> {
+		return this.contract.MAXIMUM_DELAY();
+	}
+
+	public async MINIMUM_DELAY(): Promise<bigint> {
+		return this.contract.MINIMUM_DELAY();
+	}
+
+	public async NAME(): Promise<string> {
+		return this.contract.NAME();
+	}
+
+	public async admin(): Promise<string> {
+		return this.contract.admin();
+	}
+
+	public async delay(): Promise<bigint> {
+		return this.contract.delay();
+	}
+
+	public async pendingAdmin(): Promise<string> {
+		return this.contract.pendingAdmin();
+	}
+
+	public async queuedTransactions(): Promise<string> {
+		return this.contract.queuedTransactions();
 	}
 }

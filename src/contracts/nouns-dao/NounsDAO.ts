@@ -97,18 +97,85 @@ const SUPPORTED_NOUNS_DAO_EVENTS = [
 ] as const;
 export type SupportedEventsType = keyof SupportedEventMap;
 
+interface Action {
+	targets: string[];
+	values: bigint[];
+	signatures: string[];
+	calldatas: string[];
+}
+
+interface DynamicQuorumParams {
+	minQuorumVotesBPS: bigint;
+	maxQuorumVotesBPS: bigint;
+	quorumCoefficient: bigint;
+}
+
+interface Receipt {
+	hasVoted: boolean;
+	support: bigint;
+	votes: bigint;
+}
+
+interface ProposalForRewards {
+	endBlock: bigint;
+	objectionPeriodEndBlock: bigint;
+	forVotes: bigint;
+	againstVotes: bigint;
+	abstainVotes: bigint;
+	totalSupply: bigint;
+	creationTimestamp: bigint;
+	numSigners: bigint;
+	clientId: bigint;
+}
+
+interface ClientVoteData {
+	votes: bigint;
+	txs: bigint;
+}
+
+interface ProposalCondensed {
+	id: bigint;
+	proposer: string;
+	proposalThreshold: bigint;
+	quorumVotes: bigint;
+	eta: bigint;
+	startBlock: bigint;
+	endBlock: bigint;
+	forVotes: bigint;
+	againstVotes: bigint;
+	abstainVotes: bigint;
+	canceled: boolean;
+	vetoed: boolean;
+	executed: boolean;
+	totalSupply: bigint;
+	creationBlock: bigint;
+}
+
+interface ProposalCondensedV3 extends ProposalCondensed {
+	creationTimestamp: bigint;
+	signers: string[];
+	updatePeriodEndBlock: bigint;
+	objectionPeriodEndBlock: bigint;
+	executeOnTimelockV1: boolean;
+}
+
+interface DynamicQuorumParamsCheckpoint {
+	fromBlock: bigint;
+	params: DynamicQuorumParams;
+}
+
 /**
  * A wrapper class around the NounsDAO contract.
  */
 export class _NounsDAO {
-	public provider: ethers.JsonRpcProvider;
-	public Contract: ethers.Contract;
-	public registeredListeners: Map<SupportedEventsType, Function>;
+	private provider: ethers.JsonRpcProvider;
+	private contract: ethers.Contract;
+	private registeredListeners: Map<SupportedEventsType, Function>;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
-		this.Contract = createNounsDaoLogicV4Contract(this.provider);
+		this.contract = createNounsDaoLogicV4Contract(this.provider);
 		this.registeredListeners = new Map();
 	}
 
@@ -126,7 +193,7 @@ export class _NounsDAO {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "DAONounsSupplyIncreasedFromEscrow":
-				this.Contract.on(eventName, (numTokens: bigint, to: string, event: ethers.Log) => {
+				this.contract.on(eventName, (numTokens: bigint, to: string, event: ethers.Log) => {
 					const data: EventData.DAONounsSupplyIncreasedFromEscrow = {
 						numTokens: Number(numTokens),
 						to: { id: to },
@@ -138,7 +205,7 @@ export class _NounsDAO {
 				break;
 
 			case "DAOWithdrawNounsFromEscrow":
-				this.Contract.on(eventName, (tokenIds: bigint[], to: string, event: ethers.Log) => {
+				this.contract.on(eventName, (tokenIds: bigint[], to: string, event: ethers.Log) => {
 					const data = {
 						tokenIds: tokenIds.map((tokenId) => Number(tokenId)),
 						to: { id: to } as Account,
@@ -151,7 +218,7 @@ export class _NounsDAO {
 				break;
 
 			case "ERC20TokensToIncludeInForkSet":
-				this.Contract.on(eventName, (oldErc20Tokens: string[], newErc20tokens: string[], event: ethers.Log) => {
+				this.contract.on(eventName, (oldErc20Tokens: string[], newErc20tokens: string[], event: ethers.Log) => {
 					const data = {
 						oldErc20Tokens: oldErc20Tokens,
 						newErc20tokens: newErc20tokens,
@@ -164,7 +231,7 @@ export class _NounsDAO {
 				break;
 
 			case "EscrowedToFork":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						forkId: bigint,
@@ -194,7 +261,7 @@ export class _NounsDAO {
 				break;
 
 			case "ExecuteFork":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						forkId: bigint,
@@ -220,7 +287,7 @@ export class _NounsDAO {
 				break;
 
 			case "ForkDAODeployerSet":
-				this.Contract.on(eventName, (oldForkDAODeployer: string, newForkDAODeployer: string, event: ethers.Log) => {
+				this.contract.on(eventName, (oldForkDAODeployer: string, newForkDAODeployer: string, event: ethers.Log) => {
 					const data = {
 						oldForkDAODeployer: { id: oldForkDAODeployer } as Account,
 						newForkDAODeployer: { id: newForkDAODeployer } as Account,
@@ -233,7 +300,7 @@ export class _NounsDAO {
 				break;
 
 			case "ForkPeriodSet":
-				this.Contract.on(eventName, (oldForkPeriod: bigint, newForkPeriod: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (oldForkPeriod: bigint, newForkPeriod: bigint, event: ethers.Log) => {
 					const data = {
 						oldForkPeriod: oldForkPeriod,
 						newForkPeriod: newForkPeriod,
@@ -246,7 +313,7 @@ export class _NounsDAO {
 				break;
 
 			case "ForkThresholdSet":
-				this.Contract.on(eventName, (oldForkThreshold: bigint, newForkThreshold: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (oldForkThreshold: bigint, newForkThreshold: bigint, event: ethers.Log) => {
 					const data = {
 						oldForkThreshold: oldForkThreshold,
 						newForkThreshold: newForkThreshold,
@@ -259,7 +326,7 @@ export class _NounsDAO {
 				break;
 
 			case "JoinFork":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						forkId: bigint,
@@ -289,7 +356,7 @@ export class _NounsDAO {
 				break;
 
 			case "LastMinuteWindowSet":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(oldLastMinuteWindowInBlocks: bigint, newLastMinuteWindowInBlocks: bigint, event: ethers.Log) => {
 						const data = {
@@ -305,7 +372,7 @@ export class _NounsDAO {
 				break;
 
 			case "MaxQuorumVotesBPSSet":
-				this.Contract.on(eventName, (oldMaxQuorumVotesBPS: bigint, newMaxQuorumVotesBPS: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (oldMaxQuorumVotesBPS: bigint, newMaxQuorumVotesBPS: bigint, event: ethers.Log) => {
 					const data = {
 						oldMaxQuorumVotesBPS: Number(oldMaxQuorumVotesBPS),
 						newMaxQuorumVotesBPS: Number(newMaxQuorumVotesBPS),
@@ -318,7 +385,7 @@ export class _NounsDAO {
 				break;
 
 			case "MinQuorumVotesBPSSet":
-				this.Contract.on(eventName, (oldMinQuorumVotesBPS: bigint, newMinQuorumVotesBPS: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (oldMinQuorumVotesBPS: bigint, newMinQuorumVotesBPS: bigint, event: ethers.Log) => {
 					const data = {
 						oldMinQuorumVotesBPS: Number(oldMinQuorumVotesBPS),
 						newMinQuorumVotesBPS: Number(newMinQuorumVotesBPS),
@@ -331,7 +398,7 @@ export class _NounsDAO {
 				break;
 
 			case "NewAdmin":
-				this.Contract.on(eventName, (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
+				this.contract.on(eventName, (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						oldAdmin: { id: oldAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
@@ -344,7 +411,7 @@ export class _NounsDAO {
 				break;
 
 			case "NewImplementation":
-				this.Contract.on(eventName, (oldImplementation: string, newImplementation: string, event: ethers.Log) => {
+				this.contract.on(eventName, (oldImplementation: string, newImplementation: string, event: ethers.Log) => {
 					const data: EventData.NewImplementation = {
 						oldImplementation: { id: oldImplementation } as Account,
 						newImplementation: { id: newImplementation } as Account,
@@ -357,7 +424,7 @@ export class _NounsDAO {
 				break;
 
 			case "NewPendingAdmin":
-				this.Contract.on(eventName, (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Log) => {
+				this.contract.on(eventName, (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						oldPendingAdmin: { id: oldPendingAdmin } as Account,
 						newPendingAdmin: { id: newPendingAdmin } as Account,
@@ -370,7 +437,7 @@ export class _NounsDAO {
 				break;
 
 			case "NewPendingVetoer":
-				this.Contract.on(eventName, (oldPendingVetoer: string, newPendingVetoer: string, event: ethers.Log) => {
+				this.contract.on(eventName, (oldPendingVetoer: string, newPendingVetoer: string, event: ethers.Log) => {
 					const data = {
 						oldPendingVetoer: { id: oldPendingVetoer } as Account,
 						newPendingVetoer: { id: newPendingVetoer } as Account,
@@ -383,7 +450,7 @@ export class _NounsDAO {
 				break;
 
 			case "NewVetoer":
-				this.Contract.on(eventName, (oldVetoer: string, newVetoer: string, event: ethers.Log) => {
+				this.contract.on(eventName, (oldVetoer: string, newVetoer: string, event: ethers.Log) => {
 					const data: EventData.NewVetoer = {
 						oldVetoer: { id: oldVetoer },
 						newVetoer: { id: newVetoer },
@@ -396,7 +463,7 @@ export class _NounsDAO {
 				break;
 
 			case "ObjectionPeriodDurationSet":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						oldObjectionPeriodDurationInBlocks: bigint,
@@ -416,7 +483,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalCanceled":
-				this.Contract.on(eventName, (id: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
 						id: Number(id),
 						event: event
@@ -428,7 +495,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalCreated":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						id: bigint,
@@ -462,7 +529,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalCreatedOnTimelockV1":
-				this.Contract.on(eventName, (id: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (id: bigint, event: ethers.Log) => {
 					const data = {
 						id: Number(id),
 						event: event
@@ -474,7 +541,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalCreatedWithRequirements":
-				this.Contract.on(
+				this.contract.on(
 					PROPOSAL_CREATED_WITH_REQUIREMENTS_V4_SIGNATURE,
 					(
 						id: bigint,
@@ -502,7 +569,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalDescriptionUpdated":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(id: bigint, proposer: string, description: string, updatedMessage: string, event: ethers.Log) => {
 						const data = {
@@ -520,7 +587,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalExecuted":
-				this.Contract.on(eventName, (id: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
 						id: Number(id),
 						event: event
@@ -531,7 +598,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalObjectionPeriodSet":
-				this.Contract.on(eventName, (id: bigint, objectionPeriodEndBlock: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (id: bigint, objectionPeriodEndBlock: bigint, event: ethers.Log) => {
 					const data = {
 						id: Number(id),
 						objectionPeriodEndBlock: objectionPeriodEndBlock,
@@ -544,7 +611,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalQueued":
-				this.Contract.on(eventName, (id: bigint, eta: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (id: bigint, eta: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
 						id: Number(id),
 						eta: eta,
@@ -556,7 +623,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalThresholdBPSSet":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(oldProposalThresholdBPS: bigint, newProposalThresholdBPS: bigint, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
@@ -572,7 +639,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalTransactionsUpdated":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						id: bigint,
@@ -602,7 +669,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalUpdatablePeriodSet":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						oldProposalUpdatablePeriodInBlocks: bigint,
@@ -622,7 +689,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalUpdated":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						id: bigint,
@@ -654,7 +721,7 @@ export class _NounsDAO {
 				break;
 
 			case "ProposalVetoed":
-				this.Contract.on(eventName, (id: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalVetoed = {
 						id: Number(id),
 						event: event
@@ -665,7 +732,7 @@ export class _NounsDAO {
 				break;
 
 			case "QuorumCoefficientSet":
-				this.Contract.on(eventName, (oldQuorumCoefficient: bigint, newQuorumCoefficient: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (oldQuorumCoefficient: bigint, newQuorumCoefficient: bigint, event: ethers.Log) => {
 					const data = {
 						oldQuorumCoefficient: Number(oldQuorumCoefficient),
 						newQuorumCoefficient: Number(newQuorumCoefficient),
@@ -678,7 +745,7 @@ export class _NounsDAO {
 				break;
 
 			case "QuorumVotesBPSSet":
-				this.Contract.on(eventName, (oldQuorumVotesBPS: bigint, newQuorumVotesBPS: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (oldQuorumVotesBPS: bigint, newQuorumVotesBPS: bigint, event: ethers.Log) => {
 					const data: EventData.QuorumVotesBPSSet = {
 						oldQuorumVotesBPS: Number(oldQuorumVotesBPS),
 						newQuorumVotesBPS: Number(newQuorumVotesBPS),
@@ -691,7 +758,7 @@ export class _NounsDAO {
 				break;
 
 			case "RefundableVote":
-				this.Contract.on(eventName, (voter: string, refundAmount: bigint, refundSent: boolean, event: ethers.Log) => {
+				this.contract.on(eventName, (voter: string, refundAmount: bigint, refundSent: boolean, event: ethers.Log) => {
 					const data = {
 						voter: { id: voter } as Account,
 						refundAmount: refundAmount,
@@ -705,7 +772,7 @@ export class _NounsDAO {
 				break;
 
 			case "SignatureCancelled":
-				this.Contract.on(eventName, (signer: string, sig: any, event: ethers.Log) => {
+				this.contract.on(eventName, (signer: string, sig: any, event: ethers.Log) => {
 					const data = {
 						signer: { id: signer } as Account,
 						sig: sig,
@@ -718,7 +785,7 @@ export class _NounsDAO {
 				break;
 
 			case "TimelocksAndAdminSet":
-				this.Contract.on(eventName, (timelock: string, timelockV1: string, admin: string, event: ethers.Log) => {
+				this.contract.on(eventName, (timelock: string, timelockV1: string, admin: string, event: ethers.Log) => {
 					const data = {
 						timelock: { id: timelock } as Account,
 						timelockV1: { id: timelockV1 } as Account,
@@ -732,7 +799,7 @@ export class _NounsDAO {
 				break;
 
 			case "VoteCast":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(voter: string, proposalId: bigint, support: bigint, votes: bigint, reason: string, event: ethers.Log) => {
 						const supportDetailed: VoteDirection = Number(support);
@@ -753,7 +820,7 @@ export class _NounsDAO {
 				break;
 
 			case "VoteCastWithClientId":
-				this.Contract.on(eventName, (voter: string, proposalId: bigint, clientId: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (voter: string, proposalId: bigint, clientId: bigint, event: ethers.Log) => {
 					const data: EventData.VoteCastWithClientId = {
 						voter: { id: voter },
 						proposalId: Number(proposalId),
@@ -766,7 +833,7 @@ export class _NounsDAO {
 				break;
 
 			case "VoteSnapshotBlockSwitchProposalIdSet":
-				this.Contract.on(
+				this.contract.on(
 					eventName,
 					(
 						oldVoteSnapshotBlockSwitchProposalId: bigint,
@@ -786,7 +853,7 @@ export class _NounsDAO {
 				break;
 
 			case "VotingDelaySet":
-				this.Contract.on(eventName, (oldVotingDelay: bigint, newVotingDelay: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (oldVotingDelay: bigint, newVotingDelay: bigint, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
@@ -799,7 +866,7 @@ export class _NounsDAO {
 				break;
 
 			case "VotingPeriodSet":
-				this.Contract.on(eventName, (oldVotingPeriod: bigint, newVotingPeriod: bigint, event: ethers.Log) => {
+				this.contract.on(eventName, (oldVotingPeriod: bigint, newVotingPeriod: bigint, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,
@@ -812,7 +879,7 @@ export class _NounsDAO {
 				break;
 
 			case "Withdraw":
-				this.Contract.on(eventName, (amount: bigint, sent: boolean, event: ethers.Log) => {
+				this.contract.on(eventName, (amount: bigint, sent: boolean, event: ethers.Log) => {
 					const data = {
 						amount: amount,
 						sent: sent,
@@ -825,7 +892,7 @@ export class _NounsDAO {
 				break;
 
 			case "WithdrawFromForkEscrow":
-				this.Contract.on(eventName, (forkId: bigint, owner: string, tokenIds: bigint[], event: ethers.Log) => {
+				this.contract.on(eventName, (forkId: bigint, owner: string, tokenIds: bigint[], event: ethers.Log) => {
 					const data = {
 						forkId: Number(forkId),
 						owner: { id: owner } as Account,
@@ -853,9 +920,9 @@ export class _NounsDAO {
 		let listener = this.registeredListeners.get(eventName);
 		if (listener) {
 			if (eventName === "ProposalCreatedWithRequirements") {
-				this.Contract.off(PROPOSAL_CREATED_WITH_REQUIREMENTS_V4_SIGNATURE, listener as ethers.Listener);
+				this.contract.off(PROPOSAL_CREATED_WITH_REQUIREMENTS_V4_SIGNATURE, listener as ethers.Listener);
 			} else {
-				this.Contract.off(eventName, listener as ethers.Listener);
+				this.contract.off(eventName, listener as ethers.Listener);
 			}
 		}
 		this.registeredListeners.delete(eventName);
@@ -890,5 +957,203 @@ export class _NounsDAO {
 	 */
 	public hasEvent(eventName: string) {
 		return _NounsDAO.supportedEvents.includes(eventName as SupportedEventsType);
+	}
+
+	//=====================================
+	// View / Pure functions.
+	//=====================================
+
+	public async MAX_PROPOSAL_THRESHOLD_BPS(): Promise<bigint> {
+		return this.contract.MAX_PROPOSAL_THRESHOLD_BPS();
+	}
+
+	public async MAX_VOTING_DELAY(): Promise<bigint> {
+		return this.contract.MAX_VOTING_DELAY();
+	}
+
+	public async MAX_VOTING_PERIOD(): Promise<bigint> {
+		return this.contract.MAX_VOTING_PERIOD();
+	}
+
+	public async MIN_PROPOSAL_THRESHOLD_BPS(): Promise<bigint> {
+		return this.contract.MIN_PROPOSAL_THRESHOLD_BPS();
+	}
+
+	public async MIN_VOTING_DELAY(): Promise<bigint> {
+		return this.contract.MIN_VOTING_DELAY();
+	}
+
+	public async MIN_VOTING_PERIOD(): Promise<bigint> {
+		return this.contract.MIN_VOTING_PERIOD();
+	}
+
+	public async adjustedTotalSupply(): Promise<bigint> {
+		return this.contract.adjustedTotalSupply();
+	}
+
+	public async dynamicQuorumVotes(
+		againstVotes: number,
+		adjustedTotalSupply: number,
+		params: { minQuorumVotesBPS: number; maxQuorumVotesBPS: number; quorumCoefficient: number }
+	): Promise<bigint> {
+		return this.contract.dynamicQuorumVotes(againstVotes, adjustedTotalSupply, params);
+	}
+
+	public async erc20TokensToIncludeInFork(): Promise<string[]> {
+		return this.contract.erc20TokensToIncludeInFork();
+	}
+
+	public async forkDAODeployer(): Promise<string> {
+		return this.contract.forkDAODeployer();
+	}
+
+	public async forkEndTimestamp(): Promise<bigint> {
+		return this.contract.forkEndTimestamp();
+	}
+
+	public async forkEscrow(): Promise<string> {
+		return this.contract.forkEscrow();
+	}
+
+	public async forkPeriod(): Promise<bigint> {
+		return this.contract.forkPeriod();
+	}
+
+	public async forkThreshold(): Promise<bigint> {
+		return this.contract.forkThreshold();
+	}
+
+	public async forkThresholdBPS(): Promise<bigint> {
+		return this.contract.forkThresholdBPS();
+	}
+
+	public async getActions(proposalId: number): Promise<Action> {
+		const action: Action = await this.contract.getActions(proposalId);
+		return action;
+	}
+
+	public async getDynamicQuorumParamsAt(blockNumber: number): Promise<DynamicQuorumParams> {
+		return this.contract.getDynamicQuorumParamsAt(blockNumber);
+	}
+
+	public async getReceipt(proposalId: number, voter: string): Promise<Receipt> {
+		return this.contract.getReceipt(proposalId, voter);
+	}
+
+	public async lastMinuteWindowInBlocks(): Promise<bigint> {
+		return this.contract.lastMinuteWindowInBlocks();
+	}
+
+	public async latestProposalIds(account: string): Promise<bigint> {
+		return this.contract.latestProposalIds(account);
+	}
+
+	public async maxQuorumVotes(): Promise<bigint> {
+		return this.contract.maxQuorumVotes();
+	}
+
+	public async minQuorumVotes(): Promise<bigint> {
+		return this.contract.minQuorumVotes();
+	}
+
+	public async nouns(): Promise<string> {
+		return this.contract.nouns();
+	}
+
+	public async numTokensInForkEscrow(): Promise<bigint> {
+		return this.contract.numTokensInForkEscrow();
+	}
+
+	public async objectionPeriodDurationInBlocks(): Promise<bigint> {
+		return this.contract.objectionPeriodDurationInBlocks();
+	}
+
+	public async pendingVetoer(): Promise<string> {
+		return this.contract.pendingVetoer();
+	}
+
+	public async proposalClientId(proposalId: number): Promise<bigint> {
+		return this.contract.proposalClientId(proposalId);
+	}
+
+	public async proposalCount(): Promise<bigint> {
+		return this.contract.proposalCount();
+	}
+
+	public async proposalDataForRewards(proposalId: number): Promise<ProposalForRewards> {
+		return this.contract.proposalDataForRewards(proposalId);
+	}
+
+	public async proposalMaxOperations(): Promise<bigint> {
+		return this.contract.proposalMaxOperations();
+	}
+
+	public async proposalThreshold(): Promise<bigint> {
+		return this.contract.proposalThreshold();
+	}
+
+	public async proposalThresholdBPS(): Promise<bigint> {
+		return this.contract.proposalThresholdBPS();
+	}
+
+	public async proposalUpdatablePeriodInBlocks(): Promise<bigint> {
+		return this.contract.proposalUpdatablePeriodInBlocks();
+	}
+
+	public async proposalVoteClientData(proposalId: number, clientId: number): Promise<ClientVoteData> {
+		return this.contract.proposalVoteClientData(proposalId, clientId);
+	}
+
+	public async proposalVoteClientsData(proposalId: number, clientIds: number[]): Promise<ClientVoteData[]> {
+		return this.contract.proposalVoteClientsData(proposalId, clientIds);
+	}
+
+	public async proposals(proposalId: number): Promise<ProposalCondensed> {
+		return this.contract.proposals(proposalId);
+	}
+
+	public async proposalsV3(proposalId: number): Promise<ProposalCondensedV3> {
+		return this.contract.proposalsV3(proposalId);
+	}
+
+	public async quorumParamsCheckpoints(index?: number): Promise<DynamicQuorumParamsCheckpoint[]> {
+		return this.contract.quorumParamsCheckpoints(index);
+	}
+
+	public async quorumVotes(proposalId: number): Promise<bigint> {
+		return this.contract.quorumVotes(proposalId);
+	}
+
+	public async quorumVotesBPS(): Promise<bigint> {
+		return this.contract.quorumVotesBPS();
+	}
+
+	// Internally an enum. TODO: Convert to an enum.
+	public async state(proposalId: number): Promise<bigint> {
+		return this.contract.state(proposalId);
+	}
+
+	public async timelock(): Promise<string> {
+		return this.contract.timelock();
+	}
+
+	public async timelockV1(): Promise<string> {
+		return this.contract.timelockV1();
+	}
+
+	public async vetoer(): Promise<string> {
+		return this.contract.vetoer();
+	}
+
+	public async voteSnapshotBlockSwitchProposalId(): Promise<bigint> {
+		return this.contract.voteSnapshotBlockSwitchProposalId();
+	}
+
+	public async votingDelay(): Promise<bigint> {
+		return this.contract.votingDelay();
+	}
+
+	public async votingPeriod(): Promise<bigint> {
+		return this.contract.votingPeriod();
 	}
 }

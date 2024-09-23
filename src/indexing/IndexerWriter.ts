@@ -47,7 +47,7 @@ export class IndexerWriter {
 			await indexer.indexEvent(this.nounsDao.Contract, this.provider, event, parser, this.path);
 		} else if (parsers.NOUNS_DAO_DATA_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_DAO_DATA_FORMATTERS.get(event) as Function;
-			await indexer.indexEvent(this.nounsDaoData.Contract, this.provider, event, parser, this.path);
+			await indexer.indexEvent(this.nounsDaoData.contract, this.provider, event, parser, this.path);
 		} else if (parsers.NOUNS_TOKEN_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_TOKEN_FORMATTERS.get(event) as Function;
 			await indexer.indexEvent(this.nounsToken.Contract, this.provider, event, parser, this.path);
@@ -69,7 +69,7 @@ export class IndexerWriter {
 			indexer.listenForEvent(this.nounsDao.Contract, event, parser, this.path);
 		} else if (parsers.NOUNS_DAO_DATA_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_DAO_DATA_FORMATTERS.get(event) as Function;
-			indexer.listenForEvent(this.nounsDaoData.Contract, event, parser, this.path);
+			indexer.listenForEvent(this.nounsDaoData.contract, event, parser, this.path);
 		} else if (parsers.NOUNS_TOKEN_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_TOKEN_FORMATTERS.get(event) as Function;
 			indexer.listenForEvent(this.nounsToken.Contract, event, parser, this.path);
@@ -91,7 +91,7 @@ export class IndexerWriter {
 			await indexer.updateIndexedEvent(this.nounsDao.Contract, this.provider, event, parser, this.path);
 		} else if (parsers.NOUNS_DAO_DATA_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_DAO_DATA_FORMATTERS.get(event) as Function;
-			await indexer.updateIndexedEvent(this.nounsDaoData.Contract, this.provider, event, parser, this.path);
+			await indexer.updateIndexedEvent(this.nounsDaoData.contract, this.provider, event, parser, this.path);
 		} else if (parsers.NOUNS_TOKEN_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_TOKEN_FORMATTERS.get(event) as Function;
 			await indexer.updateIndexedEvent(this.nounsToken.Contract, this.provider, event, parser, this.path);
