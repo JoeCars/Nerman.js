@@ -46,6 +46,10 @@ export default class Rewards {
 		this.registeredListeners = new Map();
 	}
 
+	public get viewer() {
+		return this.rewardsViewer;
+	}
+
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "ClientRegistered":
