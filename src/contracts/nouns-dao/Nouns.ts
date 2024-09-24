@@ -134,8 +134,8 @@ export class Nouns {
 			this.cache.auction.state = "EXTENDED";
 		}
 
-		this.cache.auction.duration = Number(await this.NounsAuctionHouse.Contract.duration());
-		this.cache.auction.timeBuffer = Number(await this.NounsAuctionHouse.Contract.timeBuffer());
+		this.cache.auction.duration = Number(await this.NounsAuctionHouse.viewer.duration());
+		this.cache.auction.timeBuffer = Number(await this.NounsAuctionHouse.viewer.timeBuffer());
 
 		console.log("CACHE");
 		console.log(this.cache);
@@ -278,16 +278,6 @@ export class Nouns {
 		console.log("StateOfNouns off " + eventName);
 	}
 
-	// @todo functionType is only the following items: view pure payable
-	public async call(fType: string, fName: string, fArgs: any[]) {
-		switch (fType) {
-			case "view":
-				return await this.NounsToken.callView(fName, fArgs);
-
-				break;
-		}
-	}
-
 	/**
 	 * Returns the ens name of the address if available.
 	 * @param address the wallet address.
@@ -341,7 +331,7 @@ export class Nouns {
 
 	public async calculateBookValue() {
 		const treasuryContents = await this.NounsDaoExecutor.fetchTreasuryContents();
-		const totalNouns = Number(await this.NounsDAO.Contract.adjustedTotalSupply());
+		const totalNouns = Number(await this.NounsDAO.viewer.adjustedTotalSupply());
 
 		let ethSum = 0;
 		for (const tokenContent of treasuryContents) {
