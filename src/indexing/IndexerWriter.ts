@@ -2,19 +2,19 @@ import { ethers } from "ethers";
 
 import * as indexer from "../utilities/indexer/indexer-logic";
 import * as parsers from "../utilities/indexer/event-formatters";
-import { _NounsAuctionHouse } from "../contracts/nouns-dao/NounsAuctionHouse";
-import { _NounsDAO } from "../contracts/nouns-dao/NounsDAO";
-import { _NounsDAOData } from "../contracts/nouns-dao/NounsDAOData";
-import { _NounsToken } from "../contracts/nouns-dao/NounsToken";
+import { NounsAuctionHouse } from "../contracts/nouns-dao/NounsAuctionHouse";
+import { NounsLogic } from "../contracts/nouns-dao/NounsLogic";
+import { NounsData } from "../contracts/nouns-dao/NounsData";
+import { NounsToken } from "../contracts/nouns-dao/NounsToken";
 
 /** A class that takes event data from on-chain and writes them to files. */
 export class IndexerWriter {
 	private path: string;
 	private provider: ethers.JsonRpcProvider;
-	private nounsAuctionHouse: _NounsAuctionHouse;
-	private nounsDao: _NounsDAO;
-	private nounsDaoData: _NounsDAOData;
-	private nounsToken: _NounsToken;
+	private nounsAuctionHouse: NounsAuctionHouse;
+	private nounsDao: NounsLogic;
+	private nounsDaoData: NounsData;
+	private nounsToken: NounsToken;
 
 	/**
 	 * @param provider provider uses to create wrappers.
@@ -22,10 +22,10 @@ export class IndexerWriter {
 	 */
 	public constructor(provider: ethers.JsonRpcProvider | string, path: string) {
 		this.path = path;
-		this.nounsAuctionHouse = new _NounsAuctionHouse(provider);
-		this.nounsDao = new _NounsDAO(provider);
-		this.nounsDaoData = new _NounsDAOData(provider);
-		this.nounsToken = new _NounsToken(provider);
+		this.nounsAuctionHouse = new NounsAuctionHouse(provider);
+		this.nounsDao = new NounsLogic(provider);
+		this.nounsDaoData = new NounsData(provider);
+		this.nounsToken = new NounsToken(provider);
 
 		if (typeof provider === "string") {
 			this.provider = new ethers.JsonRpcProvider(provider);

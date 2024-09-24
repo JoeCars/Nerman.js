@@ -41,22 +41,22 @@ export type SupportedEventsType = keyof SupportedEventMap;
 /**
  * A wrapper class around the NounsDAOData contract.
  */
-export class _NounsDAOData {
+export class NounsData {
 	private provider: ethers.JsonRpcProvider;
 	private contract: ethers.Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
-	private nounsDAODataViewer: NounsDAODataViewer;
+	private nounsDataViewer: NounsDataViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
 		this.contract = createNounsDaoDataContract(this.provider);
-		this.nounsDAODataViewer = new NounsDAODataViewer(this.contract);
+		this.nounsDataViewer = new NounsDataViewer(this.contract);
 		this.registeredListeners = new Map();
 	}
 
 	public get viewer() {
-		return this.nounsDAODataViewer;
+		return this.nounsDataViewer;
 	}
 
 	/**
@@ -387,11 +387,11 @@ export class _NounsDAOData {
 	 * @returns True if the event is supported. False otherwise.
 	 */
 	public hasEvent(eventName: string) {
-		return _NounsDAOData.supportedEvents.includes(eventName as SupportedEventsType);
+		return NounsData.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }
 
-class NounsDAODataViewer {
+class NounsDataViewer {
 	private contract: Contract;
 	constructor(contract: Contract) {
 		this.contract = contract;

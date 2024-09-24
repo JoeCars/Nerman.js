@@ -1,30 +1,30 @@
 import { Contract, ethers } from "ethers";
 
 import {
-	_NounsAuctionHouse,
+	NounsAuctionHouse,
 	SupportedEventsType as NounsAuctionHouseSupportedEventsType,
 	SupportedEventMap as AuctionSupportedEventMap
 } from "./NounsAuctionHouse";
 import {
-	_NounsToken,
+	NounsToken,
 	SupportedEventsType as NounsTokenSupportedEventsType,
 	SupportedEventMap as TokenSupportedEventMap
 } from "./NounsToken";
 import {
-	_NounsDAO,
+	NounsLogic,
 	SupportedEventsType as NounsDAOSupportedEventsType,
 	SupportedEventMap as LogicSupportedEventMap
-} from "./NounsDAO";
+} from "./NounsLogic";
 import {
-	_NounsDAOData,
+	NounsData,
 	SupportedEventsType as NounsDAODataSupportedEventsType,
 	SupportedEventMap as DataSupportedEventMap
-} from "./NounsDAOData";
+} from "./NounsData";
 import {
-	NounsDaoExecutor,
+	NounsExecutor,
 	SupportedEventsType as NounsDaoExecutorSupportedEventsType,
 	SupportedEventMap as ExecutorSupportedEventMap
-} from "./NounsDAOExecutor";
+} from "./NounsExecutor";
 import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
@@ -51,19 +51,19 @@ type SupportedEventsType =
 export class Nouns {
 	public provider: ethers.JsonRpcProvider;
 
-	public NounsAuctionHouse: _NounsAuctionHouse; // @TODO refactor into NounishContract?
-	public NounsToken: _NounsToken;
-	public NounsDAO: _NounsDAO;
-	public NounsDAOData: _NounsDAOData;
-	public NounsDaoExecutor: NounsDaoExecutor;
+	public NounsAuctionHouse: NounsAuctionHouse; // @TODO refactor into NounishContract?
+	public NounsToken: NounsToken;
+	public NounsDAO: NounsLogic;
+	public NounsDAOData: NounsData;
+	public NounsDaoExecutor: NounsExecutor;
 
 	public Indexer: Indexer;
 	public static readonly supportedEvents = [
-		..._NounsAuctionHouse.supportedEvents,
-		..._NounsToken.supportedEvents,
-		..._NounsDAO.supportedEvents,
-		..._NounsDAOData.supportedEvents,
-		...NounsDaoExecutor.supportedEvents,
+		...NounsAuctionHouse.supportedEvents,
+		...NounsToken.supportedEvents,
+		...NounsLogic.supportedEvents,
+		...NounsData.supportedEvents,
+		...NounsExecutor.supportedEvents,
 		"AuctionEnd"
 	] as const;
 
@@ -84,11 +84,11 @@ export class Nouns {
 			this.provider.pollingInterval = options.pollingTime;
 		}
 
-		this.NounsAuctionHouse = new _NounsAuctionHouse(this.provider);
-		this.NounsToken = new _NounsToken(this.provider);
-		this.NounsDAO = new _NounsDAO(this.provider);
-		this.NounsDAOData = new _NounsDAOData(this.provider);
-		this.NounsDaoExecutor = new NounsDaoExecutor(this.provider);
+		this.NounsAuctionHouse = new NounsAuctionHouse(this.provider);
+		this.NounsToken = new NounsToken(this.provider);
+		this.NounsDAO = new NounsLogic(this.provider);
+		this.NounsDAOData = new NounsData(this.provider);
+		this.NounsDaoExecutor = new NounsExecutor(this.provider);
 
 		let indexerDirectoryPath = "./_nounsjs/data";
 		if (options?.indexerDirectoryPath) {

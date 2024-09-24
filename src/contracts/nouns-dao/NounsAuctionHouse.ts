@@ -44,7 +44,7 @@ type Settlement = {
 /**
  * A wrapper class around the NounsAuctionHouse contract.
  */
-export class _NounsAuctionHouse {
+export class NounsAuctionHouse {
 	private provider: ethers.JsonRpcProvider;
 	private contract: ethers.Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
@@ -390,7 +390,7 @@ export class _NounsAuctionHouse {
 	 * @returns True if the event is supported. False otherwise.
 	 */
 	public hasEvent(eventName: string) {
-		return _NounsAuctionHouse.supportedEvents.includes(eventName as SupportedEventsType);
+		return NounsAuctionHouse.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 
 	// IF ITS A NOUNDERS NOUNS, OR NO BIDS, NEED TO CHECK WHO IT WAS TRANSFERRED TO

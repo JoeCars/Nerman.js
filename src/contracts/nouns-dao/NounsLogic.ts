@@ -167,22 +167,22 @@ interface DynamicQuorumParamsCheckpoint {
 /**
  * A wrapper class around the NounsDAO contract.
  */
-export class _NounsDAO {
+export class NounsLogic {
 	private provider: ethers.JsonRpcProvider;
 	private contract: ethers.Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
-	private nounsDaoViewer: NounsDAOViewer;
+	private nounsLogicViewer: NounsLogicViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
 		this.contract = createNounsDaoLogicV4Contract(this.provider);
-		this.nounsDaoViewer = new NounsDAOViewer(this.contract);
+		this.nounsLogicViewer = new NounsLogicViewer(this.contract);
 		this.registeredListeners = new Map();
 	}
 
 	public get viewer() {
-		return this.nounsDaoViewer;
+		return this.nounsLogicViewer;
 	}
 
 	/**
@@ -962,11 +962,11 @@ export class _NounsDAO {
 	 * @returns True if the event is supported. False otherwise.
 	 */
 	public hasEvent(eventName: string) {
-		return _NounsDAO.supportedEvents.includes(eventName as SupportedEventsType);
+		return NounsLogic.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }
 
-class NounsDAOViewer {
+class NounsLogicViewer {
 	private contract: Contract;
 	constructor(contract: Contract) {
 		this.contract = contract;

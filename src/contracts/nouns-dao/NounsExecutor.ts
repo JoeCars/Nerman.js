@@ -36,22 +36,22 @@ export type SupportedEventsType = keyof SupportedEventMap;
 /**
  * A wrapper class around the NounsDaoExecutor contract.
  */
-export class NounsDaoExecutor {
+export class NounsExecutor {
 	private provider: ethers.JsonRpcProvider;
 	private contract: ethers.Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
-	private nounsDaoExecutorViewer: NounsDaoExecutorViewer;
+	private nounsExecutorViewer: NounsExecutorViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EXECUTOR_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
 		this.contract = createNounsDaoExecutorContract(this.provider);
-		this.nounsDaoExecutorViewer = new NounsDaoExecutorViewer(this.contract);
+		this.nounsExecutorViewer = new NounsExecutorViewer(this.contract);
 		this.registeredListeners = new Map();
 	}
 
 	public get viewer() {
-		return this.nounsDaoExecutorViewer;
+		return this.nounsExecutorViewer;
 	}
 
 	/**
@@ -301,7 +301,7 @@ export class NounsDaoExecutor {
 	 * @returns True if the event is supported. False otherwise.
 	 */
 	public hasEvent(eventName: string) {
-		return NounsDaoExecutor.supportedEvents.includes(eventName as SupportedEventsType);
+		return NounsExecutor.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 
 	public async fetchTreasuryContents() {
@@ -311,7 +311,7 @@ export class NounsDaoExecutor {
 	}
 }
 
-class NounsDaoExecutorViewer {
+class NounsExecutorViewer {
 	private contract: Contract;
 	constructor(contract: Contract) {
 		this.contract = contract;

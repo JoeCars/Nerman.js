@@ -1,5 +1,5 @@
 import { Contract, ethers } from "ethers";
-import { NounsTokenSeed, Account, EventData } from "../../types";
+import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { createNounsTokenContract } from "../../utilities/contracts";
 
@@ -55,7 +55,7 @@ interface Seed {
 /**
  * A wrapper around the NounsToken governance contract.
  */
-export class _NounsToken {
+export class NounsToken {
 	private provider: ethers.JsonRpcProvider;
 	private contract: ethers.Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
@@ -418,7 +418,7 @@ export class _NounsToken {
 	 * @returns True if the event is supported. False otherwise.
 	 */
 	public hasEvent(eventName: string) {
-		return _NounsToken.supportedEvents.includes(eventName as SupportedEventsType);
+		return NounsToken.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 }
 
