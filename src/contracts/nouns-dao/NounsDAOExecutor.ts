@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
@@ -40,12 +40,18 @@ export class NounsDaoExecutor {
 	private provider: ethers.JsonRpcProvider;
 	private contract: ethers.Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
+	private nounsDaoExecutorViewer: NounsDaoExecutorViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EXECUTOR_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
 		this.contract = createNounsDaoExecutorContract(this.provider);
+		this.nounsDaoExecutorViewer = new NounsDaoExecutorViewer(this.contract);
 		this.registeredListeners = new Map();
+	}
+
+	public get viewer() {
+		return this.nounsDaoExecutorViewer;
 	}
 
 	/**
@@ -303,10 +309,13 @@ export class NounsDaoExecutor {
 		const walletTokenFinder = new WalletTokenFinder(this.provider);
 		return walletTokenFinder.fetchWalletTokens(address);
 	}
+}
 
-	//=====================================
-	// View / Pure functions.
-	//=====================================
+class NounsDaoExecutorViewer {
+	private contract: Contract;
+	constructor(contract: Contract) {
+		this.contract = contract;
+	}
 
 	public async GRACE_PERIOD(): Promise<bigint> {
 		return this.contract.GRACE_PERIOD();

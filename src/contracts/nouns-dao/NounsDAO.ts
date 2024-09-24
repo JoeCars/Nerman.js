@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 import { VoteDirection, Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { createNounsDaoLogicV4Contract } from "../../utilities/contracts";
@@ -171,12 +171,18 @@ export class _NounsDAO {
 	private provider: ethers.JsonRpcProvider;
 	private contract: ethers.Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
+	private nounsDaoViewer: NounsDAOViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
 		this.contract = createNounsDaoLogicV4Contract(this.provider);
+		this.nounsDaoViewer = new NounsDAOViewer(this.contract);
 		this.registeredListeners = new Map();
+	}
+
+	public get viewer() {
+		return this.nounsDaoViewer;
 	}
 
 	/**
@@ -958,10 +964,13 @@ export class _NounsDAO {
 	public hasEvent(eventName: string) {
 		return _NounsDAO.supportedEvents.includes(eventName as SupportedEventsType);
 	}
+}
 
-	//=====================================
-	// View / Pure functions.
-	//=====================================
+class NounsDAOViewer {
+	private contract: Contract;
+	constructor(contract: Contract) {
+		this.contract = contract;
+	}
 
 	public async MAX_PROPOSAL_THRESHOLD_BPS(): Promise<bigint> {
 		return this.contract.MAX_PROPOSAL_THRESHOLD_BPS();

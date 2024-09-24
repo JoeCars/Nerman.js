@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 import { NounsTokenSeed, Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { createNounsTokenContract } from "../../utilities/contracts";
@@ -59,12 +59,18 @@ export class _NounsToken {
 	private provider: ethers.JsonRpcProvider;
 	private contract: ethers.Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
+	private nounsTokenViewer: NounsTokenViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_TOKEN_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
 		this.contract = createNounsTokenContract(this.provider);
+		this.nounsTokenViewer = new NounsTokenViewer(this.contract);
 		this.registeredListeners = new Map();
+	}
+
+	public get viewer() {
+		return this.nounsTokenViewer;
 	}
 
 	/**
@@ -414,10 +420,13 @@ export class _NounsToken {
 	public hasEvent(eventName: string) {
 		return _NounsToken.supportedEvents.includes(eventName as SupportedEventsType);
 	}
+}
 
-	//=====================================
-	// View / Pure functions.
-	//=====================================
+class NounsTokenViewer {
+	private contract: Contract;
+	constructor(contract: Contract) {
+		this.contract = contract;
+	}
 
 	public async DELEGATION_TYPEHASH(): Promise<string> {
 		return this.contract.DELEGATION_TYPEHASH();

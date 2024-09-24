@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
@@ -45,12 +45,18 @@ export class _NounsDAOData {
 	private provider: ethers.JsonRpcProvider;
 	private contract: ethers.Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
+	private nounsDAODataViewer: NounsDAODataViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
 		this.contract = createNounsDaoDataContract(this.provider);
+		this.nounsDAODataViewer = new NounsDAODataViewer(this.contract);
 		this.registeredListeners = new Map();
+	}
+
+	public get viewer() {
+		return this.nounsDAODataViewer;
 	}
 
 	/**
@@ -383,10 +389,13 @@ export class _NounsDAOData {
 	public hasEvent(eventName: string) {
 		return _NounsDAOData.supportedEvents.includes(eventName as SupportedEventsType);
 	}
+}
 
-	//=====================================
-	// View / Pure functions.
-	//=====================================
+class NounsDAODataViewer {
+	private contract: Contract;
+	constructor(contract: Contract) {
+		this.contract = contract;
+	}
 
 	public async PRIOR_VOTES_BLOCKS_AGO(): Promise<bigint> {
 		return this.contract.PRIOR_VOTES_BLOCKS_AGO();

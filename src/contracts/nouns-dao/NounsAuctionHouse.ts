@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { createNounsAuctionHouseV2Contract } from "../../utilities/contracts";
@@ -48,12 +48,18 @@ export class _NounsAuctionHouse {
 	private provider: ethers.JsonRpcProvider;
 	private contract: ethers.Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
+	private nounsAuctionHouseViewer: NounsAuctionHouseViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
 		this.contract = createNounsAuctionHouseV2Contract(this.provider);
+		this.nounsAuctionHouseViewer = new NounsAuctionHouseViewer(this.contract);
 		this.registeredListeners = new Map();
+	}
+
+	public get viewer() {
+		return this.nounsAuctionHouseViewer;
 	}
 
 	/**
@@ -388,10 +394,13 @@ export class _NounsAuctionHouse {
 	}
 
 	// IF ITS A NOUNDERS NOUNS, OR NO BIDS, NEED TO CHECK WHO IT WAS TRANSFERRED TO
+}
 
-	//=====================================
-	// View / Pure functions.
-	//=====================================
+class NounsAuctionHouseViewer {
+	private contract: Contract;
+	constructor(contract: Contract) {
+		this.contract = contract;
+	}
 
 	public async MAX_TIME_BUFFER(): Promise<bigint> {
 		return this.contract.MAX_TIME_BUFFER();
