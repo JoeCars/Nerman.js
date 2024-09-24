@@ -36,11 +36,13 @@ export default class Rewards {
 	private provider: JsonRpcProvider;
 	private contract: Contract;
 	private registeredListeners: Map<SupportedEventsType, Function>;
+	private rewardsViewer: RewardsViewer;
 	public static readonly supportedEvents = SUPPORTED_REWARDS_EVENTS;
 
 	constructor(provider: JsonRpcProvider | string) {
 		this.provider = createOrReturnProvider(provider);
 		this.contract = createRewardsProxyContract(this.provider);
+		this.rewardsViewer = new RewardsViewer(this.contract);
 		this.registeredListeners = new Map();
 	}
 
@@ -206,5 +208,155 @@ export default class Rewards {
 		}
 
 		listener(data);
+	}
+}
+
+interface ClientMetadata {
+	approved: boolean;
+	rewarded: bigint;
+	withdrawn: bigint;
+	__gap: bigint;
+	name: string;
+	description: string;
+}
+
+interface AuctionRevenue {
+	sumRevenue: bigint;
+	lastAuctionId: bigint;
+}
+
+interface AuctionRewardParams {
+	auctionRewardBps: bigint;
+	minimumAuctionsBetweenUpdates: bigint;
+}
+
+interface ProposalRewardParams {
+	minimumRewardPeriod: bigint;
+	numProposalsEnoughForReward: bigint;
+	proposalRewardBps: bigint;
+	votingRewardBps: bigint;
+	proposalEligibilityQuorumBps: bigint;
+}
+
+class RewardsViewer {
+	private contract: Contract;
+	constructor(contract: Contract) {
+		this.contract = contract;
+	}
+
+	public async RewardsStorageLocation(): Promise<string> {
+		return this.contract.RewardsStorageLocation();
+	}
+
+	public async admin(): Promise<string> {
+		return this.contract.admin();
+	}
+
+	public async auctionHouse(): Promise<string> {
+		return this.contract.auctionHouse();
+	}
+
+	public async auctionRewardsEnabled(): Promise<boolean> {
+		return this.contract.auctionRewardsEnabled();
+	}
+
+	public async balanceOf(owner: string): Promise<bigint> {
+		return this.contract.balanceOf(owner);
+	}
+
+	public async clientBalance(clientId: number): Promise<bigint> {
+		return this.contract.clientBalance(clientId);
+	}
+
+	public async clientMetadata(tokenId: number): Promise<ClientMetadata> {
+		return this.contract.clientMetadata(tokenId);
+	}
+
+	public async descriptor(): Promise<string> {
+		return this.contract.descriptor();
+	}
+
+	public async ethToken(): Promise<string> {
+		return this.contract.ethToken();
+	}
+
+	public async getApproved(tokenId: number): Promise<string> {
+		return this.contract.getApproved(tokenId);
+	}
+
+	public async getAuctionRevenue(firstNounId: number, endTimestamp: number): Promise<AuctionRevenue> {
+		return this.contract.getAuctionRevenue(firstNounId, endTimestamp);
+	}
+
+	public async getAuctionRewardParams(): Promise<AuctionRewardParams> {
+		return this.contract.getAuctionRewardParams();
+	}
+
+	public async getProposalRewardParams(): Promise<ProposalRewardParams> {
+		return this.contract.getProposalRewardParams();
+	}
+
+	public async getVotingClientIds(lastProposalId: number): Promise<bigint[]> {
+		return this.contract.getVotingClientIds(lastProposalId);
+	}
+
+	public async isApprovedForAll(owner: string, operator: string): Promise<boolean> {
+		return this.contract.isApprovedForAll(owner, operator);
+	}
+
+	public async lastProposalRewardsUpdate(): Promise<bigint> {
+		return this.contract.lastProposalRewardsUpdate();
+	}
+
+	public async name(): Promise<string> {
+		return this.contract.name();
+	}
+
+	public async nextAuctionIdToReward(): Promise<bigint> {
+		return this.contract.nextAuctionIdToReward();
+	}
+
+	public async nextProposalIdToReward(): Promise<bigint> {
+		return this.contract.nextProposalIdToReward();
+	}
+
+	public async nextProposalRewardFirstAuctionId(): Promise<bigint> {
+		return this.contract.nextProposalRewardFirstAuctionId();
+	}
+
+	public async nextTokenId(): Promise<bigint> {
+		return this.contract.nextTokenId();
+	}
+
+	public async nounsDAO(): Promise<string> {
+		return this.contract.nounsDAO();
+	}
+
+	public async owner(): Promise<string> {
+		return this.contract.owner();
+	}
+
+	public async ownerOf(tokenId: number): Promise<string> {
+		return this.contract.ownerOf(tokenId);
+	}
+
+	public async paused(): Promise<boolean> {
+		return this.contract.paused();
+	}
+
+	public async proposalRewardsEnabled(): Promise<boolean> {
+		return this.contract.proposalRewardsEnabled();
+	}
+
+	public async supportsInterface(interfaceId: string): Promise<boolean> {
+		return this.contract.supportsInterface(interfaceId);
+	}
+
+	public async symbol(): Promise<string> {
+		return this.contract.symbol();
+	}
+
+	public async tokenURI(tokenId: number): Promise<string> {
+		return this.contract.tokenURI();
 	}
 }
