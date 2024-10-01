@@ -1055,7 +1055,10 @@ class NounsLogicViewer {
 	}
 
 	public async getDynamicQuorumParamsAt(blockNumber: number): Promise<DynamicQuorumParams> {
-		return this.contract.getDynamicQuorumParamsAt(blockNumber);
+		const [minQuorumVotesBPS, maxQuorumVotesBPS, quorumCoefficient] = await this.contract.getDynamicQuorumParamsAt(
+			blockNumber
+		);
+		return { minQuorumVotesBPS, maxQuorumVotesBPS, quorumCoefficient };
 	}
 
 	public async getReceipt(proposalId: number, voter: string): Promise<Receipt> {
