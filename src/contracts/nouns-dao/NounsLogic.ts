@@ -1062,7 +1062,8 @@ class NounsLogicViewer {
 	}
 
 	public async getReceipt(proposalId: number, voter: string): Promise<Receipt> {
-		return this.contract.getReceipt(proposalId, voter);
+		const [hasVoted, support, votes] = await this.contract.getReceipt(proposalId, voter);
+		return { hasVoted, support, votes };
 	}
 
 	public async lastMinuteWindowInBlocks(): Promise<bigint> {
