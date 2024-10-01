@@ -400,6 +400,15 @@ export class NounsAuctionHouse {
 	// IF ITS A NOUNDERS NOUNS, OR NO BIDS, NEED TO CHECK WHO IT WAS TRANSFERRED TO
 }
 
+interface Auction {
+	nounId: bigint;
+	amount: bigint;
+	startTime: bigint;
+	endTime: bigint;
+	bidder: string;
+	settled: boolean;
+}
+
 class NounsAuctionHouseViewer {
 	private contract: Contract;
 	constructor(contract: Contract) {
@@ -410,16 +419,9 @@ class NounsAuctionHouseViewer {
 		return this.contract.MAX_TIME_BUFFER();
 	}
 
-	public async auction() {
-		const auction: {
-			nounId: bigint;
-			amount: bigint;
-			startTime: bigint;
-			endTime: bigint;
-			bidder: string;
-			settled: boolean;
-		} = await this.contract.auction();
-		return auction;
+	public async auction(): Promise<Auction> {
+		const [nounId, amount, startTime, endTime, bidder, settled] = await this.contract.auction();
+		return { nounId, amount, startTime, endTime, bidder, settled };
 	}
 
 	public async auctionStorage() {
