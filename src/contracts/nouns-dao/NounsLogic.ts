@@ -1050,8 +1050,8 @@ class NounsLogicViewer {
 	}
 
 	public async getActions(proposalId: number): Promise<Action> {
-		const action: Action = await this.contract.getActions(proposalId);
-		return action;
+		const [targets, values, signatures, calldatas] = await this.contract.getActions(proposalId);
+		return { targets, values, signatures, calldatas };
 	}
 
 	public async getDynamicQuorumParamsAt(blockNumber: number): Promise<DynamicQuorumParams> {
