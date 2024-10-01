@@ -476,11 +476,10 @@ class NounsAuctionHouseViewer {
 		endTimestamp: number,
 		skipEmptyValues: boolean
 	): Promise<Settlement[]> {
-		const settlements: Settlement[] = await this.contract.getSettlementsFromIdtoTimestamp(
-			startId,
-			endTimestamp,
-			skipEmptyValues
-		);
+		const res: any[] = await this.contract.getSettlementsFromIdtoTimestamp(startId, endTimestamp, skipEmptyValues);
+		const settlements: Settlement[] = res.map(([blockTimestamp, amount, winner, nounId, clientId]) => {
+			return { blockTimestamp, amount, winner, nounId, clientId };
+		});
 		return settlements;
 	}
 
