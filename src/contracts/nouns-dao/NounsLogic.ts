@@ -97,73 +97,6 @@ const SUPPORTED_NOUNS_DAO_EVENTS = [
 ] as const;
 export type SupportedEventsType = keyof SupportedEventMap;
 
-interface Action {
-	targets: string[];
-	values: bigint[];
-	signatures: string[];
-	calldatas: string[];
-}
-
-interface DynamicQuorumParams {
-	minQuorumVotesBPS: bigint;
-	maxQuorumVotesBPS: bigint;
-	quorumCoefficient: bigint;
-}
-
-interface Receipt {
-	hasVoted: boolean;
-	support: bigint;
-	votes: bigint;
-}
-
-interface ProposalForRewards {
-	endBlock: bigint;
-	objectionPeriodEndBlock: bigint;
-	forVotes: bigint;
-	againstVotes: bigint;
-	abstainVotes: bigint;
-	totalSupply: bigint;
-	creationTimestamp: bigint;
-	numSigners: bigint;
-	clientId: bigint;
-}
-
-interface ClientVoteData {
-	votes: bigint;
-	txs: bigint;
-}
-
-interface ProposalCondensed {
-	id: bigint;
-	proposer: string;
-	proposalThreshold: bigint;
-	quorumVotes: bigint;
-	eta: bigint;
-	startBlock: bigint;
-	endBlock: bigint;
-	forVotes: bigint;
-	againstVotes: bigint;
-	abstainVotes: bigint;
-	canceled: boolean;
-	vetoed: boolean;
-	executed: boolean;
-	totalSupply: bigint;
-	creationBlock: bigint;
-}
-
-interface ProposalCondensedV3 extends ProposalCondensed {
-	creationTimestamp: bigint;
-	signers: string[];
-	updatePeriodEndBlock: bigint;
-	objectionPeriodEndBlock: bigint;
-	executeOnTimelockV1: boolean;
-}
-
-interface DynamicQuorumParamsCheckpoint {
-	fromBlock: bigint;
-	params: DynamicQuorumParams;
-}
-
 /**
  * A wrapper class around the NounsDAO contract.
  */
@@ -977,6 +910,73 @@ export class NounsLogic {
 	public hasEvent(eventName: string) {
 		return NounsLogic.supportedEvents.includes(eventName as SupportedEventsType);
 	}
+}
+
+interface Action {
+	targets: string[];
+	values: bigint[];
+	signatures: string[];
+	calldatas: string[];
+}
+
+interface DynamicQuorumParams {
+	minQuorumVotesBPS: bigint;
+	maxQuorumVotesBPS: bigint;
+	quorumCoefficient: bigint;
+}
+
+interface Receipt {
+	hasVoted: boolean;
+	support: bigint;
+	votes: bigint;
+}
+
+interface ProposalForRewards {
+	endBlock: bigint;
+	objectionPeriodEndBlock: bigint;
+	forVotes: bigint;
+	againstVotes: bigint;
+	abstainVotes: bigint;
+	totalSupply: bigint;
+	creationTimestamp: bigint;
+	numSigners: bigint;
+	clientId: bigint;
+}
+
+interface ClientVoteData {
+	votes: bigint;
+	txs: bigint;
+}
+
+interface ProposalCondensed {
+	id: bigint;
+	proposer: string;
+	proposalThreshold: bigint;
+	quorumVotes: bigint;
+	eta: bigint;
+	startBlock: bigint;
+	endBlock: bigint;
+	forVotes: bigint;
+	againstVotes: bigint;
+	abstainVotes: bigint;
+	canceled: boolean;
+	vetoed: boolean;
+	executed: boolean;
+	totalSupply: bigint;
+	creationBlock: bigint;
+}
+
+interface ProposalCondensedV3 extends ProposalCondensed {
+	creationTimestamp: bigint;
+	signers: string[];
+	updatePeriodEndBlock: bigint;
+	objectionPeriodEndBlock: bigint;
+	executeOnTimelockV1: boolean;
+}
+
+interface DynamicQuorumParamsCheckpoint {
+	fromBlock: bigint;
+	params: DynamicQuorumParams;
 }
 
 class NounsLogicViewer {
