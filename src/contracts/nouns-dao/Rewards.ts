@@ -33,27 +33,31 @@ const SUPPORTED_REWARDS_EVENTS = [
 export type SupportedEventsType = keyof SupportedEventMap;
 
 export default class Rewards {
-	private provider: JsonRpcProvider;
-	private contract: Contract;
-	private registeredListeners: Map<SupportedEventsType, Function>;
-	private rewardsViewer: RewardsViewer;
+	private _provider: JsonRpcProvider;
+	private _contract: Contract;
+	private _registeredListeners: Map<SupportedEventsType, Function>;
+	private _rewardsViewer: RewardsViewer;
 	public static readonly supportedEvents = SUPPORTED_REWARDS_EVENTS;
 
 	constructor(provider: JsonRpcProvider | string) {
-		this.provider = createOrReturnProvider(provider);
-		this.contract = createRewardsProxyContract(this.provider);
-		this.rewardsViewer = new RewardsViewer(this.contract);
-		this.registeredListeners = new Map();
+		this._provider = createOrReturnProvider(provider);
+		this._contract = createRewardsProxyContract(this._provider);
+		this._rewardsViewer = new RewardsViewer(this._contract);
+		this._registeredListeners = new Map();
 	}
 
 	public get viewer() {
-		return this.rewardsViewer;
+		return this._rewardsViewer;
+	}
+
+	public get contract() {
+		return this._contract;
 	}
 
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "ClientRegistered":
-				this.contract.on(eventName, (clientId: bigint, name: string, description: string, event: Log) => {
+				this._contract.on(eventName, (clientId: bigint, name: string, description: string, event: Log) => {
 					const data: EventData.ClientRegistered = {
 						clientId: Number(clientId),
 						name,
@@ -62,10 +66,10 @@ export default class Rewards {
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 			case "ClientUpdated":
-				this.contract.on(eventName, (clientId: bigint, name: string, description: string, event: Log) => {
+				this._contract.on(eventName, (clientId: bigint, name: string, description: string, event: Log) => {
 					const data: EventData.ClientUpdated = {
 						clientId: Number(clientId),
 						name,
@@ -74,10 +78,10 @@ export default class Rewards {
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 			case "ClientRewarded":
-				this.contract.on(eventName, (clientId: bigint, amount: bigint, event: Log) => {
+				this._contract.on(eventName, (clientId: bigint, amount: bigint, event: Log) => {
 					const data: EventData.ClientRewarded = {
 						clientId: Number(clientId),
 						amount,
@@ -85,10 +89,10 @@ export default class Rewards {
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 			case "ClientBalanceWithdrawal":
-				this.contract.on(eventName, (clientId: bigint, amount: bigint, to: string, event: Log) => {
+				this._contract.on(eventName, (clientId: bigint, amount: bigint, to: string, event: Log) => {
 					const data: EventData.ClientBalanceWithdrawal = {
 						clientId: Number(clientId),
 						amount,
@@ -97,10 +101,10 @@ export default class Rewards {
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 			case "AuctionRewardsUpdated":
-				this.contract.on(eventName, (firstAuctionId: bigint, lastAuctionId: bigint, event: Log) => {
+				this._contract.on(eventName, (firstAuctionId: bigint, lastAuctionId: bigint, event: Log) => {
 					const data: EventData.AuctionRewardsUpdated = {
 						firstAuctionId: Number(firstAuctionId),
 						lastAuctionId: Number(lastAuctionId),
@@ -108,10 +112,10 @@ export default class Rewards {
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 			case "ProposalRewardsUpdated":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						firstProposalId: bigint,
@@ -136,10 +140,10 @@ export default class Rewards {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 			case "ClientApprovalSet":
-				this.contract.on(eventName, (clientId: bigint, approved: boolean, event: Log) => {
+				this._contract.on(eventName, (clientId: bigint, approved: boolean, event: Log) => {
 					const data: EventData.ClientApprovalSet = {
 						clientId: Number(clientId),
 						approved,
@@ -147,29 +151,29 @@ export default class Rewards {
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 			case "AuctionRewardsEnabled":
-				this.contract.on(eventName, (nextAuctionIdToReward: bigint, event: Log) => {
+				this._contract.on(eventName, (nextAuctionIdToReward: bigint, event: Log) => {
 					const data: EventData.AuctionRewardsEnabled = {
 						nextAuctionIdToReward: Number(nextAuctionIdToReward),
 						event
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 			case "AuctionRewardsDisabled":
-				this.contract.on(eventName, (event: Log) => {
+				this._contract.on(eventName, (event: Log) => {
 					const data: EventData.AuctionRewardsDisabled = {
 						event
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 			case "ProposalRewardsEnabled":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(nextProposalIdToReward: bigint, nextProposalRewardFirstAuctionId: bigint, event: Log) => {
 						const data: EventData.ProposalRewardsEnabled = {
@@ -180,16 +184,16 @@ export default class Rewards {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 			case "ProposalRewardsDisabled":
-				this.contract.on(eventName, (event: Log) => {
+				this._contract.on(eventName, (event: Log) => {
 					const data: EventData.ProposalRewardsDisabled = {
 						event
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			default:
@@ -198,15 +202,15 @@ export default class Rewards {
 	}
 
 	public off(eventName: SupportedEventsType) {
-		let listener = this.registeredListeners.get(eventName);
+		let listener = this._registeredListeners.get(eventName);
 		if (listener) {
-			this.contract.off(eventName, listener as Listener);
+			this._contract.off(eventName, listener as Listener);
 		}
-		this.registeredListeners.delete(eventName);
+		this._registeredListeners.delete(eventName);
 	}
 
 	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
-		const listener = this.registeredListeners.get(eventName);
+		const listener = this._registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
 		}

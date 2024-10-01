@@ -56,21 +56,25 @@ interface Seed {
  * A wrapper around the NounsToken governance contract.
  */
 export class NounsToken {
-	private provider: ethers.JsonRpcProvider;
-	private contract: ethers.Contract;
-	private registeredListeners: Map<SupportedEventsType, Function>;
-	private nounsTokenViewer: NounsTokenViewer;
+	private _provider: ethers.JsonRpcProvider;
+	private _contract: ethers.Contract;
+	private _registeredListeners: Map<SupportedEventsType, Function>;
+	private _nounsTokenViewer: NounsTokenViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_TOKEN_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		this.provider = createOrReturnProvider(provider);
-		this.contract = createNounsTokenContract(this.provider);
-		this.nounsTokenViewer = new NounsTokenViewer(this.contract);
-		this.registeredListeners = new Map();
+		this._provider = createOrReturnProvider(provider);
+		this._contract = createNounsTokenContract(this._provider);
+		this._nounsTokenViewer = new NounsTokenViewer(this._contract);
+		this._registeredListeners = new Map();
 	}
 
 	public get viewer() {
-		return this.nounsTokenViewer;
+		return this._nounsTokenViewer;
+	}
+
+	public get contract() {
+		return this._contract;
 	}
 
 	/**
@@ -86,7 +90,7 @@ export class NounsToken {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "DelegateChanged": // WORKING
-				this.contract.on(
+				this._contract.on(
 					"DelegateChanged",
 					async (delegator: string, fromDelegate: string, toDelegate: string, event: ethers.Log) => {
 						let numOfVotesChanged = 0;
@@ -117,11 +121,11 @@ export class NounsToken {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "DelegateVotesChanged": // WORKING
-				this.contract.on(
+				this._contract.on(
 					"DelegateVotesChanged",
 					(delegate: string, previousBalance: bigint, newBalance: bigint, event: ethers.Log) => {
 						const data: EventData.DelegateVotesChanged = {
@@ -134,11 +138,11 @@ export class NounsToken {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "Transfer": // WORKING
-				this.contract.on("Transfer", (from: string, to: string, tokenId: bigint, event: ethers.Log) => {
+				this._contract.on("Transfer", (from: string, to: string, tokenId: bigint, event: ethers.Log) => {
 					const data: EventData.Transfer = {
 						from: { id: from } as Account,
 						to: { id: to } as Account,
@@ -148,11 +152,11 @@ export class NounsToken {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "Approval": // WORKING
-				this.contract.on("Approval", (owner: string, approved: string, tokenId: bigint, event: ethers.Log) => {
+				this._contract.on("Approval", (owner: string, approved: string, tokenId: bigint, event: ethers.Log) => {
 					const data: EventData.Approval = {
 						owner: { id: owner } as Account,
 						approved: { id: approved } as Account,
@@ -162,7 +166,7 @@ export class NounsToken {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -171,7 +175,7 @@ export class NounsToken {
 			//
 			// **********************************************************
 			case "ApprovalForAll":
-				this.contract.on("ApprovalForAll", (owner: string, operator: string, approved: boolean, event: ethers.Log) => {
+				this._contract.on("ApprovalForAll", (owner: string, operator: string, approved: boolean, event: ethers.Log) => {
 					const data: EventData.ApprovalForAll = {
 						owner: { id: owner } as Account,
 						operator: { id: operator } as Account,
@@ -181,11 +185,11 @@ export class NounsToken {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NounCreated": // WORKING
-				this.contract.on(
+				this._contract.on(
 					"NounCreated",
 					(
 						tokenId: bigint,
@@ -207,7 +211,7 @@ export class NounsToken {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -216,14 +220,14 @@ export class NounsToken {
 			//
 			// **********************************************************
 			case "DescriptorLocked":
-				this.contract.on("DescriptorLocked", (event: ethers.Log) => {
+				this._contract.on("DescriptorLocked", (event: ethers.Log) => {
 					const data: EventData.DescriptorLocked = {
 						event: event
 					};
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -232,7 +236,7 @@ export class NounsToken {
 			//
 			// **********************************************************
 			case "DescriptorUpdated":
-				this.contract.on("DescriptorUpdated", (_descriptor: string, event: ethers.Log) => {
+				this._contract.on("DescriptorUpdated", (_descriptor: string, event: ethers.Log) => {
 					const data: EventData.DescriptorUpdated = {
 						descriptor: { id: _descriptor } as Account,
 						event: event
@@ -240,7 +244,7 @@ export class NounsToken {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -249,14 +253,14 @@ export class NounsToken {
 			//
 			// **********************************************************
 			case "MinterLocked":
-				this.contract.on("MinterLocked", (event: ethers.Log) => {
+				this._contract.on("MinterLocked", (event: ethers.Log) => {
 					const data: EventData.MinterLocked = {
 						event: event
 					};
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -265,7 +269,7 @@ export class NounsToken {
 			//
 			// **********************************************************
 			case "MinterUpdated":
-				this.contract.on("MinterUpdated", (_minter: string, event: ethers.Log) => {
+				this._contract.on("MinterUpdated", (_minter: string, event: ethers.Log) => {
 					const data: EventData.MinterUpdated = {
 						minter: { id: _minter } as Account,
 						event: event
@@ -273,7 +277,7 @@ export class NounsToken {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -282,7 +286,7 @@ export class NounsToken {
 			//
 			// **********************************************************
 			case "NounBurned":
-				this.contract.on("NounBurned", (nounId: bigint, event: ethers.Log) => {
+				this._contract.on("NounBurned", (nounId: bigint, event: ethers.Log) => {
 					const data: EventData.NounBurned = {
 						id: Number(nounId),
 						event: event
@@ -290,7 +294,7 @@ export class NounsToken {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -299,7 +303,7 @@ export class NounsToken {
 			//
 			// **********************************************************
 			case "NoundersDAOUpdated":
-				this.contract.on("NoundersDAOUpdated", (_noundersDAO: string, event: ethers.Log) => {
+				this._contract.on("NoundersDAOUpdated", (_noundersDAO: string, event: ethers.Log) => {
 					const data: EventData.NoundersDAOUpdated = {
 						noundersDAO: { id: _noundersDAO } as Account,
 						event: event
@@ -307,7 +311,7 @@ export class NounsToken {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -316,7 +320,7 @@ export class NounsToken {
 			//
 			// **********************************************************
 			case "OwnershipTransferred":
-				this.contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
+				this._contract.on("OwnershipTransferred", (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.OwnershipTransferred = {
 						previousOwner: { id: previousOwner } as Account,
 						newOwner: { id: newOwner } as Account,
@@ -325,7 +329,7 @@ export class NounsToken {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -334,14 +338,14 @@ export class NounsToken {
 			//
 			// **********************************************************
 			case "SeederLocked":
-				this.contract.on("SeederLocked", (event: ethers.Log) => {
+				this._contract.on("SeederLocked", (event: ethers.Log) => {
 					const data: EventData.SeederLocked = {
 						event: event
 					};
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			// **********************************************************
@@ -350,7 +354,7 @@ export class NounsToken {
 			//
 			// **********************************************************
 			case "SeederUpdated":
-				this.contract.on("SeederUpdated", (_seeder: string, event: ethers.Log) => {
+				this._contract.on("SeederUpdated", (_seeder: string, event: ethers.Log) => {
 					const data: EventData.SeederUpdated = {
 						seeder: { id: _seeder } as Account,
 						event: event
@@ -358,7 +362,7 @@ export class NounsToken {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			default:
@@ -373,11 +377,11 @@ export class NounsToken {
 	 * nounsToken.off('NounCreated');
 	 */
 	public off(eventName: SupportedEventsType) {
-		let listener = this.registeredListeners.get(eventName);
+		let listener = this._registeredListeners.get(eventName);
 		if (listener) {
-			this.contract.off(eventName, listener as ethers.Listener);
+			this._contract.off(eventName, listener as ethers.Listener);
 		}
-		this.registeredListeners.delete(eventName);
+		this._registeredListeners.delete(eventName);
 	}
 
 	/**
@@ -397,7 +401,7 @@ export class NounsToken {
 	 * });
 	 */
 	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
-		const listener = this.registeredListeners.get(eventName);
+		const listener = this._registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
 		}

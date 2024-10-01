@@ -37,21 +37,25 @@ export type SupportedEventsType = keyof SupportedEventMap;
  * A wrapper class around the NounsDaoExecutor contract.
  */
 export class NounsExecutor {
-	private provider: ethers.JsonRpcProvider;
-	private contract: ethers.Contract;
-	private registeredListeners: Map<SupportedEventsType, Function>;
-	private nounsExecutorViewer: NounsExecutorViewer;
+	private _provider: ethers.JsonRpcProvider;
+	private _contract: ethers.Contract;
+	private _registeredListeners: Map<SupportedEventsType, Function>;
+	private _nounsExecutorViewer: NounsExecutorViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EXECUTOR_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		this.provider = createOrReturnProvider(provider);
-		this.contract = createNounsDaoExecutorContract(this.provider);
-		this.nounsExecutorViewer = new NounsExecutorViewer(this.contract);
-		this.registeredListeners = new Map();
+		this._provider = createOrReturnProvider(provider);
+		this._contract = createNounsDaoExecutorContract(this._provider);
+		this._nounsExecutorViewer = new NounsExecutorViewer(this._contract);
+		this._registeredListeners = new Map();
 	}
 
 	public get viewer() {
-		return this.nounsExecutorViewer;
+		return this._nounsExecutorViewer;
+	}
+
+	public get contract() {
+		return this._contract;
 	}
 
 	/**
@@ -67,7 +71,7 @@ export class NounsExecutor {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AdminChanged":
-				this.contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.AdminChanged = {
 						previousAdmin: { id: previousAdmin },
 						newAdmin: { id: newAdmin },
@@ -76,11 +80,11 @@ export class NounsExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "BeaconUpgraded":
-				this.contract.on(eventName, (beacon: string, event: ethers.Log) => {
+				this._contract.on(eventName, (beacon: string, event: ethers.Log) => {
 					const data: EventData.BeaconUpgraded = {
 						beacon: { id: beacon },
 						event: event
@@ -88,11 +92,11 @@ export class NounsExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "CancelTransaction":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						txHash: string,
@@ -116,11 +120,11 @@ export class NounsExecutor {
 						listener(formattedData as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ERC20Sent":
-				this.contract.on(eventName, (to: string, erc20Token: string, amount: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (to: string, erc20Token: string, amount: bigint, event: ethers.Log) => {
 					const data: EventData.ERC20Sent = {
 						to: { id: to },
 						erc20Token: { id: erc20Token },
@@ -130,11 +134,11 @@ export class NounsExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ETHSent":
-				this.contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
 					const data: EventData.ETHSent = {
 						to: { id: to },
 						amount,
@@ -143,11 +147,11 @@ export class NounsExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ExecuteTransaction":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						txHash: string,
@@ -171,11 +175,11 @@ export class NounsExecutor {
 						listener(formattedData as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewAdmin":
-				this.contract.on(eventName, (newAdmin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						newAdmin: { id: newAdmin },
 						event
@@ -183,11 +187,11 @@ export class NounsExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewDelay":
-				this.contract.on(eventName, (newDelay: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (newDelay: bigint, event: ethers.Log) => {
 					const data: EventData.NewDelay = {
 						newDelay,
 						event
@@ -195,11 +199,11 @@ export class NounsExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewPendingAdmin":
-				this.contract.on(eventName, (newPendingAdmin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						newPendingAdmin: { id: newPendingAdmin },
 						event
@@ -207,11 +211,11 @@ export class NounsExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "QueueTransaction":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						txHash: string,
@@ -235,11 +239,11 @@ export class NounsExecutor {
 						listener(formattedData as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "Upgraded":
-				this.contract.on(eventName, (implementation: string, event: ethers.Log) => {
+				this._contract.on(eventName, (implementation: string, event: ethers.Log) => {
 					const data: EventData.Upgraded = {
 						implementation: { id: implementation } as Account,
 						event: event
@@ -247,7 +251,7 @@ export class NounsExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			default:
@@ -262,11 +266,11 @@ export class NounsExecutor {
 	 * nounsDaoExecutor.off('AdminChanged');
 	 */
 	public off(eventName: SupportedEventsType) {
-		let listener = this.registeredListeners.get(eventName);
+		let listener = this._registeredListeners.get(eventName);
 		if (listener) {
-			this.contract.off(eventName, listener as ethers.Listener);
+			this._contract.off(eventName, listener as ethers.Listener);
 		}
-		this.registeredListeners.delete(eventName);
+		this._registeredListeners.delete(eventName);
 	}
 
 	/**
@@ -280,7 +284,7 @@ export class NounsExecutor {
 	 * });
 	 */
 	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
-		const listener = this.registeredListeners.get(eventName);
+		const listener = this._registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
 		}
@@ -305,8 +309,8 @@ export class NounsExecutor {
 	}
 
 	public async fetchTreasuryContents() {
-		const address = await this.contract.getAddress();
-		const walletTokenFinder = new WalletTokenFinder(this.provider);
+		const address = await this._contract.getAddress();
+		const walletTokenFinder = new WalletTokenFinder(this._provider);
 		return walletTokenFinder.fetchWalletTokens(address);
 	}
 }

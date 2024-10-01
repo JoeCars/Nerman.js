@@ -42,21 +42,25 @@ export type SupportedEventsType = keyof SupportedEventMap;
  * A wrapper class around the NounsDAOData contract.
  */
 export class NounsData {
-	private provider: ethers.JsonRpcProvider;
-	private contract: ethers.Contract;
-	private registeredListeners: Map<SupportedEventsType, Function>;
-	private nounsDataViewer: NounsDataViewer;
+	private _provider: ethers.JsonRpcProvider;
+	private _contract: ethers.Contract;
+	private _registeredListeners: Map<SupportedEventsType, Function>;
+	private _nounsDataViewer: NounsDataViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		this.provider = createOrReturnProvider(provider);
-		this.contract = createNounsDaoDataContract(this.provider);
-		this.nounsDataViewer = new NounsDataViewer(this.contract);
-		this.registeredListeners = new Map();
+		this._provider = createOrReturnProvider(provider);
+		this._contract = createNounsDaoDataContract(this._provider);
+		this._nounsDataViewer = new NounsDataViewer(this._contract);
+		this._registeredListeners = new Map();
 	}
 
 	public get viewer() {
-		return this.nounsDataViewer;
+		return this._nounsDataViewer;
+	}
+
+	public get contract() {
+		return this._contract;
 	}
 
 	/**
@@ -72,7 +76,7 @@ export class NounsData {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AdminChanged":
-				this.contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data = {
 						previousAdmin: { id: previousAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
@@ -81,11 +85,11 @@ export class NounsData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "BeaconUpgraded":
-				this.contract.on(eventName, (beacon: string, event: ethers.Log) => {
+				this._contract.on(eventName, (beacon: string, event: ethers.Log) => {
 					const data = {
 						beacon: { id: beacon } as Account,
 						event: event
@@ -93,11 +97,11 @@ export class NounsData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "CandidateFeedbackSent":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(msgSender: string, proposer: string, slug: string, support: bigint, reason: string, event: ethers.Log) => {
 						const data = {
@@ -112,11 +116,11 @@ export class NounsData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "CreateCandidateCostSet":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(oldCreateCandidateCost: bigint, newCreateCandidateCost: bigint, event: ethers.Log) => {
 						const data = {
@@ -128,11 +132,11 @@ export class NounsData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ETHWithdrawn":
-				this.contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
 					const data = {
 						to: { id: to } as Account,
 						amount: amount,
@@ -141,11 +145,11 @@ export class NounsData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "FeeRecipientSet":
-				this.contract.on(eventName, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Log) => {
+				this._contract.on(eventName, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Log) => {
 					const data = {
 						oldFeeRecipient: { id: oldFeeRecipient } as Account,
 						newFeeRecipient: { id: newFeeRecipient } as Account,
@@ -154,11 +158,11 @@ export class NounsData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "FeedbackSent":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(msgSender: string, proposalId: bigint, support: bigint, reason: string, event: ethers.Log) => {
 						const data = {
@@ -172,11 +176,11 @@ export class NounsData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
-				this.contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Log) => {
+				this._contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data = {
 						previousOwner: { id: previousOwner } as Account,
 						newOwner: { id: newOwner } as Account,
@@ -185,11 +189,11 @@ export class NounsData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCandidateCanceled":
-				this.contract.on(eventName, (msgSender: string, slug: string, event: ethers.Log) => {
+				this._contract.on(eventName, (msgSender: string, slug: string, event: ethers.Log) => {
 					const data = {
 						msgSender: { id: msgSender } as Account,
 						slug: slug,
@@ -198,11 +202,11 @@ export class NounsData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCandidateCreated":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						msgSender: string,
@@ -232,11 +236,11 @@ export class NounsData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCandidateUpdated":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						msgSender: string,
@@ -268,11 +272,11 @@ export class NounsData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "SignatureAdded":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						signer: string,
@@ -302,11 +306,11 @@ export class NounsData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "UpdateCandidateCostSet":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(oldUpdateCandidateCost: bigint, newUpdateCandidateCost: bigint, event: ethers.Log) => {
 						const data = {
@@ -318,11 +322,11 @@ export class NounsData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "Upgraded":
-				this.contract.on(eventName, (implementation: string, event: ethers.Log) => {
+				this._contract.on(eventName, (implementation: string, event: ethers.Log) => {
 					const data = {
 						implementation: { id: implementation } as Account,
 						event: event
@@ -330,7 +334,7 @@ export class NounsData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			default:
@@ -345,11 +349,11 @@ export class NounsData {
 	 * nounsDAOData.off('CandidateFeedbackSent');
 	 */
 	public off(eventName: SupportedEventsType) {
-		let listener = this.registeredListeners.get(eventName);
+		let listener = this._registeredListeners.get(eventName);
 		if (listener) {
-			this.contract.off(eventName, listener as ethers.Listener);
+			this._contract.off(eventName, listener as ethers.Listener);
 		}
-		this.registeredListeners.delete(eventName);
+		this._registeredListeners.delete(eventName);
 	}
 
 	/**
@@ -366,7 +370,7 @@ export class NounsData {
 	 * });
 	 */
 	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
-		const listener = this.registeredListeners.get(eventName);
+		const listener = this._registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
 		}

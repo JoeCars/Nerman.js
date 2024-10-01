@@ -168,21 +168,25 @@ interface DynamicQuorumParamsCheckpoint {
  * A wrapper class around the NounsDAO contract.
  */
 export class NounsLogic {
-	private provider: ethers.JsonRpcProvider;
-	private contract: ethers.Contract;
-	private registeredListeners: Map<SupportedEventsType, Function>;
-	private nounsLogicViewer: NounsLogicViewer;
+	private _provider: ethers.JsonRpcProvider;
+	private _contract: ethers.Contract;
+	private _registeredListeners: Map<SupportedEventsType, Function>;
+	private _nounsLogicViewer: NounsLogicViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		this.provider = createOrReturnProvider(provider);
-		this.contract = createNounsDaoLogicV4Contract(this.provider);
-		this.nounsLogicViewer = new NounsLogicViewer(this.contract);
-		this.registeredListeners = new Map();
+		this._provider = createOrReturnProvider(provider);
+		this._contract = createNounsDaoLogicV4Contract(this._provider);
+		this._nounsLogicViewer = new NounsLogicViewer(this._contract);
+		this._registeredListeners = new Map();
 	}
 
 	public get viewer() {
-		return this.nounsLogicViewer;
+		return this._nounsLogicViewer;
+	}
+
+	public get contract() {
+		return this._contract;
 	}
 
 	/**
@@ -199,7 +203,7 @@ export class NounsLogic {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "DAONounsSupplyIncreasedFromEscrow":
-				this.contract.on(eventName, (numTokens: bigint, to: string, event: ethers.Log) => {
+				this._contract.on(eventName, (numTokens: bigint, to: string, event: ethers.Log) => {
 					const data: EventData.DAONounsSupplyIncreasedFromEscrow = {
 						numTokens: Number(numTokens),
 						to: { id: to },
@@ -207,11 +211,11 @@ export class NounsLogic {
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "DAOWithdrawNounsFromEscrow":
-				this.contract.on(eventName, (tokenIds: bigint[], to: string, event: ethers.Log) => {
+				this._contract.on(eventName, (tokenIds: bigint[], to: string, event: ethers.Log) => {
 					const data = {
 						tokenIds: tokenIds.map((tokenId) => Number(tokenId)),
 						to: { id: to } as Account,
@@ -220,11 +224,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ERC20TokensToIncludeInForkSet":
-				this.contract.on(eventName, (oldErc20Tokens: string[], newErc20tokens: string[], event: ethers.Log) => {
+				this._contract.on(eventName, (oldErc20Tokens: string[], newErc20tokens: string[], event: ethers.Log) => {
 					const data = {
 						oldErc20Tokens: oldErc20Tokens,
 						newErc20tokens: newErc20tokens,
@@ -233,11 +237,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "EscrowedToFork":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						forkId: bigint,
@@ -263,11 +267,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ExecuteFork":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						forkId: bigint,
@@ -289,11 +293,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ForkDAODeployerSet":
-				this.contract.on(eventName, (oldForkDAODeployer: string, newForkDAODeployer: string, event: ethers.Log) => {
+				this._contract.on(eventName, (oldForkDAODeployer: string, newForkDAODeployer: string, event: ethers.Log) => {
 					const data = {
 						oldForkDAODeployer: { id: oldForkDAODeployer } as Account,
 						newForkDAODeployer: { id: newForkDAODeployer } as Account,
@@ -302,11 +306,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ForkPeriodSet":
-				this.contract.on(eventName, (oldForkPeriod: bigint, newForkPeriod: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (oldForkPeriod: bigint, newForkPeriod: bigint, event: ethers.Log) => {
 					const data = {
 						oldForkPeriod: oldForkPeriod,
 						newForkPeriod: newForkPeriod,
@@ -315,11 +319,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ForkThresholdSet":
-				this.contract.on(eventName, (oldForkThreshold: bigint, newForkThreshold: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (oldForkThreshold: bigint, newForkThreshold: bigint, event: ethers.Log) => {
 					const data = {
 						oldForkThreshold: oldForkThreshold,
 						newForkThreshold: newForkThreshold,
@@ -328,11 +332,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "JoinFork":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						forkId: bigint,
@@ -358,11 +362,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "LastMinuteWindowSet":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(oldLastMinuteWindowInBlocks: bigint, newLastMinuteWindowInBlocks: bigint, event: ethers.Log) => {
 						const data = {
@@ -374,37 +378,43 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "MaxQuorumVotesBPSSet":
-				this.contract.on(eventName, (oldMaxQuorumVotesBPS: bigint, newMaxQuorumVotesBPS: bigint, event: ethers.Log) => {
-					const data = {
-						oldMaxQuorumVotesBPS: Number(oldMaxQuorumVotesBPS),
-						newMaxQuorumVotesBPS: Number(newMaxQuorumVotesBPS),
-						event: event
-					} as EventData.MaxQuorumVotesBPSSet;
+				this._contract.on(
+					eventName,
+					(oldMaxQuorumVotesBPS: bigint, newMaxQuorumVotesBPS: bigint, event: ethers.Log) => {
+						const data = {
+							oldMaxQuorumVotesBPS: Number(oldMaxQuorumVotesBPS),
+							newMaxQuorumVotesBPS: Number(newMaxQuorumVotesBPS),
+							event: event
+						} as EventData.MaxQuorumVotesBPSSet;
 
-					listener(data as any);
-				});
-				this.registeredListeners.set(eventName, listener);
+						listener(data as any);
+					}
+				);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "MinQuorumVotesBPSSet":
-				this.contract.on(eventName, (oldMinQuorumVotesBPS: bigint, newMinQuorumVotesBPS: bigint, event: ethers.Log) => {
-					const data = {
-						oldMinQuorumVotesBPS: Number(oldMinQuorumVotesBPS),
-						newMinQuorumVotesBPS: Number(newMinQuorumVotesBPS),
-						event: event
-					} as EventData.MinQuorumVotesBPSSet;
+				this._contract.on(
+					eventName,
+					(oldMinQuorumVotesBPS: bigint, newMinQuorumVotesBPS: bigint, event: ethers.Log) => {
+						const data = {
+							oldMinQuorumVotesBPS: Number(oldMinQuorumVotesBPS),
+							newMinQuorumVotesBPS: Number(newMinQuorumVotesBPS),
+							event: event
+						} as EventData.MinQuorumVotesBPSSet;
 
-					listener(data as any);
-				});
-				this.registeredListeners.set(eventName, listener);
+						listener(data as any);
+					}
+				);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewAdmin":
-				this.contract.on(eventName, (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (oldAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						oldAdmin: { id: oldAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
@@ -413,11 +423,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewImplementation":
-				this.contract.on(eventName, (oldImplementation: string, newImplementation: string, event: ethers.Log) => {
+				this._contract.on(eventName, (oldImplementation: string, newImplementation: string, event: ethers.Log) => {
 					const data: EventData.NewImplementation = {
 						oldImplementation: { id: oldImplementation } as Account,
 						newImplementation: { id: newImplementation } as Account,
@@ -426,11 +436,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewPendingAdmin":
-				this.contract.on(eventName, (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (oldPendingAdmin: string, newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						oldPendingAdmin: { id: oldPendingAdmin } as Account,
 						newPendingAdmin: { id: newPendingAdmin } as Account,
@@ -439,11 +449,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewPendingVetoer":
-				this.contract.on(eventName, (oldPendingVetoer: string, newPendingVetoer: string, event: ethers.Log) => {
+				this._contract.on(eventName, (oldPendingVetoer: string, newPendingVetoer: string, event: ethers.Log) => {
 					const data = {
 						oldPendingVetoer: { id: oldPendingVetoer } as Account,
 						newPendingVetoer: { id: newPendingVetoer } as Account,
@@ -452,11 +462,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewVetoer":
-				this.contract.on(eventName, (oldVetoer: string, newVetoer: string, event: ethers.Log) => {
+				this._contract.on(eventName, (oldVetoer: string, newVetoer: string, event: ethers.Log) => {
 					const data: EventData.NewVetoer = {
 						oldVetoer: { id: oldVetoer },
 						newVetoer: { id: newVetoer },
@@ -465,11 +475,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ObjectionPeriodDurationSet":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						oldObjectionPeriodDurationInBlocks: bigint,
@@ -485,11 +495,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCanceled":
-				this.contract.on(eventName, (id: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalCanceled = {
 						id: Number(id),
 						event: event
@@ -497,11 +507,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCreated":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						id: bigint,
@@ -531,11 +541,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCreatedOnTimelockV1":
-				this.contract.on(eventName, (id: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (id: bigint, event: ethers.Log) => {
 					const data = {
 						id: Number(id),
 						event: event
@@ -543,11 +553,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCreatedWithRequirements":
-				this.contract.on(
+				this._contract.on(
 					PROPOSAL_CREATED_WITH_REQUIREMENTS_V4_SIGNATURE,
 					(
 						id: bigint,
@@ -571,11 +581,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalDescriptionUpdated":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(id: bigint, proposer: string, description: string, updatedMessage: string, event: ethers.Log) => {
 						const data = {
@@ -589,22 +599,22 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalExecuted":
-				this.contract.on(eventName, (id: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalExecuted = {
 						id: Number(id),
 						event: event
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalObjectionPeriodSet":
-				this.contract.on(eventName, (id: bigint, objectionPeriodEndBlock: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (id: bigint, objectionPeriodEndBlock: bigint, event: ethers.Log) => {
 					const data = {
 						id: Number(id),
 						objectionPeriodEndBlock: objectionPeriodEndBlock,
@@ -613,11 +623,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalQueued":
-				this.contract.on(eventName, (id: bigint, eta: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (id: bigint, eta: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalQueued = {
 						id: Number(id),
 						eta: eta,
@@ -625,11 +635,11 @@ export class NounsLogic {
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalThresholdBPSSet":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(oldProposalThresholdBPS: bigint, newProposalThresholdBPS: bigint, event: ethers.Log) => {
 						const data: EventData.ProposalThresholdBPSSet = {
@@ -641,11 +651,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalTransactionsUpdated":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						id: bigint,
@@ -671,11 +681,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalUpdatablePeriodSet":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						oldProposalUpdatablePeriodInBlocks: bigint,
@@ -691,11 +701,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalUpdated":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						id: bigint,
@@ -723,35 +733,38 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalVetoed":
-				this.contract.on(eventName, (id: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (id: bigint, event: ethers.Log) => {
 					const data: EventData.ProposalVetoed = {
 						id: Number(id),
 						event: event
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "QuorumCoefficientSet":
-				this.contract.on(eventName, (oldQuorumCoefficient: bigint, newQuorumCoefficient: bigint, event: ethers.Log) => {
-					const data = {
-						oldQuorumCoefficient: Number(oldQuorumCoefficient),
-						newQuorumCoefficient: Number(newQuorumCoefficient),
-						event: event
-					} as EventData.QuorumCoefficientSet;
+				this._contract.on(
+					eventName,
+					(oldQuorumCoefficient: bigint, newQuorumCoefficient: bigint, event: ethers.Log) => {
+						const data = {
+							oldQuorumCoefficient: Number(oldQuorumCoefficient),
+							newQuorumCoefficient: Number(newQuorumCoefficient),
+							event: event
+						} as EventData.QuorumCoefficientSet;
 
-					listener(data as any);
-				});
-				this.registeredListeners.set(eventName, listener);
+						listener(data as any);
+					}
+				);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "QuorumVotesBPSSet":
-				this.contract.on(eventName, (oldQuorumVotesBPS: bigint, newQuorumVotesBPS: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (oldQuorumVotesBPS: bigint, newQuorumVotesBPS: bigint, event: ethers.Log) => {
 					const data: EventData.QuorumVotesBPSSet = {
 						oldQuorumVotesBPS: Number(oldQuorumVotesBPS),
 						newQuorumVotesBPS: Number(newQuorumVotesBPS),
@@ -760,11 +773,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "RefundableVote":
-				this.contract.on(eventName, (voter: string, refundAmount: bigint, refundSent: boolean, event: ethers.Log) => {
+				this._contract.on(eventName, (voter: string, refundAmount: bigint, refundSent: boolean, event: ethers.Log) => {
 					const data = {
 						voter: { id: voter } as Account,
 						refundAmount: refundAmount,
@@ -774,11 +787,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "SignatureCancelled":
-				this.contract.on(eventName, (signer: string, sig: any, event: ethers.Log) => {
+				this._contract.on(eventName, (signer: string, sig: any, event: ethers.Log) => {
 					const data = {
 						signer: { id: signer } as Account,
 						sig: sig,
@@ -787,11 +800,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "TimelocksAndAdminSet":
-				this.contract.on(eventName, (timelock: string, timelockV1: string, admin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (timelock: string, timelockV1: string, admin: string, event: ethers.Log) => {
 					const data = {
 						timelock: { id: timelock } as Account,
 						timelockV1: { id: timelockV1 } as Account,
@@ -801,11 +814,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "VoteCast":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(voter: string, proposalId: bigint, support: bigint, votes: bigint, reason: string, event: ethers.Log) => {
 						const supportDetailed: VoteDirection = Number(support);
@@ -822,11 +835,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "VoteCastWithClientId":
-				this.contract.on(eventName, (voter: string, proposalId: bigint, clientId: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (voter: string, proposalId: bigint, clientId: bigint, event: ethers.Log) => {
 					const data: EventData.VoteCastWithClientId = {
 						voter: { id: voter },
 						proposalId: Number(proposalId),
@@ -835,11 +848,11 @@ export class NounsLogic {
 					};
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "VoteSnapshotBlockSwitchProposalIdSet":
-				this.contract.on(
+				this._contract.on(
 					eventName,
 					(
 						oldVoteSnapshotBlockSwitchProposalId: bigint,
@@ -855,11 +868,11 @@ export class NounsLogic {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "VotingDelaySet":
-				this.contract.on(eventName, (oldVotingDelay: bigint, newVotingDelay: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (oldVotingDelay: bigint, newVotingDelay: bigint, event: ethers.Log) => {
 					const data: EventData.VotingDelaySet = {
 						oldVotingDelay: oldVotingDelay,
 						newVotingDelay: newVotingDelay,
@@ -868,11 +881,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "VotingPeriodSet":
-				this.contract.on(eventName, (oldVotingPeriod: bigint, newVotingPeriod: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (oldVotingPeriod: bigint, newVotingPeriod: bigint, event: ethers.Log) => {
 					const data: EventData.VotingPeriodSet = {
 						oldVotingPeriod: oldVotingPeriod,
 						newVotingPeriod: newVotingPeriod,
@@ -881,11 +894,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "Withdraw":
-				this.contract.on(eventName, (amount: bigint, sent: boolean, event: ethers.Log) => {
+				this._contract.on(eventName, (amount: bigint, sent: boolean, event: ethers.Log) => {
 					const data = {
 						amount: amount,
 						sent: sent,
@@ -894,11 +907,11 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "WithdrawFromForkEscrow":
-				this.contract.on(eventName, (forkId: bigint, owner: string, tokenIds: bigint[], event: ethers.Log) => {
+				this._contract.on(eventName, (forkId: bigint, owner: string, tokenIds: bigint[], event: ethers.Log) => {
 					const data = {
 						forkId: Number(forkId),
 						owner: { id: owner } as Account,
@@ -908,7 +921,7 @@ export class NounsLogic {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			default:
@@ -923,15 +936,15 @@ export class NounsLogic {
 	 * nounsDAO.off('VoteCast');
 	 */
 	public off(eventName: SupportedEventsType) {
-		let listener = this.registeredListeners.get(eventName);
+		let listener = this._registeredListeners.get(eventName);
 		if (listener) {
 			if (eventName === "ProposalCreatedWithRequirements") {
-				this.contract.off(PROPOSAL_CREATED_WITH_REQUIREMENTS_V4_SIGNATURE, listener as ethers.Listener);
+				this._contract.off(PROPOSAL_CREATED_WITH_REQUIREMENTS_V4_SIGNATURE, listener as ethers.Listener);
 			} else {
-				this.contract.off(eventName, listener as ethers.Listener);
+				this._contract.off(eventName, listener as ethers.Listener);
 			}
 		}
-		this.registeredListeners.delete(eventName);
+		this._registeredListeners.delete(eventName);
 	}
 
 	/**
@@ -948,7 +961,7 @@ export class NounsLogic {
 	 * });
 	 */
 	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
-		const listener = this.registeredListeners.get(eventName);
+		const listener = this._registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
 		}

@@ -41,16 +41,16 @@ export class IndexerWriter {
 	public async index(event: string) {
 		if (parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event) as Function;
-			await indexer.indexEvent(this.nounsAuctionHouse.Contract, this.provider, event, parser, this.path);
+			await indexer.indexEvent(this.nounsAuctionHouse.contract, this.provider, event, parser, this.path);
 		} else if (parsers.NOUNS_DAO_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_DAO_FORMATTERS.get(event) as Function;
-			await indexer.indexEvent(this.nounsDao.Contract, this.provider, event, parser, this.path);
+			await indexer.indexEvent(this.nounsDao.contract, this.provider, event, parser, this.path);
 		} else if (parsers.NOUNS_DAO_DATA_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_DAO_DATA_FORMATTERS.get(event) as Function;
 			await indexer.indexEvent(this.nounsDaoData.contract, this.provider, event, parser, this.path);
 		} else if (parsers.NOUNS_TOKEN_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_TOKEN_FORMATTERS.get(event) as Function;
-			await indexer.indexEvent(this.nounsToken.Contract, this.provider, event, parser, this.path);
+			await indexer.indexEvent(this.nounsToken.contract, this.provider, event, parser, this.path);
 		} else {
 			throw new Error(`${event} is not supported and cannot be indexed.`);
 		}
@@ -63,16 +63,16 @@ export class IndexerWriter {
 	public async listen(event: string) {
 		if (parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event) as Function;
-			indexer.listenForEvent(this.nounsAuctionHouse.Contract, event, parser, this.path);
+			indexer.listenForEvent(this.nounsAuctionHouse.contract, event, parser, this.path);
 		} else if (parsers.NOUNS_DAO_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_DAO_FORMATTERS.get(event) as Function;
-			indexer.listenForEvent(this.nounsDao.Contract, event, parser, this.path);
+			indexer.listenForEvent(this.nounsDao.contract, event, parser, this.path);
 		} else if (parsers.NOUNS_DAO_DATA_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_DAO_DATA_FORMATTERS.get(event) as Function;
 			indexer.listenForEvent(this.nounsDaoData.contract, event, parser, this.path);
 		} else if (parsers.NOUNS_TOKEN_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_TOKEN_FORMATTERS.get(event) as Function;
-			indexer.listenForEvent(this.nounsToken.Contract, event, parser, this.path);
+			indexer.listenForEvent(this.nounsToken.contract, event, parser, this.path);
 		} else {
 			throw new Error(`${event} is not supported and cannot be indexed.`);
 		}
@@ -85,16 +85,16 @@ export class IndexerWriter {
 	public async update(event: string) {
 		if (parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_AUCTION_HOUSE_FORMATTERS.get(event) as Function;
-			await indexer.updateIndexedEvent(this.nounsAuctionHouse.Contract, this.provider, event, parser, this.path);
+			await indexer.updateIndexedEvent(this.nounsAuctionHouse.contract, this.provider, event, parser, this.path);
 		} else if (parsers.NOUNS_DAO_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_DAO_FORMATTERS.get(event) as Function;
-			await indexer.updateIndexedEvent(this.nounsDao.Contract, this.provider, event, parser, this.path);
+			await indexer.updateIndexedEvent(this.nounsDao.contract, this.provider, event, parser, this.path);
 		} else if (parsers.NOUNS_DAO_DATA_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_DAO_DATA_FORMATTERS.get(event) as Function;
 			await indexer.updateIndexedEvent(this.nounsDaoData.contract, this.provider, event, parser, this.path);
 		} else if (parsers.NOUNS_TOKEN_FORMATTERS.get(event)) {
 			const parser = parsers.NOUNS_TOKEN_FORMATTERS.get(event) as Function;
-			await indexer.updateIndexedEvent(this.nounsToken.Contract, this.provider, event, parser, this.path);
+			await indexer.updateIndexedEvent(this.nounsToken.contract, this.provider, event, parser, this.path);
 		} else {
 			throw new Error(`${event} is not supported and cannot be indexed.`);
 		}
