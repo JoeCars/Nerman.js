@@ -32,7 +32,7 @@ const SUPPORTED_REWARDS_EVENTS = [
 ] as const;
 export type SupportedEventsType = keyof SupportedEventMap;
 
-export default class Rewards {
+export class Rewards {
 	private _provider: JsonRpcProvider;
 	private _contract: Contract;
 	private _registeredListeners: Map<SupportedEventsType, Function>;

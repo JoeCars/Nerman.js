@@ -32,7 +32,7 @@ const SUPPORTED_TOKEN_BUYER_EVENTS = [
 ] as const;
 export type SupportedEventsType = keyof SupportedEventMap;
 
-export default class TokenBuyer {
+export class TokenBuyer {
 	private _provider: JsonRpcProvider;
 	private _contract: Contract;
 	private _registeredListeners: Map<SupportedEventsType, Function>;

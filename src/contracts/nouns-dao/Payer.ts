@@ -12,7 +12,7 @@ export interface SupportedEventMap {
 const SUPPORTED_PAYER_EVENTS = ["PaidBackDebt", "RegisteredDebt", "TokensWithdrawn"] as const;
 export type SupportedEventsType = keyof SupportedEventMap;
 
-export default class Payer {
+export class Payer {
 	private _provider: JsonRpcProvider;
 	private _contract: Contract;
 	private _payerViewer: PayerViewer;
