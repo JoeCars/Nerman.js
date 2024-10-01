@@ -348,8 +348,4 @@ class NounsExecutorViewer {
 	public async pendingAdmin(): Promise<string> {
 		return this.contract.pendingAdmin();
 	}
-
-	public async queuedTransactions(): Promise<string> {
-		return this.contract.queuedTransactions();
-	}
 }
