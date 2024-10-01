@@ -409,6 +409,10 @@ interface Auction {
 	settled: boolean;
 }
 
+interface AuctionStorage extends Auction {
+	clientId: bigint;
+}
+
 class NounsAuctionHouseViewer {
 	private contract: Contract;
 	constructor(contract: Contract) {
@@ -424,17 +428,9 @@ class NounsAuctionHouseViewer {
 		return { nounId, amount, startTime, endTime, bidder, settled };
 	}
 
-	public async auctionStorage() {
-		const auction: {
-			nounId: bigint;
-			clientId: bigint;
-			amount: bigint;
-			startTime: bigint;
-			endTime: bigint;
-			bidder: string;
-			settled: boolean;
-		} = await this.contract.auctionStorage();
-		return auction;
+	public async auctionStorage(): Promise<AuctionStorage> {
+		const [nounId, clientId, amount, startTime, endTime, bidder, settled] = await this.contract.auctionStorage();
+		return { nounId, clientId, amount, startTime, endTime, bidder, settled };
 	}
 
 	public async biddingClient(nounId: number): Promise<bigint> {
