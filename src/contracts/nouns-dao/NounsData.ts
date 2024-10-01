@@ -425,10 +425,6 @@ class NounsDataViewer {
 		return this.contract.owner();
 	}
 
-	public async propCandidates(address: string, bytes: string): Promise<boolean> {
-		return this.contract.propCandidates(address, bytes);
-	}
-
 	public async updateCandidateCost(): Promise<bigint> {
 		return this.contract.updateCandidateCost();
 	}
