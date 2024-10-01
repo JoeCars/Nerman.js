@@ -1,4 +1,4 @@
-import { Contract, ethers } from "ethers";
+import { Contract, ethers, Typed } from "ethers";
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { createNounsAuctionHouseV2Contract } from "../../utilities/contracts";
@@ -32,14 +32,6 @@ const SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS = [
 	"Unpaused"
 ] as const;
 export type SupportedEventsType = keyof SupportedEventMap;
-
-type Settlement = {
-	blockTimestamp: bigint;
-	amount: bigint;
-	winner: string;
-	nounId: bigint;
-	clientId: bigint;
-};
 
 /**
  * A wrapper class around the NounsAuctionHouse contract.
@@ -413,6 +405,14 @@ interface AuctionStorage extends Auction {
 	clientId: bigint;
 }
 
+type Settlement = {
+	blockTimestamp: bigint;
+	amount: bigint;
+	winner: string;
+	nounId: bigint;
+	clientId: bigint;
+};
+
 class NounsAuctionHouseViewer {
 	private contract: Contract;
 	constructor(contract: Contract) {
@@ -452,11 +452,22 @@ class NounsAuctionHouseViewer {
 		skipEmptyValuesOrEndId: boolean | number,
 		skipEmptyValues?: boolean
 	): Promise<Settlement[]> {
-		const settlements: Settlement[] = await this.contract.getSettlements(
-			startIdOrAuctionCount,
-			skipEmptyValuesOrEndId,
-			skipEmptyValues
-		);
+		let res: any[][];
+		if (typeof skipEmptyValuesOrEndId === "boolean") {
+			// is 2 arg signature. Use Typed.overrides({}) to resolve ambiguity,
+			res = await this.contract.getSettlements(startIdOrAuctionCount, skipEmptyValuesOrEndId, Typed.overrides({}));
+		} else {
+			// is 3 arg signature.
+			res = await this.contract.getSettlements(
+				startIdOrAuctionCount,
+				skipEmptyValuesOrEndId,
+				skipEmptyValues,
+				Typed.overrides({})
+			);
+		}
+		const settlements = res.map(([blockTimestamp, amount, winner, nounId, clientId]) => {
+			return { blockTimestamp, amount, winner, nounId, clientId };
+		});
 		return settlements;
 	}
 
