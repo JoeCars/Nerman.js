@@ -505,8 +505,8 @@ class NounsTokenViewer {
 		return this.contract.name();
 	}
 
-	public async nonces(): Promise<bigint> {
-		return this.contract.nonces();
+	public async nonces(address: string): Promise<bigint> {
+		return this.contract.nonces(address);
 	}
 
 	public async noundersDAO(): Promise<string> {
