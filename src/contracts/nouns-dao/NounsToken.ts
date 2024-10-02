@@ -513,8 +513,8 @@ class NounsTokenViewer {
 		return this.contract.noundersDAO();
 	}
 
-	public async numCheckpoints(): Promise<bigint> {
-		return this.contract.numCheckpoints();
+	public async numCheckpoints(address: string): Promise<bigint> {
+		return this.contract.numCheckpoints(address);
 	}
 
 	public async owner(): Promise<string> {
