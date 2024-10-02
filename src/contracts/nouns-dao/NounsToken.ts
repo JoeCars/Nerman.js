@@ -525,8 +525,8 @@ class NounsTokenViewer {
 		return this.contract.ownerOf(tokenId);
 	}
 
-	public async proxyRegistry(tokenId: number): Promise<string> {
-		return this.contract.proxyRegistry(tokenId);
+	public async proxyRegistry(): Promise<string> {
+		return this.contract.proxyRegistry();
 	}
 
 	public async seeder(): Promise<string> {
