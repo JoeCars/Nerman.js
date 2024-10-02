@@ -1108,10 +1108,6 @@ class NounsLogicViewer {
 		return this.contract.proposalCount();
 	}
 
-	public async proposalDataForRewards(proposalId: number): Promise<ProposalForRewards> {
-		return this.contract.proposalDataForRewards(proposalId);
-	}
-
 	public async proposalMaxOperations(): Promise<bigint> {
 		return this.contract.proposalMaxOperations();
 	}
