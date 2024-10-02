@@ -122,7 +122,11 @@ class PayerViewer {
 	}
 
 	public async queue(): Promise<Queue> {
-		return this.contract.queue();
+		const [_begin, _end] = await this.contract.queue();
+		return {
+			_begin,
+			_end
+		};
 	}
 
 	public async queueAt(index: number): Promise<QueueAt> {
