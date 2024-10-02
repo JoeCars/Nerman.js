@@ -277,7 +277,15 @@ class RewardsViewer {
 	}
 
 	public async clientMetadata(tokenId: number): Promise<ClientMetadata> {
-		return this.contract.clientMetadata(tokenId);
+		const [approved, rewarded, withdrawn, __gap, name, description] = await this.contract.clientMetadata(tokenId);
+		return {
+			approved,
+			rewarded,
+			withdrawn,
+			__gap,
+			name,
+			description
+		};
 	}
 
 	public async descriptor(): Promise<string> {
