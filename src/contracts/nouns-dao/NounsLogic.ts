@@ -1098,10 +1098,6 @@ class NounsLogicViewer {
 		return this.contract.pendingVetoer();
 	}
 
-	public async proposalClientId(proposalId: number): Promise<bigint> {
-		return this.contract.proposalClientId(proposalId);
-	}
-
 	public async proposalCount(): Promise<bigint> {
 		return this.contract.proposalCount();
 	}
