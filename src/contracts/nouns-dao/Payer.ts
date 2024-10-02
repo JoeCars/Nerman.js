@@ -130,7 +130,8 @@ class PayerViewer {
 	}
 
 	public async queueAt(index: number): Promise<QueueAt> {
-		return this.contract.queueAt(index);
+		const [account, amount] = await this.contract.queueAt(index);
+		return { account, amount };
 	}
 
 	public async totalDebt(): Promise<bigint> {
