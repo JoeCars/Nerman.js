@@ -39,19 +39,6 @@ const SUPPORTED_NOUNS_TOKEN_EVENTS = [
 ] as const;
 export type SupportedEventsType = keyof SupportedEventMap;
 
-interface Checkpoint {
-	fromBlock: bigint;
-	votes: bigint;
-}
-
-interface Seed {
-	background: bigint;
-	body: bigint;
-	accessory: bigint;
-	head: bigint;
-	glasses: bigint;
-}
-
 /**
  * A wrapper around the NounsToken governance contract.
  */
@@ -426,6 +413,19 @@ export class NounsToken {
 	}
 }
 
+interface Checkpoint {
+	fromBlock: bigint;
+	votes: bigint;
+}
+
+interface Seed {
+	background: bigint;
+	body: bigint;
+	accessory: bigint;
+	head: bigint;
+	glasses: bigint;
+}
+
 class NounsTokenViewer {
 	private contract: Contract;
 	constructor(contract: Contract) {
@@ -445,7 +445,8 @@ class NounsTokenViewer {
 	}
 
 	public async checkpoints(address: string, index: number): Promise<Checkpoint> {
-		return this.contract.checkpoints(address, index);
+		const [fromBlock, votes] = await this.contract.checkpoints(address, index);
+		return { fromBlock, votes };
 	}
 
 	public async contractURI(): Promise<string> {
