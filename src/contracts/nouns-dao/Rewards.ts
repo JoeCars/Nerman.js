@@ -306,7 +306,8 @@ class RewardsViewer {
 	}
 
 	public async getAuctionRewardParams(): Promise<AuctionRewardParams> {
-		return this.contract.getAuctionRewardParams();
+		const [auctionRewardBps, minimumAuctionsBetweenUpdates] = await this.contract.getAuctionRewardParams();
+		return { auctionRewardBps, minimumAuctionsBetweenUpdates };
 	}
 
 	public async getProposalRewardParams(): Promise<ProposalRewardParams> {
