@@ -311,7 +311,20 @@ class RewardsViewer {
 	}
 
 	public async getProposalRewardParams(): Promise<ProposalRewardParams> {
-		return this.contract.getProposalRewardParams();
+		const [
+			minimumRewardPeriod,
+			numProposalsEnoughForReward,
+			proposalRewardBps,
+			votingRewardBps,
+			proposalEligibilityQuorumBps
+		] = await this.contract.getProposalRewardParams();
+		return {
+			minimumRewardPeriod,
+			numProposalsEnoughForReward,
+			proposalRewardBps,
+			votingRewardBps,
+			proposalEligibilityQuorumBps
+		};
 	}
 
 	public async getVotingClientIds(lastProposalId: number): Promise<bigint[]> {
