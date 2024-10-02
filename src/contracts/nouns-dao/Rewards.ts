@@ -301,7 +301,8 @@ class RewardsViewer {
 	}
 
 	public async getAuctionRevenue(firstNounId: number, endTimestamp: number): Promise<AuctionRevenue> {
-		return this.contract.getAuctionRevenue(firstNounId, endTimestamp);
+		const [sumRevenue, lastAuctionId] = await this.contract.getAuctionRevenue(firstNounId, endTimestamp);
+		return { sumRevenue, lastAuctionId };
 	}
 
 	public async getAuctionRewardParams(): Promise<AuctionRewardParams> {
