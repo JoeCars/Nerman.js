@@ -966,14 +966,6 @@ interface ProposalCondensed {
 	creationBlock: bigint;
 }
 
-interface ProposalCondensedV3 extends ProposalCondensed {
-	creationTimestamp: bigint;
-	signers: string[];
-	updatePeriodEndBlock: bigint;
-	objectionPeriodEndBlock: bigint;
-	executeOnTimelockV1: boolean;
-}
-
 interface DynamicQuorumParamsCheckpoint {
 	fromBlock: bigint;
 	params: DynamicQuorumParams;
@@ -1165,10 +1157,6 @@ class NounsLogicViewer {
 			totalSupply,
 			creationBlock
 		};
-	}
-
-	public async proposalsV3(proposalId: number): Promise<ProposalCondensedV3> {
-		return this.contract.proposalsV3(proposalId);
 	}
 
 	public async quorumParamsCheckpoints(index?: number): Promise<DynamicQuorumParamsCheckpoint[]> {
