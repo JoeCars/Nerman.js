@@ -1131,7 +1131,40 @@ class NounsLogicViewer {
 	}
 
 	public async proposals(proposalId: number): Promise<ProposalCondensed> {
-		return this.contract.proposals(proposalId);
+		const [
+			id,
+			proposer,
+			proposalThreshold,
+			quorumVotes,
+			eta,
+			startBlock,
+			endBlock,
+			forVotes,
+			againstVotes,
+			abstainVotes,
+			canceled,
+			vetoed,
+			executed,
+			totalSupply,
+			creationBlock
+		] = await this.contract.proposals(proposalId);
+		return {
+			id,
+			proposer,
+			proposalThreshold,
+			quorumVotes,
+			eta,
+			startBlock,
+			endBlock,
+			forVotes,
+			againstVotes,
+			abstainVotes,
+			canceled,
+			vetoed,
+			executed,
+			totalSupply,
+			creationBlock
+		};
 	}
 
 	public async proposalsV3(proposalId: number): Promise<ProposalCondensedV3> {
