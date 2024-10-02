@@ -213,7 +213,8 @@ export class TokenBuyer {
 }
 
 interface TokenAmountNeededAndETHPayout {
-	[key: string]: bigint;
+	tokenAmountNeeded: bigint;
+	ethPayout: bigint;
 }
 
 class TokenBuyerViewer {
@@ -238,11 +239,11 @@ class TokenBuyerViewer {
 		return this.contract.botDiscountBPs();
 	}
 
-	public async ethAmountPerTokenAmount(tokenAmount: bigint): Promise<bigint> {
+	public async ethAmountPerTokenAmount(tokenAmount: number): Promise<bigint> {
 		return this.contract.ethAmountPerTokenAmount(tokenAmount);
 	}
 
-	public async ethNeeded(additionalTokens: bigint, bufferBPs: bigint): Promise<bigint> {
+	public async ethNeeded(additionalTokens: number, bufferBPs: number): Promise<bigint> {
 		return this.contract.ethNeeded(additionalTokens, bufferBPs);
 	}
 
@@ -295,10 +296,11 @@ class TokenBuyerViewer {
 	}
 
 	public async tokenAmountNeededAndETHPayout(): Promise<TokenAmountNeededAndETHPayout> {
-		return this.contract.tokenAmountNeededAndETHPayout();
+		const [tokenAmountNeeded, ethPayout] = await this.contract.tokenAmountNeededAndETHPayout();
+		return { tokenAmountNeeded, ethPayout };
 	}
 
-	public async tokenAmountPerEthAmount(ethAmount: bigint): Promise<bigint> {
+	public async tokenAmountPerEthAmount(ethAmount: number): Promise<bigint> {
 		return this.contract.tokenAmountPerEthAmount(ethAmount);
 	}
 }
