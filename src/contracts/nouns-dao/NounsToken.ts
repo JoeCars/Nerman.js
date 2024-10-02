@@ -534,7 +534,14 @@ class NounsTokenViewer {
 	}
 
 	public async seeds(tokenId: number): Promise<Seed> {
-		return this.contract.seeds(tokenId);
+		const [background, body, accessory, head, glasses] = await this.contract.seeds(tokenId);
+		return {
+			background,
+			body,
+			accessory,
+			head,
+			glasses
+		};
 	}
 
 	public async supportsInterface(interfaceId: string): Promise<boolean> {
