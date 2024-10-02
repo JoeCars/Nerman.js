@@ -971,6 +971,20 @@ interface DynamicQuorumParamsCheckpoint {
 	params: DynamicQuorumParams;
 }
 
+enum ProposalState {
+	PENDING,
+	ACTIVE,
+	CANCELED,
+	DEFEATED,
+	SUCCEEDED,
+	QUEUED,
+	EXPIRED,
+	EXECUTED,
+	VETOED,
+	OBJECTION_PERIOD,
+	UPDATABLE
+}
+
 class NounsLogicViewer {
 	private contract: Contract;
 	constructor(contract: Contract) {
@@ -1200,9 +1214,9 @@ class NounsLogicViewer {
 		return this.contract.quorumVotesBPS();
 	}
 
-	// Internally an enum. TODO: Convert to an enum.
-	public async state(proposalId: number): Promise<bigint> {
-		return this.contract.state(proposalId);
+	public async state(proposalId: number): Promise<ProposalState> {
+		const stateId = await this.contract.state(proposalId);
+		return ProposalState[Number(stateId)] as unknown as ProposalState;
 	}
 
 	public async timelock(): Promise<string> {
