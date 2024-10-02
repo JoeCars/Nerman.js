@@ -1,4 +1,4 @@
-import { Contract, ethers } from "ethers";
+import { Contract, ethers, Typed } from "ethers";
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { createNounsTokenContract } from "../../utilities/contracts";
@@ -545,7 +545,7 @@ class NounsTokenViewer {
 	}
 
 	public async supportsInterface(interfaceId: string): Promise<boolean> {
-		return this.contract.supportsInterface(interfaceId);
+		return this.contract.supportsInterface(Typed.bytes4(interfaceId));
 	}
 
 	public async symbol(): Promise<string> {
