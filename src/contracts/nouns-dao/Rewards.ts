@@ -388,6 +388,6 @@ class RewardsViewer {
 	}
 
 	public async tokenURI(tokenId: number): Promise<string> {
-		return this.contract.tokenURI();
+		return this.contract.tokenURI(tokenId);
 	}
 }
