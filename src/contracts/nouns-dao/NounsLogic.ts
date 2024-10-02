@@ -1124,10 +1124,6 @@ class NounsLogicViewer {
 		return this.contract.proposalUpdatablePeriodInBlocks();
 	}
 
-	public async proposalVoteClientsData(proposalId: number, clientIds: number[]): Promise<ClientVoteData[]> {
-		return this.contract.proposalVoteClientsData(proposalId, clientIds);
-	}
-
 	public async proposals(proposalId: number): Promise<ProposalCondensed> {
 		const [
 			id,
