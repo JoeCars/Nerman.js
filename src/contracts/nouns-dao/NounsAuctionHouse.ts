@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { Contract, ethers, Typed } from "ethers";
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { createNounsAuctionHouseV2Contract } from "../../utilities/contracts";
@@ -36,16 +36,26 @@ export type SupportedEventsType = keyof SupportedEventMap;
 /**
  * A wrapper class around the NounsAuctionHouse contract.
  */
-export class _NounsAuctionHouse {
-	public provider: ethers.JsonRpcProvider;
-	public Contract: ethers.Contract;
-	public registeredListeners: Map<SupportedEventsType, Function>;
+export class NounsAuctionHouse {
+	private _provider: ethers.JsonRpcProvider;
+	private _contract: ethers.Contract;
+	private _registeredListeners: Map<SupportedEventsType, Function>;
+	private _nounsAuctionHouseViewer: NounsAuctionHouseViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_AUCTION_HOUSE_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		this.provider = createOrReturnProvider(provider);
-		this.Contract = createNounsAuctionHouseV2Contract(this.provider);
-		this.registeredListeners = new Map();
+		this._provider = createOrReturnProvider(provider);
+		this._contract = createNounsAuctionHouseV2Contract(this._provider);
+		this._nounsAuctionHouseViewer = new NounsAuctionHouseViewer(this._contract);
+		this._registeredListeners = new Map();
+	}
+
+	public get viewer() {
+		return this._nounsAuctionHouseViewer;
+	}
+
+	public get contract() {
+		return this._contract;
 	}
 
 	/**
@@ -61,7 +71,7 @@ export class _NounsAuctionHouse {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AuctionBid":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(nounId: bigint, sender: string, value: bigint, extended: boolean, event: ethers.Log) => {
 						const data: EventData.AuctionBid = {
@@ -75,11 +85,11 @@ export class _NounsAuctionHouse {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionBidWithClientId":
-				this.Contract.on(eventName, (nounId: bigint, value: bigint, clientId: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (nounId: bigint, value: bigint, clientId: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionBidWithClientId = {
 						id: Number(nounId),
 						amount: value,
@@ -89,11 +99,11 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionCreated":
-				this.Contract.on(eventName, (nounId: bigint, startTime: bigint, endTime: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (nounId: bigint, startTime: bigint, endTime: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionCreated = {
 						id: Number(nounId),
 						startTime: startTime,
@@ -103,11 +113,11 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionExtended":
-				this.Contract.on(eventName, (nounId: bigint, endTime: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (nounId: bigint, endTime: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionExtended = {
 						id: Number(nounId),
 						endTime: endTime,
@@ -116,11 +126,11 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionMinBidIncrementPercentageUpdated":
-				this.Contract.on(eventName, (minBidIncrementPercentage: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (minBidIncrementPercentage: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionMinBidIncrementPercentageUpdated = {
 						minBidIncrementPercentage: Number(minBidIncrementPercentage),
 						event: event
@@ -128,11 +138,11 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionReservePriceUpdated":
-				this.Contract.on(eventName, (reservePrice: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (reservePrice: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionReservePriceUpdated = {
 						reservePrice: reservePrice,
 						event: event
@@ -140,11 +150,11 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionSettled":
-				this.Contract.on(eventName, (nounId: bigint, winner: string, amount: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (nounId: bigint, winner: string, amount: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionSettled = {
 						id: Number(nounId),
 						winner: { id: winner } as Account,
@@ -154,11 +164,11 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionSettledWithClientId":
-				this.Contract.on(eventName, (nounId: bigint, clientId: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (nounId: bigint, clientId: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionSettledWithClientId = {
 						id: Number(nounId),
 						clientId: Number(clientId),
@@ -167,11 +177,11 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "AuctionTimeBufferUpdated":
-				this.Contract.on(eventName, (timeBuffer: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (timeBuffer: bigint, event: ethers.Log) => {
 					const data: EventData.AuctionTimeBufferUpdated = {
 						timeBuffer: timeBuffer,
 						event: event
@@ -179,11 +189,11 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Log) => {
+				this._contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data: EventData.OwnershipTransferred = {
 						previousOwner: { id: previousOwner },
 						newOwner: { id: newOwner },
@@ -192,11 +202,11 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "Paused":
-				this.Contract.on(eventName, (address: string, event: ethers.Log) => {
+				this._contract.on(eventName, (address: string, event: ethers.Log) => {
 					const data: EventData.Paused = {
 						address: { id: address },
 						event: event
@@ -204,11 +214,11 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "Unpaused":
-				this.Contract.on(eventName, (address: string, event: ethers.Log) => {
+				this._contract.on(eventName, (address: string, event: ethers.Log) => {
 					const data: EventData.Unpaused = {
 						address: { id: address },
 						event: event
@@ -216,7 +226,7 @@ export class _NounsAuctionHouse {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			default:
@@ -231,11 +241,11 @@ export class _NounsAuctionHouse {
 	 * nounsAuctionHouse.off('AuctionCreated');
 	 */
 	public off(eventName: SupportedEventsType) {
-		let listener = this.registeredListeners.get(eventName);
+		let listener = this._registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.Listener);
+			this._contract.off(eventName, listener as ethers.Listener);
 		}
-		this.registeredListeners.delete(eventName);
+		this._registeredListeners.delete(eventName);
 	}
 
 	/**
@@ -250,7 +260,7 @@ export class _NounsAuctionHouse {
 	 * });
 	 */
 	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
-		const listener = this.registeredListeners.get(eventName);
+		const listener = this._registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
 		}
@@ -263,8 +273,8 @@ export class _NounsAuctionHouse {
 	 * @returns A list of recent AuctionCreated events.
 	 */
 	public async getLatestAuctions() {
-		const filter = this.Contract.filters.AuctionCreated();
-		const auctions = (await this.Contract.queryFilter(filter)) as ethers.EventLog[];
+		const filter = this._contract.filters.AuctionCreated();
+		const auctions = (await this._contract.queryFilter(filter)) as ethers.EventLog[];
 		return auctions;
 	}
 
@@ -273,8 +283,8 @@ export class _NounsAuctionHouse {
 	 * @returns A list of recent AuctionExtended events.
 	 */
 	public async getLatestAuctionExtended() {
-		const filter = this.Contract.filters.AuctionExtended();
-		const auctionExtendeds = (await this.Contract.queryFilter(filter)) as ethers.EventLog[];
+		const filter = this._contract.filters.AuctionExtended();
+		const auctionExtendeds = (await this._contract.queryFilter(filter)) as ethers.EventLog[];
 		return auctionExtendeds;
 	}
 
@@ -283,8 +293,8 @@ export class _NounsAuctionHouse {
 	 * @returns A list of recent AuctionBids events.
 	 */
 	public async getAuctionBids(nounId: number) {
-		const filter = this.Contract.filters.AuctionBid(nounId);
-		const bids = (await this.Contract.queryFilter(filter)) as ethers.EventLog[];
+		const filter = this._contract.filters.AuctionBid(nounId);
+		const bids = (await this._contract.queryFilter(filter)) as ethers.EventLog[];
 		return bids;
 	}
 
@@ -314,7 +324,7 @@ export class _NounsAuctionHouse {
 	 * @returns The information in the block.
 	 */
 	public async getBlock(blockNumber: number) {
-		const block = await this.provider.getBlock(blockNumber);
+		const block = await this._provider.getBlock(blockNumber);
 		return block;
 	}
 
@@ -352,7 +362,7 @@ export class _NounsAuctionHouse {
 		const bid = await this.getAuctionLatestBid(nounId);
 		if (bid != undefined && bid.args != undefined) {
 			const block = await this.getBlock(bid.blockNumber);
-			const ens = await this.provider.lookupAddress(bid.args[1]);
+			const ens = await this._provider.lookupAddress(bid.args[1]);
 			// ethers.js automatically checks that the forward resolution matches.
 
 			const latestBidData = {
@@ -376,8 +386,128 @@ export class _NounsAuctionHouse {
 	 * @returns True if the event is supported. False otherwise.
 	 */
 	public hasEvent(eventName: string) {
-		return _NounsAuctionHouse.supportedEvents.includes(eventName as SupportedEventsType);
+		return NounsAuctionHouse.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 
 	// IF ITS A NOUNDERS NOUNS, OR NO BIDS, NEED TO CHECK WHO IT WAS TRANSFERRED TO
+}
+
+interface Auction {
+	nounId: bigint;
+	amount: bigint;
+	startTime: bigint;
+	endTime: bigint;
+	bidder: string;
+	settled: boolean;
+}
+
+interface AuctionStorage extends Auction {
+	clientId: bigint;
+}
+
+type Settlement = {
+	blockTimestamp: bigint;
+	amount: bigint;
+	winner: string;
+	nounId: bigint;
+	clientId: bigint;
+};
+
+class NounsAuctionHouseViewer {
+	private contract: Contract;
+	constructor(contract: Contract) {
+		this.contract = contract;
+	}
+
+	public async MAX_TIME_BUFFER(): Promise<bigint> {
+		return this.contract.MAX_TIME_BUFFER();
+	}
+
+	public async auction(): Promise<Auction> {
+		const [nounId, amount, startTime, endTime, bidder, settled] = await this.contract.auction();
+		return { nounId, amount, startTime, endTime, bidder, settled };
+	}
+
+	public async auctionStorage(): Promise<AuctionStorage> {
+		const [nounId, clientId, amount, startTime, endTime, bidder, settled] = await this.contract.auctionStorage();
+		return { nounId, clientId, amount, startTime, endTime, bidder, settled };
+	}
+
+	public async biddingClient(nounId: number): Promise<bigint> {
+		return this.contract.biddingClient(nounId);
+	}
+
+	public async duration(): Promise<bigint> {
+		return this.contract.duration();
+	}
+
+	public async getPrices(auctionCount: number): Promise<bigint[]> {
+		return this.contract.getPrices(auctionCount);
+	}
+
+	public async getSettlements(auctionCount: number, skipEmptyValues: boolean): Promise<Settlement[]>;
+	public async getSettlements(startId: number, endId: number, skipEmptyValues: boolean): Promise<Settlement[]>;
+	public async getSettlements(
+		startIdOrAuctionCount: number,
+		skipEmptyValuesOrEndId: boolean | number,
+		skipEmptyValues?: boolean
+	): Promise<Settlement[]> {
+		let res: any[][];
+		if (typeof skipEmptyValuesOrEndId === "boolean") {
+			// is 2 arg signature. Use Typed.overrides({}) to resolve ambiguity,
+			res = await this.contract.getSettlements(startIdOrAuctionCount, skipEmptyValuesOrEndId, Typed.overrides({}));
+		} else {
+			// is 3 arg signature.
+			res = await this.contract.getSettlements(
+				startIdOrAuctionCount,
+				skipEmptyValuesOrEndId,
+				skipEmptyValues,
+				Typed.overrides({})
+			);
+		}
+		const settlements = res.map(([blockTimestamp, amount, winner, nounId, clientId]) => {
+			return { blockTimestamp, amount, winner, nounId, clientId };
+		});
+		return settlements;
+	}
+
+	public async getSettlementsFromIdtoTimestamp(
+		startId: number,
+		endTimestamp: number,
+		skipEmptyValues: boolean
+	): Promise<Settlement[]> {
+		const res: any[] = await this.contract.getSettlementsFromIdtoTimestamp(startId, endTimestamp, skipEmptyValues);
+		const settlements: Settlement[] = res.map(([blockTimestamp, amount, winner, nounId, clientId]) => {
+			return { blockTimestamp, amount, winner, nounId, clientId };
+		});
+		return settlements;
+	}
+
+	public async minBidIncrementPercentage(): Promise<bigint> {
+		return this.contract.minBidIncrementPercentage();
+	}
+
+	public async nouns(): Promise<string> {
+		return this.contract.nouns();
+	}
+
+	public async owner(): Promise<string> {
+		return this.contract.owner();
+	}
+
+	public async paused(): Promise<boolean> {
+		return this.contract.paused();
+	}
+
+	public async reservePrice(): Promise<bigint> {
+		return this.contract.reservePrice();
+	}
+
+	public async timeBuffer(): Promise<bigint> {
+		return this.contract.timeBuffer();
+	}
+
+	public async weth(): Promise<string> {
+		return this.contract.weth();
+	}
 }

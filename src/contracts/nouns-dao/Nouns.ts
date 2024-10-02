@@ -1,30 +1,30 @@
 import { Contract, ethers } from "ethers";
 
 import {
-	_NounsAuctionHouse,
+	NounsAuctionHouse,
 	SupportedEventsType as NounsAuctionHouseSupportedEventsType,
 	SupportedEventMap as AuctionSupportedEventMap
 } from "./NounsAuctionHouse";
 import {
-	_NounsToken,
+	NounsToken,
 	SupportedEventsType as NounsTokenSupportedEventsType,
 	SupportedEventMap as TokenSupportedEventMap
 } from "./NounsToken";
 import {
-	_NounsDAO,
+	NounsLogic,
 	SupportedEventsType as NounsDAOSupportedEventsType,
 	SupportedEventMap as LogicSupportedEventMap
-} from "./NounsDAO";
+} from "./NounsLogic";
 import {
-	_NounsDAOData,
+	NounsData,
 	SupportedEventsType as NounsDAODataSupportedEventsType,
 	SupportedEventMap as DataSupportedEventMap
-} from "./NounsDAOData";
+} from "./NounsData";
 import {
-	NounsDaoExecutor,
+	NounsExecutor,
 	SupportedEventsType as NounsDaoExecutorSupportedEventsType,
 	SupportedEventMap as ExecutorSupportedEventMap
-} from "./NounsDAOExecutor";
+} from "./NounsExecutor";
 import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
@@ -51,19 +51,19 @@ type SupportedEventsType =
 export class Nouns {
 	public provider: ethers.JsonRpcProvider;
 
-	public NounsAuctionHouse: _NounsAuctionHouse; // @TODO refactor into NounishContract?
-	public NounsToken: _NounsToken;
-	public NounsDAO: _NounsDAO;
-	public NounsDAOData: _NounsDAOData;
-	public NounsDaoExecutor: NounsDaoExecutor;
+	public NounsAuctionHouse: NounsAuctionHouse; // @TODO refactor into NounishContract?
+	public NounsToken: NounsToken;
+	public NounsDAO: NounsLogic;
+	public NounsDAOData: NounsData;
+	public NounsDaoExecutor: NounsExecutor;
 
 	public Indexer: Indexer;
 	public static readonly supportedEvents = [
-		..._NounsAuctionHouse.supportedEvents,
-		..._NounsToken.supportedEvents,
-		..._NounsDAO.supportedEvents,
-		..._NounsDAOData.supportedEvents,
-		...NounsDaoExecutor.supportedEvents,
+		...NounsAuctionHouse.supportedEvents,
+		...NounsToken.supportedEvents,
+		...NounsLogic.supportedEvents,
+		...NounsData.supportedEvents,
+		...NounsExecutor.supportedEvents,
 		"AuctionEnd"
 	] as const;
 
@@ -84,11 +84,11 @@ export class Nouns {
 			this.provider.pollingInterval = options.pollingTime;
 		}
 
-		this.NounsAuctionHouse = new _NounsAuctionHouse(this.provider);
-		this.NounsToken = new _NounsToken(this.provider);
-		this.NounsDAO = new _NounsDAO(this.provider);
-		this.NounsDAOData = new _NounsDAOData(this.provider);
-		this.NounsDaoExecutor = new NounsDaoExecutor(this.provider);
+		this.NounsAuctionHouse = new NounsAuctionHouse(this.provider);
+		this.NounsToken = new NounsToken(this.provider);
+		this.NounsDAO = new NounsLogic(this.provider);
+		this.NounsDAOData = new NounsData(this.provider);
+		this.NounsDaoExecutor = new NounsExecutor(this.provider);
 
 		let indexerDirectoryPath = "./_nounsjs/data";
 		if (options?.indexerDirectoryPath) {
@@ -134,8 +134,8 @@ export class Nouns {
 			this.cache.auction.state = "EXTENDED";
 		}
 
-		this.cache.auction.duration = Number(await this.NounsAuctionHouse.Contract.duration());
-		this.cache.auction.timeBuffer = Number(await this.NounsAuctionHouse.Contract.timeBuffer());
+		this.cache.auction.duration = Number(await this.NounsAuctionHouse.viewer.duration());
+		this.cache.auction.timeBuffer = Number(await this.NounsAuctionHouse.viewer.timeBuffer());
 
 		console.log("CACHE");
 		console.log(this.cache);
@@ -278,16 +278,6 @@ export class Nouns {
 		console.log("StateOfNouns off " + eventName);
 	}
 
-	// @todo functionType is only the following items: view pure payable
-	public async call(fType: string, fName: string, fArgs: any[]) {
-		switch (fType) {
-			case "view":
-				return await this.NounsToken.callView(fName, fArgs);
-
-				break;
-		}
-	}
-
 	/**
 	 * Returns the ens name of the address if available.
 	 * @param address the wallet address.
@@ -341,7 +331,7 @@ export class Nouns {
 
 	public async calculateBookValue() {
 		const treasuryContents = await this.NounsDaoExecutor.fetchTreasuryContents();
-		const totalNouns = Number(await this.NounsDAO.Contract.adjustedTotalSupply());
+		const totalNouns = Number(await this.NounsDAO.viewer.adjustedTotalSupply());
 
 		let ethSum = 0;
 		for (const tokenContent of treasuryContents) {

@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
@@ -36,16 +36,26 @@ export type SupportedEventsType = keyof SupportedEventMap;
 /**
  * A wrapper class around the NounsDaoExecutor contract.
  */
-export class NounsDaoExecutor {
-	public provider: ethers.JsonRpcProvider;
-	public Contract: ethers.Contract;
-	public registeredListeners: Map<SupportedEventsType, Function>;
+export class NounsExecutor {
+	private _provider: ethers.JsonRpcProvider;
+	private _contract: ethers.Contract;
+	private _registeredListeners: Map<SupportedEventsType, Function>;
+	private _nounsExecutorViewer: NounsExecutorViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_EXECUTOR_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		this.provider = createOrReturnProvider(provider);
-		this.Contract = createNounsDaoExecutorContract(this.provider);
-		this.registeredListeners = new Map();
+		this._provider = createOrReturnProvider(provider);
+		this._contract = createNounsDaoExecutorContract(this._provider);
+		this._nounsExecutorViewer = new NounsExecutorViewer(this._contract);
+		this._registeredListeners = new Map();
+	}
+
+	public get viewer() {
+		return this._nounsExecutorViewer;
+	}
+
+	public get contract() {
+		return this._contract;
 	}
 
 	/**
@@ -61,7 +71,7 @@ export class NounsDaoExecutor {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AdminChanged":
-				this.Contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data: EventData.AdminChanged = {
 						previousAdmin: { id: previousAdmin },
 						newAdmin: { id: newAdmin },
@@ -70,11 +80,11 @@ export class NounsDaoExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "BeaconUpgraded":
-				this.Contract.on(eventName, (beacon: string, event: ethers.Log) => {
+				this._contract.on(eventName, (beacon: string, event: ethers.Log) => {
 					const data: EventData.BeaconUpgraded = {
 						beacon: { id: beacon },
 						event: event
@@ -82,11 +92,11 @@ export class NounsDaoExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "CancelTransaction":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(
 						txHash: string,
@@ -110,11 +120,11 @@ export class NounsDaoExecutor {
 						listener(formattedData as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ERC20Sent":
-				this.Contract.on(eventName, (to: string, erc20Token: string, amount: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (to: string, erc20Token: string, amount: bigint, event: ethers.Log) => {
 					const data: EventData.ERC20Sent = {
 						to: { id: to },
 						erc20Token: { id: erc20Token },
@@ -124,11 +134,11 @@ export class NounsDaoExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ETHSent":
-				this.Contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
 					const data: EventData.ETHSent = {
 						to: { id: to },
 						amount,
@@ -137,11 +147,11 @@ export class NounsDaoExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ExecuteTransaction":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(
 						txHash: string,
@@ -165,11 +175,11 @@ export class NounsDaoExecutor {
 						listener(formattedData as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewAdmin":
-				this.Contract.on(eventName, (newAdmin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (newAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewAdmin = {
 						newAdmin: { id: newAdmin },
 						event
@@ -177,11 +187,11 @@ export class NounsDaoExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewDelay":
-				this.Contract.on(eventName, (newDelay: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (newDelay: bigint, event: ethers.Log) => {
 					const data: EventData.NewDelay = {
 						newDelay,
 						event
@@ -189,11 +199,11 @@ export class NounsDaoExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "NewPendingAdmin":
-				this.Contract.on(eventName, (newPendingAdmin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (newPendingAdmin: string, event: ethers.Log) => {
 					const data: EventData.NewPendingAdmin = {
 						newPendingAdmin: { id: newPendingAdmin },
 						event
@@ -201,11 +211,11 @@ export class NounsDaoExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "QueueTransaction":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(
 						txHash: string,
@@ -229,11 +239,11 @@ export class NounsDaoExecutor {
 						listener(formattedData as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "Upgraded":
-				this.Contract.on(eventName, (implementation: string, event: ethers.Log) => {
+				this._contract.on(eventName, (implementation: string, event: ethers.Log) => {
 					const data: EventData.Upgraded = {
 						implementation: { id: implementation } as Account,
 						event: event
@@ -241,7 +251,7 @@ export class NounsDaoExecutor {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			default:
@@ -256,11 +266,11 @@ export class NounsDaoExecutor {
 	 * nounsDaoExecutor.off('AdminChanged');
 	 */
 	public off(eventName: SupportedEventsType) {
-		let listener = this.registeredListeners.get(eventName);
+		let listener = this._registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.Listener);
+			this._contract.off(eventName, listener as ethers.Listener);
 		}
-		this.registeredListeners.delete(eventName);
+		this._registeredListeners.delete(eventName);
 	}
 
 	/**
@@ -274,7 +284,7 @@ export class NounsDaoExecutor {
 	 * });
 	 */
 	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
-		const listener = this.registeredListeners.get(eventName);
+		const listener = this._registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
 		}
@@ -295,12 +305,47 @@ export class NounsDaoExecutor {
 	 * @returns True if the event is supported. False otherwise.
 	 */
 	public hasEvent(eventName: string) {
-		return NounsDaoExecutor.supportedEvents.includes(eventName as SupportedEventsType);
+		return NounsExecutor.supportedEvents.includes(eventName as SupportedEventsType);
 	}
 
 	public async fetchTreasuryContents() {
-		const address = await this.Contract.getAddress();
-		const walletTokenFinder = new WalletTokenFinder(this.provider);
+		const address = await this._contract.getAddress();
+		const walletTokenFinder = new WalletTokenFinder(this._provider);
 		return walletTokenFinder.fetchWalletTokens(address);
+	}
+}
+
+class NounsExecutorViewer {
+	private contract: Contract;
+	constructor(contract: Contract) {
+		this.contract = contract;
+	}
+
+	public async GRACE_PERIOD(): Promise<bigint> {
+		return this.contract.GRACE_PERIOD();
+	}
+
+	public async MAXIMUM_DELAY(): Promise<bigint> {
+		return this.contract.MAXIMUM_DELAY();
+	}
+
+	public async MINIMUM_DELAY(): Promise<bigint> {
+		return this.contract.MINIMUM_DELAY();
+	}
+
+	public async NAME(): Promise<string> {
+		return this.contract.NAME();
+	}
+
+	public async admin(): Promise<string> {
+		return this.contract.admin();
+	}
+
+	public async delay(): Promise<bigint> {
+		return this.contract.delay();
+	}
+
+	public async pendingAdmin(): Promise<string> {
+		return this.contract.pendingAdmin();
 	}
 }

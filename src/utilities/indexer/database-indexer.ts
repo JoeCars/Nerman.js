@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 
 import { NOUNS_STARTING_BLOCK } from "../../constants";
 import * as eventSchemas from "./schemas/events";
-import { _NounsAuctionHouse } from "../../contracts/nouns-dao/NounsAuctionHouse";
-import { _NounsDAO } from "../../contracts/nouns-dao/NounsDAO";
-import { _NounsDAOData } from "../../contracts/nouns-dao/NounsDAOData";
-import { _NounsToken } from "../../contracts/nouns-dao/NounsToken";
+import { NounsAuctionHouse } from "../../contracts/nouns-dao/NounsAuctionHouse";
+import { NounsLogic } from "../../contracts/nouns-dao/NounsLogic";
+import { NounsData } from "../../contracts/nouns-dao/NounsData";
+import { NounsToken } from "../../contracts/nouns-dao/NounsToken";
 import { FormattedEvent } from "../../types";
 import IndexerMetaData from "./schemas/IndexerMetaData";
 import ETHConversionRate from "./schemas/ETHConversionRate";
@@ -21,7 +21,7 @@ import {
 	NounsTokenEventManager
 } from "./contract-event-manager";
 import { BlockToDateConverter, DateFormatter } from "../dates";
-import { NounsDaoExecutor } from "../../contracts/nouns-dao/NounsDAOExecutor";
+import { NounsExecutor } from "../../contracts/nouns-dao/NounsExecutor";
 
 const DELAY_IN_MS = 500;
 
@@ -36,11 +36,11 @@ type CoinbaseConversionResult = {
 export class DatabaseIndexer {
 	private provider: JsonRpcProvider;
 
-	private nounsDao: _NounsDAO;
-	private nounsDaoData: _NounsDAOData;
-	private nounsAuctionHouse: _NounsAuctionHouse;
-	private nounsToken: _NounsToken;
-	private nounsExecutor: NounsDaoExecutor;
+	private nounsDao: NounsLogic;
+	private nounsDaoData: NounsData;
+	private nounsAuctionHouse: NounsAuctionHouse;
+	private nounsToken: NounsToken;
+	private nounsExecutor: NounsExecutor;
 
 	private nounsDaoManager: NounsDaoEventManager;
 	private nounsDaoDataManager: NounsDaoDataEventManager;
@@ -51,11 +51,11 @@ export class DatabaseIndexer {
 	public constructor(jsonRpcUrl: string) {
 		this.provider = createAlchemyOrJsonRpcProvider(jsonRpcUrl);
 
-		this.nounsDao = new _NounsDAO(this.provider);
-		this.nounsDaoData = new _NounsDAOData(this.provider);
-		this.nounsAuctionHouse = new _NounsAuctionHouse(this.provider);
-		this.nounsToken = new _NounsToken(this.provider);
-		this.nounsExecutor = new NounsDaoExecutor(this.provider);
+		this.nounsDao = new NounsLogic(this.provider);
+		this.nounsDaoData = new NounsData(this.provider);
+		this.nounsAuctionHouse = new NounsAuctionHouse(this.provider);
+		this.nounsToken = new NounsToken(this.provider);
+		this.nounsExecutor = new NounsExecutor(this.provider);
 
 		this.nounsDaoManager = NounsDaoEventManager.create(this.provider);
 		this.nounsDaoDataManager = NounsDaoDataEventManager.create(this.provider);
@@ -78,7 +78,7 @@ export class DatabaseIndexer {
 	}
 
 	private async indexAll() {
-		for (const eventName of _NounsAuctionHouse.supportedEvents) {
+		for (const eventName of NounsAuctionHouse.supportedEvents) {
 			try {
 				await this.indexToDatabase(eventName);
 			} catch (error) {
@@ -87,7 +87,7 @@ export class DatabaseIndexer {
 			}
 		}
 
-		for (const eventName of _NounsDAO.supportedEvents) {
+		for (const eventName of NounsLogic.supportedEvents) {
 			try {
 				await this.indexToDatabase(eventName);
 			} catch (error) {
@@ -96,7 +96,7 @@ export class DatabaseIndexer {
 			}
 		}
 
-		for (const eventName of _NounsDAOData.supportedEvents) {
+		for (const eventName of NounsData.supportedEvents) {
 			try {
 				await this.indexToDatabase(eventName);
 			} catch (error) {
@@ -105,7 +105,7 @@ export class DatabaseIndexer {
 			}
 		}
 
-		for (const eventName of _NounsToken.supportedEvents) {
+		for (const eventName of NounsToken.supportedEvents) {
 			try {
 				await this.indexToDatabase(eventName);
 			} catch (error) {

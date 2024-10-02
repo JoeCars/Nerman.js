@@ -1,6 +1,5 @@
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 
-import { default as NounsDAODataABI } from "../abis/NounsDAOData.json";
 import { Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { createNounsDaoDataContract } from "../../utilities/contracts";
@@ -42,16 +41,26 @@ export type SupportedEventsType = keyof SupportedEventMap;
 /**
  * A wrapper class around the NounsDAOData contract.
  */
-export class _NounsDAOData {
-	public provider: ethers.JsonRpcProvider;
-	public Contract: ethers.Contract;
-	public registeredListeners: Map<SupportedEventsType, Function>;
+export class NounsData {
+	private _provider: ethers.JsonRpcProvider;
+	private _contract: ethers.Contract;
+	private _registeredListeners: Map<SupportedEventsType, Function>;
+	private _nounsDataViewer: NounsDataViewer;
 	public static readonly supportedEvents = SUPPORTED_NOUNS_DAO_DATA_EVENTS;
 
 	constructor(provider: ethers.JsonRpcProvider | string) {
-		this.provider = createOrReturnProvider(provider);
-		this.Contract = createNounsDaoDataContract(this.provider);
-		this.registeredListeners = new Map();
+		this._provider = createOrReturnProvider(provider);
+		this._contract = createNounsDaoDataContract(this._provider);
+		this._nounsDataViewer = new NounsDataViewer(this._contract);
+		this._registeredListeners = new Map();
+	}
+
+	public get viewer() {
+		return this._nounsDataViewer;
+	}
+
+	public get contract() {
+		return this._contract;
 	}
 
 	/**
@@ -67,7 +76,7 @@ export class _NounsDAOData {
 	public async on<T extends SupportedEventsType>(eventName: T, listener: (data: SupportedEventMap[T]) => void) {
 		switch (eventName) {
 			case "AdminChanged":
-				this.Contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
+				this._contract.on(eventName, (previousAdmin: string, newAdmin: string, event: ethers.Log) => {
 					const data = {
 						previousAdmin: { id: previousAdmin } as Account,
 						newAdmin: { id: newAdmin } as Account,
@@ -76,11 +85,11 @@ export class _NounsDAOData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "BeaconUpgraded":
-				this.Contract.on(eventName, (beacon: string, event: ethers.Log) => {
+				this._contract.on(eventName, (beacon: string, event: ethers.Log) => {
 					const data = {
 						beacon: { id: beacon } as Account,
 						event: event
@@ -88,11 +97,11 @@ export class _NounsDAOData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "CandidateFeedbackSent":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(msgSender: string, proposer: string, slug: string, support: bigint, reason: string, event: ethers.Log) => {
 						const data = {
@@ -107,11 +116,11 @@ export class _NounsDAOData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "CreateCandidateCostSet":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(oldCreateCandidateCost: bigint, newCreateCandidateCost: bigint, event: ethers.Log) => {
 						const data = {
@@ -123,11 +132,11 @@ export class _NounsDAOData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ETHWithdrawn":
-				this.Contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
+				this._contract.on(eventName, (to: string, amount: bigint, event: ethers.Log) => {
 					const data = {
 						to: { id: to } as Account,
 						amount: amount,
@@ -136,11 +145,11 @@ export class _NounsDAOData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "FeeRecipientSet":
-				this.Contract.on(eventName, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Log) => {
+				this._contract.on(eventName, (oldFeeRecipient: string, newFeeRecipient: string, event: ethers.Log) => {
 					const data = {
 						oldFeeRecipient: { id: oldFeeRecipient } as Account,
 						newFeeRecipient: { id: newFeeRecipient } as Account,
@@ -149,11 +158,11 @@ export class _NounsDAOData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "FeedbackSent":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(msgSender: string, proposalId: bigint, support: bigint, reason: string, event: ethers.Log) => {
 						const data = {
@@ -167,11 +176,11 @@ export class _NounsDAOData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "OwnershipTransferred":
-				this.Contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Log) => {
+				this._contract.on(eventName, (previousOwner: string, newOwner: string, event: ethers.Log) => {
 					const data = {
 						previousOwner: { id: previousOwner } as Account,
 						newOwner: { id: newOwner } as Account,
@@ -180,11 +189,11 @@ export class _NounsDAOData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCandidateCanceled":
-				this.Contract.on(eventName, (msgSender: string, slug: string, event: ethers.Log) => {
+				this._contract.on(eventName, (msgSender: string, slug: string, event: ethers.Log) => {
 					const data = {
 						msgSender: { id: msgSender } as Account,
 						slug: slug,
@@ -193,11 +202,11 @@ export class _NounsDAOData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCandidateCreated":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(
 						msgSender: string,
@@ -227,11 +236,11 @@ export class _NounsDAOData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "ProposalCandidateUpdated":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(
 						msgSender: string,
@@ -263,11 +272,11 @@ export class _NounsDAOData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "SignatureAdded":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(
 						signer: string,
@@ -297,11 +306,11 @@ export class _NounsDAOData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "UpdateCandidateCostSet":
-				this.Contract.on(
+				this._contract.on(
 					eventName,
 					(oldUpdateCandidateCost: bigint, newUpdateCandidateCost: bigint, event: ethers.Log) => {
 						const data = {
@@ -313,11 +322,11 @@ export class _NounsDAOData {
 						listener(data as any);
 					}
 				);
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			case "Upgraded":
-				this.Contract.on(eventName, (implementation: string, event: ethers.Log) => {
+				this._contract.on(eventName, (implementation: string, event: ethers.Log) => {
 					const data = {
 						implementation: { id: implementation } as Account,
 						event: event
@@ -325,7 +334,7 @@ export class _NounsDAOData {
 
 					listener(data as any);
 				});
-				this.registeredListeners.set(eventName, listener);
+				this._registeredListeners.set(eventName, listener);
 				break;
 
 			default:
@@ -340,11 +349,11 @@ export class _NounsDAOData {
 	 * nounsDAOData.off('CandidateFeedbackSent');
 	 */
 	public off(eventName: SupportedEventsType) {
-		let listener = this.registeredListeners.get(eventName);
+		let listener = this._registeredListeners.get(eventName);
 		if (listener) {
-			this.Contract.off(eventName, listener as ethers.Listener);
+			this._contract.off(eventName, listener as ethers.Listener);
 		}
-		this.registeredListeners.delete(eventName);
+		this._registeredListeners.delete(eventName);
 	}
 
 	/**
@@ -361,7 +370,7 @@ export class _NounsDAOData {
 	 * });
 	 */
 	public trigger<T extends SupportedEventsType>(eventName: T, data: SupportedEventMap[T]) {
-		const listener = this.registeredListeners.get(eventName);
+		const listener = this._registeredListeners.get(eventName);
 		if (!listener) {
 			throw new Error(`${eventName} does not have a listener.`);
 		}
@@ -382,6 +391,41 @@ export class _NounsDAOData {
 	 * @returns True if the event is supported. False otherwise.
 	 */
 	public hasEvent(eventName: string) {
-		return _NounsDAOData.supportedEvents.includes(eventName as SupportedEventsType);
+		return NounsData.supportedEvents.includes(eventName as SupportedEventsType);
+	}
+}
+
+class NounsDataViewer {
+	private contract: Contract;
+	constructor(contract: Contract) {
+		this.contract = contract;
+	}
+
+	public async PRIOR_VOTES_BLOCKS_AGO(): Promise<bigint> {
+		return this.contract.PRIOR_VOTES_BLOCKS_AGO();
+	}
+
+	public async createCandidateCost(): Promise<bigint> {
+		return this.contract.createCandidateCost();
+	}
+
+	public async feeRecipient(): Promise<string> {
+		return this.contract.feeRecipient();
+	}
+
+	public async nounsDao(): Promise<string> {
+		return this.contract.nounsDao();
+	}
+
+	public async nounsToken(): Promise<string> {
+		return this.contract.nounsToken();
+	}
+
+	public async owner(): Promise<string> {
+		return this.contract.owner();
+	}
+
+	public async updateCandidateCost(): Promise<bigint> {
+		return this.contract.updateCandidateCost();
 	}
 }
