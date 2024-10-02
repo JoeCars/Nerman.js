@@ -1,4 +1,4 @@
-import { Contract, ethers } from "ethers";
+import { Contract, ethers, Typed } from "ethers";
 import { VoteDirection, Account, EventData } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 import { createNounsDaoLogicV4Contract } from "../../utilities/contracts";
@@ -1159,8 +1159,37 @@ class NounsLogicViewer {
 		};
 	}
 
-	public async quorumParamsCheckpoints(index?: number): Promise<DynamicQuorumParamsCheckpoint[]> {
-		return this.contract.quorumParamsCheckpoints(index);
+	public async quorumParamsCheckpoints(
+		index?: number
+	): Promise<DynamicQuorumParamsCheckpoint[] | DynamicQuorumParamsCheckpoint> {
+		let res: any[] = [];
+		if (typeof index === "undefined") {
+			res = await this.contract.quorumParamsCheckpoints(Typed.overrides({}));
+			const checkpoints: DynamicQuorumParamsCheckpoint[] = res.map(
+				([fromBlock, [minQuorumVotesBPS, maxQuorumVotesBPS, quorumCoefficient]]) => {
+					return {
+						fromBlock,
+						params: {
+							minQuorumVotesBPS,
+							maxQuorumVotesBPS,
+							quorumCoefficient
+						}
+					};
+				}
+			);
+			return checkpoints;
+		}
+
+		res = await this.contract.quorumParamsCheckpoints(index, Typed.overrides({}));
+		const [fromBlock, [minQuorumVotesBPS, maxQuorumVotesBPS, quorumCoefficient]] = res;
+		return {
+			fromBlock,
+			params: {
+				minQuorumVotesBPS,
+				maxQuorumVotesBPS,
+				quorumCoefficient
+			}
+		};
 	}
 
 	public async quorumVotes(proposalId: number): Promise<bigint> {
