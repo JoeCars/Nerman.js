@@ -432,8 +432,7 @@ NounCreated.db.createCollection("nouns", {
 				}
 			}
 		}
-	],
-	collation: { locale: "en_US", strength: 2 }
+	]
 });
 
 const Noun = model("Noun", nounSchema, "nouns");
