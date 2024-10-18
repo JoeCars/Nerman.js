@@ -150,9 +150,9 @@ export namespace EventData {
 		/** New fork token address. */
 		forkToken: Account;
 		/** The unix timestamp in seconds until which the fork can rejoin the DAO. */
-		forkEndTimestamp: bigint | string;
+		forkEndTimestamp: bigint;
 		/** Tokens in escrow at the moment of the escrow. These are lost from the main treasury. */
-		tokensInEscrow: bigint | string;
+		tokensInEscrow: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -174,9 +174,9 @@ export namespace EventData {
 	 */
 	export interface ForkPeriodSet {
 		/** Old fork period in seconds.*/
-		oldForkPeriod: bigint | string;
+		oldForkPeriod: bigint;
 		/** New fork period in seconds. */
-		newForkPeriod: bigint | string;
+		newForkPeriod: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -186,9 +186,9 @@ export namespace EventData {
 	 */
 	export interface ForkThresholdSet {
 		/** The old token amount needed to successfully fork the DAO. A percentage of the token supply. */
-		oldForkThreshold: bigint | string;
+		oldForkThreshold: bigint;
 		/** The new token amount needed to successfully fork the DAO. A percentage of the token supply. */
-		newForkThreshold: bigint | string;
+		newForkThreshold: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -216,9 +216,9 @@ export namespace EventData {
 	 */
 	export interface LastMinuteWindowSet {
 		/** Old objection period last minute window. */
-		oldLastMinuteWindowInBlocks: bigint | string;
+		oldLastMinuteWindowInBlocks: bigint;
 		/** New objection period last minute window. */
-		newLastMinuteWindowInBlocks: bigint | string;
+		newLastMinuteWindowInBlocks: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -312,9 +312,9 @@ export namespace EventData {
 	 */
 	export interface ObjectionPeriodDurationSet {
 		/** Old objection period in blocks. */
-		oldObjectionPeriodDurationInBlocks: bigint | string;
+		oldObjectionPeriodDurationInBlocks: bigint;
 		/** New objection period in blocks. */
-		newObjectionPeriodDurationInBlocks: bigint | string;
+		newObjectionPeriodDurationInBlocks: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -340,15 +340,15 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: bigint[] | string[];
+		values: bigint[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
 		calldatas: any[]; // type is bytes[]
 		/** The block voting starts. */
-		startBlock: bigint | string;
+		startBlock: bigint;
 		/** The block voting ends. */
-		endBlock: bigint | string;
+		endBlock: bigint;
 		/**
 		 * Proposal description.
 		 * @example
@@ -380,15 +380,15 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: bigint[] | string[];
+		values: bigint[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
 		calldatas: any[];
 		/** The block voting starts. */
-		startBlock: bigint | string;
+		startBlock: bigint;
 		/** The block voting ends. */
-		endBlock: bigint | string;
+		endBlock: bigint;
 		/** The proposal threshold. */
 		proposalThreshold: number;
 		/** The quorum votes.*/
@@ -418,17 +418,17 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: bigint[] | string[];
+		values: bigint[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
 		calldatas: any[];
 		/** The block voting starts. */
-		startBlock: bigint | string;
+		startBlock: bigint;
 		/** The block voting ends. */
-		endBlock: bigint | string;
+		endBlock: bigint;
 		/** Period where the proposal is updatable. */
-		updatePeriodEndBlock: bigint | string;
+		updatePeriodEndBlock: bigint;
 		/** The proposal threshold. */
 		proposalThreshold: number;
 		/** The quorum votes. */
@@ -455,7 +455,7 @@ export namespace EventData {
 		/** List of signers. */
 		signers: string[];
 		/** Period where the proposal is updatable. */
-		updatePeriodEndBlock: bigint | string;
+		updatePeriodEndBlock: bigint;
 		/** The proposal threshold. */
 		proposalThreshold: number;
 		/** The quorum votes.*/
@@ -499,7 +499,7 @@ export namespace EventData {
 		/** id of the proposal. */
 		id: number;
 		/** Objection end block. */
-		objectionPeriodEndBlock: bigint | string;
+		objectionPeriodEndBlock: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -511,7 +511,7 @@ export namespace EventData {
 		/** id of the proposal. */
 		id: number;
 		/** Block number signifying end of the queued period. The proposal can be executed once this is over. */
-		eta: bigint | string;
+		eta: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -539,7 +539,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: bigint[] | string[];
+		values: bigint[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -555,9 +555,9 @@ export namespace EventData {
 	 */
 	export interface ProposalUpdatablePeriodSet {
 		/** The old proposal updatable period in blocks. */
-		oldProposalUpdatablePeriodInBlocks: bigint | string;
+		oldProposalUpdatablePeriodInBlocks: bigint;
 		/** The new proposal updatable period in blocks. */
-		newProposalUpdatablePeriodInBlocks: bigint | string;
+		newProposalUpdatablePeriodInBlocks: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -573,7 +573,7 @@ export namespace EventData {
 		/** Updated target addresses for proposal calls. */
 		targets: string[];
 		/** Updated eth values for proposal calls. */
-		values: bigint[] | string[];
+		values: bigint[];
 		/** Updated function signatures for proposal calls. */
 		signatures: string[];
 		/** Updated calldatas for proposal calls. */
@@ -639,7 +639,7 @@ export namespace EventData {
 		/** The voter account. */
 		voter: Account;
 		/** The refund amount. */
-		refundAmount: bigint | string;
+		refundAmount: bigint;
 		/** Whether the refund was sent or not. */
 		refundSent: boolean;
 		/** Event meta data. */
@@ -721,9 +721,9 @@ export namespace EventData {
 	 */
 	export interface VotingDelaySet {
 		/** The old voting delay in blocks. */
-		oldVotingDelay: bigint | string;
+		oldVotingDelay: bigint;
 		/** The new voting delay in blocks. */
-		newVotingDelay: bigint | string;
+		newVotingDelay: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -733,9 +733,9 @@ export namespace EventData {
 	 */
 	export interface VotingPeriodSet {
 		/** The old voting period in blocks. */
-		oldVotingPeriod: bigint | string;
+		oldVotingPeriod: bigint;
 		/** The new voting period in blocks. */
-		newVotingPeriod: bigint | string;
+		newVotingPeriod: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -745,7 +745,7 @@ export namespace EventData {
 	 */
 	export interface Withdraw {
 		/** The amount withdrawn. */
-		amount: bigint | string;
+		amount: bigint;
 		/** Whether the withdrawn amount was sent. */
 		sent: boolean;
 		/** Event meta data. */
@@ -790,7 +790,7 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** The bid amount in wei. */
-		amount: bigint | string;
+		amount: bigint;
 		/** Bidder account. */
 		bidder: Account;
 		/** Whether the bid was received within the end time buffer, thus extending the auction. */
@@ -806,7 +806,7 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** The bid amount in wei. */
-		amount: bigint | string;
+		amount: bigint;
 		/** The client id. */
 		clientId: number;
 		/** Event meta data. */
@@ -820,9 +820,9 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** Auction starting time as seconds since unix epoch. */
-		startTime: bigint | string;
+		startTime: bigint;
 		/** Auction ending time as seconds since unix epoch. */
-		endTime: bigint | string;
+		endTime: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -834,7 +834,7 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** New auction end time as seconds since unix epoch. */
-		endTime: bigint | string;
+		endTime: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -854,7 +854,7 @@ export namespace EventData {
 	 */
 	export interface AuctionReservePriceUpdated {
 		/** New auction reserve price. */
-		reservePrice: bigint | string;
+		reservePrice: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -868,7 +868,7 @@ export namespace EventData {
 		/** The winning bidder's account. */
 		winner: Account;
 		/** Winning bid amount in wei. */
-		amount: bigint | string;
+		amount: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -888,7 +888,7 @@ export namespace EventData {
 	 */
 	export interface AuctionTimeBufferUpdated {
 		/** New time buffer. */
-		timeBuffer: bigint | string;
+		timeBuffer: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -955,9 +955,9 @@ export namespace EventData {
 		/** Delegate account. */
 		delegate: Account;
 		/** Previous voting power. */
-		previousBalance: bigint | string;
+		previousBalance: bigint;
 		/** New voting power. */
-		newBalance: bigint | string;
+		newBalance: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1153,9 +1153,9 @@ export namespace EventData {
 	 */
 	export interface CreateCandidateCostSet {
 		/** Old cost of creating candidate proposal. */
-		oldCreateCandidateCost: bigint | string;
+		oldCreateCandidateCost: bigint;
 		/** New cost of creating candidate proposal. */
-		newCreateCandidateCost: bigint | string;
+		newCreateCandidateCost: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1167,7 +1167,7 @@ export namespace EventData {
 		/** Amount recipient. */
 		to: Account;
 		/** Amount of eth withdrawn in wei. */
-		amount: bigint | string;
+		amount: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1233,7 +1233,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: bigint[] | string[];
+		values: bigint[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -1259,7 +1259,7 @@ export namespace EventData {
 		/** Target addresses for proposal calls. */
 		targets: string[];
 		/** Eth values for proposal calls. */
-		values: bigint[] | string[];
+		values: bigint[];
 		/** Function signatures for proposal calls. */
 		signatures: string[];
 		/** Calldatas for proposal calls. */
@@ -1287,7 +1287,7 @@ export namespace EventData {
 		/** The signature bytes. */
 		sig: string;
 		/** The signature's expiration timestamp. As milliseconds since Unix epoch. */
-		expirationTimestamp: bigint | string;
+		expirationTimestamp: bigint;
 		/** Proposal candidate creator account. */
 		proposer: Account;
 		/** Proposal candidate unique identifier. */
@@ -1309,9 +1309,9 @@ export namespace EventData {
 	 */
 	export interface UpdateCandidateCostSet {
 		/** Old update cost. */
-		oldUpdateCandidateCost: bigint | string;
+		oldUpdateCandidateCost: bigint;
 		/** New update cost. */
-		newUpdateCandidateCost: bigint | string;
+		newUpdateCandidateCost: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1341,13 +1341,13 @@ export namespace EventData {
 		/** Transaction target. */
 		target: Account;
 		/** Transaction value. */
-		value: bigint | string;
+		value: bigint;
 		/** Transaction signature. */
 		signature: string;
 		/** Transaction data. */
 		data: string;
 		/** Transaction eta. */
-		eta: bigint | string;
+		eta: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1359,7 +1359,7 @@ export namespace EventData {
 		/** Contract address of token being sent. */
 		erc20Token: Account;
 		/** Amount of tokens sent. */
-		amount: bigint | string;
+		amount: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1369,7 +1369,7 @@ export namespace EventData {
 		/** Eth recipient. */
 		to: Account;
 		/** Eth amount. */
-		amount: bigint | string;
+		amount: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1381,13 +1381,13 @@ export namespace EventData {
 		/** Transaction target. */
 		target: Account;
 		/** Transaction value. */
-		value: bigint | string;
+		value: bigint;
 		/** Transaction signature. */
 		signature: string;
 		/** Transaction data. */
 		data: string;
 		/** Transaction eta. */
-		eta: bigint | string;
+		eta: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1395,7 +1395,7 @@ export namespace EventData {
 	/** {@link https://github.com/nounsDAO/nouns-monorepo/blob/61d2b50ce82bb060cf4281a55adddf47c5085881/packages/nouns-contracts/contracts/governance/NounsDAOExecutorV2.sol#L111 | Github} */
 	export interface NewDelay {
 		/** Delay as a timestamp between 2 to 30 days, indicating when a queued transaction will be executed. */
-		newDelay: bigint | string;
+		newDelay: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
@@ -1407,13 +1407,13 @@ export namespace EventData {
 		/** Transaction target. */
 		target: Account;
 		/** Transaction value. */
-		value: bigint | string;
+		value: bigint;
 		/** Transaction signature. */
 		signature: string;
 		/** Transaction data. */
 		data: string;
 		/** Transaction eta. */
-		eta: bigint | string;
+		eta: bigint;
 		/** Event meta data. */
 		event: Event;
 	}
