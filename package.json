@@ -33,7 +33,6 @@
 	},
 	"dependencies": {
 		"ethers": "^6.10.0",
-		"mongoose": "^8.2.1",
 		"node-fetch": "^2.7.0"
 	}
 }
