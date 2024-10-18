@@ -25,7 +25,6 @@ import {
 	SupportedEventsType as NounsDaoExecutorSupportedEventsType,
 	SupportedEventMap as ExecutorSupportedEventMap
 } from "./NounsExecutor";
-import { Indexer } from "../../indexing/Indexer";
 import { EventData, NounsOptions } from "../../types";
 import { createOrReturnProvider } from "../../utilities/providers";
 
@@ -57,7 +56,6 @@ export class Nouns {
 	public NounsDAOData: NounsData;
 	public NounsDaoExecutor: NounsExecutor;
 
-	public Indexer: Indexer;
 	public static readonly supportedEvents = [
 		...NounsAuctionHouse.supportedEvents,
 		...NounsToken.supportedEvents,
@@ -94,7 +92,6 @@ export class Nouns {
 		if (options?.indexerDirectoryPath) {
 			indexerDirectoryPath = options.indexerDirectoryPath;
 		}
-		this.Indexer = new Indexer(this.provider, indexerDirectoryPath);
 
 		this.cache = {};
 		if (!options?.shouldIgnoreCacheInit) {
@@ -304,20 +301,6 @@ export class Nouns {
 		}
 
 		return null;
-	}
-
-	public async index(...eventNames: string[]) {
-		if (eventNames.length === 0) {
-			return this.Indexer.updateAll();
-		}
-
-		for (const eventName of eventNames) {
-			this.Indexer.update(eventName);
-		}
-	}
-
-	public async queryIndex(eventName: string, queryOptions?: object) {
-		this.Indexer.query(eventName, queryOptions);
 	}
 
 	/**
