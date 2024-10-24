@@ -2067,19 +2067,62 @@ export namespace EventData {
 	// ******************************************
 	export namespace Alps {
 		export namespace AuctionHouse {
-			export interface AdminChanged {
-				previousAdmin: Account;
-				newAdmin: Account;
+			export interface AuctionBid {
+				alpId: number;
+				sender: Account;
+				value: bigint;
+				extended: boolean;
 				event: Event;
 			}
 
-			export interface BeaconUpgraded {
-				beacon: Account;
+			export interface AuctionCreated {
+				alpId: number;
+				startTime: bigint;
+				endTime: bigint;
 				event: Event;
 			}
 
-			export interface Upgraded {
-				implementation: Account;
+			export interface AuctionExtended {
+				alpId: number;
+				endTime: bigint;
+				event: Event;
+			}
+
+			export interface AuctionMinBidIncrementPercentageUpdated {
+				minBidIncrementPercentage: number;
+				event: Event;
+			}
+
+			export interface AuctionReservePriceUpdated {
+				reservePrice: bigint;
+				event: Event;
+			}
+
+			export interface AuctionSettled {
+				alpId: number;
+				winner: Account;
+				amount: bigint;
+				event: Event;
+			}
+
+			export interface AuctionTimeBufferUpdated {
+				timeBuffer: bigint;
+				event: Event;
+			}
+
+			export interface OwnershipTransferred {
+				previousOwner: Account;
+				newOwner: Account;
+				event: Event;
+			}
+
+			export interface Paused {
+				account: Account;
+				event: Event;
+			}
+
+			export interface Unpaused {
+				account: Account;
 				event: Event;
 			}
 		}
