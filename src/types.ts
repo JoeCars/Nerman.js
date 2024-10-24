@@ -2059,4 +2059,266 @@ export namespace EventData {
 			};
 		}
 	}
+
+	// ******************************************
+	//
+	// Alps
+	//
+	// ******************************************
+	export namespace Alps {
+		export namespace AuctionHouse {
+			export interface AdminChanged {
+				previousAdmin: Account;
+				newAdmin: Account;
+				event: Event;
+			}
+
+			export interface BeaconUpgraded {
+				beacon: Account;
+				event: Event;
+			}
+
+			export interface Upgraded {
+				implementation: Account;
+				event: Event;
+			}
+		}
+
+		export namespace Executor {
+			export interface CancelTransaction {
+				txHash: string;
+				target: Account;
+				value: bigint;
+				signature: string;
+				data: string;
+				eta: bigint;
+				event: Event;
+			}
+
+			export interface ExecuteTransaction {
+				txHash: string;
+				target: Account;
+				value: bigint;
+				signature: string;
+				data: string;
+				eta: bigint;
+				event: Event;
+			}
+
+			export interface NewAdmin {
+				newAdmin: Account;
+				event: Event;
+			}
+
+			export interface NewDelay {
+				newDelay: bigint;
+				event: Event;
+			}
+
+			export interface NewPendingAdmin {
+				newPendingAdmin: Account;
+				event: Event;
+			}
+
+			export interface QueueTransaction {
+				txHash: string;
+				target: Account;
+				value: bigint;
+				signature: string;
+				data: string;
+				eta: bigint;
+				event: Event;
+			}
+		}
+
+		export namespace Governor {
+			export interface NewAdmin {
+				oldAdmin: Account;
+				newAdmin: Account;
+				event: Event;
+			}
+
+			export interface NewImplementation {
+				oldImplementation: Account;
+				newImplementation: Account;
+				event: Event;
+			}
+
+			export interface NewPendingAdmin {
+				oldPendingAdmin: Account;
+				newPendingAdmin: Account;
+				event: Event;
+			}
+
+			export interface NewVetoer {
+				oldVetoer: Account;
+				newVetoer: Account;
+				event: Event;
+			}
+
+			export interface ProposalCanceled {
+				id: number;
+				event: Event;
+			}
+
+			export interface ProposalCreated {
+				id: number;
+				proposer: Account;
+				targets: string[];
+				values: bigint[];
+				signatures: string[];
+				calldatas: string[];
+				startBlock: number;
+				endBlock: number;
+				description: string;
+				event: Event;
+			}
+
+			export interface ProposalCreatedWithRequirements {
+				id: number;
+				proposer: Account;
+				targets: string[];
+				values: bigint[];
+				signatures: string[];
+				calldatas: string[];
+				startBlock: number;
+				endBlock: number;
+				proposalThreshold: number;
+				quorumVotes: number;
+				description: number;
+				event: Event;
+			}
+
+			export interface ProposalExecuted {
+				id: number;
+				event: Event;
+			}
+
+			export interface ProposalQueued {
+				id: number;
+				eta: bigint;
+				event: Event;
+			}
+
+			export interface ProposalThresholdBPSSet {
+				oldProposalThresholdBPS: number;
+				newProposalThresholdBPS: number;
+				event: Event;
+			}
+
+			export interface ProposalVetoed {
+				id: number;
+				event: Event;
+			}
+
+			export interface QuorumVotesBPSSet {
+				oldQuorumVotesBPS: number;
+				newQuorumVotesBPS: number;
+				event: Event;
+			}
+
+			export interface VoteCast {
+				voter: Account;
+				proposalId: number;
+				support: VoteDirection;
+				votes: number;
+				reason: string;
+				event: Event;
+			}
+
+			export interface VotingDelaySet {
+				oldVotingDelay: bigint;
+				newVotingDelay: bigint;
+				event: Event;
+			}
+
+			export interface VotingPeriodSet {
+				oldVotingPeriod: bigint;
+				newVotingPeriod: bigint;
+				event: Event;
+			}
+		}
+
+		export namespace Token {
+			export interface AlpBurned {
+				tokenId: number;
+				event: Event;
+			}
+
+			export interface AlpCreated {
+				tokenId: number;
+				seed: TokenSeed;
+				event: Event;
+			}
+
+			export interface AlpersDAOUpdated {
+				alpersDAO: Account;
+				event: Event;
+			}
+
+			export interface Approval {
+				owner: Account;
+				approved: Account;
+				tokenId: number;
+				event: Event;
+			}
+
+			export interface ApprovalForAll {
+				owner: Account;
+				operator: Account;
+				approved: boolean;
+				event: Event;
+			}
+
+			export interface DelegateChanged {
+				delegator: Account;
+				fromDelegate: Account;
+				toDelegate: Account;
+				event: Event;
+			}
+
+			export interface DelegateVotesChanged {
+				delegate: Account;
+				previousBalance: bigint;
+				newBalance: bigint;
+				event: Event;
+			}
+
+			export interface DescriptorLocked {
+				event: Event;
+			}
+
+			export interface DescriptorUpdated {
+				descriptor: Account;
+				event: Event;
+			}
+
+			export interface MinterUpdated {
+				minter: Account;
+				event: Event;
+			}
+
+			export interface OwnershipTransferred {
+				previousOwner: Account;
+				newOwner: Account;
+				event: Event;
+			}
+
+			export interface SeederLocked {
+				event: Event;
+			}
+
+			export interface SeederUpdated {
+				seeder: Account;
+				event: Event;
+			}
+
+			export interface Transfer {
+				from: Account;
+				to: Account;
+				tokenId: number;
+				event: Event;
+			}
+		}
+	}
 }
