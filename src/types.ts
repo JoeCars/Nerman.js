@@ -24,7 +24,7 @@ export interface Account {
 }
 
 /** Seed object for Nouns tokens. */
-export interface NounsTokenSeed {
+export interface TokenSeed {
 	/** 0 to 1. Cool or warm. */
 	background: number;
 	/** 0 to 29 */
@@ -1057,7 +1057,7 @@ export namespace EventData {
 		/** Noun token id. */
 		id: number;
 		/** Noun token seed. */
-		seed: NounsTokenSeed;
+		seed: TokenSeed;
 		/** Event meta data. */
 		event: Event;
 	}
