@@ -22,3 +22,5 @@ export { Farcaster } from "./contracts/farcaster";
 export { default as Snapshot } from "./contracts/snapshot";
 export { BlockToDateConverter, DateFormatter } from "./utilities/dates";
 export { WalletTokenFinder } from "./utilities/tokens";
+
+export { Alps } from "./contracts/alps-dao/Alps";

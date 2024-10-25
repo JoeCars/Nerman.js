@@ -1,5 +1,5 @@
 import { N, ethers } from "ethers";
-import { NounsTokenSeed, Account, EventData } from "../../types";
+import { TokenSeed, Account, EventData } from "../../types";
 import { default as LilNounsTokenABI } from "../abis/lil-nouns/NounsToken.json";
 import { createOrReturnProvider } from "../../utilities/providers";
 
@@ -225,7 +225,7 @@ export class LilNounsToken {
 						seed: { accessory: bigint; background: bigint; body: bigint; glasses: bigint; head: bigint },
 						event: ethers.Log
 					) => {
-						const convertedSeed: NounsTokenSeed = {
+						const convertedSeed: TokenSeed = {
 							accessory: Number(seed.accessory),
 							background: Number(seed.background),
 							body: Number(seed.body),

@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { NounsTokenSeed, Account, EventData } from "../../types";
+import { TokenSeed, Account, EventData } from "../../types";
 import { default as NounsTokenABI } from "../abis/NounsToken.json";
 import { createOrReturnProvider } from "../../utilities/providers";
 
