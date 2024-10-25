@@ -2228,7 +2228,7 @@ export namespace EventData {
 				endBlock: number;
 				proposalThreshold: number;
 				quorumVotes: number;
-				description: number;
+				description: string;
 				event: Event;
 			}
 
@@ -2333,6 +2333,10 @@ export namespace EventData {
 
 			export interface DescriptorUpdated {
 				descriptor: Account;
+				event: Event;
+			}
+
+			export interface MinterLocked {
 				event: Event;
 			}
 
